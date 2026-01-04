@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const crypto = require('crypto'); 
+const sharp = require('sharp'); // <--- New Dependency for compression
 
 // --- CONFIGURATION ---
 const SHARE_ID = '5450e24b-d6cd-48c9-a315-a9037dba31f1';
@@ -8,11 +10,12 @@ const API_BASE_URL = 'https://wiki.nutickets.com/api';
 
 // File Paths
 const DOCS_JSON_PATH = 'docs.json'; 
-const OUTPUT_DIR = 'releases';  // <--- Renamed directory
-const MDX_PREFIX = 'releases';  // <--- Renamed prefix in docs.json
+const OUTPUT_DIR = 'releases'; 
+const MDX_PREFIX = 'releases'; 
+const IMAGES_DIR = 'images/releases'; 
 
 async function main() {
-  console.log('🚀 Starting Smart Release Notes Generation...');
+  console.log('🚀 Starting Smart Release Notes Generation (Compressed)...');
 
   try {
     // 1. Fetch Data
@@ -44,7 +47,7 @@ async function main() {
             // silent fail
         }
     }
-    console.log('\n✅ Download complete.');
+    console.log('\n✅ Download complete. Processing images and content...');
 
     // 3. Sort by Date
     allUpdates.sort((a, b) => b.dateObj - a.dateObj);
@@ -68,13 +71,14 @@ async function main() {
         }
     });
 
-    // 5. Generate Files
-    if (!fs.existsSync(OUTPUT_DIR)){
-        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
+    // 5. Ensure Directories Exist
+    if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
 
+    // 6. Generate Files
+    
     // A. Main Page (Index)
-    generateMdxFile(
+    await generateMdxFile(
         mainUpdates, 
         path.join(OUTPUT_DIR, 'index.mdx'), 
         "Release Notes", 
@@ -84,21 +88,78 @@ async function main() {
     // B. Archives
     const archiveYears = Object.keys(archiveUpdatesByYear).sort((a, b) => b - a); 
 
-    archiveYears.forEach(year => {
-        generateMdxFile(
+    for (const year of archiveYears) {
+        await generateMdxFile(
             archiveUpdatesByYear[year], 
             path.join(OUTPUT_DIR, `${year}.mdx`), 
             `${year} Archive`, 
             `Release history for ${year}`
         );
-    });
+    }
 
-    // 6. Update docs.json
+    // 7. Update docs.json
     updateDocsJson(archiveYears);
 
   } catch (error) {
     console.error('❌ Error:', error.message);
   }
+}
+
+// --- IMAGE DOWNLOADER (WITH COMPRESSION) ---
+
+async function downloadImage(url) {
+    try {
+        const urlObj = new URL(url);
+        
+        // Hash ONLY the pathname to allow permanent caching (ignores query params/signatures)
+        const hash = crypto.createHash('md5').update(urlObj.pathname).digest('hex');
+        
+        let ext = path.extname(urlObj.pathname).toLowerCase();
+        if (!ext || ext.length > 5) ext = '.png';
+        
+        const filename = `${hash}${ext}`;
+        const localPath = path.join(IMAGES_DIR, filename);
+        const publicPath = `/${IMAGES_DIR}/${filename}`; 
+
+        // CACHE CHECK: If file exists, skip download
+        if (fs.existsSync(localPath)) {
+            return publicPath;
+        }
+
+        // Fetch image as a buffer
+        const response = await axios({
+            url,
+            method: 'GET',
+            responseType: 'arraybuffer'
+        });
+
+        // COMPRESSION LOGIC
+        const imagePipeline = sharp(response.data);
+        const metadata = await imagePipeline.metadata();
+
+        if (metadata.format === 'jpeg' || metadata.format === 'jpg') {
+            // MozJPEG provides excellent compression with virtually no visual loss
+            await imagePipeline
+                .jpeg({ mozjpeg: true, quality: 90 }) 
+                .toFile(localPath);
+        } 
+        else if (metadata.format === 'png') {
+            // Maximum compression level (9) + adaptive filtering for lossless optimization
+            await imagePipeline
+                .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false }) 
+                .toFile(localPath);
+        } 
+        else {
+            // Fallback for GIFs/WebP: just save the buffer directly
+            fs.writeFileSync(localPath, response.data);
+        }
+
+        return publicPath;
+
+    } catch (e) {
+        console.warn(`⚠️ Failed to download/compress image: ${url}. Keeping remote link.`);
+        return url; 
+    }
 }
 
 // --- CONFIG UPDATER ---
@@ -136,7 +197,6 @@ function updateDocsJson(archiveYears) {
             if (item.groups) {
                 scanAndReplace(item.groups);
             }
-            // Group: "Product Updates"
             else if (item.group === 'Product Updates') {
                 item.pages = newPagesStructure;
                 found = true;
@@ -156,7 +216,6 @@ function updateDocsJson(archiveYears) {
     if (!found) {
         console.log('➕ "Product Updates" group not found. Creating a new Tab...');
         
-        // Tab: "Releases", Group: "Product Updates"
         const newTab = {
             tab: "Releases",
             groups: [
@@ -242,16 +301,30 @@ function parseDateString(dateStr) {
     return new Date(dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1'));
 }
 
-function generateMdxFile(updates, filePath, title, description) {
+async function generateMdxFile(updates, filePath, title, description) {
     let mdxContent = `---
 title: "${title}"
 description: "${description}"
 ---\n\n`;
 
-    updates.forEach(update => {
+    // Process updates sequentially
+    for (const update of updates) {
         let rawContent = update.content;
 
-        // STEP A: SPLIT BY CODE BLOCKS
+        // --- PRE-PROCESS: DOWNLOAD IMAGES ---
+        const imgRegex = /!\[.*?\]\(([^)\s"]+)(?:.*?)?\)/g;
+        const urlsToDownload = new Set();
+        let match;
+        while ((match = imgRegex.exec(rawContent)) !== null) {
+            urlsToDownload.add(match[1]);
+        }
+
+        const urlMap = {};
+        for (const url of urlsToDownload) {
+            urlMap[url] = await downloadImage(url);
+        }
+
+        // --- STANDARD PROCESSING ---
         const parts = rawContent.split(/(```[\s\S]*?```)/g);
 
         let processedContent = parts.map(part => {
@@ -290,9 +363,10 @@ description: "${description}"
                 return `[${links.join(' & ')}]`;
             });
 
-            // 5. FORMAT IMAGES
+            // 5. FORMAT IMAGES (Use Local Paths)
             text = text.replace(/!\[(.*?)\]\(([^)\s"]+)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
-                const safeUrl = url; 
+                const safeUrl = urlMap[url] || url; 
+                
                 let candidateCaption = title || '';
                 if (candidateCaption.trim().startsWith('=')) candidateCaption = ''; 
                 if (!candidateCaption && alt) candidateCaption = alt;
@@ -323,7 +397,7 @@ ${processedContent}
 
 </Update>
 `;
-    });
+    }
 
     fs.writeFileSync(filePath, mdxContent);
     console.log(`✅ Generated: ${filePath}`);
