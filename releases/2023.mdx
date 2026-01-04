@@ -1,0 +1,1427 @@
+---
+title: "2023 Archive"
+description: "Release history for 2023"
+---
+
+
+<Update label="22nd November 2023" description="Release R27">
+
+Below you will find the summary notes for the 27th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* New *multi buy* discount code type has been added, allowing a group of items to be discounted when given quantities are reached. [[NG-4646](https://linear.app/nuweb-group/issue/NG-4646)] [[NG-4714](https://linear.app/nuweb-group/issue/NG-4714)]
+
+
+<Frame caption="Creating a multi-buy discount in Admin."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/4f6da731-ba13-47a1-ab87-93032c09e90f/CleanShot%202023-11-23%20at%2011.54.28%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182037Z&X-Amz-Expires=3600&X-Amz-Signature=b78c923797a23232a070feeaa06393a495e392442bbef6bf3cb75c29aa9d6ae1&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Creating a multi-buy discount in Admin." /></Frame>
+
+
+* New option added to discount codes to *auto apply* the discount to qualifying baskets [[NG-4647](https://linear.app/nuweb-group/issue/NG-4647)]
+
+
+<Frame caption="Auto-applied discount, as displayed to the customer in Shop."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/bfba3b2f-6517-4cd4-b1e2-c93b93b1b9f7/CleanShot%202023-11-23%20at%2011.58.45%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182037Z&X-Amz-Expires=3600&X-Amz-Signature=06ab023c090a5050c97f0e2eaf5fb55c47748cd82f625d850aa840babf7ddb52&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Auto-applied discount, as displayed to the customer in Shop." /></Frame>
+
+
+
+
+* Integrated with Azure Active Directory (B2C) for customer SSO [[NG-2503](https://linear.app/nuweb-group/issue/NG-2503)]
+* Added the ability to delete and restore event media and apple pass templates [[NG-4634](https://linear.app/nuweb-group/issue/NG-4634)]
+
+
+#### ✨ Enhancements
+
+* When viewing the list of orders within admin, incomplete instant access orders will now appear amongst completed orders, based on their creation date rather than always appearing at the end of the list [[NG-4494](https://linear.app/nuweb-group/issue/NG-4494)] 
+* When resending confirmation emails on the event page, instant access orders will now be included in the list of recipients [[NG-4496](https://linear.app/nuweb-group/issue/NG-4496)] 
+* The check payments status radio buttons will no longer be shown when completing an order if there is no gateway transaction for that order [[NG-4495](https://linear.app/nuweb-group/issue/NG-4495)]
+* Events where the only sale items that are available are fees will no longer show the "Buy Now" button on the shop. They will show the "Off Sale" button instead [[NG-2873](https://linear.app/nuweb-group/issue/NG-2873)]
+* When viewing discount codes that have already been used in admin, the add children button will now be disabled, with some information about how it isn't possible to add children to a discount code that has been used [[NG-4695](https://linear.app/nuweb-group/issue/NG-4695)]
+* If a user's locale is not valid for the current company, the locale will be updated automatically to the company fallback. In box office mode, when placing an order for a customer, if the customer's locale is not valid, the company fallback will be used for the order instead [[NG-4604](https://linear.app/nuweb-group/issue/NG-4604)]
+* When viewing a payment method sales report on the hub, applying multiple payments methods to the payment method filter now works correctly, rather than only using the first payment method [[NG-3540](https://linear.app/nuweb-group/issue/NG-3540)]
+* Allow stock on inventory from child companies to be edited from the parent company [[NG-4407](https://linear.app/nuweb-group/issue/NG-4407)]
+* Seating plan & event media zoom scrolling now requirers user to press Cmd / Ctrl in addition [[NG-4649](https://linear.app/nuweb-group/issue/NG-4649)]
+* The created at date of order lines is now shown in the appropriate timezone for the current company [[NG-4661](https://linear.app/nuweb-group/issue/NG-4661)]
+
+
+
+#### 📱 Mobile Apps
+
+
+**Access Control (android)**
+
+* Continuous laser scanning on sunmi devices. Scanning next ticket is possible directly from ticket view without closing it (both in main entry and zones) [[NG-4611](https://linear.app/nuweb-group/issue/NG-4611)]
+* Enhanced ticket scan result view. Added displaying email and order reference to main entry scan, added consistent headers and email to zone scan result. [[NG-4609](https://linear.app/nuweb-group/issue/NG-4609)]
+* Add searching attendance lists by email and order reference (main entry and zones) [[NG-4610](https://linear.app/nuweb-group/issue/NG-4610)]
+
+
+**Box office (android)**
+
+* Added cash input without decimal point button which is more consistent with card terminal [[NG-4603](https://linear.app/nuweb-group/issue/NG-4603)]
+* Hiding off sale and out of stock items when hiding is enabled in settings [[NG-4754](https://linear.app/nuweb-group/issue/NG-4754)]
+* Fix displaying event/company fees [[NG-4601](https://linear.app/nuweb-group/issue/NG-4601)]
+
+
+**All android apps**
+
+* Add Portuguese to the list of supported languages [[NG-4641](https://linear.app/nuweb-group/issue/NG-4641)]
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Added details of the token topup amounts a customer has received, on the order and order item detail pages [[NG-4516](https://linear.app/nuweb-group/issue/NG-4516)]
+* Reordered refundable items to show the bundled child items alongside their lead bundle item [[NG-4316](https://linear.app/nuweb-group/issue/NG-4316)]
+* Added timeslot info where applicable in individual and bulk refunds [[NG-4493](https://linear.app/nuweb-group/issue/NG-4493)]
+
+
+
+#### 🧹 Housekeeping
+
+* Forced ticket stock to default to unlimited, rather than 100 [[NG-4654](https://linear.app/nuweb-group/issue/NG-4654)]
+* Standardised the external_id fields on sale items, to avoid some offering (unused) multi-locale functionality [[NG-4515](https://linear.app/nuweb-group/issue/NG-4515)]
+* Fixed company acronyms sometimes appearing as 'Undefined' on hub company index page [[NG-4600](https://linear.app/nuweb-group/issue/NG-4600)]
+* The company from name will now be used as the from name on emails, whether the company from address is set or not [[NG-4582](https://linear.app/nuweb-group/issue/NG-4582)]
+* Fix a reporting issue where reserve to pay on-site reservations weren't correctly displaying the relevant gateway [[NG-4674](https://linear.app/nuweb-group/issue/NG-4674)]
+* Added clearer messaging of how discounts have applied to a basket [[NG-4723](https://linear.app/nuweb-group/issue/NG-4723)]
+* Seating plan dragging icon now synced to mouse movement[[NG-4617](https://linear.app/nuweb-group/issue/NG-4617)]
+* iframe improvements for event submenu when site menu is displayed [[NG-4607](https://linear.app/nuweb-group/issue/NG-4607)]
+* Sale item descriptions now render HTML on event media [[NG-4675](https://linear.app/nuweb-group/issue/NG-4675)]
+* Fix a sales report issue where totals were not showing correctly for orders that had 100% discount applied [[NG-3890](https://linear.app/nuweb-group/issue/NG-3890)]
+* Apple pass settings now editable on event media settings [[NG-4663](https://linear.app/nuweb-group/issue/NG-4663)]
+* Event media editor now displays text in the correct font, and line break issues fixed in downloaded PDFs [[NG-4469](https://linear.app/nuweb-group/issue/NG-4469)]
+* Seating plan image export fixed for events with time slots[[NG-4724](https://linear.app/nuweb-group/issue/NG-4724)]
+* Seat customer data now can be visited from Event / Manage seating plan page [[NG-4725](https://linear.app/nuweb-group/issue/NG-4725)]
+* Resolved an issue when creating sale item groups that meant there were no sale items to select from to add to the group [[NG-4739](https://linear.app/nuweb-group/issue/NG-4739)]
+* Prevent incomplete seating plans from being displayed on the event's *attach seating plan* screen [[NG-4796](https://linear.app/nuweb-group/issue/NG-4796)]
+* Sale items can now be assigned when creating a sale item group [[NG-4739](https://linear.app/nuweb-group/issue/NG-4739)]
+
+
+
+#### 💻 Technical
+
+* Upgraded to the new Stripe Payment Method Domains API which ensures Google Pay, Apple Pay and other wallet methods are future proofed in Stripe Connect [[NG-4689](https://linear.app/nuweb-group/issue/NG-4689)] [[NG-2909](https://linear.app/nuweb-group/issue/NG-2909)]
+* Improve our internal logging mechanisms to minimise performance degradation during peak traffic [[NG-3939](https://linear.app/nuweb-group/issue/NG-3939)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="26th October 2023" description="Release R26">
+
+Below you will find the summary notes for the 26th release of the Nuweb core platform.
+
+
+#### ✨ Enhancements
+
+* New ability to hide CMS header block images in mobile [[NG-4220](https://linear.app/nuweb-group/issue/NG-4220)]
+* Companies with Event Media enabled can now set default event media at the venue level [[NG-4346](https://linear.app/nuweb-group/issue/NG-4346) & [NG-4347](https://linear.app/nuweb-group/issue/NG-4347)]
+* Companies with Event Media enabled can now set default event media at the inventory item level [[NG-4349](https://linear.app/nuweb-group/issue/NG-4349) & [NG-4350](https://linear.app/nuweb-group/issue/NG-4350)]
+* Link targets added for link fields in CMS [[NG-4219](https://linear.app/nuweb-group/issue/NG-4219)]
+* Order information always honours the order currency when changing shop currency on order success page [[NG-4141](https://linear.app/nuweb-group/issue/NG-4141)]
+* Conditional tax bands have been improved to allow for a separate tax rate to be used for *all other countries* that don't match one of the other country classifications, rather than always assuming the domestic tax rate [[NG-4356](https://linear.app/nuweb-group/issue/NG-4356)]
+* Surface `external_id` fields for venues, events, inventory items, and sale items, across the admin UI displays + forms \[NG-4487, NG-4353\]
+* Added inputs for meta tag fields and images for mixed event schedules [[NG-4183](https://linear.app/nuweb-group/issue/NG-4183)]
+* Added 'last API activity date' header to the Admin Users report [[NG-4390](https://linear.app/nuweb-group/issue/NG-4390)]
+* Articles with images have received mobile usability updates that will improve the page's SEO score [[NG-4476](https://linear.app/nuweb-group/issue/NG-4476)]
+* Added a new Paste tool to WYSIWYG fields, which helps pasting texts with formatting from rich text editor applications (such as MS Word) and other applications [[NG-4396](https://linear.app/nuweb-group/issue/NG-4396)]
+
+
+
+#### 📱 Mobile Apps
+
+* Allow selecting seating plan area when using best available seats (Box Office) [[NG-3590](https://linear.app/nuweb-group/issue/NG-3590)]
+* Enabled language selection + internationalisation in box office [[NG-4386](https://linear.app/nuweb-group/issue/NG-4386)]
+* Enabled language selection + internationalisation in cashless [[NG-4387](https://linear.app/nuweb-group/issue/NG-4387)]
+* Butterfly (double sided after folding) badge printing (Access Control) [[NG-4357](https://linear.app/nuweb-group/issue/NG-4357)]
+* Add permission for refunding in offline mode (Cashless) [[NG-4486](https://linear.app/nuweb-group/issue/NG-4486)]
+* Improvements to error tracking and visibility (Access Control) [[NG-3704](https://linear.app/nuweb-group/issue/NG-3704)]
+
+#### 🎨 User Interface (UI/UX)
+
+* Show ticket holder details on order overview page in admin & updated page UI [[NG-4248](https://linear.app/nuweb-group/issue/NG-4248)]
+
+  
+
+
+<Frame caption="The order overview page received an update that highlights actions and main order details [[NG-4248"><img src="https://linear.app/nuweb-group/issue/NG-4248" alt="The order overview page received an update that highlights actions and main order details [[NG-4248" /></Frame>
+
+] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182037Z&X-Amz-Expires=3600&X-Amz-Signature=d664cec03b8d63eef80aa250a74e1583b8bb5477f01b7ff56edc3c58386def70&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
+* Ensured testimonial list blocks function when vertical padding is set to zero [[NG-4227](https://linear.app/nuweb-group/issue/NG-4227)]
+* Added pricing previews to Cashless Shop Products, including the appropriate fee and sales channel breakdowns [[NG-2871](https://linear.app/nuweb-group/issue/NG-2871)]
+* Added a new `Has Tickets` filter to the event index page [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
+  * Expanded all `Has [Sale Item Type]` filters on the event index page, to allow filtering by 'Yes (Has)', 'No (Does not have)', and "All (Both)".
+* Added hints that downloading also saves custom reports [[NG-4312](https://linear.app/nuweb-group/issue/NG-4312)]
+* Ensured you can always see the full image settings modal when editing template bocks [[NG-4433](https://linear.app/nuweb-group/issue/NG-4433)]
+* Improved dragging to reorder items for touchscreen devices [[NG-4412](https://linear.app/nuweb-group/issue/NG-4412)]
+* Added new 'negative bottom padding' field to template block settings [[NG-4222](https://linear.app/nuweb-group/issue/NG-4222)]
+* Seating plans in box office will adjust their size, and will appear bigger [[NG-4449](https://linear.app/nuweb-group/issue/NG-4449)]
+* Best available seats UI has improved UI & added help texts [[NG-4200](https://linear.app/nuweb-group/issue/NG-4200)]
+* Admin Cashless pages will now use the new index page layouts [[NG-4504](https://linear.app/nuweb-group/issue/NG-4504)]
+
+
+
+#### 🧹 Housekeeping
+
+* Added the event name to the related sale items modal [[NG-4094](https://linear.app/nuweb-group/issue/NG-4094)]
+* Expanded list of frontend validated forms [[NG-4088](https://linear.app/nuweb-group/issue/NG-4088)]
+* Removed the requirement for a venue region when creating/editing a venue, in line with other address fields [[NG-4247](https://linear.app/nuweb-group/issue/NG-4247)]
+* Improved the filter options on event filters to allow for events with **and** without a particular sale item type [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
+* Removed 'floating' loading spinners [[NG-4436](https://linear.app/nuweb-group/issue/NG-4436)]
+* When adjusting single row position in seating plan, rotated positions are taken into consideration[[NG-4450](https://linear.app/nuweb-group/issue/NG-4450)] 
+* Prevented an empty about content block being added to events that are created without a description [[NG-4284](https://linear.app/nuweb-group/issue/NG-4284)]
+* Ensure volunteers can put events on sale as long as they're already published [[NG-4285](https://linear.app/nuweb-group/issue/NG-4285)]
+* Ensure baskets honour order pricing in case of sale item pricing updates during checkout [[NG-4435](https://linear.app/nuweb-group/issue/NG-4435)]
+* Removed unwanted dragging when customising article and event pages [[NG-4596](https://linear.app/nuweb-group/issue/NG-4596)]
+* Ensure no unwanted form submissions when adding embedded wysiwyg videos [[NG-4594](https://linear.app/nuweb-group/issue/NG-4594)]
+* Resolve an issue where notes couldn't be edited if they originated from the parent company [[NG-4626](https://linear.app/nuweb-group/issue/NG-4626)]
+* Improved reliability of syncing gates in seating plans [[NG-4622](https://linear.app/nuweb-group/issue/NG-4622)]
+* Improved user flow when creating event fee for a specific sale item [[NG-4633](https://linear.app/nuweb-group/issue/NG-4633)]
+* Resolved an issue when creating a cashless product [[NG-4481](https://linear.app/nuweb-group/issue/NG-4481)]
+* Event page dashboard data editing issues fixed [[NG-4277](https://linear.app/nuweb-group/issue/NG-4277)]
+* Removed a one time page refresh, when the Attendance page was visited [[NG-4416](https://linear.app/nuweb-group/issue/NG-4416)]
+* iframe header alignments improved [[NG-4035](https://linear.app/nuweb-group/issue/NG-4035)]
+
+
+
+#### 💻 Technical
+
+* Major system speed/performance improvements have been rolled out using a new in-house page acceleration technology amongst other optimisations [[NG-4530](https://linear.app/nuweb-group/issue/NG-4530)] [[NG-4514](https://linear.app/nuweb-group/issue/NG-4514)] [[NG-4498](https://linear.app/nuweb-group/issue/NG-4498)] [[NG-4419](https://linear.app/nuweb-group/issue/NG-4419)] [[NG-4420](https://linear.app/nuweb-group/issue/NG-4420)] [[NG-4424](https://linear.app/nuweb-group/issue/NG-4424)] [[NG-4422](https://linear.app/nuweb-group/issue/NG-4422)]
+  * before
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/6a86c92a-1c79-4f5b-a7f1-836236b582a4/CleanShot%202023-10-30%20at%2016.44.53.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182037Z&X-Amz-Expires=3600&X-Amz-Signature=ad66b75f8a5ddcc474506112ed8a75f8423000116fce6c1f4a430e61552e8371&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+  * after
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/15e2115d-c5a0-4954-97e4-833c010d600a/CleanShot%202023-10-30%20at%2016.39.28.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182037Z&X-Amz-Expires=3600&X-Amz-Signature=63029a81c77de3e3d4dc17484f0b01c9f28f2c6d4bd8cfe58d84f7bb15df1ded&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+* Prevented sale item price changes when using the browser back button [[NG-4326](https://linear.app/nuweb-group/issue/NG-4326)]
+* Completed backend framework upgrades across the platform [[NG-4000](https://linear.app/nuweb-group/issue/NG-4000)]
+* Further improvements to frontend form validations [[NG-4440](https://linear.app/nuweb-group/issue/NG-4440)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="26th September 2023" description="Release R25">
+
+Below you will find the summary notes for the 25th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Added the ability to add dynamic links to pages, articles and events in WYSIWYG editors for schema blocks and event descriptions [[NG-3817](https://linear.app/nuweb-group/issue/NG-3817)]
+
+<Frame caption="Link modal offering new internal search for pages, events and articles"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/19382ce2-04a9-43b7-a13a-3bd7ca7f7477/a7de98d5-c5a5-4868-b0c5-3910c994b239/CleanShot%202023-09-26%20at%2015.28.13.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=f0ee9ec25a1b4b85e4f32d5a83608aca47ffb372ab5e2ef6372b1dc56fd41fa9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Link modal offering new internal search for pages, events and articles" /></Frame>
+
+
+
+* Performance mode added to seating plan editor allowing for a much faster and enjoyable experience when working with large, complex, or detailed seating plans [[NG-4093](https://linear.app/nuweb-group/issue/NG-4093)]
+
+<Frame caption="Performance mode option in seating plan editor"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/19382ce2-04a9-43b7-a13a-3bd7ca7f7477/c4e81734-212e-4915-8015-0c32f63a975c/CleanShot%202023-09-27%20at%2014.31.40.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=35aa1f20bbc202d2cac6a69e277ff42af26a6bba1df84f90a27b29110d717b39&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Performance mode option in seating plan editor" /></Frame>
+
+
+* Cashless mobile application now allows for top-ups to be created in NFC mode, using a Stripe card terminal (internet connection required) [[NG-3936](https://linear.app/nuweb-group/issue/NG-3936)]
+
+
+#### ✨ Enhancements
+
+* A wide variety of infrastructure, package, and software upgrades were performed this release, bolstering performance, and remaining up-to-date with latest technologies and security patches [[NG-4213](https://linear.app/nuweb-group/issue/NG-4213) & [NG-4241](https://linear.app/nuweb-group/issue/NG-4241)]
+* Updated the 'Add ticket' action in the new event notification to open the add tickets modal, rather than redirect to the new ticket creation form [[NG-4163](https://linear.app/nuweb-group/issue/NG-4163)]
+* Improved the notification display logic so that sidebar notifications only appear within relevant contexts (i.e. event related notifications only appear on the event dashboard) [[NG-4075](https://linear.app/nuweb-group/issue/NG-4075)]
+* Added new `Sales Tax Band` and `Sales Tax Rate` to the attendance reports for better reporting of the applied tax at point of sale, on individual order items [[NG-4086](https://linear.app/nuweb-group/issue/NG-4086)].
+* Added reverse tax breakdown to the item attendance reports [[NG-4086](https://linear.app/nuweb-group/issue/NG-4086)].
+
+ 
+
+<Frame caption="Sales tax & reverse tax breakdown on attendance reports"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/6a981b40-3bba-4f79-b026-8bfefcc7a81f/445ecd48-5ee5-4a58-a196-b76725223934/CleanShot%202023-09-27%20at%2015.21.16.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=aa818935dae798f8511e5467a3d7f247bcfa5a3391f71bcd1cedcc19bece0320&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Sales tax & reverse tax breakdown on attendance reports" /></Frame>
+
+
+
+* API requests from mobile apps will now record the device manufacturer and model number, for better tracking of individual devices across a fleet [[NG-4132](https://linear.app/nuweb-group/issue/NG-4132)].
+* Added an `Event Status` filter to the event reports, to allow better control over which events you wish to report on [[NG-4009](https://linear.app/nuweb-group/issue/NG-4009)].
+* Improved report column sorting for transaction total(s) so that the rows are ordered naturally according to the numerical values involved [[NG-3972](https://linear.app/nuweb-group/issue/NG-3972)]
+* Added support for the amended Ghanian Cedi currency, GHS [[NG-4084](https://linear.app/nuweb-group/issue/NG-4084)]
+* Max value of the price-input now depends on the currency, allowing currencies with fewer decimal places to have higher maximum values [[NG-3719](https://linear.app/nuweb-group/issue/NG-3719)]
+* Added a new toggle to admin users to indicate that they should be automatically redirected to box office mode on login, to avoid having to manually begin box office mode [[NG-4005](https://linear.app/nuweb-group/issue/NG-4005)]
+
+<Frame caption="Box office auto redirect option showing on the user edit form"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/6a981b40-3bba-4f79-b026-8bfefcc7a81f/a55679e8-4800-4bce-9844-8bdbc763e4d8/CleanShot%202023-09-27%20at%2015.23.41.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=3b2509917639a2aa3d86948459ef0b7036310796cc81888249df3976bfc99965&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Box office auto redirect option showing on the user edit form" /></Frame>
+
+
+
+
+* Increased the input length of 'long text' data capture from 255 characters to a much higher limit [[NG-4050](https://linear.app/nuweb-group/issue/NG-4050)]
+* Increased the visibility on data capture in the attendance report by allowing the ability to show purchaser responses as a fallback when the item holder hasn't supplied their own responses [[NG-4265](https://linear.app/nuweb-group/issue/NG-4265)]
+
+<Frame caption="Prioritise and fallback options for data capture in attendance report"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/19382ce2-04a9-43b7-a13a-3bd7ca7f7477/fe971a15-e448-4988-96a9-659c7313fd11/CleanShot%202023-09-27%20at%2014.50.58.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=272f713de9732515489522401d20b8b96c8b5108a7306daccc7a1934a67d5caa&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Prioritise and fallback options for data capture in attendance report" /></Frame>
+
+* Added 'last activity date' to the default admin users report [[NG-4063](https://linear.app/nuweb-group/issue/NG-4063)]
+* Implemented an additional email notification to acknowledge a user's request to publish an event (where event approvals are enabled/required) [[NG-4008](https://linear.app/nuweb-group/issue/NG-4008)]
+* Added the ability to resend individual order invoices on complete (or instantly accessible) orders [[NG-4157](https://linear.app/nuweb-group/issue/NG-4157)]
+* Improved the speed at which e-ticket downloads are generated for large orders that contain images [[NG-4154](https://linear.app/nuweb-group/issue/NG-4154)]
+* Token top-ups for cashless eWallets can now be refunded & deducted from eWallet balances [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
+* Added the ability to search for articles and pages in global admin search [[NG-3817](https://linear.app/nuweb-group/issue/NG-3817)]
+* Update sale item price preview when disabling / enabling currency [[NG-4054](https://linear.app/nuweb-group/issue/NG-4054)]
+* Improved the overall performance of seating plan rendering in both admin and ticket shop [[NG-4093](https://linear.app/nuweb-group/issue/NG-4093)]
+* Enriched the application of discount code "at least one of every event" logic to only require one item from an event, rather than one of every item sold at an event [[NG-4179](https://linear.app/nuweb-group/issue/NG-4179)]
+* Improved the grouping of bundled items in the basket to make it clearer which parent/lead item the bundled items belong to [[NG-4380](https://linear.app/nuweb-group/issue/NG-4380)]
+* Added a new "Auto download link" header to attendance reports which contains a link to the relevant ticket download page where the tickets begin downloading automatically [[NG-4313](https://linear.app/nuweb-group/issue/NG-4313)]
+
+ 
+
+<Frame caption="New &quot;auto-download link&quot; obtainable via attendance reports"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/d99e3d74-5f29-459e-9183-560d20ba1fb3/CleanShot%202023-09-27%20at%2018.00.08.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=13eacb78083e799175643b7858c9944a85951558e6ac711be100f4fe4f186eec&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="New &quot;auto-download link&quot; obtainable via attendance reports" /></Frame>
+
+
+
+
+* Added the ability to customise the ticket download page text via the admin text manager [[NG-4313](https://linear.app/nuweb-group/issue/NG-4313)]
+
+ 
+
+<Frame caption="Customise the download page via Admin"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/4cd8bef4-a0fb-4b8a-80b1-fd4653b772cd/CleanShot%202023-09-27%20at%2017.57.14.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=97a3065f82faea9bbfbe3e220a380ee65a2fd42e5b82421ebfdd4e1d4bb343c7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Customise the download page via Admin" /></Frame>
+
+
+
+
+* Added the ability to filter sale items by their respective inventory (i.e. event/shop/etc.) when managing stock levels, especially useful for managing stock on busy timeslotted schedules [[NG-3608](https://linear.app/nuweb-group/issue/NG-3608)]
+
+ 
+
+<Frame caption="Filter item stock by event"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/c646a935-c3a8-45b8-a79e-b98df6a01db3/CleanShot%202023-09-27%20at%2017.54.23.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=6296508e9a261befe3af55d62ef7d8a14fa97b61036aafa4bfe52621a28db9b3&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Filter item stock by event" /></Frame>
+
+
+
+* Admin events index page can now be filtered by events containing sale item groups and/or events that are part of a schedule [[NG-4381](https://linear.app/nuweb-group/issue/NG-4381)]
+
+
+
+#### 📱 Mobile Apps
+
+* Upgraded target SDK to version 33 (all 3 Android apps) [[NG-4146](https://linear.app/nuweb-group/issue/NG-4146)]
+* Added support for NFC on Sunmi L2s (by providing separate build for Sunmi store due to conflict with L2s_Pro) [[NG-4098](https://linear.app/nuweb-group/issue/NG-4098)]
+* Added support for languages (**en**, **cy, es, fr, tr**) for Access Control (Android) [[NG-4030](https://linear.app/nuweb-group/issue/NG-4030)]
+* Remove guests from guest list when their `registration status` is `cancelled`  Access Control (Android & iOS)
+* Added cashed out amount to cash-out success screen [[NG-3758](https://linear.app/nuweb-group/issue/NG-3758)]
+* Improved device tracking though request headers (`X-Device-Manufacturer`, `X-Device-Model`) (Android & iOS) [[NG-4097](https://linear.app/nuweb-group/issue/NG-4097)]
+* Added setting to skip inputting cash amount taken to calculate change in Box Office (Android) [[NG-4068](https://linear.app/nuweb-group/issue/NG-4068)]
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Added warning when assigning Super User role to a new user [[NG-4267](https://linear.app/nuweb-group/issue/NG-4267)]
+* Updated grid and list layout views, and alternative options available on some pages (Users, Customers, Orders, Reservations, Event Media, Seating plans, Companies, Resellers) [[NG-4087](https://linear.app/nuweb-group/issue/NG-4087)]
+
+<Frame caption="Showcase of new index page layout options"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/4726d9f9-41cd-408e-a5e9-d30127022206/CleanShot%202023-09-26%20at%2016.10.07.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=9e947694c26952fb3a62cb68cf1fd2b25a9fdde4f87240c39732fc59d230314d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Showcase of new index page layout options" /></Frame>
+
+
+
+
+#### 🧹 Housekeeping
+
+* Prevented users from attempting to sort reports by custom columns, as the sorting occurs before the calculation runs [[NG-4080](https://linear.app/nuweb-group/issue/NG-4080)]
+* Updated the 'view event' action on the admin dashboard to take users to the *correct* page [[NG-3407](https://linear.app/nuweb-group/issue/NG-3407)]
+* Improved the formatting of long data capture questions when presented on the final stage of checkout pNG-3407\]
+* The Shop main menu should now more accurately resize or collapse itself when a large number of menu items are added [[NG-4208](https://linear.app/nuweb-group/issue/NG-4208)]
+* Deployed a noticeable performance improvement to the entry API for speedier access control [[NG-4296](https://linear.app/nuweb-group/issue/NG-4296)]
+* When refunding cashless top-ups via the admin UI, a new 'refundable from wallet' field is displayed, highlighting how much is going to be refunded from the customer's eWallet balance [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
+* When using the bulk refund tool on an order that contains bundled cashless top-ups, these are now displayed and selectable within the bulk refunder [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
+* Improved the bulk refund UI to show items that were identical inventory items, but different sale items (across different events) [[NG-4257](https://linear.app/nuweb-group/issue/NG-4257)]
+* Updated the bulk refund UI to auto select all checkboxes when selecting order items, offering a much more consistent/predictable experience [[NG-4257](https://linear.app/nuweb-group/issue/NG-4257)]
+* Improved timezone handling/offsets in the event calendar, providing a consistent experience regardless of positive or negative time offset [[NG-4206](https://linear.app/nuweb-group/issue/NG-4206)]
+* Updated text to Select donation amount in shop [[NG-4014](https://linear.app/nuweb-group/issue/NG-4014)]
+* Fixed an error that could be encountered by box office users if their user was suspended mid-session [[NG-4369](https://linear.app/nuweb-group/issue/NG-4369)]
+* Disabled erroneous "Complete your Account" emails that were sometimes forcefully sent to guest customers without user intervention/opt-in [[NG-4013](https://linear.app/nuweb-group/issue/NG-4013)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="31st August 2023" description="Release R24">
+
+Below you will find the summary notes for the 24th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Sitemaps are now generated by default for all ticket shops, providing search engines/crawlers with an increased chance of correctly indexing event pages, event listings, and articles [[NG-3820](https://linear.app/nuweb-group/issue/NG-3820)]
+  * Any events that are unpublished marked 'hidden' are not shown
+  * Past events are not shown
+  * Sitemaps are cached for \~24 hours
+  * Custom domains will be used based on the locale preferences of those domains
+  * Where multiple languages are enabled, the sitemap will contain locale specific URLs to provide context of the locale specific URLs to surface in search results
+* Event tracking has been implemented within the Shop to allow in-depth analysis of end-customer interactions [[NG-3843](https://linear.app/nuweb-group/issue/NG-3843)]
+* Feature tracking has been implemented within the Admin to allow in-depth analysis of feature engagement [[NG-3841](https://linear.app/nuweb-group/issue/NG-3841)]
+
+
+
+#### ✨ Enhancements
+
+* Reseller branding settings has been improved, with new options to control the mobile app splash page settings added [[NG-3748](https://linear.app/nuweb-group/issue/NG-3748) & [NG-3749](https://linear.app/nuweb-group/issue/NG-3749)]
+
+  
+
+<Frame caption="Mobile app splash pages can now be customised to match your company branding."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/bbf863d3-bd6c-4d5f-8262-06b0f3332b54/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=b94c00d6a52aff69c5ef13f9832f02f000fe7a5eea7164b1a803032f15f758d9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Mobile app splash pages can now be customised to match your company branding." /></Frame>
+
+* Added full localisation & text customisable support to waiting rooms [[NG-3874](https://linear.app/nuweb-group/issue/NG-3874)]
+* A new permission has been added to control whether box office users have the ability to skip mandatory data capture fields [[NG-3771](https://linear.app/nuweb-group/issue/NG-3771)]
+* API login attempts using the *Retrieve API Token* endpoint are now logged similarly to login attempts made via the web login screens [[NG-3804](https://linear.app/nuweb-group/issue/NG-3804)]
+* Added a new limitation to companies (which can be enabled within settings) to force customers to login before being able to browse the ticket shop / view any pages[[NG-3783](https://linear.app/nuweb-group/issue/NG-3783)]
+  * This feature is designed to work nicely alongside SSO for off-site authentication to the shop
+* Added the `event_tag` field to event sales reports (when grouping by `event ID`), and the events report [[NG-3754](https://linear.app/nuweb-group/issue/NG-3754)]
+* Added the ability to configure content types to be disallowed in the shop via a new dynamic `robots.txt` file [[NG-3819](https://linear.app/nuweb-group/issue/NG-3819)]
+* New previews for reseller and company logos [[NG-3749](https://linear.app/nuweb-group/issue/NG-3749)]
+* Implemented json+ld schema data across event and article pages to enrich search results [[NG-3954](https://linear.app/nuweb-group/issue/NG-3954)]
+* Added the ability to filter orders by access codes [[NG-3728](https://linear.app/nuweb-group/issue/NG-3728)]
+* Implemented concurrency improvements to the best available seat selection process [[NG-3789](https://linear.app/nuweb-group/issue/NG-3789)]
+* New methods in place for more rigorous frontend form validation [[NG-4021](https://linear.app/nuweb-group/issue/NG-4021)]
+
+  
+
+<Frame caption="Frontend validation helps ensure forms are more easily completed correctly."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/910b5e29-b6c0-49bb-a023-8141c889ef9f/image%20%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=5a53a835a09689b276e5fe3a62b1e3fbda80054175954e7ddb4402491500a6f4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Frontend validation helps ensure forms are more easily completed correctly." /></Frame>
+
+* Added new option to embed settings to hide logout links in shop [[NG-4051](https://linear.app/nuweb-group/issue/NG-4051)]
+* Orphan seat prevention settings now extended to manual seat selections [[NG-3813](https://linear.app/nuweb-group/issue/NG-3813)]
+
+
+<Frame caption="Orphan seat protection warning now appear within the Seating plan in Shop."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/3a0c9639-b4ce-4768-bb7c-4e85711e3abd/Untitled-1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=9e09c2d93e6c67c9677e91ea864965708da45362929a9e23efcb295558ec1225&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Orphan seat protection warning now appear within the Seating plan in Shop." /></Frame>
+
+* Allow deleting newly added objects & seats on already synced seating plans [[NG-3879](https://linear.app/nuweb-group/issue/NG-3879)]
+* Added multi-lingual support for Text Manager [[NG-3880](https://linear.app/nuweb-group/issue/NG-3880)]
+
+  
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/19382ce2-04a9-43b7-a13a-3bd7ca7f7477/4809bb9c-b754-4473-a87c-c960b15025e7/CleanShot%202023-08-30%20at%2011.58.39.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=e9eb8ce10e8d8d68f00be06d849f30fcab5ad1a128a4f5ede71b32e1abcbff30&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+
+
+
+#### 🔌 Integrations
+
+* Integrated with M-PESA for accepting mobile money payments across Africa [[NG-3810](https://linear.app/nuweb-group/issue/NG-3810)]
+
+
+
+#### 📱 Mobile Apps
+
+* Switching company in Access Control Pro Android [[NG-3868](https://linear.app/nuweb-group/issue/NG-3868)]
+* Support for NFC on Sunmi L2s (all 3 android apps) [[NG-4032](https://linear.app/nuweb-group/issue/NG-4032)]
+* Support Stripe Terminal in Cashless Android (online mode) [[NG-3757](https://linear.app/nuweb-group/issue/NG-3757)]
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Added more customisation options for article block descriptions as well as ability to remove 'View All' link from article and event blocks [[NG-3743](https://linear.app/nuweb-group/issue/NG-3743)]
+* Added maximum space limitations to seating plans to prevent overly large areas / plans [[NG-3755](https://linear.app/nuweb-group/issue/NG-3755)]
+
+
+<Frame caption="Total available spaces now show during Seating plan creation."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/8c82dc30-6c30-4174-b359-c67216674ed6/image%20%282%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=fe89934029c058171b7b611b41d312816d77a8ade0bf471b8e9bdff53613ae76&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Total available spaces now show during Seating plan creation." /></Frame>
+
+<br />
+
+<Frame caption="Spaces remaining are now shown when adding a new block to the Seating plan."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/50119128-8896-4542-a9d5-32266913b2a3/CleanShot%202023-08-30%20at%2014.10.30.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=0ee11f1ef067ac79fc8c105fff158d7e8008197bc602b55bc70346a83ed2ee52&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Spaces remaining are now shown when adding a new block to the Seating plan." /></Frame>
+
+* Updated Seating / Event media object menu [[NG-4069](https://linear.app/nuweb-group/issue/NG-4069)]
+
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/ba034e1a-a55d-4b88-9802-3aea04f5ea47/CleanShot%202023-08-30%20at%2011.58.34%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=7f61a5a3a60956cd72248c9b3f377539597016b39d9670ad3e1d5cd5c9341de3&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+* Improved mobile interface when Best available & manual seat selection is on [[NG-3666](https://linear.app/nuweb-group/issue/NG-3666)]
+* Added image limitations in WYSIWYG editors [[NG-3745](https://linear.app/nuweb-group/issue/NG-3745)]
+* Created a new language selector option for Customise event page [[NG-3723](https://linear.app/nuweb-group/issue/NG-3723)]
+* Conditional tax band selector on sale item forms have received a search feature for a better UX when there are more than 4 tax bands set up [[NG-3847](https://linear.app/nuweb-group/issue/NG-3847)]
+
+
+<Frame caption="Adding conditional tax bands is now easier using the searchable select input."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/fc6d69b9-f702-4c40-bf9e-068d040cb578/CleanShot%202023-08-30%20at%2014.11.50.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=f7b43aef266775936084605a45bf7d7a594470e171cd74d950c7b6572d2e567b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Adding conditional tax bands is now easier using the searchable select input." /></Frame>
+
+
+
+
+
+#### 🧹Housekeeping
+
+* Removed flags from the Hub translation manager [[NG-3894](https://linear.app/nuweb-group/issue/NG-3894)]
+* Ensured date-input default values are set at the form level [[NG-3539](https://linear.app/nuweb-group/issue/NG-3539)]
+* Allowed NFC tags paired with season tickets to be checked into zones on events [[NG-3805](https://linear.app/nuweb-group/issue/NG-3805)]
+* Fixed season ticket label being detached from item cards in seating plans on the shop [[NG-3752](https://linear.app/nuweb-group/issue/NG-3752)]
+* Fixed season tickets sometimes not appearing in shop if there are no regular tickets [[NG-3769](https://linear.app/nuweb-group/issue/NG-3769)]
+* Improved best available seat selection to prevent deleted seats being selected in some specific situations [[NG-3734](https://linear.app/nuweb-group/issue/NG-3734)]
+* Fixed article type URL not auto-generating based on article type name [[NG-3915](https://linear.app/nuweb-group/issue/NG-3915)]
+* Fixed an issue where access codes using the 'hide unrestricted items' option would prevent items being added to the basket when event level fees were enabled [[NG-3911](https://linear.app/nuweb-group/issue/NG-3911)]
+* Fixed an issue where event media would fail to download as a PDF on orders with more than 50 items [[NG-3554](https://linear.app/nuweb-group/issue/NG-3554)]
+* Fixed time slots not being shown in 12hr time in time slot builder [[NG-3654](https://linear.app/nuweb-group/issue/NG-3654)]
+* General housekeeping around report generation to ensure stale reports are cleared out [[NG-3906](https://linear.app/nuweb-group/issue/NG-3906)]
+* Fixed an issue where time slots week view was not paginating properly for events that started in the past [[NG-3760](https://linear.app/nuweb-group/issue/NG-3760)]
+* Fixed double border page dividers not defaulting to showing two lines [[NG-3845](https://linear.app/nuweb-group/issue/NG-3845)]
+* Improved the performance of mass updates on sale items which exist against thousands of sibling timeslots etc [[NG-3875](https://linear.app/nuweb-group/issue/NG-3875)]
+* Updated the pricing preview display on sale items to ensure that blended gateway fees aren't returned for free sale items [[NG-3858](https://linear.app/nuweb-group/issue/NG-3858)]
+* Fixed top menu announcements not appearing in mobile as well as mobile burger menu appearing when no items are shown [[NG-3744](https://linear.app/nuweb-group/issue/NG-3744)]
+* Resolved a possible cause for a payment link with no items or transactions associated with it [[NG-3728](https://linear.app/nuweb-group/issue/NG-3728)]
+* Improved visibility of validation errors when mass updating sale items [[NG-4065](https://linear.app/nuweb-group/issue/NG-4065)]
+* Fixed issue where box office UI was appearing in regular shops [[NG-4059](https://linear.app/nuweb-group/issue/NG-4059)]
+* Prevented the automatic scrolling of the feature flags card in Hub [[NG-4025](https://linear.app/nuweb-group/issue/NG-4025)]
+* Fixed an issue where fees from imported orders were not reporting correctly in some sales reports [[NG-3901](https://linear.app/nuweb-group/issue/NG-3901)]
+* Resolved an issue where a blank screen may be shown when completing checkout with a large amount of order items (\~200+) [[NG-4041](https://linear.app/nuweb-group/issue/NG-4041)]
+* Added help text if theres no content in your currently selected locale for article text blocks [[NG-4029](https://linear.app/nuweb-group/issue/NG-4029)]
+* Fixed the user profile icon and dropdown appearing in the menu for box office [[NG-4076](https://linear.app/nuweb-group/issue/NG-4076)]
+* Admin dashboard refreshing fix [[NG-3917](https://linear.app/nuweb-group/issue/NG-3917)]
+* Created default styling for waiting room when company settings can't be found [[NG-3878](https://linear.app/nuweb-group/issue/NG-3878)]
+* On certain screen sizes the active menu were open by default in admin. This has been resolved. [[NG-3644](https://linear.app/nuweb-group/issue/NG-3644)]
+* Support for browsers with no localStorage support added / when localStorage is not available in incognito mode [[NG-3976](https://linear.app/nuweb-group/issue/NG-3976)]
+* Various seating plan fixes and improvements:
+  * Seat labels weren't generated properly when adjusting row / seat counts of the block [[NG-4016](https://linear.app/nuweb-group/issue/NG-4016)]
+  * Full table selection fixed in areas [[NG-3877](https://linear.app/nuweb-group/issue/NG-3877)]
+  * Add to basket button placement fixed in box office in seating plans [[NG-4042](https://linear.app/nuweb-group/issue/NG-4042)]
+  * Maintain shop seat selection UI state when add to basket validation errors occur [[NG-4066](https://linear.app/nuweb-group/issue/NG-4066)]
+  * Adjusting row number creates duplicate fixed [[NG-3941](https://linear.app/nuweb-group/issue/NG-3941)]
+  * Show half-booked tables in box office [[NG-3851](https://linear.app/nuweb-group/issue/NG-3851)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="1st August 2023" description="Release R23">
+
+Below you will find the summary notes for the 23rd release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Added the ability to share event/template/article blocks across multiple pages in the CMS [[NG-3582](https://linear.app/nuweb-group/issue/NG-3582)]
+
+
+<Frame caption="Event/template/article blocks can now be assigned to multiple pages at once"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/d6d7ebe4-e500-4b22-8926-dcd7fb9b70bb/CleanShot%202023-08-01%20at%2012.56.56.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=95674a53f66addc62eb4a5f8f3b231489f98974442d448ce1facba26e988778e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Event/template/article blocks can now be assigned to multiple pages at once" /></Frame>
+
+* Added orphan seat protection to *best available seats* seat selection feature [[NG-3583](https://linear.app/nuweb-group/issue/NG-3583)]
+
+
+<Frame caption="Enabling orphan seat protection from within the seating plan settings."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/95b3071e-c1ae-4390-9b74-b0e7f1e20686/CleanShot%202023-08-01%20at%2012.58.49.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=75d4f1227b4304c455f28b1e136a72ef22dbc28df423deeed56c9a93584c7cf0&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Enabling orphan seat protection from within the seating plan settings." /></Frame>
+
+<br />
+
+<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=f5a1b1d8a8b4e11deabf11f19101cf0debb91c8c66af7db16a37dc86baea634b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
+
+* Added ability to display event times at the event block level (and style them) [[NG-3581](https://linear.app/nuweb-group/issue/NG-3581)]
+
+
+* New features added to embedding your site, like displaying it in full screen, customising the default language & currency per implementation, and displaying the site with the site's header and footer [[NG-3577](https://linear.app/nuweb-group/issue/NG-3577)]
+
+
+ 
+
+<Frame caption="Website integration (iframe) customisation cptions"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/182df886-7076-4ceb-a0aa-342038c99870/CleanShot%202023-08-02%20at%2017.39.20.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=4caea1b0bb929c952f2ebf3eab93ab47955a2931b6c8fbfd45ce41eae7ef39af&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Website integration (iframe) customisation cptions" /></Frame>
+
+
+
+
+
+#### ✨ Enhancements
+
+* New UI for modifying reseller and company fees [[NG-3592](https://linear.app/nuweb-group/issue/NG-3592)]
+
+
+<Frame caption="Fees can now be set in a dedicated edit fees page with an updated, easier to use UI."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/d34d8d86-2b4d-4e05-851e-a697bbe8962d/CleanShot%202023-08-01%20at%2013.53.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=a540a6061bff2d2691304e695b6d40cb43395556658b0c4653cf4aa8e5278026&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Fees can now be set in a dedicated edit fees page with an updated, easier to use UI." /></Frame>
+
+* Added ability to order countries for phone/address dropdowns at a default level, individual data capture question level and event data capture question level [[NG-3400](https://linear.app/nuweb-group/issue/NG-3400)]
+* Added new company feature *Extended Customer Country*, which lets customers choose from any country, not just from the company's setup [[NG-3579](https://linear.app/nuweb-group/issue/NG-3579)]
+* Added the ability to upload a *mobile splash logo* to the reseller branding settings to be used within the mobile apps [[NG-3538](https://linear.app/nuweb-group/issue/NG-3538)]
+* Order distribution total/reserved figures within the customer account will now be reflective of any items in the distribution which have since been refunded [[NG-3566](https://linear.app/nuweb-group/issue/NG-3566)]
+* Added additional admin permissions to determine whether box office users should be able to skip certain item level validation rules [[NG-3584](https://linear.app/nuweb-group/issue/NG-3584)]
+* A new `External` SSO provider has been added, allowing for users to be redirected to an arbitrary URL for off-site authentication via the Customer SSO tokens available via the API [[NG-3599](https://linear.app/nuweb-group/issue/NG-3599)].
+* Improved the seat selection process when using *best available seats* in combination with season tickets to reduce the chances of a seat which is occupied at another event in the schedule from being selected [[NG-3738](https://linear.app/nuweb-group/issue/NG-3738)]
+* Implemented a number of shop-wide performance improvements [[NG-3714](https://linear.app/nuweb-group/issue/NG-3714)]
+
+#### 🔌 Integrations
+
+* Added support for OXXO in-store payments via Stripe Connect [[NG-3575](https://linear.app/nuweb-group/issue/NG-3575)]
+
+ 
+
+<Frame caption="OXXO vouchers in ticketing"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/70b8519b-fee6-46d4-b4df-44168b86ca5d/CleanShot%202023-07-20%20at%2016.57.45.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=42850c849f5a626d1d0902bdcee14889f87bf26b308051eac81ee613312d6eb2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="OXXO vouchers in ticketing" /></Frame>
+
+
+
+* Added support for pay-in-instalments in Mexico via Stripe (meses sin intereses) [[NG-3576](https://linear.app/nuweb-group/issue/NG-3576)]
+
+ 
+
+<Frame caption="Meses sin intereses"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/6315138e-2863-434e-984e-72393a1bbaac/CleanShot%202023-08-01%20at%2017.17.08.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=51c3cdf01e6de2e1524dec8241435fcfec01d288b57d22dc505fc6748d16d237&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Meses sin intereses" /></Frame>
+
+
+
+* Added ability to use Google Tag Manager on admin to add custom scripts and tracking your users [[NG-3578](https://linear.app/nuweb-group/issue/NG-3578)]
+
+#### 📱 Mobile Apps
+
+
+**Box Office**
+
+* Cash drawer integration
+* Disable refund button on order details view, when there are no products left that can be refunded
+* Display refunded products (on order details view) with clear indicator that they are in fact already refunded 
+* Fix printing tickets from order details view
+
+#### 🎨 User Interface (UI/UX)
+
+* Our checkbox selectors now show more visual information, making it easier to choose between options [[NG-3563](https://linear.app/nuweb-group/issue/NG-3563)]
+
+<Frame caption="Checkbox selectors now include badges, icons and formatted text."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/39754433-8698-44f9-a39d-b84ccaae9098/CleanShot%202023-06-28%20at%2020.19.06.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=9eb3c8c0eec0fe39c35a6e4c3f90b13fb4ff465d5439668f358d0257bcdfd026&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Checkbox selectors now include badges, icons and formatted text." /></Frame>
+
+* Moved restricted item information to a feedback to make this more obvious and less easy to miss [[NG-3618](https://linear.app/nuweb-group/issue/NG-3618)]
+* Allowed item categories to be assigned/unassigned from the inventory item form (in the Ecommerce menu) [[NG-2898](https://linear.app/nuweb-group/issue/NG-2898)]
+* Provided a helper modal when arriving on the schedule page of an event for the first time, helping the user quick create a schedule for that event [[NG-2521](https://linear.app/nuweb-group/issue/NG-2521)]
+
+
+<Frame caption="This helper modal more clearly explains the choice between adding to schedule or adding repeats. "><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/48a5ad97-240f-44c9-aa9f-f9fefd4e1bed/CleanShot%202023-08-01%20at%2013.10.55%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=2dfca642ebd4e0385c547e4aa0c3c2e56cc8b40c0b0f765fa9043a807912ecda&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="This helper modal more clearly explains the choice between adding to schedule or adding repeats. " /></Frame>
+
+* Provided an option to customise the Profile dropdown under Site settings / Menu options [[NG-3665](https://linear.app/nuweb-group/issue/NG-3665)]
+
+
+<Frame caption="Profile dropdown menu items can now be customised to hide or show any of the available items."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/bd424ce9-7098-4dc7-a929-6d69151b7cbb/Untitled-1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=cb13fbb1617e90dfd43114b595576ce2aee91e53da2e59d742795d55012006b7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Profile dropdown menu items can now be customised to hide or show any of the available items." /></Frame>
+
+* Added more customise options to waiting rooms [[NG-3670](https://linear.app/nuweb-group/issue/NG-3670)]
+* Display maximum character limit in WYSIWYG editors [[NG-3693](https://linear.app/nuweb-group/issue/NG-3693)]
+
+#### 🧹 Housekeeping
+
+* Major performance improvements implemented across both internal & external basket APIs [[NG-3528](https://linear.app/nuweb-group/issue/NG-3528)]
+* Mobile menu now honours the 'Hide profile' settings [[NG-3588](https://linear.app/nuweb-group/issue/NG-3588)]
+* Resolve an issue where "force minimum quantity" on sold out / off sale / restricted items would prevent reservations for *any* item from the same event [[NG-3652](https://linear.app/nuweb-group/issue/NG-3652)]
+* Event pages now honour the time display settings [[NG-3636](https://linear.app/nuweb-group/issue/NG-3636)]
+* Unblock failing Szamlazz API calls caused by invalid tax band names [[NG-3638](https://linear.app/nuweb-group/issue/NG-3638)]
+* Addons now present broken down taxes if price is set to exclude tax [[NG-3689](https://linear.app/nuweb-group/issue/NG-3689)]
+* Fixed timeslots not always loading when bulk updating [[NG-3658](https://linear.app/nuweb-group/issue/NG-3658)]
+* Resurfaced the `inactive` section within discount codes, allowing for clear separation of `active`, `inactive`, and `disabled` [[NG-3600](https://linear.app/nuweb-group/issue/NG-3600)].
+* Fixed a caching issue which meant that when hiding events in a schedule, the number of events shown in the ticket shop was incorrect [[NG-3663](https://linear.app/nuweb-group/issue/NG-3663)].
+* Updated the customer order confirmation email to display the full venue address, rather than just the first line [[NG-3780](https://linear.app/nuweb-group/issue/NG-3780)].
+* Fixed issue with bundle quantities showing incorrectly where multiple bundles share the same sale items in varying quantities [[NG-3826](https://linear.app/nuweb-group/issue/NG-3826)].
+* Seating plan interactivity fixed for devices with touch and mouse inputs [[NG-3706](https://linear.app/nuweb-group/issue/NG-3706)]
+* Fixed duplication of blocks on event page [[NG-3485](https://linear.app/nuweb-group/issue/NG-3485)]
+* Validity dates on Apple passes now display according to the sale item settings [[NG-3627](https://linear.app/nuweb-group/issue/NG-3627)]
+* Several seating plan improvements, including not allowing to delete price bands from seating plans already synced, improved display of general admissions with best available seats enabled and various selection issues fixed \[NG-3781,NG-3756,NG-3707,NG-3701,NG-3678\]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="4th July 2023" description="Release R22">
+
+Below you will find the summary notes for the 22nd release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Order Distributions can now be created by customers who purchase large orders and wish to share them with a large groups of attendees [[NG-3396](https://linear.app/nuweb-group/issue/NG-3396)]
+
+  
+
+
+<Frame caption="Creating an Order Distribution from a Customer Account is as easy as selecting the item, and setting the total and individual claim limits."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/2b5a1eda-c54a-4020-bb70-39612eee8042/CleanShot%202023-07-04%20at%2013.39.03%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=67ddb381d3ea9539fec5e1e0a05bb6ff48eeffdfddc5f6697209165417cee470&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Creating an Order Distribution from a Customer Account is as easy as selecting the item, and setting the total and individual claim limits." /></Frame>
+
+
+
+  
+
+
+<Frame caption="Public URL & pass code, private URLs and QR codes are provided to the original purchaser when distributing items."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/4f3c1f25-a003-4231-86f9-815a976e039b/CleanShot%202023-07-04%20at%2013.42.14%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=944058c1b90ea60990035f72e8f91bd90fc4132a041783d0bebe8240c92cdb92&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Public URL & pass code, private URLs and QR codes are provided to the original purchaser when distributing items." /></Frame>
+
+<Frame caption="Items can then be claimed by each attendee just like purchasing directly from the Shop, or receiving a direct transfer."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/3dc0136e-1780-4137-a406-3700d33b79ab/CleanShot%202023-07-04%20at%2013.44.53%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=15dbf042a76802ad079bc5d78a51d5afb19f8cf1cda1f750a08d5caba1795762&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Items can then be claimed by each attendee just like purchasing directly from the Shop, or receiving a direct transfer." /></Frame>
+
+
+
+
+* Added a new company setting to allow item barcodes to be preserved when instant transfers are enabled. This prevents barcodes being regenerated when the item is transferred [[NG-3398](https://linear.app/nuweb-group/issue/NG-3398)].
+
+
+* Added the ability to sort events, reservations, orders, and customers by a choice of different columns \[NG-3361, NG-2866\]
+
+  
+
+<Frame caption="Ordering events by start date, alphabetically or creation date."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/0779b59e-0e33-42df-adca-8a5f00a627b3/CleanShot%202023-07-04%20at%2013.58.35.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=8ba8e1912b15db7700369bb9acaababd29a395473050796379619b1701b46d80&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Ordering events by start date, alphabetically or creation date." /></Frame>
+
+
+
+
+
+#### ✨ Enhancements
+
+* Extended instant access invoice orders so that they contributes towards sales figures, appear in attendance reports & can be managed in admin the same way as regular paid orders [[NG-3458](https://linear.app/nuweb-group/issue/NG-3458)]
+* Added support for up to 4 decimal places when configuring tax bands [[NG-3397](https://linear.app/nuweb-group/issue/NG-3397)]
+* Auto-redirect non-www to www for vanity domains [[NG-3451](https://linear.app/nuweb-group/issue/NG-3451)]
+* Improved stability & performance of offline zone scan processing [[NG-2776](https://linear.app/nuweb-group/issue/NG-2776)]
+* Added support for payments in Jordanian Dinar (JOD) [[NG-3519](https://linear.app/nuweb-group/issue/NG-3519)]
+* Added the ability to group by multiple attributes within sales based reports [[NG-3402](https://linear.app/nuweb-group/issue/NG-3402)]
+
+ 
+
+<Frame caption="Multi-tiered sales report grouping"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/d5f3146f-c3c4-40d5-b384-47f3793b4c2f/CleanShot%202023-07-04%20at%2015.10.55.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=74b648b86f42ca3ef4696468c186def9f7be1a4cc6f34ba5daf7228a0d0c6bd7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Multi-tiered sales report grouping" /></Frame>
+
+
+
+
+#### 🔌 Integrations
+
+* Integrated with [First Atlantic Commerce](https://firstatlanticcommerce.com/) payment gateway: [PowerTranz](https://firstatlanticcommerce.com/powertranz/) [[NG-3225](https://linear.app/nuweb-group/issue/NG-3225)]
+
+ 
+
+<Frame caption="First Atlantic Commerce (PowerTranz) Payments"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/34ecb7dd-0494-49f7-ad39-70f4fa006e7f/CleanShot%202023-07-04%20at%2015.13.27.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=8712d2dba8adee850786495e6a4876305e7b8355ac64618613dcc51025c74535&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="First Atlantic Commerce (PowerTranz) Payments" /></Frame>
+
+
+
+
+
+#### 📱 Mobile Apps
+
+
+**Access Control**
+
+* Added support for NFC on Sunmi L2s Pro
+* Added the ability to input notes when scanning for an exhibitor [[NG-3249](https://linear.app/nuweb-group/issue/NG-3249)]
+
+
+**Cashless**
+
+* Added support for NFC on Sunmi L2s Pro
+* Improved error reporting on sale failure
+
+
+**Box Office**
+
+* Added support for NFC on Sunmi L2s Pro
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Added an option to add a tooltip to any text in template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
+* Shop's fonts will be used in admin when you are editing template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
+* New improved Table template block [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
+  * Select cell content type (text, badges, buttons, images, icons)
+  * New option to set cell padding
+  * Header row option added which can collapse all rows below
+  * Improved mobile view
+  * Row sorting can now be rearranged
+  * Custom colour for column headers added
+
+<Frame caption="Setting up a table template block in Admin, customising the content type, header rows and header colours."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/5f90213a-ff9d-43ba-b98f-d1fa9d176102/MicrosoftTeams-image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=014f145d3b19b10c5295f47e5e3f3b0c1b3278f2f9b8ef47e909a71064e006f2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Setting up a table template block in Admin, customising the content type, header rows and header colours." /></Frame>
+
+<br />
+
+<Frame caption="Viewing a table template block in Shop displaying new customisation options."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/10894f93-bbe1-415e-8975-9441ef604de8/MicrosoftTeams-image%20%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=e29b864a8adc20304c9e4852cda24d4bd557444f35d2c129d687869816c87beb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Viewing a table template block in Shop displaying new customisation options." /></Frame>
+
+
+
+
+* Added new features to the Manage seating plan page [[NG-3524](https://linear.app/nuweb-group/issue/NG-3524)]
+  * Now you can search for price band & hold names
+  * Create order button now can select seats in holds
+* The new menu received further improvements for mobile and tablet sized devices [[NG-3504](https://linear.app/nuweb-group/issue/NG-3504)]
+
+
+
+#### 🧹 Housekeeping
+
+* Improved internationalisation for various calendar, event and item dates within Shop \[NG-2895/7890/3322\]
+* Displayed additional tags on event/article blocks on listing pages [[NG-3322](https://linear.app/nuweb-group/issue/NG-3322)]
+* Miscellaneous fixes to hub tax band management [[NG-3477](https://linear.app/nuweb-group/issue/NG-3477)]
+* Fixed an error when attempting to select best available seats across multiple price bands [[NG-3465](https://linear.app/nuweb-group/issue/NG-3465)]
+* Improved validation of data capture during checkout to resolve an edge case where was possible to skip data capture [[NG-3358](https://linear.app/nuweb-group/issue/NG-3358)]
+* Tightened up permission checks on scheduled reports when a role has visibility to only reports created by the current user [[NG-3435](https://linear.app/nuweb-group/issue/NG-3435)]
+* Prevented non-functioning parent access codes from being duplicated inadvertently [[NG-3497](https://linear.app/nuweb-group/issue/NG-3497)]
+* Where a discount code has multiple event conditions of identical names, the descriptions no longer repeat the number and instead display only unique event conditions [[NG-3459](https://linear.app/nuweb-group/issue/NG-3459)]
+* Ensure tax receipt emails are sent out for orders where reverse charges apply [[NG-3335](https://linear.app/nuweb-group/issue/NG-3335)]
+* Improved the additional information provided for items and fees within the Shop \[NG-3273/3475\]
+* Fixed z-index issues of dropdowns within card elements [[NG-3467](https://linear.app/nuweb-group/issue/NG-3467)]
+* Improved mobile UI where larger company logos were used within the top navigation bar [[NG-3281](https://linear.app/nuweb-group/issue/NG-3281)]
+* Added character limit for tags as well as help text [[NG-3276](https://linear.app/nuweb-group/issue/NG-3276)]
+* Resolved an issue with updating access codes in quick succession [[NG-3523](https://linear.app/nuweb-group/issue/NG-3523)]
+* Issues surrounding our image-uploader and cropping certain types of images have been resolves [[NG-2878](https://linear.app/nuweb-group/issue/NG-2878)]
+* Fixed inconsistency issues with social logins and payments in iframes when using browsers that do not support cross-site tracking such as safari [[NG-3386](https://linear.app/nuweb-group/issue/NG-3386)]
+* Total basket items now shows present without sale item fees, when using an iFrame [[NG-3553](https://linear.app/nuweb-group/issue/NG-3553)]
+* Resolved an issue where creating a ticket for a multiple timeslots would sometimes create two tickets in the original timeslot [[NG-3440](https://linear.app/nuweb-group/issue/NG-3440)]
+* Fixed a visual bug where it appeared you can set sold seats as available on the manage seating plan page [[NG-3428](https://linear.app/nuweb-group/issue/NG-3428)]
+* Increased resolution of images used in Testimonials template block [[NG-3401](https://linear.app/nuweb-group/issue/NG-3401)]
+* Added UI for deleted / inactive / disabled children of access code children and discount code children [[NG-2842](https://linear.app/nuweb-group/issue/NG-2842)]
+* Fixed issues when you couldn't select seats on the manage seating plan page [[NG-3524](https://linear.app/nuweb-group/issue/NG-3524)]
+* Additional sale item information is rendered as HTML in event media [[NG-3601](https://linear.app/nuweb-group/issue/NG-3601)]
+* Resolved an issue where the *refresh* modal was being displayed twice in some very specific report scenarios [[NG-2867](https://linear.app/nuweb-group/issue/NG-2867)]
+* Improved performance of processing multi-seat baskets, especially noticeable with Best Available seating [[NG-3527](https://linear.app/nuweb-group/issue/NG-3527)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="6th June 2023" description="Release R21">
+
+Below you will find the summary notes for the 21st release of the Nuweb core platform.
+
+
+
+#### 🚀 New Features
+
+* Our Admin and Hub menus received a huge UI / UX overhaul that should make it easier than ever to navigate the system. It can now be collapsed at any screen size, with the ordering and grouping of each item being carefully considered to optimise navigation. 
+\* Specific changes are noted in the **[User Interface (UI/UX)](/s/5450e24b-d6cd-48c9-a315-a9037dba31f1/doc/r21-9th-may-2023-tbc-NOCDy8fAH0)** section of the release notes [[NG-3290](https://linear.app/nuweb-group/issue/NG-3290)]
+
+
+  
+
+<Frame caption="Each group now corresponds to an icon making collapsed menu navigation easier."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/f0c1d8ab-1f7f-48b8-a0f6-886a461e0eed/menu.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=c59a2c06acb13ac0f6bf3ff9f411bb040752811d887a212c0aba168e16d72a6c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Each group now corresponds to an icon making collapsed menu navigation easier." /></Frame>
+
+* Added the ability to enable instant transfers which transfer the ownership of tickets without the need for the recipient to claim or complete their profile [[NG-3239](https://linear.app/nuweb-group/issue/NG-3239)]
+
+ 
+
+<Frame caption="Enable instant transfers using the new control found in general settings of the Admin."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/cf10ddfc-fb87-465d-b3dd-33202c590ea9/CleanShot%202023-06-06%20at%2016.07.55%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=19e01e8e5eacdd1a7d1f11b01071271fd8de14b379c2ac6c818a5ea694905940&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Enable instant transfers using the new control found in general settings of the Admin." /></Frame>
+
+
+
+
+
+#### ✨ Enhancements
+
+* Included the ability to bulk refund items orders with more than 5 items, using the same settings and cancellation fee for all refunded items [[NG-3208](https://linear.app/nuweb-group/issue/NG-3208)]
+
+  
+
+<Frame caption="Bulk refunding multiple sale items at once"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/8849ffe9-6a93-4c61-9288-82f329dc6c92/CleanShot%202023-05-11%20at%2014.11.19.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=c86bdfce2779c80ac085fd82a121b881bdb8c9795492bd6aa65adadebb1e1232&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Bulk refunding multiple sale items at once" /></Frame>
+
+* Streamlined the process of claiming shared/transferred tickets by removing the need to login/create a password & by sending the customer directly to the relevant download screen [[NG-3206](https://linear.app/nuweb-group/issue/NG-3206)]
+* Add the ability to specify an optional order reference prefix for Adyen payments [[NG-3209](https://linear.app/nuweb-group/issue/NG-3209)]
+* Cashless reports (shops, transactions, and NFC transactions) can now be filtered by transaction completion date [[NG-3216](https://linear.app/nuweb-group/issue/NG-3216)]
+* The manual payment fields (at the company and event level) are now multi-locale, allowing you define the invoice title, receipt title, and payment instructions in a customer's native language \[NG-3220, NG-3326\]
+* Box office checkout now provides a 'Change due' calculator when checking out with cash \[NG-3231, NG-3289\]
+
+
+<Frame caption="Change due is now calculated when using cash payment in Box Office"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/a5f41920-9c62-454e-8c4d-39695364be7b/CleanShot%202023-06-06%20at%2010.29.30.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=e2a90e284dbf48fe8a3dd89a621215b3b6aa85c24d794661b9d7c2b6c61259bd&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Change due is now calculated when using cash payment in Box Office" /></Frame>
+
+* A new *money order* payment method has been added, with the option to make capturing of the *money order number* mandatory [[NG-3232](https://linear.app/nuweb-group/issue/NG-3232)]
+* You may now configure whether it is mandatory to capture a *cheque number*, or *card network* when using the *cheque* or *card offline* payment methods respectively [[NG-3233](https://linear.app/nuweb-group/issue/NG-3233) & [NG-3207](https://linear.app/nuweb-group/issue/NG-3207)]
+* Preview dates in article blocks can now be hidden [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
+* The background colour of event and article blocks can now be customised [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
+* Improved page load speed when viewing inventory items which are linked to a large number of events \[NG-2861Improved page load speed when viewing inventory items which are linked to a large number of events [[NG-2861](https://linear.app/nuweb-group/issue/NG-2861)]
+* A new barcode encoding option "interleaved 2 of 5" is available for event media [[NG-3302](https://linear.app/nuweb-group/issue/NG-3302)]
+* Full venue addresses are now displayed throughout all product surfaces \[NG-3221, NG-3288Full venue addresses are now displayed throughout all product surfaces \[NG-3221, NG-3288\]
+* Expanded article block theme settings allowing for customisations matching that of event blocks \[NG-3279Expanded article block theme settings allowing for customisations matching that of event blocks [[NG-3279](https://linear.app/nuweb-group/issue/NG-3279)]
+
+  
+
+<Frame caption="Customising the style of your article blocks"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/19382ce2-04a9-43b7-a13a-3bd7ca7f7477/ecf2e9a0-29c0-4f9f-ae1f-31fde1ae28d8/CleanShot%202023-06-02%20at%2014.33.59.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ac7c3bc1e8ceeb1d82e7061c9ec695c36452d6add5ef4ac3b22882e76961e2e5&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Customising the style of your article blocks" /></Frame>
+
+* Kiosk sales channel is now available, controlling the visibility of the item on the Box Office App (Kiosk) and Box Office Web (Shop) individually \[NG-3363, NG-3214\]
+
+
+<Frame caption="Enabling and disabling the item from the Box Office App (Kiosk)"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/4524986f-41f9-4def-899b-d8d410bae8f1/CleanShot%202023-05-30%20at%2012.43.13.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=1d69ed3984d0ac5a6cfc17f558f9f8846f6eac2c5e06ae29800afed8e2b9d8da&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Enabling and disabling the item from the Box Office App (Kiosk)" /></Frame>
+
+
+
+
+
+#### ⏳ Coming Soon
+
+* Access Control will support data capture on zones, allowing our access control app to ask a question on check-in. This initial version has a very fixed set of data capture questions, but we plan to expand this to allow custom setups in the future [[NG-3230](https://linear.app/nuweb-group/issue/NG-3230)]
+
+ 
+
+<Frame caption="NEW: Zones / Exhibitors Data Capture"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/56c07f6b-516a-48a4-9767-a886ad5beeb7/NEW_%20Zones%20_%20Exhibitors%20Data%20Capture.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=2aa32a5a026fd7890eefb6f6741851e662770f95fa3af09df0756d01c49a8b50&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="NEW: Zones / Exhibitors Data Capture" /></Frame>
+
+
+
+
+
+#### 📱 Mobile Apps
+
+
+**Box office**
+
+* Added auto cutter functionality. After printing tickets and receipt paper can be automatically cut after each ticket or after the whole order (depending on the selected setting in the app) [[NG-3217](https://linear.app/nuweb-group/issue/NG-3217)]
+*Available on devices that have paper cutter (tested on* `D2 mini`*; should also work on* `K2`*,* `K2 mini`*).*
+* Auto printing of tickets in kiosk mode [[NG-3213](https://linear.app/nuweb-group/issue/NG-3213)]
+*Available on* `Sunmi` *devices equipped with printer*
+* Globally added header to requests indicating whether app is operating in kiosk mode, so that all endpoints can return data relevant for kiosk or normal mode [[NG-3252](https://linear.app/nuweb-group/issue/NG-3252)]
+* Events that only have seated tickets are not shown in app [[NG-3211](https://linear.app/nuweb-group/issue/NG-3211)]
+* Added company logo to kiosk welcome screen [[NG-3212](https://linear.app/nuweb-group/issue/NG-3212)]
+* Added option to sell season tickets [[NG-3215](https://linear.app/nuweb-group/issue/NG-3215)]
+* Fix for app making too many requests when cashless was half configured in admin panel (e.g. cashless was enabled but no shop was created) [[NG-2855](https://linear.app/nuweb-group/issue/NG-2855)]
+
+
+**Cashless**
+
+* Fix to handle correctly product categories with undefined name (categories with undefined name can be created when importing sale items from csv file)
+
+
+* Homepage with improved navigation [[NG-2626](https://linear.app/nuweb-group/issue/NG-2626)] 
+
+
+<Frame caption="More options available on the homepage. "><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/d3585b4d-7516-4b21-83e5-2d5b5bdac000/1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ff7156c08f47a3bcafe8508241538b764aa678ffff62a68e2cb539654881d469&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="More options available on the homepage. " /></Frame>
+
+
+* Product listings [[NG-2617](https://linear.app/nuweb-group/issue/NG-2617)]
+
+
+<Frame caption="Wallet balance is now shown on the products index page"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/fa2c15fe-2054-4348-a3a9-51899404d5ee/2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=81942927510f99427b12a5110c325880877f1248436368c00535eabe9553c901&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Wallet balance is now shown on the products index page" /></Frame>
+
+
+
+
+* Transaction success page [[NG-2618](https://linear.app/nuweb-group/issue/NG-2618)]
+
+ 
+
+<Frame caption="Order success page now shows much more information"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/e10ebd39-ab82-4cc7-9fdd-7428ed59fbde/3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=4775009c152a9b14ba3d26f6979fc600d8ad8456656b4d040d27ae84291a78fb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Order success page now shows much more information" /></Frame>
+
+
+
+* Catalog of products [[NG-2773](https://linear.app/nuweb-group/issue/NG-2773)]
+
+
+<Frame caption="Added more information to the products index page. "><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/2bd80835-f37a-4977-9c9d-525d030b8feb/5.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=602e913f3835a429eab50ccbd78d946795e5b420b30aee8910bf8e5afb509348&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Added more information to the products index page. " /></Frame>
+
+
+
+
+* Token top ups [[NG-2621](https://linear.app/nuweb-group/issue/NG-2621)]
+
+ 
+
+<Frame caption="Added Top-up images within the app."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/fdb88378-3291-4d6d-ba02-7aaac5dc76ac/6.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=d6e1417f404512d765fb4e2e263aaa37d4d2dc6dd1086f7648ece5176e765037&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Added Top-up images within the app." /></Frame>
+
+
+
+
+* Improved tapping NFC tag to verify customer and balance. Available in transactions view for quick filtering and homepage for operator's convenience [[NG-2619](https://linear.app/nuweb-group/issue/NG-2619)]
+
+
+<Frame caption="Transactions page uses colour and padding to make information easier to digest."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/fc233bda-7bd6-4b6f-9786-22d511437238/4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ae2d3a429d886e6d31012c2f1c223d34317aa0d1777eaecd5566a50d6f45ac1e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Transactions page uses colour and padding to make information easier to digest." /></Frame>
+
+
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* The menu received a UI and UX uplift. Now you can collapse the menu any time, and when collapsing the menu will shrink to an icon only view. Some menu items have been moved under different pages [[NG-3290](https://linear.app/nuweb-group/issue/NG-3290)]
+  * Box office moved to top menu
+  * Company settings in top menu moved under Profile menu
+  * Users moved under System
+  * Data capture moved under System
+  * Finances / Invoices moved under System
+  * Basket codes moved under Ecommerce
+  * Articles moved under Site
+  * Branding & logos and Theme moved under Site / Site settings
+  * Sales & Reports menus grouped together
+  * Tax bands moved under Settings
+  * Tags moved under Events
+
+* Introduced a new shade under the brand colour settings that can be used under Theme and Template blocks
+
+
+<Frame caption="Under Site settings you can configure an additional colour that matches your branding"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/61ad9925-febc-4f58-9b88-cd9216ae925b/CleanShot%202023-06-06%20at%2011.07.57%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=873e0ff74766a84b939d31424b4e631904a2c96db10b2fe478cd5e1b670f2b73&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Under Site settings you can configure an additional colour that matches your branding" /></Frame>
+
+* Header images for Articles, Schedule listings and Pages now will respect longer header image texts, and received better mobile views [[NG-3405](https://linear.app/nuweb-group/issue/NG-3405)]
+* Image editing in articles received some fixes regarding under settings appearing above the modal, and icons now appear in a modal with the icon names inlcuded [[NG-3310](https://linear.app/nuweb-group/issue/NG-3310)]
+* Sale item lists on event dashboard now have unified icons and orderings in their header [[NG-3331](https://linear.app/nuweb-group/issue/NG-3331)]
+* Added search option and alphabetised options in venue selector on event dashboard and seating plan editor [[NG-3327](https://linear.app/nuweb-group/issue/NG-3327)]
+* The 'Order Now' button that is shown when choosing to pay by invoice can be now be customised in website text [[NG-3222](https://linear.app/nuweb-group/issue/NG-3222)]
+* The text in the reverse charge/VAT number input modal can now be customised in website text [[NG-3223](https://linear.app/nuweb-group/issue/NG-3223)]
+
+
+
+#### 🧹 Housekeeping
+
+* Fixed some help text styling to more closely match our UI [[NG-2865](https://linear.app/nuweb-group/issue/NG-2865)]
+* Fixed 'mixed' layout article block images [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
+* Resolved an issue with bulk approving/rejecting reservations [[NG-3260](https://linear.app/nuweb-group/issue/NG-3260)]
+* Restored the call to action and navigation controls on event listing pages when using iframes [[QUA-380](https://linear.app/nuweb-group/issue/QUA-380)]
+* The reverse/conditional tax, VAT number collection text is now customisable in website text [[NG-3223](https://linear.app/nuweb-group/issue/NG-3223)]
+* Hub-level reports are back in action [[NG-2908](https://linear.app/nuweb-group/issue/NG-2908)] [[NG-3299](https://linear.app/nuweb-group/issue/NG-3299)] [[NG-2892](https://linear.app/nuweb-group/issue/NG-2892)]
+* Clearer messaging on the difference between event-level and sale item-level purchase limits [[NG-3368](https://linear.app/nuweb-group/issue/NG-3368)]
+* Fixed various issues with template block UI [[NG-3248](https://linear.app/nuweb-group/issue/NG-3248)]
+* Fixed formatting issues when exporting invoice/discount code reports [[NG-2892](https://linear.app/nuweb-group/issue/NG-2892)]
+* Ticket descriptions now appearing when multiple tickets are assigned to seats in shop [[NG-3264](https://linear.app/nuweb-group/issue/NG-3264)]
+* When Contacts B template block had links added the icons weren't clickable [[NG-3316](https://linear.app/nuweb-group/issue/NG-3316)]
+* Ticket restrictions now appear for tickets when selecting seats [[NG-3328](https://linear.app/nuweb-group/issue/NG-3328)]
+* Resolved an issue where Excluded labels settings didn't appear in the seating plan editor [[NG-3256](https://linear.app/nuweb-group/issue/NG-3256)]
+* Texts in event media preview now has got improved text alignment displays [[NG-3311](https://linear.app/nuweb-group/issue/NG-3311)]
+* Shrink to fit texts in event media has been optimised in preview [[NG-3271](https://linear.app/nuweb-group/issue/NG-3271)]
+* Fixed an issue when lasso tool wasn't completing in event media editor [[NG-3272](https://linear.app/nuweb-group/issue/NG-3272)]
+* Resolved an issue when customer used a social media login in iframes in Safari and the login page didn't appear [[NG-2891](https://linear.app/nuweb-group/issue/NG-2891)]
+* When an order contained an order fee, the order displayed "Multiple events" incorrectly in lists [[NG-3333](https://linear.app/nuweb-group/issue/NG-3333)]
+* Fixed an issue with the top menubar ordering [[NG-2900](https://linear.app/nuweb-group/issue/NG-2900)]
+* Ensure customer locale is respected in all forms of email communication, unless overridden [[NG-3330](https://linear.app/nuweb-group/issue/NG-3330)]
+* Resolved an issue with sharing where the system would force customers to share all tickets if the sale item purchase limit was greater than the event-level purchase limit [[NG-2940](https://linear.app/nuweb-group/issue/NG-2940)]
+* Enforced a fixed date on all customer issued invoices [[NG-3224](https://linear.app/nuweb-group/issue/NG-3224)]
+
+
+
+#### 💻 Technical
+
+* Fixed an issue where seating plan data wasn't refreshed when opening / closing different seating plans [[NG-3257](https://linear.app/nuweb-group/issue/NG-3257)]
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="5th May 2023" description="Release R20">
+
+Below you will find the summary notes for the 20th release of the Nuweb core platform.
+
+
+
+#### 🚀 New Features
+
+* New Best Available seats, where the system creates a heatmap for your seating plan, and the customers' seats will be automatically selected for them [[NG-590](https://linear.app/nuweb-group/issue/NG-590)]
+
+<Frame caption="Applying a new focal point to a seating plan in Admin"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/e1098904-bb5d-49f6-83d2-5a6c07654136/CleanShot%202023-05-09%20at%2016.50.35.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=868e2ea239a5da6d15f547a7a17afa8634d8b9abbdfda81e457dbe57f95d65f4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Applying a new focal point to a seating plan in Admin" /></Frame>
+
+<br />
+
+<Frame caption="Searching for available tickets based on a customer choice of price bands, sections or general admissions. "><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/06bc8346-9735-4c05-9015-127382f5fc66/CleanShot%202023-05-09%20at%2017.43.48.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=a0e9b62169c13cf3d6a8b30e5d7b4dfb655495d80c1abb2331bc2eb1ba0682cb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Searching for available tickets based on a customer choice of price bands, sections or general admissions. " /></Frame>
+
+
+
+
+* New customisation options for event blocks [[NG-2762](https://linear.app/nuweb-group/issue/NG-2762)]
+
+  
+
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/854cb6e3-c6c5-42df-b99d-9017f9945b24/CleanShot%202023-05-09%20at%2016.37.10.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=44559667e5d932d7abcb1a966b0864c79b302710432908449971118f09d1ba1d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+* New customisation options for the event browse page [[NG-2759](https://linear.app/nuweb-group/issue/NG-2759)]
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/0884f4bc-d97b-4066-84c3-3b4be0d9d92c/CleanShot%202023-04-18%20at%2015.55.04.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=c0708bcd1452c76942c67088c50b669e0590dcae7dbb724eff05db734dc905fb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+* The introduction of an Access Code Importer, allowing you to easily import existing access codes from third party systems [[NG-2742](https://linear.app/nuweb-group/issue/NG-2742)]
+* An access code usage report has been implemented [[NG-2742](https://linear.app/nuweb-group/issue/NG-2742)]
+* Cashless wallet transfers have been enabled - allowing customers to share their purchased topups with other users, allowing group orders and bundled items to be shared with the correct recipients [[NG-2749](https://linear.app/nuweb-group/issue/NG-2749)]
+* Exhibitor lead capture is now available on events. Behind the scenes this uses all of the usual features of our comprehensive access control system, but additionally:
+  * Creates a single exhibitor user to access the lead capture results
+  * Generates a custom report to provide those results
+  * Schedules an automated report to be emailed after the close of the event
+* Access control data capture allows organisers to define data capture questions to be asked when scanning into a zone. At present this is limited to just a single 'notes' field, but there is scope to give more customisation in future releases \[NG-3230, NG-3345\]
+
+
+
+#### ✨ Enhancements
+
+* Added the schedule creation progress to **all** schedule view pages, rather than just the lead event's view page [[QUA-132](https://linear.app/nuweb-group/issue/QUA-132)]
+* Added image fields to the table contents template block [[NG-2731](https://linear.app/nuweb-group/issue/NG-2731)]
+* Added the ability to import cashless sale items, with their allocated categories [[NG-2747](https://linear.app/nuweb-group/issue/NG-2747)]
+* Added the ability to generate X child access codes for a given parent access code [[NG-2742](https://linear.app/nuweb-group/issue/NG-2742)]
+* Added the ability to share items via URL (after checkout) [[QUA-557](https://linear.app/nuweb-group/issue/QUA-557)]
+
+  
+
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/bff33cfa-6a36-4d29-923c-a2711c5fe538/CleanShot%202023-05-09%20at%2016.55.38%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=3a8289070263d7db7f09ece8c19cce3080fdf8b1d75d5e4825cb4c54875c9468&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+
+
+* Added hold information to seating plan sales reports [[NG-2764](https://linear.app/nuweb-group/issue/NG-2764)]
+* Improved the user experience when viewing an event in the shop that has no *on sale* sale items, but does include *on sale* fee items. [[QUA-627](https://linear.app/nuweb-group/issue/QUA-627)]
+* Enhanced zooming features and animations in seating plans when using zoom buttons, entering / exiting areas, pinching, and smoothing animations added to panning [[NG-2744](https://linear.app/nuweb-group/issue/NG-2744)]
+* New testimonial template block [[NG-2733](https://linear.app/nuweb-group/issue/NG-2733)]
+* New List Highlights template block [[NG-2732](https://linear.app/nuweb-group/issue/NG-2732)]
+* New List of Tabs template block [[NG-2734](https://linear.app/nuweb-group/issue/NG-2734)]
+* New Filtered List Block template block [[NG-2730](https://linear.app/nuweb-group/issue/NG-2730)]
+
+
+
+#### 📱 Mobile Apps
+
+* Added QR scanning mode in Cashless app
+* Changes in Cashless including improvements of UI and adding more information for better UX in areas of the app:
+  * Homepage with improved navigation
+  * Product categories
+  * Sales report
+  * Catalog of products
+  * Token top ups
+  * Product listings
+  * Transactions (list and details)
+* Improved tapping NFC tag to verify customer and balance. Available in transactions view for quick filtering and homepage for operator's convenience
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Added a customisable 'Menu announcement' to the theme page [[NG-2736](https://linear.app/nuweb-group/issue/NG-2736)]
+* New notifications for success and error messaging [[NG-2765](https://linear.app/nuweb-group/issue/NG-2765)]
+
+  
+
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/34a09dd5-4e08-47a3-ab6e-448f728b5ac9/CleanShot%202023-05-09%20at%2016.35.55%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=1eb7761e562020640c8a330cb2ae86407fd3aef0caed0ab1eeb32b669fe58471&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+
+
+* Improved user feedback now helps prompt additional actions [[NG-2766](https://linear.app/nuweb-group/issue/NG-2766)]
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/1dc89d8b-ebc8-44af-a52c-196add58c527/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=0da36dc313990644373e95c6e00822e2c9a150df37ac0480b870e3a65fe2649c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+#### 🧹 Housekeeping
+
+* Ensure latest data capture responses are shown in customer invoices [[QUA-485](https://linear.app/nuweb-group/issue/QUA-485)]
+
+#### 🧑‍💻 API
+
+* A number of API performance improvements have been added for cashless and box office related endpoints \[NG-2756, NG-2737\]
+* A new *Partner API* has been added to allow partners to create companies and users within their account via an API. This also allows for company level API tokens to be generated [[NG-2752](https://linear.app/nuweb-group/issue/NG-2752)]
+* Added API rate limiting, with customisable limits at both partner and company levels.
+
+</Update>
+
+<Update label="13th Mar 2023" description="Release R19">
+
+Below you will find the summary notes for the 19th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* The introduction of [webhooks](https://zapier.com/blog/what-are-webhooks/), featuring the ability to manage multiple webhooks for different events, send test calls for instant feedback during configuration, track failed/successful calls in realtime, inspect real payloads through interactive API docs as well as temporarily pause webhook communication. [[NG-2639](https://linear.app/nuweb-group/issue/NG-2639)]
+
+
+ 
+
+<Frame caption="An example webhook dashboard"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/526bb9c2-7f1b-4598-b332-1d674e10590b/pika-1678557297693-1x%20%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=408ffa4af43bfe764c8c29bf03a46f8bda62feaa58921488a7a4eaad5c2e0199&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="An example webhook dashboard" /></Frame>
+
+
+
+* Payment reminders may now be issued en-masse to purchasers who used the invoice payment method. This is accessed via the 'email attendees' function within the event dashboard, or against individual tickets/timeslots etc. [[NG-2496](https://linear.app/nuweb-group/issue/NG-2496)]
+* Conditional tax bands may now be configured against sale items. This enables different tax rates (including reverse charges) to be applied based on the country the customer is purchasing from. We have also added a [VATStack](https://vatstack.com/) integration which can be enabled to validate the customers country based on their VAT number [[NG-2493](https://linear.app/nuweb-group/issue/NG-2493)]
+
+
+ 
+
+<Frame caption="Conditional tax bands & VAT verification"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/e804a87e-0ffd-4553-85a3-4b354226b603/CleanShot%202023-03-11%20at%2022.39.03.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=3e624b54690cbbbc06c17a43ed3943de00ae38d852a3c151bf90bee158b4fecf&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Conditional tax bands & VAT verification" /></Frame>
+
+
+
+* Added a new API Device Manager section to the admin portal, so that you can view all devices along with the last time they connected or uploaded data. \[NG-2556, NG-2559\]
+  * This comes with the added ability to immediately block a device which will cause all future requests to fail until the device is unblocked
+  * Individual devices can also be named for better tracking
+
+
+ 
+
+<Frame caption="Mobile device API tracker"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/48b00325-9979-4b20-b75e-c7588474d3be/CleanShot%202023-03-10%20at%201.00.36%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=f3d0dff22f90bc05b53725f835b1f9e4ce3234c0868e125e2e914a6afe050501&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Mobile device API tracker" /></Frame>
+
+
+
+* A new 'enable instant access' option has been added to manual payment settings. When enabled, this allows customers who have selected the invoice payment method instant access to their tickets and other downloadable items, before payment of the invoice is made. [[NG-2585](https://linear.app/nuweb-group/issue/NG-2585)]
+
+
+
+#### 🔌 Integrations
+
+* Integrated with [ONVO Pay](https://www.onvopay.com/) [[NG-2651](https://linear.app/nuweb-group/issue/NG-2651)]
+
+
+ 
+
+<Frame caption="Sell tickets with ONVO w/mobile & card payments"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/2953b4d7-930c-45fe-b267-87f15b634c24/CleanShot%202023-03-11%20at%2018.01.20.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=7b6850f1cbd91f0bab3dcdb783e3705ce5e106f8330b2ca36095bcc51bc53735&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Sell tickets with ONVO w/mobile & card payments" /></Frame>
+
+
+
+
+* Added Zapier support through [Webhooks by Zapier](https://zapier.com/features/webhooks), unlocking integrations with over [5000+ apps & services](https://zapier.com/apps)
+
+
+ 
+
+<Frame caption="Zapier Webhooks Integration"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/c9550c00-58e2-4129-b94a-446f597ed43d/pika-1678557035898-1x%20%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=6ee05231ab8e2344bd154a5ab3add302ec510118e4215ec33a81ad46488b4ec9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Zapier Webhooks Integration" /></Frame>
+
+
+
+
+#### ✨ Enhancements
+
+* Provided display customisation options for the start and end times of events [[NG-2634](https://linear.app/nuweb-group/issue/NG-2634)]
+* Improved the CTA for customers to change currencies when events/items are not available in their selected currency [[NG-2637](https://linear.app/nuweb-group/issue/NG-2637)]
+
+
+ 
+
+<Frame caption="Currency CTAs for multi-currency accounts"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/08b25f19-ac38-44ae-aaa1-833f3d565fe0/CleanShot%202023-03-11%20at%2018.29.54.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=2363887e5b08195a1f9071236ff0f7a8861aaadf8572c2896d99e211ea4b0097&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Currency CTAs for multi-currency accounts" /></Frame>
+
+
+
+* Added event name and start date to Szamlazz invoice line items [[NG-2641](https://linear.app/nuweb-group/issue/NG-2641)]
+* Added the ability to include customer registration questions on the sales tax receipt / invoice [[NG-2660](https://linear.app/nuweb-group/issue/NG-2660)]
+
+
+ 
+
+<Frame caption="Data capture on customer invoices"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/f92c5919-0c09-4771-a55b-866b26b10f2a/CleanShot%202023-03-05%20at%2016.33.27.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=c92a4b2d1ad70c68080363074d618c0db22ffb92f687c9f35b3af61b2c62ddd7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Data capture on customer invoices" /></Frame>
+
+
+
+* Added *No. Items (inc. fees)* and *No. Items (excl. fees)* headers to the orders report [[NG-2666](https://linear.app/nuweb-group/issue/NG-2666)]
+* Added the ability to add a footer imprint at the Reseller and Company level to be displayed in the Shop footer [[NG-2635](https://linear.app/nuweb-group/issue/NG-2635)]
+
+
+
+#### ⏳ Coming very soon…
+
+* Total revamp of the repeating events / timeslot booking experience, unleashing an entirely new and refreshed user shopping experience. Customers can use our new interactive booking calendar to jump straight to the date & time that they're interested in via one unified interface.
+
+
+ 
+
+<Frame caption="NEW: Unified timeslot booking interface"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/15b49050-229e-423a-81fe-6c19a58e7d5a/timeslots.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ef91eb3bd0a36c1f2264a8745508bc87cf7018635bff54b75eac8ba7d47733ae&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="NEW: Unified timeslot booking interface" /></Frame>
+
+<br />
+
+<Frame caption="Responsive & mobile optimised"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/3dc67315-ef97-4e1e-bcb7-3e6c1507a090/pika-1678753972961-1x%20%281%29.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=eb49c9317fd7b574a877a38a4bf6af744f7b4c2cc741e6a7bcc419bfb4e958ad&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Responsive & mobile optimised" /></Frame>
+
+
+
+* We haven't ignored the mixed event schedules such as football seasons & multi-venue events as we introduce a new opt-in booking calendar which provides a more practical overview of the upcoming events:
+
+
+ 
+
+<Frame caption="NEW: Mixed event schedule calendar"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/358f0bbb-9908-4ec8-aa58-1b575046e845/pika-1678755009063-1x%20%281%29.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=4da2a79779fae36206104ff7c9268c2f34d96c64471b56b29e55e3de89c9e6c5&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="NEW: Mixed event schedule calendar" /></Frame>
+
+
+
+
+
+#### 📱 Mobile Apps
+
+* Added to all apps debug headers and device-id header to allow device tracking
+* Optimised requests from cashless app in order to generate less workload for servers
+* Added custom product prices to cashless products
+* Minor UI/UX enhancements to android cashless mobile app
+* Cashless app can be safely used with hub users (company change does not affect app)
+* Added tracking who and when refunded item in cashless
+* Camera preview on Sunmi V2s PLUS fixed to be in correct orientation
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Bundled children show sold out/off sale UI to match parent [[NG-2616](https://linear.app/nuweb-group/issue/NG-2616)]
+
+
+
+#### 🧹 Housekeeping
+
+* Fixed an issue displaying the Nuweb logo in the powered by section of the footer [[QUA-359](https://linear.app/nuweb-group/issue/QUA-359)]
+* When re-assigning existing charity items, all price tiers are now correctly copied to the new event [[QUA-332](https://linear.app/nuweb-group/issue/QUA-332)]
+* Fixed an issue with Szamlazz VAT numbers being stored incorrectly [[QUA-297](https://linear.app/nuweb-group/issue/QUA-297)]
+* Fixed an edge case where orders processed through Adyen were showing no transactions in admin [[QUA-384](https://linear.app/nuweb-group/issue/QUA-384)]
+* Fixed an issue where the user would encounter a 404/page not found when previewing an unpublished event and changing language/currency selection [[NG-2681](https://linear.app/nuweb-group/issue/NG-2681)]
+* API calls to Szamlazz now respect the payment company of the order [[NG-2642](https://linear.app/nuweb-group/issue/NG-2642)]
+* Fixed issue where timeslots were not reloading on event dashboard after emailing attendees [[NG-2688](https://linear.app/nuweb-group/issue/NG-2688)]
+* Fixed an issue where timeslots were not being copied with their relative on sale dates [[NG-2668](https://linear.app/nuweb-group/issue/NG-2668)]
+* Fixed an issue where publishing an event with timeslots still shows 'off sale' for the sale items within those timeslots [[NG-2669](https://linear.app/nuweb-group/issue/NG-2669) & [NG-2659](https://linear.app/nuweb-group/issue/NG-2659)]
+
+
+
+#### 💻 Technical
+
+* Implemented server-side rendering for listings, articles, event pages and other key areas of the ticket shop to deliver a significant improvement to the lighthouse performance score / general SEO [[QUA-236](https://linear.app/nuweb-group/issue/QUA-236)]
+
+
+ 
+
+<Frame caption="Before & after server-side rendering"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/a1ac57c9-920f-45f7-a339-18e544e61629/Before%20%26%20after%20server-side%20rendering.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=6af25e89d372aafb9d570263ec2382d87d4c3b798729b58c063ff7c4f2d16140&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Before & after server-side rendering" /></Frame>
+
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="1st February 2023" description="Release R18">
+
+Below you will find the summary notes for the 18th release of the Nuweb core platform. This release brought about a change in process whereby release cycles have been shortened to monthly cycles, with weekly patches to address bug fixes, quality improvements & improved performance.
+
+
+#### 🚀 New Features
+
+* Added the ability to create ticket & item templates in admin via the "System defaults" feature, streamlining event set ups & enforcing consistency during item creation [[NG-2437](https://linear.app/nuweb-group/issue/NG-2437)].
+
+
+ 
+
+<Frame caption="Ticket templates (System defaults)"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/f7e60c64-ffcc-46b8-a949-23a554f55937/pika-1675896886472-1x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=3e77ca4e3437163417cb645987887d3f14a4a44cefea1a25f06acd24d1b9fb84&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Ticket templates (System defaults)" /></Frame>
+
+
+
+* Added the ability for event organisers to configure additional order-level fees
+* Added the ability for event organisers to configure additional event & ticket-level fees
+
+
+ 
+
+<Frame caption="Various new fees now available"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/959bb640-51af-4e69-b3a7-da575141f1f7/pika-1675985848526-1x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ca2cca798c69440277058b616d7b205a1b54b8b561fde5bc833a024ed919e23e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Various new fees now available" /></Frame>
+
+
+
+* Reservations can now be bulk approved or rejected from the main reservations screen [[NG-2433](https://linear.app/nuweb-group/issue/NG-2433)]
+
+
+ 
+
+<Frame caption="Bulk approvals: line-by-line and respond-to-all"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/b5166e59-c854-435b-b62d-0e0ab22bfcf1/pika-1675986599474-1x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=b44ab2aa2837c49fc2d49d48e5969d00e5cdec952974383ecd2199fee73deb4e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Bulk approvals: line-by-line and respond-to-all" /></Frame>
+
+
+
+* Added the ability to setup companies within a trial period. A banner is displayed in admin informing the user how long the trial has left. Once the trial is up, the company can no longer access their account [[NG-2434](https://linear.app/nuweb-group/issue/NG-2434)]
+* Added a new feature flag for "allow fees to be discounted" which will enable resellers to opt companies **into** being able to discount any associated fees through the use of discount codes [[NG-2443](https://linear.app/nuweb-group/issue/NG-2443)]
+  * Combined with the new "disallow absorbing fees" company limitation, this puts resellers in direct control of how and when fees are discounted.
+
+
+
+#### 🔌 Integrations
+
+* Integrated with [PayRetailers](https://payretailers.com/) to support local payment methods across LATAM [[NG-2007](https://linear.app/nuweb-group/issue/NG-2007)]
+* Integrate with [DPO Pay](https://dpogroup.com/) payment gateway with support for card & mobile payment methods such as M-PESA [[NG-2547](https://linear.app/nuweb-group/issue/NG-2547)]
+* Added support for fast payments via [Stripe Link](https://stripe.com/gb/payments/link) [[NG-2597](https://linear.app/nuweb-group/issue/NG-2597)]
+
+
+ 
+
+<Frame caption="New payment methods & integrations available"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/d38b022a-6eb8-42dc-b655-e89f132c79f1/pika-1675986098735-1x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=918498d84a23490238208bf8951a96ff7d16f2ab7216a3f2162089d0b076b4fe&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="New payment methods & integrations available" /></Frame>
+
+
+
+
+#### ✨ Enhancements
+
+* On-sale dates can now be controlled for cashless products, as well as the ability to hide them when they are off sale, and hide them when they out of stock [[NG-2500](https://linear.app/nuweb-group/issue/NG-2500)]
+* Added the ability to list past events when configuring event blocks [[NG-2542](https://linear.app/nuweb-group/issue/NG-2542)]
+
+
+ 
+
+<Frame caption="Showcase past events"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/cb3d5ac9-8769-4692-9a09-dedcb2b49c1d/CleanShot_2023-01-17_at_08.45.05.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=eaa873e0c659a1e66907ad2673f9a4e3e161f12040dc51b6ce20b15dd3e714c2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Showcase past events" /></Frame>
+
+
+
+* Added ability to create "Proforma" invoices in hub [[NG-2498](https://linear.app/nuweb-group/issue/NG-2498)]
+* Added a new payment method "Cheque" in Box Office [[NG-2499](https://linear.app/nuweb-group/issue/NG-2499)]
+* Invoice emails now include an invoice number and invoice date, as well as a new option within company payment settings to toggle whether customer name and email address should be displayed [[NG-2502](https://linear.app/nuweb-group/issue/NG-2502)]
+
+
+ 
+
+<Frame caption="Improved invoice design"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/1c75b240-61e2-4c9f-977d-94f0c54a5b0a/CleanShot%202023-02-10%20at%2013.49.29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=314caa54ef8216e0dff4e58210feb1feda1b77bac49060a5badff9c32296aed4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Improved invoice design" /></Frame>
+
+
+
+* Added the ability to manually check a payment result for a given order via admin [[NG-2007](https://linear.app/nuweb-group/issue/NG-2007)]
+* Additional options added to the manual payment settings to allow a minimum order value to be enforces as well as configuration of the tax receipt email which is sent to customers. These options can also be overridden per event [[NG-2495](https://linear.app/nuweb-group/issue/NG-2495)]
+
+
+ 
+
+<Frame caption="Per-event invoice configurations"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/59c4eccf-744d-4cfc-b03e-6a9cd3ad0562/CleanShot%202023-02-10%20at%2013.52.28.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=9e1739861259d4f69c90f9baf4cf769ceb9e831e9a50f8f7d6303fe3e3f633d3&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Per-event invoice configurations" /></Frame>
+
+
+
+* Added toggle to display purchase options on event pages by default [[NG-1983](https://linear.app/nuweb-group/issue/NG-1983)]
+* Improved the process of completing orders that are required to be completed manually via the admin [[NG-2593](https://linear.app/nuweb-group/issue/NG-2593)]
+* Failed API requests to generate Szamlazz Invoices can now be retried from Admin [[NG-2475](https://linear.app/nuweb-group/issue/NG-2475)].
+* Box office confirmation emails can now be configured to be disabled by default [[NG-2441](https://linear.app/nuweb-group/issue/NG-2441)].
+
+
+
+#### 📱 Mobile Apps
+
+* Added Sunmi V2S Plus label printing support to the access control app [[NG-2539](https://linear.app/nuweb-group/issue/NG-2539)]
+
+
+ 
+
+<Frame caption="Access control label printing"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/e474e13b-f060-45af-a3d3-f095bf57c8e3/image%20%284%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=ae47df835f999ea43d2205cc0d1986d85a4cbed9b1c5818811b45b6b8fe35974&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Access control label printing" /></Frame>
+
+
+
+* Added Sunmi D2 Mini (dual screen POS) capabilities to Access control, Cashless & Box office mobile apps
+
+
+ 
+
+<Frame caption="Dual screen Sunmi D2 Mini"><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/c74b270b-aef6-40aa-9664-da63903ef5d5/4c90ebf8-0ff8-4f7a-9fb1-acfe3e9fb415/Dual%20screen%20Sunmi%20D2%20Mini.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=4da14dbad723a2b6ab82a1b5860c90c1cf53758a568d7a639e1b9de01d962852&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="Dual screen Sunmi D2 Mini" /></Frame>
+
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Various seating plan related updates [[NG-2571](https://linear.app/nuweb-group/issue/NG-2571)]
+  * New selection tools on the admin event seating plan page, including lasso tool
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/48610c9e-619b-4f26-83f8-723c8cabb4f5/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=5440b467227216a4bb2d8aceda512bd0d3a976ee0d7c73a985bada4f3860a787&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+* Display hold information in legend and export
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/d0663f91-67d0-4768-b20a-30a080386307/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=092a4410ec0fdb4a0dc8fe076b97817161cdee6bc7a2b2b5ddbd092c6e94a04b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+<br />
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=28708a568c1126919df099646130dd51e35a8110618847f720c7291f9b68beb7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+* In seating plan editor block/row labels in edit can be toggled from now, so they won't get in the way
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/fe5ceb59-b0ff-4b1c-9579-5edac3ac30df/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=f828d7712189cf13eeb870b529aa47845b1e109a4469a3c2770b17a744a3f870&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+* Added option to draw block of seats with preview
+
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/bd38da42-f818-4554-bcfe-356652f04182/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260104T182038Z&X-Amz-Expires=3600&X-Amz-Signature=6978871f19a27d8c5ee876f58b0f2fd9478d810182e27d12203d42275c76cacf&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+
+
+
+
+#### ⏱ In Progress
+
+* A new settings have been added to allow Country Classifications to be setup. This will in turn allow conditional tax bands to be configured against sale items [[NG-2492](https://linear.app/nuweb-group/issue/NG-2492)].
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>

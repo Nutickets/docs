@@ -1,43 +1,22 @@
-# Mintlify Starter Kit
+# Nuweb Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+These docs are powered by Mintlify. We've added a few automations on top which are detailed below. To get started, make sure you run `npm install`.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+1. Import release notes: `node generate-release-notes.js`
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+This will pull down all of our release notes from the public wiki document, parse and process them into MDX and update the mintlify `docs.json` file to set up the navigation. Release notes older than the previous full year will be added to an archive, grouped by year.
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+2. Import API documentation: `node generate-api-docs.js`
 
-## Development
+This will pull down our OpenAPI JSON files from all of our API docs (admin API, partner API, webhooks API - URLs are defined inside the `generate-api-docs.js` file), extract out the changelogs from the main body and publish to separate mintlify mdx files, and point the OpenAPI URLs to api.nuwebgroup.com (with the relevant path depending on which API it is).
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+NB: the script strips out the port off the URL in the final `openapi.json` file allowing us to point to the test/staging docs whilst compiling these docs for prod.
 
-```
-npm i -g mint
-```
+3. Build the documentation locally: `npx mint dev` or `mint dev` if you've installed the mint CLI globally.
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+There's some aliases to the above as well:
 
-```
-mint dev
-```
+- `npm run gen` will run both generate commands (API docs and release notes)
+- `npm run dev` will run both generate commands AND then build the documentation locally
 
-View your local preview at `http://localhost:3000`.
-
-## Publishing changes
-
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+The latter is only necessary if you aren't already running the local docs. After running any generation commands, commit the various `.mdx` and `openapi.json` files to the repo to publish the updates.

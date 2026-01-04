@@ -1,0 +1,682 @@
+---
+title: "2021 Archive"
+description: "Release history for 2021"
+---
+
+
+<Update label="18th November 2021" description="Release R9">
+
+Below you will find the summary notes for the 9th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Introduced feature toggles to prevent the creation of free tickets, disable modification of past events, disable refunds for past events and enforce event organiser information to be filled out for every event.
+* Add: "live mode" filter on sales/order reports, allowing "all", "live only", "demo only", or "company settings" to be chosen.
+* Revamped the relative date filters throughout all reports with the following changes:
+  * Introduced several new options such as "Week-to-date", "Last 7 days", "Last year" and many more
+  * Eliminated ambiguity with some existing options, i.e. "Last month" was changed to "Last complete month". E.g. if today is Thursday 21st October, the 'last complete month' would be September.
+  * Added the date range to the title of reports for absolute clarity of the applied date filters
+* Added 'Account Manager' field to companies in hub which can be used as a filter when viewing companies & reports
+* Added the ability to view a purchased seat on the seating plan directly from the purchased item detail page
+* Added 'Powered by', 'From name' and 'From email' options to companies where previously they were only available at the reseller-level
+* Added the ability to send a one-off communication email to all attendees of an event
+* Added some variant options for Apple Passes - Event Strip & Event Background, Generic Square & Generic Rectangular.
+* Added the ability for guest users to rebuild their basket. Previously only users signed in to the system had access to this feature.
+* Added the ability to edit the body text for the emails of Scheduled Reports.
+* Added a new "Hide Attendees" toggle when editing a zone, allowing you to control if the attendees tab is visible/hidden in the access control app.
+* Continued improvement of the new "printables" feature which allows total control over the appearance of PDF & apple pass tickets:
+  * Added variables as an object
+  * Reworked text adding, interface and options on seating plans and event media
+  * Added Ticket data customisation and empty text customisation
+  * Fixed lines, rotations, resizing
+  * Added more interactive hover effects
+
+
+#### ✨ Enhancements
+
+* Remove mandatory fields from the zone-based reports so that it can be customised to a more precise set of headers
+* Add Finnish, Swedish, German, Italian, Greek, Slovenian and Canadian French language support
+* Added the ability to cancel a seating plan sync/assignment whilst it's still processing.
+* Event listing subheadings can now be translated
+* Various dashboard performance improvements for a snappier load time
+* Added useful report links to the event dashboard
+* Added useful attendance links to the event dashboard
+* Implemented the "Has timeslot" and "Sale Item" filters to the attendance reports, to match what is available in the attendance section
+* Internal questions can now be copied when copying an event or scheduling repeats
+* Added non-ticket items to the Download page in the shop
+* Added a 'use these images for all languages' button to the Image block on Event page-settings, to more easily complete multi-locale event pages.
+* Added Order success page to the Admin Text Manager
+* When you leave box office, any items that were in your basket are now automatically removed.
+* Event data capture has been added to the Customer Journey report.
+
+
+#### 🎨 User Interface (UI/UX)
+
+* Quantity selector button now adheres to the company branding colours
+* Added a more obvious display of which box office user is currently signed in.
+* Added a new customer search component used in the Box Office and Admin for searching customer emails or names and automatically populating forms.
+* Added a new action card container component which optimises how many actions we show on mobile by presenting a 'view more' dropdown.
+* Added a new design for Box Office customer selection during box office checkouts
+* Improved UI for the 'you are about to leave box office' messaging
+* Box office buttons now follow Theme settings (shape / colour)
+* General Admin Dashboard UI improvements
+
+
+#### 🧹 Housekeeping
+
+* Prevent overselling in some situations when using ticket categories in the legacy platform
+* Changing currency on dashboard no longer results in 'NaN' being displayed.
+* Changing relative date period on dashboard now correctly reloads data.
+* Fixed bug which hid event description from being editable if event was not created with one.
+* Fixed bug where custom season ticket label wasn't appearing in order summary or basket page.
+* Fixed various modals not being displayed properly in mobile.
+* Fixed bug where the mass update modal was not triggering properly for certain event fields like name and description.
+* Fix issue with not being able to download invoice PDF.
+* Fix Data Capture validation not being applied when answering questions after checkout that were marked as hidden during checkout.
+* Fix Data Capture issue where partially refunded items were still expecting data capture responses.
+* Increased maximum image size validation to resolve issues with not being able to upload JPEGs.
+* Removed several buttons throughout admin from users that do not have the required permission level to perform that action
+
+
+#### 💻 Technical
+
+* Removed orphaned seats from old events, which no longer have seating plans attached.
+* Fix duplicate seats which were causing integrity issues with data. These did not impact event sales as they were often for old test events.
+* Fix an issue where the admin dashboard was incorrectly hiding certain orders from the gross/totals/counts, where part of the order was completed in demo mode.
+* Performance issues with pairing and scanning tickets have been resolved.
+
+
+**API**
+
+* Added an array of Timeslot data to the `GET /activated-events` endpoint
+* Improved order search by adding a `query` parameter to the `GET /orders endpoint`, meaning you can now search orders by customer email, customer full name, order reference or event name.
+* New endpoint `POST /guestdata` added, which allows you to synchronise all guest list data to your access control device
+* New endpoint `PUT /guestdata` created, which allows you to update the current number of guests that have attended (for a particular guest list order item).
+* Added new `permissions` attribute to the `GET /activated-events` endpoint, containing information on whether the authenticated user can or cannot edit the event.
+* Added a new `hideAttendees` attribute to the `GET /zones/all` endpoint, allowing for us to control if the attendees tab in the access control app is or is not visible.
+
+</Update>
+
+<Update label="20th October 2021" description="Release R8">
+
+Below you will find the summary notes for the 8th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+The major focus of this release has been about enhancing our box office product, diving deeper in season ticket functionality and delivering an initial framework for designing bespoke eTickets / printable media.
+
+#### Box Office
+
+* Added several new box office payment methods: "Invoice", "Gift Card" and "Reserve to pay onsite"
+  * Invoice: customisable payment instructions will be emails to the customer, once the money has been received you can complete the order from the new dashboard or from the reservation page
+  * Gift card: allows you to run reports on orders paid with physical gift cards
+  * Reserve to pay onsite: keeps the reservation active until marked as either complete or released within admin
+* Add the ability for admin/box office users to generate a new barcode for any purchased item
+* Add a number of useful download options in admin & box office including the ability to share the download links via a QR code.
+  * The QR code can link to a direct download or require a full account creation and data capture to be filled in by the customer prior to accessing the tickets
+* Added a "pay now" button in the my account section for customers with outstanding payment links
+* Added the ability to change the purchaser post-sale from admin & the box office
+  * This also comes with the ability to regenerate barcodes and transfer ownership of the purchased items at the same time
+* Added the ability to one-click quick-sell the same items in an order
+* Added the ability to one-click start a new reservation with items from an existing order
+* Added the ability to transfer individual tickets or multiple tickets from the same order from admin & the box office
+* Added quick sell buttons for each payment method to the event page when selling tickets in the box office
+* Added the ability to send payment link reminder notifications
+* Allow editing of the basket total whilst processing a box office sale
+* Add: Button on the event seating plan page to begin a box office order with the selected seats (if available).
+* Add: Admin users can now reallocate (or swap) bookings between spaces for the same event
+* Added a new dynamic box office style dashboard to the admin, which displays certain elements depending on what level of permission you have
+* Allow box office users to bypass all data capture validation when processing sales
+* Updated box office mode to display events, timeslots and tickets that would otherwise be hidden, unavailable or sold out in the shop
+* Add: New button on the item selector modal, to allow box office users to force a refresh of availability for seating plans.
+* Add: Customer selector on the navbar before an order exists, allowing pre-selection of a customer to checkout as
+* Add: New button on the 'view customer' page to start box office mode, as the selected customer.
+
+#### Season Tickets
+
+* Add: Respect season ticket sales throughout entire event schedule - this allows for season tickets to be used as upsells on any event in a single schedule.
+* Add: Disallow season ticket purchase where event-day items are purchased for those seats (or capacity is reached), in the schedule.
+* Add: Attendance Reports now allow you to see the season ticket that has access to an event, even if it wasn't purchased in that event.
+* Add: New toggle on attendance reports to ungroup/group season ticket sales, so that you can quickly see which event a ticket was purchased in.
+* Add: Support for season tickets on general admission areas - we'll always respect the general admission capacity across the entire schedule.
+* Add: New setting to allow season ticket sales to count towards ticket capacities.
+* Add: Dynamic capacities for event/tickets, to take into account the sale of season tickets (where appropriate).
+
+#### eTicket & Apple Pass Builder
+
+* Add: Event Media Management Page - allowing viewing, creation, and editing, of event media (eTickets, receipts, printables)
+* Add: Apple Wallet Pass settings, to allow you to specify which apple wallet pass design is used for tickets/season tickets/products/guest lists.
+* Add: Suitable default templates for all scenarios, in the event companies haven't configured their printables or passes.
+
+#### Reporting
+
+* Add filters to financial reports allowing you to split the currency from the amount for easier manipulations of the numbers when exporting into spreadsheets
+* Add the option to display refund transactions as negative values in the transaction reports
+* Add: Price Band, Stand, and Area Utilisation reports - showing number of sales across price bands, along with financials.  These can be viewed on a per event basis, or aggregated across all assigned events/schedules.
+* Add: Space allocation reports - showing all spaces for the selected events/schedule, along with the allocations that currently exist.  If no allocation exists, the space is still displayed. Also respects season ticket purchases.
+* Added Transfer reports
+* Split out name into first name and surname across all customer-centred reports. The original (full) 'name' field is still available as a default header
+* Include add-ons and the ability to filter them in the attendance reports
+* Added a number of reporting quick-links throughout the dashboard allowing you to view filtered views as a report, such as orders, reservations, customers, transactions and more
+* Added many more relative date filter options to all reports
+
+#### Discount Upgrades
+
+* Add: "Visible in Box Office" toggle within admin when creating a discount code
+* Add: "Visible in Shop" toggle within admin when creating a discount code (this remains disabled for now)
+* Add: Discount code selector on the basket/checkout pages, showing available discounts (based on visibilities). These codes are pre-filtered to only show codes that are applicable to the current basket
+* Add: Ability to assign a specific role ID to a discount code, so you can only use that discount code if you have that role, in box office mode.
+* Add: New ability to control which members of the box office team can create arbitrary discount amounts on the fly.
+* Add: New 'overuse' toggle when creating discount codes, to allow overuse when in box office mode.
+
+#### Quality of Life Features
+
+* Added the ability to customise the order in which events display in custom event blocks
+* Added an Admin Global Search enabling organisers and box office staff to search the database of customers, orders, reservations and events from anywhere in the system
+* Added the ability to quickly jump out of box office mode when trying to visit the ticket shop from admin
+* Add an automatic stock adjustment function in place allowing organisers to refund without stocking
+* Added the ability to filter audits by subject ID
+* Allow changing the price band of a seat from the manage seating plan screen
+* Add: Button on the item modal for seated events, to take you directly to the seating plan management page in admin
+* Add: UI to edit the total stock for individual spaces, for a single event. (seats are capped at 1 whereas general admission areas can be set to any number)
+* Added 'View in seating plan button' when viewing an order
+* Added links to Orders/Reservations/Attendance reports from the event dashboard
+* Added timeslot and sale item filters to the attendance section
+* Added links to Scanning/Zone Summary/Customer Journey reports from the Access Control Dashboard (formerly, the "manage zones" section)
+
+
+#### 🎨 User Interface (UI/UX)
+
+* A wide range of features and UI improvements have been made to offer Admin Users the ability to sell Items at a physical Box Office
+* Incorporated box office mode into the admin section to create a streamlined box office sales experience for staff members
+* Added French and Hungarian support
+* Multiple Payment Gateways now show more uniformly in mobile size screens
+* Date picker inputs have been revamped in reporting
+* Event actions dropdown now respects user permissions more closely, showing only actions that the user has access to perform
+* Better Price-input that respects all locales and currency formatting
+* New Customer Account layout offering better access to Customer Orders, Items and Profile information.
+* Data Capture UI improvements
+* Improved Event Page and Admin Event Dashboard to offer easier access to core features
+* Improved maps in the Shop to make pins and events easier to navigate
+* Improved the Shop Menu so lengthy menus appear neatly even on lower resolution screens
+* Report widgets key labels now show correctly
+* Fixed bug where 'Bulk Edit' modal sometimes did not appear as expected
+* Fixed some smaller bugs in the seating plan editor
+* Fixed some translation issues across the Admin
+* Improved Shop footer UI, offering more flexibility in customisation
+* Fixed an issue where the 'restricted' item badge was not showing when expected
+* Fixed an issue where Event level capacities were not considered during the calculation of 'Items Remaining'
+* Fixed an issue where Event Passes were not showing when expected
+
+
+#### 🧹 Housekeeping
+
+* Added clearer messaging and better handling of errors when rebookings cannot be processed
+* Correct links on event listings for events that are not part of a schedule but appear within an event block which groups events into schedules
+* Fix an issue with price ranges on the event listing pages after switching to an alternate currency
+* Fixed an issue where some emails were showing the wrong subject line when using custom subjects
+* Fix an issue preventing guest checkouts using emails that exist as customers from other resellers of the platform
+* Prevent pending transactions incorrectly appearing within an order when double submits were made
+* Hide payment gateway selector in box office mode when not opting to pay via online card
+* Fixed an issue where events were not showing on certain listings if the first event of the schedule was missing a required tag
+
+
+#### 💻 Technical
+
+* Add: New 'description' field for discount codes, which is automatically generated, to describe the discount that's being provided \[used in the box office discounts\].
+* Add: Event Schedule reporting filter, for use in future reporting modifications.
+* Add: Seating Plan Spaces are now linked between events, where the same seating plan was used. This provides incredible opportunities to introduce features where we need to quickly get details about all related seats across an entire event schedule.
+* Fix: Ensured that the access control app respects visibility groups on all expected areas (events, sale items, orders, zones).
+* Fix: Rebooking was broken for orders that contained a season ticket for an event without a seating plan. This is now fixed and those season tickets are removed from the rebooking process.
+* Fix: Transfers made in box office mode, were revealing the name/email of the staff member. This now just shows the company name.
+* Fix: Issue where guest checkout was shown as 'not available' where customers were already guests within a specific reseller, even if not a guest at that specific company.
+* Add: Event start/end dates to the attendance reports.
+* Improvement: Improved the performance of the availability updates on seating plans with areas.
+
+</Update>
+
+<Update label="25th August 2021" description="Release R7">
+
+Below you will find the summary notes for the 7th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+* Reporting: implemented a brand new reporting UI to more easily manage fields, filters and widgets included in custom reports. Providing quicker access to information, and collapsable menus to increase table size.
+* Added the ability for purchasers to correct a transfer if they accidentally entered the wrong email address or changed their minds - this feature can be toggled on or off.
+* Implemented 3D Secure V1 and V2 for Realex in the Nutickets legacy platform
+* Allow discount codes/access codes to be edited, allowing codes to be changed at any time.
+
+
+#### ✨ Enhancements
+
+* Allow box office users to bypass any sharing restrictions during checkout
+* Extended the event search in the shop to allow searching events by venue name
+* Added pagination to event blocks to allow for more than 50 events to be shown per block. Pagination links can be toggled on or off per individual block
+* Added a 'Load more' button for map blocks that feature more than the event limit set on the block
+* Social Sharing blocks now allow for a customisable list of social networks.
+* Introduced a complete refurbished design for the admin customise event page
+* Admin event seating plan page additions:
+  * Search for seats by name
+  * Selected matched seats
+  * New icons to distinguish seats that were sold, are unavailable or restricted to specific user type
+* Admin Event List Enhancements: new UI, improved checkbox selection, added a plethora of actions
+* New settings for how prices should be shown on event blocks/event listings:
+  * Can hide/show fees
+  * Can hide/show add-on items
+* Added the ability to rename seating plan spaces, tables, rows, block, and stands after attaching to an event.
+
+
+#### 🤝 Integrations
+
+* Implement a Single Sign-On solution to support OAuth2/OpenID Connect/Identity Server SSO providers
+* Integrated our ticketing platform with the Tawakkalna COVID-19 health and safety app.
+
+
+#### 📱 Mobile Apps
+
+* Added pairing with NFC tags to the android access control pro app
+* Added "Kiosk" mode in the mobile Box Office app for Android
+
+
+#### 🧹 Housekeeping
+
+* Fix reporting issue where 'asked during registration' questions weren't appearing in certain reports when answered during checkout.
+* Fix double booking issues that occurred during failed off-site payments
+* Fix a restocking bug that prevented seats being re-released when the reservation was manually completed by an admin user
+* Fix some price range display issues where timeslot from prices were always showing as zero
+* Customer Names now show on E-Tickets
+* Improved Shop Search results to remove city/tag results with no associated events
+* Limited 'fixed value discounts' to one Currency to avoid customers gaming exchange rates for higher value discounts.
+* Multi image upload component fixed and applied to event gallery blocks
+* Map blocks improved to show all events when none are hovered
+* Improved Google Maps API help text and tooltips
+* Fix: Item validation for min/max/multiple quantities was acting inconsistently in the basket, and when rebooking.
+* Refactor: Basket error messages now display more context (i.e. the event name, item type, item name, that triggered the error). This is particularly useful where a user tries to add multiple items to their basket at once.
+* Fix: Assigned visibility groups weren't correctly displaying on the venues index.
+* Fix: Visibility group filtering wasn't being applied to the venues filter on seating plans index.
+* Fix: Seating plans were not properly filtered by a user's visibility groups.
+* Fix: Allowed editing of customer email addresses via admin, when using impersonation mode from the reseller.
+* Fix: Honour the live mode flag on companies, in the sales based reports. This means demo transactions will no longer show up.
+* Fix: When copying events with timeslots, some sale items (particularly add-ons) were being duplicated. Prevented this from happening.
+* Fix: Access codes were being counted even if items purchased didn't require them.  We now remove access codes at the point of payment, where they aren't needed.
+* Fix: Issue with seating plans not respecting disabled/deleted access codes, and seats still being marked as unavailable.
+* Fix: Seating Plan cache when an access code is applied. The availability image of areas remained the same, as it was not considering that different customers should see different items.
+* Fixed issues with exporting/downloading reports when we are filtering by email addresses
+* (internal) Corrected the automatic Stripe invoice generation
+
+
+#### 💻 Technical
+
+* Fixed some blocking issues preventing the automatic audit backup script from always completing.
+
+#### API Updates
+
+* Added a `/sale-items` endpoint, allowing API users to retrieve complete lists of items within an account.
+* Added an `/inventory-items` endpoint to retrieve a complete paginated list of inventory (global) items
+
+\<style>
+header, footer \{ display: none; \}
+section \{ width: 100% \}
+\</style>
+
+</Update>
+
+<Update label="15th July 2021" description="Release R6">
+
+Below you will find the summary notes for the 6th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+This release was particularly feature-rich that we've had to group the features below to make these notes a little more consumable!
+
+#### The Charity Package
+
+* This release introduces functionality for the charity sector, kicking off with charities and donations. Organisers can setup one or many charities within their events and configure them to accept fixed-increment or user-specified donation amounts as well as several other donation-specific settings such as min/max price, charity website URL, charity logo etc.
+* Implemented GiftAid collection (+ reporting) which can be optionally enabled per charity as well as the ability to customise the giftaid declaration text & percentage rate.
+* Added a new "Donations Received" report alongside lots of new fields within existing reports for the new charity features
+* Added fundraising support via a JustGiving integration:
+  * Customers who have purchased tickets to an event can create & manage a fundraising page in JustGiving via the My Account section using new or existing JustGiving credentials
+  * The default settings for the generated JustGiving pages can be configured per-event
+
+#### Localisation, Dates and Times
+
+* Added the ability to customise date formats within your shop and admin panel. Dates can be configured as either "Big endian", "Middle endian" or "Little endian".
+* Added the ability to switch between 12-hour and 24-hour time display.
+* Added multi-timezone support; admin users can configure a company default timezone as well as a timezone per event. Timezone information can optionally be displayed throughout the event listings.
+* Cities and regions are now multi-lingual and translations can be populated when managing venues.
+* Languages and countries will now display in the correct language according to the users preference.
+
+#### Stadiums & Seating Plans
+
+* Improved seating UI in shop / editor with a brand new immersive full-screen seat and area selection experience
+* Seating tags: you can tag seats and set tags to either appear on the ticket OR on the tooltip OR use them as filters.
+* New smaller features: Opacity for shapes and icons. Accessibility, gates, stand, stairs and tags for GA. Row labels will stick to row ends even when seats are hidden. Plan background colour could be changed. UI to rotate / resize elements in editor
+* Filters on the seating plan to search for price bands and tags, and in the editor any stand/stair/gate. It works with areas too.
+* Areas with no available tickets will be marked as unavailable
+* Realtime availability: Seating plan refreshes availability in realtime, and provide customers with near-live feedback of any availability changes/reservations.
+* Better UX after you add a seating plan to an event, with more guidance to finish setup
+* You can get a well detailed all out information of everything on the plan in the new Plan information dialog
+
+#### Other Features
+
+* Added a new 'Payment Link' payment option when selling tickets via box office mode. This emails a unique secure URL to the customers email address allowing them to pay for their tickets within an allotted time.
+* Added the ability to create access codes which allow organisers to hold seats or individual tickets from the public and lock them behind an access code:
+  * Access codes can be applied either by visiting a unique URL or by entering the code manually. Manual code entry can be enabled/disabled globally.
+  * Sale items restricted by the access code can only be purchased when using the access link, or entering the code. The items do not appear unless the code is entered and there is also the option to hide items outside of the applied access code.
+  * Access codes also feature many of the settings available with discount codes such as max usages overall and per customer, validity dates and more.
+  * Access codes have been added to sales reports, to allow the specific codes that were used, to be revealed.
+* Added a quick-print option to the web-based box office mode upon completion of a sale
+* Phase one of the season ticket roadmap has been launched with the option to setup season tickets. This is in request-only BETA mode until phase two is launched in the upcoming release.
+* Added fractional tax band support (to 2 decimal places).
+* Added support for same-day rebookings whereby customers can pick a different timeslot on the same day as their original booking
+* Added the ability to issue online refunds for card-present stripe transactions made via our box office mobile app
+
+
+#### ✨ Enhancements
+
+* Added "External ID" on sale items/items, to allow for tracking of external identifiers (such as SKUs, or reporting IDs)
+* Added Mandatory Title/Name/Address collection when enabling charity donations or fundraising
+* Improvements to the rapid scanning feature within access control enabling customers to scan in with *any* barcode providing that they own at least one eligible item within their account. Previously this described rapid scanning behaviour only worked for addon items.
+* Added the ability to manually expire active reservations within Admin which can also be used to cancel outstanding payment links
+* Improvements to the virtual waiting room: allow box office staff to bypass the queue, add the ability for customers to give up their spot for another shopper, improved the waiting room timer so the customers max session time only begins counting once they reach the front of the queue.
+* 'Asked during registration' questions are now displayed to customers that were created outside of the normal registration flow (i.e. they were sent a ticket directly via their email address or were imported into the system by an admin).
+* Applie discount codes are displayed when viewing orders in Admin
+* Added an option for shop location to be displayed in the shop menu.
+* SEO: Added new input for meta images, descriptions and titles for events, shops and listing pages.
+* Added a new option to display logo in top menu rather than main menu.
+* Implemented UI improvements for sharing items.
+* Added the ability to pin and unpin event actions as well as new modal for changing event status within Admin.
+* Improved the UI across all address searches.
+* Added ability for users to add dynamic maps.
+* Improved map zoom functionality when hovering on locations.
+* Listing map blocks now show all markers at once.
+* Improved Apple Pass display to use either the shop background or seating tag background
+* Marketing settings UI improvements: settings are now split into categories and easier to find.
+* Video blocks on event pages have been improved to access timestamped YouTube video URLs.
+* Uploading images to Image Blocks in the Event Customisation page now adds the image to all active locales to help speed up setup.
+* Added venue information to 'More details' dropdown on Order Summary.
+* Made customer account pages more responsive to smaller mobile devices.
+* Added icons alongside the Profile menu options in Shop, to improve accessibility and offer visual queues to non-native language speakers.
+
+
+#### 🤝 Integrations
+
+* Apple Pass: Now you can scan a QR code from your computer with your iPhone to add Apple Pass to your phone, or add it to your Apple Wallet through Safari
+* Integrated with Apple Sign-In, enabling customers to login with their Apple ID.
+* Added a "Hosted Payment Page" option to the PayTabs integration which supports APMs such as Google and Apple Pay
+
+
+#### 📱 Mobile Apps
+
+* An iOS Access Control hybrid app has been released, which supports both the legacy Nutickets platform and the current system.
+* Added support for fully offline entry controls in the Android Access Control app
+* Added NFC pairing functionality to the Android Access Control app, compatible with the new system.
+* Added the ability to scan in and out of zones with a paired NFC device. When combined with the new improved rapid scanning functionality, customers can very quickly and easily be admitted into zones based on their purchase history.
+
+
+#### 🧹 Housekeeping
+
+* Fix: Copying events was not properly copying the price band IDs for a seating plan.
+* Fix: Seating plan availability not always being displayed properly on the seating plan, with customers facing "seat unavailable" messages if they then tried to add the seats.
+* Fixed sold out badge showing twice in the shop.
+* Fixed linebreaking UI issues throughout admin when text was too long
+* Fixed mobile view cutting off items and timeslots.
+* Disabled refund buttons if you've already refunded.
+* Mobile UI improvements throughout checkout.
+* Fix timeslot picker not working in safari.
+* Fix all maps pins showing the same location.
+* Error messages now appear inside iFrames/Modals for full visibility.
+* More Arabic / RtL improvements have been applied.
+* Fixed an issue when scheduling events in bulk occasionally producing multiple separate schedules
+* Ticket prerequisites (customers must purchase one item before purchasing another) are copied over during event scheduling
+* Fixed some inconsistent 403 error pages displaying in admin data capture pages
+* Fixed an issue when refunding an order after a rebooking where it was previously showing the original items and totals in the refund confirmation email
+* Fix: You can now remove filters from custom reports as with any system report
+* Fixed schedule report issue where on rare occasions, the wrong report was being attached within the emails sent out to organisers.
+* Fixed a bug preventing customers from accessing tickets when transferred back to the original purchaser
+* Corrected the 'verify your email address' link that is sent in the welcome email after registering via a social login
+* Reactivated Facebook login globally
+* Fixed an issue whereby hub users couldn't assign roles that they had, to other users.
+* Fix: Inclusive discount code dates were setting the time element to midnight, meaning discount codes were expiring 23 hours and 59 minutes early
+
+
+#### 💻 Technical
+
+* Refactored the seating plan import experience:
+  * Seating plan importing is now batched into smaller tasks, allowing larger plans to be imported more reliably.
+  * Doing this also means that other customers/clients aren't impacted whilst we wait for a large plan to import.
+  * The UI has been updated to show the progress so that the spinner has more context than 'please wait'.
+* Refactored: Bulk Event Copying + Bulk Timeslot Creation Experience
+  * As with the seating plan changes, the copy event + bulk timeslot processes were refined in order to utilise the same batching process as with seating plans.
+* Add: A delta availability payload on seating planned events, in the shop.
+  * This allows a much smaller amount of data to be downloaded, to keep seating plan availability up-to-date, by passing a 'last updated' timestamp and receiving a delta payload of any changes since then.
+* Refactored: Availability information for seating plans, to be more performant - especially on larger seating plans.
+* Cookie banner now respects the 'base domain' setting in Admin (if available) to allow cookie banner to work on custom domains.
+* Fix: When part way through a form wizard (i.e. event creation), if users changed companies in another tab, the original form wizard could still be submitted with objects that weren't owned by the new company (i.e. venues)
+* Fixed a timezone conversion bug post-release, all effected timeslots have now been corrected
+* Fixed performance issues within accounts with large numbers of tickets and events where bulk editing became temporarily unusable.
+
+#### API Updates
+
+* Added full set of API endpoints to accomodate offline entry scanning
+* Added NFC pairing API endpoints allowing tickets to be paired with NFC tags
+* Added a 'lastUpdated' filter to several endpoints (GET /customers, GET /orders/items, GET/events) to allow filtering of data based on the modified time
+* Various fields have been added to make linking and filtering data easier: Customer ID has been added to any endpoints that include order information, added the ability to include order items when retrieving orders in bulk, added separate first and last name fields when retrieving customers, add created and updated at timestamps to all events and tickets, added event ID where missing, made eventId optional when retrieving tickets, restructured event codes to lighten the payloads for accounts that have lots of internal data capture questions.
+
+</Update>
+
+<Update label="21st May 2021" description="Release R5">
+
+Below you will find the summary notes for the 5th release of the Nuweb core platform. The focus points are highlighted in yellow.
+
+
+#### 🚀 New Features
+
+* Added ==stadium reserved seating with areas functionality== as well as:
+  * Added the ability to choose between large and small seating plans
+  * Added relative sizing based on current zoom level
+  * Improved seating plan speed
+  * Added autosaving in the background and reloading of unsaved plans
+  * General admission font sizes can be customised
+  * Added resizing support for polygon general admission and shapes
+* Implemented ==visibility groups== (VGs) which allow admins to limit user access to events (and surrounding resources) within their VGs
+  * VGs can be managed and assigned by users with the appropriate permissions
+  * Events, venues, listings, orders, attendance and reports are automatically filtered according to users VGs
+  * Additional VG filtering can be managed via the filters in Admin
+  * User VGs can be managed through our API
+* Added ==system auditing==\</mark> throughout admin, hub, the box office and the API ft. automated backups
+* BETA: A configurable virtual waiting room for creating a fair and reliable shopping experience during popular event launches
+* Added a billing address book data capture feature which is compatible with all on-site payment processors
+* Added a ==first-party cookie banner with a customisable cookie policy==
+* Added event-level booking notification emails
+* Added a new 'forced checkout' setting which prevents customers from navigating away from the checkout process without losing their reservation
+
+
+#### ✨ Enhancements
+
+* Added customisable UTM tracking links to all transactional emails
+* Added seating plan gates & stairs to all event-based reports
+* Discount codes: add the option to limit %-based codes to only one application per order
+* Add the ability to display a 'tickets remaining' badge against each sale item
+* Add support for multiple custom domains per shop
+* Added more detailed colour previews when using custom colour palettes in branding settings
+* Added an incompatible browser page displayed when a user's browser doesn't support the features needed to run our app. The page prompts them to update their browser to the newest version
+* \<mark>==Various UI/UX improvements:==\</mark>
+  * Improved usability of date/time pickers
+  * Restructured theme/branding customisations in Admin
+  * More customisation options for menus: alignment, dividing lines, layouts, social media colour choices and logo options
+  * Condense items/tickets to fit more on screen
+  * Improve error feedback messages
+  * Toggles are now keyboard accessible.
+  * Error pages have been improved to both look better and offer more detailed information.
+  * Event data capture now features a user-friendly progress bar when dealing with multiple events within a single order
+  * Misc layout fixes and improvements in customer emails
+  * Hid 'Calendar view' in items modal when timeslots span only 1 day,
+* Added a new setting for controlling sale item images: either on/off or use event thumbnail
+* Added option descriptions to event codes (internal questions)
+* Added the option to always display item descriptions
+* Added the option to show/hide venue location and show/hide venue name
+* Added the ability to show/hide the discount input field in both the shop and box office
+* Added 'event pass' tickets to 'Calendar view'
+* Timeslots purchases now show timeslot date/time rather than event date/time
+* Improved currency support: Currency formatting has been improved to show large number separators, the correct number of decimal places and language-specific symbols (eg £ shows as GBP in Arabic language)
+* Added a 'select all' toggle when bulk-editing scheduled sale items
+* Added a toggle to control if an event is hidden/shown in event listings whenever taken off sale, or put on sale
+* Improved event page and event blocks to more clearly show where an event is off-sale
+* Add the ability to enter an alternative email address when resending order confirmation and tax receipt emails
+* Box office operator details are now hidden from ticket downloads when customer details are not provided during a box office sale
+
+
+#### 🤝 Integrations
+
+* ==Integration with PayPal Commerce Platform== featuring:
+  * Organiser onboarding process
+  * Customisable payment page with the choice between using PayPal guest checkouts or a custom branded card form for faster checkouts
+  * Support for alternate payment methods (SOFORT, iDEAL, giropay and more)
+* Added new computed fields to the customer report: registration source, purchase types, ticket types, ticket purchase count & more
+* BETA: ==A new email campaign tool== has been released which introduces early access to the following features:
+  * Ability to send out mass marketing emails & campaigns
+  * Ability to manage multiple lists
+  * Ability to use custom data capture questions to onboard subscribers
+  * Ability to create automated DRIP campaigns
+  * Ability to segment lists and target campaigns toward customers based on purchase history, data capture, account type and more
+* Support alternate PayTabs API URLs depending on the country of origin
+
+
+#### 🧹 Housekeeping
+
+* Added feature toggles in Hub for various event add-ons (products, guest lists, streams, teams, access control, data imports and more)
+* Allow carring over seating plan across multiple scheduled events
+* Prevent duplicate event listing URLs
+* Fix rebooking issues when global basket is disabled
+* Fix event price range inaccuracies where off-sale tickets were incorrectly included
+* Fix a password reset bug for companies using alternative admin subdomains
+* Fix bug where scheduling events would occasional fail silently
+* Fix minor GTM tracking bugs when using a redirect payment method
+* Fix automatic invoice generation bugs
+* Fix permission bug preventing you from removing certain abilities from a role
+* Fix a bug where customers were blocked from downloading tickets due to incomplete data capture on certain question types
+* Fix an issue preventing welcome emails being sent during a customer data import
+* Fix a bug with discount code calculations on fees where fees are absorbed by the organiser
+* Fix a bug with image copying when scheduling events in bulk
+* Ensure multi-lingual images are displayed correctly in customer emails based on user language preference
+* Basket icon is now clickable again throughout the checkout process
+* Swapped event location for event venue as a primary filter as its more useful
+* Fixed issue with data capture where you couldn't disable questions set to ask on "Every ticket on every event"
+
+
+#### 💻 Technical
+
+* ==Various API additions and updates:==
+  * Suspend and restore users
+  * Made password field optional when creating company users to support third-party authentication systems
+  * Added filtering of purchased items by event(s)
+  * Added a new endpoint for capturing data capture responses via the API
+  * Added consistent pagination across all API endpoints to ensure all data sets are traversable
+* Switch to using background jobs for resource-intensive actions (scheduling events in bulk, setting up large timeslotted seating plans etc.) to mitigate timeout issues
+* Extended feature flags to support more than a simple 'on'/'off' mechanism by adding contexts (i.e. seatings plans can be limited to small plans only, both small and large plans or disabled entirely)
+
+</Update>
+
+<Update label="20th April 2021" description="Release R4">
+
+Below you will find the summary notes for the 4th release of the Nuweb core platform. The focus points are highlighted in yellow.
+
+
+#### 🚀 New Features
+
+* Added ==full multi-lingual support== across the entire platform for user content. Organisers can now provide translations for events, data capture, images and much more for any language supported within their account.
+* Added a new section in *Admin > Website > Text* that allows organisers to ==customise customer emails== at both the account-level and event-level
+* Reserved Seating:
+  * ==Added stands, gates and block== allocation
+  * Added top menu - including keyboard shortcut guides
+  * Object editing menu could be either on the top or the side
+  * Added full screen mode + ability to hide right column so the plan can truly be full screen
+  * Added the ability to draw Gates/Stands/Stairs:
+    * Ability to change how these definitions are called (i.e rename 'gate' to 'entrance')
+    * New interface to assign these attributes, so you can double-check if you've done your setup correctly
+  * ♿︎ ==Seat accessibility:== display accessibility icon over seat, you can choose to highlight it with a blue background colour too. Accessibility icon was added into the icon library too.
+  * Comment: Add any comments to a seat (it could be about visibility, accessibility etc), it will appear in the shop in purchase, and as as a tooltip
+  * Under label options you can change how newly added Blocks, Tables, General Admissions are called
+  * Seat properties: in the right column when you've got any objects selected with seats, you can edit the selected seats' properties like: accessibility, price bands, gates etc
+  * Labelling offsets can go into negative (ie when you want to have a couple of rows with custom labels like VIP, and start labelling after them)
+  * No redirect on save + loading animations and error message if an error happened during save, with export button so you can rescue your changes
+  * Default object labels are now appear as placeholders in the label editor, instead of filling the field
+  * Select multiple seats while holding up control / command (this in addition to holding up shift)
+  * Added animation for seating plans that load in small size (because it's loaded on a phone or because they are big) + "Click to zoom in"
+  * Added tooltip in seating editor to check seat properties like gates stairs etc
+* Add the ability to create links in our WYSIWYG editor (i.e. in data capture questions, event pages, emails, etc.)
+* ==Added a 'regional settings' menu== which displays automatically on a customers first visit to a multi-lingual shop
+* Added the ability to manage tags (i.e. event tags) from a central interface including the ability to 'merge' tags
+* \<==Various branding and theming updates:==
+  * Introduced a new design for picking colour themes in Admin and Hub
+  * Ability to style both primary and secondary buttons as either filled or line
+  * Ability to change both button colour and button text colour to a wide array of branding values
+  * Ability to add full width header images to listing pages and repeat events browse pages
+  * Ability to add subheadings to listing pages
+  * Ability to edit the top navbar background colour, text colour, layout, menu position and opacity
+  * New layout options for footer as well as the ability to edit footer background colour, text colour and an option to hide the bottom footer
+  * New alternate footer design if bottom footer is hidden
+  * Extended previews in admin to showcase all the new design options
+  * New collapsable card components
+
+
+#### ✨ Enhancements
+
+* Added two new data capture options:
+  * "Assign question to all tickets for all events"
+  * "Assign question to all tickets of a specific event"
+* Added the ability to send a customised order confirmation e-mail for any imported tickets
+* Added the ability to specify the currency and language that a page should display in when linked externally (i.e. `https://your-ticket-shop.com/?locale=en&currency=GBP`). + added support to specify language/currency via cookies for third-party integrations.
+* Added new scheduled events header options for further customisation of your schedule/season pages
+* Made 'change currency' option visible to non-logged in users
+* Added new social media and app store links and create compressed pngs for each new icon
+* Added sold out/off sale styling for all timeslots, tickets and event blocks
+
+
+#### 🤝 Integrations
+
+* Added a ==PayTabs payment gateway integration==
+* Integrate with the ==General Entertainment Authority== (GEA) for Saudi Arabia
+* SumUp: added the ability to toggle the 'zip code' field in the payment form
+* Quickpay/SumUp: added the ability to link with a test account for testing the integration before going live
+* Added a new ==customer importer== to allow migration of customers from external systems
+* Added an `appView` flag added to the shop, which when enabled hides the main menu. This is useful when embedding the shop into an iOS / Android app
+
+
+#### 🧹 Housekeeping
+
+* Fixed stripe double charge bug in rare cases
+* Fixed ==sales & attendance reporting inconsistencies==
+* Fixed ordering of addons in ticket shop to match the ordering setup in admin
+* Fixed issue where child company menu and listings were displaying in parent company sites
+* Allow the 'purchase limit' settings to be bulk edited
+* Fix: "Access Stream" Button missing when "download" wasn't ticked
+* Fix: Double + Triple rebooking (i.e. rebooking a rebooking that was rebooked). You can book back and forth until your heart is content.
+* Fix: Seating plan - price band validation added to ensure that price bands can't change during sales.
+* Fix: Ensure calendars have upper/lower bounds, to stop someone scrolling into oblivion
+* Fix: Percentage based fees were formatted with currency instead of %, and had decimal place issues
+* Gateway fee previews and price formatting in admin event sale item edit / create were fixed
+* Fixed a display issue on validation errors when customer address was set to 'required'
+* Updated the url in the footer of emails to favour the URL provided in settings > company details > website
+* Updated the email event-image aspect ratio to more closely match the shop
+* Minor bug fixes & display issues for right-to-left languages (i.e. Arabic)
+* Fixed date input to follow the new formatting for 12h times
+* Removed search from main navigation on all pages
+* When creating time slots, the event times are now displayed for ease of reference
+
+
+#### 💻 Technical
+
+* We now ensure that the exact details of items at the point of sale, are recorded (for future reporting if needed, following rebooking)
+* Introduced the concept of 'protected' data capture questions which cannot be deleted under any cirumstance. This can be applied to system-critical data capture
+* API: added event codes to the retrieve events endpoint
+* API: added order items to the transactions endpoint
+* API: added data capture answers to the retrieve customers endpoint
+* Fully automated the deployment process with the option to display a maintenance mode page during critical database migrations to preserve data integrity
+
+</Update>

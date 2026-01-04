@@ -1,0 +1,39 @@
+---
+title: "Partners REST API"
+description: "Overview of Partners REST API"
+---
+
+## Introduction
+Welcome to the interactive documentation for the Nuweb Partner API. All available endpoints are listed in the left menu and can be executed directly within the browser, making it easy for developers and non-developers alike to familiarise themselves and interact with the API. Code snippets are available in over 18 different programming languages.
+
+**If you are not currently a partner, but are looking to interact with the Admin API, you can find the documentation [here](https://api.nuwebgroup.com/v1/docs#/).**
+
+## Getting Started
+Interacting with the API is as simple as 3 easy steps:
+1. First, obtain an API token via the _Partner API_ token management UI in the Hub.
+2. You'll also need to know the ID of the reseller you wish to target. This can be found in the reseller dropdown within the Hub dashboard.
+2. Then, select an endpoint from the left-hand side and paste the API token into the `Token` field, and the Reseller ID into the `X-NU-RESELLER-ID` parameter field on the far right column, just above the *Send Request* button.
+3. Finally, click **Send Request** and inspect the response shown below to see if your call was successful.
+
+## Frequently Asked Questions
+
+#### How often do I need to obtain an API token?
+You only need to obtain a token __once per user account__ as the token can be re-used indefinitely. The only time that it's mandatory to obtain a new token is if you have reason to believe that there has been a breach involving your existing token.
+
+#### Does requesting a token invalidate the previous token?
+No, requesting a new token will not impact any existing tokens.
+
+#### How do I revoke a token?
+Tokens can be revoked from the token management interface found in Hub > System > Partner API. You may need to request for your token to be revoked if you do not have the required permissions to access this section.
+
+#### Which endpoints do I have access to?
+The level of access depends entirely on the roles & permissions associated with the account used to generate your API token. If you are a Super User, then you will have access to all endpoints.
+
+#### What data will I be able to access through the API?
+Each endpoint clearly defines the format of the returned data along with sample data. The data will match what you can see in the Hub, meaning it will be filtered down based on your permissions and visibility group(s).
+
+#### How does it work with multi-company accounts?
+Because some users have access to more than one reseller account, you are required to specify a reseller ID via the `X-NU-RESELLER-ID` header. This header must be passed to every API call within the Partner API.
+
+#### How are API changes handled
+We try our best to adhere to a _'no-breaking-changes'_ policy and favour a backward-compatibility approach. We may introduce a new major version of the API from time-to-time if we need to apply structural changes. This would not effect existing integrations as the new version will be exposed through a different URL (i.e. `/v2/events` instead of `/v1/events`). Any changes, major or minor, will be documented in our API changelog.

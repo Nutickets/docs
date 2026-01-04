@@ -1,33 +1,69 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "REST API"
+description: "Overview of REST API"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Introduction
+Welcome to the interactive documentation for the ticketing, access control, event management & transactional REST API. All available endpoints are listed in the left menu and can be executed directly within the browser, making it easy for developers and non-developers alike to familiarise themselves and interact with the API. Code snippets are available in over 18 different programming languages.
 
-## Welcome
+## Getting Started
+Interacting with the API is as simple as 3 easy steps:
+1. First, obtain an api token via the token management UI in Admin.
+2. Then, select an endpoint from the left-hand side and paste the API token into the **Token** field on the far right column, just above the *Send Request* button.
+3. Finally, click **Send Request** and inspect the response shown below to see if your call was successful.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Asynchronous Requests
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+The API supports the ability to process requests asychronously. This may be suitable where you wish to ingest larger volumes of data per request, or anticipate a high throughput of API activity. The steps of making an async request are as follows:
+ - Make the request to the endpoint that you wish to process asynchronously as you normally would, but with the addition of a GET param `async=true`.
+ - You will receive back a JSON 202 response with an `asyncUuid` unique to your request.
+ - To see whether the request has finished processing, a request can be made to the same endpoint again, but this time with `asyncUuid=YOUR_UUID_HERE` as a GET param
+ - If the request is still processing, you will receive back a 202 status again and will need to continue polling the same endpoint.
+ - If the request has finished processing, you will receive the actual response in the same format as you would a non-async request
 
-## Authentication
+> Asynchronous requests are rate-limited the same as synchronous requests, the extent of which will depend on your account configuration. Polling requests do not count towards your rate limit, however you should aim to poll as infrequently as appropriate and adjust accordingly to each use-case.
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+### Additional Notes
+ - You can receive additional validation errors due to making an async request. One important point to note is that you cannot make an async request for any endpoint that requires a password.
+ - Your async response will be available for 2 hours after completion, and will be deleted at this point whether it has been retrieved or not.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+## Frequently Asked Questions
+
+#### How often do I need to obtain an API token?
+You only need to obtain a token __once per user account__ as the token can be re-used indefinitely. The only time that it's mandatory to obtain a new token is if you have reason to believe that there has been a breach involving your existing token.
+
+#### Does requesting a token invalidate the previous token?
+No, requesting a new token will not impact any existing tokens.
+
+#### How do I revoke a token?
+Tokens can be revoked from the token management interface found in Admin > Settings > API Settings. You may need to request for your token to be revoked if you do not have the required permissions to access this section.
+
+#### Which endpoints do I have access to?
+The level of access depends entirely on the roles & permissions associated with the account used to generate your API token. If you are an Admin Super User, then you will have access to all endpoints.
+
+#### What data will I be able to access through the API?
+Each endpoint clearly defines the format of the returned data along with sample data. The data will match what you can see in Admin, meaning it will be filtered down based on your permissions and visibility group(s).
+
+#### How does it work with multi-company accounts?
+For accounts that have access to more than one company, the API will perform actions on behalf of your *last selected company*. You can change this behaviour by specifying a company ID via the `X-NU-COMPANY-ID` header. This header must be passed to every API call to mitigate the risk of making a call on behalf of the wrong company. Alternatively, you could create separate API users for each individual company and issue separate tokens for each user. The latter is recommended when the API calls are made by a third-party as it locks the API token to the relevant company.
+
+#### How does it work with multi-language companies?
+Our API is fully compatible with the multi-language features available throughout the platform. All API requests can make use of the standardised [`Accept-Language`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header to indicate the preferred language for both read and write based requests.
+
+<span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-warning sl-text-on-primary sl-rounded-lg'>Note</span> when using our API docs to send requests, your browser will automatically include the `Accept-Language` header based on your browsers preferred language settings if you do not define it explicitly.
+
+If a language is supplied within the request that is not supported by the company, then the company fallback language will be assumed. All responses will include a [`Content-Language`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Language) header which defines which language was _actually_ used to process the request.
+
+#### How are rate limits applied?
+All companies are subject to rate limits for their API calls. By default this rate limit starts at 60 requests per minute (rolling interval), however may be increased on demand. Prior to increasing any rate limits, integration partners are expected to ensure that adequate caching policies are in place to avoid increasing load on the API servers unnecessarily. When a company exceeds rate limits, future requests will be blocked until your rate limit replenishes. To assist you in ensuring you do not continue to send requests to our servers when you've exceeded your limits we provide a `X-Remaining-Requests` header on responses, indicating the number of requests remaining. We also provide the `X-Available-In-Seconds` header to indicate over what period your rate limit is applied.
+
+#### How are API changes handled
+We try our best to adhere to a _'no-breaking-changes'_ policy and favour a backward-compatibility approach. We may introduce a new major version of the API from time-to-time if we need to apply structural changes. This would not effect existing integrations as the new version will be exposed through a different URL (i.e. `/v2/events` instead of `/v1/events`). Any changes, major or minor, will be documented in our API changelog.
+
+#### What functionality is available in the API
+The API tries to mirror as much functionality available through our own interfaces as possible so that developers and third-party vendors have total freedom on how they use & integrate with our platform. Some examples include, but not limited to:
+ * **Administritive operations:** such as event management, user management and inventory management.
+ * **Ecommerce operations:** such as processing sales, reserving tickets and managing discounts.
+ * **Access control operations:** such as admitting attendees, pairing NFC devices and scanning out of zones.
+ * **Migration operations:** such as synchronizing data between systems.
+ * **Reporting operations:** such as pulling custom reports, aggregating and presenting data in alternative formats.

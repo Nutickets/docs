@@ -1,0 +1,1025 @@
+---
+title: "Changelog"
+description: "Latest updates and changes to the API"
+---
+
+Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
+
+
+<Update label="22nd December 2025" description="">
+
+- Updated `DELETE /resale-listings` to properly cancel resale listings with validation. Response now includes `contractsCancelled`, `contractsSold`, and `contractsFrozen` counts. Sold and frozen contracts are preserved; only unsold, unfrozen contracts are cancelled.
+
+</Update>
+
+<Update label="19th December 2025" description="">
+
+- Added `eventId` as a filter to the `GET /orders` endpoint to retrieve only orders that contain items from the given event ID.
+- Added a new `orderItemId` filter to `GET /v1/wallets/transactions` endpoint.
+- Added a new `source` attribute to the `WalletTransactions` entity from `GET /v1/wallets/transactions` to detail the source of the wallet transaction.
+
+</Update>
+
+<Update label="17th December 2025" description="">
+
+- Added new `GET /wallets` and `GET /wallet` endpoints to retrieve wallets registered within a company (NB: wallets power our account balance functionality).
+- Added a new `GET /v1/wallets/transactions` endpoint to list all recent transactions across wallets (or for a specific wallet)
+- Added `POST /v1/wallets/transactions/confirm` to allow confirmation of pending transactions. Pending transactions are typically used for resale, order modifications, and other internal processes that deposit money into wallets.
+- Added `POST /v1/wallets/payouts/initiate` to allow initiation of an external payout from a wallet. Unlike cashouts, payouts are not capped at the mount of topups purchased. This endpoint allows for a full payout of the account balance, regardless of source of funds.
+- Added `POST /v1/wallets/payouts/confirm` to confirm when an initiated payout has been completed. This is an important step where external parties need to also verify that the payout was handled correctly.
+- Removed deprecated endpoints `POST /v1/wallets/nfc-download` and `POST /v1/wallets/nfc-download/confirm` as these are no longer in use or supported.
+- Add `GET /v1/resale/listings` index endpoint to return all available resale listings
+- Payload updats to `POST /v1/resale/listings` to support creation of multiple item listings
+- Added a new `authenticationProviders` relationship that can be included on both `GET /customers` and `GET /customer` to determine the related customer SSO IDs.
+
+</Update>
+
+<Update label="3rd December 2025" description="">
+
+- Added a new `orderColumn` attribute to `GET /sale-items` endpoint, which reflects the sort order defined in admin, and used in the ticket shop.
+
+</Update>
+
+<Update label="20th November 2025" description="">
+
+- Added a new `DELETE /customers` endpoint to support customer data deletion requests & accommodate data retention policies.
+
+</Update>
+
+<Update label="11th November 2025" description="">
+
+- On `GET /events` and `GET /event` we now return the `isCancelled` attribute to indicate that an event has been marked as cancelled.
+
+</Update>
+
+<Update label="4th November 2025" description="">
+
+- Added a new `DELETE /customers` endpoint to support customer data deletion requests & accommodate data retention policies.
+- We now return all fees, resale fees, fulfilment fees, and protection fees via the `GET /v1/order-items` endpoint
+- When returning fees via the `GET /v1/order-items` endpoint we also provide access to the `producingOrderItemId` field which allows consumers to reference the order item that generated that specific fee. Where this is `null` the fee applies to the whole basket.
+- Added the ability to retrieve orders from the `GET /v1/order` endpoint using the reference, rather than the ID.
+
+</Update>
+
+<Update label="16th October 2025" description="">
+
+- Introduced access control scanning / pairing restrictions to items that belong to an order which is currently being modified, or resold.
+- `GET /v1/entry/tickets` receives a new status (`variable.status`) option `locked`, which indicates that the order is currently being modified. Items with this status should be considered _temporarily_ invalid for scanning. The status of these items could return to `sold` or `refunded` in the future.
+- Added `POST /v1/resale-contracts` to create a resale contract, which allows an order item to be resold
+- Added `GET /v1/resale-contract` to get a resale contract for an order item or by ID
+- Added `POST /v1/resale-contracts/delete` to delete a resale contract for an order item or a resale contract ID
+- Added `replacedOrderItem` to `GET v1/order-items`, `GET v1/order-item` and `GET v1/order` to return the original order item for resold and modified order items.
+
+</Update>
+
+<Update label="2nd October 2025" description="">
+
+- Added a new `cancelExistingBasket` parameter to `POST /v1/basket-items` which allows expiring a basket and adding items to a new basket in a single request.
+- Added a new endpoint `DELETE /v1/baskets` for expiring baskets.
+- Added `parentSaleItemId` to `GET /v1/sale-items` for identifying add-ons.
+- Added a new `unformatted` property to the `GET /v1/event-statistics` endpoint to prevent humanizing/formatting numerical statistics.
+
+</Update>
+
+<Update label="12th September 2025" description="">
+
+- Adding `billingDetails` object to the `GET /v1/config` endpoint.
+
+</Update>
+
+<Update label="14th August 2025" description="">
+
+- `POST /v1/basket-items` now accepts order item ID as well as sale item ID to add a resale item to basket. The `resaleFeeSellerContribution` has also been added and can be pasesed in `pointOfSaleData`
+
+</Update>
+
+<Update label="21st July 2025" description="">
+
+- Updated `POST /tickets/pair` to accept an `event-id` property in order to scope the possible list of matching order items. This is particularly useful for any users that re-use barcodes across events or schedules.
+
+</Update>
+
+<Update label="30th June 2025" description="">
+
+- Replace now unused `applyOncePerOrder` and `oneUsePerCustomer` attributes from discount code endpoints with the new `maxUsesPerOrder` and `maxUsesPerCustomer`
+  - `POST /v1/discount-codes/buy-x-get-y`
+  - `POST /v1/discount-codes/buy-x-get-y/update`
+  - `POST /v1/discount-codes/fixed`
+  - `POST /v1/discount-codes/fixed/update`
+  - `POST /v1/discount-codes/percentage`
+  - `POST /v1/discount-codes/percentage/update`
+
+</Update>
+
+<Update label="5th June 2025" description="">
+
+- Update `POST /basket-items` to return a `startBasketUrl` link to enter checkout for the basket, if `generateBasketUrl` is set to true on the request
+
+</Update>
+
+<Update label="2nd June 2025" description="">
+
+- Add `salePeriods` to includes on `GET /events` and `GET /event`
+
+</Update>
+
+<Update label="19th May 2025" description="">
+
+- Updated `GET /events` and `GET /event` to include a new seating plan `embedUrl`.
+- Updated `GET /events` and `GET /event` to include `eventSchedules.startDate` and `eventSchedules.endDate`.
+
+</Update>
+
+<Update label="14th April 2025" description="">
+
+- Updated `POST /zones/check` and `POST /zones/scan` to return a `statusDetail` field to embelish a `denied` response. Currently this only returns `historicBarcode` in the event a barcode has been scanned that has since been superceded by a new barcode following a transfer.
+- Updated `GET /entry/tickets` to return a `historicBarcodes` list within the `variable` portion of a ticket, which lists all previous barcodes of the ticket, in order to determine whether the customer is attempting to scan an old (possibly resold) ticket.
+
+</Update>
+
+<Update label="31st January 2025" description="">
+
+- `GET /events`, `GET /activated-events`, and `GET /future-events` now provide the company default header + thumbnail URL if the event does not have any media configured.
+
+</Update>
+
+<Update label="6th January 2025" description="">
+
+- Added `POST /customer-groups/customers` to add customers to a manual customer group
+- Added `POST /customer-groups/customers/delete` to remove customers from a manual customer group
+
+</Update>
+
+<Update label="18th December 2024" description="">
+
+- `GET /order-items` now correctly returns items from fully cancelled/refunded orders. Previously it would include refunded items if the order was only partially refunded.
+
+</Update>
+
+<Update label="13th December 2024" description="">
+
+- The customer update endpoint will now preserve existing customer address fields as long as no new address data is provided. Prior to this change, customer address fields would be cleared if no address data was provided within the payload.
+
+</Update>
+
+<Update label="3rd October 2024" description="">
+
+- Added `minPrice` and `maxPrice` to `GET /events` and `GET /event` as additional opt-in attributes
+- Updated the `lastUpdated` filter on `GET /events` so that it now considers pricing, venue & item updates.
+
+</Update>
+
+<Update label="5th September 2024" description="">
+
+- Added `appleWalletPassUrl` to `GET /orders`, `GET /order`, `GET /order-items` and `GET /order-item` for easy access to download an Apple Wallet pkpass file for each order item.
+
+</Update>
+
+<Update label="29th August 2024" description="">
+
+- Added `reserverName` to `GET /orders`, `GET /order`, and add `namedHolder` to the items within the same endpoints, as well as the `GET /order-items` endpoint
+- Added `phone` and `phoneCode` as fields that can be sent to `POST /customers/update` and `POST /customers`
+- Added `gatewayReference` to transactions `GET /transactions`, `GET /orders` and `GET /order`
+- Allow balance refunds and cancellations, as well as standard refunds on `POST /order-items/refund` and `POST /orders/refund` using the new `type` attribute in the request
+
+</Update>
+
+<Update label="24th July 2024" description="">
+
+- Added the `scheduleId` to the returned fields on `GET /events` and `GET /event` endpoints
+- Added `eventSchedules` as a possible include on `GET /events` and `GET /event` endpoints
+- Added a new filter to `GET /events` to allow filtering by `scheduleId`. Providing a null, zero, or empty value will return events that are outside of a schedule.
+- Added a new filter to `GET /events` to allow grouping of events by their respective schedule (`groupScheduledEvents`). Events without a schedule continue to be returned individually.
+
+</Update>
+
+<Update label="19th June 2024" description="">
+
+- Added `historicalBarcodes` to the include parameter for the below endpoints. New barcodes are generated when an order item is transfered or a barcode change is manually performed. This will return all historical barcodes associated with the order item.
+    - `GET /order-item`
+    - `GET /order-items`
+    - `GET /order`
+    - `GET /orders`
+- Added `variablePriceEnabled`, `variablePriceMin`, and `variablePriceMax` to `GET /sale-item` and `GET /sale-items` endpoints to indicate whether pricing is a customer selection.
+- Added `customPriceEnabled` and `customPriceRequired` to the documentation for `GET /sale-item` and `GET /sale-items` to indicate whether prices can be defined by staff users in mobile applications.
+- Marked the `GET /entry-tickets`, `POST /orders/upload`, `POST /wallets/nfc-download`, and `POST /wallets/nfc-download/confirm` endpoints as deprecated and likely to be removed in a future version of the API. Anyone using these endpoints should review the documentation to understand alternative provisions for the functionality being removed.
+- A display issue with the related space data for order items has been updated to return the seat/space name correctly, rather than the fully formatted string. This is a breaking change for anyone relying on the broken data previously being returned.
+- Resolved an issue with access to tickets that were sold by a parent company for a child company event on `GET /zones/items`, `GET /order-item` and `GET /order-items`.
+
+</Update>
+
+<Update label="20th May 2024" description="">
+
+- Ignore empty data capture responses on the `v1/data-capture-responses` endpoint
+
+</Update>
+
+<Update label="15th May 2024" description="">
+
+- Added `transactions` to the include parameter for the following endpoints:
+    - `GET /order-item`
+    - `GET /order-items`
+    - `GET /order`
+    - `GET /orders`
+
+- Improved consistency of currency attributes across various endpoints:
+    - Added `currencyId` to:
+        - `POST /orders/complete`
+        - `POST /order-items/refund`
+        - `GET /event-tickets`
+        - `GET /order-item`
+        - `GET /order-items`
+        - `POST /orders/refund`
+
+    - Added `currencyCode` to:
+        - `GET /basket`
+        - `POST /basket/discount`
+        - `POST /basket-items`
+        - `POST /basket-items/destroy`
+        - `POST /basket-items/update`
+        - `POST /orders/complete`
+        - `POST /orders/refund`
+        - `POST /order-items/refund`
+        - `GET /event-tickets`
+        - `GET /order-item`
+        - `GET /order-items`
+        - `GET /order`
+        - `GET /orders`
+        - `GET /sale-item`
+        - `GET /sale-items`
+
+    - Added `currencySymbol` to:
+        - `GET /basket`
+        - `POST /basket/discount`
+        - `GET /order-item`
+        - `GET /order-items`
+        - `POST /basket-items`
+        - `GET /sale-item`
+        - `GET /sale-items`
+
+    - Added `feeCurrencyId` to:
+        - `GET /order-item`
+        - `GET /order-items`
+
+    - Added `feeCurrencyCode` to:
+        - `GET /order-item`
+        - `GET /order-items`
+        - `GET /order`
+        - `GET /orders`
+
+    - Added `feeCurrencySymbol` to:
+        - `GET /order-item`
+        - `GET /order-items`
+
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>New Feature</span> Added support for processing deposit payments:
+    - `POST /v1/checkout/create-payment-intent` and `POST /v1/orders/complete` both feature a new `paymentPlan` parameter for processing online/offline deposit payments.
+    - The orders API now features a new `paid` field in the response to indicate how much of the overall order total has been paid for. This applies to:
+        - `POST /v1/orders/complete`
+        - `GET /v1/orders`
+        - `GET /v1/order`
+        - `GET /v1/order-items`
+- Added `pointOfSale` with `type` and `name` attributes to the endpoints:
+    - `GET /v1/order`
+    - `GET /v1/orders`
+    - `GET /v1/order-item`
+    - `GET /v1/order-items`
+
+- Added the `itemType` (slug), `typeName`, and `itemName` for order items when including 'orderItems' and on the endpoints:
+    - `GET /order-item`
+    - `GET /order-items`
+- Added `discountCodes` and `accessCodes` as optional includes to the endpoints:
+    - `GET /v1/order`
+    - `GET /v1/orders`
+    - `GET /v1/order-item`
+    - `GET /v1/order-items`
+ - Added `deliveryAddress` optional include to `GET /v1/order`
+ - Added `deliveryAddresses` optional include to `GET /v1/orders`
+ - Added `priceBand` to `GET /v1/order` and `GET /v1/orders` included order items
+ - Added `priceBands` optional include to `GET /v1/order-item` and `GET /v1/order-items`
+ - Added `countryIso` and `countryIso3` country codes to customer, venue, billing, and delivery addresses
+ - Added optional include for `spaces`, `spaceAreas`, `spaceBlocks`, `spaceGates`, `spaceRows`, `spaceStairs`, `spaceStands`, `spaceTables` to the `GET /v1/order-item` and `GET /v1/order-items` endpoints
+ - Added optional include for `spaces` to the `GET /v1/order` and `GET /v1/orders` endpoints
+ - Added `fullSpaceName` attribute to the order items returned by `POST /v1/orders/complete`
+
+- Added the `itemType` (slug), `typeName`, and `itemName` for order items when including 'orderItems' and on the endpoints:
+    - `GET /order-item`
+    - `GET /order-items`
+
+- The `POST /v1/basket-items` endpoint will now force a payment method of `ewallet-online` when using token/custom currencies to complete the order.
+
+</Update>
+
+<Update label="5th April 2024" description="">
+
+The following endpoints now accept a decimal percentage for the discount amount value.
+ - `POST /v1/discount-codes/percentage`
+ - `POST /v1/discount-codes/percentage/update`
+ - `POST /v1/discount-codes/buy-x-get-y`
+ - `POST /v1/discount-codes/buy-x-get-y/update`
+
+</Update>
+
+<Update label="6th March 2024" description="">
+
+- `GET /v1/activated-events` will no longer return any events that are in draft status
+ - <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>New Feature</span> Added support for processing and refunding split payments:
+    - `POST /v1/basket-items` and `POST /v1/orders/complete` both feature a new `split` payment method with an accompanying `paymentSplits` parameter for processing offline split payments.
+    - `POST /v1/checkout/create-payment-intent` optionally accepts a new `paymentSplits` parameter for processing online payment splits.
+    - `POST /v1/orders/refund` can be supplied with a `refundSplits` parameter for manual allocation of refunds to payment methods.
+ - `GET /v1/report` now allows an increased limit of 1000 when being run asynchronously
+
+- Add new endpoint `GET /v1/sale-item` to retrieve a single sale item
+
+</Update>
+
+<Update label="12th February 2024" description="">
+
+- The `GET /orders` endpoint now allows for the retrieval of orders in failed reservation states (cancelled, expired, failed, and rejected), through the use of the `withReservations` query parameter.
+- The `GET /order` endpoint now allows for the retrieval of orders in failed reservation reservation states as above.
+
+</Update>
+
+<Update label="1st February 2024" description="">
+
+- The `GET /order` endpoint now allows for the retrieval of orders in reservation state.
+- The `GET /orders` endpoint now allows for the retrieval of orders in reservation state, through the use of the `withReservations` query parameter.
+
+</Update>
+
+<Update label="23rd January 2024" description="">
+
+- The `GET /sale-items` and `GET /event-tickets` endpoints now include the following attributes for `timeslots`:
+  - `hasUnlimitedStock`
+  - `totalStock`
+  - `currentStock`
+  - `hideWhenOffSale`
+  - `hideWhenOutOfStock`
+  - `onSaleFrom`
+  - `onSaleUntil`
+- The Order Item (`GET /v1/order-item`) and Order Items (`GET /v1/order-items`) endpoints now allow for retrieving order items using a specific order ID
+- The Sale Items (`GET /v1/sale-items`) endpoint now allows for retrieving sale items using a specific inventory item ID
+- The Order Item (`GET /v1/order-item`) and Order Items (`GET /v1/order-items`) endpoints now allow for `dataCaptureFields` to be included alonside `dataCaptureResponses`
+
+</Update>
+
+<Update label="22nd January 2024" description="">
+
+- The add to basket (`POST v1/basket-items`) endpoint now accepts the `spaceId` to which a sale item should be associated on a seated event.
+- The add to basket (`POST v1/basket-items`) endpoint now permits you to provide the same sale item ID in multiple basket items, allowing each to utilise different item settings.
+
+</Update>
+
+<Update label="21st January 2024" description="">
+
+- The `v1/zones/scan` and `v1/zones/check` endpoints now return the order reference in the responseg
+- Prices are now returned in all available currencies on the get event tickets (`GET v1/event-tickets`) endpoint
+- The default event currency is now returned on the get events (`v1/events`) endpoint
+
+</Update>
+
+<Update label="8th January 2024" description="">
+
+- The _Add to basket_ endpoint (`POST /v1/basket-items`) received an update in error response status code from **403** to **422** when attempting to add a child company sale item to a parent company basket without global transactions enabled.
+
+</Update>
+
+<Update label="3rd January 2024" description="">
+
+- The `GET /v1/order-items` and `GET /v1/order-item` endpoints now contain additional tax breakdowns, tax rates, and conditional tax fields.
+- The `GET /v1/order-items` and `GET /v1/order-item` endpoints will return the order status of the associated order when specifying that the order should be included in the response.
+- The `GET /v1/orders` and `GET /v1/order` endpoints now contain additional tax breakdowns, tax rates, and conditional tax fields for any included order items.
+
+</Update>
+
+<Update label="21st November 2023" description="">
+
+- The `POST /v1/guestdata` endpoint now contains the email and order reference for each entry in `content.guests`
+- The `GET /v1/entry/tickets` now has the email in each `stable` object
+- The `GET /v1/zones/items` now returns the order reference in each element, and the query now searches the barcode and order reference, as well as customer name and email
+
+</Update>
+
+<Update label="3rd November 2023" description="">
+
+- The `GET /v1/event-medias` and `GET /v1/event-media/generate-link` endpoints have been added to enable integrations with event media. The `GET /v1/event-media/generate-link` allows for you to retrieve hosted URLs from which customers can directly download their tickets.
+- The `GET /v1/orders` endpoint has been updated to include the `downloadUrl` of the order, from which a customer can download their tickets using default event media
+
+</Update>
+
+<Update label="30th October 2023" description="">
+
+- Added new `seatingPlan` property to the _Retrieve Events_ and _Retrieve Event_ endpoints. This currently includes a single `bestAvailableSeatsEnabled` option.
+
+</Update>
+
+<Update label="10th October 2023" description="">
+
+- The `GET /v1/events` endpoint now surfaces the owning company's `live_mode` in relationship data.
+- A new filter (`hideDemoMode`) has been added to `GET /v1/events` which allows consumers to exclude any events belonging to demo companies from the response.
+- A new filter (`hideChildEvents`) has been added to `GET /v1/events` which allows consumer to exclude child company events from the response.
+
+</Update>
+
+<Update label="9th October 2023" description="">
+
+- The `GET /v1/orders` and `GET /v1/order` endpoint can now return a full `customer` object. This value will be included in the response when `customers` is given as an `include` parameter.
+
+</Update>
+
+<Update label="6th October 2023" description="">
+
+- The `GET /v1/events` endpoint now surfaces the `organiserName`, `organiserEmail` and `organiserPhone` attributes.
+
+</Update>
+
+<Update label="4th October 2023" description="">
+
+- The `GET /v1/event-tickets` endpoint added a new `tickets.*.seatingPlanAreas` array, which includes seating plan area ID's for which that sale item can be bought. This new property was added to facilitate the ability to book _best available seats_ for specific areas via the API.
+- Additionally, the `tickets.*.seatingPlanAreas` property can be filtered to only include areas with availability by passing an additional query param `checkAreaAvailability=true`.
+
+</Update>
+
+<Update label="26th September 2023" description="">
+
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span> Removed the `token` param from `GET /customer` as we've since replaced the `SESScustomertoken` cookie with a `customer_id` cookie.
+
+</Update>
+
+<Update label="14th September 2023" description="">
+
+- Added new `GET /venues` endpoint to retrieve a list of venues.
+- Added a new `POST /venues` endpoint to allow venues to be created.
+- Added a new `venue` parameter to the event create/update payloads, allowing event venues to be created _on the fly_ at the point of event creation/update.
+
+</Update>
+
+<Update label="12th September 2023" description="">
+
+- Added multi language support. Clients can now optionally specify a preferred language for the request using the [`Accept-Language`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) header.
+  - If the given language is enabled against the company, the request payload and respective response data will be treated as local to the specified language.
+  - If the given language is not enabled against the company, or is otherwise invalid, the companies fallback language will be used.
+  - Responses will also now include the [`Content-Language`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Language) header, which indicates the language of the response.
+
+</Update>
+
+<Update label="4th September 2023" description="">
+
+- Added a new `/event-statistics` endpoint for retrieving real-time event sales data for a single event.
+
+</Update>
+
+<Update label="1st September 2023" description="">
+
+- Added a new `offline` parameter to `POST /orders/complete` endpoint to facilitate offline e-wallet top-ups.
+
+</Update>
+
+<Update label="7th August 2023" description="">
+
+- Added a new `GET /companies` endpoint to retrieve companies the authenticated user is associated to.
+
+</Update>
+
+<Update label="11th July 2023" description="">
+
+- Added a new `GET /seating-plan-areas` endpoint to retrieve seating plan areas by `eventId`.
+
+</Update>
+
+<Update label="6th July 2023" description="">
+
+- Added `only_on_sale` flag to the events endpoint to return only events that can be sold via the current sales channel (box office, or kiosk).
+
+</Update>
+
+<Update label="18th May 2023" description="">
+
+- Added `status`, `statusSlug`, and `statusId` to any Order entities returned via `GET /orders` or `GET /order` endpoints.
+- Added `currencyId` to Order entities returned via `GET /orders` and `GET /order` endpoints.
+- Added `currencyId` and `topupCurrencyId` to Order Item entities returned via `GET /orders`, `GET /order`, or `GET /order-items` endpoints.
+- The `GET /order` endpoint now allows you to retrieve orders that are refunded, partially refunded, or cancelled.
+
+</Update>
+
+<Update label="10th May 2023" description="">
+
+- Updated `GET /entry-tickets` to also return season tickets for the given event.
+
+</Update>
+
+<Update label="9th March 2023" description="">
+
+- Added `currentStock` and `onSale` attributes to GET /event-tickets and `GET /sale-items` endpoints.
+- Add `description` to `GET /events`
+- Added a temporary cache in front of `GET /orders`, `GET /activated-events`, `GET /config`, `GET /currencies`, `GET /customers`, `GET /events`, `GET /event`, `GET /future-events`, `GET /sale-items`, `GET /shops`, `GET /zone/items`, `GET /zones`. Identical requests sent within a 60-second timeframe will be retrieved from cache.
+
+</Update>
+
+<Update label="1st February 2023" description="">
+
+- Added `onSaleFrom` and `onSaleUntil` dates to `GET /sale-items` and `GET /event-tickets` endpoints.
+- Added an optional `redirect` query param to `POST /admin-users/single-sign-on` and `POST /customers/single-sign-on` to allow control over the final redirection.
+
+</Update>
+
+<Update label="12th December 2022" description="">
+
+- Following the introduction of tax breakdowns in shop orders, the tax breakdown details are now provided via `GET /order-items` and `GET /orders`.
+- The currency ID of any collected fees is now included in `GET /order-items` for use when any transactions take place in custom currencies.
+- It is now possible to retrieve topup and cashless product purchases via `GET /order-items`.
+- When retrieving cashless product purchases via `GET /order-items` it's possible to specify that the shop should be included in the response.
+
+</Update>
+
+<Update label="6th December 2022" description="">
+
+- Removed the `sku` parameter from the `POST /basket-items` endpoint, in favour of using topup IDs directly (as returned by `GET /sale-items`)
+- Added a `currencyId` parameter to the `POST /basket-items` endpoint to specify the basket currency, rather than relying on the customer's previously selected currency or the company default.
+- Added a global `X-NU-CURRENCY-ID` header that will change the selected currency *for that request only*. This is useful for retrieving sale items with the correct pricing.
+- Added a new `feeCurrencyId` value to any order responses via `GET /orders`, which represents the currency any fees should be displayed in. This is significant with cashless products as the fees will be in a companies default currency when cashless is setup to use a token currency.
+
+</Update>
+
+<Update label="5th December 2022" description="">
+
+- Added the `bundledWith` array on `GET /sale-items` to return the list of sale item IDs that come bundled with an item.
+- Added the `bundleLeadOrderItemId` to the `GET /orders` and `GET /orders/:id` endpoints, to highlight where an order item is being purchased as part of a bundle.
+
+</Update>
+
+<Update label="28th November 2022" description="">
+
+- Added `isCustom` to the currencies returned from `GET /currencies`, to identify which currencies are custom token currencies.
+- Added `topupTokenAmount` to the sale item details returned from `GET /sale-items`, and `GET /items` to detail how many tokens a topup will add to a users basket. This value will be null if cashless settings do not use a custom token currenciy.
+
+</Update>
+
+<Update label="4th November 2022" description="">
+
+- Added `subunit` to `GET /currencies` to complement our new support for non-2DP currencies.
+
+</Update>
+
+<Update label="28th October 2022" description="">
+
+- Added UUID to the `initiate wallet download` endpoint to ensure idempotency between requests.
+
+</Update>
+
+<Update label="19th October 2022" description="">
+
+- Allowed the transaction source to be recorded for cashouts via the `POST /wallets/cashouts` endpoint.
+- Allowed the transaction source to be recorded for topups and cashouts via the `POST /orders/upload` endpoint.
+
+</Update>
+
+<Update label="22nd September 2022" description="">
+
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>Major Feature</span>  Added `only` and `except` params throughout the API allowing for precise control over which fields are returned in the payload. Applies to the following endpoints:
+    - `GET /company/users`
+    - `GET /company/user`
+    - `GET /customers`
+    - `GET /customer`
+    - `GET /discount-codes`
+    - `GET /discount-code`
+    - `GET /event-tickets`
+    - `GET /events`
+    - `GET /event`
+    - `GET /inventory-items`
+    - `GET /order-items`
+    - `GET /order-items`
+    - `GET /orders`
+    - `GET /order`
+    - `GET /sale-items`
+    - `GET /transactions`
+    - `GET /countries`
+    - `GET /currencies`
+    - `GET /shops`
+    - `GET /shop`
+    - `GET /zones/all`
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span> The `tagCategory` relationship was renamed to `tagCategories` on the Events API, to match the plural case naming convention of all other resource types.
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span>  The question fields have moved from the `dataCaptureResponses` resource to a new `dataCaptureQuestions` include to reduce overall payload sizes on the Customers API.
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span>  The `currencies` relationship is no longer included by default on `GET /transactions`, you must now explicitly request to include `currencies`.
+- Added `deletedAt` attribute to `GET /customers` and `GET /customer`
+- Added `lastUpdated` parameter to `GET /transactions`, along with adding `createdAt`, `updatedAt` and `metadata` keys to the `transactionItems` include payload
+- Correctly pull through the `deletedAt` timestamp in the Company Users API
+- Fix: Filter out internal & null questions when retrieving data capture responses via the Customers API
+- Fix: 500 error when `withTrashed` is set to `true` on the Orders API
+- Fix: Allow passing timestamps to `GET /transactions`
+
+</Update>
+
+<Update label="19th September 2022" description="">
+
+- Added a global response header to all requests: `X-Runtime` which returns the total execution time, in seconds, for any given API in call. This value can be observed to adjust the rate of API calls according to performance degradation over a period of time.
+
+</Update>
+
+<Update label="7th September 2022" description="">
+
+- Added an optional `region` field to `POST /customers` and `POST /customers/update`.
+- Added `isHidden`, `isPublished`, `pageDisplayDate`, `pageDisplayLocation`, `pagePricingDisplay` fields to `GET /events` and `GET /event`.
+- Added an optional `notifyCustomer` flag to `/POST /order-item-approve`.
+
+</Update>
+
+<Update label="11th August 2022" description="">
+
+- Added `thumbnailImage`, `pageHeaderImage`, and `metaImage` Media Resources to the following endpoints in our Events API:
+    - `GET /activated-events` - This endpoint does currently have `media.header-image`, `media.list-thumbnail`, and `media.meta-image` attributes, but these are now considered deprecated. For backwards compatibility these attributes will remain in the response.
+    - `GET /events`
+    - `GET /future-events` - This endpoint does currently have `media.header-image`, `media.list-thumbnail`, and `media.meta-image` attributes, but these are now considered deprecated. For backwards compatibility these attributes will remain in the response.
+- Added the ability to include event media by passing `images` in the `include` parameter of the `GET /event` endpoint.
+- Added `include` to the `/basket-items` endpoint to allow the inclusion of a user's wallet info, after a cashless transaction has completed automatically.
+- Added `GET /countries` for retrieving country IDs and metadata.
+
+</Update>
+
+<Update label="21st July 2022" description="">
+
+- Fixed an issue where events could be created without a timezone. If no timezone is specified, it now falls back to the timezone stored against the current company.
+- Added `itemName` and `itemId` to the `/order` endpoint's order item response data.
+- Added `refundedAmount`, `isValid`, `requiresApproval`, `approvedAt`, `rejectedAt`, and `cancelledAt` to any order item response data inside orders.
+- Added cursor pagination to the `/orders` endpoint, allowing for a streamed pagination approach, based on the `lastUpdated` timestamp provided.
+- Added a `contains` parameter to the `/orders` endpoint, allowing you to filter orders that contain only the specified item types.
+- Added `customerSsoId` parameter to POST `/basket-items` and POST `/orders/complete`
+- Improved feedback & error handling on POST `/order-item/approve`
+- Allow disabling both the order confirmation AND the guest list approved confirmation in POST `/basket-items`
+
+</Update>
+
+<Update label="30th June 2022" description="">
+
+- Added `uuid` parameter to the `POST /basket-items` endpoint to provide idempotency functionality when auto completing orders.
+- Added the `image` property to all sale items returned via the `/sale-items` endpoint.
+- Added `itemNotes` and `orderNotes` to the `GET /entry/tickets` endpoint.
+- Added `orderNotes` to the `POST /guestdata` response.
+- Added the ability to `include` order item notes in the `GET /order-items` and `GET /order-item` endpoints
+- Added `orders.*.notes` and `orders.*.items.*.notes` to the `GET /orders` endpoint.
+- Added `notes` and `items.*.notes` to the `GET /order` endpoint.
+- The Events API now respects the Visibility Groups & Permissions of the API user & applies the correct filtering.
+- Changed `content.const.type` in `GET /entry/tickets` to be the current item name and added `content.const.typeDuringSale` which contains the item name at point-of-sale.
+- Updated the `/customers/get` endpoint to return the `refundable_balance_online` and `refundable_balance_offline` in any included wallets.
+
+</Update>
+
+<Update label="27th May 2022" description="">
+
+- Added `GET /currencies` to retrieve all company currencies.
+- Added `GET /shops` to retrieve all cashless shops for a company, that this user has access to.
+- Added `GET /shop` to retrieve a single cashless shop, if the user has access to it.
+- Added `cashless_product` as a permitted type for `GET /sale-items`.
+- Added `shopId` parameter to the `GET /sale-items` endpoint, allowing for the items relating to a specific shop to be retrieved.
+- Updated `GET /sale-items` to return all inventory sale items across events and shops, when no types are explicitly provided.
+- Added `categories` as a new relationship for responses via `GET /sale-items`.
+- Added the following new fields to the `GET /sale-items` response:
+- `shopId`
+- `categories`
+- `customPriceEnabled`
+- `customPriceRequired`
+- Added support for retrieving customers using an `nfcId` via `GET /customers`.
+- Added support for retrieving order items using an `nfcId` via `GET /order-items`.
+- As a side effect, the `nfcId` is now surfaced in the order item response.
+- Added `ewallet-online` as a permitted payment method when auto completing a basket via `POST /basket-items`.
+- Added `nfcId` as a permitted parameter when completing a basket via `POST /basket-items` allowing the order to be linked to an NFC tag.
+- Added `POST /wallets/cashout` to create a cash-out from a cashless wallet, for a user.
+- Added `POST /wallets/nfc-download` and `POST /wallets/nfc-download/confirm` endpoints to handle the 2-step process of downloading wallet balances to an NFC media item.
+- Added `POST /orders/upload` endpoint to allow for bulk uploading offline orders for reconciliation.
+- Added support for offline zone entry controls with the following new additions to the API:
+    - Added `includeZones` flag to the `GET /entry/tickets` endpoint, which returns a new `zoneData` key including zone IDs each item is eligible for entry, as well as any previous scans associated with the order item.
+    - Updated `POST /entry/tickets` endpoint to accept `uuid`, `zoneId`, `latitude`, `longitude`, `scan` as optional extra keys per item
+- Added `companies` to `GET /event` and `GET /events` as an optional relationship include.
+- Added `latitude` and `longitude` to `GET /event` and `GET /events` when including the `venues` relationship.
+- Added `GET /basket/data-capture` endpoint for retrieving data capture questions for a given basket.
+- Added the following attributes to `DataCaptureField` JSON:API Resource:
+    - `assignedToEntity`
+    - `assignedToId`
+    - `questionId`
+    - `sourceEntityType`
+    - `sourceEntityId`
+    - `orderColumn`
+    - `createdAt`
+    - `updatedAt`
+    - `deletedAt`
+    These attributes will appear on `GET /event` and `GET/basket/data-capture`
+- Added `customerId`, `customerName` and `customerEmail` to `GET /basket-items` as an optional alternative to `basketId`
+- New endpoint `POST /order-item/approve` will allow you to approve or reject existing order items
+
+</Update>
+
+<Update label="28th February 2022" description="">
+
+- Added `includeProducts` as an option to `GET /entry/tickets` to include product barcodes in the valid tickets list.
+- Automatically include valid <strong>addon</strong> tickets in `GET /entry/tickets`.
+- Accept product/addon product/addon ticket barcodes in `POST /entry/tickets`.
+- Added the `interacPresent` option to `POST /checkout/create-payment-intent` to support Interac payments in Canada.
+- Added a `dataLastSynchronised` attribute to `GET /report` to signify when the report data was generated.
+- Added a `refresh` query parameter to `GET /report` to clear any cached report data and regenerate the report.
+- Added a `headers` attribute to `GET /report`
+- Added `tags` and `tagCategories` to `GET /event` as data that can be included
+- Added `tagCategories` to `GET /events` as data that can be included
+
+</Update>
+
+<Update label="24th January 2022" description="">
+
+- Added `country`, `city`, and `region` to our Customer Resource, meaning this information is available directly via the `GET /customers` and `GET /customer`, and any other endpoint in which customers can be `include` via a resource relationship.
+- Standardised date formats across the entire API. The following dates have been changed:
+    - `GET /activated-events`
+        - `*.start` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.end` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /discount-codes/buy-x-get-y`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /discount-codes/buy-x-get-y/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /company/users`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - `POST /company/users/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - `GET /company/users`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - `GET /company/user`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - `POST /orders/complete`
+        - `date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /customers`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+    - `POST /customers/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /customers`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /customer`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+    - `POST /data-capture-responses`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /discount-codes`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /discount-code`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /entry/tickets`
+        - `content.*.stable.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.stable.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.variable.scannedOn` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.variable.scannedOn` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `listEndTime` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /event-tickets`
+        - `tickets.*.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /events`
+        - `events.*.end` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.start` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.tags.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.tags.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /event`
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events`
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+    - `POST /events/update`
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+    - `POST /discount-codes/fixed`
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /discount-codes/fixed/update`
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /inventory-items`
+        - `data.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /order-items`
+        - `data.*.attributes.approvedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.rejectedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.cancelledAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.expiresAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+        - `included.*.attributes.completedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+    - `GET /order-item`
+        - `data.attributes.approvedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.rejectedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.cancelledAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.expiresAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+        - `included.*.attributes.completedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+    - `GET /orders`
+        - `orders.*.date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `orders.*.items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `orders.*.items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /order`
+        - `date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /discount-codes/percentage`
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /discount-codes/percentage/update`
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/charities`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/charities/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/guest-lists`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/guest-lists/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/products`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/products/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/tickets`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /events/tickets/update`
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /sale-items`
+        - `saleItems.*.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `timeslots.*.startAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `timeslots.*.endAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /transactions`
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /zones/all`
+        - `*.openingDate` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.closingDate` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.createdAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.updatedAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.deletedAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /zones/scan`
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /zones/check`
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `POST /tickets/pair`
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - `GET /zones/items`
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+- Added a `withTrashed` request parameter along with a `deletedAt` attribute in the body of responses allowing you to retrieve deleted records from the following endpoints:
+    - `GET /zones/items`
+    - `GET /company/users`
+    - `GET /company/user`
+    - `GET /customers`
+    - `GET /customer`
+    - `GET /discount-codes`
+    - `GET /discount-code`
+    - `GET /event-tickets`
+    - `GET /events`
+    - `GET /event`
+    - `GET /inventory-items`
+    - `GET /order-items`
+    - `GET /order-item`
+    - `GET /orders`
+    - `GET /order`
+    - `GET /sale-items`
+    - `GET /zones/items`
+    - `GET /zones/all`
+- This `withTrashed` parameter acts as a global setting, meaning that all deleted resources will be returned, including any related resources appearing in the `included` attribute in the response.
+
+</Update>
+
+<Update label="18th November 2021" description="">
+
+- Added an array of Timeslot data to the `GET /activated-events` endpoint
+- Improved order search by adding a `query` parameter to the `GET /orders endpoint`, meaning you can now search orders by customer email, customer full name, order reference or event name.
+- New endpoint `POST /guestdata` added, which allows you to synchronise all guest list data to your access control device
+- New endpoint `PUT /guestdata` created, which allows you to update the current number of guests that have attended (for a particular guest list order item).
+- Added new `permissions` attribute to the `GET /activated-events` endpoint, containing information on whether the authenticated user can or cannot edit the event.
+- Added a new `hideAttendees` attribute to the `GET /zones/all` endpoint, allowing for us to control if the attendees tab in the access control app is or is not visible.
+
+</Update>
+

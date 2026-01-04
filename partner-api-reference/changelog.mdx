@@ -1,0 +1,30 @@
+---
+title: "Changelog"
+description: "Latest updates and changes to the API"
+---
+
+Changes to the Partner API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates.
+
+
+<Update label="8th April 2024" description="">
+
+- Introduced the ability to specify `roles` when creating company users via the `POST /users` endpoint
+- Introduced `POST /companies/{companyId}` to update companies and their related data.
+
+</Update>
+
+<Update label="18th October 2023" description="">
+
+- Introduced `GET /companies` and `GET /companies/{companyId}` to retrieve companies and their related data.
+- Introduced `DELETE /companies/{companyId}` and `POST /companies/{companyId}/restore` to delete and restore companies respectively.
+
+</Update>
+
+<Update label="April 2023" description="">
+
+- First release of our Partner API
+- Ability to create new companies
+- Ability to create new users for a given company, and generate API tokens which can then be used to authenticate with the Admin API.
+
+</Update>
+

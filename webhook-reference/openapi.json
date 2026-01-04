@@ -1,0 +1,1531 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Webhooks",
+    "description": "\n## Introduction\nExplore our webhook payloads through this interactive documentation to explore real data from the account associated with your API token.\nNote that these endpoints do not trigger any actual webhook events, they simply retrieve & display the expected payloads.\n\nRefer to our main API documentation for information about managing & obtaining API tokens.\n\n## Changelog\n\nChanges to the webhook payloads will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates.\n\n#### 29th August 2024\n- Updated order related webhooks to include new item types `fees`, `fulfilmentFees`, `giftVouchers`.\n- Updated order related webhooks to detail the fee and tax breakdowns of each item.\n- Updated order related webhooks to provide the total amount paid towards an order/reservation.\n\n#### 9th March 2023\n- Release of webhooks\n",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.nuwebgroup.com/webhooks"
+    }
+  ],
+  "paths": {
+    "/order-completed": {
+      "get": {
+        "summary": "Order Completed",
+        "operationId": "1e20f3bba701418823789891de370352",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "completedAt": "2023-02-22T09:51:01.000000Z",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "id": 923,
+                      "addressLine1": "Cravendale Crescent",
+                      "addressLine2": "Trevissome Park",
+                      "city": "Truro",
+                      "region": "Cornwall",
+                      "country": "United Kingdom",
+                      "postcode": "TR1 1RT"
+                    },
+                    "tickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      },
+                      {
+                        "id": 102,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "XO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event B",
+                        "name": "jane@example.com"
+                      }
+                    ],
+                    "seasonTickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "products": [
+                      {
+                        "id": 55,
+                        "saleItemId": 2,
+                        "customerId": 101,
+                        "barcode": "BO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "donations": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "fees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "fulfilmentFees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/new-event": {
+      "get": {
+        "summary": "New Event",
+        "operationId": "7f8f32b7e97d7c0ab998b49c3bbceed1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Event ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "event": {
+                      "id": 1,
+                      "name": "My Example Event",
+                      "description": "<p>lorem ipsum dolor sit amet.</p>",
+                      "startDate": "2023-02-22T09:00:00.000000Z",
+                      "endDate": "2023-02-22T21:00:00.000000Z",
+                      "organiserName": "John Doe",
+                      "organiserEmail": "john@example.com",
+                      "organiserPhone": "+44123456789",
+                      "createdAt": "2023-02-22T21:00:00.000000Z"
+                    },
+                    "venue": {
+                      "id": 1,
+                      "name": "My Example Venue",
+                      "address": "1 Example Street, Example City, EX4 MPL",
+                      "postcode": "EX4 MPL",
+                      "region": "Example Region",
+                      "city": "Example City"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/attendee-check-in": {
+      "get": {
+        "summary": "Attendee Check In",
+        "operationId": "cb390a641ab3307456c9860344fc5a19",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Scan ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "scans": [
+                      {
+                        "company": {
+                          "id": 1,
+                          "name": "Tony's Tickets"
+                        },
+                        "event": {
+                          "id": 1,
+                          "name": "My Example Event",
+                          "description": "<p>lorem ipsum dolor sit amet.</p>",
+                          "startDate": "2023-02-22T09:00:00.000000Z",
+                          "endDate": "2023-02-22T21:00:00.000000Z",
+                          "organiserName": "John Doe",
+                          "organiserEmail": "john@example.com",
+                          "organiserPhone": "+44123456789"
+                        },
+                        "zone": {
+                          "id": 1,
+                          "name": "Entry Zone"
+                        },
+                        "customer": {
+                          "id": 101,
+                          "name": "John Doe",
+                          "email": "john@example.com"
+                        },
+                        "item": {
+                          "id": 6,
+                          "saleItemId": 44,
+                          "barcode": "AO5PZZGE1N",
+                          "name": "VIP Ticket"
+                        },
+                        "scannedAt": "2023-02-22T09:00:00.000000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/custom-form-submission": {
+      "get": {
+        "summary": "Custom Form Submission",
+        "operationId": "78971268d289a19584f8e2c9fd2ab397",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Submission ID (identifier)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ],
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "form": {
+                      "id": 22,
+                      "name": "Contact Us"
+                    },
+                    "submissionDate": "2023-02-22T09:00:00.000000Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation-created": {
+      "get": {
+        "summary": "Reservation Created",
+        "operationId": "f790523186777edb611851d4adc1301e",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "createdAt": "2023-02-22T09:51:01.000000Z",
+                      "total": 110,
+                      "status": "AWAITING_INVOICE",
+                      "isAwaitingApproval": false
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "id": 923,
+                      "addressLine1": "Cravendale Crescent",
+                      "addressLine2": "Trevissome Park",
+                      "city": "Truro",
+                      "region": "Cornwall",
+                      "country": "United Kingdom",
+                      "postcode": "TR1 1RT"
+                    },
+                    "tickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "price": 110,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      },
+                      {
+                        "id": 102,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "XO5PZZGE1N",
+                        "price": 110,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event B",
+                        "name": "jane@example.com"
+                      }
+                    ],
+                    "products": [
+                      {
+                        "id": 55,
+                        "saleItemId": 2,
+                        "customerId": 101,
+                        "barcode": "BO5PZZGE1N",
+                        "price": 0,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "donations": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "price": 110,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/order-failed": {
+      "get": {
+        "summary": "Order Failed",
+        "operationId": "49bbf480a48248af3d288afc42682c24",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "status": "expired",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "id": 923,
+                      "addressLine1": "Cravendale Crescent",
+                      "addressLine2": "Trevissome Park",
+                      "city": "Truro",
+                      "region": "Cornwall",
+                      "country": "United Kingdom",
+                      "postcode": "TR1 1RT"
+                    },
+                    "tickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      },
+                      {
+                        "id": 102,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "XO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event B",
+                        "name": "jane@example.com"
+                      }
+                    ],
+                    "seasonTickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "products": [
+                      {
+                        "id": 55,
+                        "saleItemId": 2,
+                        "customerId": 101,
+                        "barcode": "BO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "donations": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "fees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "fulfilmentFees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/order-refunded": {
+      "get": {
+        "summary": "Order Refunded",
+        "operationId": "64d0ddcb4241fe8bb62201f1c883d70d",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "status": "expired",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "id": 923,
+                      "addressLine1": "Cravendale Crescent",
+                      "addressLine2": "Trevissome Park",
+                      "city": "Truro",
+                      "region": "Cornwall",
+                      "country": "United Kingdom",
+                      "postcode": "TR1 1RT"
+                    },
+                    "tickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      },
+                      {
+                        "id": 102,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "XO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event B",
+                        "name": "jane@example.com"
+                      }
+                    ],
+                    "seasonTickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "products": [
+                      {
+                        "id": 55,
+                        "saleItemId": 2,
+                        "customerId": 101,
+                        "barcode": "BO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "donations": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "fees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "fulfilmentFees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/order-refund-failed": {
+      "get": {
+        "summary": "Order Refund Failed",
+        "operationId": "6c77116dee353ceffcb93b7381b4d253",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "status": "expired",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "id": 923,
+                      "addressLine1": "Cravendale Crescent",
+                      "addressLine2": "Trevissome Park",
+                      "city": "Truro",
+                      "region": "Cornwall",
+                      "country": "United Kingdom",
+                      "postcode": "TR1 1RT"
+                    },
+                    "tickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      },
+                      {
+                        "id": 102,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "XO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event B",
+                        "name": "jane@example.com"
+                      }
+                    ],
+                    "seasonTickets": [
+                      {
+                        "id": 101,
+                        "saleItemId": 1,
+                        "customerId": 101,
+                        "barcode": "AO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "products": [
+                      {
+                        "id": 55,
+                        "saleItemId": 2,
+                        "customerId": 101,
+                        "barcode": "BO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "donations": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": 12,
+                        "eventName": "Test Event A",
+                        "name": "John Example"
+                      }
+                    ],
+                    "fees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "fulfilmentFees": [
+                      {
+                        "id": 12,
+                        "saleItemId": 3,
+                        "customerId": 101,
+                        "barcode": "CO5PZZGE1N",
+                        "processingFee": 10,
+                        "processingFeeTax": 2,
+                        "customerProcessingFee": 10,
+                        "resellerFee": 10,
+                        "resellerFeeTax": 2,
+                        "customerResellerFee": 10,
+                        "price": 110,
+                        "tax": 21,
+                        "refunded": 0,
+                        "eventId": null,
+                        "eventName": null,
+                        "name": "John Example"
+                      }
+                    ],
+                    "dataCapture": [
+                      {
+                        "question_id": 1998,
+                        "field_id": 1923,
+                        "question": "What is your car registration?",
+                        "answer": "TO23 NIL"
+                      },
+                      {
+                        "question_id": 272,
+                        "field_id": 1823,
+                        "question": "What zones do you require access to?",
+                        "answer": "Level 1, Underground Parking, VIP Garden"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/resale-payout": {
+      "get": {
+        "summary": "Resale Payout",
+        "operationId": "8b420e4a2bdf9de44bdb04fda60c42f4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "status": "expired",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "original_order_item_id": 923,
+                      "resale_order_id": 421,
+                      "resale_order_item_id": 1234,
+                      "resale_order_item_base_price": 9565,
+                      "transaction_id": 43,
+                      "transaction_total": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/resale-payout-failed": {
+      "get": {
+        "summary": "Resale Payout Failed",
+        "operationId": "adb424c96be93b69bc24fe4cee2196a9",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "company": {
+                      "id": 1,
+                      "name": "Tony's Tickets"
+                    },
+                    "order": {
+                      "id": 1,
+                      "reference": "RO3PMNGE1N",
+                      "status": "expired",
+                      "total": 110,
+                      "paid": 110
+                    },
+                    "currency": {
+                      "symbol": "£",
+                      "code": "GBP"
+                    },
+                    "customer": {
+                      "id": 101,
+                      "name": "John Doe",
+                      "email": "john@example.com"
+                    },
+                    "billingAddress": {
+                      "original_order_item_id": 923,
+                      "resale_order_id": 421,
+                      "resale_order_item_id": 1234,
+                      "resale_order_item_base_price": 9565
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationError"
+          },
+          "403": {
+            "$ref": "#/components/responses/AuthorizationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "ValidationError": {
+        "description": "A validation error response.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "example": {
+              "message": "The given data was invalid.",
+              "errors": {
+                "field_name": [
+                  "The field_name field is required"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "AuthenticationError": {
+        "description": "An invalid token was supplied",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "example": {
+              "message": "Unauthenticated."
+            }
+          }
+        }
+      },
+      "AuthorizationError": {
+        "description": "Your user does not have the required abilities to perform this action.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "example": {
+              "message": "This action is unauthorized."
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "description": "The identifier that you have supplied couldn't be found within your tenancy.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "example": {
+              "message": "No query results for model [ModelName]."
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "An unexpected server error has occured.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "example": {
+              "message": "Server Error."
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "The 'Bearer' token can be obtained from the token management interface or via the login endpoint using your admin user credentials.",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
