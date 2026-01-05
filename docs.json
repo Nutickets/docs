@@ -12,6 +12,15 @@
   },
   "favicon": "/favicon.png",
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Blog",
+          "icon": "newspaper",
+          "href": "https://www.nuwebgroup.com/blog"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Core Platform",
@@ -105,6 +114,7 @@
           {
             "group": "Event Scheduling",
             "pages": [
+              "core-platform/event-scheduling/core-concepts",
               "manual/event-scheduling/event-discovery",
               "manual/event-scheduling/mixed-events",
               "manual/event-scheduling/repeat-events"
@@ -459,16 +469,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Blog",
-          "href": "https://www.nuwebgroup.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.png",
