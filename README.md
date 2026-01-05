@@ -20,3 +20,5 @@ There's some aliases to the above as well:
 - `npm run dev` will run both generate commands AND then build the documentation locally
 
 The latter is only necessary if you aren't already running the local docs. After running any generation commands, commit the various `.mdx` and `openapi.json` files to the repo to publish the updates.
+
+There's also a command to create missing pages based on the `docs.json` navigation config: `node scaffold-docs.js`

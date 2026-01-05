@@ -44,6 +44,19 @@
             ]
           },
           {
+            "group": "Sale Items",
+            "pages": [
+              "manual/sale-items/core-concepts",
+              "manual/sale-items/item-types",
+              "manual/sale-items/add-ons",
+              "manual/sale-items/bundles",
+              "manual/sale-items/gift-vouchers",
+              "manual/sale-items/donations",
+              "manual/sale-items/stock-management",
+              "manual/sale-items/item-approvals"
+            ]
+          },
+          {
             "group": "Access Control",
             "pages": [
               "manual/access-control/standard-entry",
@@ -68,19 +81,6 @@
               "manual/seating-plans/seat-status-management",
               "manual/seating-plans/export-plan-image",
               "manual/seating-plans/orphan-seat-protection"
-            ]
-          },
-          {
-            "group": "Sale Items",
-            "pages": [
-              "manual/sale-items/core-concepts",
-              "manual/sale-items/item-types",
-              "manual/sale-items/add-ons",
-              "manual/sale-items/bundles",
-              "manual/sale-items/gift-vouchers",
-              "manual/sale-items/donations",
-              "manual/sale-items/stock-management",
-              "manual/sale-items/item-approvals"
             ]
           },
           {
