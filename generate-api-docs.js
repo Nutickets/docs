@@ -3,9 +3,6 @@ const path = require('path');
 const axios = require('axios');
 
 // --- CONFIGURATION ---
-// 1. Define your APIs here.
-// 2. Run 'node generate-api-docs.js' to sync and build.
-// 3. Update 'docs.json' to point to the LOCAL 'output' paths.
 const APIS = [
   {
     name: 'Webhooks API',
@@ -37,54 +34,61 @@ async function main() {
       // 1. FETCH & FIX SPEC
       if (api.source.startsWith('http')) {
         console.log(`\n☁️  Fetching ${api.name}...`);
-        console.log(`    Source: ${api.source}`);
-        
         const response = await axios.get(api.source, { timeout: 10000 });
         specObject = (typeof response.data === 'string') ? JSON.parse(response.data) : response.data;
 
-        // FIX: Derive the base Server URL (remove filename AND port)
-        // 1. Remove filename: "https://...:8443/webhooks/api-docs.json" -> "https://...:8443/webhooks"
         let derivedServerUrl = api.source.substring(0, api.source.lastIndexOf('/'));
-        
-        // 2. Remove port number (e.g. :8443)
-        // Replaces the first occurrence of ":digits" found in the URL authority
         derivedServerUrl = derivedServerUrl.replace(/:\d+/, '');
-
-        console.log(`    🔧 Fixed Server URL: ${derivedServerUrl}`);
-        
-        // Force the spec to use this clean base URL
         specObject.servers = [{ url: derivedServerUrl }];
 
       } else {
-        // Handle local source files if needed
         console.log(`\n📂 Reading ${api.name}...`);
         const specContent = fs.readFileSync(api.source, 'utf8');
         specObject = JSON.parse(specContent);
       }
 
-      // 2. SAVE LOCAL COPY (For Mintlify)
+      // 2. SANITIZE SPEC (Fix React Style Errors)
+      specObject = sanitizeSpec(specObject);
+
+      // 3. SAVE LOCAL COPY
       const outputDir = path.dirname(api.output);
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
-
       fs.writeFileSync(api.output, JSON.stringify(specObject, null, 2));
       console.log(`    💾 Saved spec to: ${api.output}`);
 
-      // 3. GENERATE MDX CONTENT
+      // 4. GENERATE MDX CONTENT
       processSpec(specObject, outputDir);
 
     } catch (error) {
-      console.error(`❌ Failed to process ${api.name}:`);
-      if (error.response) {
-        console.error(`   Status: ${error.response.status} - ${error.response.statusText}`);
-      } else {
-        console.error(`   Error: ${error.message}`);
-      }
+      console.error(`❌ Failed to process ${api.name}: ${error.message}`);
     }
   }
   
   console.log('\n✨ Sync & Build complete.');
+}
+
+// --- HELPER: SANITIZER ---
+function sanitizeSpec(obj) {
+  if (typeof obj === 'string') {
+    return obj
+      .replace(/style="[^"]*"/gi, '')
+      .replace(/style='[^']*'/gi, '');
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeSpec(item));
+  }
+  if (obj !== null && typeof obj === 'object') {
+    const newObj = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        newObj[key] = sanitizeSpec(obj[key]);
+      }
+    }
+    return newObj;
+  }
+  return obj;
 }
 
 // --- CONTENT GENERATORS ---
@@ -93,14 +97,17 @@ function processSpec(spec, outputDir) {
   const title = spec.info?.title || 'API Reference';
   const fullDescription = spec.info?.description || '';
 
-  // Split Description
+  // 1. Build Map
+  const endpointMap = buildEndpointMap(spec, outputDir);
+
+  // 2. Split Description
   const splitRegex = /##\s?Changelog/i;
   const parts = fullDescription.split(splitRegex);
 
   const introText = parts[0].trim();
   const changelogRaw = parts.length > 1 ? parts[1].trim() : null;
 
-  // Generate Introduction.mdx
+  // 3. Generate MDX
   const introMdx = `---
 title: "${title}"
 description: "Overview of ${title}"
@@ -110,9 +117,8 @@ ${introText || 'Welcome to the API documentation.'}
 `;
   fs.writeFileSync(path.join(outputDir, INTRO_FILENAME), introMdx);
 
-  // Generate Changelog.mdx
   if (changelogRaw) {
-    const changelogMdx = generateChangelogMdx(changelogRaw);
+    const changelogMdx = generateChangelogMdx(changelogRaw, endpointMap);
     fs.writeFileSync(path.join(outputDir, CHANGELOG_FILENAME), changelogMdx);
     console.log(`    📝 Generated Intro & Changelog MDX`);
   } else {
@@ -120,10 +126,95 @@ ${introText || 'Welcome to the API documentation.'}
   }
 }
 
-function generateChangelogMdx(rawText) {
+function buildEndpointMap(spec, outputDir) {
+  const map = new Map();
+  const baseUrlPath = '/' + outputDir.replace(/\\/g, '/').replace(/^\.\//, '');
+
+  if (!spec.paths) return map;
+
+  Object.keys(spec.paths).forEach(pathKey => {
+    const methods = spec.paths[pathKey];
+    Object.keys(methods).forEach(method => {
+      const operation = methods[method];
+      const methodUpper = method.toUpperCase();
+      const lookupKey = `${methodUpper} ${pathKey}`; 
+      
+      // 1. Determine Tag (Subfolder)
+      let tagSlug = '';
+      if (operation.tags && operation.tags.length > 0) {
+        tagSlug = toKebabCase(operation.tags[0]);
+      }
+
+      // 2. Determine Slug (SUMMARY ONLY)
+      let opSlug = '';
+      
+      if (operation.summary) {
+        // Priority 1: Use Summary (e.g. "Retrieve Wallet Transactions" -> "retrieve-wallet-transactions")
+        opSlug = toKebabCase(operation.summary);
+      } else {
+        // Priority 2: Fallback to Method + Path (e.g. "get-wallets-transactions")
+        const cleanPath = pathKey.replace(/[\/{}]/g, '-').replace(/^-|-$/g, '');
+        opSlug = `${method.toLowerCase()}-${cleanPath}`;
+      }
+
+      // 3. Construct Link
+      let link = baseUrlPath;
+      if (tagSlug) link += `/${tagSlug}`;
+      link += `/${opSlug}`;
+
+      map.set(lookupKey, link);
+    });
+  });
+  
+  return map;
+}
+
+function generateChangelogMdx(rawText, endpointMap) {
   const sections = rawText.split('#### ');
   const preamble = sections[0].trim();
   let updatesHtml = '';
+
+  const linkifyEndpoints = (text) => {
+    const regex = /(`?)\b(GET|POST|PUT|DELETE|PATCH)\s+(\/[a-zA-Z0-9\/_{}-]+)\1/g;
+
+    return text.replace(regex, (fullMatch, backtick, method, path) => {
+      let link = null;
+
+      // ATTEMPT 1: Exact Match
+      if (endpointMap.has(`${method} ${path}`)) {
+        link = endpointMap.get(`${method} ${path}`);
+      }
+      
+      // ATTEMPT 2: Strip Version Prefix
+      if (!link && path.startsWith('/v')) {
+        const cleanPath = path.replace(/^\/v\d+/, '');
+        if (endpointMap.has(`${method} ${cleanPath}`)) {
+           link = endpointMap.get(`${method} ${cleanPath}`);
+        }
+      }
+
+      // ATTEMPT 3: Append Common IDs
+      if (!link) {
+        const potentialIds = ['/{id}', '/{uuid}', '/{orderId}', '/{customerId}'];
+        for (const suffix of potentialIds) {
+           if (endpointMap.has(`${method} ${path}${suffix}`)) {
+              link = endpointMap.get(`${method} ${path}${suffix}`);
+              break;
+           }
+           const cleanPath = path.replace(/^\/v\d+/, '');
+           if (endpointMap.has(`${method} ${cleanPath}${suffix}`)) {
+              link = endpointMap.get(`${method} ${cleanPath}${suffix}`);
+              break;
+           }
+        }
+      }
+
+      if (link) {
+        return `[${method} ${path}](${link})`;
+      }
+      return fullMatch;
+    });
+  };
 
   for (let i = 1; i < sections.length; i++) {
     const section = sections[i];
@@ -138,10 +229,12 @@ function generateChangelogMdx(rawText) {
       content = section.substring(firstNewLine).trim();
     }
 
+    const linkedContent = linkifyEndpoints(content);
+
     updatesHtml += `
 <Update label="${dateLabel}" description="">
 
-${content}
+${linkedContent}
 
 </Update>
 `;
@@ -156,6 +249,14 @@ ${preamble}
 
 ${updatesHtml}
 `;
+}
+
+function toKebabCase(str) {
+  if (!str) return '';
+  return str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map(x => x.toLowerCase())
+    .join('-');
 }
 
 main();

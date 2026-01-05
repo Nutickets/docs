@@ -393,7 +393,10 @@
       },
       {
         "tab": "API Reference",
-        "openapi": "/api-reference/openapi.json",
+        "openapi": {
+          "source": "/api-reference/openapi.json",
+          "directory": "/api-reference"
+        },
         "groups": [
           {
             "group": "About",
@@ -406,7 +409,10 @@
       },
       {
         "tab": "Partner API Reference",
-        "openapi": "/partner-api-reference/openapi.json",
+        "openapi": {
+          "source": "/partner-api-reference/openapi.json",
+          "directory": "/partner-api-reference"
+        },
         "groups": [
           {
             "group": "About",
@@ -419,7 +425,10 @@
       },
       {
         "tab": "Webhook Reference",
-        "openapi": "/webhook-reference/openapi.json",
+        "openapi": {
+          "source": "/webhook-reference/openapi.json",
+          "directory": "/webhook-reference"
+        },
         "groups": [
           {
             "group": "About",

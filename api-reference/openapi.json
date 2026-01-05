@@ -20267,7 +20267,7 @@
           "Resale"
         ],
         "summary": "Retrieve resale listings",
-        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' style='margin-bottom:1em;'>This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Retrieve a list of all resale listings.",
+        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' >This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Retrieve a list of all resale listings.",
         "operationId": "99ea6cd472e0ab76980c96bdb66ed103",
         "parameters": [
           {
@@ -20478,7 +20478,7 @@
           "Resale"
         ],
         "summary": "Create a new resale listing",
-        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' style='margin-bottom:1em;'>This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>List one or more order items for resale, with optional configuration.",
+        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' >This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>List one or more order items for resale, with optional configuration.",
         "operationId": "d7050f0dd94202b92c590d0940857655",
         "parameters": [
           {
@@ -20646,7 +20646,7 @@
           "Resale"
         ],
         "summary": "Retrieve a resale listing",
-        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' style='margin-bottom:1em;'>This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Retrieve a resale listing by ID or order item ID.",
+        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' >This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Retrieve a resale listing by ID or order item ID.",
         "operationId": "44a7215facb7945c680c05fc102252c1",
         "parameters": [
           {
@@ -20843,7 +20843,7 @@
           "Resale"
         ],
         "summary": "Delete a resale listing",
-        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' style='margin-bottom:1em;'>This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Delete a resale listing by ID or order item ID.",
+        "description": "<div class='sl-bg-danger-tint sl-p-2.5 sl-text-base sl-text-danger-darker' >This endpoint is currently in early preview and is subject to change without notice. Please contact your account manager to discuss access.</div>Delete a resale listing by ID or order item ID.",
         "operationId": "eeb63673699ae43e4365c30766ba2d58",
         "parameters": [
           {
