@@ -28,331 +28,331 @@
           {
             "group": "Get Started",
             "pages": [
-              "manual/get-started/introduction"
+              "core-platform/get-started/introduction"
             ]
           },
           {
             "group": "Event Management",
             "pages": [
-              "manual/event-management/introduction",
-              "manual/event-management/timeslots",
-              "manual/event-management/seating-plans",
-              "manual/event-management/capacity-controls",
-              "manual/event-management/venues",
-              "manual/event-management/event-approvals",
-              "manual/event-management/sale-item-groups",
-              "manual/event-management/event-cancellations",
-              "manual/event-management/event-page-customisations",
-              "manual/event-management/sales-periods",
-              "manual/event-management/item-transfers",
-              "manual/event-management/online-events",
-              "manual/event-management/group-team-events",
-              "manual/event-management/event-tags",
-              "manual/event-management/access-control",
-              "manual/event-management/copying-events"
+              "core-platform/event-management/introduction",
+              "core-platform/event-management/timeslots",
+              "core-platform/event-management/seating-plans",
+              "core-platform/event-management/capacity-controls",
+              "core-platform/event-management/venues",
+              "core-platform/event-management/event-approvals",
+              "core-platform/event-management/sale-item-groups",
+              "core-platform/event-management/event-cancellations",
+              "core-platform/event-management/event-page-customisations",
+              "core-platform/event-management/sales-periods",
+              "core-platform/event-management/item-transfers",
+              "core-platform/event-management/online-events",
+              "core-platform/event-management/group-team-events",
+              "core-platform/event-management/event-tags",
+              "core-platform/event-management/access-control",
+              "core-platform/event-management/copying-events"
             ]
           },
           {
             "group": "Sale Items",
             "pages": [
-              "manual/sale-items/core-concepts",
-              "manual/sale-items/item-types",
-              "manual/sale-items/add-ons",
-              "manual/sale-items/bundles",
-              "manual/sale-items/gift-vouchers",
-              "manual/sale-items/donations",
-              "manual/sale-items/stock-management",
-              "manual/sale-items/item-approvals"
+              "core-platform/sale-items/core-concepts",
+              "core-platform/sale-items/item-types",
+              "core-platform/sale-items/add-ons",
+              "core-platform/sale-items/bundles",
+              "core-platform/sale-items/gift-vouchers",
+              "core-platform/sale-items/donations",
+              "core-platform/sale-items/stock-management",
+              "core-platform/sale-items/item-approvals"
             ]
           },
           {
             "group": "Access Control",
             "pages": [
-              "manual/access-control/standard-entry",
-              "manual/access-control/validity-dates",
-              "manual/access-control/zones",
-              "manual/access-control/admitting-via-app",
-              "manual/access-control/admitting-via-mbo",
-              "manual/access-control/admitting-via-admin"
+              "core-platform/access-control/standard-entry",
+              "core-platform/access-control/validity-dates",
+              "core-platform/access-control/zones",
+              "core-platform/access-control/admitting-via-app",
+              "core-platform/access-control/admitting-via-mbo",
+              "core-platform/access-control/admitting-via-admin"
             ]
           },
           {
             "group": "Seating Plans",
             "pages": [
-              "manual/seating-plans/introduction",
-              "manual/seating-plans/plan-types",
-              "manual/seating-plans/best-available-seats",
-              "manual/seating-plans/revisions",
-              "manual/seating-plans/editor",
-              "manual/seating-plans/holds",
-              "manual/seating-plans/live-price-band-updates",
-              "manual/seating-plans/holds-and-role-restrictions",
-              "manual/seating-plans/seat-status-management",
-              "manual/seating-plans/export-plan-image",
-              "manual/seating-plans/orphan-seat-protection"
+              "core-platform/seating-plans/introduction",
+              "core-platform/seating-plans/plan-types",
+              "core-platform/seating-plans/best-available-seats",
+              "core-platform/seating-plans/revisions",
+              "core-platform/seating-plans/editor",
+              "core-platform/seating-plans/holds",
+              "core-platform/seating-plans/live-price-band-updates",
+              "core-platform/seating-plans/holds-and-role-restrictions",
+              "core-platform/seating-plans/seat-status-management",
+              "core-platform/seating-plans/export-plan-image",
+              "core-platform/seating-plans/orphan-seat-protection"
             ]
           },
           {
             "group": "Fees",
             "pages": [
-              "manual/fees/default-system-fees",
-              "manual/fees/custom-fees",
-              "manual/fees/blended-fees",
-              "manual/fees/fulfilment-fees"
+              "core-platform/fees/default-system-fees",
+              "core-platform/fees/custom-fees",
+              "core-platform/fees/blended-fees",
+              "core-platform/fees/fulfilment-fees"
             ]
           },
           {
             "group": "Event Media",
             "pages": [
-              "manual/event-media/overview",
-              "manual/event-media/custom-pdfs",
-              "manual/event-media/cover-sheets",
-              "manual/event-media/mobile-wallets",
-              "manual/event-media/boca-printers"
+              "core-platform/event-media/overview",
+              "core-platform/event-media/custom-pdfs",
+              "core-platform/event-media/cover-sheets",
+              "core-platform/event-media/mobile-wallets",
+              "core-platform/event-media/boca-printers"
             ]
           },
           {
             "group": "Event Scheduling",
             "pages": [
               "core-platform/event-scheduling/core-concepts",
-              "manual/event-scheduling/event-discovery",
-              "manual/event-scheduling/mixed-events",
-              "manual/event-scheduling/repeat-events"
+              "core-platform/event-scheduling/event-discovery",
+              "core-platform/event-scheduling/mixed-events",
+              "core-platform/event-scheduling/repeat-events"
             ]
           },
           {
             "group": "Season Tickets",
             "pages": [
-              "manual/season-tickets/overview",
-              "manual/season-tickets/standard-seasons",
-              "manual/season-tickets/seated-seasons"
+              "core-platform/season-tickets/overview",
+              "core-platform/season-tickets/standard-seasons",
+              "core-platform/season-tickets/seated-seasons"
             ]
           },
           {
             "group": "Order Management",
             "pages": [
-              "manual/order-management/core-concepts",
-              "manual/order-management/refunds-and-cancellations",
-              "manual/order-management/order-modifications"
+              "core-platform/order-management/core-concepts",
+              "core-platform/order-management/refunds-and-cancellations",
+              "core-platform/order-management/order-modifications"
             ]
           },
           {
             "group": "Customer Management",
             "pages": [
-              "manual/customer-management/editing-customers",
-              "manual/customer-management/merging-customers",
-              "manual/customer-management/customer-groups"
+              "core-platform/customer-management/editing-customers",
+              "core-platform/customer-management/merging-customers",
+              "core-platform/customer-management/customer-groups"
             ]
           },
           {
             "group": "Account Balances",
             "pages": [
-              "manual/account-balances/top-ups",
-              "manual/account-balances/cash-outs",
-              "manual/account-balances/self-service-refunds"
+              "core-platform/account-balances/top-ups",
+              "core-platform/account-balances/cash-outs",
+              "core-platform/account-balances/self-service-refunds"
             ]
           },
           {
             "group": "Reporting",
             "pages": [
-              "manual/reporting/fundamentals",
-              "manual/reporting/default-reports",
-              "manual/reporting/custom-reports",
-              "manual/reporting/scheduled-reports",
-              "manual/reporting/report-publishing",
-              "manual/reporting/interpreting-data"
+              "core-platform/reporting/fundamentals",
+              "core-platform/reporting/default-reports",
+              "core-platform/reporting/custom-reports",
+              "core-platform/reporting/scheduled-reports",
+              "core-platform/reporting/report-publishing",
+              "core-platform/reporting/interpreting-data"
             ]
           },
           {
             "group": "System Access",
             "pages": [
-              "manual/system-access/users",
-              "manual/system-access/roles-and-permissions",
-              "manual/system-access/visibility-groups",
-              "manual/system-access/mfa"
+              "core-platform/system-access/users",
+              "core-platform/system-access/roles-and-permissions",
+              "core-platform/system-access/visibility-groups",
+              "core-platform/system-access/mfa"
             ]
           },
           {
             "group": "Refund Protection",
             "pages": [
-              "manual/refund-protection/protect-group",
-              "manual/refund-protection/alternative-providers"
+              "core-platform/refund-protection/protect-group",
+              "core-platform/refund-protection/alternative-providers"
             ]
           },
           {
             "group": "Basket Codes",
             "pages": [
-              "manual/basket-codes/access-codes",
-              "manual/basket-codes/discount-codes",
-              "manual/basket-codes/external-vouchers"
+              "core-platform/basket-codes/access-codes",
+              "core-platform/basket-codes/discount-codes",
+              "core-platform/basket-codes/external-vouchers"
             ]
           },
           {
             "group": "Tax",
             "pages": [
-              "manual/tax/tax-bands",
-              "manual/tax/conditional-tax-bands",
-              "manual/tax/pricing-display",
-              "manual/tax/advanced-tax-settings"
+              "core-platform/tax/tax-bands",
+              "core-platform/tax/conditional-tax-bands",
+              "core-platform/tax/pricing-display",
+              "core-platform/tax/advanced-tax-settings"
             ]
           },
           {
             "group": "Data Capture",
             "pages": [
-              "manual/data-capture/introduction",
-              "manual/data-capture/question-types",
-              "manual/data-capture/external-questions",
-              "manual/data-capture/internal-questions"
+              "core-platform/data-capture/introduction",
+              "core-platform/data-capture/question-types",
+              "core-platform/data-capture/external-questions",
+              "core-platform/data-capture/internal-questions"
             ]
           },
           {
             "group": "CMS",
             "pages": [
-              "manual/cms/menus",
-              "manual/cms/pages",
-              "manual/cms/blocks",
-              "manual/cms/forms",
-              "manual/cms/articles",
-              "manual/cms/theme-and-branding",
-              "manual/cms/website-text",
-              "manual/cms/announcements"
+              "core-platform/cms/menus",
+              "core-platform/cms/pages",
+              "core-platform/cms/blocks",
+              "core-platform/cms/forms",
+              "core-platform/cms/articles",
+              "core-platform/cms/theme-and-branding",
+              "core-platform/cms/website-text",
+              "core-platform/cms/announcements"
             ]
           },
           {
             "group": "Notifications",
             "pages": [
-              "manual/notifications/emails",
-              "manual/notifications/sms"
+              "core-platform/notifications/emails",
+              "core-platform/notifications/sms"
             ]
           },
           {
             "group": "Box Office Mode",
             "pages": [
-              "manual/box-office/introduction",
-              "manual/box-office/entry-points",
-              "manual/box-office/payment-methods",
-              "manual/box-office/named-orders",
-              "manual/box-office/named-holders",
-              "manual/box-office/instant-checkout",
-              "manual/box-office/seating-plans"
+              "core-platform/box-office/introduction",
+              "core-platform/box-office/entry-points",
+              "core-platform/box-office/payment-methods",
+              "core-platform/box-office/named-orders",
+              "core-platform/box-office/named-holders",
+              "core-platform/box-office/instant-checkout",
+              "core-platform/box-office/seating-plans"
             ]
           },
           {
             "group": "Your Ticket Shop",
             "pages": [
-              "manual/ticket-shop/homepage",
-              "manual/ticket-shop/event-listings",
-              "manual/ticket-shop/event-search",
-              "manual/ticket-shop/global-basket",
-              "manual/ticket-shop/checkout-flow",
-              "manual/ticket-shop/guest-checkouts",
-              "manual/ticket-shop/my-account",
-              "manual/ticket-shop/other-pages",
-              "manual/ticket-shop/sitemap"
+              "core-platform/ticket-shop/homepage",
+              "core-platform/ticket-shop/event-listings",
+              "core-platform/ticket-shop/event-search",
+              "core-platform/ticket-shop/global-basket",
+              "core-platform/ticket-shop/checkout-flow",
+              "core-platform/ticket-shop/guest-checkouts",
+              "core-platform/ticket-shop/my-account",
+              "core-platform/ticket-shop/other-pages",
+              "core-platform/ticket-shop/sitemap"
             ]
           },
           {
             "group": "Primary Resale",
             "pages": [
-              "manual/resale/configuration",
-              "manual/resale/resale-fees"
+              "core-platform/resale/configuration",
+              "core-platform/resale/resale-fees"
             ]
           },
           {
             "group": "EPOS",
             "pages": [
-              "manual/epos/overview",
-              "manual/epos/custom-currencies",
-              "manual/epos/shops-products-users"
+              "core-platform/epos/overview",
+              "core-platform/epos/custom-currencies",
+              "core-platform/epos/shops-products-users"
             ]
           },
           {
             "group": "Core",
             "pages": [
-              "manual/core/translations",
-              "manual/core/audit-logs",
-              "manual/core/timezones",
-              "manual/core/seo"
+              "core-platform/core/translations",
+              "core-platform/core/audit-logs",
+              "core-platform/core/timezones",
+              "core-platform/core/seo"
             ]
           },
           {
             "group": "Advanced",
             "pages": [
-              "manual/advanced/company-settings",
-              "manual/advanced/all-in-pricing",
-              "manual/advanced/sales-dashboards",
-              "manual/advanced/tracking-and-analytics",
-              "manual/advanced/secure-barcodes",
-              "manual/advanced/lead-capture",
-              "manual/advanced/order-distributions",
-              "manual/advanced/sso",
-              "manual/advanced/instant-access-orders",
-              "manual/advanced/nfc-pairing"
+              "core-platform/advanced/company-settings",
+              "core-platform/advanced/all-in-pricing",
+              "core-platform/advanced/sales-dashboards",
+              "core-platform/advanced/tracking-and-analytics",
+              "core-platform/advanced/secure-barcodes",
+              "core-platform/advanced/lead-capture",
+              "core-platform/advanced/order-distributions",
+              "core-platform/advanced/sso",
+              "core-platform/advanced/instant-access-orders",
+              "core-platform/advanced/nfc-pairing"
             ]
           },
           {
             "group": "Data Imports",
             "pages": [
-              "manual/data-imports/introduction",
-              "manual/data-imports/reference"
+              "core-platform/data-imports/introduction",
+              "core-platform/data-imports/reference"
             ]
           },
           {
             "group": "Utilities",
             "pages": [
-              "manual/utilities/system-defaults",
-              "manual/utilities/bulk-editing",
-              "manual/utilities/global-search",
-              "manual/utilities/sales-dashboards-util",
-              "manual/utilities/custom-urls",
-              "manual/utilities/date-formatting",
-              "manual/utilities/api-token-management",
-              "manual/utilities/api-device-management"
+              "core-platform/utilities/system-defaults",
+              "core-platform/utilities/bulk-editing",
+              "core-platform/utilities/global-search",
+              "core-platform/utilities/sales-dashboards-util",
+              "core-platform/utilities/custom-urls",
+              "core-platform/utilities/date-formatting",
+              "core-platform/utilities/api-token-management",
+              "core-platform/utilities/api-device-management"
             ]
           },
           {
             "group": "Technical",
             "pages": [
-              "manual/technical/browser-support",
-              "manual/technical/accessibility",
-              "manual/technical/sessions",
-              "manual/technical/iframe-embeds",
-              "manual/technical/webhooks"
+              "core-platform/technical/browser-support",
+              "core-platform/technical/accessibility",
+              "core-platform/technical/sessions",
+              "core-platform/technical/iframe-embeds",
+              "core-platform/technical/webhooks"
             ]
           },
           {
             "group": "Payments",
             "pages": [
-              "manual/payments/introduction",
-              "manual/payments/payment-lifecycle",
-              "manual/payments/payment-processors",
-              "manual/payments/split-payments",
-              "manual/payments/deposit-payments",
-              "manual/payments/invoice-payments"
+              "core-platform/payments/introduction",
+              "core-platform/payments/payment-lifecycle",
+              "core-platform/payments/payment-processors",
+              "core-platform/payments/split-payments",
+              "core-platform/payments/deposit-payments",
+              "core-platform/payments/invoice-payments"
             ]
           },
           {
             "group": "Integrations",
             "pages": [
-              "manual/integrations/currency-conversion",
-              "manual/integrations/szamlazz",
-              "manual/integrations/dtcm",
-              "manual/integrations/justgiving"
+              "core-platform/integrations/currency-conversion",
+              "core-platform/integrations/szamlazz",
+              "core-platform/integrations/dtcm",
+              "core-platform/integrations/justgiving"
             ]
           },
           {
             "group": "Information",
             "pages": [
-              "manual/information/trial-periods",
-              "manual/information/paying-invoices",
-              "manual/information/going-live",
-              "manual/information/waiting-rooms",
-              "manual/information/feature-flag-reference",
-              "manual/information/company-switching",
-              "manual/information/wysiwyg",
-              "manual/information/supported-languages",
-              "manual/information/supported-currencies",
-              "manual/information/caching"
+              "core-platform/information/trial-periods",
+              "core-platform/information/paying-invoices",
+              "core-platform/information/going-live",
+              "core-platform/information/waiting-rooms",
+              "core-platform/information/feature-flag-reference",
+              "core-platform/information/company-switching",
+              "core-platform/information/wysiwyg",
+              "core-platform/information/supported-languages",
+              "core-platform/information/supported-currencies",
+              "core-platform/information/caching"
             ]
           }
         ]
@@ -363,20 +363,20 @@
           {
             "group": "Get Started",
             "pages": [
-              "hub/get-started/introduction"
+              "partner-hub/get-started/introduction"
             ]
           },
           {
             "group": "Topics",
             "pages": [
-              "hub/get-started/feature-funnels",
-              "hub/get-started/reseller-fees",
-              "hub/get-started/company-invoices",
-              "hub/get-started/parent-child-companies",
-              "hub/get-started/self-service-registration",
-              "hub/get-started/plans-and-packages",
-              "hub/get-started/gateway-settings",
-              "hub/get-started/integration-settings"
+              "partner-hub/get-started/feature-funnels",
+              "partner-hub/get-started/reseller-fees",
+              "partner-hub/get-started/company-invoices",
+              "partner-hub/get-started/parent-child-companies",
+              "partner-hub/get-started/self-service-registration",
+              "partner-hub/get-started/plans-and-packages",
+              "partner-hub/get-started/gateway-settings",
+              "partner-hub/get-started/integration-settings"
             ]
           }
         ]
@@ -387,16 +387,16 @@
           {
             "group": "Get Started",
             "pages": [
-              "apps/get-started/introduction"
+              "mobile-apps/get-started/introduction"
             ]
           },
           {
             "group": "Apps",
             "pages": [
-              "apps/access-control-pro",
-              "apps/epos-pro",
-              "apps/box-office-pro",
-              "apps/hardware"
+              "mobile-apps/access-control-pro",
+              "mobile-apps/epos-pro",
+              "mobile-apps/box-office-pro",
+              "mobile-apps/hardware"
             ]
           }
         ]
