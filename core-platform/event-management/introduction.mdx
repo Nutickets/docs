@@ -24,29 +24,103 @@ description: "Documentation for Introduction"
 - Capacity Controls
   - Total Capacity
   - Total Ticket Capacity
+  - Ticket capacity includes season tickets: When enabled, sales of season tickets within this schedule, will be considered as part of the ticket capacity for this event.
   - Total Product Capacity
   - Total Guest List Capacity
+  - Total Donation capacity
 - Images
   - Event thumbnail image
   - Event header image
-- SEO Metadata
+- SEO Metadata: The meta title/image/description dictate how your event will appear to others when linked externally through social media websites and Google.
   - Meta title
   - Meta description
   - Meta image
-- Limit ticket purchases (per customer)
+- Limit ticket purchases (per customer): Customers will be required to share or transfer any tickets beyond this limit. If sharing is disabled, they will be unable to reserve or purchase more than this value. Note: This is a hard limit for the whole event but you may set lower limits on individual tickets.
 - Show number of items remaining
-- Take off sale if no ticket capacity remains
+- Take off sale if no ticket capacity remains: This is useful if you want to prevent other items such as products being available once all tickets have sold out
+- Manual payment settings
+  - Enabled: By default, manual payment settings will be inherited from the company unless explicitly overridden below. Event level settings will only be applied to an order if all of its items are for this event. Otherwise company settings will be applied.
+  - Enable instance access: Allow customers to access tickets & other downloadable items the moment that they complete their reservation, before paying their invoice.
+  - Unpaid invoice title: This will be displayed on the invoice before it is paid.
+  - Paid invoice title: This will be displayed on the invoice once it has been paid.
+  - Minimum order value: The minimum order value required to unlock the invoice payment method. This only applies to non box-office checkouts, and is a flat rate, regardless of the currency of the order; no conversion will be applied.
+  - Payment instructions: This text will be included in the invoice sent to customers when the invoice payment method is selected. It should explain how to pay for their order including any necessary bank details required for the payment.
+  - Show customer billing address on invoice (inherit/show/hide)
+  - Show customer name and email address on invoice (inherit/show/hide)
 - Resale Settings
+  - Enable resale (inherit/enabled/disabled): Enables resale for this event and all individual sale items. You can control all resale settings at the individual sale item level.
+  - Allow resale listing (X hours/days/weeks before event start): Customers will not be able to list their items for resale until this time
+  - Start resale purchase (X hours/days/weeks before event start): Resale listings will be available for purchase at this time
+  - End resale purchase (X hours/days/weeks before event start): Resale listings will automatically close at this time
+  - Sales Channels: Inherit from company default / Shop only / Shop and box office
+  - Pricing strategy:
+    - Inherited from company defaults
+    - Purchased price: Items must be listed for the price they were original purchased for.
+    - Set your own price: Seller can set their own pricing, within a specified threshold, constrained by the original purchase price.
+    - Set your own price (capped): Seller can set their own pricing, within a specified threshold, constrained by the live price at the time of listing.
+  - Payout behaviour: How should the seller receive the proceeds when their item sells.
+    - Inherited from company defaults: Payout to original payment method, and deposit any profits into account balance (immediately available to spend)
+    - Payout to original payment method, and deposit any profits into account balance (immediately available to spend)
+    - Payout everything to account balance (immediately available to spend)
+    - Payout everything to pending account balance (not available to spend)
+  - **Who should pay resale fees?**
+    - Inherited from company defaults
+    - Buyer pays all
+    - Seller pays all
+    - Buyer and seller split
+    - Seller can choose
 - Sharing Restrictions
-  - Tickets: during checkout, after checkout, both, none.
-  - Products: during checkout, after checkout, both, none.
-- Visibility Groups
-- External ID
-- Scanning Mode
-- Organiser Details
+  - Tickets: Select when customers are allowed to share their tickets with others
+    - During checkout
+    - After checkout
+    - Both
+    - None
+  - Tickets: Select when customers are allowed to share their products with others
+    - During checkout
+    - After checkout
+    - Both
+    - None
+  - Shop ticket renaming: Allow customers to assign attendee names to each ticket during checkout **<u>without</u>** the need for transferring.
+    - Disabled
+    - Enabled
+    - Mandatory
+    - Allow ticket renaming after checkout: Allow customers to update the attendee name after checkout is completed.
+  - Box office ticket renaming: Allow box office users to assign attendee names to each ticket during checkout with the need for transferring.
+    - Disabled
+    - Enabled
+    - Mandatory
+- Visibility Groups: control which group(s) of admin users can see and/or interact with this event.
+- External ID: an optional identifier to link the event with a third party. This field can be set when **importing events** and is exposed in the **events API**.
+- Scanning Mode: this setting controls the user journey within the **Access Control Pro** app
+  - QR Only: enables the regular camera for scanning static (default) QR codes & barcodes
+  - Secure QR Only: enables the secure scanning mechanism for processing dynamic QR codes
+  - NFC (online): enables the NFC ticket pairing and scanning workflow.
+- Organiser Details: optional details of the event organiser to be displayed on the event contact block configured in **event page customisations**
   - Organiser name
   - Organiser email
   - Organiser Phone
-- Tags
+- Tags: set the mandatory and/or optional event tags which can be used to filter events in the **event search** as well as to automatically pull events into **event listings**.
 - **Sales Banner**
 - Comment
+- Start/end date
+- Timezone
+- Send purchase summary email
+- On sale/off sale status
+- Hidden/visible status
+- Tracking pixels
+  - Meta Pixel ID
+  - Spotify Pixel ID
+  - TikTok Pixel ID
+  - X Pixel ID
+  - Google Tag Manager Pixel ID: If GTM is applied for your whole site, you cannot change it for your event.
+- Refund protection
+
+## Relationships
+
+- Sale items (tickets, season tickets, products, event fees, resale fees, guest lists, donations, bundles)
+- Timeslots
+- Zones
+- Seating plan
+- Data capture assignments
+- Internal questions
+- Venue
