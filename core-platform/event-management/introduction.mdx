@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-description: "Documentation for Introduction"
+description: "An introduction and summary about event management."
 ---
 
 <Warning>
@@ -20,7 +20,7 @@ description: "Documentation for Introduction"
 ## Configuration
 
 - Name: the title of the event, as presented throughout the platform, including [event listings](/core-platform/ticket-shop/event-listings) & [search results](/core-platform/ticket-shop/event-search) & the event APIs.
-- Description: a description/summary of the event, used by the default event description block for presentation on the event page (changable via [event page customisations](/core-platform/event-management/event-page-customisations))
+- Description: a description/summary of the event ([WYSIWYG](/core-platform/information/wysiwyg)), used by the default event description block for presentation on the event page (changable via [event page customisations](/core-platform/event-management/event-page-customisations))
 - Capacity Controls
   - Total Capacity
   - Total Ticket Capacity
@@ -29,14 +29,14 @@ description: "Documentation for Introduction"
   - Total Guest List Capacity
   - Total Donation capacity
 - Images
-  - Event thumbnail image
-  - Event header image
+  - Event thumbnail image: the image shown throughout [event discovery](/core-platform/event-scheduling/event-discovery) and [event searches](/core-platform/ticket-shop/event-search).
+  - Event header image: This image will be shown at the top of the [event page](/core-platform/event-management/event-page-customisations).
 - SEO Metadata: The meta title/image/description dictate how your event will appear to others when linked externally through social media websites and Google.
   - Meta title
   - Meta description
   - Meta image
 - Limit ticket purchases (per customer): Customers will be required to share or transfer any tickets beyond this limit. If sharing is disabled, they will be unable to reserve or purchase more than this value. Note: This is a hard limit for the whole event but you may set lower limits on individual tickets.
-- Show number of items remaining
+- Show number of items remaining: Displays a badge above each sale item in the ticket shop with "N Remaining" for items with a fixed availability.
 - Take off sale if no ticket capacity remains: This is useful if you want to prevent other items such as products being available once all tickets have sold out
 - Manual payment settings
   - Enabled: By default, manual payment settings will be inherited from the company unless explicitly overridden below. Event level settings will only be applied to an order if all of its items are for this event. Otherwise company settings will be applied.
@@ -52,7 +52,7 @@ description: "Documentation for Introduction"
   - Allow resale listing (X hours/days/weeks before event start): Customers will not be able to list their items for resale until this time
   - Start resale purchase (X hours/days/weeks before event start): Resale listings will be available for purchase at this time
   - End resale purchase (X hours/days/weeks before event start): Resale listings will automatically close at this time
-  - Sales Channels: Inherit from company default / Shop only / Shop and box office
+  - [Sales Channels](/core-platform/information/sales-channels): Inherit from company default / Shop only / Shop and box office
   - Pricing strategy:
     - Inherited from company defaults
     - Purchased price: Items must be listed for the price they were original purchased for.
@@ -63,13 +63,13 @@ description: "Documentation for Introduction"
     - Payout to original payment method, and deposit any profits into account balance (immediately available to spend)
     - Payout everything to account balance (immediately available to spend)
     - Payout everything to pending account balance (not available to spend)
-  - **Who should pay resale fees?**
+  - Who should pay [resale fees](/core-platform/resale/resale-fees)?
     - Inherited from company defaults
     - Buyer pays all
     - Seller pays all
     - Buyer and seller split
     - Seller can choose
-- Sharing Restrictions
+- Sharing Restrictions: configure preferences around [Item transfers](/core-platform/event-management/item-transfers)
   - Tickets: Select when customers are allowed to share their tickets with others
     - During checkout
     - After checkout
@@ -89,7 +89,7 @@ description: "Documentation for Introduction"
     - Disabled
     - Enabled
     - Mandatory
-- Visibility Groups: control which group(s) of admin users can see and/or interact with this event.
+- Visibility Groups: control which group(s) of admin users can see and/or interact with this event. More on [visibility groups](/core-platform/system-access/visibility-groups).
 - External ID: an optional identifier to link the event with a third party. This field can be set when **importing events** and is exposed in the **events API**.
 - Scanning Mode: this setting controls the user journey within the **Access Control Pro** app
   - QR Only: enables the regular camera for scanning static (default) QR codes & barcodes
@@ -100,13 +100,26 @@ description: "Documentation for Introduction"
   - Organiser email
   - Organiser Phone
 - Tags: set the mandatory and/or optional event tags which can be used to filter events in the **event search** as well as to automatically pull events into **event listings**.
-- **Sales Banner**
-- Comment
+- Sales Banner: a banner displayed at the top of the ticket selector on the event page.
+  - Enabled
+    - Inherit: Inherit the global sales banner, or configure event specific settings.
+    - Override
+    - Hide
+  - Sales banner type:
+    - Company (use company brand colours)
+    - Blue
+    - Green
+    - Yellow
+    - Red
+  - Sales banner text: A [WYSIWYG editor](/core-platform/information/wysiwyg) to customise the contents of the sales banner
+- Comment: leave an internal note against an event which is visible from the event dashboard.
 - Start/end date
 - Timezone
-- Send purchase summary email
-- On sale/off sale status
-- Hidden/visible status
+- Send purchase summary email: Recipients will receive an email for every purchase made for this event. For staff to receive real-time notifications of sales activity relating to this event.
+  - Enabled/Disabled
+  - Recipients
+- On sale/off sale status: take the whole event off sale
+- Hidden/visible status: hide the event from [event discovery](/core-platform/event-scheduling/event-discovery) and [event search](/core-platform/ticket-shop/event-search).
 - Tracking pixels
   - Meta Pixel ID
   - Spotify Pixel ID
@@ -114,13 +127,53 @@ description: "Documentation for Introduction"
   - X Pixel ID
   - Google Tag Manager Pixel ID: If GTM is applied for your whole site, you cannot change it for your event.
 - Refund protection
+  - Protect Group Integration: Determines if the Protect Group integration is enabled for this event. When set to "Inherit", the company's default preference will be used.
+    - Inherit / Enable / Disable
+- Invoice comment: Adds an invoice comment to the generated Szamlazz invoices. This overrides the global invoice comment.
+- Live stream settings
+  - Enable live stream: unlocks the ability for attendees to be granted access to a live stream. Sale items can be individually opted-out of granting access to a stream.
+  - Stream body: [WYSIWYG editor](/core-platform/information/wysiwyg) to customise the contents of the private live steaming page
+  - Stream provider:
+    - Youtube
+    - Vimeo
+    - Other
+  - Stream URL
+  - Display live chat
 
-## Relationships
+## Associations
 
 - Sale items (tickets, season tickets, products, event fees, resale fees, guest lists, donations, bundles)
 - Timeslots
 - Zones
 - Seating plan
-- Data capture assignments
+- Data capture questions
 - Internal questions
 - Venue
+
+## Related Functionality & Actions
+
+- Email Attendees
+  - Email Type(s):
+    - Order confirmation emails: Resends the order confirmation emails to purchasers or attendees. Attendees who didn't make the original purchase will not see any order/payment details.
+      - Audience:
+        - Purchasers: send an email to the purchases who made the original payment associated with an order.
+        - Attendees: send an email to the assigned attendees, who may or may not have made the original payment.
+    - Invoice reminders: Resends invoices to purchasers. This only applies to customers who checked out using the "Invoice" payment method.
+      - Audience
+        - Paid
+        - Unpaid
+        - All
+    - Item transfer emails: Resends the "claim your items" emails to each recipient yet to have claimed their transferred item(s). A customer is considered an "attendee" once they've claimed their items.
+    - Payment reminder emails: Resend payment reminder emails to purchasers who currently have an outstanding payment to make.
+      - Audience
+        - Payment link reminders: contact customers with an active payment link to remind them of how to pay and the remaining time left.
+        - Deposit received notifications: contact customers who have placed a deposit to remind them that they need to clear the balance, the remaining time left & how to pay.
+  - Subject: Optional override for the subject of the email. If left blank, the default subject for the chosen email(s) will be used.
+  - Title: An optional header added to the top of the email.
+  - Body: An optional [WYSIWYG](/core-platform/information/wysiwyg) field to include in the emails. This text will appear near the top of the email, and below the custom title (if present).
+  - Use blank email template: When turned on, the default system email information will be removed such as order details, ticket & event information and transfer details.
+- Sell in box office: redirects the currently authenticated user into **box office mode** to facilitate back-office sales.
+- View Reports
+  - View orders: links to the orders index page in admin
+  - View reservations
+  - View attendance

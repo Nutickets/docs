@@ -1,0 +1,21 @@
+---
+title: "Glossary"
+description: "A reference point for any Nuweb-specific terminology"
+---
+
+- Orders: A basket/reservation that transitioned (or been processed) into a complete state. The transition is one-way, meaning even if an order gets cancelled/refunded, it still remains an "order" from a terminology and reporting standpoint.
+- Reservations: An active or expired basket or sometimes referred to as an "incomplete order". Any sale that hasn't yet reached completion. Often used interchangably with "Baskets".
+- Baskets: Used interchangably with "Reservations" - an incomplete order.
+- Sale Items: A specific sales configuration of an "inventory item" that describes the pricing, the purchase & transfer rules and where, i.e. which "Inventory", this item will be on sale at, and under which sales channel(s). An "Inventory Item" can have many different Sale Items and stock levels may be set globally on the inventory item and/or for the individual sale items.
+  - Example A: a Blue T-Shirt (Inventory Item) can be sold at many different Inventories (Event A, Event B, Event C), with a specific sales configuration (Sale Item).
+  - Example B: The VIP Ticket (Inventory Item) is listed as VIP Ticket 9AM - 10AM, VIP Ticket 10AM-11AM, VIP Ticket 11AM-Noon under Event A. Each timeslot variation is it's own "Sale Item", that all belong to a single "Inventory" (The event).
+- Inventory: An entity which "sells" sale items - i.e. an "Event", "EPOS Shop" or "Company".
+- Inventory Items: sometimes referred to as just "Items".
+- Event Items: The same as "Sale Items", but specifically those linked to Events.
+- Order Items: Purchased (or reserved) instances of sale items. These always have a unique barcode associated with them, regardless of their current status.
+- Schedule: A group of "Events" can be linked together to form a "Schedule" (sometimes called "Season").
+- Season Ticket: A type of "Sale Item" that is a variation to the standard "Ticket" with added season ticket functionality, such as granting access to a "Space" across an entire "Schedule".
+- Space: The generic term for a purchasable place/spot on a "Seating Plan". There are 2 variaions of a Space: A Seat and a General Admission Area. A "Seat" is a Space with a stock of 1, a "General Admission Area" is a Space with a configurable stock level.
+- Ticket Shop: the public site associated with a "Company". It may or may not actually sell tickets, and could instead serve other purposes such as being a marketing site, event aggregator, a blog, etc.
+- Company: a tenant/account within the Nuweb platform where event and content management take place. Comes in 3 forms: parent company, child company, standalone company. Each company has a dedicated "Ticket Shop" (unless otherwise disabled).
+- Reseller: 1 level above a "Company", a Reseller is a white-label operator, distributor and/or partner of the Nuweb platform that determines the available functionality to a "Company".

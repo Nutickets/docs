@@ -343,6 +343,8 @@
           {
             "group": "Information",
             "pages": [
+              "core-platform/information/terminology",
+              "core-platform/information/sales-channels",
               "core-platform/information/trial-periods",
               "core-platform/information/paying-invoices",
               "core-platform/information/going-live",
