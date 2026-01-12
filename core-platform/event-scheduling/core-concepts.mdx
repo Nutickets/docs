@@ -1,4 +1,46 @@
 ---
-title: "Core Concepts"
-description: "Introduction to event schedules"
+title: "Getting Started"
+description: "Introduction to event schedules."
 ---
+
+## Overview
+
+- A schedule is a group of events
+- Schedules can be created by either linking/attaching multiple separate standalone events together or by turning a single event into a repeating series. It's also possible to mix-and-match by attaching standalone events to existing repeating series and vice versa.
+- Repeating events configuration:
+  - Repeating interval:
+    - Daily: Repeat every n days.
+    - Weekly: Select which day of the week to repeat on, i.e. Tuesdays & Thursdays.
+    - Monthly: Select which dates of the month to repeat, i.e. 2nd, 13th and 26th.
+    - Annually: once a year on the selected date.
+    - Custom: hand-pick which dates to schedule the event for.
+  - Set a repeat start window: i.e. repeat from 1st january
+  - Set an end by configuring an end window OR a final number of events: i.e. repeat until 31st january, or repeat for 30 days (capped at 31 days per single action)
+  - Individual days can be selectively removed, i.e. an event may be repeated every day until the end of the month, except for thursday the 6th and all saturdays.
+  - Publish the events automatically during their creation, or manually 1-by-1.
+- Individual events may be removed from a schedule (unscheduled), reverting them back into a standalone event.
+
+## Configuration
+
+- Schedule type: Select the schedule type which best suits the type of events within this schedule.
+  - Mixed events: Events are related but unique. A dedicated schedule listing page will be used to allow customers to navigate between dates in the schedule.
+  - Repeating events: Events are identical. A schedule calendar will be shown in the items modal allowing customers to browse all available dates from any event page.
+- Enable schedule listing page: Optionally enable a customer facing schedule listing page for repeating events (mixed events always have a schedule listing page).
+- Schedule Listing Page Settings: the following settings apply to mixed events by default, but may also be applied to repeating events when the 
+  - Heading text: The title displayed on the schedule discvoery page.
+  - Description: A WYSIWYG editor for customising the body of the schedule discovery page.
+  - Enable listing dates: Start and end dates for this schedule will be shown in the header for this schedules listing page.
+  - Default list style: Customers may switch between other list styles once the page has loaded.
+    - List view
+    - Calendar view
+  - Schedule thumbnail image: This image will be shown on all listing pages and in search results, where recurring events are grouped together. When not grouped, individual event thumbnail images will be used.
+  - Schedule header image: This image will be shown at the top of the schedule listing page.
+  - Show header image full width: The header image provided will be displayed the full width of the users screen.
+  - Sharing link: Meta title and meta description: The meta title/image/description dictate how your schedule will appear to others when linked externally through social media websites and Google.
+- Season ticket label: optionally override the "Season ticket" badge displayed during checkout when purchasing season tickets from this schedule.
+- Order modification settings:
+  - Enable order modification in box office: Allow staff to use box office to modify existing orders
+  - Enable order modification in shop: Allow customers to modify their orders after checkout
+  - Cutoff period: Minimum number of days or weeks before an event starts, that related orders can be modified
+  - Forfeit fees: When enabled, fees paid on the original order will be forfeited.
+  - Reduced value orders: When set to disabled, the customer will not be able to checkout if their order changes result in an order total less than their original order.
