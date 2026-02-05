@@ -1,14 +1,136 @@
 ---
 title: "Capacity Controls"
-description: "Documentation for Capacity Controls"
+description: "Central reference for how capacity and availability are controlled across events, timeslots, sale items, seating plans, and inventory."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Capacity Controls** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Capacity in the platform is controlled at multiple levels, not just one field.
+- A single purchase can be limited by event capacity, item-type capacity, timeslot stock, sale item group stock, sale item stock, inventory (global) stock, and seating-plan space availability.
+- This page centralises how those controls relate to each other.
+
+## Capacity Layers
+
+| Layer | What it limits | Key controls |
+|------|-----------------|--------------|
+| **Event (all item types)** | Total sales volume across the event | `Total Capacity` |
+| **Event (item-type capacity)** | Sales volume for specific item types | `Total Ticket Capacity`, `Total Product Capacity`, `Total Guest List Capacity`, `Total Donation Capacity` |
+| **Timeslot** | Sales volume inside a timeslot | `Time slot stock` (`Limited to` / `Unlimited`) |
+| **Sale item group** | Combined stock across grouped ticket sale items | Group `Total capacity` (`Limited to` / `Unlimited`) |
+| **Sale item** | Stock for a specific sale item instance | `Initial stock` on creation; allocated stock on inventory item edit |
+| **Inventory item (global)** | Shared stock across linked sale items | `Global stock` (`Limited to` / `Unlimited`) |
+| **Seating plan spaces** | Seat or general admission (GA) availability | Seat/GA space availability records generated from seating-plan schema |
+
+## How Availability Is Evaluated
+
+### 1. Sale Item Stock Resolution
+
+For a non-seated sale item, the platform calculates saleable stock as the lowest applicable remaining stock across:
+
+- Sale item group stock (if the item is in a group)
+- Inventory/global item stock (when the sale item uses global stock)
+- Sale item stock (if explicitly set)
+- Timeslot stock (if the item belongs to a timeslot)
+- Bundled child item stock (for bundles)
+
+In practice, the most restrictive layer wins.
+
+### 2. Seating Availability (Seated Events)
+
+For seated events, seat/GA space availability is an additional constraint:
+
+- Standard seats are imported as single-capacity spaces.
+- General admission blocks use block capacity from the seating-plan schema (when set).
+- Space status (`available`, `unavailable`, `hidden`, `restricted`) is separate from stock quantity and can block purchase even when quantity remains.
+
+### 3. Event Capacity Validation
+
+During basket validation, event-level checks run separately from item/timeslot/group stock checks:
+
+- Overall event capacity is validated.
+- Ticket capacity can be enforced specifically when `Take off sale if no ticket capacity remains` is enabled.
+- Item-type capacities are validated by item type (ticket/product/guest list/donation).
+
+This means a sale item can still have stock remaining but be blocked by event capacity.
+
+## Event Capacity Controls
+
+Event-level capacity fields:
+
+- **Total Capacity**
+- **Total Ticket Capacity**
+- **Total Product Capacity**
+- **Total Guest List Capacity**
+- **Total Donation Capacity**
+
+Related settings:
+
+- **Ticket capacity includes season tickets**
+- **Take off sale if no ticket capacity remains**
+
+### Season Ticket Behaviour
+
+- When `Ticket capacity includes season tickets` is enabled, season ticket sales are included in ticket-capacity checks.
+- Schedule logic also checks related schedule events where the same season ticket can consume ticket capacity.
+
+## Timeslot Stock
+
+- Timeslots support their own stock limit (`Time slot stock`).
+- `Unlimited` removes timeslot stock limits; `Limited to` sets a finite cap.
+- Timeslot stock does not replace event or item stock controls. Event capacity and item stock can still be the limiting factor.
+
+## Sale Item Group Capacity
+
+- Sale item groups can define a group-level capacity that grouped sale items cannot exceed.
+- Group capacity is independent of each sale item’s own stock setting.
+- Grouping constraints:
+  - Sale item groups are ticket-only.
+  - Timeslot sale items cannot be assigned to sale item groups.
+
+## Sale Item And Inventory Stock
+
+### Inventory (Global) Stock
+
+- Inventory items can have a global stock limit (`Global stock`), shared by linked sale items.
+- If global stock is unlimited, linked sale items can still be limited by their own stock or other layers.
+
+### Allocated Sale Item Stock
+
+- Each linked sale item can either:
+  - use global stock, or
+  - have an explicit allocated stock value.
+- Allocated sale item stock cannot be set higher than a finite global stock limit.
+
+## Unlimited vs Limited
+
+- For stock/capacity types in this page, no availability record means unlimited.
+- Setting a value creates/updates a finite availability record.
+- Switching to `Unlimited` removes that limit record.
+
+## Sold/Reserved Floor Protection
+
+When a finite limit is updated, the platform does not allow effective capacity below already sold + reserved quantity.
+
+- Event capacities are clamped to at least sold + reserved totals.
+- Timeslot stock is clamped to at least sold + reserved totals.
+- Inventory and sale item stock updates are clamped similarly.
+- Sale item group recalculations also enforce the same floor.
+
+## Troubleshooting Capacity Issues
+
+If an item appears unavailable unexpectedly, check in this order:
+
+1. Event overall capacity and item-type capacity.
+2. Timeslot stock (if assigned).
+3. Sale item group stock (if assigned).
+4. Sale item allocated stock and whether it uses global stock.
+5. Inventory global stock.
+6. For seated events, seat/GA space availability and status.
+
+Related pages:
+
+- [Event Management Introduction](/core-platform/event-management/introduction)
+- [Timeslots](/core-platform/event-management/timeslots)
+- [Sale Item Groups](/core-platform/event-management/sale-item-groups)
+- [Seating Plans (Event Management)](/core-platform/event-management/seating-plans)
+- [Stock Management](/core-platform/sale-items/stock-management)
