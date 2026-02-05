@@ -1,55 +1,142 @@
 ---
-title: "Getting Started"
-description: "Introduction to event schedules."
+title: "Core Concepts"
+description: "Introduction to event schedules and how they work."
 ---
 
 ## Overview
 
-- A schedule is a group of events
-- Schedules can be created by either linking/attaching multiple separate standalone events together or by turning a single event into a repeating series. It's also possible to mix-and-match by attaching standalone events to existing repeating series and vice versa.
-- Repeating events configuration:
-  - Repeating interval:
-    - Daily: Repeat every n days.
-    - Weekly: Select which day of the week to repeat on, i.e. Tuesdays & Thursdays.
-    - Monthly: Select which dates of the month to repeat, i.e. 2nd, 13th and 26th.
-    - Annually: once a year on the selected date.
-    - Custom: hand-pick which dates to schedule the event for.
-  - Set a repeat start window: i.e. repeat from 1st january
-  - Set an end by configuring an end window OR a final number of events: i.e. repeat until 31st january, or repeat for 30 days (capped at 31 days per single action)
-  - Individual days can be selectively removed, i.e. an event may be repeated every day until the end of the month, except for thursday the 6th and all saturdays.
-  - Publish the events automatically during their creation, or manually 1-by-1.
-- Individual events may be removed from a schedule (unscheduled), reverting them back into a standalone event.
+A schedule is a group of related events. Schedules enable:
+- Grouping events for display on a dedicated schedule listing page
+- Allowing customers to browse dates via a calendar interface
+- Selling [season tickets](/core-platform/season-tickets/overview) that grant access to all events in the schedule
 
-## Configuration
+Schedules can be created in two ways:
+1. **Linking standalone events** — Attach multiple separate events together into a schedule
+2. **Creating repeating events** — Turn a single event into a repeating series
 
-- Schedule type: Select the schedule type which best suits the type of events within this schedule.
-  - Mixed events: Events are related but unique. A dedicated schedule listing page will be used to allow customers to navigate between dates in the schedule.
-  - Repeating events: Events are identical. A schedule calendar will be shown in the items modal allowing customers to browse all available dates from any event page.
-- Enable schedule listing page: Optionally enable a customer facing schedule listing page for repeating events (mixed events always have a schedule listing page).
-- Schedule Listing Page Settings: the following settings apply to mixed events by default, but may also be applied to repeating events when the
-  - Heading text: The title displayed on the schedule discvoery page.
-  - Description: A WYSIWYG editor for customising the body of the schedule discovery page.
-  - Enable listing dates: Start and end dates for this schedule will be shown in the header for this schedules listing page.
-  - Default list style: Customers may switch between other list styles once the page has loaded.
-    - List view
-    - Calendar view
-  - Schedule thumbnail image: This image will be shown on all listing pages and in search results, where recurring events are grouped together. When not grouped, individual event thumbnail images will be used.
-  - Schedule header image: This image will be shown at the top of the schedule listing page.
-  - Show header image full width: The header image provided will be displayed the full width of the users screen.
-  - Sharing link: Meta title and meta description: The meta title/image/description dictate how your schedule will appear to others when linked externally through social media websites and Google.
-- Season ticket label: optionally override the "Season ticket" badge displayed during checkout when purchasing season tickets from this schedule.
-- Order modification settings:
-  - Enable order modification in box office: Allow staff to use box office to modify existing orders
-  - Enable order modification in shop: Allow customers to modify their orders after checkout
-  - Cutoff period: Minimum number of days or weeks before an event starts, that related orders can be modified
-  - Forfeit fees: When enabled, fees paid on the original order will be forfeited.
-  - Reduced value orders: When set to disabled, the customer will not be able to checkout if their order changes result in an order total less than their original order.
+These approaches can be combined: standalone events can be attached to existing repeating series and vice versa.
+
+### Removing Events from a Schedule
+
+Individual events can be removed from a schedule (unscheduled), reverting them to standalone events. If a schedule is reduced to fewer than two events, the schedule is automatically deleted.
+
+## Schedule Types
+
+Every schedule has a type that determines how events are displayed to customers:
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| **Mixed events** | Events are related but unique. A dedicated schedule listing page displays all events, allowing customers to navigate between dates. | Theatre productions with different shows, festival days with different lineups |
+| **Repeating events** | Events are identical. A schedule calendar appears in the ticket selection modal, letting customers browse available dates from any event page. | Weekly classes, recurring tours, regular performances |
+
+<Note>
+Mixed event schedules always have a listing page. Repeating event schedules can optionally enable a listing page.
+</Note>
+
+## Schedule Listing Page
+
+The schedule listing page is a customer-facing page that displays all events in the schedule. For more details, see [Event Discovery](/core-platform/event-scheduling/event-discovery).
+
+### Profile Settings
+
+| Field | Description |
+|-------|-------------|
+| **Heading text** | The title displayed at the top of the schedule listing page |
+| **Description** | Rich text content for the schedule listing page body |
+| **Enable listing dates** | When enabled, the schedule's overall start and end dates appear in the page header |
+| **Default list style** | The initial view when customers land on the page: **List view** or **Calendar view**. Customers can switch between views after loading. |
+
+### Media
+
+| Image | Description |
+|-------|-------------|
+| **Schedule thumbnail image** | Shown on listing pages and search results when recurring events are grouped together. When events aren't grouped, individual event thumbnails are used instead. |
+| **Schedule header image** | Displayed at the top of the schedule listing page |
+| **Show header image full width** | When enabled, the header image spans the full width of the screen |
+
+### SEO & Social Sharing
+
+| Field | Description |
+|-------|-------------|
+| **Meta title** | The title shown when the schedule is shared on social media or appears in search results |
+| **Meta description** | The description shown when shared externally |
+| **Meta image** | The image shown in social media previews. Inherits from the header image if not set. |
+
+## Rebooking Settings (Legacy)
+
+<Warning>
+This is a legacy feature. For flexible order modifications that aren't restricted to schedules, see [Order Modifications](/core-platform/order-management/order-modifications).
+</Warning>
+
+Schedules can enable rebooking, allowing customers or staff to move orders to different dates within the same schedule.
+
+| Setting | Description |
+|---------|-------------|
+| **Allow staff rebooking** | Admins can move existing orders to a new date within this schedule via box office |
+| **Staff rebooking cutoff** | Number of days before an event starts when staff can no longer rebook. Set to 0 to allow rebooking right up to the event. |
+| **Allow customer rebooking** | Customers can move their orders to a new date via their My Account section |
+| **Customer rebooking cutoff** | Number of days before an event starts when customers can no longer rebook |
+
+## Season Ticket Label
+
+For schedules that offer [season tickets](/core-platform/season-tickets/overview), you can customise the badge text displayed during checkout. By default, this shows "Season ticket".
 
 ## Schedule Groups
 
-Schedule groups can be utilised to organise & sub divide larger recurring schedules.
+Schedule groups (also called sub-schedules) allow you to organise and subdivide larger schedules. This is useful when you want to apply bulk changes to a subset of events rather than the entire schedule.
 
-- Events can be further grouped inside of Schedules to form Schedule Groups
-- An event may only belong to a single group but can be freely moved between groups.
-- By default, events are all "ungrouped" & reside in the root of the schedule.
-- Changes applied to events in a schedule can be applied to the full schedule OR to just the events in the sub-group within the schedule.
+- Each group has a name for identification
+- An event can belong to only one group at a time, but can be moved between groups freely
+- By default, events are "ungrouped" and reside at the root of the schedule
+- When bulk editing events in a schedule, you can choose to apply changes to:
+  - All events in the schedule
+  - Only events in a specific sub-group
+  - Only ungrouped events
+
+<Note>
+Schedule groups are managed from the schedule dashboard. Navigate to an event in the schedule, then access the schedule dashboard to create, edit, or delete groups.
+</Note>
+
+## Creating Repeating Events
+
+When creating repeating events from an existing event, you can configure:
+
+### Repeat Cycle
+
+| Cycle | Description |
+|-------|-------------|
+| **Daily** | Repeat every *n* days (e.g., every day, every 2 days) |
+| **Weekly** | Select specific days of the week (e.g., every Tuesday and Thursday) |
+| **Monthly** | Select specific dates of the month (e.g., the 1st and 15th). Only dates 1-28 are available to ensure validity in all months. |
+| **Annually** | Once per year on the selected date |
+| **Custom** | Hand-pick specific dates from a calendar |
+
+### Repeat Window
+
+- **Repeat start window**: The date from which repeats should begin
+- **Repeat end window**: Either:
+  - An end date (repeats stop on or before this date), or
+  - A number of occurrences (e.g., repeat for 30 events)
+
+<Warning>
+A maximum of 31 events can be created in a single repeat action. For larger schedules, add repeats in batches.
+</Warning>
+
+### What Gets Copied
+
+When creating repeating events, you can select which elements to copy from the original event:
+
+- **Sale items** (tickets, add-ons) — Copied items retain a reference to the original, allowing bulk editing and rebooking across the schedule
+- **Seating plan** — The seating configuration is replicated
+- **Sale periods** — Custom on-sale windows are copied
+- **Zones** — Access control zones are replicated
+- **Sale item groups** — Groupings are preserved
+- **Timeslots** — Time divisions within the event
+- **Data capture questions** — Customer questions are copied
+- **Internal questions** — Staff-facing questions and responses
+
+### Publishing
+
+You can choose to:
+- **Publish immediately** — Events go live as they are created
+- **Publish manually** — Events are created as drafts, allowing you to publish them individually

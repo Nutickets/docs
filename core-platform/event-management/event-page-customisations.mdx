@@ -1,14 +1,179 @@
 ---
 title: "Event Page Customisations"
-description: "Documentation for Event Page Customisations"
+description: "Customise how your event pages appear to customers, including images, content blocks, and display settings."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Event Page Customisations** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Event page customisations control how individual event pages appear to customers on your ticket shop. You can configure:
+
+- Header and thumbnail images
+- Content blocks (text, galleries, videos, maps, and more)
+- What information is displayed (dates, times, location, pricing)
+- SEO and social sharing settings
+- Custom button text and capacity messaging
+
+Access page customisation from the event dashboard by selecting **Customise Page** or navigating to the page settings section.
+
+## Images
+
+### Header Image
+
+The header image appears as a banner at the top of the event page.
+
+- Supports multiple locales for multilingual sites
+- Recommended aspect ratio: 2:1
+- Minimum dimensions: 300px height, 600px width
+- If no image is uploaded, a default image is used
+
+### Thumbnail Image
+
+The thumbnail image appears in event listings, search results, and when events are grouped.
+
+- Same dimension requirements as header images
+- Used on listing pages and event cards
+- Falls back to a default image if not set
+
+## Content Blocks
+
+Content blocks are modular sections that make up the body of your event page. You can add, remove, reorder, and configure blocks to build your page layout.
+
+### Block Types
+
+| Type | Description |
+|------|-------------|
+| **Description** | Displays the event's main description text |
+| **Text** | Rich text content using a WYSIWYG editor |
+| **Images** | Image gallery with multiple layout options |
+| **Video** | Embedded video from YouTube or Vimeo |
+| **Related Events** | Display other events, optionally filtered by tags |
+| **Map** | Venue location map with What3Words integration |
+| **Social** | Social media sharing links |
+| **Contact** | Organiser contact information (email, phone) |
+| **Template** | Reusable custom templates that can be exported/imported, assigned to [CMS pages](/core-platform/cms/pages), and shared across events and [articles](/core-platform/cms/articles) |
+
+### Block Settings
+
+Each content block can be configured with:
+
+- **Title**: Heading displayed above the block (translatable)
+- **Display in menu**: Whether the block appears in the page navigation
+- **Sale period visibility**: Restrict when the block is shown:
+  - Always show
+  - Show before sale periods begin
+  - Show after general sale ends
+  - Show only during selected sale periods
+
+<Info>
+Sale periods control when items go on and off sale. See [Sales Periods](/core-platform/event-management/sales-periods) for more details.
+</Info>
+
+### Gallery Layouts
+
+Image blocks support multiple layout styles:
+
+| Layout | Description |
+|--------|-------------|
+| **Automatic** | System chooses the best layout based on image count |
+| **3 column** | Three images per row |
+| **2 column** | Two images per row |
+| **Carousel** | Scrollable image slider |
+| **Collage** | Mixed-size image arrangement |
+| **Full width** | Images span the content area |
+| **Banner** | Images extend to page edges, ignoring margins |
+
+### Reordering Blocks
+
+Drag and drop blocks to change their display order on the page.
+
+## Display Settings
+
+Control what information appears in the event header and how it's formatted.
+
+### Date and Time Display
+
+| Option | Description |
+|--------|-------------|
+| **Both** | Show start and end date/time |
+| **Start only** | Show only the start date/time |
+| **End only** | Show only the end date/time |
+| **Hide** | Don't display date/time |
+
+Separate options are available for date, time, and [timeslot](/core-platform/event-management/timeslots) display.
+
+### Location Display
+
+| Option | Description |
+|--------|-------------|
+| **Show location** | Display full venue details (name, address, city, postcode) |
+| **Show venue only** | Display only the venue name |
+| **Hide location** | Don't display location information |
+
+<Note>
+The Map content block is only available when location display is set to "Show location".
+</Note>
+
+### Subheading
+
+Add a custom subheading that appears below the event title in the header. Maximum 140 characters, supports multiple locales.
+
+### Pricing Display
+
+Control how pricing information appears on the event page:
+
+| Setting | Description |
+|---------|-------------|
+| **Show/Hide pricing** | Toggle pricing visibility entirely |
+| **Price range** | Show both min and max, only lowest, or only highest price |
+| **Item types** | Select which item types to include (tickets, products, etc.) |
+| **Hide free items** | Exclude items with zero price from the range |
+| **Include off-sale items** | Include sold out items in price calculations |
+| **Fee display** | Show or hide fees in the displayed price |
+| **Tax display** | Show or hide tax in the displayed price |
+
+## Capacity Signalling
+
+Customise the text displayed on purchase buttons based on availability status. Each state supports custom button text and optional tooltips (max 140 characters each):
+
+| State | When Shown |
+|-------|------------|
+| **Purchase** | Items are available for purchase |
+| **Sold Out** | All items are sold out |
+| **Off Sale** | Sales have ended or are paused |
+| **Before Sale** | Sales haven't started yet |
+| **Presale** | During a presale period |
+
+For each state, you can:
+- Set custom button text
+- Enable a tooltip on hover
+- Set custom tooltip text
+
+All text fields support multiple locales.
+
+## SEO and Social Sharing
+
+Configure how the event appears in search results and when shared on social media.
+
+| Field | Description |
+|-------|-------------|
+| **Meta title** | The title shown in search results and social shares |
+| **Meta description** | The description shown in search results and social shares |
+| **Meta image** | The image shown when the event is shared (inherits from thumbnail if not set) |
+
+These settings affect how your event appears on:
+- Google search results
+- Facebook, Twitter/X, LinkedIn shares
+- Link previews in messaging apps
+
+## Organiser Details
+
+If the event's contact details differ from your company details, you can set event-specific organiser information that displays on the event page.
+
+## Applying to Scheduled Events
+
+When editing page settings for an event that's part of a [schedule](/core-platform/event-scheduling/core-concepts), you can choose to apply changes to:
+- This event only
+- All events in the schedule
+- All events in a specific schedule group
+
+This enables bulk updates to page customisations across recurring events.
