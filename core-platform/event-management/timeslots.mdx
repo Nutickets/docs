@@ -1,14 +1,149 @@
 ---
 title: "Timeslots"
-description: "Documentation for Timeslots"
+description: "Create, manage, and control event time slots, including stock, on-sale rules, and schedule-wide updates."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Timeslots** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Time slots split an event into specific admission windows, while still staying inside the event's start/end dates.
+- Time slots are managed from the event dashboard in **Manage time slots**.
+- Each time slot has its own date/time range, optional on-sale dates, optional stock limit, and visibility controls.
+- Time slots can be updated individually or in bulk across an event or schedule.
+- For seated events, creating a time slot also creates the corresponding seating-plan spaces for that slot.
+
+## Access Requirements
+
+| Requirement | Details |
+|---|---|
+| Feature availability | Time slots must be enabled for your company. |
+| Permissions | Users need time slot permissions plus event edit/edit-relationship access. |
+| Event state | Time slot date/time values must stay within the event date range. |
+| Season tickets | New time slots cannot be created if the event already has season tickets. |
+
+<Note>
+If your role only allows stock edits after publish, time slot fields can become read-only while stock remains editable.
+</Note>
+
+## Time Slot Limits
+
+- Standard setup allows up to `30` time slots in a single creation attempt.
+- Your company settings may use a different limit.
+- The create flow shows the current allowance and blocks submission if the generated slots exceed the allowed amount for that attempt.
+
+## Creating Time Slots
+
+Use **Create a time slot series** from the time slot dashboard.
+
+### Core Fields
+
+| Field | Behavior |
+|---|---|
+| **Name** | Optional. If omitted, display falls back to the configured time display format. |
+| **Validity dates** | Required start and end date/time for each slot. Slots must sit within the event start and end date/time. |
+| **Repeat options** | Supports one-off or repeated generation (minutes, hourly, daily, weekly, monthly, yearly). |
+| **Repeats every** | Numeric interval (`1` to `60`). |
+| **Generate time slots until** | End boundary for generation (defaults to event end date/time). |
+
+### Advanced Options
+
+| Field | Behavior |
+|---|---|
+| **Time slot stock** | `Unlimited` or `Limited to X`. |
+| **Scheduled events** | For scheduled events, you can create equivalent slots on other upcoming events in the same schedule. |
+| **Sale items** | Selecting items creates new sale-item instances in each generated time slot (existing items are not modified). |
+| **On sale dates** | Optional start and end dates for when the slot is available to buy. |
+| **Hide when off-sale** | Hides the slot when outside its sale period or after it has ended. |
+| **Hide when out-of-stock** | Hides the slot when stock is exhausted. |
+
+<Note>
+When applying creation to scheduled events, time slot and on-sale dates are adjusted relative to each target event's dates.
+</Note>
+
+## Editing and Bulk Updating
+
+### Single Time Slot Edit
+
+- Edit a slot from the calendar/list view.
+- You can update name, dates, stock mode/quantity, on-sale dates, visibility toggles, and assigned sale items.
+
+### Bulk Update
+
+From edit, use **Edit time slots** to apply selected changes to:
+
+- **Just this time slot**
+- **Time slots within this event**
+- **Time slots within this schedule** (if the event belongs to a schedule)
+
+Filter bulk targets by:
+
+- **Scope**: all, future, past
+- **Time**: all, matching minutes past, exact matching time
+- **Comparison**: all, before source time, after source time
+
+If more than `100` matches are found, individual rows are not listed, but criteria-based update is still supported.
+
+## Shop and Box Office Behavior
+
+### Visibility and Sale State
+
+A slot is treated as purchasable when:
+
+- the event is on sale,
+- the slot is in its sale period,
+- the slot is not in the past,
+- and there are visible sale items with availability for that slot.
+
+### Hide Rules
+
+- `Hide when off-sale` removes visibility when the slot is not in-sale (and after slot end).
+- `Hide when out-of-stock` removes visibility when stock is exhausted.
+- Box office can still access slots even when they would be hidden on the public shop.
+
+### Display Format
+
+The event setting **Display timeslot** controls how slot times are rendered to customers:
+
+- Show both start and end
+- Show start only
+- Show end only
+- Hide timeslot time display
+
+### Whole-Event Option
+
+If an event also has non-timeslotted tickets, the shop can show an additional pseudo-slot (`Whole Event`) alongside actual time slots.
+
+## Stock Rules
+
+- Unlimited slot stock means no time-slot sales limit is applied.
+- Limited slot stock applies a specific sales limit to the slot.
+- When changing to limited stock, total stock cannot be set below already sold + reserved quantity.
+- Current stock is recalculated from total stock minus sold and reserved quantities.
+- Effective saleability can be constrained by both slot stock and assigned sale-item stock.
+
+## Deleting Time Slots
+
+### No Orders/Reservations
+
+- The slot can be deleted.
+- Assigned sale items for that slot are deleted with it.
+
+### Existing Orders/Reservations
+
+- The slot is not deleted.
+- Slot sale items are taken off sale instead.
+- A warning is shown in Admin.
+
+## Related Constraints
+
+- Time-slotted sale items cannot be associated with sale item groups.
+- Tickets assigned to a time slot use the slot dates as their validity window.
+- If event dates are changed after creating slots, Admin flags out-of-bounds slots so they can be corrected.
+
+## Related
+
+- [Event Management Introduction](/core-platform/event-management/introduction)
+- [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)
+- [Sales Periods](/core-platform/event-management/sales-periods)
+- [Seating Plans](/core-platform/event-management/seating-plans)
+- [Event Scheduling Core Concepts](/core-platform/event-scheduling/core-concepts)
+- [Access Control: Validity Dates](/core-platform/access-control/validity-dates)
