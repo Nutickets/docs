@@ -1,149 +1,180 @@
 ---
 title: "Timeslots"
-description: "Create, manage, and control event time slots, including stock, on-sale rules, and schedule-wide updates."
+description: "Split events into specific admission windows with independent stock, on-sale rules, and visibility controls."
 ---
 
 ## Overview
 
-- Time slots split an event into specific admission windows, while still staying inside the event's start/end dates.
-- Time slots are managed from the event dashboard in **Manage time slots**.
-- Each time slot has its own date/time range, optional on-sale dates, optional stock limit, and visibility controls.
-- Time slots can be updated individually or in bulk across an event or schedule.
-- For seated events, creating a time slot also creates the corresponding seating-plan spaces for that slot.
-
-## Access Requirements
-
-| Requirement | Details |
-|---|---|
-| Feature availability | Time slots must be enabled for your company. |
-| Permissions | Users need time slot permissions plus event edit/edit-relationship access. |
-| Event state | Time slot date/time values must stay within the event date range. |
-| Season tickets | New time slots cannot be created if the event already has season tickets. |
+- Timeslots divide an event into distinct admission windows, each with its own date/time range, stock, on-sale period, and visibility settings.
+- Timeslots are managed from the event dashboard under **Manage time slots**.
+- Timeslot names support [translations](/core-platform/core/translations), allowing localised labels per language. When no name is set, the configured time display format is used instead.
+- For seated events, creating a timeslot automatically creates the corresponding [seating plan](/core-platform/event-management/seated-events) spaces for that slot.
+- All timeslot dates respect the event's [timezone](/core-platform/core/timezones) and must fall within the event's start and end dates.
 
 <Note>
-If your role only allows stock edits after publish, time slot fields can become read-only while stock remains editable.
+Timeslots require the timeslots feature to be enabled for your company. Users need timeslot permissions (create, edit, delete) along with event edit and edit-relationship access.
 </Note>
 
-## Time Slot Limits
+## Creating Timeslots
 
-- Standard setup allows up to `30` time slots in a single creation attempt.
-- Your company settings may use a different limit.
-- The create flow shows the current allowance and blocks submission if the generated slots exceed the allowed amount for that attempt.
-
-## Creating Time Slots
-
-Use **Create a time slot series** from the time slot dashboard.
+Use **Create a time slot series** from the timeslot management page to generate one or more timeslots.
 
 ### Core Fields
 
-| Field | Behavior |
+| Field | Description |
 |---|---|
-| **Name** | Optional. If omitted, display falls back to the configured time display format. |
-| **Validity dates** | Required start and end date/time for each slot. Slots must sit within the event start and end date/time. |
-| **Repeat options** | Supports one-off or repeated generation (minutes, hourly, daily, weekly, monthly, yearly). |
-| **Repeats every** | Numeric interval (`1` to `60`). |
-| **Generate time slots until** | End boundary for generation (defaults to event end date/time). |
+| **Name** | Optional. Supports multiple languages. When omitted, the display falls back to the configured time format. |
+| **Validity dates** | Required start and end date/time. Must fall within the event's start and end dates. |
+| **Repeat** | One-off, or repeating at an interval: minutes, hourly, daily, weekly, monthly, or annually. |
+| **Repeats every** | Interval between repeats (`1`–`60`). Only shown when a repeat option is selected. |
+| **Generate time slots until** | End boundary for generation. Defaults to the event end date/time. |
 
 ### Advanced Options
 
-| Field | Behavior |
+| Field | Description |
 |---|---|
-| **Time slot stock** | `Unlimited` or `Limited to X`. |
-| **Scheduled events** | For scheduled events, you can create equivalent slots on other upcoming events in the same schedule. |
-| **Sale items** | Selecting items creates new sale-item instances in each generated time slot (existing items are not modified). |
-| **On sale dates** | Optional start and end dates for when the slot is available to buy. |
-| **Hide when off-sale** | Hides the slot when outside its sale period or after it has ended. |
-| **Hide when out-of-stock** | Hides the slot when stock is exhausted. |
+| **Time slot stock** | `Unlimited` (no cap) or `Limited to` a specific number. See [Stock Rules](#stock-rules). |
+| **Sale items** | Selecting items creates new [sale item](/core-platform/sale-items/core-concepts) instances in each generated timeslot. Existing items are not modified. |
+| **On sale dates** | Optional start and end dates controlling when the timeslot is available for purchase. |
+| **Hide when off-sale** | Hides the timeslot when outside its on-sale period or after it has ended. |
+| **Hide when out-of-stock** | Hides the timeslot when stock is exhausted. |
+
+### Scheduled Events
+
+For events that belong to a [schedule](/core-platform/event-scheduling/core-concepts), the creation form offers the option to create equivalent timeslots on other upcoming events in the same schedule. Timeslot dates and on-sale dates are adjusted relative to each target event's dates.
+
+### Limits
+
+Each event has a maximum number of timeslots, controlled by a company setting (default: `30`). The creation form displays the remaining capacity and blocks submission if the generated timeslots would exceed it.
+
+<Warning>
+Timeslots cannot be created if the event already has [season tickets](/core-platform/season-tickets/overview). The two features are mutually exclusive.
+</Warning>
+
+## Managing Timeslots
+
+### Admin View
+
+The timeslot management page displays timeslots in a calendar view with weekly and daily pagination. Each timeslot shows:
+
+- Name and display time
+- Capacity bar (sold, reserved, remaining)
+- Sale status (on sale, off sale, sold out)
+- Quick actions: add tickets, toggle sale status, delete
+
+Timeslots can be reordered via drag-and-drop. The sort order determines the display sequence in the shop.
+
+### Editing a Single Timeslot
+
+Open a timeslot from the calendar view to edit its name, dates, stock mode/quantity, on-sale dates, visibility toggles, and assigned sale items.
 
 <Note>
-When applying creation to scheduled events, time slot and on-sale dates are adjusted relative to each target event's dates.
+If your role only allows stock edits after publish, timeslot fields become read-only while stock remains editable.
 </Note>
 
-## Editing and Bulk Updating
+### Toggling Sale Status
 
-### Single Time Slot Edit
+The timeslot list provides a quick toggle to take a timeslot on or off sale without opening the full edit form.
 
-- Edit a slot from the calendar/list view.
-- You can update name, dates, stock mode/quantity, on-sale dates, visibility toggles, and assigned sale items.
+### Bulk Updating
 
-### Bulk Update
+From the edit view, use **Edit time slots** to apply changes across multiple timeslots.
 
-From edit, use **Edit time slots** to apply selected changes to:
+**Scope** — which timeslots to target:
 
 - **Just this time slot**
 - **Time slots within this event**
 - **Time slots within this schedule** (if the event belongs to a schedule)
 
-Filter bulk targets by:
+**Filters** — narrow the target set:
 
-- **Scope**: all, future, past
-- **Time**: all, matching minutes past, exact matching time
-- **Comparison**: all, before source time, after source time
+| Filter | Options |
+|---|---|
+| **Scope** | All time slots, Future time slots, Past time slots |
+| **Time** | All time slots, All time slots matching minutes past, Time slots with this exact time |
+| **Comparison** | All time slots, Time slots before, Time slots after |
 
-If more than `100` matches are found, individual rows are not listed, but criteria-based update is still supported.
+When more than `100` matches are found, individual rows are not listed but criteria-based updating is still supported.
 
-## Shop and Box Office Behavior
+On-sale dates in bulk updates are adjusted relative to each target timeslot's existing on-sale dates. If the source or target timeslot does not have on-sale dates, the specified date is applied directly.
+
+### Overwriting from the Event Dashboard
+
+Timeslots can also be edited in bulk from the event dashboard. Select one or more timeslots from the list and click **Edit** to open the overwrite modal. This presents a blank form — only the fields you modify are applied to the selected timeslots.
+
+### Deleting Timeslots
+
+<Tabs>
+  <Tab title="No Orders or Reservations">
+    The timeslot and its assigned sale items are deleted.
+  </Tab>
+  <Tab title="Existing Orders or Reservations">
+    The timeslot is kept but its sale items are taken off sale. A warning is shown in the admin.
+  </Tab>
+</Tabs>
+
+Deleted timeslots are soft-deleted and can be restored.
+
+## Shop and Box Office Behaviour
 
 ### Visibility and Sale State
 
-A slot is treated as purchasable when:
+A timeslot is purchasable when all of the following are true:
 
-- the event is on sale,
-- the slot is in its sale period,
-- the slot is not in the past,
-- and there are visible sale items with availability for that slot.
+1. The event is on sale.
+2. The timeslot is within its on-sale period.
+3. The timeslot has not ended.
+4. There are visible sale items with available stock for the timeslot.
+
+Timeslots that are sold out or off sale appear greyed-out with a **Sold Out** or **Off Sale** badge.
 
 ### Hide Rules
 
-- `Hide when off-sale` removes visibility when the slot is not in-sale (and after slot end).
-- `Hide when out-of-stock` removes visibility when stock is exhausted.
-- Box office can still access slots even when they would be hidden on the public shop.
+- **Hide when off-sale** — removes the timeslot from view when it is outside its sale period or after its end time.
+- **Hide when out-of-stock** — removes the timeslot from view when stock is exhausted.
+
+### Customer Filters
+
+The shop provides a time filter allowing customers to narrow timeslots by time of day (e.g. morning, afternoon, or a specific time).
 
 ### Display Format
 
-The event setting **Display timeslot** controls how slot times are rendered to customers:
+The event setting **Display timeslot** controls how timeslot times are rendered to customers:
 
-- Show both start and end
-- Show start only
-- Show end only
-- Hide timeslot time display
+| Option | Behaviour |
+|---|---|
+| Display start & end times | Shows both the start and end time |
+| Display start, hide end times | Shows the start time only |
+| Display end, hide start times | Shows the end time only |
+| Hide start & end times | No time is displayed |
 
-### Whole-Event Option
+Each timeslot also shows its lowest price when visible in the shop.
 
-If an event also has non-timeslotted tickets, the shop can show an additional pseudo-slot (`Whole Event`) alongside actual time slots.
+### Whole Event Option
+
+If an event has both timeslotted and non-timeslotted sale items, the shop displays a **Whole Event** pseudo-slot alongside the actual timeslots. This allows customers to purchase items that are not assigned to a specific timeslot.
+
+### Box Office
+
+[Box office](/core-platform/box-office/introduction) users can view and interact with timeslots that are hidden or off-sale on the public shop, allowing sales outside the normal visibility rules.
 
 ## Stock Rules
 
-- Unlimited slot stock means no time-slot sales limit is applied.
-- Limited slot stock applies a specific sales limit to the slot.
-- When changing to limited stock, total stock cannot be set below already sold + reserved quantity.
-- Current stock is recalculated from total stock minus sold and reserved quantities.
-- Effective saleability can be constrained by both slot stock and assigned sale-item stock.
-
-## Deleting Time Slots
-
-### No Orders/Reservations
-
-- The slot can be deleted.
-- Assigned sale items for that slot are deleted with it.
-
-### Existing Orders/Reservations
-
-- The slot is not deleted.
-- Slot sale items are taken off sale instead.
-- A warning is shown in Admin.
+- **Unlimited** — no timeslot-level sales cap is applied.
+- **Limited** — a specific sales cap for the timeslot. Total stock cannot be set below the sum of already sold and reserved quantities; current stock is recalculated as total minus sold and reserved.
+- Effective saleability is the **minimum** of the timeslot's own stock and the stock of its assigned sale items. Both must have availability for a purchase to succeed.
 
 ## Related Constraints
 
-- Time-slotted sale items cannot be associated with sale item groups.
-- Tickets assigned to a time slot use the slot dates as their validity window.
-- If event dates are changed after creating slots, Admin flags out-of-bounds slots so they can be corrected.
+- Timeslotted sale items cannot be associated with [sale item groups](/core-platform/event-management/sale-item-groups).
+- Tickets assigned to a timeslot use the timeslot's start and end dates as their [validity window](/core-platform/access-control/validity-dates).
+- If event dates are changed after creating timeslots, the admin flags out-of-bounds timeslots so they can be corrected.
 
 ## Related
 
 - [Event Management Introduction](/core-platform/event-management/introduction)
 - [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)
 - [Sales Periods](/core-platform/event-management/sales-periods)
-- [Seating Plans](/core-platform/event-management/seating-plans)
+- [Seating Plans](/core-platform/event-management/seated-events)
 - [Event Scheduling Core Concepts](/core-platform/event-scheduling/core-concepts)
 - [Access Control: Validity Dates](/core-platform/access-control/validity-dates)

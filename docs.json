@@ -36,7 +36,7 @@
             "pages": [
               "core-platform/event-management/introduction",
               "core-platform/event-management/timeslots",
-              "core-platform/event-management/seating-plans",
+              "core-platform/event-management/seated-events",
               "core-platform/event-management/capacity-controls",
               "core-platform/event-management/venues",
               "core-platform/event-management/event-approvals",
