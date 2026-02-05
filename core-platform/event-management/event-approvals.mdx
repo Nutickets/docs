@@ -1,14 +1,189 @@
 ---
 title: "Event Approvals"
-description: "Documentation for Event Approvals"
+description: "Control which events can be published by requiring approval from designated users before events go live."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Event Approvals** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Event approvals add a review step to the event publishing workflow. Users who can create events but cannot publish them must request approval before their events can go live. Users with publish permissions can then review, approve, or reject events.
+
+This is useful for organisations where:
+- Multiple users create events but only managers should control what goes live
+- Events need quality review before publication
+- Compliance or brand guidelines must be checked before publishing
+
+## How It Works
+
+The approval workflow involves two user roles:
+
+| Role | Permissions | Actions |
+|------|-------------|---------|
+| **Creator** | Can create events, cannot publish | Creates events, requests approval, edits after rejection |
+| **Approver** | Can publish events | Reviews events, approves (publishes) or rejects with feedback |
+
+### Workflow Steps
+
+```
+1. Creator creates event
+   └── Event status: Draft
+
+2. Creator requests approval
+   └── Approval status: Awaiting approval
+   └── Emails sent (if configured)
+
+3a. Approver approves (publishes)        3b. Approver rejects
+    └── Event status: Published              └── Event status: Draft
+    └── Approval status: Approved            └── Approval status: Rejected
+    └── Email sent to creator                └── Email sent to creator with reason
+
+                                         4. Creator edits and re-requests
+                                            └── Back to step 2
+```
+
+## When Approval Is Required
+
+The approval workflow activates **automatically** based on user permissions—no configuration is needed to enable it.
+
+| Permission | Behaviour |
+|------------|-----------|
+| **Create events** only | User must request approval to publish |
+| **Create + Publish events** | User can publish directly without approval |
+| **Publish events** | User can approve or reject other users' approval requests |
+
+If a user has permission to create events but not publish them, the approval workflow is automatically required for any events they create. Configure permissions via [roles and permissions](/core-platform/system-access/roles-and-permissions).
+
+## Notification Settings
+
+Optionally configure email notifications for approval requests:
+
+1. Navigate to **Company Settings**
+2. Find **Event approval email(s)**
+3. Enter one or more email addresses, separated by commas
+
+When an approval is requested, these addresses receive an email notification with a link to review the event.
+
+<Note>
+Email notifications are optional. If no approval email addresses are configured, the approval workflow still functions—approval requests are still created and approvers can still approve or reject events. Approvers can find events awaiting approval using the **Status** filter on the events list.
+</Note>
+
+## Requesting Approval
+
+When a user without publish permissions has a draft event ready:
+
+1. Open the event dashboard
+2. Click **Request Publishing Approval**
+
+The event remains in **Draft** status with an **Awaiting approval** badge until reviewed.
+
+If approval email addresses are configured, notifications are sent to the configured recipients and a confirmation is sent to the requesting user.
+
+<Note>
+If an approval request was previously rejected, the button changes to **Request Publishing Approval Again**.
+</Note>
+
+## Finding Events Awaiting Approval
+
+Approvers can find events that need review using the **Status** filter on the events list:
+
+1. Navigate to the events list
+2. Open the filters
+3. Select **Awaiting approval** from the Status dropdown
+
+This displays all events with pending approval requests. The Status filter also supports filtering by **Approved** and **Rejected** statuses.
+
+## Reviewing Approval Requests
+
+Users with publish permissions see pending approval requests in the event dashboard.
+
+### Approving an Event
+
+To approve an event:
+
+1. Open the event dashboard
+2. Review the event details
+3. Click **Publish event**
+
+The event is published immediately and the creator receives an approval confirmation email.
+
+### Rejecting an Event
+
+To reject an event:
+
+1. Open the event dashboard
+2. Click **Reject**
+3. Enter a **rejection reason** (required)—this supports rich text formatting
+4. Submit the rejection
+
+The event remains in **Draft** status and the creator receives an email containing:
+- Notification that the event was rejected
+- The rejection reason you provided
+- A link to the event for editing
+
+## Approval History
+
+The event dashboard displays an **Approval history** timeline showing all approval actions:
+
+| Status | Indicator | Description |
+|--------|-----------|-------------|
+| Awaiting approval | Grey | Approval has been requested |
+| Approved | Green | Event was approved and published |
+| Rejected | Yellow | Event was rejected with a reason |
+
+Each entry shows:
+- The user who took the action
+- When the action occurred
+- For rejections, the reason provided
+
+<Note>
+The approval history is hidden if the only entry is a single approval (to avoid clutter for events that were approved on first submission).
+</Note>
+
+## Email Notifications
+
+The system sends emails at each stage of the workflow (where recipients are configured):
+
+### When Approval is Requested
+
+| Recipient | Email | Condition |
+|-----------|-------|-----------|
+| Approval recipients | Notification with event name, requester name, and link to review | Only if approval email addresses are configured |
+| Requesting user | Confirmation that the request was sent | Only if approval email addresses are configured |
+
+### When Event is Rejected
+
+| Recipient | Email |
+|-----------|-------|
+| All users who requested approval | Rejection notification with the reason provided |
+
+### When Event is Approved
+
+| Recipient | Email |
+|-----------|-------|
+| All users who requested approval | Approval confirmation with link to the published event |
+
+## Approval Status Reference
+
+Events in the approval workflow can have these statuses:
+
+| Status | Event State | Meaning |
+|--------|-------------|---------|
+| **Awaiting approval** | Draft | Approval requested, waiting for review |
+| **Rejected** | Draft | Approval denied, creator should edit and re-request |
+| **Approved** | Published | Approval granted, event is live |
+
+## Bulk Operations
+
+Approval requests can be submitted for multiple events at once from the events list:
+
+1. Select the events requiring approval
+2. Use the bulk action to request approval
+3. All selected events are submitted for review
+
+Similarly, approvers can publish or reject multiple events in bulk.
+
+## Restrictions
+
+- **Cancelled events** cannot have approval requested or be approved/rejected
+- **Already published events** cannot have approval requested
+- **Rejection reason is required** when rejecting an event
+- Events remain editable while awaiting approval or after rejection
