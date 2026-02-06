@@ -1,14 +1,129 @@
 ---
 title: "Customer Groups"
-description: "Documentation for Customer Groups"
+description: "Segment customers into groups to restrict purchases and discounts, with manual or automatic membership based on purchase history."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Customer Groups** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Customer groups allow you to segment customers and restrict access to specific [sale items](/core-platform/sale-items/core-concepts) and [discount codes](/core-platform/basket-codes/discount-codes) based on group membership.
+- Groups can be **manual** (members added by an admin) or **automatic** (members added based on purchase history rules).
+- A customer must be a member of at least one of the required groups to purchase a restricted item or apply a restricted discount code.
+- Group membership can be time-limited — members can be automatically removed after a configured duration.
+- Groups can have an expiry date, after which the group no longer grants access.
+
+<Note>
+Customer groups require the customer groups feature to be enabled for your company.
+</Note>
+
+## Use Cases
+
+<Accordion title="Presale access for previous attendees">
+  Create an automatic group that includes customers who purchased tickets to a previous event or schedule. Restrict presale tickets to this group so only returning customers can purchase during the [presale period](/core-platform/event-management/sales-periods).
+</Accordion>
+
+<Accordion title="Member-only tickets">
+  Create a manual group for members and restrict specific sale items to that group. Only customers in the group can see and purchase those items. A welcome email can be sent when customers are added.
+</Accordion>
+
+<Accordion title="Loyalty discounts">
+  Create an automatic group for customers who have made a minimum number of purchases within a time window. Restrict a [discount code](/core-platform/basket-codes/discount-codes) to this group so only qualifying customers can apply the discount.
+</Accordion>
+
+<Accordion title="Exclusive access for repeat buyers">
+  Create an automatic group for customers who have attended multiple events in a schedule. Restrict premium ticket types to this group, creating a tiered access model.
+</Accordion>
+
+## Group Types
+
+| Type | Description |
+|------|-------------|
+| **Manual** | Customers are added and removed by an admin. Suitable for curated groups like members, VIPs, or partner allocations. |
+| **Automatic** | Customers are added and removed based on purchase history rules. The system periodically syncs membership to match the configured criteria. |
+
+The group type is set at creation and cannot be changed afterwards.
+
+## Configuration
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The group name. Visible to admins and included in the welcome email sent to customers. |
+| **Default lifetime** | How long a customer remains in the group after being added, in days or weeks. When left blank, membership is indefinite. For automatic groups, this is the minimum duration after being automatically added. |
+| **Expiry date** | An optional date after which the group expires entirely. Once expired, members can no longer be added and the group no longer grants access. |
+| **Welcome email** | When enabled, customers receive an email when they are first added to the group. The email content can be customised per group. |
+
+## Automatic Rules
+
+Automatic groups use a rule engine to determine membership based on purchase history. Rules are evaluated periodically, and customers are added or removed to match the current criteria.
+
+### Rule Types
+
+| Rule Type | Description |
+|-----------|-------------|
+| **Event** | Customers who have purchased a minimum number of sale items from a specific event. |
+| **Sale item** | Customers who have purchased a minimum number of a specific sale item. |
+| **Inventory item** | Customers who have purchased a minimum number of a specific inventory item. |
+| **Schedule** | Customers who have purchased a minimum number of sale items from any event in a schedule. |
+
+Each rule can optionally specify a **time window** — for example, "purchased at least 2 tickets in the last 30 days".
+
+### Combining Rules
+
+Rules can be combined using **AND** and **OR** operators to build complex criteria:
+
+- **AND** — the customer must match all rules in the group.
+- **OR** — the customer must match at least one rule in the group.
+
+Operators can be nested, allowing for multi-level logic.
+
+### Syncing
+
+Automatic groups sync periodically. You can trigger a manual resync from the group management page. During a resync, customers who no longer match the rules are removed (subject to the configured lifetime), and new qualifying customers are added.
+
+## Restricting Sale Items
+
+Sale items can be restricted to one or more customer groups. When restricted, only customers who belong to at least one of the selected groups can see and purchase the item.
+
+Restrictions can be applied at two levels:
+
+| Level | Scope |
+|-------|-------|
+| **Sale item** | Restricts a single sale item to the selected groups. |
+| **Inventory item** | Restricts all sale items linked to the inventory item. Changing the restriction at this level affects all related sale items. |
+
+Customers who are not in a required group will not see the restricted item on the event page.
+
+## Restricting Discount Codes
+
+[Discount codes](/core-platform/basket-codes/discount-codes) can be restricted so that only customers in specific groups can apply them. The customer must be logged in and belong to at least one of the selected groups.
+
+## Managing Members
+
+### Manual Groups
+
+- Add customers by name or email from the group's customer list.
+- If the customer does not yet exist, they can be created during the process.
+- Set a custom removal date per customer, or leave blank for indefinite membership.
+- Remove customers individually from the group.
+- For bulk operations, use the API to [add](/api-reference/customer-groups/add-customers-to-group) or [remove](/api-reference/customer-groups/remove-customers-from-group) multiple customers at once, or use the [customer data import](/core-platform/data-imports/introduction) to set group membership via CSV.
+
+<Warning>
+The data import **replaces** a customer's entire group membership with the groups specified in the CSV. Leaving the customer groups field empty removes the customer from all groups. Groups must already exist before importing.
+</Warning>
+
+### Automatic Groups
+
+- Members are managed by the rule engine — manual addition and removal is not available.
+- Use **Re-sync group** to immediately re-evaluate membership.
+- The customer list shows each member's removal date based on the configured lifetime.
+
+### Exporting
+
+The customer list for any group can be exported for use outside the platform.
+
+## Related
+
+- [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)
+- [Discount Codes](/core-platform/basket-codes/discount-codes)
+- [Sales Periods](/core-platform/event-management/sales-periods)
+- [Access Codes](/core-platform/basket-codes/access-codes)
+- [Editing Customers](/core-platform/customer-management/editing-customers)

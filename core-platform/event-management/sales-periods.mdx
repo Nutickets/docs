@@ -1,14 +1,84 @@
 ---
 title: "Sales Periods"
-description: "Documentation for Sales Periods"
+description: "Define presale and general sale windows for events, controlling when tickets become available and dynamically updating event page content."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Sales Periods** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Sales periods define named time windows that control when an event's tickets become available for purchase.
+- An event can have a **general sale** period and one or more **presale** periods, each with its own start and end date.
+- Sales periods also drive dynamic content on the event page — [content blocks](/core-platform/event-management/event-page-customisations) can be shown or hidden based on the current sale phase.
+- All sales period dates respect the event's [timezone](/core-platform/core/timezones).
+
+<Note>
+Sales periods require the event sale periods feature to be enabled for your company. Without this feature, event sales are controlled by manually toggling the event on or off sale and by setting on-sale dates on individual [sale items](/core-platform/sale-items/core-concepts), [timeslots](/core-platform/event-management/timeslots), and [sale item groups](/core-platform/event-management/sale-item-groups).
+</Note>
+
+## Period Types
+
+| Type | Description |
+|------|-------------|
+| **General Sale** | The main public sale window. One per event. Requires a start date; the end date is optional, allowing the sale to remain open indefinitely. |
+| **Presale** | A pre-sale window that typically precedes the general sale. Multiple presale periods can be defined. Both start and end dates are required. |
+
+Presale periods are commonly paired with [access codes](/core-platform/basket-codes/access-codes) or [customer groups](/core-platform/customer-management/customer-groups) to restrict early purchasing to a specific audience. For example, you might distribute an access code to newsletter subscribers, or restrict presale tickets to a customer group containing previous attendees.
+
+## Configuration
+
+Sales periods are managed from the event dashboard via the **Event Dates** panel. The panel displays a table with all periods alongside the event's own start and end dates.
+
+| Field | Description |
+|-------|-------------|
+| **Name** | A label for the period (e.g. "Members Presale", "General Sale"). Displayed to customers on the event page. |
+| **Start date** | When the period begins and tickets become available. |
+| **End date** | When the period ends. Optional for general sale periods. Required for presale periods. |
+
+A visual timeline below the table shows all periods and their duration relative to the event dates, with a marker indicating the current time.
+
+### Adding a Presale Period
+
+Click **Add sale period** to create a new presale period. Each presale period requires a name and both a start and end date.
+
+### Deleting a Period
+
+Sales periods can be deleted unless they are linked to a content block restriction. Remove the content block restriction first before deleting the period. See [content block visibility](#content-block-visibility) below.
+
+## Content Block Visibility
+
+Sales periods integrate with [event page customisations](/core-platform/event-management/event-page-customisations) to control when content blocks appear on the event page. Each content block can be configured with a visibility rule tied to the current sale phase:
+
+| Visibility Rule | Behaviour |
+|-----------------|-----------|
+| **Always show** | The block is visible regardless of the sale phase. |
+| **Restrict to selected sale periods** | The block is only visible while one or more selected sale periods are active. |
+| **Show before sale periods** | The block is visible before any sale period has started. |
+| **Show after general sale** | The block is visible after all sale periods have ended. |
+
+This allows the event page to display different content at each stage — for example, a countdown message before sales open, presale-specific information during a presale window, or a "sales have ended" message after the general sale closes.
+
+## Customer Experience
+
+### Event Page Status
+
+The event page reflects the current sale phase:
+
+| Phase | Behaviour |
+|-------|-----------|
+| **Before sale** | No sale periods have started. The event page displays an "On sale soon" status. |
+| **Presale** | A presale period is active. The event page displays a "Pre-sale on" status. |
+| **On sale** | The general sale is active. The event page displays an "On sale now" status. |
+| **Off sale** | No sale periods are currently active. |
+
+### Sale Period Countdown
+
+When a customer is viewing an event page and a sale period is about to begin, a modal appears shortly before the sale starts. The modal displays the period name and automatically refreshes the page when the sale goes live.
+
+### Sale Periods Display Block
+
+A sale periods template block can be added to the event page to show customers a list of all upcoming and active sale periods with their dates. Active periods are badged as "on sale now".
+
+## Related
+
+- [Event Management Introduction](/core-platform/event-management/introduction)
+- [Event Page Customisations](/core-platform/event-management/event-page-customisations)
+- [Timezones](/core-platform/core/timezones)
