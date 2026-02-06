@@ -22,3 +22,21 @@ There's some aliases to the above as well:
 The latter is only necessary if you aren't already running the local docs. After running any generation commands, commit the various `.mdx` and `openapi.json` files to the repo to publish the updates.
 
 There's also a command to create missing pages based on the `docs.json` navigation config: `node scaffold-docs.js`
+
+## AI-Assisted Documentation
+
+The `ai-workflow.md` file in this directory defines a structured workflow for writing and maintaining documentation pages using an AI coding agent.
+
+### How it works
+
+This Mintlify repo lives as a sub-repo inside the main platform codebase. The AI agent is invoked from the parent repo, giving it access to both the documentation files and the full application source code. This is critical — the workflow requires the agent to research backend models, frontend components, and language files in the parent codebase before writing any documentation, ensuring every statement is verified against the actual implementation.
+
+### Usage
+
+From the parent repo, reference the workflow file when starting a documentation session:
+
+```
+@mintlify/ai-workflow.md
+```
+
+The workflow guides the agent through system/page selection, codebase research, writing, and review. See `ai-workflow.md` for the full process.
