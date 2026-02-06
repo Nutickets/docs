@@ -1,14 +1,178 @@
 ---
 title: "Item Transfers"
-description: "Documentation for Item Transfers"
+description: "How customers and admins can transfer purchased items between users, including sharing during checkout, post-purchase transfers, and compulsory sharing."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Item Transfers** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Item transfers allow purchased items (tickets, products, gift vouchers) to be reassigned from one customer to another.
+- The platform uses the term **sharing** in customer-facing interfaces and **transferring** in admin interfaces — both refer to the same underlying mechanism.
+- Transfers can happen **during checkout** (before payment) or **after purchase** (from the customer's account or by an admin).
+- When sharing restrictions and [purchase limits](/core-platform/sale-items/core-concepts) are configured, the platform can enforce **compulsory transfers** — requiring customers to share excess items before completing their order.
+- Transferred items are fully reassigned to the recipient, including access control validity. By default, a new barcode is generated for the recipient.
+
+## Use Cases
+
+<Accordion title="Group bookings with per-customer limits">
+  An event limits each customer to 2 tickets. A customer purchasing 6 tickets for a group is required to share 4 of them during checkout. The platform enforces this via compulsory transfers, preventing the order from completing until all excess items are assigned to other people.
+</Accordion>
+
+<Accordion title="Corporate ticket distribution">
+  A company purchases a block of tickets and uses [order distributions](/core-platform/advanced/order-distributions) to share them with employees via a passcode-protected link or QR code. Each employee claims their own tickets without the purchaser needing to enter individual details.
+</Accordion>
+
+<Accordion title="Gift purchases">
+  A customer buys a ticket as a gift and enters the recipient's name and email during checkout. The recipient receives a "claim your items" email and can access the ticket from their own account. Transfers can be scheduled for a future date (e.g. a birthday).
+</Accordion>
+
+## Sharing Restrictions
+
+Sharing restrictions control **when** customers can transfer items. These are configured at the event level and can be overridden per [sale item](/core-platform/sale-items/core-concepts).
+
+### Event-Level Configuration
+
+Sharing restrictions are set separately for **tickets** and **products** on the event dashboard under **Sharing Restrictions**.
+
+| Option | Behaviour |
+|--------|-----------|
+| **Only during the checkout process** | Customers can share items while completing their purchase, but not after. |
+| **Only once their order is complete** | Customers can share items from their account after purchase, but not during checkout. |
+| **At any point, during or after purchase** | Customers can share items at any time. |
+| **Never** | Sharing is disabled entirely. |
+
+### Sale-Item-Level Override
+
+Individual sale items can override the event-level sharing restriction. The same options are available, plus:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Inherit event settings** | Uses the event-level restriction (default for new items). |
+| **Sharing is compulsory** | Every unit of this item must be transferred to someone else — the purchaser cannot keep any for themselves. |
+
+<Note>
+[Gift vouchers](/core-platform/sale-items/gift-vouchers) are always shareable during checkout regardless of sharing restriction settings. [Guest list](/core-platform/sale-items/core-concepts) items cannot be shared.
+</Note>
+
+## Transfer Flow
+
+### During Checkout
+
+When sharing is enabled during checkout, a **Sharing** step appears in the checkout flow before payment.
+
+For each shareable item, the customer can:
+- **Keep it** — the item stays assigned to the purchaser.
+- **Share with someone else** — enter the recipient's name and email, or generate a shareable URL.
+
+Shared items trigger a "claim your items" email to the recipient on the specified date. The recipient clicks a link to claim the item into their account.
+
+**Scheduled transfers**: Customers can choose to share immediately or set a future date. The notification email is sent when the transfer date arrives.
+
+### After Purchase
+
+When sharing is enabled after purchase, customers can transfer items from their account via **My Account**.
+
+- Only items marked as shareable after purchase can be transferred.
+- Items that have already been scanned for [access control](/core-platform/event-management/access-control) cannot be transferred.
+- If the **Only purchaser can transfer items** company setting is enabled, only the original order purchaser can initiate transfers — recipients cannot re-transfer items.
+
+### Claiming Transfers
+
+When a transfer is initiated, the recipient receives a "claim your items" email containing:
+- The sender's name
+- The items being transferred
+- A **Claim now** button linking to the shop
+
+The recipient must create an account (or log in) to claim their items. Once claimed, the items appear in the recipient's account and are removed from the sender's.
+
+<Warning>
+Once an item is claimed, the transfer cannot be undone. The only way to return an item is for the recipient to initiate a new transfer back to the original purchaser.
+</Warning>
+
+## Compulsory Transfers
+
+Compulsory transfers are enforced automatically when a customer's order would exceed configured limits. The customer **must** share excess items before completing checkout.
+
+Compulsory transfers are triggered by:
+
+- **Per-item purchase limits** — A [sale item's](/core-platform/sale-items/core-concepts) `purchase limit per customer` is exceeded.
+- **Per-event ticket limits** — The event's `maximum tickets per customer` is exceeded across all ticket types.
+- **Prerequisite items** — If an item has [prerequisites](/core-platform/sale-items/core-concepts) and the transferred items would leave the purchaser without the required prerequisite, those prerequisites must also be transferred.
+
+Compulsory transfer items appear pre-assigned to "someone else" in the sharing step and cannot be switched back to the purchaser. They must be shared immediately — scheduled transfers are not allowed for compulsory items.
+
+<Note>
+[Box office](/core-platform/box-office/introduction) users with the appropriate permissions can bypass purchase limit restrictions and compulsory transfer requirements.
+</Note>
+
+## Ticket Renaming (Named Holders)
+
+Ticket renaming allows a name to be assigned to a ticket **without** transferring it. The ticket remains in the purchaser's account, but displays the named holder's details.
+
+This is configured on the event dashboard under **Sharing Restrictions** and requires the **Named Holders** feature to be enabled for the company.
+
+<Tabs>
+  <Tab title="Shop">
+    Controls ticket renaming behaviour during online checkout:
+    - **Disabled** — No renaming allowed.
+    - **Enabled** — Customers can optionally assign names during checkout.
+    - **Mandatory** — Customers must assign a name to every ticket before completing checkout.
+
+    When enabled or mandatory, an **Allow ticket renaming after checkout** toggle controls whether customers can change the name from their account after purchase.
+  </Tab>
+  <Tab title="Box Office">
+    Controls ticket renaming behaviour in [box office mode](/core-platform/box-office/introduction):
+    - **Disabled** — No renaming allowed.
+    - **Enabled** — Box office users can optionally assign names.
+    - **Mandatory** — Box office users must assign a name to every ticket.
+  </Tab>
+</Tabs>
+
+## Admin Transfer Management
+
+Admins can manage transfers for any order from the admin panel under the order's **Transfer Items** section.
+
+### Transferable Items
+
+Lists all items in the order that can be transferred. Admins can:
+- Enter a recipient's name and email to initiate a transfer.
+- Choose to share immediately or on a scheduled date.
+- Optionally claim the transfer immediately on behalf of the recipient.
+
+### Pending Transfers
+
+Shows transfers that have been initiated but not yet claimed. Admins can:
+- **Claim** a transfer on behalf of the recipient.
+- **Cancel** a pending transfer, returning the item to the original holder.
+
+### Transfer History
+
+Displays all completed transfers with the date, original barcode, sender, and recipient.
+
+<Note>
+Items that are currently listed for [resale](/core-platform/resale/configuration) cannot be transferred. If an item has been paired with an NFC tag, the pairing is removed on transfer and the recipient must pair again.
+</Note>
+
+## Company-Level Settings
+
+These settings apply across all events and are configured at the company level.
+
+| Setting | Description |
+|---------|-------------|
+| **Enable instant transfers** | Transferred items on completed orders are automatically claimed without the recipient needing to take action. Recipients still receive the claim notification but do not need to act on it. |
+| **Preserve barcodes on instant transfer** | When instant transfers are enabled, the original barcode is kept instead of generating a new one. Only available when instant transfers are enabled. |
+| **Allow transfer corrections** | Allows the purchaser to modify or cancel transfers even after completing checkout, regardless of the current sharing restriction settings. |
+| **Only purchaser can transfer items** | Only the original order purchaser can initiate transfers. Recipients cannot re-transfer items they have received. |
+
+<Warning>
+Preserving barcodes on transfer means the original holder's barcode remains valid. If the original holder scans in before the recipient, the recipient's entry may be blocked.
+</Warning>
+
+## Cancelling Transfers
+
+Pending transfers (not yet claimed) can be cancelled by:
+- The **customer** who initiated the transfer, from their account.
+- An **admin** from the order's transfer management section.
+
+Cancelling a transfer keeps the item in the original holder's account. Any associated wallet transfers (e.g. for gift vouchers) are also cancelled.
+
+Claimed transfers cannot be cancelled or reversed.

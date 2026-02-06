@@ -1,14 +1,146 @@
 ---
-title: "Group Team Events"
-description: "Documentation for Group Team Events"
+title: "Group & Team Events"
+description: "How to enable team or group entries for events, allowing customers to create, join, and manage teams during checkout."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Group Team Events** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Team events allow customers to participate as part of a named team or group rather than as individuals.
+- The terminology is configurable per event — you can use **Team** or **Group** throughout the customer-facing shop. This page uses "team" as the default term, but all behaviour applies equally to "group" when that terminology is selected.
+- During checkout, customers choose to **create a new team**, **join an existing team** via a code, or **enter solo** (if permitted).
+- The first customer to create a team becomes the **team leader**. Subsequent customers who join become **members**.
+- Team size can be constrained with minimum and maximum limits, enforced during checkout.
+- The **Event Teams** feature must be enabled for your company.
+
+<Note>
+Teams cannot be enabled for events that have [season tickets](/core-platform/sale-items/season-tickets). Enabling teams on such an event is blocked with a validation error.
+</Note>
+
+## Configuration
+
+Team settings are configured on the event dashboard under **Team Settings** (or **Group Settings**, depending on the selected terminology).
+
+### Terminology
+
+| Option | Description |
+|--------|-------------|
+| **Teams** | All customer-facing labels use "Team" terminology (e.g. "Create a new team", "Team Settings", "Team 1"). |
+| **Groups** | All customer-facing labels use "Group" terminology (e.g. "Create a new group", "Group Settings", "Group 1"). |
+
+The terminology choice only affects the wording displayed in the shop — it does not change any underlying behaviour.
+
+### Naming
+
+| Setting | Description |
+|---------|-------------|
+| **Allow custom names** | Customers can provide a name when creating a team. When disabled, names are automatically generated (e.g. "Team 1", "Team 2"). |
+| **Names must be unique** | Enforces that every team name within the event is unique. If a customer enters a name already in use, they are asked to choose another. |
+| **Names can be edited** | Allows the team leader to edit the team name after creation from their account. Only the team leader has this permission. |
+
+### Joining & Solo Entry
+
+| Setting | Description |
+|---------|-------------|
+| **Allow join via code** | Customers can join an existing team by entering the team's unique code during checkout. The code is generated automatically when a team is created. |
+| **Can people enter individually?** | When enabled, customers can choose solo participation — they are not required to create or join a team. When disabled, every customer must belong to a team. |
+
+### Size Constraints
+
+| Setting | Description |
+|---------|-------------|
+| **Enforce a minimum size** | Teams must have at least the specified number of members before the order can be completed. Validated at order completion. |
+| **Enforce a maximum size** | Teams cannot exceed the specified number of members. Validated when items are added to the basket. |
+
+<Note>
+[Box office](/core-platform/box-office/introduction) users with the appropriate permission can bypass minimum and maximum team size validation.
+</Note>
+
+## Customer Flow
+
+When a customer adds items for a team-enabled event, a **Team Settings** step appears during checkout. The options presented depend on the event's configuration.
+
+<Tabs>
+  <Tab title="Create a Team">
+    The customer creates a new team. If custom names are enabled, they can enter a name — otherwise, a name is automatically generated (e.g. "Team 1").
+
+    The customer becomes the **team leader** for the new team. A unique team code is generated, which can be shared with others to join.
+  </Tab>
+  <Tab title="Join a Team">
+    Available when **Allow join via code** is enabled. The customer enters the code of an existing team to join it.
+
+    The customer becomes a **team member**. If the team has a maximum size limit and is already full, the join attempt is blocked with an error.
+  </Tab>
+  <Tab title="Solo Entry">
+    Available when **Can people enter individually?** is enabled. The customer participates without creating or joining a team.
+
+    No team is assigned to the order items.
+  </Tab>
+</Tabs>
+
+If the customer already has a team for this event (from a previous purchase), they are informed that additional tickets will be added to their existing team rather than being prompted to choose again.
+
+## Team Roles
+
+Each team member has one of two roles:
+
+| Role | Description |
+|------|-------------|
+| **Leader** | The customer who created the team. Can edit the team name (if enabled) and promote other members to leader. Only one leader per team. |
+| **Member** | Customers who joined the team. Cannot edit the team name. Can be promoted to leader by the current leader. |
+
+When a member is promoted to leader, the previous leader is automatically demoted to a member.
+
+## Team Management
+
+Customers can view and manage their teams from **My Account** under the **Teams** (or **Groups**) section.
+
+### Team Details
+
+The team details page displays:
+- The team name and number
+- The associated event
+- The team code (copyable, for sharing with others to join)
+- The member list with names, emails, and roles
+- [Data capture](/core-platform/data-capture/introduction) responses (if configured for the event)
+
+### Available Actions
+
+| Action | Who | Description |
+|--------|-----|-------------|
+| **Edit team name** | Leader | Change the team name. Only available if **Names can be edited** is enabled. Names are validated against the same rules as during creation (uniqueness, character restrictions). |
+| **Promote to leader** | Leader | Promote a member to team leader. The current leader becomes a member. |
+| **Copy team code** | All members | Copy the team code to share with others. Only useful when **Allow join via code** is enabled. |
+| **Email all members** | All members | Opens a mailto link addressed to all team members. |
+
+## Email Notifications
+
+Order confirmation emails include team details when the order is associated with a team:
+
+- If the customer **created** the team: the email thanks them for creating the team and includes the team name.
+- If the customer **joined** the team: the email thanks them for joining and includes the team name.
+- If **Allow join via code** is enabled: the email includes the team code so it can be shared with others.
+
+All email content respects the configured terminology (team or group).
+
+## Schedule Support
+
+Team settings can be configured on individual events within a [schedule](/core-platform/event-scheduling/core-concepts). When updating team settings, you can apply the changes to the current event only or mass-update all events in the schedule.
+
+## Reporting
+
+Team data is available in [order reports](/core-platform/reporting/fundamentals) with the following fields:
+
+| Field | Description |
+|-------|-------------|
+| **Team ID** | The unique identifier of the team. |
+| **Team name** | The team's display name. |
+| **Team role** | The member's role (Leader or Member). |
+
+## Differences from Standard Events
+
+Team-enabled events behave the same as standard events in most respects — they support [sale items](/core-platform/sale-items/core-concepts), [timeslots](/core-platform/event-management/timeslots), [capacity controls](/core-platform/event-management/capacity-controls), [seating plans](/core-platform/event-management/seated-events), and all other event features. The key differences are:
+
+- A **Team Settings** step is added to the checkout flow.
+- Order items are associated with a team and assigned a role (leader or member).
+- Customers can manage their teams from their account after purchase.
+- Team size limits are enforced in addition to standard capacity controls.

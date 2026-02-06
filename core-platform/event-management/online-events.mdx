@@ -1,14 +1,97 @@
 ---
 title: "Online Events"
-description: "Documentation for Online Events"
+description: "How to create and manage online (virtual) and hybrid events with live streaming support."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Online Events** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Online events are virtual events with no physical location. Customers attend by watching an embedded live stream on a private streaming page.
+- Hybrid events combine a physical [venue](/core-platform/event-management/venues) with an online stream, allowing both in-person and remote attendance.
+- Streaming is powered by an external provider — **YouTube**, **Vimeo**, or any other iframe-compatible service.
+- Stream access is controlled per [sale item](/core-platform/sale-items/core-concepts), so you can choose which item types grant streaming access.
+- The **Event Streams** feature must be enabled for your company.
+
+## Event Location Types
+
+When [creating an event](/core-platform/event-management/introduction), you select one of three location types:
+
+| Type | Venue | Streaming | Description |
+|------|-------|-----------|-------------|
+| **In Venue** | Required | Disabled | A physical event at a specific venue. No streaming. |
+| **Online** | Not required | Enabled | A virtual-only event with no physical location. |
+| **Both** | Required | Enabled | A hybrid event with both in-person attendance and an online stream. |
+
+The location type can be changed after creation from the event dashboard by editing the event location.
+
+<Note>
+Selecting **Online** or **Both** automatically enables the streaming configuration. Switching to **In Venue** disables it.
+</Note>
+
+## Stream Configuration
+
+Stream settings are configured on the event dashboard under **Event Streaming Settings**.
+
+| Field | Description |
+|-------|-------------|
+| **Enable event live stream** | Master toggle to enable or disable the stream for this event. |
+| **Stream provider** | The streaming platform: **YouTube**, **Vimeo**, or **Other**. |
+| **Stream URL** | The URL of the live stream from your provider. The platform automatically generates the correct embed URL based on the selected provider. |
+| **Stream body** | Optional content ([WYSIWYG](/core-platform/information/wysiwyg)) displayed on the private streaming page alongside the video. Supports translations. |
+| **Display live chat** | Show the provider's live chat alongside the stream. Available for YouTube and Vimeo. |
+
+### Providers
+
+<Tabs>
+  <Tab title="YouTube">
+    Paste any standard YouTube URL (e.g. `youtube.com/watch?v=...`, `youtu.be/...`, or embed URLs). The platform extracts the video ID and generates the correct embed URL.
+
+    When **Display live chat** is enabled, the YouTube live chat is embedded alongside the stream.
+  </Tab>
+  <Tab title="Vimeo">
+    Paste the Vimeo video URL. The platform calls the Vimeo API to extract the video ID and generates the correct player embed URL.
+
+    When **Display live chat** is enabled, the Vimeo live chat is embedded alongside the stream.
+  </Tab>
+  <Tab title="Other">
+    For other providers, paste the iframe-compatible embed URL directly. The URL is used as-is.
+
+    Live chat is not available for custom providers.
+  </Tab>
+</Tabs>
+
+## Stream Access
+
+### Per Sale Item
+
+Each sale item has a **Can access stream** toggle (visible when the event has streaming enabled). This controls whether purchasing that item grants the customer access to the streaming page.
+
+- **Enabled** (default) — customers who purchase this item can access the stream.
+- **Disabled** — customers who purchase this item cannot access the stream. Useful for items like merchandise or add-ons that should not grant viewing access.
+
+### Customer Experience
+
+Customers access the stream from their account by clicking **Access stream** on a purchased item that has stream access. The stream is accessed via a private URL tied to the customer's specific order item barcode.
+
+The streaming page displays:
+- The embedded video player from the configured provider.
+- The stream body content (if configured).
+- Live chat (if enabled and supported by the provider).
+- A countdown timer if the event has not yet started.
+
+**Stream availability**: The stream becomes viewable up to 60 seconds before the event's start time. Before that, customers see a countdown. After the event ends, the stream is no longer available.
+
+### Single-Device Restriction
+
+Each ticket can only access the stream on **one device at a time**. If a customer attempts to access the stream on a second device while already viewing on another, they are redirected back to their orders with a warning message.
+
+<Note>
+The order confirmation email for events with streaming includes a note informing customers that the stream can be accessed from the My Account section.
+</Note>
+
+## Differences from In-Venue Events
+
+Online-only events behave the same as in-venue events in most respects — they support [sale items](/core-platform/sale-items/core-concepts), [timeslots](/core-platform/event-management/timeslots), [capacity controls](/core-platform/event-management/capacity-controls), [seating plans](/core-platform/event-management/seated-events), and all other event features. The key differences are:
+
+- No venue is required or displayed.
+- The event is labelled as an **Online event** in listings and on the event page.
+- Customers access the event via the streaming page rather than a physical location.

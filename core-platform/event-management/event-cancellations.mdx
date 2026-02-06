@@ -1,14 +1,74 @@
 ---
 title: "Event Cancellations"
-description: "Documentation for Event Cancellations"
+description: "How to cancel events and manage the impact on orders, refunds, and event visibility."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Event Cancellations** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Cancelling an event is an **irreversible** action that permanently changes the event's status to **Cancelled**.
+- When an event is cancelled, it is immediately taken off sale and hidden from all listings.
+- Customers are **not** automatically refunded or notified when an event is cancelled — refunds and communications must be managed separately.
+- Existing orders remain intact after cancellation. Individual order items are not automatically cancelled or modified.
+- Cancellation requires the **Cancel** permission.
+
+<Warning>
+Once an event is cancelled, it cannot be put back on sale or published. This action cannot be undone.
+</Warning>
+
+## What Happens When You Cancel
+
+Cancelling an event applies the following changes in a single operation:
+
+| Change | Effect |
+|--------|--------|
+| **Status** | Set to **Cancelled**. |
+| **Off sale** | The event is immediately taken off sale. |
+| **Hidden** | The event is hidden from [event listings](/core-platform/ticket-shop/event-listings) and [search results](/core-platform/ticket-shop/event-search). |
+| **Audit note** | A timestamped note is added to the event record (e.g. "Cancelled 2025-01-15 14:30:00"). |
+
+### What Does Not Happen
+
+- **No automatic refunds** — customers keep their existing orders unless you process refunds separately.
+- **No automatic notifications** — no emails or SMS messages are sent to customers.
+- **No order item cancellation** — individual items within existing orders remain in their current state.
+
+## How to Cancel an Event
+
+### From the Event Dashboard
+
+1. Navigate to the event dashboard for the event you want to cancel.
+2. Click **Change Event Status**.
+3. Under the **Permanent status updates** section, click **Cancel Event**.
+4. Review the help text and the irreversibility warning.
+5. Click **Confirm** to cancel the event.
+
+<Note>
+The cancel option is only visible if the event has not already been cancelled and you have the Cancel permission.
+</Note>
+
+### From the Event Listing
+
+When cancelling from the event listing via the actions dropdown, you are redirected to the **Issue Refunds** page with the event pre-selected. This allows you to process refunds for affected customers before or as part of the cancellation workflow.
+
+## Managing Refunds
+
+Cancelling an event does not process refunds — this is a deliberate separation so you can control how refunds are handled.
+
+After cancelling an event (or before, via the listing workflow), navigate to the **Issue Refunds** section on the event dashboard to manage refunds. See [refunds and cancellations](/core-platform/order-management/refunds-and-cancellations) for details on refund options.
+
+<Note>
+On the bulk refunds page, orders where all items for the event have already been individually cancelled appear greyed out and cannot be selected for further refund processing.
+</Note>
+
+## Effects on Other Features
+
+- **[Payment links](/core-platform/payments/payment-lifecycle)** — Payment links for orders containing items from a cancelled event are blocked and cannot be activated.
+- **Basket links** — Basket links referencing a cancelled event are similarly blocked.
+- **Event dashboard** — The publish, on sale, and off sale actions are removed from the event dashboard once the event is cancelled.
+- **[Event listings](/core-platform/ticket-shop/event-listings)** — The event no longer appears in listings or search results.
+- **[Reporting](/core-platform/reporting/fundamentals)** — The cancellation date is recorded and available in event reports. Revenue from unrefunded cancelled items is tracked separately from active sales.
+- **[API](/api-reference)** — The `is_cancelled` attribute is exposed on event responses.
+
+## Cancelled Event Display
+
+Cancelled events display a red **Cancelled** badge on the event dashboard and in event listings within the admin panel. When an event is cancelled, other status indicators (on sale, off sale, sold out) are replaced by the cancelled badge.
