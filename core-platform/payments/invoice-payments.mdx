@@ -1,14 +1,43 @@
 ---
 title: "Invoice Payments"
-description: "Documentation for Invoice Payments"
+description: "Configure manual/invoice payment flows, eligibility rules, and instant access behavior."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Invoice Payments** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Invoice payments (manual payments) let orders be confirmed without immediate card capture. The order remains payable by invoice/payment instructions.
+
+## Eligibility Rules
+
+An order is eligible only when all of the following are true:
+
+1. Manual payments are enabled at company level.
+2. Manual payments are enabled for the event/company context.
+3. The order contains items from **one event only**.
+4. The channel is allowed (shop requires invoice-in-shop feature + setting).
+5. The flow is not deposit or remaining-balance.
+6. Order total meets the configured minimum value.
+
+## Event vs Company Settings
+
+For single-event orders, event-level manual payment settings can override company defaults. For multi-event orders, company settings apply.
+
+## Core Settings
+
+| Setting | Purpose |
+|---|---|
+| `manual_payments_enabled` | Master switch for invoice/manual payments. |
+| `manual_payments_enabled_in_shop` | Allows manual payments in customer checkout. |
+| `manual_payments_minimum_order_value` | Minimum order total for eligibility. |
+| `manual_payments_payment_instructions` | Customer-facing instructions for settlement. |
+| `manual_payments_instant_access_enabled` | Allows access before invoice is paid (feature-gated). |
+
+## Instant Access Orders
+
+If enabled and available to the company, manual payment orders can grant customer access immediately while payment is still outstanding.
+
+## Related
+
+- [Instant Access Orders](/core-platform/advanced/instant-access-orders)
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Order Management Core Concepts](/core-platform/order-management/core-concepts)

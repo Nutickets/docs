@@ -1,14 +1,40 @@
 ---
 title: "Users"
-description: "Documentation for Users"
+description: "Manage admin users, assignments, suspensions, impersonation, and access-scoped visibility."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Users** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+User management controls who can access admin tools and what they can do. Access is shaped by roles, abilities, and visibility groups.
+
+## User Lifecycle
+
+1. Create user and assign initial roles.
+2. Optionally assign visibility groups and event assignments.
+3. Optionally assign seating holds and shop access.
+4. Update profile/security settings as needed.
+5. Suspend/restore company membership when required.
+
+## Key Controls
+
+| Control | Purpose |
+|---|---|
+| **Roles** | Defines broad permission sets. |
+| **Direct abilities** | Fine-grained capability overrides. |
+| **Visibility groups** | Restricts which records the user can see. |
+| **Event assignments** | Narrows operational scope where configured. |
+| **Two-factor state** | Indicates whether MFA is enabled for the user. |
+
+## Suspension vs Deletion
+
+Users are typically suspended from a company rather than hard-deleted, preserving audit and operational history.
+
+## Access/Impersonation
+
+Authorized admins can generate secure access/impersonation flows for troubleshooting or support workflows.
+
+## Related
+
+- [Roles And Permissions](/core-platform/system-access/roles-and-permissions)
+- [Visibility Groups](/core-platform/system-access/visibility-groups)
+- [MFA](/core-platform/system-access/mfa)

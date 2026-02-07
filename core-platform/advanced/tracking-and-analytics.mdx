@@ -1,14 +1,52 @@
 ---
 title: "Tracking And Analytics"
-description: "Documentation for Tracking And Analytics"
+description: "Configure GTM and event-level tracking pixels for supported ad/analytics platforms."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Tracking And Analytics** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Tracking is configured at two layers:
+
+- **Company-level GTM/tag settings** (for shop/admin shell injection).
+- **Event-level tracking settings** for supported pixel/event platforms.
+
+Event-level tracking is feature-gated by `event_level_tracking_pixels`.
+
+## Company-Level Tracking
+
+Company settings can store Google Tag Manager codes used by shop/admin middleware/layout rendering.
+
+This creates a shared baseline tracking layer across the storefront.
+
+## Event-Level Tracking
+
+Event tracking settings allow enabling platform-specific tracking codes and event mappings per event.
+
+Supported platform configuration in the event tracking UI includes providers such as:
+
+- X (Twitter)
+- TikTok
+- Spotify
+- Meta
+
+Per platform, admins can configure:
+
+- Pixel/code ID
+- Fallback/default event handling
+- Event-type mappings with parameter hints
+
+## Behaviour Notes
+
+- If no platform is configured for an event, event tracking panel reports none enabled.
+- Company GTM code can still exist even when event-level platform tracking is empty.
+- Some checkout-level behaviours (for example global basket options) are constrained when event-level tracking features are active.
+
+## Embedded Shop Tracking
+
+The embed flow can inject optional iframe tracking support scripts alongside the embed script when enabled in embed setup.
+
+## Related
+
+- [Ticket Shop: Checkout Flow](/core-platform/ticket-shop/checkout-flow)
+- [Technical: Iframe Embeds](/core-platform/technical/iframe-embeds)
+- [Advanced: Company Settings](/core-platform/advanced/company-settings)

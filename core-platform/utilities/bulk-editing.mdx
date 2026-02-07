@@ -1,14 +1,32 @@
 ---
 title: "Bulk Editing"
-description: "Documentation for Bulk Editing"
+description: "Apply controlled changes across many records (events, timeslots, sale items, and related entities) while preserving guardrails."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Bulk Editing** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Bulk editing is available across multiple modules to reduce repetitive one-by-one updates.
+
+## Typical Bulk Targets
+
+- Events in a schedule.
+- Timeslots in an event/schedule.
+- Sale items linked by inventory source.
+- Multi-record review workflows (for example approvals).
+
+## Best Practice Pattern
+
+1. Start with the smallest safe scope.
+2. Use filters to target only intended records.
+3. Preview counts where available.
+4. Apply and validate on a small sample before large updates.
+
+## Guardrails
+
+- Permission and visibility scopes still apply in bulk operations.
+- Some fields are intentionally excluded from bulk edits where data integrity could be harmed.
+
+## Related
+
+- [Event Scheduling](/core-platform/event-scheduling/core-concepts)
+- [Timeslots](/core-platform/event-management/timeslots)

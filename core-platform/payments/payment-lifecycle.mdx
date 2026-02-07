@@ -1,14 +1,51 @@
 ---
 title: "Payment Lifecycle"
-description: "Documentation for Payment Lifecycle"
+description: "Order and payment state transitions from checkout to completion, including deferred and approval flows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Payment Lifecycle** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+An order can move through multiple statuses before it is fully complete. The payment lifecycle is driven by selected method, basket composition, and whether the order requires approval, invoice settlement, or additional payment.
+
+## Common Statuses
+
+| Status family | Typical meaning |
+|---|---|
+| **Processing / Active** | Checkout in progress or awaiting payment confirmation. |
+| **Complete** | Fully paid (or approved with no payment due) and finalized. |
+| **Awaiting payment** | Deferred flow such as payment link, invoice, onsite payment, local payment, or partial balance. |
+| **Awaiting approval** | Reservation/items require admin approval before completion. |
+| **Expired / Failed / Cancelled / Rejected** | Checkout ended without successful completion. |
+| **Refunded / Partially refunded** | Post-sale refund outcomes. |
+
+## Full Payment vs Deferred Payment
+
+<Tabs>
+  <Tab title="Immediate Payment">
+    The order is completed once payment is confirmed by the gateway/offline method and post-processing finishes.
+  </Tab>
+  <Tab title="Deferred Payment">
+    The order can stay in an awaiting state until payment is settled (for example invoice/manual payment, payment link, or remaining balance after deposit).
+  </Tab>
+</Tabs>
+
+## Deposit Flow
+
+When deposit payments are used, the order records a partial payment first. Remaining balance collection uses a different payment context than the initial deposit, and tax/fees are proportioned accordingly.
+
+## Invoice/Manual Flow
+
+Invoice/manual payment orders stay open until invoice settlement is recorded. Eligibility and behavior are controlled by manual payment settings and whether the order is single-event and above the minimum threshold.
+
+## Operational Notes
+
+- Not every awaiting state means a failure; many are intentional deferred workflows.
+- Processing pages can remain visible while asynchronous gateway confirmations complete.
+- Order completion emails and access timing can vary when instant access is enabled for manual payments.
+
+## Related
+
+- [Introduction](/core-platform/payments/introduction)
+- [Deposit Payments](/core-platform/payments/deposit-payments)
+- [Invoice Payments](/core-platform/payments/invoice-payments)
+- [Order Management Core Concepts](/core-platform/order-management/core-concepts)

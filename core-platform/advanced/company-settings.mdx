@@ -1,14 +1,70 @@
 ---
 title: "Company Settings"
-description: "Documentation for Company Settings"
+description: "How advanced company-level configuration controls behaviour across admin, shop, checkout, and integrations."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Company Settings** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Company settings are the main control layer for platform behaviour. They are configured in:
+
+- **Admin** for day-to-day operational settings (for example checkout, basket, pricing, manual payments, and integrations).
+- **Partner Hub** for reseller-controlled settings, defaults, and higher-level company configuration.
+
+Most setting updates are persisted through `SaveCompanySettings` (Admin) or `SaveCompany` (Hub), with validation and guardrails enforced in those actions.
+
+## What Company Settings Control
+
+Common advanced settings include:
+
+- Basket and checkout behaviour (global basket, forced checkout, basket size/timeout, guest checkout).
+- Pricing and tax display strategy.
+- Manual/invoice payment behaviour.
+- Event-level feature behaviour (where a feature is enabled for the company).
+- Integration credentials and integration-specific operational options.
+- Parent/child company sharing controls (`global_login`, `global_transactions`).
+
+## Important Guardrails
+
+The settings layer enforces compatibility rules. Examples include:
+
+- Enabling **global basket** automatically disables forced checkout.
+- **Global login** cannot be enabled when incompatible integrations are active (for example DTCM or Szamlazz checks in `SaveCompanySettings`).
+- **Manual payment pending-day rules** change depending on whether instant access is enabled.
+- Live/demo mode changes are tracked and can trigger alerts when switching a company with live sales.
+
+## Company vs Reseller Ownership
+
+Some settings are company-owned; others are inherited or constrained by reseller configuration:
+
+- Reseller-level settings define available features, plans, currencies/languages/countries, and gateway/integration capabilities.
+- Company-level settings choose from what the reseller has made available.
+
+In practice, this means a company can only enable or configure options that are both:
+
+1. Available for the reseller/plan.
+2. Enabled for that company.
+
+## Parent/Child Impact
+
+When parent/child companies are configured:
+
+- `global_login` controls whether customers can be resolved across related companies.
+- `global_transactions` controls which company receives funds (`paymentCompany()` resolution).
+
+These settings have broad effects on checkout identity, payments, and cross-company data visibility.
+
+## Operational Recommendation
+
+Treat company settings changes as production changes:
+
+- Validate impacts on checkout, reporting, and integrations.
+- Confirm role/permission scope for who can make changes.
+- If changing payment-mode or shared-company controls, verify with a controlled end-to-end test order.
+
+## Related
+
+- [Advanced: All-In Pricing](/core-platform/advanced/all-in-pricing)
+- [Advanced: Instant Access Orders](/core-platform/advanced/instant-access-orders)
+- [Advanced: SSO](/core-platform/advanced/sso)
+- [Information: Company Switching](/core-platform/information/company-switching)
+- [Partner Hub: Parent Child Companies](/partner-hub/get-started/parent-child-companies)

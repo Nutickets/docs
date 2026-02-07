@@ -1,14 +1,29 @@
 ---
 title: "Resale Fees"
-description: "Documentation for Resale Fees"
+description: "Create and manage resale fee sale items at company or event level, including tax and channel behavior."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Resale Fees** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Resale fees are implemented as fee sale items and can be configured globally (company source) or per event.
+
+## Scope Options
+
+- **Company resale fees**: reusable defaults managed from resale fee listing.
+- **Event resale fees**: event-specific resale fee behavior.
+
+## Configuration Inputs
+
+- currencies and pricing
+- tax band / conditional tax settings
+- applicable channels
+- restricting item types where relevant
+
+## Permissions and Feature Gates
+
+Managing resale fees requires resale access and fee permissions. Some integration modes may restrict order-level fee behavior.
+
+## Related
+
+- [Configuration](/core-platform/resale/configuration)
+- [Custom Fees](/core-platform/fees/custom-fees)

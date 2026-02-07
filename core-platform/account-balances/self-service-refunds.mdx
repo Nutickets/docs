@@ -1,14 +1,31 @@
 ---
 title: "Self Service Refunds"
-description: "Documentation for Self Service Refunds"
+description: "Allow customers to refund eligible orders to account balance from the ticket shop."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Self Service Refunds** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Self-service balance refunds allow customers to move eligible order value into wallet balance without staff intervention.
+- This behaviour is controlled by balance-refund settings at company level.
+- Availability can be limited with a cutoff window and fee-refund toggles.
+
+## Balance Refund Settings
+
+| Setting | Behaviour |
+|---|---|
+| Enabled | Turns on balance-refund capability |
+| Self serve enabled | Exposes customer-facing refund flow |
+| Cutoff hours | Blocks late refund requests close to event start |
+| Refund processing fees | Includes processing fees in wallet refund value |
+| Refund reseller fees | Includes reseller fees in wallet refund value |
+
+## Access Model
+
+- Feature availability depends on account-balance refund feature context.
+- Admin-only and admin+customer modes are both supported through feature context configuration.
+
+## Related
+
+- [Cash Outs](/core-platform/account-balances/cash-outs)
+- [Order Management Core Concepts](/core-platform/order-management/core-concepts)
+- [Payments Introduction](/core-platform/payments/introduction)

@@ -1,14 +1,50 @@
 ---
 title: "Order Distributions"
-description: "Documentation for Order Distributions"
+description: "Share selected quantities from an order so recipients can claim their own items using a distribution link/code."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Order Distributions** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Order distributions let an order owner allocate selected items for others to claim.
+
+This is commonly used for group purchases where one payer buys all items and distributes entitlements afterward.
+
+## Eligibility
+
+Distribution creation is blocked unless all checks pass (`SaveOrderDistribution`):
+
+- Feature `order_distributions` is enabled.
+- Source order is complete and not frozen.
+- Actor owns the order.
+- Selected items are distributable and have sufficient unclaimed quantity.
+
+## Creation Rules
+
+When creating/updating a distribution:
+
+- Each distributed item group can have per-person claim limits.
+- Claim limits cannot exceed total distributable quantity.
+- Claimed groups cannot be removed in a way that invalidates existing claims.
+- A distribution code is generated for claim journeys.
+
+## Claim Rules
+
+Claiming (`ClaimOrderDistributionItems`) enforces:
+
+- Distribution must be active.
+- Claimer must be authenticated and not the original owner.
+- Feature access must still be valid.
+- Claim quantity must respect per-person and remaining-quantity limits.
+
+Claimed items are transferred to the claiming user. Distribution auto-disables when fully claimed.
+
+## User Experience
+
+- Owners manage distributions from account/order distribution forms.
+- Recipients use claim links/pages and complete authenticated claim flow.
+
+## Related
+
+- [Order Management: Core Concepts](/core-platform/order-management/core-concepts)
+- [Event Management: Item Transfers](/core-platform/event-management/item-transfers)
+- [Ticket Shop: My Account](/core-platform/ticket-shop/my-account)

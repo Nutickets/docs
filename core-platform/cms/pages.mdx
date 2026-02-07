@@ -1,14 +1,30 @@
 ---
 title: "Pages"
-description: "Documentation for Pages"
+description: "Create listing pages and page URLs that act as the core CMS page layer for the ticket shop."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Pages** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- CMS pages are managed as **listings** with their own URL, metadata, and block composition.
+- Listings can include event, article, and template blocks.
+- Listing pages support preview links and visibility controls.
+
+## Page Fields
+
+| Field | Purpose |
+|---|---|
+| Name | Admin-facing page label |
+| URL | Public route slug |
+| Body/Subheading | Page-level copy |
+| Header style/image | Top-of-page presentation |
+| Meta title/description/image | SEO and share metadata |
+| Authentication type | Access behaviour for the page |
+
+## Visibility
+
+Listings can be scoped with visibility groups so only permitted admin users manage them.
+
+## Related
+
+- [Blocks](/core-platform/cms/blocks)
+- [SEO](/core-platform/core/seo)

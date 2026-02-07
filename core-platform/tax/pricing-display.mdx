@@ -1,14 +1,30 @@
 ---
 title: "Pricing Display"
-description: "Documentation for Pricing Display"
+description: "Control whether prices are entered and displayed inclusive or exclusive of taxes across customer-facing surfaces."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Pricing Display** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Pricing display settings determine how prices are shown and interpreted in the platform.
+
+## Primary Controls
+
+| Setting | Purpose |
+|---|---|
+| **Price display** | Controls tax-inclusive vs tax-exclusive display behavior where supported. |
+| **Price input** | Controls whether entered prices are treated as including tax or excluding tax. |
+
+## Important Constraints
+
+Some combinations are blocked when specific pricing-display features are enabled. Validate display/input strategy before rolling out large pricing changes.
+
+## Customer Impact Areas
+
+- Event and item pricing presentation.
+- Checkout totals and line-item interpretation.
+- Reporting views that expose gross/net/tax breakdown.
+
+## Related
+
+- [Tax Bands](/core-platform/tax/tax-bands)
+- [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings)

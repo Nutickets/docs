@@ -1,14 +1,34 @@
 ---
 title: "Interpreting Data"
-description: "Documentation for Interpreting Data"
+description: "Practical guidance for reading report outputs safely across filters, grouping, intervals, and status states."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Interpreting Data** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Report numbers are only meaningful in the context of their filters, grouping strategy, and status windows. This page helps you read outputs consistently.
+
+## Interpretation Checklist
+
+1. Confirm active filters (date range, event/schedule/company, status, payment methods).
+2. Confirm grouping and secondary grouping.
+3. Confirm interval buckets (if used).
+4. Confirm whether values are gross/net/tax and which currency context applies.
+5. Confirm inclusion/exclusion of pending, failed, refunded, or resale states.
+
+## Common Pitfalls
+
+- Comparing grouped totals to ungrouped totals without matching filters.
+- Mixing multiple currencies without conversion context.
+- Treating incomplete/awaiting-payment orders as finalized revenue.
+- Forgetting visibility/permission scope when comparing between users.
+
+## Recommended Practice
+
+- Save a custom report for each recurring KPI use case.
+- Keep naming conventions explicit (`Sales - Net - Completed - Last 30 Days`).
+- Use scheduled reports for consistency, not ad-hoc filter changes.
+
+## Related
+
+- [Fundamentals](/core-platform/reporting/fundamentals)
+- [Custom Reports](/core-platform/reporting/custom-reports)

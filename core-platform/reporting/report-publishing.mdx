@@ -1,14 +1,37 @@
 ---
 title: "Report Publishing"
-description: "Documentation for Report Publishing"
+description: "Track exported files, signed download links, progress, and endpoint publication outcomes."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Report Publishing** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Report publishing covers generated export artifacts and optional endpoint delivery.
+
+## Export Records
+
+Each export creates a report export record with:
+
+- file metadata (`filename`, `filepath`, content type)
+- progress and completion timestamps
+- source context (report page/source URL)
+- optional parent/child export relationships for multi-part outputs
+
+## Access and Download
+
+- Download and view routes use **signed URLs**.
+- Signed links can be opened without full admin auth middleware, but still require valid signatures.
+
+## Progress and Failure
+
+- Processing exports show in-progress state.
+- Stalled/old incomplete exports are surfaced as failed in the UI.
+- Parent export progress is calculated from child completion ratio.
+
+## Endpoint Publishing
+
+When a data endpoint is attached, publishing outcomes are stored per export and can be inspected from export details.
+
+## Related
+
+- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
+- [Fundamentals](/core-platform/reporting/fundamentals)

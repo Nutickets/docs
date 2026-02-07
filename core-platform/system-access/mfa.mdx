@@ -1,14 +1,40 @@
 ---
 title: "Mfa"
-description: "Documentation for Mfa"
+description: "Enable and enforce two-factor authentication for admin and hub accounts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Mfa** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Multi-factor authentication (MFA) is implemented using Fortify two-factor routes for both Admin and Hub guards.
+
+## User Flow
+
+1. User enables two-factor authentication in account security.
+2. User confirms setup and stores recovery codes.
+3. Login requires two-factor challenge when enabled.
+
+## Supported Endpoints
+
+For authenticated users (after password confirmation):
+
+- Enable 2FA
+- Confirm 2FA setup
+- Disable 2FA
+- Retrieve QR code
+- Retrieve secret key
+- List/regenerate recovery codes
+
+For guests during login:
+
+- Two-factor challenge page
+- Two-factor challenge submission (throttled)
+
+## Operational Guidance
+
+- Encourage admins to store recovery codes securely.
+- Require password confirmation before changing 2FA settings.
+- Monitor account lockout/support process for lost authenticators.
+
+## Related
+
+- [Users](/core-platform/system-access/users)

@@ -1,14 +1,32 @@
 ---
 title: "Menus"
-description: "Documentation for Menus"
+description: "Manage navigational menus for header, footer, logo, top bar, and account sidebar placements."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Menus** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Menu items are managed centrally and rendered into multiple menu regions.
+- Supported menu regions include top bar, header, footer, logo menu, and account sidebar.
+- Items can point to internal routes, listing pages, and configured links.
+
+## Menu Management
+
+| Action | Behaviour |
+|---|---|
+| Create | Choose menu region, label, link target, and optional parent |
+| Sort | Reorder nested menu structures |
+| Edit | Update labels, links, and hierarchy |
+| Delete | Removes the item from rendered navigation |
+
+## Link Targets
+
+Menu items can target:
+
+- core shop routes (for example browse events)
+- listing pages
+- feature-specific pages enabled for the company (for example gift vouchers)
+
+## Related
+
+- [Pages](/core-platform/cms/pages)
+- [Theme And Branding](/core-platform/cms/theme-and-branding)

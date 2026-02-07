@@ -1,14 +1,37 @@
 ---
 title: "Global Search"
-description: "Documentation for Global Search"
+description: "Use entity-aware global search to quickly locate events, orders, schedules, customers, media, and more."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Global Search** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Global search is an AJAX-powered cross-entity search endpoint used throughout admin experiences.
+
+## Supported Entity Types
+
+Examples include:
+
+- events
+- sale items / inventory items
+- schedules
+- orders / reservations
+- customers
+- event media
+- listings and articles
+- customer groups
+
+## Search Behavior
+
+- Entity-specific filters are applied (for example date ranges, company, status).
+- Permission checks run before returning entity results.
+- Response payloads include admin route hints for quick navigation.
+
+## Operational Tips
+
+- Use filters instead of broad text when searching large datasets.
+- For events and orders, add date/status constraints to reduce noise.
+
+## Related
+
+- [Order Management Core Concepts](/core-platform/order-management/core-concepts)
+- [Event Management Introduction](/core-platform/event-management/introduction)

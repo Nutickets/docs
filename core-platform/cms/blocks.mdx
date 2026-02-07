@@ -1,14 +1,29 @@
 ---
 title: "Blocks"
-description: "Documentation for Blocks"
+description: "Compose CMS pages using event blocks, article blocks, listing blocks, and template blocks."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Blocks** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Blocks are reusable content/query units attached to listings.
+- Multiple block types are supported and can be reordered per listing.
+- Restoring/deleting block usage is handled across linked listing-block records.
+
+## Block Types
+
+| Type | Typical use |
+|---|---|
+| Event block | Display event collections |
+| Article block | Display article content/lists |
+| Template block | Reusable templated content structures |
+| Listing block | The link record joining a block to a listing |
+
+## Operational Notes
+
+- Reordering is persisted explicitly.
+- Block deletion from a listing can affect all linked listing-block records for that block instance.
+
+## Related
+
+- [Pages](/core-platform/cms/pages)
+- [Articles](/core-platform/cms/articles)

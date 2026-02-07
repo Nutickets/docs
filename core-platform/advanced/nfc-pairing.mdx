@@ -1,14 +1,48 @@
 ---
-title: "Nfc Pairing"
-description: "Documentation for Nfc Pairing"
+title: "NFC Pairing"
+description: "Pair order items to NFC tags for access-control scanning, with conflict handling and event-scope safeguards."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Nfc Pairing** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+NFC pairing links an order item/ticket to an NFC tag so access-control entry can be handled through NFC scans.
+
+Pairing mode is configured at event level through scanning mode options.
+
+## Scanning Modes
+
+Event scanning modes include:
+
+- `qr-only`
+- `dynamic-qr-only`
+- `pair-nfc-no-credits`
+- `pair-nfc-with-credits` (legacy/disabled path retained for compatibility)
+
+Available options are filtered by feature access and current event state.
+
+## Pairing Flow
+
+Pairing is handled by API/action logic (`PairTicket`, `OrderItem::pairWithNfcTag`), with checks for:
+
+- Event/company scope validity.
+- Duplicate request UUID handling.
+- Existing pair conflicts for the same customer/event.
+- Invalid barcode or already-paired states.
+
+If the same NFC tag is paired across conflicting customers for the same event context, conflicting links are detached according to pairing rules.
+
+## Data Surface
+
+Paired NFC tag data is exposed in admin/shop payloads where relevant so downstream screens can render NFC-linked state.
+
+## Operational Considerations
+
+- Pairing should be done with clear event-day operational procedures.
+- Re-pairing behaviour can affect existing links; train event teams before live use.
+- Confirm scanning mode in each event before opening doors.
+
+## Related
+
+- [Access Control: Admitting Via App](/core-platform/access-control/admitting-via-app)
+- [Advanced: Secure Barcodes](/core-platform/advanced/secure-barcodes)
+- [Advanced: Lead Capture](/core-platform/advanced/lead-capture)

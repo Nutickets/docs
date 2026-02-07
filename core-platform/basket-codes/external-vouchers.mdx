@@ -1,14 +1,27 @@
 ---
 title: "External Vouchers"
-description: "Documentation for External Vouchers"
+description: "Apply external voucher values in box-office assisted checkout flows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **External Vouchers** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- External vouchers are represented as a dedicated external-voucher discount code type.
+- They are primarily used in box-office workflows where staff applies fixed or percentage reductions from third-party voucher schemes.
+- Voucher records are listed in admin for visibility and auditing.
+
+## Box Office Flow
+
+1. Operator enters external voucher value in box-office checkout.
+2. Platform finds or creates the voucher-backed discount code.
+3. Discount is applied to the active order.
+4. Removing the value clears discount lines from the order.
+
+## Notes
+
+- External voucher records are managed as discount-code entities, so standard permission and state controls still apply.
+- Customer-facing self-serve voucher entry uses standard discount-code paths, not the box-office external voucher endpoint.
+
+## Related
+
+- [Discount Codes](/core-platform/basket-codes/discount-codes)
+- [Box Office Introduction](/core-platform/box-office/introduction)

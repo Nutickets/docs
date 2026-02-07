@@ -1,14 +1,31 @@
 ---
 title: "Tax Bands"
-description: "Documentation for Tax Bands"
+description: "Create and maintain tax bands used by sale items, fees, and reporting calculations."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Tax Bands** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Tax bands define named tax rates used across sale items and fee items.
+
+## Core Operations
+
+- Create tax band (`name`, `rate`).
+- Edit tax band details.
+- Soft-delete and restore.
+
+## Safety Rules
+
+A tax band cannot be deleted while it is in use by:
+
+- sale items (`tax_band_id`), or
+- conditional sale-item tax mappings.
+
+## Scope
+
+Tax bands are available in admin and hub contexts, with visibility constrained by current scope and permissions.
+
+## Related
+
+- [Conditional Tax Bands](/core-platform/tax/conditional-tax-bands)
+- [Pricing Display](/core-platform/tax/pricing-display)
+- [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings)

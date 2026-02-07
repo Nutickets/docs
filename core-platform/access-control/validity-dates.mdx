@@ -1,14 +1,45 @@
 ---
 title: "Validity Dates"
-description: "Documentation for Validity Dates"
+description: "Configure when sale items are valid for scanning and admission."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Validity Dates** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Validity dates control when an item can be successfully scanned for entry.
+- Validity is configured on scan-capable sale items.
+- Zone-level settings can optionally ignore validity checks for specific operational workflows.
+
+## Check-In Time Presets
+
+Sale items support these validity patterns:
+
+| Preset | Behaviour |
+|---|---|
+| Anytime | No bounded validity window is enforced for event-time scanning. |
+| One hour before event start until event end | Auto-sets a practical event window. |
+| Custom | Uses manually selected `valid_from` and `valid_until` values. |
+| Timeslot-based | For timeslotted items, validity follows the assigned timeslot window. |
+
+## Additional Controls
+
+- **Show check-in times in shop**: exposes validity timings to customers.
+- **Scanning grace period**: extends tolerance around configured validity times.
+
+<Note>
+Timeslotted sale items inherit the timeslot timing model. This reduces drift between entry logic and displayed slot times.
+</Note>
+
+## Zone Interaction
+
+Zone settings can override validity checks when needed:
+
+- `ignore_validity_dates` at zone level
+- forced ignores in specific admin bulk-scan workflows
+
+Use overrides only for supervised exception handling.
+
+## Related
+
+- [Standard Entry](/core-platform/access-control/standard-entry)
+- [Timeslots](/core-platform/event-management/timeslots)
+- [Sale Item Core Concepts](/core-platform/sale-items/core-concepts)

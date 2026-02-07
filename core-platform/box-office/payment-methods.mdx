@@ -1,14 +1,21 @@
 ---
 title: "Payment Methods"
-description: "Documentation for Payment Methods"
+description: "Control which payment options are available in box-office assisted checkout."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Payment Methods** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Box-office checkout uses enabled company payment methods and method-specific eligibility rules.
+- Some methods only appear when basket totals or flow conditions are met.
+- Method configuration is managed through payment settings and box-office payment-method settings.
+
+## Behaviour Highlights
+
+- Complimentary/zero-value style methods are treated separately from paid methods.
+- Balance-on-hand style methods are excluded from instant-checkout action lists.
+- Manual payment and invoice controls come from company payment settings.
+
+## Related
+
+- [Payments Introduction](/core-platform/payments/introduction)
+- [Instant Checkout](/core-platform/box-office/instant-checkout)

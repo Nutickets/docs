@@ -1,14 +1,49 @@
 ---
 title: "Standard Entry"
-description: "Documentation for Standard Entry"
+description: "How standard zone-based entry works for scanned tickets, products, guest lists, and season tickets."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Standard Entry** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Standard entry is managed with **zones** on an event.
+- A zone defines which sale items can be scanned, how scans are interpreted, and whether entry is limited.
+- Scanning writes `in` / `out` records against order items, and attendance is calculated from the latest scan state.
+- Entry behaviour depends on both zone settings and sale item validity settings.
+
+## Entry Flow
+
+1. Create one or more [zones](/core-platform/access-control/zones) on the event.
+2. Choose which sale items can enter each zone (or allow all eligible items).
+3. Configure scan mode and limits.
+4. Admit customers from [Access Control Pro](/core-platform/access-control/admitting-via-app), [mobile box office](/core-platform/access-control/admitting-via-mbo), or [admin tools](/core-platform/access-control/admitting-via-admin).
+
+## Scan Modes
+
+| Mode | Behaviour |
+|---|---|
+| In only | Records entry scans only. Current attendance cannot be decremented by scan-out. |
+| In/Out manual | Supports both directions, selected by the operator at scan time. |
+| In/Out automatic | Alternates by current state (scan in, then scan out). |
+
+## Scan Limits
+
+| Setting | Behaviour |
+|---|---|
+| Unlimited access | The same item can be admitted multiple times. |
+| Single access | The item can only be admitted once for that zone. |
+
+## What Can Be Scanned
+
+Zones can target event sale items that support attendance workflows, including tickets, products, guest lists, and season tickets.
+
+<Note>
+Use [validity dates](/core-platform/access-control/validity-dates) on sale items to define when a barcode is valid for entry.
+</Note>
+
+## Related
+
+- [Zones](/core-platform/access-control/zones)
+- [Validity Dates](/core-platform/access-control/validity-dates)
+- [Admitting Via App](/core-platform/access-control/admitting-via-app)
+- [Admitting Via MBO](/core-platform/access-control/admitting-via-mbo)
+- [Admitting Via Admin](/core-platform/access-control/admitting-via-admin)

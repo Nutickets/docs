@@ -1,14 +1,27 @@
 ---
 title: "Entry Points"
-description: "Documentation for Entry Points"
+description: "Launch box-office sessions from admin and direct staff into specific sales contexts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Entry Points** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Box office mode is launched from admin and redirected into signed shop routes.
+
+## Supported Launch Inputs
+
+| Parameter | Purpose |
+|---|---|
+| `event` | Opens box office directly on an event page |
+| `customer` | Pre-selects a customer context |
+| `custom_url` | Uses a specific company custom-url target where available |
+| `params` | Additional query params for deep-link behaviour |
+
+## Start and Cancel
+
+- **Start**: creates a secure access URL and redirects staff into shop box-office mode.
+- **Cancel**: exits box-office mode, clears session context, and returns staff to previous/admin flow.
+
+## Related
+
+- [Box Office Introduction](/core-platform/box-office/introduction)
+- [Instant Checkout](/core-platform/box-office/instant-checkout)

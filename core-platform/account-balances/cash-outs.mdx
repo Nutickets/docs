@@ -1,14 +1,38 @@
 ---
 title: "Cash Outs"
-description: "Documentation for Cash Outs"
+description: "Process wallet cash-outs in admin and ticket shop flows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Cash Outs** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Cash-outs return wallet balance value back to the customer through refund processing.
+- Cash-outs can be initiated by staff (admin) or by customers (shop) depending on company settings.
+- The platform validates that the requested amount is refundable and available.
+
+## Validation Rules
+
+Cash-out processing checks:
+
+- account-balance feature access
+- wallet ownership and permission model
+- company wallet cash-out setting (`cashouts_enabled`)
+- refundable source value from eligible top-up order items
+- current wallet balance ceiling
+
+## Online vs Offline Scope
+
+| Mode | Behaviour |
+|---|---|
+| Online | Restricts source top-ups to online payment transactions. |
+| Offline/Admin | Supports wider payment method sets based on operator action. |
+
+## Important Behaviour
+
+- If amount is omitted in some staff workflows, the system derives a safe maximum.
+- Cash-out requests that exceed refundable value or available balance are rejected.
+- Cash-outs are executed through refund actions, preserving financial auditability.
+
+## Related
+
+- [Top Ups](/core-platform/account-balances/top-ups)
+- [Refunds And Cancellations](/core-platform/order-management/refunds-and-cancellations)

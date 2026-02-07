@@ -1,14 +1,49 @@
 ---
 title: "Lead Capture"
-description: "Documentation for Lead Capture"
+description: "How exhibitor lead capture works through event zones, exhibitor contacts, permissions, and automated reporting."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Lead Capture** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Lead capture is implemented through **Exhibitors** on events and is feature-gated by `lead_capture`.
+
+When enabled, events can include exhibitor-specific access-control zones and scoped exhibitor users for scanning and lead collection workflows.
+
+## Where It Appears
+
+- Event access-control/settings areas expose Exhibitor options when the feature is enabled.
+- Admin exhibitor views provide list/create/edit/delete flows per event.
+
+## How Exhibitors Are Created
+
+`SaveExhibitor` and related actions create and maintain:
+
+- An exhibitor `EventZone` (`TYPE_EXHIBITOR`) with exhibitor-oriented defaults.
+- A contact user (new or linked existing).
+- A hidden role with restricted exhibitor permissions.
+- Related report and scheduling settings via `SyncExhibitorSettings`.
+
+Default zone behaviour includes settings such as single-scan style entry constraints and attendee visibility controls appropriate for lead workflows.
+
+## Permissions and Access
+
+Exhibitor access is intentionally scoped:
+
+- Exhibitor users receive a constrained permission set through generated hidden roles.
+- Access is tied to the exhibitor/company/event context.
+
+## Reporting and Outputs
+
+Lead-capture reporting is auto-provisioned for exhibitors, including scheduled output generation after event-end windows where configured.
+
+## Operational Notes
+
+- Treat exhibitor contact accounts as privileged access for event-day data collection.
+- Review role/visibility scope when reusing existing users as exhibitor contacts.
+- Confirm event-zone setup before event day to avoid scanning/visibility surprises.
+
+## Related
+
+- [Access Control: Zones](/core-platform/access-control/zones)
+- [Reporting: Scheduled Reports](/core-platform/reporting/scheduled-reports)
+- [Advanced: NFC Pairing](/core-platform/advanced/nfc-pairing)

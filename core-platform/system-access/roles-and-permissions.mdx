@@ -1,14 +1,44 @@
 ---
 title: "Roles And Permissions"
-description: "Documentation for Roles And Permissions"
+description: "How scoped roles and abilities control access across admin and hub workflows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Roles And Permissions** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Authorization uses permission constants and scoped roles. Roles are assigned to users; permission checks resolve through those roles and optional direct abilities.
+
+## Scoping Rules
+
+- Admin role checks are company-scoped.
+- Hub role checks are reseller/hub-scoped.
+- Roles can be system/read-only in some contexts.
+
+## Role Management
+
+- Create custom roles with selected abilities.
+- Edit role title/abilities (except read-only/system restrictions).
+- Soft-delete/restore roles where supported.
+
+## Permission Patterns
+
+Common checks include:
+
+- `view_any`
+- `view`
+- `create`
+- `edit`
+- `delete`
+- domain-specific actions (publish, access, manage-fees, etc.)
+
+`MANAGE` acts as broad shorthand for full entity control and should be used intentionally.
+
+## Operational Guidance
+
+- Prefer reusable role templates over many direct per-user abilities.
+- Keep privileged roles (for example super-user style) tightly controlled.
+- Review roles after major feature rollouts to avoid accidental overexposure.
+
+## Related
+
+- [Users](/core-platform/system-access/users)
+- [Visibility Groups](/core-platform/system-access/visibility-groups)

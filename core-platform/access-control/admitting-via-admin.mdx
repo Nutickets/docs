@@ -1,14 +1,35 @@
 ---
 title: "Admitting Via Admin"
-description: "Documentation for Admitting Via Admin"
+description: "Run entry operations from admin tooling, including supervised and bulk scan workflows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Admitting Via Admin** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Admin users can perform zone scanning from event access-control interfaces.
+- This mode is commonly used for troubleshooting, supervised entry, or operational back-office support.
+- Bulk scan workflows are transaction-safe: denied items can roll back the batch to avoid partial admissions.
+
+## Admin Scan Behaviour
+
+- Admin scan actions evaluate recognized barcodes against the selected event zone.
+- If no barcode matches are found, the request is rejected.
+- If a denial occurs in bulk scan, prior scans in that transaction are reverted.
+
+## Permissions
+
+Admin admitting requires either:
+
+- permission to edit the event, or
+- permission to edit the specific zone.
+
+## When To Use
+
+- Resolve edge-case admissions at control points.
+- Correct manual-entry scenarios during assisted support.
+- Supervise admissions when mobile operators escalate an issue.
+
+## Related
+
+- [Standard Entry](/core-platform/access-control/standard-entry)
+- [Zones](/core-platform/access-control/zones)
+- [Admitting Via App](/core-platform/access-control/admitting-via-app)

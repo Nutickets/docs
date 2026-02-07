@@ -1,14 +1,56 @@
 ---
 title: "Instant Access Orders"
-description: "Documentation for Instant Access Orders"
+description: "Allow invoice/manual-payment orders to access tickets before invoice settlement, with controlled eligibility and safeguards."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Instant Access Orders** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Instant access orders allow invoice/manual-payment orders to complete checkout with immediate access to purchased items before payment is settled.
+
+This is feature-gated and controlled by company manual-payment settings.
+
+## Eligibility Requirements
+
+An order is eligible only when all relevant conditions are met:
+
+- Manual payments are enabled.
+- Company has feature access to `instant_access_orders`.
+- Company setting `manual_payments_instant_access_enabled` is enabled.
+- Standard manual-payment eligibility checks pass.
+
+Eligibility is evaluated by `ManualPaymentSettings::eligibleForInstantAccess()` and surfaced during checkout.
+
+## Configuration
+
+Configured via company payment settings (saved in `SaveCompanySettings`):
+
+- `manual_payments_enabled`
+- `manual_payments_instant_access_enabled`
+- Pending-payment windows and related invoice settings
+
+Validation rules enforce correct combinations, including pending-day limits based on instant-access state.
+
+## Runtime Behaviour
+
+When an eligible invoice is generated (`GenerateInvoiceForOrder`):
+
+- `instant_access` is set on the invoice/order context.
+- Pending expiry can be lifted for that instant-access path.
+
+Customers get immediate access flow while the invoice remains payable.
+
+## Operational Considerations
+
+Use this only where invoice-credit risk is acceptable.
+
+Recommended controls:
+
+- Tight eligibility and approval policies for invoice payers.
+- Clear payment instructions and due dates.
+- Reporting/review process for overdue instant-access invoices.
+
+## Related
+
+- [Payments: Invoice Payments](/core-platform/payments/invoice-payments)
+- [Information: Paying Invoices](/core-platform/information/paying-invoices)
+- [Order Management: Core Concepts](/core-platform/order-management/core-concepts)

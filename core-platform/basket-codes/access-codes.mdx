@@ -1,14 +1,37 @@
 ---
 title: "Access Codes"
-description: "Documentation for Access Codes"
+description: "Gate visibility and eligibility for events, items, and sale items with controlled access codes."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Access Codes** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Access codes are basket-entry codes used to unlock restricted inventory.
+- Codes can target events, schedules, inventory items, or specific sale items.
+- Access codes support parent/child generation patterns for campaign-style distribution.
+
+## Core Behaviour
+
+| Area | Behaviour |
+|---|---|
+| Visibility gating | Codes can hide unrestricted items and only reveal eligible inventory |
+| Scope assignment | Can be linked to events, schedules, items, and sale items |
+| Lifecycle | Codes can be active, inactive, disabled, soft-deleted, then restored |
+| Analytics | Usage and orders are tracked for reporting/export |
+
+## Parent and Child Codes
+
+- Parent codes can generate child code sets.
+- Child activity is trackable (uses, orders, state).
+- Restoring a deleted code validates collisions to avoid duplicates.
+
+## Administration
+
+- Managed from **Access Codes** in admin.
+- Includes filtering by active/inactive/disabled/deleted state.
+- Supports CSV import via data-import workflows.
+
+## Related
+
+- [Discount Codes](/core-platform/basket-codes/discount-codes)
+- [External Vouchers](/core-platform/basket-codes/external-vouchers)
+- [Data Imports](/core-platform/data-imports/introduction)

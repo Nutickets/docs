@@ -1,14 +1,31 @@
 ---
 title: "Visibility Groups"
-description: "Documentation for Visibility Groups"
+description: "Use visibility groups to constrain record visibility for users while preserving operational permissions."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Visibility Groups** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Visibility groups control **what users can see**, separate from what they are allowed to do. They are used across entities such as events, venues, listings, and users.
+
+## Core Behavior
+
+- A user may belong to one or more visibility groups.
+- Entity records can be associated with visibility groups.
+- Queries using visibility-aware scopes only return records within the user’s permitted groups.
+
+## Management Rules
+
+- Visibility groups are company-scoped.
+- Deletion is blocked if it would orphan users with no remaining visibility group.
+- Users cannot delete a visibility group they currently belong to.
+
+## Typical Use Cases
+
+- Segregating teams by venue or region.
+- Restricting promoters to their own events.
+- Limiting operational teams to specific business units.
+
+## Related
+
+- [Users](/core-platform/system-access/users)
+- [Roles And Permissions](/core-platform/system-access/roles-and-permissions)

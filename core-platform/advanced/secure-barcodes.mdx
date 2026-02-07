@@ -1,14 +1,44 @@
 ---
 title: "Secure Barcodes"
-description: "Documentation for Secure Barcodes"
+description: "Dynamic/secure barcode issuance and controls for fraud resistance in ticket distribution and scanning."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Secure Barcodes** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Secure barcodes use rotating/dynamic barcode behaviour to reduce static barcode misuse.
+
+The feature is tied to event scanning configuration and eligible item types.
+
+## Eligibility Requirements
+
+A sale item/order item can only use secure barcodes when required conditions are met, including:
+
+- Event scanning mode supports dynamic/secure QR.
+- Item type is eligible for secure barcode handling.
+- Required secret/configuration values are present.
+
+Eligibility logic is implemented across sale-item and order-item checks (`shouldHaveSecureBarcode`, `canHaveSecureBarcode`, related guards).
+
+## Operational Controls
+
+Admin can enable/disable secure barcodes for order items via secure-barcode controller endpoints.
+
+Secure barcode seed generation is handled in batch for dynamic-QR events (`GenerateSecureBarcodeSeeds`).
+
+## Download Behaviour
+
+When secure barcode is active on an order item, PDF-download behaviour is restricted by order-item download guards (`canDownloadPdf`).
+
+## Why Use It
+
+Secure barcodes are most useful where:
+
+- Screenshot/static-barcode sharing is a risk.
+- Real-time scan validity is required.
+- Event access should depend on freshest token state.
+
+## Related
+
+- [Access Control: Admitting Via App](/core-platform/access-control/admitting-via-app)
+- [Advanced: NFC Pairing](/core-platform/advanced/nfc-pairing)
+- [Event Media: Mobile Wallets](/core-platform/event-media/mobile-wallets)

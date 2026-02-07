@@ -1,14 +1,45 @@
 ---
 title: "Zones"
-description: "Documentation for Zones"
+description: "Create and manage event zones for scanning, attendance control, and access restrictions."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Zones** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- A zone is an access boundary inside an event.
+- Zones can be configured per event with independent scanning and entry rules.
+- The zone list includes attendance stats, historical peaks, and zone-level reports.
+
+## Core Configuration
+
+| Area | What it controls |
+|---|---|
+| Basic details | Zone name and optional opening/closing date window |
+| Eligible items | All tickets/items or a selected set of sale items |
+| Scanning settings | Scan mode, scan accuracy mode, scan limit, capacity |
+| Advanced settings | Age restrictions, auto-scan-out schedule, validity bypass, attendee visibility |
+
+## Scanning Accuracy
+
+| Mode | Behaviour |
+|---|---|
+| Precision scanning | Full validation for each scan result. |
+| Rapid scanning | Optimised for fast throughput in queue-heavy scenarios. |
+
+## Capacity Behaviour
+
+- Zone capacity is meaningful for in/out capable modes.
+- In-only zones do not track real-time occupancy decrement.
+
+## Auto Scan-Out
+
+Zones can hold a schedule of auto scan-out timestamps. This is useful for timed clear-down rules where operators do not manually scan customers out.
+
+## Permissions
+
+Zone management requires event edit access plus zone permissions (view/create/edit/delete depending on action).
+
+## Related
+
+- [Standard Entry](/core-platform/access-control/standard-entry)
+- [Admitting Via App](/core-platform/access-control/admitting-via-app)
+- [Admitting Via Admin](/core-platform/access-control/admitting-via-admin)

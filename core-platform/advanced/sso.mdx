@@ -1,14 +1,53 @@
 ---
-title: "Sso"
-description: "Documentation for Sso"
+title: "SSO"
+description: "Configure single sign-on providers and identity mapping for customer authentication and account lifecycle flows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Sso** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Single sign-on (SSO) allows customers to authenticate against an external identity provider instead of local username/password flows.
+
+SSO is configured at company level in Partner Hub and used by shop auth controllers/actions.
+
+## Supported SSO Types
+
+Configured through company settings (`sso_type`) with built-in type definitions in `CompanySetting::ssoTypes()`:
+
+- OpenID Connect
+- Laravel Passport style integration
+- External/custom
+- Azure AD B2C
+
+Each type has specific required fields (for example base URL, client ID/secret, policy, identifier mapping).
+
+## Core Settings
+
+Common SSO settings include:
+
+- `sso_enabled`
+- `sso_type`
+- `sso_base_url`
+- `sso_client_id` / `sso_client_secret`
+- `sso_identifier_key`
+- `sso_name`
+- optional change-email / change-password / logout URLs
+
+## Runtime Behaviour
+
+When SSO is enabled:
+
+- Shop auth flows route users through external-login logic.
+- External identity attributes can be mapped into local user/provider records.
+- Password-reset and auth UX behaviour changes to respect SSO ownership.
+
+Logout handling can use provider-native logout support where available, with fallback to configured logout URL behaviour.
+
+## Reporting and Data
+
+SSO-linked identity values are available in several reporting contexts (for example customer/order/attendance report SSO identifiers), enabling reconciliation with external identity systems.
+
+## Related
+
+- [System Access: Users](/core-platform/system-access/users)
+- [Order Management: Core Concepts](/core-platform/order-management/core-concepts)
+- [Partner Hub: Integration Settings](/partner-hub/get-started/integration-settings)

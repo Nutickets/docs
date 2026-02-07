@@ -1,14 +1,31 @@
 ---
 title: "Discount Codes"
-description: "Documentation for Discount Codes"
+description: "Configure percentage, fixed, and advanced discount logic for basket and sale-item pricing."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Discount Codes** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Discount codes apply pricing reductions to eligible basket lines.
+- The platform supports multiple discount-code types, including targeted and conditional models.
+- Codes can be manually entered, auto-applied, or generated in parent/child sets.
+
+## Common Capabilities
+
+| Capability | Notes |
+|---|---|
+| Targeting | Scope by events, schedules, sale items, items, price bands, and customer groups |
+| Conditions | Supports rule-based eligibility including conditional item requirements |
+| Auto-apply | Prioritised auto-apply codes with platform limits |
+| Lifecycle | Active, inactive, disabled, and soft-deleted states |
+
+## Operational Notes
+
+- Box-office-only discounts are treated separately from standard discount-code records.
+- Generated code batches expose child-level activity and can be filtered in the admin UI.
+- Discount-code usage and exports are available through built-in reports.
+
+## Related
+
+- [Access Codes](/core-platform/basket-codes/access-codes)
+- [Customer Groups](/core-platform/customer-management/customer-groups)
+- [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)

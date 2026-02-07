@@ -1,14 +1,35 @@
 ---
 title: "Configuration"
-description: "Documentation for Configuration"
+description: "Configure primary resale behavior at company, event, and sale-item level."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Configuration** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Primary resale settings can be configured at multiple layers:
+
+- company defaults
+- event overrides
+- sale-item overrides
+
+## Core Settings
+
+| Setting | Description |
+|---|---|
+| **Enabled** | Turn resale on/off (or inherit at lower levels). |
+| **Listing window start** | How far before event start customers can list. |
+| **Purchase window start/end** | When resale purchases are allowed. |
+| **Payout mode** | Where seller proceeds are sent. |
+| **Sales channel** | Where resale is visible (web-only or wider contexts). |
+| **Pricing strategy** | How resale prices can be set (plus optional min/max margins). |
+| **Fee payer split** | Whether buyer, seller, or both pay fees (with seller contribution where relevant). |
+
+## Validation Rules
+
+- Purchase window start cannot be later than listing window start.
+- Purchase window end cannot be later than purchase window start.
+- Hour values are bounded to one year (0-8760 hours).
+
+## Related
+
+- [Resale Fees](/core-platform/resale/resale-fees)
+- [Payments](/core-platform/payments/introduction)

@@ -1,14 +1,25 @@
 ---
 title: "Introduction"
-description: "Documentation for Introduction"
+description: "Design and assign data-capture questions across checkout, forms, events, and internal workflows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Introduction** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Data capture provides reusable question definitions for collecting customer and operational data.
+- Questions can be assigned to multiple entities (events, forms, checkout contexts, and internal workflows).
+- Responses are persisted per field/question and reused in reporting and downstream workflows.
+
+## Core Components
+
+| Component | Role |
+|---|---|
+| Question | The reusable prompt and type definition |
+| Options | Select/radio/multi-choice values |
+| Field assignment | Placement of a question on a target entity/context |
+| Response | Captured answer payload linked to user/order/context |
+
+## Related
+
+- [Question Types](/core-platform/data-capture/question-types)
+- [External Questions](/core-platform/data-capture/external-questions)
+- [Internal Questions](/core-platform/data-capture/internal-questions)

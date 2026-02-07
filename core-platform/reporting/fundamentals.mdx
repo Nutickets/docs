@@ -1,14 +1,48 @@
 ---
 title: "Fundamentals"
-description: "Documentation for Fundamentals"
+description: "Core reporting architecture: default reports, custom reports, filters, groupings, widgets, and exports."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Fundamentals** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Reporting has two primary modes:
+
+- **Default reports**: predefined report templates.
+- **Custom reports**: saved, editable report definitions with custom settings.
+
+The report engine supports filtering, grouping, intervals, column selection, widget visualization, and exports.
+
+## Report Types
+
+Custom reports map to report-type classes (for example sales, attendance, orders, customers, invoices, scanning, transfers, discount/access codes, seating plan utilization, wallets, and exchange-rate style datasets).
+
+## Core Building Blocks
+
+| Building block | Purpose |
+|---|---|
+| **Filters** | Narrow dataset (event, schedule, venue, company, date, status, payment method, etc.). |
+| **Headers** | Select fields/columns included in output. |
+| **Grouping / secondary grouping** | Aggregate data by one or two dimensions. |
+| **Interval** | Bucket by time interval where supported. |
+| **Widgets** | Visual components built from report headers/groupings. |
+| **Exports** | Background generation of CSV/XLSX/PDF/other supported formats. |
+
+## Permissions
+
+Access is permission-based and scoped:
+
+- View default reports.
+- View/create/edit/delete custom reports.
+- Create/edit/delete widgets.
+- Create scheduled reports.
+
+## Export Model
+
+Exports are tracked as report export records and may run asynchronously. Download links are signed and progress is available from the exports listing.
+
+## Related
+
+- [Custom Reports](/core-platform/reporting/custom-reports)
+- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
+- [Report Publishing](/core-platform/reporting/report-publishing)
+- [Interpreting Data](/core-platform/reporting/interpreting-data)

@@ -1,14 +1,30 @@
 ---
 title: "Introduction"
-description: "Documentation for Introduction"
+description: "Use box office mode for assisted sales, customer assignment, and in-person checkout workflows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Introduction** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Box office mode runs inside the shop stack but with staff-authenticated context.
+- Staff can start box office sessions from admin and optionally deep-link to a specific event or customer.
+- The mode supports assisted selling, payment shortcuts, and operational tools such as quick-sell actions.
+
+## What Box Office Mode Adds
+
+| Area | Capability |
+|---|---|
+| Session control | Start/stop secure box-office sessions |
+| Assisted checkout | Set basket customer, apply staff discounts/vouchers, process payments |
+| Event operations | Jump directly into event pages from admin launch links |
+| Basket tools | Instant checkout and quick-sell patterns for repeat orders |
+
+## Access Model
+
+- Starting box office requires sell-item permissions.
+- Box office behaviour can be globally limited by company feature/limitation settings.
+
+## Related
+
+- [Entry Points](/core-platform/box-office/entry-points)
+- [Payment Methods](/core-platform/box-office/payment-methods)
+- [Instant Checkout](/core-platform/box-office/instant-checkout)

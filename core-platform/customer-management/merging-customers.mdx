@@ -1,14 +1,35 @@
 ---
 title: "Merging Customers"
-description: "Documentation for Merging Customers"
+description: "Consolidate duplicate customer records while preserving orders, transfers, and linked activity."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Merging Customers** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Customer merge combines a duplicate customer into a final customer record.
+- The workflow is transactional and moves linked records to the target customer.
+- A merge history record is stored for audit and timeline review.
+
+## Merge Behaviour
+
+During merge, the platform reassigns linked records such as:
+
+- orders and order items
+- data-capture responses
+- transfers and transaction requests
+- addresses and supported provider identities
+- customer-group memberships
+
+When account balances are enabled, wallet funds are transferred as part of merge handling.
+
+## Constraints
+
+Merges are blocked when:
+
+- either record belongs to admin/hub user identities
+- records belong to different companies
+- required merge permissions or feature access are missing
+
+## Related
+
+- [Editing Customers](/core-platform/customer-management/editing-customers)
+- [Account Balances](/core-platform/account-balances/top-ups)

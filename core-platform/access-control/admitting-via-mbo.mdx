@@ -1,14 +1,30 @@
 ---
-title: "Admitting Via Mbo"
-description: "Documentation for Admitting Via Mbo"
+title: "Admitting Via MBO"
+description: "Admit attendees from mobile box office tooling and related APIs."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Admitting Via Mbo** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Mobile box office workflows can perform scan-based admission for supported events.
+- Admission logic is shared with standard zone scanning rules.
+- This is useful where sales and entry are handled by the same mobile operations team.
+
+## How It Differs From Access Control Pro
+
+| Area | MBO behaviour |
+|---|---|
+| Primary use | Combined sales + admission operations |
+| Feature surface | Depends on box office/mobile feature access for the company |
+| Rule engine | Reuses zone + validity checks used across the platform |
+
+## Operational Notes
+
+- Keep zone configuration clear and minimal for mobile crews.
+- Validate sales-channel and visibility settings so MBO operators can find intended sale items quickly.
+- Use [single-access limits](/core-platform/access-control/standard-entry) where repeat entry must be blocked.
+
+## Related
+
+- [Admitting Via App](/core-platform/access-control/admitting-via-app)
+- [Admitting Via Admin](/core-platform/access-control/admitting-via-admin)
+- [Box Office Introduction](/core-platform/box-office/introduction)

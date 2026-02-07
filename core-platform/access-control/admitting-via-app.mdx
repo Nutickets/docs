@@ -1,14 +1,36 @@
 ---
 title: "Admitting Via App"
-description: "Documentation for Admitting Via App"
+description: "Use Access Control Pro to scan attendees into event zones."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Admitting Via App** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Access Control Pro is the primary mobile workflow for event entry scanning.
+- App users scan order item barcodes/QRs against a selected event zone.
+- Scan outcomes follow zone rules (mode, capacity, limits) and item validity.
+
+## Typical Operator Flow
+
+1. Sign in to the app with an authorized user.
+2. Select the event and zone.
+3. Scan customer codes.
+4. Review allowed/denied feedback and reason messaging.
+
+## Validation Inputs
+
+The scan response considers:
+
+- Zone eligibility (item allowed in zone)
+- Scan limit and prior scan history
+- Sale item validity dates (unless overridden)
+- Zone capacity and scan mode
+
+## Secure Scanning
+
+If secure barcode features are enabled, scan metadata includes secure context and device UUID telemetry in stored scan records.
+
+## Related
+
+- [Standard Entry](/core-platform/access-control/standard-entry)
+- [Zones](/core-platform/access-control/zones)
+- [Validity Dates](/core-platform/access-control/validity-dates)

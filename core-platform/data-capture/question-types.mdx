@@ -1,14 +1,37 @@
 ---
 title: "Question Types"
-description: "Documentation for Question Types"
+description: "Available data-capture field types and how they map to response formats."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Question Types** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform supports multiple question types, including text, numeric, date/time, and option-based formats.
+
+## Supported Types
+
+| Type | System name |
+|---|---|
+| Short text | `text` |
+| Long text | `long_text` |
+| Selection | `select` |
+| Number | `number` |
+| Checkbox | `checkbox` |
+| Multiple checkboxes | `multi_checkbox` |
+| Radio buttons | `radio` |
+| Yes / No | `yes_no` |
+| Phone | `phone` |
+| Email | `email` |
+| Date | `date` |
+| Date & time | `datetime` |
+| Date range | `daterange` |
+| Date & time range | `datetimerange` |
+
+## Notes
+
+- Some types support option lists.
+- Some types are eligible for marketing-question use.
+- Validation differs by type (for example email and phone validation paths).
+
+## Related
+
+- [Introduction](/core-platform/data-capture/introduction)

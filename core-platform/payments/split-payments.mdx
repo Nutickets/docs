@@ -1,14 +1,48 @@
 ---
 title: "Split Payments"
-description: "Documentation for Split Payments"
+description: "Use multiple payment methods on a single order, including online gateway, wallet, balance on hand, and resale contribution splits."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Split Payments** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Split payments let one order be paid by multiple methods. Each split includes:
+
+- `payment_method`
+- `amount`
+
+The platform validates both structure and total before processing.
+
+## Validation Rules
+
+- Every split must contain a valid method key and numeric amount.
+- The sum of split amounts must match the expected amount due today.
+- Split mode is only treated as split mode when there is more than one valid split.
+
+## Default Split Generation
+
+When eligible, the system can pre-build splits for scenarios such as:
+
+- **Balance on hand** used first.
+- **Resale seller contribution** applied when relevant.
+- **Wallet balance spending** when enabled/encouraged.
+- **Gateway/card remainder** for any outstanding amount.
+
+## Gateway Portion in Split Flows
+
+In split mode, the platform identifies the online/gateway split and processes that portion through the selected gateway while preserving the other split records.
+
+## Tax and Fee Allocation
+
+For split payments, tax, reseller fee, and processing fee are proportioned against the relevant split amount to keep totals consistent.
+
+## Typical Use Cases
+
+- Part wallet + part card payment.
+- Box office order modification with mixed methods.
+- Resale transactions where seller contribution offsets part of buyer payment.
+
+## Related
+
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Deposit Payments](/core-platform/payments/deposit-payments)
+- [Invoice Payments](/core-platform/payments/invoice-payments)

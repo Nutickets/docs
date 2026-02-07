@@ -1,14 +1,38 @@
 ---
 title: "Deposit Payments"
-description: "Documentation for Deposit Payments"
+description: "Collect an initial deposit now and defer remaining balance payment to a later step."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Deposit Payments** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Deposit payments allow customers to confirm an order by paying only part of the total up front, then settle the remaining balance later.
+
+## How It Works
+
+1. A deposit payment plan is selected for the checkout.
+2. The system calculates **total due today**.
+3. The order is created with an outstanding balance.
+4. Remaining balance is collected later using a remaining-balance payment context.
+
+## Calculation Behavior
+
+- If deposit mode is active and order is eligible, due-today uses the generated deposit amount.
+- Tax for deposit payments is proportioned relative to the amount collected now.
+- For later payments, unpaid tax is used to prevent over-allocation.
+
+## Important Constraints
+
+- Manual invoice payment methods are not available during deposit or remaining-balance payment flows.
+- Split payments can still be used for the amount due today where enabled.
+
+## Operational Guidance
+
+- Keep customer comms clear on due dates and outstanding balance.
+- Monitor orders in awaiting-payment style statuses until final settlement.
+- Test gateway and reminder behavior for both deposit and balance payment stages.
+
+## Related
+
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Invoice Payments](/core-platform/payments/invoice-payments)
+- [Order Management Core Concepts](/core-platform/order-management/core-concepts)

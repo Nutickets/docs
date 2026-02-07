@@ -1,14 +1,21 @@
 ---
 title: "Timezones"
-description: "Documentation for Timezones"
+description: "Understand how event, sale, and display times are interpreted using company and event timezone settings."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Timezones** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Timezone handling is first-class across events, timeslots, sale periods, and validity windows.
+- Event-linked entities inherit or resolve timezone context from their parent event/company.
+- Timezone-aware casts are used for persisted datetime fields.
+
+## Practical Guidance
+
+- Set company default timezone carefully before high-volume configuration work.
+- Confirm event timezone before creating timeslots, sales periods, and validity windows.
+- Review timezone display options where customer-facing timezone text is enabled.
+
+## Related
+
+- [Event Management Introduction](/core-platform/event-management/introduction)
+- [Timeslots](/core-platform/event-management/timeslots)

@@ -1,14 +1,49 @@
 ---
 title: "Introduction"
-description: "Documentation for Introduction"
+description: "How payment methods, gateways, and settlement rules work across shop and box office checkouts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Introduction** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Payments in the platform are built from three layers:
+
+- **Order state**: what is currently due (full payment, deposit, remaining balance, invoice, or approval flow).
+- **Allowed payment methods**: what the company/reseller has enabled for this channel.
+- **Gateway processing**: where card or local payment requests are actually sent.
+
+Payment behavior can differ between **shop** and **box office**, and can also differ by company in parent/child setups where global transaction settings are enabled.
+
+## Core Concepts
+
+| Concept | What it controls |
+|---|---|
+| **Payment mode (live/test)** | Whether a company uses live credentials or test/sandbox credentials (if self-management is enabled). |
+| **Payment company** | The company that owns payment configuration and receives funds for the order. |
+| **Manual payments (invoice)** | Deferred payment flow that can be enabled globally and optionally in shop. |
+| **Split payments** | Paying one order with multiple methods in the same checkout flow. |
+| **Deposit plan** | Taking an initial payment now and collecting the remainder later. |
+
+## Where Configuration Lives
+
+- `Settings > Payment` in admin controls gateway settings, checkout behavior, and invoice/manual payment settings.
+- Resellers can provide or manage gateway credentials in Hub, depending on gateway and reseller setup.
+- Some controls are feature-gated and only appear when enabled for the company/reseller.
+
+## Channel Differences
+
+<Tabs>
+  <Tab title="Ticket Shop">
+    Focuses on customer self-service and gateway-based online methods. Checkout step order is dynamic based on basket content (data capture, VAT, gift aid, charity, etc.).
+  </Tab>
+  <Tab title="Box Office">
+    Includes in-person/offline methods, optional customer assignment, and additional operational controls for staff-led sales.
+  </Tab>
+</Tabs>
+
+## Related
+
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Payment Processors](/core-platform/payments/payment-processors)
+- [Split Payments](/core-platform/payments/split-payments)
+- [Deposit Payments](/core-platform/payments/deposit-payments)
+- [Invoice Payments](/core-platform/payments/invoice-payments)

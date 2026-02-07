@@ -1,14 +1,28 @@
 ---
 title: "Custom Urls"
-description: "Documentation for Custom Urls"
+description: "Configure custom domains and aliases safely, including collision rules and platform constraints."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Custom Urls** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Custom URLs let a company serve shop pages from branded domains/subdomains.
+
+## Validation and Collision Rules
+
+When saving custom URLs, the platform checks for conflicts with:
+
+- existing custom URLs used by other companies
+- system domain patterns that would clash with reseller/company alias routing
+
+Conflicting URLs are rejected.
+
+## Operational Guidance
+
+- Plan DNS changes before enabling custom URLs.
+- Avoid alias/domain combinations that mirror existing reseller domain + company alias patterns.
+- Re-test critical flows (checkout, account, links) after domain cutover.
+
+## Related
+
+- [Ticket Shop: Homepage](/core-platform/ticket-shop/homepage)
+- [Technical: Sessions](/core-platform/technical/sessions)

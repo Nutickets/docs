@@ -1,14 +1,47 @@
 ---
-title: "All In Pricing"
-description: "Documentation for All In Pricing"
+title: "All-In Pricing"
+description: "How display pricing includes fees in customer-visible totals while preserving base pricing and fee accounting."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **All In Pricing** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+All-in pricing is controlled by the **Display Pricing** feature and company `display_pricing_settings`.
+
+When enabled, customer-visible prices include selected fee components in the displayed total, while underlying base pricing and fee records remain separate for accounting and reporting.
+
+## Configuration
+
+Configured in **Admin > Pricing Settings** (`pricing-settings`):
+
+- `include_per_order_fees`
+- `include_fulfilment_fees` (present in settings model; currently not exposed in the active UI flow)
+
+Company updates are validated and persisted via `SaveCompanySettings`.
+
+## How Calculation Works
+
+Display totals are recalculated through `CalculateDisplayPricing` / `RecalculateManyDisplayPrices`:
+
+- Works on pricing records grouped by sale item.
+- Excludes fee sale items themselves from display-price calculation.
+- Builds applicable fee sale items via fee hierarchy lookup.
+- Calculates `display_fees` and `display_total` from base price + relevant fee contributions.
+
+The per-order-fee toggle directly changes which corresponding fees are considered in the display-price computation.
+
+## Important Behaviour Notes
+
+- This is a **presentation** layer change, not a raw data overwrite of original fee structure.
+- Existing fee logic still applies for settlement, reconciliation, and reporting.
+- Changing display-pricing settings triggers recalculation work for affected pricing rows.
+
+## Constraints
+
+Display-pricing enablement is feature-gated (`FEATURE_DISPLAY_PRICING`) and subject to company tax/pricing compatibility validation.
+
+## Related
+
+- [Tax: Pricing Display](/core-platform/tax/pricing-display)
+- [Fees: Default System Fees](/core-platform/fees/default-system-fees)
+- [Fees: Custom Fees](/core-platform/fees/custom-fees)
+- [Advanced: Company Settings](/core-platform/advanced/company-settings)

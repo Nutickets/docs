@@ -1,14 +1,35 @@
 ---
 title: "Scheduled Reports"
-description: "Documentation for Scheduled Reports"
+description: "Automate report delivery using recipients, date windows, timezone-aware schedules, and optional endpoint publishing."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Scheduled Reports** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Scheduled reports run custom reports automatically and deliver results to recipients (and optionally to configured data endpoints).
+
+## Schedule Components
+
+| Field | Meaning |
+|---|---|
+| **Recipients** | Email recipients for generated report output. |
+| **From / Until** | Active window for when the schedule is allowed to run. |
+| **Timezone** | Timezone used for cron due checks. |
+| **Expression / schedule mode** | Daily/weekly/monthly/hourly style cadence depending on config. |
+| **Format** | Export format for scheduled output. |
+| **Send if empty** | Whether to dispatch even when dataset is empty. |
+| **Data endpoint** | Optional destination for published results. |
+
+## Runtime Behavior
+
+- A schedule only runs when current time is between `from` and `until` and cron expression is due.
+- Next/last run times are calculated in schedule timezone.
+- Run history is tracked and visible in the scheduled reports list.
+
+## Manual Dispatch
+
+You can dispatch a scheduled report immediately from the UI without waiting for the next scheduled due time.
+
+## Related
+
+- [Custom Reports](/core-platform/reporting/custom-reports)
+- [Report Publishing](/core-platform/reporting/report-publishing)

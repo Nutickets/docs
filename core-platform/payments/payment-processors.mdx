@@ -1,14 +1,43 @@
 ---
 title: "Payment Processors"
-description: "Documentation for Payment Processors"
+description: "How payment gateways are configured, validated, and used across reseller and company contexts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Payment Processors** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+A payment processor (gateway) is the service that authorizes and captures electronic payments. The platform supports multiple gateways, with credentials and availability determined by reseller/company setup.
+
+## Gateway Configuration Model
+
+| Level | Typical responsibility |
+|---|---|
+| **Reseller** | Can configure reseller-level credentials for supported gateways. |
+| **Company** | Can use reseller credentials or company-specific credentials depending on gateway rules and permissions. |
+| **Checkout channel** | Shop and box office can expose different method sets even when using the same gateway. |
+
+## Key Behaviors
+
+- Gateway credentials are validated before saving.
+- Companies can toggle payment mode (live/test) only when reseller policy allows self-management.
+- A company can have multiple gateways enabled and can set a primary/default gateway.
+- Some payment methods are gateway-agnostic/offline and do not call an external processor.
+
+## Practical Setup Flow
+
+1. Enable/configure gateway credentials in Hub or Admin (depending on ownership model).
+2. Verify channel-level methods in payment settings.
+3. Confirm live/test mode.
+4. Run a test transaction in the target channel.
+
+## Common Failure Sources
+
+- Missing or invalid credentials.
+- Live mode enabled with test credentials (or vice versa).
+- Channel method enabled but gateway unavailable for that method.
+- Parent/child payment ownership mismatch when global transaction settings are used.
+
+## Related
+
+- [Introduction](/core-platform/payments/introduction)
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Partner Hub: Gateway Settings](/partner-hub/get-started/gateway-settings)

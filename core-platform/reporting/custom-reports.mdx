@@ -1,14 +1,48 @@
 ---
 title: "Custom Reports"
-description: "Documentation for Custom Reports"
+description: "Create, edit, and maintain reusable report definitions tailored to your operational workflows."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Custom Reports** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Custom reports are saved report definitions built on top of report types. They persist your chosen filters, columns, grouping, interval, conditionals, and mapping settings.
+
+## Create a Custom Report
+
+1. Open a default or existing report view.
+2. Use **Create** to save a new custom report.
+3. Provide a report name and optional description.
+4. Save settings (headers/filter/grouping/order/interval and related configuration).
+
+## What Gets Saved
+
+Custom reports store settings including:
+
+- `headers`
+- `filter`
+- `grouping`
+- `secondary_grouping`
+- `order`
+- `interval`
+- `map`
+- `prefix`
+- conditional settings
+
+## Editing and Deleting
+
+- Use report edit to rename/update description and settings.
+- Deleting removes the custom report definition, not underlying business data.
+
+## Widgets and Dashboards
+
+Custom reports can contain widgets (pie, bar, stacked bar, line, horizontal variants). Widget configuration pulls available grouped headers from the report definition.
+
+## Scheduling Compatibility
+
+Custom reports can be scheduled. Hourly scheduling availability depends on frequent-scheduled-report feature access for the owning company/reseller.
+
+## Related
+
+- [Fundamentals](/core-platform/reporting/fundamentals)
+- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
+- [Utilities: Sales Dashboards](/core-platform/utilities/sales-dashboards-util)
