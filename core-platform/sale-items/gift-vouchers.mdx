@@ -1,14 +1,134 @@
 ---
 title: "Gift Vouchers"
-description: "Documentation for Gift Vouchers"
+description: "Sell monetary vouchers that customers redeem into their account balance for future purchases."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Gift Vouchers** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Gift vouchers are a company-level sale item that carries a monetary value. When redeemed, the full voucher amount is credited to the customer's [account balance](/core-platform/account-balances/top-ups).
+- Gift vouchers are not tied to a specific event — they are managed at the company level and appear on a dedicated browse page in the shop.
+- Pricing can be **fixed** (set denominations) or **variable** (customer chooses the amount). Gift vouchers cannot be free.
+- Each purchased voucher receives a unique code that can be shared with a recipient and redeemed once.
+- Gift vouchers have unlimited stock by default.
+- The gift vouchers feature must be enabled on your company.
+
+<Warning>
+Balance spending in the shop must also be enabled for customers to use their redeemed voucher balance at checkout. A warning is shown in the admin if this setting is disabled.
+</Warning>
+
+## Use Cases
+
+<Accordion title="Gifting experiences">
+  Customers purchase a gift voucher and share the code with a friend or family member. The recipient redeems the code to their account and uses the balance to book any event or purchase any item on the platform.
+</Accordion>
+
+<Accordion title="Promotional credit">
+  An organiser creates fixed-denomination gift vouchers (e.g. £10, £25, £50) to sell as part of a promotion or partnership. Purchasers receive a downloadable PDF with a QR code they can print or forward.
+</Accordion>
+
+<Accordion title="Checkout upsell">
+  With the upsell message enabled, customers browsing sale items see a prompt to buy a gift voucher. This drives additional revenue from customers who may want to share an experience with others.
+</Accordion>
+
+## Purchasing Gift Vouchers
+
+### Browse Page
+
+Gift vouchers are displayed on a dedicated browse page at `/gift-vouchers`. This page can be customised with:
+
+- A **title** and **description** to introduce the voucher offering.
+- A **header image** displayed at the top of the page.
+
+When no gift vouchers are available, the page shows *"No gift vouchers are currently available for purchase"*.
+
+### Adding to Basket
+
+Each gift voucher is displayed as a card showing its name, image, and price. For variable-priced vouchers, the customer enters their desired amount before adding to the basket. The voucher is then purchased through the standard checkout flow.
+
+### What the Customer Receives
+
+After purchase, the customer receives:
+
+- A **unique voucher code** (generated automatically).
+- A **downloadable PDF** with a QR code that links directly to the redemption page.
+- The PDF can include fields for **To**, **From**, and **Note** — allowing it to be printed or forwarded as a gift.
+
+## Redeeming Gift Vouchers
+
+Customers redeem gift vouchers from their account via the **Redeem gift voucher** option in the user menu.
+
+### Redemption Flow
+
+1. The customer enters the voucher code.
+2. The system displays the voucher amount and the customer's current account balance.
+3. The customer confirms the redemption.
+4. The full voucher amount is added to their account balance.
+
+<Note>
+Once redeemed, the full balance associated with the voucher is assigned to the customer's account. The voucher cannot be reused or split between accounts.
+</Note>
+
+### Redemption Constraints
+
+- A voucher can only be redeemed **once**. Attempting to redeem a claimed voucher will fail.
+- The voucher must be in the **same currency** as the customer's account balance. A warning is displayed if the currencies do not match.
+- **Guest users** cannot redeem vouchers — they must upgrade to a full account first.
+- **Cancelled or rejected** vouchers cannot be redeemed.
+- Vouchers with **pending transfers** cannot be redeemed until the transfer is resolved.
+
+## Spending the Balance
+
+Redeemed voucher amounts are credited to the customer's [account balance](/core-platform/account-balances/top-ups) (wallet). This balance can then be used as a payment method at checkout:
+
+- The balance can cover the **full order amount** or be used as a **partial payment** alongside another payment method (e.g. card) via [split payments](/core-platform/payments/split-payments).
+- Account balance **cannot** be used to purchase additional gift vouchers or [wallet topups](/core-platform/account-balances/top-ups).
+
+## Configuration
+
+### Gift Voucher Settings
+
+Global settings are managed from the **Gift voucher settings** panel in the admin:
+
+| Setting | Description |
+|---------|-------------|
+| **Enable browse page** | Controls whether the `/gift-vouchers` page is visible in the shop. |
+| **Browse title** | Custom heading for the browse page. |
+| **Browse description** | Custom description text displayed on the browse page. |
+| **Browse image** | Hero image shown at the top of the browse page (600–1800px wide, 2:1 aspect ratio). |
+| **Enable upsell message** | When enabled, a promotional message appears in sale item modals encouraging customers to buy gift vouchers. Only available when the browse page is enabled. |
+| **Upsell title** | Custom heading for the upsell message. |
+| **Upsell description** | Custom description for the upsell message. |
+
+### Per-Voucher Settings
+
+Each gift voucher sale item can be configured with:
+
+- **Pricing** — fixed denominations or variable (customer-chosen) amounts. Variable pricing does not require minimum or maximum bounds.
+- **[On-sale dates](/core-platform/sale-items/core-concepts#on-sale-dates)** — when the voucher is available for purchase.
+- **[Sales channels](/core-platform/sale-items/core-concepts#sales-channels)** — where the voucher can be purchased (shop, box office, kiosk).
+- **[Visibility settings](/core-platform/sale-items/core-concepts#visibility--display)** — hide when off sale, custom sale badges.
+- **Name suffix** — append a label to the voucher name in the shop.
+- **Printable template** — assign a [custom PDF](/core-platform/event-media/custom-pdfs) design for the downloadable voucher. A default template can be set at the company level.
+- **Discounts** — optionally allow [discount codes](/core-platform/basket-codes/discount-codes) to apply to the voucher.
+
+### Fees
+
+Gift voucher fees can be configured separately from other item types:
+
+- **Fixed fee** — a flat amount added to the voucher price.
+- **Percentage fee** — a percentage of the voucher price.
+- **Minimum / maximum fee** — bounds on the calculated fee amount.
+
+## Box Office
+
+[Box office](/core-platform/box-office/introduction) staff can redeem gift vouchers on behalf of customers. A customer must be selected before redemption — the voucher balance is credited to the selected customer's account, not the box office operator's.
+
+## Refunds
+
+- Gift vouchers that have **not been redeemed** can be refunded through the standard refund process.
+- Gift vouchers that have **already been redeemed** (claimed to a wallet) cannot be refunded.
+- Orders containing gift vouchers [cannot be modified](/core-platform/order-management/order-modifications).
+
+## Reporting
+
+A **Gift voucher redemption report** is available to track purchased vouchers and their claim status — showing which vouchers have been redeemed and which remain unclaimed.

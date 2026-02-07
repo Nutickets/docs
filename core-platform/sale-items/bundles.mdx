@@ -1,14 +1,162 @@
 ---
 title: "Bundles"
-description: "Documentation for Bundles"
+description: "Group multiple items together so they are purchased as a single unit."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Bundles** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Bundles allow you to group multiple items together so that when a customer purchases the lead item, all included items are automatically added to their basket.
+- Included items are part of the lead item's price — customers pay the lead item's price and receive the included items at no additional cost.
+- Tickets, products, season tickets, and the dedicated **bundle** item type can all include other items.
+- Items that can be included are: tickets, products, guest lists, and [wallet topups](/core-platform/account-balances/top-ups).
+- The bundles feature must be enabled on your company to use this functionality.
+
+<Note>
+Orders that contain items with included items cannot be moved within a schedule using the "Move dates" functionality.
+</Note>
+
+## Use Cases
+
+<Accordion title="Family tickets">
+  A venue creates a "Family Ticket" that includes 2 adult tickets and 2 child tickets. Customers purchase a single item at a set price and receive all four tickets automatically.
+</Accordion>
+
+<Accordion title="VIP packages">
+  An event offers a VIP package that bundles a premium ticket with a merchandise product and a wallet topup for on-site spending. The bundle is priced as a single item, and each component is delivered to the customer individually.
+</Accordion>
+
+<Accordion title="Season ticket with welcome pack">
+  A season ticket includes a welcome product (e.g. a scarf or programme) automatically. The customer sees one item and price, and receives both the season pass and the product.
+</Accordion>
+
+## The Bundle Item Type
+
+The platform provides a dedicated **bundle** item type that acts purely as a container for other items. This is useful when the bundle itself is the product — rather than one specific ticket or product being the lead item.
+
+The bundle type supports:
+- [Timeslots](/core-platform/event-management/timeslots) and [sale item groups](/core-platform/event-management/sale-item-groups)
+- [Price bands](/core-platform/event-management/seated-events) (for seated events)
+- [Stock management](/core-platform/sale-items/stock-management), [order limits](/core-platform/sale-items/core-concepts#order-limits), and [sales channels](/core-platform/sale-items/core-concepts#sales-channels)
+- [Add-ons](/core-platform/sale-items/add-ons)
+- [Approval requirements](/core-platform/sale-items/item-approvals)
+- [On-sale dates](/core-platform/sale-items/core-concepts#on-sale-dates) and [visibility settings](/core-platform/sale-items/core-concepts#visibility--display)
+
+Bundles are created from the event dashboard under the **Bundles** section.
+
+## Including Items
+
+### Adding Items to a Bundle
+
+The **Included items** card appears on any ticket, product, season ticket, or bundle that is not itself already included in another bundle. From this card you can:
+
+- Select existing items from the same event to include.
+- Specify a **quantity** for each included item (e.g. include 2 adult tickets and 2 child tickets).
+
+<Warning>
+If any included item is out of stock, the entire bundle becomes unavailable for purchase.
+</Warning>
+
+### What Can Be Included
+
+| Item Type | Can Be Included |
+|-----------|----------------|
+| **Ticket** | Yes |
+| **Product** | Yes |
+| **Guest List** | Yes |
+| **Wallet Topup** | Yes (can be from a different event) |
+| **Bundle** | No — bundles cannot be nested |
+| **Add-on** | No |
+| **Donation** | No |
+| **Gift Voucher** | No |
+| **Fee** | No |
+
+### Restrictions
+
+Items cannot be included if they:
+- Are already included in another bundle.
+- Already have their own included items (no nesting).
+- Have variable pricing (e.g. [donations](/core-platform/sale-items/donations)).
+- Are [add-on](/core-platform/sale-items/add-ons) items.
+- Are from a different event (except wallet topups, which can cross events).
+- Have a different approval requirement to the lead item — all items in a bundle must either all require [approval](/core-platform/sale-items/item-approvals) or all not require it.
+
+## Display Settings
+
+### Hide Included Items
+
+The **Hide included items** toggle controls how the bundle appears to customers:
+
+- **Enabled** — only the bundle is displayed. The items contained within it are not shown.
+- **Disabled** (default) — the bundle and all included items are visible. Customers can expand the bundle to see what is included.
+
+When included items are visible, the event page shows an indicator such as *"Includes 2 other items"* beneath the lead item, with a *"View more details & included items"* link to expand the list.
+
+### Cross-Promotion
+
+Items that can also be purchased as part of a bundle display a link on the event page: *"Item is also part of a bundle"*. This helps customers discover the bundle option when browsing individual items.
+
+## Customer Experience
+
+### Event Page
+
+Bundles appear as a single item on the event page with their own name, price, and image. If **Hide included items** is off, customers can expand the bundle to see the included items and their details.
+
+### Basket
+
+When a customer adds a bundle to their basket:
+
+1. The lead item and all included items are added automatically.
+2. The lead item displays a **"Bundle"** badge.
+3. Included items are shown nested under the lead item (unless hidden by the collapse setting) and labelled *"Bundled with '[lead item name]'"*.
+4. Included items cannot be removed individually — removing the lead item removes all included items.
+5. Included item quantities cannot be changed independently in the basket.
+
+## Key Behaviours
+
+### Stock
+
+Bundle stock is determined by the included items' available stock. The platform calculates how many complete bundles can be sold based on the most constrained item:
+
+- If a bundle includes 2x Item A (3 in stock) and 1x Item B (5 in stock), then 1 bundle is available (limited by Item A: 3 stock / 2 per bundle = 1).
+- When a bundle is purchased, stock is deducted from each included item individually.
+
+### On-Sale Status
+
+A bundle is only considered on sale if **all** of its included items are on sale. If any included item goes off sale, the entire bundle goes off sale.
+
+### Visibility
+
+- If the bundle or any included item has **hide when off sale** enabled, the bundle is hidden when any item is off sale.
+- If the bundle or any included item has **hide when out of stock** enabled, the bundle is hidden when any item is out of stock.
+
+### Cascading Removal
+
+Removing a bundle from the basket automatically removes all of its included items. Stock for each item is restored.
+
+### Basket Size
+
+Only the lead item counts toward the basket size limit. Included items do not count separately.
+
+## Pricing
+
+- The lead item has its own configured price, which is the price the customer pays.
+- Included items are covered by the lead item's price and display as free in the basket.
+- Variable-priced items cannot be included in a bundle.
+
+## Refunds
+
+- Bundles must be refunded as a whole — individual included items cannot be refunded separately.
+- When initiating a refund, selecting the lead item automatically includes all bundled items.
+- Self-serve refunds for bundles are only available when all included items are tickets or season tickets.
+
+## Resale
+
+Bundles are ineligible for [primary resale](/core-platform/resale/configuration). Neither the lead item nor any included item can be listed for resale.
+
+## Access Control
+
+Each included item operates independently for [access control](/core-platform/event-management/access-control). Every item in the bundle receives its own barcode and can be scanned individually, allowing different items to grant access to different [zones](/core-platform/access-control/zones) or at different times.
+
+## Event Copying
+
+When [copying an event](/core-platform/event-management/copying-events), bundle relationships are preserved. All included items are copied alongside their lead item, and the bundling configuration is recreated on the new event.

@@ -1,14 +1,177 @@
 ---
 title: "Donations"
-description: "Documentation for Donations"
+description: "Accept charitable donations alongside event purchases, with optional Gift Aid and suggested donation amounts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Donations** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Donations allow customers to make charitable contributions during checkout or from a dedicated browse page.
+- Donations can be created at the **event level** (specific to one event) or at the **company level** (available across all events).
+- Pricing can be **fixed** (preset amounts such as £5, £10, £20) or **variable** (customer chooses their own amount within optional bounds).
+- Donations use a **variant** structure — a parent donation item holds one or more variants, each representing a different price option. Customers select a variant when donating.
+- Customers can purchase one donation per donation type per order.
+- Donations do not use stock management and have unlimited availability.
+- The donations feature must be enabled on your company.
+
+## Use Cases
+
+<Accordion title="Event-specific fundraising">
+  A charity run creates a donation item on the event with variants at £5, £10, and £25, plus a variable-price option for custom amounts. Customers are prompted to donate during checkout after selecting their tickets.
+</Accordion>
+
+<Accordion title="Suggested donations at checkout">
+  With suggested donations (round-ups) enabled, customers see options to donate a percentage of their basket total — such as 5%, 10%, or 15% — during checkout. This provides a frictionless way to encourage contributions without requiring a specific amount.
+</Accordion>
+
+<Accordion title="Site-wide charitable giving">
+  A company-level donation item is created so that customers purchasing tickets for any event are offered the opportunity to donate. Gift Aid is enabled so the charity can claim tax relief on qualifying donations.
+</Accordion>
+
+## Creating Donations
+
+Donations are created from the event dashboard (for event-level) or from the **Donations** section in the admin navigation (for company-level).
+
+### Variants
+
+Each donation item has one or more **variants** representing the available donation options:
+
+- **Fixed-price variants** — preset amounts (e.g. £5, £10, £25) that the customer selects from a dropdown.
+- **Variable-price variants** — the customer enters a custom amount. Optional minimum and maximum bounds can be set per currency.
+
+A donation item can mix both fixed and variable variants, giving customers the choice between a quick preset amount or a custom contribution.
+
+### Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Pricing** | Fixed amount or variable with optional min/max bounds. Each variant can have per-currency pricing. |
+| **Processing fee** | A fixed fee or percentage fee applied to the donation. Can be hidden from the customer. |
+| **[On-sale dates](/core-platform/sale-items/core-concepts#on-sale-dates)** | When the donation is available. |
+| **[Sales channels](/core-platform/sale-items/core-concepts#sales-channels)** | Where the donation can be made (shop, box office). Variants can be restricted to specific channels. |
+| **[Visibility](/core-platform/sale-items/core-concepts#visibility--display)** | Hide when off sale, custom sale badges. |
+| **Purchase limit** | Limit how many times a single customer can donate to this item across all orders. |
+| **Gift Aid** | Enable Gift Aid on this donation (see [Gift Aid](#gift-aid) below). |
+
+<Note>
+Donations cannot be free — at least one variant must have a price or variable pricing enabled.
+</Note>
+
+## Customer Experience
+
+### Checkout Step
+
+Donations appear as a dedicated step during checkout. This step shows:
+
+1. **Event-level donations** — grouped under a *"Based on items in your basket"* heading, relevant to the events the customer is purchasing for.
+2. **Suggested donations** — percentage-based round-up options calculated from the basket total (if enabled).
+3. **Company-level donations** — available regardless of which events are in the basket.
+
+For each donation, the customer can:
+- Select a preset amount from the variant dropdown.
+- Enter a custom amount if a variable-price variant is available.
+- Skip the donations step entirely via **Skip and Continue**.
+
+After selecting a donation, the customer clicks **Donate and Checkout** (or **Donate and Continue** if further checkout steps remain).
+
+### Browse Page
+
+A dedicated browse page at `/donations` displays all available donation items. This page can be customised with:
+
+- A **title** and **description** to introduce the cause.
+- A **header image** displayed at the top of the page.
+
+Customers can add donations to their basket directly from this page.
+
+## Gift Aid
+
+[Gift Aid](https://www.gov.uk/donating-to-charity/gift-aid) is a UK tax scheme that allows charities to claim additional money from the government on qualifying donations. The platform supports Gift Aid collection as an optional checkout step.
+
+### Setup
+
+1. Enable **Gift Aid** in the donation settings and set the **Gift Aid percentage** (e.g. 25%).
+2. Mark individual donation items as **Attracts Gift Aid**.
+
+The feature is available in two modes:
+- **Donations only** — donations without Gift Aid collection.
+- **Donations with Gift Aid** — donations with the Gift Aid declaration step enabled.
+
+### Checkout Flow
+
+When a customer adds a donation that attracts Gift Aid, an additional **Gift Aid declaration** step appears in the checkout:
+
+1. The customer's name and address are displayed (collected during account creation or checkout).
+2. The customer reads the Gift Aid declaration statement.
+3. The customer ticks a checkbox to confirm: *"I acknowledge the above details are correct and I want to Gift Aid my donation of [amount] to [charity]."*
+
+If the customer declines, the donation still proceeds without Gift Aid.
+
+### What Is Recorded
+
+For each Gift Aid declaration, the platform records:
+- The donor's name and address.
+- The original donation amount.
+- The total amount including Gift Aid (donation multiplied by 1 + the Gift Aid percentage).
+- The declaration body and statement.
+
+## Suggested Donations (Round-Ups)
+
+Suggested donations allow customers to donate a **percentage of their basket total** rather than selecting a fixed amount. This provides a low-friction way to encourage contributions.
+
+### Setup
+
+1. Enable **suggested donations** in the donation settings.
+2. Define up to **6 percentage tiers** (e.g. 5%, 10%, 15%, 20%).
+3. Optionally select a **parent donation item** — suggested donations appear as variable-priced donations under this item. If no parent is selected, one is created automatically.
+
+### How It Works
+
+During checkout, the customer sees the suggested donation tiers alongside any event-level or company-level donations. Each tier shows:
+- The percentage (e.g. *"Round up 10%"*).
+- The calculated amount based on the current basket total.
+
+The customer selects a tier or enters a custom amount, and the donation is added to their order.
+
+<Note>
+The parent donation item used for suggested donations is system-managed. Its settings are controlled via the donation settings panel rather than edited directly.
+</Note>
+
+## Donation Settings
+
+Global donation settings are managed from the **Donation settings** panel in the admin:
+
+| Setting | Description |
+|---------|-------------|
+| **Gift Aid available** | Enables Gift Aid collection. Forces the collection of the customer's title during checkout. |
+| **Gift Aid percentage** | The Gift Aid rate (0–60%). |
+| **Enable browse page** | Controls whether the `/donations` page is visible in the shop. |
+| **Browse title** | Custom heading for the browse page. |
+| **Browse description** | Custom description text for the browse page. |
+| **Browse image** | Hero image for the browse page (600–1800px wide, 2:1 aspect ratio). |
+| **Enable suggested donations** | Activates percentage-based round-up tiers at checkout. |
+| **Suggestion tiers** | The percentage values offered to customers (up to 6). |
+| **Suggested donation item** | The parent donation item under which suggested donations are recorded. |
+
+## Fees
+
+Donation fees can be configured separately from other item types:
+
+- **Fixed fee** — a flat amount added to the donation.
+- **Percentage fee** — a percentage of the donation amount.
+- **Minimum / maximum fee** — bounds on the calculated fee amount.
+
+Donations do not support sales tax.
+
+## Fundraising Integration
+
+The platform integrates with [JustGiving](/core-platform/integrations/justgiving) to support event-level fundraising pages. When configured, customers can create personal or team fundraising pages linked to the event's charity after completing their purchase. This is separate from the direct donation feature but complements it by enabling peer-to-peer fundraising.
+
+## Restrictions
+
+Donations have a narrower set of capabilities compared to other sale item types:
+
+- Cannot be [bundled](/core-platform/sale-items/bundles) or used as [add-ons](/core-platform/sale-items/add-ons).
+- Cannot belong to [timeslots](/core-platform/event-management/timeslots) or [sale item groups](/core-platform/event-management/sale-item-groups).
+- Cannot be scanned, downloaded, or shared.
+- Cannot have [prerequisites](/core-platform/sale-items/core-concepts#prerequisites--restrictions) or attract [discounts](/core-platform/basket-codes/discount-codes).
+- No [stock management](/core-platform/sale-items/stock-management) — donations have unlimited availability.
+- Quantity is fixed at one per donation type per order.

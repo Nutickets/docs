@@ -1,14 +1,99 @@
 ---
-title: "Add Ons"
-description: "Documentation for Add Ons"
+title: "Add-Ons"
+description: "Attach supplementary items to tickets and bundles that customers can purchase during checkout."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Add Ons** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- An add-on is a sale item that can only be purchased alongside a parent item. When a customer adds the parent item to their basket, its add-ons become available for selection during checkout.
+- Only [tickets](/core-platform/sale-items/item-types) and [bundles](/core-platform/sale-items/bundles) can have add-ons.
+- Add-ons can be either tickets or products.
+- Each add-on has its own [pricing](/core-platform/sale-items/core-concepts#pricing), [stock](/core-platform/sale-items/stock-management), [on-sale dates](/core-platform/sale-items/core-concepts#on-sale-dates), and [sales channel](/core-platform/sale-items/core-concepts#sales-channels) settings, independent of the parent item.
+- Add-ons cannot be nested — an add-on cannot have its own add-ons.
+
+## Use Cases
+
+<Accordion title="Parking passes">
+  A venue offers parking passes that should only be available to ticket holders. By creating the parking pass as an add-on of the admission ticket, customers are prompted to add parking during checkout rather than having to find and purchase it separately.
+</Accordion>
+
+<Accordion title="Meal packages">
+  A festival sells meal deals alongside day tickets. Each day ticket can have its own set of meal add-ons, allowing customers to pre-order food specific to the day they are attending.
+</Accordion>
+
+<Accordion title="Merchandise with admission">
+  An event sells branded merchandise that should only be available to ticket buyers. Making the merchandise a product add-on of the ticket ensures it is only purchasable in combination with admission.
+</Accordion>
+
+## Creating Add-Ons
+
+Add-ons are managed from the parent sale item's page in the admin dashboard. The **Add-ons** card appears on any ticket or bundle that is not itself an add-on.
+
+From this card you can:
+- **Assign an existing item** — select from tickets and products already in your inventory.
+- **Create a new ticket** — create a new ticket directly as an add-on.
+- **Create a new product** — create a new product directly as an add-on (requires the product sales feature to be enabled).
+
+<Note>
+Add-ons inherit the parent item's [timeslot](/core-platform/event-management/timeslots) assignment. All other settings — pricing, stock, on-sale dates, visibility — are configured independently on each add-on.
+</Note>
+
+## Customer Experience
+
+### Event Page
+
+Items with add-ons display an indicator on the event page: *"This item has add-ons available to purchase during checkout."* Add-ons are not shown directly on the event page — they appear on a dedicated selection screen after the parent item is added to the basket.
+
+### Add-On Selection
+
+After adding parent items to the basket, the customer is directed to the add-on selection page. This page:
+
+1. Groups available add-ons by parent item, with each parent item numbered (e.g. **#1**, **#2**).
+2. Displays add-ons in a grid with images and quantity selectors.
+3. Shows a progress bar when add-ons span multiple events (e.g. via [global basket](/core-platform/ticket-shop/global-basket)).
+4. Allows the customer to skip add-on selection entirely and proceed to checkout.
+
+<Note>
+Each instance of a parent item gets its own independent add-on selection. If a customer purchases three tickets, they can choose different add-ons for each ticket.
+</Note>
+
+### Basket
+
+In the basket, add-on items display a **"Purchased with: [parent name]"** label linking them to their parent. Add-on quantities cannot be edited directly in the basket — an edit button redirects the customer back to the add-on selection page.
+
+## Key Behaviours
+
+### Cascading Removal
+
+Removing a parent item from the basket automatically removes all of its add-ons. Stock for the removed add-ons is restored immediately.
+
+### On-Sale Inheritance
+
+If a parent item goes off sale, all of its add-ons are automatically treated as off sale, regardless of the add-ons' own on-sale dates. An add-on can also be individually off sale while its parent remains on sale.
+
+### Forced Minimum Quantity
+
+Add-ons cannot use the [forced minimum](/core-platform/sale-items/core-concepts#order-limits) order quantity setting. This ensures customers are never forced to purchase an add-on they did not explicitly select.
+
+## Resale
+
+Items involved in add-on relationships are ineligible for [primary resale](/core-platform/resale/configuration):
+
+- A parent item that has add-ons purchased with it cannot be listed for resale.
+- An add-on item itself cannot be listed for resale.
+
+## Bundling
+
+Add-on items cannot be included in [bundles](/core-platform/sale-items/bundles). Bundles and add-ons are mutually exclusive — an item can be one or the other, not both. However, a bundle itself can have add-ons attached to it.
+
+## Box Office
+
+In the [box office](/core-platform/box-office/introduction), staff can bypass the requirement that a parent item must be in the basket before purchasing an add-on. This allows box office operators to handle edge cases without being blocked by the standard validation.
+
+## Event Copying
+
+When [copying an event](/core-platform/event-management/copying-events), add-ons are automatically copied along with their parent items. The parent-child relationship is preserved on the new event.
+
+## Access Control
+
+Add-ons that support scanning (tickets and products) work with [access control](/core-platform/event-management/access-control) independently of their parent item. When using [precision scanning](/core-platform/access-control/admitting-via-app), scanning a ticket that has eligible add-ons prompts the operator to select the specific item being scanned, enabling accurate reporting on which item was admitted at what time.
