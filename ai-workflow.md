@@ -77,22 +77,9 @@ You must investigate **all** of the following:
 
 ---
 
-## Interactive Selection
+## Task Choice
 
-### Step 1: Select System
-
-Present the user with a choice of which documentation system to work on:
-- **Core Platform** — Main platform documentation covering events, tickets, access control, reporting, etc.
-- **Mobile Apps** — Documentation for mobile applications (Access Control Pro, EPOS Pro, Box Office Pro).
-- **Partner Hub** — Documentation for partners and resellers.
-
-### Step 2: Select Page
-
-After selecting a system, scan `mintlify/docs.json` and present all pages within the chosen system's tab. Display them grouped by their navigation groups (e.g. "Event Management", "Sale Items", "Access Control").
-
-### Step 3: Select Task
-
-Present the user with a choice of documentation task:
+Establish which page/sections to work on & what our focus is going to be:
 - **Initial Draft** — Create first-pass content for a placeholder or empty page.
 - **Flesh Out** — Expand existing content with additional detail, examples, or coverage.
 - **Refinement** — Improve readability, flow, and presentation of existing content.
