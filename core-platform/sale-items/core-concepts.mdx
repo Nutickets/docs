@@ -1,14 +1,214 @@
 ---
 title: "Core Concepts"
-description: "Documentation for Core Concepts"
+description: "Understand the fundamentals of sale items — the purchasable entities that make up your event."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Core Concepts** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Sale items are the purchasable entities attached to an event. Every ticket, product, fee, donation, and bundle that a customer can buy is a sale item. Sale items share a common set of configuration options — pricing, stock, sales channels, visibility — while each [item type](/core-platform/sale-items/item-types) adds its own specific capabilities.
+
+- Sale items belong to an event and are created from the event dashboard.
+- Multiple sale items can be organised into [sale item groups](/core-platform/event-management/sale-item-groups) to structure how they appear on the event page.
+- Sale items can optionally be assigned to [timeslots](/core-platform/event-management/timeslots), restricting them to a specific time window within the event.
+- For [seated events](/core-platform/event-management/seated-events), sale items are assigned to a price band that determines which seats they can be purchased for.
+- All dates on a sale item — on-sale dates, validity dates — follow the event's [timezone](/core-platform/core/timezones).
+
+## Inventory Items & Sale Items
+
+The platform distinguishes between **inventory items** and **sale items**:
+
+- An **inventory item** is the master definition of something you sell — its name, description, image, and global stock. Inventory items are managed from the **Inventory** section in the admin navigation and are scoped to your company.
+- A **sale item** is an instance of an inventory item configured for a specific event. Each sale item has its own pricing, on-sale dates, stock allocation, sales channels, and display settings.
+
+One inventory item can be assigned to multiple events, creating a separate sale item on each. This is particularly useful for [scheduled events](/core-platform/event-scheduling/core-concepts) where the same ticket type appears across many dates.
+
+### What's Shared
+
+The inventory item's name and description are shared across all of its sale items. Changing them on the inventory item updates them everywhere the item is used.
+
+### What's Event-Specific
+
+Each sale item independently controls:
+- Pricing (per currency, per sales channel)
+- Stock allocation
+- On-sale dates
+- Sales channels and visibility
+- Order limits
+- Validity and scanning settings
+- Tax bands and fees
+- Add-ons, prerequisites, and customer group restrictions
+
+### Global Stock
+
+Inventory items can have a **global stock** that acts as an upper limit across all events. Each sale item's stock cannot exceed the inventory item's global stock. When global stock is not needed, it can be disabled at the company level so that stock is managed per event only.
+
+### Bulk Updates
+
+When editing a sale item that is linked to the same inventory item across multiple events, you can choose to apply changes to all related sale items or just the current one. For scheduled events, additional options allow targeting events by schedule group, weekday, or custom selection.
+
+## Item Types
+
+Each sale item has a type that determines its behaviour and available configuration options.
+
+| Type | Description |
+|------|-------------|
+| **Ticket** | The primary item type for event admission. Supports scanning, add-ons, sharing, price bands, and [resale](/core-platform/resale/configuration). |
+| **Product** | Merchandise, food, drink, or any non-admission item sold alongside an event. Supports scanning, add-ons, and sharing. |
+| **Season Ticket** | A pass that covers multiple events within a [schedule](/core-platform/event-scheduling/core-concepts). Supports scanning and price bands. |
+| **Guest List** | Free or priced guest list entries. Supports scanning. |
+| **Donation** | Variable-price charitable donations with optional [gift aid](/core-platform/sale-items/donations). Customers choose how much to give within a configured range. |
+| **Gift Voucher** | A voucher with a monetary value that can be redeemed against future purchases. See [gift vouchers](/core-platform/sale-items/gift-vouchers). |
+| **Bundle** | A container that groups multiple items into a single purchasable unit. See [bundles](/core-platform/sale-items/bundles). |
+| **Event Fee** | A fee charged per item or per order. Can be attached to specific items or applied to all items on an event. See [custom fees](/core-platform/fees/custom-fees). |
+| **Fulfilment Fee** | A shipping or delivery fee. See [fulfilment fees](/core-platform/fees/fulfilment-fees). |
+| **Resale Fee** | A fee applied to [resale](/core-platform/resale/configuration) transactions. |
+
+See [item types](/core-platform/sale-items/item-types) for detailed information on each type and its capabilities.
+
+## Pricing
+
+Sale items support flexible, multi-currency pricing.
+
+### Price Fields
+
+| Field | Description |
+|-------|-------------|
+| **Price** | The base price of the item, entered in the smallest currency unit (e.g. pence, cents). |
+| **Processing fee** | An optional fee added on top of the base price. Can be a fixed amount or a percentage of the base price. |
+| **Was price** | A strike-through price displayed alongside the current price to indicate a discount or price reduction. |
+
+### Multi-Currency
+
+If your company supports multiple currencies, you can configure separate pricing for each currency. Each currency can be individually enabled or disabled per sale item. When a currency is not explicitly configured, the item is not available in that currency.
+
+### Sales Channel Pricing
+
+Pricing can optionally be overridden per [sales channel](/core-platform/information/sales-channels). For example, you could set a different price for box office sales than for online purchases.
+
+### Variable Pricing
+
+Some item types (such as [donations](/core-platform/sale-items/donations)) support variable pricing, where the customer chooses their own price within a configured minimum and maximum range.
+
+### Tax
+
+Each sale item can be assigned a [tax band](/core-platform/tax/tax-bands) that determines how tax is calculated. For companies operating across multiple countries, [conditional tax bands](/core-platform/tax/conditional-tax-bands) allow different tax rates based on the customer's location.
+
+## Stock Management
+
+Stock controls how many of each item can be sold.
+
+- **Unlimited stock** — The item can be sold without limit (subject to event [capacity controls](/core-platform/event-management/capacity-controls)).
+- **Limited stock** — A total stock quantity is set when the item is created. The platform tracks current remaining stock in real time as purchases and reservations are made.
+
+Stock can also be managed at the [sale item group](/core-platform/event-management/sale-item-groups) level, providing a shared stock pool across multiple items.
+
+See [stock management](/core-platform/sale-items/stock-management) for detailed information.
+
+## On-Sale Dates
+
+On-sale dates control when an item is available for purchase. See [sales periods](/core-platform/event-management/sales-periods) for event-wide and scheduled on-sale windows.
+
+| Field | Description |
+|-------|-------------|
+| **On sale from** | The date and time when the item becomes available for purchase. |
+| **On sale until** | The date and time when the item stops being available for purchase. |
+
+Items outside their on-sale window are considered "off sale" and cannot be purchased, though they may still be visible on the event page depending on [visibility settings](#visibility--display).
+
+## Sales Channels
+
+Sales channels control where an item can be purchased. Each item can be independently shown or hidden on each channel:
+
+| Channel | Description |
+|---------|-------------|
+| **Shop** | The online ticket shop where customers browse and purchase. |
+| **Box Office** | The admin [box office](/core-platform/box-office/introduction) interface for in-person or phone sales. |
+| **Kiosk** | Self-service kiosk terminals (if enabled). |
+
+<Warning>
+An item with no sales channels enabled cannot be purchased from any channel.
+</Warning>
+
+## Order Limits
+
+Order limits control how many of an item a customer can purchase.
+
+| Setting | Description |
+|---------|-------------|
+| **Minimum order quantity** | The fewest items a customer can add to their basket. |
+| **Maximum order quantity** | The most items a customer can add to their basket. |
+| **Must purchase in multiples of** | Forces purchases in specific quantities (e.g. multiples of 2 for pairs). The minimum order quantity is automatically adjusted to match. |
+| **Forced minimum** | When enabled, the quantity selector starts at the minimum rather than zero, requiring the customer to actively remove items if they don't want the minimum. |
+| **Per-customer purchase limit** | Limits how many of this item a single customer can purchase across all orders. |
+
+## Visibility & Display
+
+These settings control whether an item appears on the event page under certain conditions.
+
+| Setting | Description |
+|---------|-------------|
+| **Hide when off sale** | The item is hidden from the event page when it is outside its on-sale window. |
+| **Hide when out of stock** | The item is hidden from the event page when its stock reaches zero. |
+| **Custom sale badge** | A short label (max 25 characters) displayed as a badge alongside the item, such as "Early Bird" or "Limited". |
+| **Custom badge tooltip** | Help text shown when hovering over the custom badge. |
+
+Items that are not hidden will still appear on the event page when off sale or out of stock, but customers will not be able to add them to their basket.
+
+## Prerequisites & Restrictions
+
+### Prerequisites
+
+Sale items can be configured to require the customer to also purchase (or have previously purchased) specific other items. This is useful for items that should only be available alongside a particular ticket type.
+
+- **Require all** — The customer must have all prerequisite items.
+- **Require any** — The customer must have at least one prerequisite item.
+
+An optional restriction message can be displayed to explain to customers why the item is unavailable.
+
+### Customer Group Restrictions
+
+Items can be restricted to specific [customer groups](/core-platform/customer-management/customer-groups). Only customers who belong to one of the selected groups can see and purchase the item.
+
+### Access Codes
+
+Items can be hidden behind [access codes](/core-platform/basket-codes/access-codes), making them invisible until the customer enters a valid code.
+
+## Add-Ons
+
+An add-on is a sale item that can only be purchased alongside a parent item. When a customer adds the parent item to their basket, its add-ons become available for selection.
+
+See [add-ons](/core-platform/sale-items/add-ons) for details.
+
+## Sale Item Groups
+
+Sale item groups organise items into labelled sections on the event page. Groups support hierarchical nesting (groups within groups) and have their own on-sale dates and visibility settings, providing an additional layer of control over how items are presented.
+
+See [sale item groups](/core-platform/event-management/sale-item-groups) for details.
+
+## Validity & Scanning
+
+Sale items that support scanning (tickets, products, season tickets, guest lists) can be configured with validity dates that control when the item is valid for entry via [access control](/core-platform/event-management/access-control).
+
+| Setting | Description |
+|---------|-------------|
+| **Check-in time** | When the item becomes valid for scanning: anytime, one hour before the event, custom dates, or based on the assigned timeslot. |
+| **Scanning grace period** | Extends the validity window by a specified number of minutes before and after the configured times. |
+| **Show validity in shop** | Displays the check-in times to customers in their account, order confirmation, and on ticket media. |
+
+See [validity dates](/core-platform/access-control/validity-dates) for more information.
+
+## Media & Delivery
+
+| Setting | Description |
+|---------|-------------|
+| **Printable** | Assigns a [custom PDF](/core-platform/event-media/custom-pdfs) template for the item's ticket or receipt. |
+| **Apple Wallet pass** | Assigns a [mobile wallet](/core-platform/event-media/mobile-wallets) pass design. |
+| **Can be downloaded** | Controls whether the item generates a downloadable PDF for the customer. |
+
+## Approvals
+
+If [item approvals](/core-platform/sale-items/item-approvals) are enabled, individual sale items can be marked as requiring approval. Purchases of these items are held pending until an admin approves or rejects them.
+
+## Resale
+
+Tickets can be enabled for [primary resale](/core-platform/resale/configuration), allowing customers to list purchased tickets for resale on the platform. Resale settings can be inherited from the event or overridden per sale item, including pricing strategy, listing windows, and fee allocation.

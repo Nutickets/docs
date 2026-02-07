@@ -1,14 +1,129 @@
 ---
 title: "Event Tags"
-description: "Documentation for Event Tags"
+description: "Organise and filter events using tags and tag categories."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Event Tags** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Tags are labels that can be attached to events to categorise and organise them. They are shared across events and [articles](/core-platform/cms/articles).
+- Tags can optionally belong to a **tag category**. Categories may be marked as **mandatory**, requiring organisers to assign at least one tag from that category during [event creation](/core-platform/event-management/introduction#creating-events).
+- Tags are used to filter events in [event search](/core-platform/ticket-shop/event-search) and to automatically populate [event listing blocks](/core-platform/ticket-shop/event-listings) with matching events.
+- Tag names support [multiple languages](/core-platform/core/translations) and are limited to 50 characters per translation.
+- Tags are scoped to your company and its child companies.
+
+## Use Cases
+
+<Accordion title="Festival with multiple stages or genres">
+  A festival organiser creates tag categories such as "Stage" and "Genre", then tags each event accordingly (e.g. "Main Stage", "Rock", "Electronic"). Customers can then filter the event listing by stage or genre to find events they're interested in. Event listing blocks can also be configured to display only events with specific tags.
+</Accordion>
+
+<Accordion title="Venue with recurring event series">
+  A venue runs several recurring event series — comedy nights, live music, and workshops. Each series has its own tag, allowing the venue to set up dedicated listing blocks on their site that automatically display all events in that series without manual curation.
+</Accordion>
+
+<Accordion title="Enforcing consistent categorisation">
+  An organisation wants every event to be categorised by department. They create a mandatory tag category called "Department" with tags like "Marketing", "Education", and "Community". Organisers must select a department tag before an event can be created, ensuring consistent categorisation across all events.
+</Accordion>
+
+## Managing Tags
+
+Tags are managed from **Tags** in the admin navigation. From this page you can:
+
+- View all tags with their usage counts (events, event blocks, and articles).
+- See which tag category each tag belongs to.
+- View translations for each tag across all configured languages.
+- Create, edit, and delete tags.
+- Merge multiple tags into one.
+
+### Creating a Tag
+
+When creating a tag, you provide:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The tag name, translatable into multiple languages. Maximum 50 characters per language. |
+| **Category** | Optionally assign the tag to a tag category. A tag can belong to at most one category. |
+
+<Note>
+Tag names must be unique within the same category for each language. Tags without a category do not have this uniqueness constraint applied.
+</Note>
+
+### Merging Tags
+
+If duplicate or similar tags have been created, you can merge them:
+
+1. Select the tags to merge from the tag list.
+2. Choose a **primary tag** — this is the tag that will be kept.
+3. All events, event blocks, and articles associated with the other tags will be reassigned to the primary tag.
+4. Translations from the merged tags are carried over to the primary tag where the primary tag does not already have a translation for that language.
+5. The merged tags are deleted.
+
+<Warning>
+All tags being merged must belong to the same category (or all be uncategorised).
+</Warning>
+
+## Tag Categories
+
+Tag categories provide a way to group related tags and optionally enforce tag selection during event creation. Categories are managed from **Tag Categories** in the admin navigation.
+
+### Creating a Tag Category
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The category name, translatable into multiple languages. |
+| **Is Mandatory** | When enabled, organisers must select at least one tag from this category when creating an event. |
+| **Tags** | Assign existing uncategorised tags to this category, or create new ones. |
+
+<Note>
+A tag cannot belong to more than one category. If you need the same tag name in multiple categories, create a separate tag in each category.
+</Note>
+
+### Deleting and Restoring Categories
+
+Deleting a tag category also deletes all tags within it. Restoring a deleted category restores its tags as well.
+
+## Tags on Events
+
+Tags are assigned to events from the **Tags** section of the event dashboard. If mandatory tag categories are configured, separate inputs are shown for each mandatory category, and the organiser must select at least one tag from each before the event can be published.
+
+Additional (non-mandatory) tags can be added freely. New tags can be created on-the-fly from the event dashboard — they are saved to the tag library for reuse on other events.
+
+<Note>
+The event dashboard tag section links to the main tag management page for editing tag names or categories.
+</Note>
+
+## Tags in Event Listings and Search
+
+### Event Search
+
+Tags are available as a filter in [event search](/core-platform/ticket-shop/event-search). Customers can filter events by selecting one or more tags, which narrows the listing to events matching any of the selected tags.
+
+The search bar also supports searching by tag name — matching tags appear in the search dropdown with their associated event counts.
+
+### Event Listing Blocks
+
+[Event listing blocks](/core-platform/ticket-shop/event-listings) can be configured to display events with specific tags. Events are automatically included based on their tag assignments, removing the need for manual event selection.
+
+Event blocks also support **grouping by tag**, which organises the displayed events into separate sections — one per tag.
+
+### Tag Display on Event Cards
+
+When events have tags, they can be displayed on event listing cards. The display is controlled by the event block's styling settings:
+
+| Setting | Options |
+|---------|---------|
+| **Tag style** | Badge, Text |
+| **Tag position** | Below title, Above title, Next to date |
+
+On mobile, only the first tag is shown. On desktop, up to two tags are displayed, with any remaining tags shown as a "+X more" indicator with a tooltip listing the hidden tags.
+
+## Data Import
+
+Tags can be imported via CSV from the [data imports](/core-platform/data-imports/introduction) feature. The import supports:
+
+- Importing tags with just a name.
+- Assigning tags to a category by providing the category name. If the category does not exist, it is created automatically.
+
+## API
+
+The [Retrieve Event](/api-reference/events/retrieve-event) endpoint supports including tags and tag categories via the `include` parameter (`tags`, `tagCategories`).

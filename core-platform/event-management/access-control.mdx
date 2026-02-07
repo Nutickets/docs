@@ -1,14 +1,154 @@
 ---
 title: "Access Control"
-description: "Documentation for Access Control"
+description: "Configure zones, scanning modes, and entry rules to manage attendee admission at your events."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Access Control** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Access control manages how attendees are admitted to an event using barcode or NFC scanning.
+- Each event has one or more **zones** — configurable areas that define scanning behaviour, capacity, and entry rules.
+- A **default zone** (named "Entry") is automatically created when an event is set up. Additional zones can be added for different areas of a venue.
+- Scanning is performed via the [Access Control Pro](/mobile-apps/access-control-pro) mobile app, the [Box Office Pro](/mobile-apps/box-office-pro) app, or [through the admin panel](/core-platform/access-control/admitting-via-admin).
+- The event's **scanning mode** determines which technology the mobile app uses to identify tickets (QR codes, dynamic QR codes, or NFC).
+
+## Scanning Mode
+
+The scanning mode is an event-level setting that controls how the [Access Control Pro](/mobile-apps/access-control-pro) app reads tickets. It is configured from the event dashboard.
+
+| Mode | Description |
+|------|-------------|
+| **QR Only** | Scans standard QR codes and barcodes printed on tickets or displayed in the customer's account. |
+| **Secure QR Only** | Scans time-based dynamic QR codes that rotate periodically, preventing screenshot sharing. See [secure barcodes](/core-platform/advanced/secure-barcodes). |
+| **NFC** | Pairs NFC tags to tickets for tap-based entry. See [NFC pairing](/core-platform/advanced/nfc-pairing). |
+
+<Note>
+The scanning mode affects the mobile app only. Admin-based admission and box office admission are not affected by this setting.
+</Note>
+
+## Zones
+
+Zones represent distinct areas within your event where attendees are scanned in or out. Every event has at least one zone — the default **Entry** zone — and additional zones can be created for separate areas such as VIP sections, stages, or product collection points.
+
+Zones are managed from the **Zones** tab on the event dashboard.
+
+### Zone Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Name** | The zone name, displayed in the scanning app and reports. |
+| **Scanning mode** | Controls how scans are recorded for this zone (see below). |
+| **Scanning limit** | Controls whether attendees can re-enter the zone (see below). |
+| **Scanning accuracy** | **Precision scanning** shows a confirmation screen when a scan matches multiple eligible items (e.g. a ticket with add-ons). **Rapid scanning** selects the first eligible item automatically for faster throughput. |
+| **Capacity** | Maximum number of attendees allowed in the zone at any time. Leave blank for unlimited. Only tracked when using an in/out scanning mode. |
+| **Opening date** | Optionally restrict scanning to after a specific date and time. |
+| **Closing date** | Optionally restrict scanning to before a specific date and time. |
+
+### Scanning Modes (Zone-Level)
+
+Each zone has its own scanning mode that controls how entry and exit are tracked.
+
+| Mode | Behaviour |
+|------|-----------|
+| **In Only** | Attendees are scanned in. No exit scanning. Suitable for general entry gates where you only need to know who has arrived. |
+| **In/Out Manual** | The operator selects whether they are scanning an attendee in or out. Tracks current occupancy and visit duration. |
+| **In/Out Automatic** | The system automatically determines whether to scan in or out based on the attendee's current status. Tracks current occupancy and visit duration. |
+
+<Note>
+When using In/Out Automatic mode, rapid scanning is enabled automatically to avoid confusion during the automatic in/out decision.
+</Note>
+
+### Scanning Limit
+
+| Option | Behaviour |
+|--------|-----------|
+| **Unlimited access** | Attendees can enter the zone as many times as they like. |
+| **Single access** | Each ticket can only be scanned in once. Subsequent entry attempts are rejected. |
+
+### Eligible Items
+
+By default, all barcoded items (tickets, products, etc.) for the event can be used to access every zone. You can restrict a zone to specific sale items by disabling **Allow all tickets** and selecting the items that should be permitted.
+
+### Age Restrictions
+
+Zones can optionally enforce minimum and/or maximum age limits. This requires the date of birth [data capture](/core-platform/data-capture/introduction) field to be enabled. When an attendee's date of birth is not available, it is at the operator's discretion whether to admit them.
+
+### Auto Scan-Out
+
+For zones using an in/out scanning mode, you can configure **auto scan-out times** — scheduled times at which all attendees currently in the zone are automatically scanned out. This is useful for clearing a zone at the end of a session, shift, or event day.
+
+Entering a past time will immediately scan out all current attendees.
+
+### Advanced Zone Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Ignore validity dates** | When enabled, the zone does not check the sale item's validity dates when admitting attendees. Useful for zones that should accept any valid ticket regardless of time restrictions. |
+| **Hide attendees** | Hides the attendee list from the zone view in the [Access Control Pro](/mobile-apps/access-control-pro) app. |
+
+## Validity Dates
+
+Validity dates control the time window during which a ticket is valid for entry. They are configured per [sale item](/core-platform/sale-items/core-concepts) and determine when the [Access Control Pro](/mobile-apps/access-control-pro) app will accept a scan.
+
+See [validity dates](/core-platform/access-control/validity-dates) for full details.
+
+### Check-in Time Options
+
+When configuring a sale item's scanning settings, you can choose how the validity window is determined:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Anytime** | The ticket can be scanned at any time — no time-based restrictions apply. |
+| **Hour before event** | Valid from one hour before the event start time until the event end time. |
+| **Custom** | Set specific valid-from and valid-until dates and times. |
+| **Timeslot-based** | Valid during the [timeslot](/core-platform/event-management/timeslots) the ticket belongs to (only available for timeslotted items). |
+
+### Scanning Grace Period
+
+A grace period (in minutes) can be set on each sale item to extend the validity window in both directions. For example, a 15-minute grace period allows scanning 15 minutes before the valid-from time and 15 minutes after the valid-until time.
+
+<Note>
+The grace period only applies when scanning into zones that have validity date checks enabled (i.e. where **Ignore validity dates** is not turned on).
+</Note>
+
+### Displaying Validity in the Shop
+
+You can optionally display check-in times to customers in their account, order confirmation, and on ticket media by enabling **Show check-in times in shop** on the sale item.
+
+## Zone Statistics
+
+The zones listing on the event dashboard displays real-time statistics for each zone:
+
+- **Attendance** — Number of unique attendees scanned in (and current occupancy for in/out zones).
+- **Capacity** — Current occupancy relative to the zone's capacity limit.
+- **Scan mode** — The zone's scanning mode (in only, in/out).
+- **Scan limit** — Whether access is unlimited or single-entry.
+- **Age restrictions** — Minimum and/or maximum age, if configured.
+
+### Reports
+
+Three reports are available from the zones listing:
+
+- **Scanning Report** — Detailed log of all scans across zones.
+- **Zone Summary Report** — Aggregated statistics per zone.
+- **Customer Journey Report** — Tracks each attendee's movement across zones.
+
+## Data Capture
+
+Custom [data capture](/core-platform/data-capture/introduction) fields can be configured for access control. When enabled, these fields are presented to operators in the scanning app, allowing information to be collected at the point of admission.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Standard Entry" icon="ticket" href="/core-platform/access-control/standard-entry">
+    How standard ticket scanning and entry works.
+  </Card>
+  <Card title="Zones" icon="map" href="/core-platform/access-control/zones">
+    Detailed zone configuration and management.
+  </Card>
+  <Card title="Validity Dates" icon="calendar-check" href="/core-platform/access-control/validity-dates">
+    Controlling when tickets are valid for entry.
+  </Card>
+  <Card title="Access Control Pro" icon="mobile" href="/mobile-apps/access-control-pro">
+    The mobile scanning app.
+  </Card>
+</CardGroup>
