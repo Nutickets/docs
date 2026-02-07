@@ -61,7 +61,6 @@
               "core-platform/sale-items/bundles",
               "core-platform/sale-items/gift-vouchers",
               "core-platform/sale-items/donations",
-              "core-platform/sale-items/stock-management",
               "core-platform/sale-items/item-approvals"
             ]
           },
