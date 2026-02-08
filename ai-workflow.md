@@ -231,6 +231,15 @@ Write from the user's perspective, not from the implementation's perspective. Av
 
 If an internal concept has no user-facing equivalent, describe the *behaviour* the user experiences rather than the *mechanism* behind it.
 
+### UI Terminology Precedence (Non-Negotiable)
+
+This rule prevents confusion between "user-facing language" and "accurate terminology":
+
+- **Always use exact UI terminology** when the user can actually see it (button labels, field labels, status names, setting names, navigation names).
+- **Never use internal-only identifiers** that are not user-visible (DB column names, model/action/class names, constants, feature-flag slugs, route names, migration details).
+- If a term appears both internally and in the UI, it is allowed **because it is UI-visible**.
+- Before publishing, do a pass to remove code-like tokens unless they are confirmed user-visible in UI or language files.
+
 ### Use Cases
 
 For foundational features — those that represent a core building block of the platform (e.g. timeslots, sale item groups, customer groups) — include a **Use Cases** section early on the page, after the overview. Use cases ground abstract functionality in concrete, real-world scenarios that help users understand *why* and *when* they would use the feature.
