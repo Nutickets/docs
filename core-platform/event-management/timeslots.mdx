@@ -1,6 +1,6 @@
 ---
-title: "Timeslots"
-description: "Split events into specific admission windows with independent stock, on-sale rules, and visibility controls."
+title: 'Timeslots'
+description: 'Split events into specific admission windows with independent stock, on-sale rules, and visibility controls.'
 ---
 
 ## Overview
@@ -12,29 +12,44 @@ description: "Split events into specific admission windows with independent stoc
 - All timeslot dates respect the event's [timezone](/core-platform/core/timezones) and must fall within the event's start and end dates.
 
 <Note>
-Timeslots require the timeslots feature to be enabled for your company. Users need timeslot permissions (create, edit, delete) along with event edit and edit-relationship access.
+  Timeslots require the timeslots feature to be enabled for your company. Users
+  need timeslot permissions (create, edit, delete) along with event edit and
+  edit-relationship access.
 </Note>
 
 ## Use Cases
 
 <Accordion title="Timed entry for attractions">
-  A theme park or visitor attraction manages crowd flow by offering timed entry slots — for example, every 30 minutes from 9am to 5pm. Each slot has its own capacity, and the repeat interval generates all slots automatically. **Hide when sold out** keeps the page clean as slots fill up.
+  A theme park or visitor attraction manages crowd flow by offering timed entry
+  slots — for example, every 30 minutes from 9am to 5pm. Each slot has its own
+  capacity, and the repeat interval generates all slots automatically. **Hide
+  when sold out** keeps the page clean as slots fill up.
 </Accordion>
 
 <Accordion title="Multi-day festival with day passes">
-  A three-day festival uses daily timeslots so customers purchase entry for specific days. Each day has its own stock, allowing capacity to be managed independently per day.
+  A three-day festival uses daily timeslots so customers purchase entry for
+  specific days. Each day has its own stock, allowing capacity to be managed
+  independently per day.
 </Accordion>
 
 <Accordion title="Guided tours with scheduled departures">
-  Walking tours depart every hour with a fixed group size of 15. Hourly repeating timeslots enforce the group limit per departure. Customers can filter by time of day to find a convenient tour.
+  Walking tours depart every hour with a fixed group size of 15. Hourly
+  repeating timeslots enforce the group limit per departure. Customers can
+  filter by time of day to find a convenient tour.
 </Accordion>
 
 <Accordion title="Workshops and classes with limited places">
-  A venue runs pottery classes at 10am, 2pm, and 6pm. Each session has a limited number of places. Different ticket types (adult, child) can be created within each timeslot, and the timeslot stock ensures total attendance per session stays within the instructor's capacity.
+  A venue runs pottery classes at 10am, 2pm, and 6pm. Each session has a limited
+  number of places. Different ticket types (adult, child) can be created within
+  each timeslot, and the timeslot stock ensures total attendance per session
+  stays within the instructor's capacity.
 </Accordion>
 
 <Accordion title="Exhibition with optional timed viewing">
-  An exhibition offers timed viewing slots for peak hours but also sells general admission tickets for the full day. Timeslotted tickets manage peak-hour capacity, while non-timeslotted tickets appear under the **Whole Event** option for visitors who prefer flexible entry.
+  An exhibition offers timed viewing slots for peak hours but also sells general
+  admission tickets for the full day. Timeslotted tickets manage peak-hour
+  capacity, while non-timeslotted tickets appear under the **Whole Event**
+  option for visitors who prefer flexible entry.
 </Accordion>
 
 ## Creating Timeslots
@@ -43,34 +58,36 @@ Use **Create a time slot series** from the timeslot management page to generate 
 
 ### Core Fields
 
-| Field | Description |
-|---|---|
-| **Name** | Optional. Supports multiple languages. When omitted, the display falls back to the configured time format. |
-| **Validity dates** | Required start and end date/time. Must fall within the event's start and end dates. |
-| **Repeat** | One-off, or repeating at an interval: minutes, hourly, daily, weekly, monthly, or annually. |
-| **Repeats every** | Interval between repeats (`1`–`60`). Only shown when a repeat option is selected. |
-| **Generate time slots until** | End boundary for generation. Defaults to the event end date/time. |
+| Field                         | Description                                                                                                |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Name**                      | Optional. Supports multiple languages. When omitted, the display falls back to the configured time format. |
+| **Validity dates**            | Required start and end date/time. Must fall within the event's start and end dates.                        |
+| **Repeat**                    | One-off, or repeating at an interval: minutes, hourly, daily, weekly, monthly, or annually.                |
+| **Repeats every**             | Interval between repeats (`1`–`60`). Only shown when a repeat option is selected.                          |
+| **Generate time slots until** | End boundary for generation. Defaults to the event end date/time.                                          |
 
 ### Advanced Options
 
-| Field | Description |
-|---|---|
-| **Time slot stock** | `Unlimited` (no cap) or `Limited to` a specific number. See [Stock Rules](#stock-rules). |
-| **Sale items** | Selecting items creates new [sale item](/core-platform/sale-items/core-concepts) instances in each generated timeslot. Existing items are not modified. |
-| **On sale dates** | Optional start and end dates controlling when the timeslot is available for purchase. |
-| **Hide when off-sale** | Hides the timeslot when outside its on-sale period or after it has ended. |
-| **Hide when out-of-stock** | Hides the timeslot when stock is exhausted. |
+| Field                      | Description                                                                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Time slot stock**        | `Unlimited` (no cap) or `Limited to` a specific number. See [Stock Rules](#stock-rules).                                                                |
+| **Sale items**             | Selecting items creates new [sale item](/core-platform/sale-items/core-concepts) instances in each generated timeslot. Existing items are not modified. |
+| **On sale dates**          | Optional start and end dates controlling when the timeslot is available for purchase.                                                                   |
+| **Hide when off-sale**     | Hides the timeslot when outside its on-sale period or after it has ended.                                                                               |
+| **Hide when out-of-stock** | Hides the timeslot when stock is exhausted.                                                                                                             |
 
 ### Scheduled Events
 
-For events that belong to a [schedule](/core-platform/event-scheduling/core-concepts), the creation form offers the option to create equivalent timeslots on other upcoming events in the same schedule. Timeslot dates and on-sale dates are adjusted relative to each target event's dates.
+For events that belong to a [schedule](/core-platform/event-management/schedules), the creation form offers the option to create equivalent timeslots on other upcoming events in the same schedule. Timeslot dates and on-sale dates are adjusted relative to each target event's dates.
 
 ### Limits
 
 Each event has a maximum number of timeslots, controlled by a company setting (default: `30`). The creation form displays the remaining capacity and blocks submission if the generated timeslots would exceed it.
 
 <Warning>
-Timeslots cannot be created if the event already has [season tickets](/core-platform/season-tickets/overview). The two features are mutually exclusive.
+  Timeslots cannot be created if the event already has [season
+  tickets](/core-platform/season-tickets/overview). The two features are
+  mutually exclusive.
 </Warning>
 
 ## Managing Timeslots
@@ -91,7 +108,8 @@ Timeslots can be reordered via drag-and-drop. The sort order determines the disp
 Open a timeslot from the calendar view to edit its name, dates, stock mode/quantity, on-sale dates, visibility toggles, and assigned sale items.
 
 <Note>
-If your role only allows stock edits after publish, timeslot fields become read-only while stock remains editable.
+  If your role only allows stock edits after publish, timeslot fields become
+  read-only while stock remains editable.
 </Note>
 
 ### Toggling Sale Status
@@ -110,11 +128,11 @@ From the edit view, use **Edit time slots** to apply changes across multiple tim
 
 **Filters** — narrow the target set:
 
-| Filter | Options |
-|---|---|
-| **Scope** | All time slots, Future time slots, Past time slots |
-| **Time** | All time slots, All time slots matching minutes past, Time slots with this exact time |
-| **Comparison** | All time slots, Time slots before, Time slots after |
+| Filter         | Options                                                                               |
+| -------------- | ------------------------------------------------------------------------------------- |
+| **Scope**      | All time slots, Future time slots, Past time slots                                    |
+| **Time**       | All time slots, All time slots matching minutes past, Time slots with this exact time |
+| **Comparison** | All time slots, Time slots before, Time slots after                                   |
 
 When more than `100` matches are found, individual rows are not listed but criteria-based updating is still supported.
 
@@ -131,7 +149,8 @@ Timeslots can also be edited in bulk from the event dashboard. Select one or mor
     The timeslot and its assigned sale items are deleted.
   </Tab>
   <Tab title="Existing Orders or Reservations">
-    The timeslot is kept but its sale items are taken off sale. A warning is shown in the admin.
+    The timeslot is kept but its sale items are taken off sale. A warning is
+    shown in the admin.
   </Tab>
 </Tabs>
 
@@ -163,12 +182,12 @@ The shop provides a time filter allowing customers to narrow timeslots by time o
 
 The event setting **Display timeslot** controls how timeslot times are rendered to customers:
 
-| Option | Behaviour |
-|---|---|
-| Display start & end times | Shows both the start and end time |
-| Display start, hide end times | Shows the start time only |
-| Display end, hide start times | Shows the end time only |
-| Hide start & end times | No time is displayed |
+| Option                        | Behaviour                         |
+| ----------------------------- | --------------------------------- |
+| Display start & end times     | Shows both the start and end time |
+| Display start, hide end times | Shows the start time only         |
+| Display end, hide start times | Shows the end time only           |
+| Hide start & end times        | No time is displayed              |
 
 Each timeslot also shows its lowest price when visible in the shop.
 
@@ -198,5 +217,5 @@ If an event has both timeslotted and non-timeslotted sale items, the shop displa
 - [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)
 - [Sales Periods](/core-platform/event-management/sales-periods)
 - [Seating Plans](/core-platform/event-management/seated-events)
-- [Event Scheduling Core Concepts](/core-platform/event-scheduling/core-concepts)
+- [Event Scheduling Core Concepts](/core-platform/event-management/schedules)
 - [Access Control: Validity Dates](/core-platform/event-management/access-control#validity-dates)

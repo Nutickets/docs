@@ -1,6 +1,6 @@
 ---
-title: "Group & Team Events"
-description: "How to enable team or group entries for events, allowing customers to create, join, and manage teams during checkout."
+title: 'Group & Team Events'
+description: 'How to enable team or group entries for events, allowing customers to create, join, and manage teams during checkout.'
 ---
 
 ## Overview
@@ -13,7 +13,9 @@ description: "How to enable team or group entries for events, allowing customers
 - The **Event Teams** feature must be enabled for your company.
 
 <Note>
-Teams cannot be enabled for events that have [season tickets](/core-platform/sale-items/season-tickets). Enabling teams on such an event is blocked with a validation error.
+  Teams cannot be enabled for events that have [season
+  tickets](/core-platform/sale-items/season-tickets). Enabling teams on such an
+  event is blocked with a validation error.
 </Note>
 
 ## Configuration
@@ -22,37 +24,38 @@ Team settings are configured on the event dashboard under **Team Settings** (or 
 
 ### Terminology
 
-| Option | Description |
-|--------|-------------|
-| **Teams** | All customer-facing labels use "Team" terminology (e.g. "Create a new team", "Team Settings", "Team 1"). |
+| Option     | Description                                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------ |
+| **Teams**  | All customer-facing labels use "Team" terminology (e.g. "Create a new team", "Team Settings", "Team 1").     |
 | **Groups** | All customer-facing labels use "Group" terminology (e.g. "Create a new group", "Group Settings", "Group 1"). |
 
 The terminology choice only affects the wording displayed in the shop — it does not change any underlying behaviour.
 
 ### Naming
 
-| Setting | Description |
-|---------|-------------|
-| **Allow custom names** | Customers can provide a name when creating a team. When disabled, names are automatically generated (e.g. "Team 1", "Team 2"). |
+| Setting                  | Description                                                                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Allow custom names**   | Customers can provide a name when creating a team. When disabled, names are automatically generated (e.g. "Team 1", "Team 2").          |
 | **Names must be unique** | Enforces that every team name within the event is unique. If a customer enters a name already in use, they are asked to choose another. |
-| **Names can be edited** | Allows the team leader to edit the team name after creation from their account. Only the team leader has this permission. |
+| **Names can be edited**  | Allows the team leader to edit the team name after creation from their account. Only the team leader has this permission.               |
 
 ### Joining & Solo Entry
 
-| Setting | Description |
-|---------|-------------|
-| **Allow join via code** | Customers can join an existing team by entering the team's unique code during checkout. The code is generated automatically when a team is created. |
+| Setting                            | Description                                                                                                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Allow join via code**            | Customers can join an existing team by entering the team's unique code during checkout. The code is generated automatically when a team is created.          |
 | **Can people enter individually?** | When enabled, customers can choose solo participation — they are not required to create or join a team. When disabled, every customer must belong to a team. |
 
 ### Size Constraints
 
-| Setting | Description |
-|---------|-------------|
+| Setting                    | Description                                                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | **Enforce a minimum size** | Teams must have at least the specified number of members before the order can be completed. Validated at order completion. |
-| **Enforce a maximum size** | Teams cannot exceed the specified number of members. Validated when items are added to the basket. |
+| **Enforce a maximum size** | Teams cannot exceed the specified number of members. Validated when items are added to the basket.                         |
 
 <Note>
-[Box office](/core-platform/box-office/introduction) users with the appropriate permission can bypass minimum and maximum team size validation.
+  [Box office](/core-platform/box-office/introduction) users with the
+  appropriate permission can bypass minimum and maximum team size validation.
 </Note>
 
 ## Customer Flow
@@ -64,16 +67,19 @@ When a customer adds items for a team-enabled event, a **Team Settings** step ap
     The customer creates a new team. If custom names are enabled, they can enter a name — otherwise, a name is automatically generated (e.g. "Team 1").
 
     The customer becomes the **team leader** for the new team. A unique team code is generated, which can be shared with others to join.
+
   </Tab>
   <Tab title="Join a Team">
     Available when **Allow join via code** is enabled. The customer enters the code of an existing team to join it.
 
     The customer becomes a **team member**. If the team has a maximum size limit and is already full, the join attempt is blocked with an error.
+
   </Tab>
   <Tab title="Solo Entry">
     Available when **Can people enter individually?** is enabled. The customer participates without creating or joining a team.
 
     No team is assigned to the order items.
+
   </Tab>
 </Tabs>
 
@@ -83,10 +89,10 @@ If the customer already has a team for this event (from a previous purchase), th
 
 Each team member has one of two roles:
 
-| Role | Description |
-|------|-------------|
+| Role       | Description                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **Leader** | The customer who created the team. Can edit the team name (if enabled) and promote other members to leader. Only one leader per team. |
-| **Member** | Customers who joined the team. Cannot edit the team name. Can be promoted to leader by the current leader. |
+| **Member** | Customers who joined the team. Cannot edit the team name. Can be promoted to leader by the current leader.                            |
 
 When a member is promoted to leader, the previous leader is automatically demoted to a member.
 
@@ -97,6 +103,7 @@ Customers can view and manage their teams from **My Account** under the **Teams*
 ### Team Details
 
 The team details page displays:
+
 - The team name and number
 - The associated event
 - The team code (copyable, for sharing with others to join)
@@ -105,12 +112,12 @@ The team details page displays:
 
 ### Available Actions
 
-| Action | Who | Description |
-|--------|-----|-------------|
-| **Edit team name** | Leader | Change the team name. Only available if **Names can be edited** is enabled. Names are validated against the same rules as during creation (uniqueness, character restrictions). |
-| **Promote to leader** | Leader | Promote a member to team leader. The current leader becomes a member. |
-| **Copy team code** | All members | Copy the team code to share with others. Only useful when **Allow join via code** is enabled. |
-| **Email all members** | All members | Opens a mailto link addressed to all team members. |
+| Action                | Who         | Description                                                                                                                                                                     |
+| --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Edit team name**    | Leader      | Change the team name. Only available if **Names can be edited** is enabled. Names are validated against the same rules as during creation (uniqueness, character restrictions). |
+| **Promote to leader** | Leader      | Promote a member to team leader. The current leader becomes a member.                                                                                                           |
+| **Copy team code**    | All members | Copy the team code to share with others. Only useful when **Allow join via code** is enabled.                                                                                   |
+| **Email all members** | All members | Opens a mailto link addressed to all team members.                                                                                                                              |
 
 ## Email Notifications
 
@@ -124,16 +131,16 @@ All email content respects the configured terminology (team or group).
 
 ## Schedule Support
 
-Team settings can be configured on individual events within a [schedule](/core-platform/event-scheduling/core-concepts). When updating team settings, you can apply the changes to the current event only or mass-update all events in the schedule.
+Team settings can be configured on individual events within a [schedule](/core-platform/event-management/schedules). When updating team settings, you can apply the changes to the current event only or mass-update all events in the schedule.
 
 ## Reporting
 
 Team data is available in [order reports](/core-platform/reporting/fundamentals) with the following fields:
 
-| Field | Description |
-|-------|-------------|
-| **Team ID** | The unique identifier of the team. |
-| **Team name** | The team's display name. |
+| Field         | Description                           |
+| ------------- | ------------------------------------- |
+| **Team ID**   | The unique identifier of the team.    |
+| **Team name** | The team's display name.              |
 | **Team role** | The member's role (Leader or Member). |
 
 ## Differences from Standard Events

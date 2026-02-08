@@ -1,6 +1,6 @@
 ---
-title: "Sale Item Groups"
-description: "Organise tickets into collapsible groups on the event page with independent stock limits, sale periods, and display controls."
+title: 'Sale Item Groups'
+description: 'Organise tickets into collapsible groups on the event page with independent stock limits, sale periods, and display controls.'
 ---
 
 ## Overview
@@ -13,29 +13,46 @@ description: "Organise tickets into collapsible groups on the event page with in
 - Group names and descriptions are translatable.
 
 <Note>
-Sale item groups require the sale item groups feature to be enabled for your company.
+  Sale item groups require the sale item groups feature to be enabled for your
+  company.
 </Note>
 
 ## Use Cases
 
 <Accordion title="Phased ticket releases">
-  Create separate groups for each release phase — for example, "Early Bird", "General Release", and "Last Chance". Give each group its own sale period and enable **hide when off sale** so only the active phase is visible to customers at any given time.
+  Create separate groups for each release phase — for example, "Early Bird",
+  "General Release", and "Last Chance". Give each group its own sale period and
+  enable **hide when off sale** so only the active phase is visible to customers
+  at any given time.
 </Accordion>
 
 <Accordion title="Shared capacity across ticket types">
-  A VIP area has a fixed capacity of 200, but you offer VIP Adult, VIP Child, and VIP Concession tickets. Place all three in a group with a stock limit of 200. Customers can purchase any combination, but total sales across the group cannot exceed the shared limit.
+  A VIP area has a fixed capacity of 200, but you offer VIP Adult, VIP Child,
+  and VIP Concession tickets. Place all three in a group with a stock limit of
+  200. Customers can purchase any combination, but total sales across the group
+  cannot exceed the shared limit.
 </Accordion>
 
 <Accordion title="Capping sales to a finite resource">
-  A kayaking experience offers Adult and Child tickets, but the real constraint is the 30 kayaks available — not the number of people. Place both ticket types in a group with a stock limit of 30. Each purchase deducts from the shared pool regardless of ticket type, ensuring you never oversell beyond the available equipment.
+  A kayaking experience offers Adult and Child tickets, but the real constraint
+  is the 30 kayaks available — not the number of people. Place both ticket types
+  in a group with a stock limit of 30. Each purchase deducts from the shared
+  pool regardless of ticket type, ensuring you never oversell beyond the
+  available equipment.
 </Accordion>
 
 <Accordion title="Limited allocation for a partner or sponsor">
-  A sponsor is allocated 50 tickets to distribute. Create a group with a stock limit of 50 containing the relevant tickets. Once the allocation is used, the group sells out independently of the event's overall capacity. Enable **hide when out of stock** to remove it from the event page automatically.
+  A sponsor is allocated 50 tickets to distribute. Create a group with a stock
+  limit of 50 containing the relevant tickets. Once the allocation is used, the
+  group sells out independently of the event's overall capacity. Enable **hide
+  when out of stock** to remove it from the event page automatically.
 </Accordion>
 
 <Accordion title="Organising a complex event page">
-  An event with many ticket types can become overwhelming. Group related tickets into labelled sections — for example, "Standing", "Balcony", and "Accessible Seating" — and set less popular sections to **collapsed by default** to keep the page focused.
+  An event with many ticket types can become overwhelming. Group related tickets
+  into labelled sections — for example, "Standing", "Balcony", and "Accessible
+  Seating" — and set less popular sections to **collapsed by default** to keep
+  the page focused.
 </Accordion>
 
 ## Creating a Group
@@ -44,40 +61,43 @@ Groups are created from the event dashboard by clicking **Add sale item group**.
 
 When creating a group, you can optionally select existing tickets to place into it. Tickets can also be moved into or out of groups after creation using drag-and-drop on the event dashboard.
 
-If the event belongs to a [schedule](/core-platform/event-scheduling/core-concepts), you can apply the new group to other events in the same schedule during creation.
+If the event belongs to a [schedule](/core-platform/event-management/schedules), you can apply the new group to other events in the same schedule during creation.
 
 ## Configuration
 
-| Field | Description |
-|-------|-------------|
-| **Name** | The group name displayed to customers on the event page. Translatable. |
-| **Description** | Optional descriptive text for the group. Translatable. |
+| Field                    | Description                                                                                                     |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **Name**                 | The group name displayed to customers on the event page. Translatable.                                          |
+| **Description**          | Optional descriptive text for the group. Translatable.                                                          |
 | **Collapsed by default** | When enabled, the group starts collapsed on the event page. Customers can expand it to view the tickets inside. |
-| **External ID** | Optional identifier for referencing the group in third-party systems. Must be unique. |
+| **External ID**          | Optional identifier for referencing the group in third-party systems. Must be unique.                           |
 
 ## Stock Management
 
 Groups can optionally enforce their own stock limit, separate from individual ticket stock.
 
-| Field | Description |
-|-------|-------------|
-| **Unlimited stock** | When enabled, the group has no stock limit — availability is determined solely by the individual tickets. |
-| **Total stock** | When unlimited stock is disabled, sets the maximum number of items that can be sold across all tickets in the group. |
+| Field               | Description                                                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Unlimited stock** | When enabled, the group has no stock limit — availability is determined solely by the individual tickets.            |
+| **Total stock**     | When unlimited stock is disabled, sets the maximum number of items that can be sold across all tickets in the group. |
 
 <Note>
-Group stock is tracked independently. When a ticket in the group is purchased, group stock is deducted. If the group runs out of stock, no further tickets in the group can be sold — even if individual tickets still have [availability](/core-platform/event-management/capacity-controls).
+  Group stock is tracked independently. When a ticket in the group is purchased,
+  group stock is deducted. If the group runs out of stock, no further tickets in
+  the group can be sold — even if individual tickets still have
+  [availability](/core-platform/event-management/capacity-controls).
 </Note>
 
 ## Sale Periods
 
 Groups support their own sale window, controlling when the tickets within them are available for purchase.
 
-| Field | Description |
-|-------|-------------|
-| **On sale from** | The date and time the group becomes available. Before this time, the group is off sale. |
-| **On sale until** | The date and time the group goes off sale. |
-| **Hide when off sale** | When enabled, the entire group is hidden from the event page when outside its sale period. |
-| **Hide when out of stock** | When enabled, the entire group is hidden from the event page when its stock is exhausted. |
+| Field                      | Description                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| **On sale from**           | The date and time the group becomes available. Before this time, the group is off sale.    |
+| **On sale until**          | The date and time the group goes off sale.                                                 |
+| **Hide when off sale**     | When enabled, the entire group is hidden from the event page when outside its sale period. |
+| **Hide when out of stock** | When enabled, the entire group is hidden from the event page when its stock is exhausted.  |
 
 A group can also be manually toggled on or off sale from the event dashboard without changing its sale period dates.
 
@@ -105,7 +125,7 @@ Groups that are off sale or out of stock can be automatically hidden from the ev
 
 ## Schedule Synchronisation
 
-When an event belongs to a [schedule](/core-platform/event-scheduling/core-concepts), groups can be synchronised across events in that schedule:
+When an event belongs to a [schedule](/core-platform/event-management/schedules), groups can be synchronised across events in that schedule:
 
 - **Creating a group** — optionally apply it to other events in the schedule.
 - **Updating a group** — optionally apply changes to related groups across the schedule. Updates are processed in the background.

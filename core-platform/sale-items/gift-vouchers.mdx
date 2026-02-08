@@ -1,6 +1,6 @@
 ---
-title: "Gift Vouchers"
-description: "Sell monetary vouchers that customers redeem into their account balance for future purchases."
+title: 'Gift Vouchers'
+description: 'Sell monetary vouchers that customers redeem into their account balance for future purchases.'
 ---
 
 ## Overview
@@ -13,21 +13,29 @@ description: "Sell monetary vouchers that customers redeem into their account ba
 - The gift vouchers feature must be enabled on your company.
 
 <Warning>
-Balance spending in the shop must also be enabled for customers to use their redeemed voucher balance at checkout. A warning is shown in the admin if this setting is disabled.
+  Balance spending in the shop must also be enabled for customers to use their
+  redeemed voucher balance at checkout. A warning is shown in the admin if this
+  setting is disabled.
 </Warning>
 
 ## Use Cases
 
 <Accordion title="Gifting experiences">
-  Customers purchase a gift voucher and share the code with a friend or family member. The recipient redeems the code to their account and uses the balance to book any event or purchase any item on the platform.
+  Customers purchase a gift voucher and share the code with a friend or family
+  member. The recipient redeems the code to their account and uses the balance
+  to book any event or purchase any item on the platform.
 </Accordion>
 
 <Accordion title="Promotional credit">
-  An organiser creates fixed-denomination gift vouchers (e.g. £10, £25, £50) to sell as part of a promotion or partnership. Purchasers receive a downloadable PDF with a QR code they can print or forward.
+  An organiser creates fixed-denomination gift vouchers (e.g. £10, £25, £50) to
+  sell as part of a promotion or partnership. Purchasers receive a downloadable
+  PDF with a QR code they can print or forward.
 </Accordion>
 
 <Accordion title="Checkout upsell">
-  With the upsell message enabled, customers browsing sale items see a prompt to buy a gift voucher. This drives additional revenue from customers who may want to share an experience with others.
+  With the upsell message enabled, customers browsing sale items see a prompt to
+  buy a gift voucher. This drives additional revenue from customers who may want
+  to share an experience with others.
 </Accordion>
 
 ## Purchasing Gift Vouchers
@@ -39,7 +47,7 @@ Gift vouchers are displayed on a dedicated browse page at `/gift-vouchers`. This
 - A **title** and **description** to introduce the voucher offering.
 - A **header image** displayed at the top of the page.
 
-When no gift vouchers are available, the page shows *"No gift vouchers are currently available for purchase"*.
+When no gift vouchers are available, the page shows _"No gift vouchers are currently available for purchase"_.
 
 ### Adding to Basket
 
@@ -65,7 +73,8 @@ Customers redeem gift vouchers from their account via the **Redeem gift voucher*
 4. The full voucher amount is added to their account balance.
 
 <Note>
-Once redeemed, the full balance associated with the voucher is assigned to the customer's account. The voucher cannot be reused or split between accounts.
+  Once redeemed, the full balance associated with the voucher is assigned to the
+  customer's account. The voucher cannot be reused or split between accounts.
 </Note>
 
 ### Redemption Constraints
@@ -89,15 +98,15 @@ Redeemed voucher amounts are credited to the customer's [account balance](/core-
 
 Global settings are managed from the **Gift voucher settings** panel in the admin:
 
-| Setting | Description |
-|---------|-------------|
-| **Enable browse page** | Controls whether the `/gift-vouchers` page is visible in the shop. |
-| **Browse title** | Custom heading for the browse page. |
-| **Browse description** | Custom description text displayed on the browse page. |
-| **Browse image** | Hero image shown at the top of the browse page (600–1800px wide, 2:1 aspect ratio). |
+| Setting                   | Description                                                                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Enable browse page**    | Controls whether the `/gift-vouchers` page is visible in the shop.                                                                                          |
+| **Browse title**          | Custom heading for the browse page.                                                                                                                         |
+| **Browse description**    | Custom description text displayed on the browse page.                                                                                                       |
+| **Browse image**          | Hero image shown at the top of the browse page (600–1800px wide, 2:1 aspect ratio).                                                                         |
 | **Enable upsell message** | When enabled, a promotional message appears in sale item modals encouraging customers to buy gift vouchers. Only available when the browse page is enabled. |
-| **Upsell title** | Custom heading for the upsell message. |
-| **Upsell description** | Custom description for the upsell message. |
+| **Upsell title**          | Custom heading for the upsell message.                                                                                                                      |
+| **Upsell description**    | Custom description for the upsell message.                                                                                                                  |
 
 ### Per-Voucher Settings
 
@@ -108,7 +117,7 @@ Each gift voucher sale item can be configured with:
 - **[Sales channels](/core-platform/sale-items/core-concepts#sales-channels)** — where the voucher can be purchased (shop, box office, kiosk).
 - **[Visibility settings](/core-platform/sale-items/core-concepts#visibility--display)** — hide when off sale, custom sale badges.
 - **Name suffix** — append a label to the voucher name in the shop.
-- **Printable template** — assign a [custom PDF](/core-platform/event-media/custom-pdfs) design for the downloadable voucher. A default template can be set at the company level.
+- **Printable template** — assign a [custom PDF](/core-platform/event-management/event-media/custom-pdfs) design for the downloadable voucher. A default template can be set at the company level.
 - **Discounts** — optionally allow [discount codes](/core-platform/basket-codes/discount-codes) to apply to the voucher.
 
 ### Fees

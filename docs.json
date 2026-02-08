@@ -27,9 +27,7 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": [
-              "core-platform/get-started/introduction"
-            ]
+            "pages": ["core-platform/get-started/introduction"]
           },
           {
             "group": "Event Management",
@@ -40,6 +38,7 @@
                 "pages": [
                   "core-platform/event-management/timeslots",
                   "core-platform/event-management/venues",
+                  "core-platform/event-management/schedules",
                   "core-platform/event-management/seated-events",
                   "core-platform/event-management/online-events",
                   "core-platform/event-management/group-team-events",
@@ -53,6 +52,16 @@
                   "core-platform/event-management/sale-item-groups",
                   "core-platform/event-management/event-page-customisations",
                   "core-platform/event-management/event-tags"
+                ]
+              },
+              {
+                "group": "Event Media",
+                "pages": [
+                  "core-platform/event-management/event-media/overview",
+                  "core-platform/event-management/event-media/custom-pdfs",
+                  "core-platform/event-management/event-media/cover-sheets",
+                  "core-platform/event-management/event-media/mobile-wallets",
+                  "core-platform/event-management/event-media/boca-printers"
                 ]
               },
               {
@@ -104,25 +113,6 @@
               "core-platform/fees/default-system-fees",
               "core-platform/fees/sale-item-fees",
               "core-platform/fees/fulfilment-fees"
-            ]
-          },
-          {
-            "group": "Event Media",
-            "pages": [
-              "core-platform/event-media/overview",
-              "core-platform/event-media/custom-pdfs",
-              "core-platform/event-media/cover-sheets",
-              "core-platform/event-media/mobile-wallets",
-              "core-platform/event-media/boca-printers"
-            ]
-          },
-          {
-            "group": "Event Scheduling",
-            "pages": [
-              "core-platform/event-scheduling/core-concepts",
-              "core-platform/event-scheduling/event-discovery",
-              "core-platform/event-scheduling/mixed-events",
-              "core-platform/event-scheduling/repeat-events"
             ]
           },
           {
@@ -346,7 +336,7 @@
               "core-platform/information/paying-invoices",
               "core-platform/information/going-live",
               "core-platform/information/waiting-rooms",
-                            "core-platform/information/company-switching",
+              "core-platform/information/company-switching",
               "core-platform/information/wysiwyg",
               "core-platform/information/supported-languages",
               "core-platform/information/supported-currencies",
@@ -360,9 +350,7 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": [
-              "partner-hub/get-started/introduction"
-            ]
+            "pages": ["partner-hub/get-started/introduction"]
           },
           {
             "group": "Topics",
@@ -384,9 +372,7 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": [
-              "mobile-apps/get-started/introduction"
-            ]
+            "pages": ["mobile-apps/get-started/introduction"]
           },
           {
             "group": "Apps",
@@ -408,10 +394,7 @@
         "groups": [
           {
             "group": "About",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/changelog"
-            ]
+            "pages": ["api-reference/introduction", "api-reference/changelog"]
           }
         ]
       },

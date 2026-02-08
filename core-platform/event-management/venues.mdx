@@ -1,6 +1,6 @@
 ---
-title: "Venues"
-description: "Manage physical locations for events, including address details, maps, seating plan associations, and event media defaults."
+title: 'Venues'
+description: 'Manage physical locations for events, including address details, maps, seating plan associations, and event media defaults.'
 ---
 
 ## Overview
@@ -22,55 +22,58 @@ A venue can also be created inline during event creation when selecting a venue 
 
 ### Address Information
 
-| Field | Description |
-|-------|-------------|
-| **Name** | The venue name. Translatable. |
-| **Address** | The street address. Can be populated via Google Places address search or entered manually. Translatable. |
-| **City** | The city where the venue is located. Translatable. |
-| **Region** | The region or state. Translatable. |
-| **Country** | The country where the venue is located. |
-| **Postcode** | The postal code. Translatable. |
+| Field        | Description                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| **Name**     | The venue name. Translatable.                                                                            |
+| **Address**  | The street address. Can be populated via Google Places address search or entered manually. Translatable. |
+| **City**     | The city where the venue is located. Translatable.                                                       |
+| **Region**   | The region or state. Translatable.                                                                       |
+| **Country**  | The country where the venue is located.                                                                  |
+| **Postcode** | The postal code. Translatable.                                                                           |
 
 <Note>
-When Google Places is enabled, searching for an address auto-populates the address, city, region, country, postcode, and map coordinates. You can switch to manual entry at any time.
+  When Google Places is enabled, searching for an address auto-populates the
+  address, city, region, country, postcode, and map coordinates. You can switch
+  to manual entry at any time.
 </Note>
 
 ### Location & Map
 
-| Field | Description |
-|-------|-------------|
-| **Latitude / Longitude** | GPS coordinates for the venue. Set automatically via address search or manually entered. |
-| **Map zoom level** | Controls the default zoom level when the venue's map is displayed. Range: 3–21. |
-| **What3Words address** | A [What3Words](https://what3words.com/) location reference (e.g. `///filled.count.soap`). When provided, the W3W address is included in confirmation emails, Apple Wallet passes, and printable tickets. |
+| Field                    | Description                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Latitude / Longitude** | GPS coordinates for the venue. Set automatically via address search or manually entered.                                                                                                                 |
+| **Map zoom level**       | Controls the default zoom level when the venue's map is displayed. Range: 3–21.                                                                                                                          |
+| **What3Words address**   | A [What3Words](https://what3words.com/) location reference (e.g. `///filled.count.soap`). When provided, the W3W address is included in confirmation emails, Apple Wallet passes, and printable tickets. |
 
 The map preview shows an interactive Google Map with a draggable marker. At zoom levels above 17, a What3Words grid overlay is displayed when a W3W API key is configured.
 
 ### Venue Settings
 
-| Field | Description |
-|-------|-------------|
-| **Capacity** | The total capacity of the venue. Optional. This value is available in reports but does not enforce any capacity limits on events — use [event capacity controls](/core-platform/event-management/capacity-controls) for that. |
-| **External ID** | An optional identifier for referencing the venue in third-party systems. Must be unique across the company. Exposed in the API and used during [data imports](/core-platform/data-imports/introduction). |
-| **Card image** | An image used when event listing blocks are grouped by venue. Translatable. |
-| **Visibility groups** | Controls which admin users can view and manage this venue. Users without access to a venue's visibility group cannot see it or its associated events. |
+| Field                 | Description                                                                                                                                                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Capacity**          | The total capacity of the venue. Optional. This value is available in reports but does not enforce any capacity limits on events — use [event capacity controls](/core-platform/event-management/capacity-controls) for that. |
+| **External ID**       | An optional identifier for referencing the venue in third-party systems. Must be unique across the company. Exposed in the API and used during [data imports](/core-platform/data-imports/introduction).                      |
+| **Card image**        | An image used when event listing blocks are grouped by venue. Translatable.                                                                                                                                                   |
+| **Visibility groups** | Controls which admin users can view and manage this venue. Users without access to a venue's visibility group cannot see it or its associated events.                                                                         |
 
 ### Event Media
 
 <Note>
-This section is only available when the event media feature is enabled for your company.
+  This section is only available when the event media feature is enabled for
+  your company.
 </Note>
 
-Venues can be assigned default [event media](/core-platform/event-media/overview) templates. These serve as fallback templates for all events at the venue — if an event does not specify its own media templates, the venue's templates are used.
+Venues can be assigned default [event media](/core-platform/event-management/event-media/overview) templates. These serve as fallback templates for all events at the venue — if an event does not specify its own media templates, the venue's templates are used.
 
 Templates can be configured per item type:
 
-| Item Type | Printable Template | Apple Pass Template |
-|-----------|--------------------|---------------------|
-| **Default** | General printable | General Apple Pass |
-| **Tickets** | Ticket-specific printable | Ticket-specific Apple Pass |
-| **Guest lists** | Guest list printable | Guest list Apple Pass |
-| **Products** | Product printable | Product Apple Pass |
-| **Season tickets** | Season ticket printable | Season ticket Apple Pass |
+| Item Type          | Printable Template        | Apple Pass Template        |
+| ------------------ | ------------------------- | -------------------------- |
+| **Default**        | General printable         | General Apple Pass         |
+| **Tickets**        | Ticket-specific printable | Ticket-specific Apple Pass |
+| **Guest lists**    | Guest list printable      | Guest list Apple Pass      |
+| **Products**       | Product printable         | Product Apple Pass         |
+| **Season tickets** | Season ticket printable   | Season ticket Apple Pass   |
 
 A **mobile wallet passes** toggle controls whether Apple Wallet passes are generated for items at this venue.
 
@@ -78,11 +81,11 @@ A **mobile wallet passes** toggle controls whether Apple Wallet passes are gener
 
 How venue information appears on the public event page is controlled per event via [event page customisations](/core-platform/event-management/event-page-customisations), not on the venue itself. There are three options:
 
-| Setting | Behaviour |
-|---------|-----------|
-| **Show all** | Displays the venue name, full address, and What3Words link (if set). A map is shown on the event page. |
-| **Show venue only** | Displays the venue name without the address. |
-| **Hide** | Venue information is not displayed on the event page. |
+| Setting             | Behaviour                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Show all**        | Displays the venue name, full address, and What3Words link (if set). A map is shown on the event page. |
+| **Show venue only** | Displays the venue name without the address.                                                           |
+| **Hide**            | Venue information is not displayed on the event page.                                                  |
 
 ## Seating Plans
 
@@ -90,7 +93,8 @@ How venue information appears on the public event page is controlled per event v
 - Events using a venue with seating plans can [attach one of those plans](/core-platform/event-management/seated-events) to become a seated event.
 
 <Note>
-To create a seating plan, you must have permission to view or create at least one venue.
+  To create a seating plan, you must have permission to view or create at least
+  one venue.
 </Note>
 
 ## Managing Venues
@@ -101,14 +105,14 @@ The venue list (**Admin > Events > Venues**) displays all venues with their name
 
 The list supports the following filters:
 
-| Filter | Description |
-|--------|-------------|
-| **Name** | Search venues by name (partial match). |
-| **Visibility group** | Filter by a specific visibility group. |
-| **City** | Filter by city. |
-| **Events** | Filter by event status: venues with future events, past events only, or no events. |
-| **Created date** | Filter by creation date range. |
-| **Trashed** | Show soft-deleted venues. |
+| Filter               | Description                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| **Name**             | Search venues by name (partial match).                                             |
+| **Visibility group** | Filter by a specific visibility group.                                             |
+| **City**             | Filter by city.                                                                    |
+| **Events**           | Filter by event status: venues with future events, past events only, or no events. |
+| **Created date**     | Filter by creation date range.                                                     |
+| **Trashed**          | Show soft-deleted venues.                                                          |
 
 ### Deleting and Restoring
 
@@ -124,11 +128,11 @@ Visibility groups referenced in the import must already exist in the system. See
 
 ## Relationships
 
-| Relationship | Description |
-|--------------|-------------|
-| **[Events](/core-platform/event-management/introduction)** | A venue can host many events. In-venue and hybrid events require a venue. |
-| **[Seating plans](/core-platform/seating-plans/introduction)** | A venue can have multiple seating plans for different event layouts. |
-| **[Visibility groups](/core-platform/system-access/visibility-groups)** | Control admin access to the venue and its events. |
-| **[Event media](/core-platform/event-media/overview)** | Default printable and Apple Pass templates applied to events at the venue. |
-| **[Schedules](/core-platform/event-scheduling/core-concepts)** | Multiple events within a schedule can share the same venue. |
-| **[Reports](/core-platform/reporting/fundamentals)** | Venue name, address, and capacity are available as report fields and filters. |
+| Relationship                                                            | Description                                                                   |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **[Events](/core-platform/event-management/introduction)**              | A venue can host many events. In-venue and hybrid events require a venue.     |
+| **[Seating plans](/core-platform/seating-plans/introduction)**          | A venue can have multiple seating plans for different event layouts.          |
+| **[Visibility groups](/core-platform/system-access/visibility-groups)** | Control admin access to the venue and its events.                             |
+| **[Event media](/core-platform/event-management/event-media/overview)** | Default printable and Apple Pass templates applied to events at the venue.    |
+| **[Schedules](/core-platform/event-management/schedules)**              | Multiple events within a schedule can share the same venue.                   |
+| **[Reports](/core-platform/reporting/fundamentals)**                    | Venue name, address, and capacity are available as report fields and filters. |

@@ -1,11 +1,11 @@
 ---
-title: "Introduction"
-description: "Overview of events, the central entity in the platform for managing ticket sales, access control, and attendee experiences."
+title: 'Introduction'
+description: 'Overview of events, the central entity in the platform for managing ticket sales, access control, and attendee experiences.'
 ---
 
 ## Overview
 
-- Events can either be standalone or form part of a [schedule](/core-platform/event-scheduling/core-concepts). Both types of events can be [manually copied](/core-platform/event-management/copying-events) to create a replica standalone event.
+- Events can either be standalone or form part of a [schedule](/core-platform/event-management/schedules). Both types of events can be [manually copied](/core-platform/event-management/copying-events) to create a replica standalone event.
 - Event pages can be customised via [event page customisations](/core-platform/event-management/event-page-customisations).
 - An event has a single start and end date, however, entrance times can be divided into [timeslots](/core-platform/event-management/timeslots) within the bounds of the event's overall start and end date.
 - All dates associated with an event—including the start/end dates, the start/end times of any timeslots, the [on sale dates](/core-platform/event-management/sales-periods), as well as any dates associated with related records (such as [zones](/core-platform/event-management/access-control#zones) and [sale items](/core-platform/sale-items/core-concepts))—are set in the event's [timezone](/core-platform/core/timezones).
@@ -15,30 +15,34 @@ description: "Overview of events, the central entity in the platform for managin
 
 When creating an event, you must specify its location type:
 
-| Type | Description |
-|------|-------------|
-| **In Venue** | A physical event at a specific [venue](/core-platform/event-management/venues). Customers attend in person. |
-| **Online** | A virtual event with no physical location. Supports live streaming via providers like Vimeo or YouTube. |
-| **Both** | A hybrid event that is both in-person and streamed online. Requires both a venue and streaming configuration. |
+| Type         | Description                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------- |
+| **In Venue** | A physical event at a specific [venue](/core-platform/event-management/venues). Customers attend in person.   |
+| **Online**   | A virtual event with no physical location. Supports live streaming via providers like Vimeo or YouTube.       |
+| **Both**     | A hybrid event that is both in-person and streamed online. Requires both a venue and streaming configuration. |
 
 <Note>
-Online and hybrid events can display an embedded live stream on the event page, with optional chat functionality for supported providers.
+  Online and hybrid events can display an embedded live stream on the event
+  page, with optional chat functionality for supported providers.
 </Note>
 
 ## Event Status
 
 Events progress through different statuses during their lifecycle:
 
-| Status | Description |
-|--------|-------------|
-| Draft | The event is not yet published. It cannot be purchased and is not visible on the shop. |
-| Published | The event is live and visible to customers (unless hidden). |
-| Off Sale | The event is published but not currently available for purchase. |
-| Sold Out | The event has reached capacity or all items are unavailable. |
-| Cancelled | The event has been cancelled. This action is irreversible. |
+| Status    | Description                                                                            |
+| --------- | -------------------------------------------------------------------------------------- |
+| Draft     | The event is not yet published. It cannot be purchased and is not visible on the shop. |
+| Published | The event is live and visible to customers (unless hidden).                            |
+| Off Sale  | The event is published but not currently available for purchase.                       |
+| Sold Out  | The event has reached capacity or all items are unavailable.                           |
+| Cancelled | The event has been cancelled. This action is irreversible.                             |
 
 <Warning>
-Cancelling an event is irreversible. Once cancelled, the event cannot be put back on sale. Cancellation takes the event off sale, hides it from listings, and updates its status. Customers are not automatically refunded or notified—this must be managed separately via the event dashboard.
+  Cancelling an event is irreversible. Once cancelled, the event cannot be put
+  back on sale. Cancellation takes the event off sale, hides it from listings,
+  and updates its status. Customers are not automatically refunded or
+  notified—this must be managed separately via the event dashboard.
 </Warning>
 
 ### Approval Workflow
@@ -55,20 +59,21 @@ Events are created through a multi-step wizard:
 4. **Mandatory Tags** — Required [event tags](/core-platform/event-management/event-tags) (if configured)
 
 <Note>
-If mandatory organiser details are enabled for your company, you must provide organiser name, email, and phone during event creation.
+  If mandatory organiser details are enabled for your company, you must provide
+  organiser name, email, and phone during event creation.
 </Note>
 
 ## Configuration
 
 ### Basic Information
 
-| Field | Description |
-|-------|-------------|
-| **Event name** | The title of the event, displayed throughout the platform including [event listings](/core-platform/ticket-shop/event-listings), [search results](/core-platform/ticket-shop/event-search), and the events API. Supports multiple languages. |
-| **Description** | A description of the event ([WYSIWYG](/core-platform/information/wysiwyg)), displayed on the event page via the default event description block. |
-| **Start date & time** | When the event begins. |
-| **End date & time** | When the event ends. |
-| **Timezone** | The timezone for all event dates. See [timezones](/core-platform/core/timezones). |
+| Field                 | Description                                                                                                                                                                                                                                  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Event name**        | The title of the event, displayed throughout the platform including [event listings](/core-platform/ticket-shop/event-listings), [search results](/core-platform/ticket-shop/event-search), and the events API. Supports multiple languages. |
+| **Description**       | A description of the event ([WYSIWYG](/core-platform/information/wysiwyg)), displayed on the event page via the default event description block.                                                                                             |
+| **Start date & time** | When the event begins.                                                                                                                                                                                                                       |
+| **End date & time**   | When the event ends.                                                                                                                                                                                                                         |
+| **Timezone**          | The timezone for all event dates. See [timezones](/core-platform/core/timezones).                                                                                                                                                            |
 
 ### Capacity Controls
 
@@ -76,39 +81,39 @@ Capacity is managed at multiple levels — event, timeslot, sale item group, sal
 
 ### Purchase Settings
 
-| Field | Description |
-|-------|-------------|
-| **Maximum tickets per customer** | Limits how many tickets a single customer can purchase. Customers must share or transfer tickets beyond this limit. Lower limits can be set on individual tickets. |
-| **Show number of items remaining** | Displays a badge on each sale item showing "X Remaining" for items with limited availability. |
+| Field                              | Description                                                                                                                                                        |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Maximum tickets per customer**   | Limits how many tickets a single customer can purchase. Customers must share or transfer tickets beyond this limit. Lower limits can be set on individual tickets. |
+| **Show number of items remaining** | Displays a badge on each sale item showing "X Remaining" for items with limited availability.                                                                      |
 
 ### Visibility & Discovery
 
-| Field | Description |
-|-------|-------------|
-| **Hidden status** | When hidden, the event is not shown in event listing blocks or search results, but can still be accessed via direct link. |
-| **On sale / Off sale status** | Controls whether items can be purchased. |
-| **Tags** | [Event tags](/core-platform/event-management/event-tags) used for filtering in search and automatically including events in listings. |
-| **Visibility groups** | Controls which [admin users](/core-platform/system-access/visibility-groups) can see and interact with the event. |
+| Field                         | Description                                                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hidden status**             | When hidden, the event is not shown in event listing blocks or search results, but can still be accessed via direct link.             |
+| **On sale / Off sale status** | Controls whether items can be purchased.                                                                                              |
+| **Tags**                      | [Event tags](/core-platform/event-management/event-tags) used for filtering in search and automatically including events in listings. |
+| **Visibility groups**         | Controls which [admin users](/core-platform/system-access/visibility-groups) can see and interact with the event.                     |
 
 ### Tracking & Analytics
 
-| Field | Description |
-|-------|-------------|
-| **Meta Pixel ID** | Facebook/Meta conversion tracking. |
-| **Spotify Pixel ID** | Spotify ad conversion tracking. |
-| **TikTok Pixel ID** | TikTok conversion tracking. |
-| **X Pixel ID** | X (Twitter) conversion tracking. |
+| Field                     | Description                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Meta Pixel ID**         | Facebook/Meta conversion tracking.                                                                 |
+| **Spotify Pixel ID**      | Spotify ad conversion tracking.                                                                    |
+| **TikTok Pixel ID**       | TikTok conversion tracking.                                                                        |
+| **X Pixel ID**            | X (Twitter) conversion tracking.                                                                   |
 | **Google Tag Manager ID** | GTM container ID. Note: If GTM is configured at the site level, it cannot be overridden per event. |
 
 ### Other Settings
 
-| Field | Description |
-|-------|-------------|
-| **Sales banner** | A banner displayed above sale items on the event page. Options: Inherit (use company default), Override (custom for this event), or Hide. When overriding, choose a colour (Company branding, Blue, Green, Yellow, Red) and enter text via [WYSIWYG](/core-platform/information/wysiwyg). |
-| **Comment** | Internal notes (not visible to customers). |
-| **External ID** | Optional identifier for third-party integrations. Exposed in the events API. |
-| **Send purchase summary email** | Send an email to specified recipients for every purchase made for this event. Useful for staff to receive real-time sales notifications. |
-| **Refund protection** | Configure [refund protection](/core-platform/refund-protection/protect-group) for this event. |
+| Field                           | Description                                                                                                                                                                                                                                                                               |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sales banner**                | A banner displayed above sale items on the event page. Options: Inherit (use company default), Override (custom for this event), or Hide. When overriding, choose a colour (Company branding, Blue, Green, Yellow, Red) and enter text via [WYSIWYG](/core-platform/information/wysiwyg). |
+| **Comment**                     | Internal notes (not visible to customers).                                                                                                                                                                                                                                                |
+| **External ID**                 | Optional identifier for third-party integrations. Exposed in the events API.                                                                                                                                                                                                              |
+| **Send purchase summary email** | Send an email to specified recipients for every purchase made for this event. Useful for staff to receive real-time sales notifications.                                                                                                                                                  |
+| **Refund protection**           | Configure [refund protection](/core-platform/refund-protection/protect-group) for this event.                                                                                                                                                                                             |
 
 ### Additional Event Settings
 
@@ -125,14 +130,14 @@ The following settings are configured on the event dashboard and documented on t
 
 Events connect to many other entities in the platform:
 
-| Relationship | Description |
-|--------------|-------------|
-| **[Sale items](/core-platform/sale-items/core-concepts)** | Tickets, season tickets, products, event fees, resale fees, guest lists, donations, and bundles attached to the event. |
-| **[Timeslots](/core-platform/event-management/timeslots)** | Time windows within the event for managing entry times and capacity. |
-| **[Zones](/core-platform/event-management/access-control#zones)** | Access control areas for scanning and entry management. |
-| **[Seating plan](/core-platform/event-management/seated-events)** | Optional venue seating configuration for seated events. |
-| **[Venue](/core-platform/event-management/venues)** | The physical location where the event takes place. |
-| **[Data capture](/core-platform/data-capture/introduction)** | Custom questions assigned to collect information from customers. |
-| **[Sale periods](/core-platform/event-management/sales-periods)** | Scheduled on-sale and off-sale windows. |
-| **[Event media](/core-platform/event-media/overview)** | Ticket designs, Apple Wallet passes, and printable media. |
-| **Schedule** | If part of a [schedule](/core-platform/event-scheduling/core-concepts), links to other events in the series. |
+| Relationship                                                            | Description                                                                                                            |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **[Sale items](/core-platform/sale-items/core-concepts)**               | Tickets, season tickets, products, event fees, resale fees, guest lists, donations, and bundles attached to the event. |
+| **[Timeslots](/core-platform/event-management/timeslots)**              | Time windows within the event for managing entry times and capacity.                                                   |
+| **[Zones](/core-platform/event-management/access-control#zones)**       | Access control areas for scanning and entry management.                                                                |
+| **[Seating plan](/core-platform/event-management/seated-events)**       | Optional venue seating configuration for seated events.                                                                |
+| **[Venue](/core-platform/event-management/venues)**                     | The physical location where the event takes place.                                                                     |
+| **[Data capture](/core-platform/data-capture/introduction)**            | Custom questions assigned to collect information from customers.                                                       |
+| **[Sale periods](/core-platform/event-management/sales-periods)**       | Scheduled on-sale and off-sale windows.                                                                                |
+| **[Event media](/core-platform/event-management/event-media/overview)** | Ticket designs, Apple Wallet passes, and printable media.                                                              |
+| **Schedule**                                                            | If part of a [schedule](/core-platform/event-management/schedules), links to other events in the series.               |

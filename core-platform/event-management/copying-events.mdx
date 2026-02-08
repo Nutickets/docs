@@ -1,13 +1,14 @@
 ---
-title: "Copying Events"
-description: "Create new events by copying existing ones, with control over what gets duplicated."
+title: 'Copying Events'
+description: 'Create new events by copying existing ones, with control over what gets duplicated.'
 ---
 
 ## Overview
 
 Copying an event creates one or more new events based on an existing event. This is useful for:
+
 - Creating similar events on different dates
-- Setting up recurring events without using [schedules](/core-platform/event-scheduling/core-concepts)
+- Setting up recurring events without using [schedules](/core-platform/event-management/schedules)
 - Duplicating event configurations as a starting template
 
 When copying, you choose which elements to include and whether to create standalone events or add them to a schedule.
@@ -15,13 +16,12 @@ When copying, you choose which elements to include and whether to create standal
 ## Accessing the Copy Feature
 
 The copy event option is available from:
+
 - The **Actions** dropdown menu on the event dashboard
 - The **Advanced Actions** panel in the event sidebar
 - The event header during setup
 
-<Note>
-You must have permission to create events to access this feature.
-</Note>
+<Note>You must have permission to create events to access this feature.</Note>
 
 ## Copy Process
 
@@ -35,17 +35,17 @@ Choose the date(s) for your new event(s):
 You can add multiple dates to create several copies at once. The maximum number of dates you can add in a single operation is configured per company.
 
 <Warning>
-A maximum of 31 events can be created in a single copy operation.
+  A maximum of 31 events can be created in a single copy operation.
 </Warning>
 
 ### Step 2: Standalone or Scheduled
 
 Choose how the copied event(s) should be created:
 
-| Option | Description |
-|--------|-------------|
-| **Standalone event** | Creates independent event(s) not linked to any schedule |
-| **Scheduled event** | Adds the new event(s) to the same schedule as the source event |
+| Option               | Description                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| **Standalone event** | Creates independent event(s) not linked to any schedule        |
+| **Scheduled event**  | Adds the new event(s) to the same schedule as the source event |
 
 This choice affects how sale items are handled — see [Item Handling](#item-handling) below.
 
@@ -68,26 +68,27 @@ The following are always included when copying an event:
 
 You can choose whether to include each of the following. Available options depend on what exists on the source event.
 
-| Element | Options | Notes |
-|---------|---------|-------|
-| **Seating plan** | Skip / Assign | Copies the seating plan, price bands, and seat allocations |
-| **Sale periods** | Skip / Copy | Custom on-sale windows for the event |
-| **Zones** | Skip / Copy | Access control zones. Opening/closing dates are cleared; auto scan-out times are not copied. |
-| **Timeslots** | Skip / Copy | Time divisions within the event. You must separately select which sale items within each timeslot to copy. |
-| **Sale item groups** | Skip / Copy | Groupings are preserved. You must separately select which items within each group to copy. |
-| **Sale items** | See [Item Handling](#item-handling) | Tickets, add-ons, and other purchasable items |
-| **Data capture questions** | Skip / Ask | Customer-facing questions attached to the event |
-| **Internal questions** | Skip / Copy | Staff-facing questions and their current responses |
+| Element                    | Options                             | Notes                                                                                                      |
+| -------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Seating plan**           | Skip / Assign                       | Copies the seating plan, price bands, and seat allocations                                                 |
+| **Sale periods**           | Skip / Copy                         | Custom on-sale windows for the event                                                                       |
+| **Zones**                  | Skip / Copy                         | Access control zones. Opening/closing dates are cleared; auto scan-out times are not copied.               |
+| **Timeslots**              | Skip / Copy                         | Time divisions within the event. You must separately select which sale items within each timeslot to copy. |
+| **Sale item groups**       | Skip / Copy                         | Groupings are preserved. You must separately select which items within each group to copy.                 |
+| **Sale items**             | See [Item Handling](#item-handling) | Tickets, add-ons, and other purchasable items                                                              |
+| **Data capture questions** | Skip / Ask                          | Customer-facing questions attached to the event                                                            |
+| **Internal questions**     | Skip / Copy                         | Staff-facing questions and their current responses                                                         |
 
 #### Publishing
 
-| Option | Description |
-|--------|-------------|
-| **Draft** | New event(s) are created as drafts, not visible to customers |
-| **Publish** | New event(s) go live immediately |
+| Option      | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| **Draft**   | New event(s) are created as drafts, not visible to customers |
+| **Publish** | New event(s) go live immediately                             |
 
 <Note>
-You must have permission to publish events to use the Publish option. If copying a cancelled event, the new event is always created as a draft.
+  You must have permission to publish events to use the Publish option. If
+  copying a cancelled event, the new event is always created as a draft.
 </Note>
 
 When creating a standalone event as a draft, the event name is automatically prefixed with "Copy of".
@@ -96,18 +97,20 @@ When creating a standalone event as a draft, the event name is automatically pre
 
 Sale items (tickets, add-ons, donations, etc.) can be handled in two ways:
 
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| **Resell existing** | The new event references the same inventory item. Stock is shared, and changes to the item affect all linked events. | Recurring events where you want unified inventory and bulk editing |
-| **Copy (duplicate)** | Creates a new independent inventory item. Stock and settings are separate from the original. | One-off copies where events should be managed independently |
+| Mode                 | Description                                                                                                          | Use Case                                                           |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **Resell existing**  | The new event references the same inventory item. Stock is shared, and changes to the item affect all linked events. | Recurring events where you want unified inventory and bulk editing |
+| **Copy (duplicate)** | Creates a new independent inventory item. Stock and settings are separate from the original.                         | One-off copies where events should be managed independently        |
 
 <Warning>
-Duplicating an item disassociates it from the original. This prevents bulk editing, stock sharing, and rebooking within schedules.
+  Duplicating an item disassociates it from the original. This prevents bulk
+  editing, stock sharing, and rebooking within schedules.
 </Warning>
 
 ### What's Copied with Items
 
 When duplicating sale items:
+
 - Sale prices and inventory settings are copied
 - Add-on products are copied (maintaining parent-child relationships)
 - Donation variants are copied
@@ -132,6 +135,7 @@ The system calculates the offset between the source and target event dates and a
 ## After Copying
 
 When a seating plan is copied, additional background processes run to:
+
 - Sync seat availability statuses between the source and copied events
 - Map price bands and reassign sale items to their corresponding bands
 
@@ -139,4 +143,4 @@ These processes run asynchronously and may take a few moments to complete for la
 
 ## Related
 
-- [Event Scheduling](/core-platform/event-scheduling/core-concepts) — For creating recurring event series
+- [Event Scheduling](/core-platform/event-management/schedules) — For creating recurring event series
