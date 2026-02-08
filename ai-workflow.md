@@ -10,7 +10,37 @@
 
 - Documentation lives in the `mintlify/` directory with configuration in `docs.json`.
 - Pages are MDX files organised by system: `core-platform/`, `mobile-apps/`, `partner-hub/`.
-- Other tabs (API Reference, Partner API Reference, Webhook Reference, Releases) are auto-generated and not part of this workflow.
+- Other tabs (API Reference, Partner API Reference, Webhook Reference, Releases) are auto-generated and not part of this workflow but may be referenced/linked to.
+
+---
+
+## Purpose & Audience
+
+### Purpose
+
+This documentation serves as a **quick reference** to help users:
+- Look up functionality and confirm what features and options are available.
+- Understand how features work and how they relate to one another.
+- Find guidance on how features might be used.
+
+It is **not** a marketing resource or sales pitch — it represents the actual platform.
+
+### Target Audience
+
+- **New users** learning the platform for the first time.
+- **Existing users** confirming functionality or exploring unfamiliar features.
+
+Users are expected to understand domain terminology (e.g. "timeslots", "sale items", "access control") but should not need deep technical knowledge.
+
+---
+
+## Task Choice
+
+Establish which page/sections to work on & what our focus is going to be:
+- **Initial Draft** — Create first-pass content for a placeholder or empty page.
+- **Flesh Out** — Expand existing content with additional detail, examples, or coverage.
+- **Refinement** — Improve readability, flow, and presentation of existing content.
+- **Gap Analysis** — Identify missing information, inaccuracies, or areas needing clarification.
 
 ---
 
@@ -68,54 +98,17 @@ You must investigate **all** of the following:
 - Check for role-based or permission-based variations.
 - Understand what happens in edge cases (empty states, limits, errors).
 
-### What Not To Do
-
-- **Never assume** — if you haven't seen it in the code, don't document it.
-- **Never guess at field names or options** — read the actual form components and lang files.
-- **Never extrapolate** — document what exists, not what logically "should" exist.
-- **Never document from memory of similar systems** — this platform has its own implementation.
+<Note>
+**Never assume, guess, or extrapolate.** If you haven't seen it in the code, don't document it. Don't guess at field names — read the actual form components and lang files. Don't document what logically "should" exist — document what does exist. Don't fill gaps from memory of similar systems — this platform has its own implementation.
+</Note>
 
 ---
 
-## Task Choice
+## Writing
 
-Establish which page/sections to work on & what our focus is going to be:
-- **Initial Draft** — Create first-pass content for a placeholder or empty page.
-- **Flesh Out** — Expand existing content with additional detail, examples, or coverage.
-- **Refinement** — Improve readability, flow, and presentation of existing content.
-- **Gap Analysis** — Identify missing information, inaccuracies, or areas needing clarification.
+### Quality Standard
 
-## Purpose & Audience
-
-### Purpose
-
-This documentation serves as a **quick reference** to help users:
-- Look up functionality and confirm what features and options are available.
-- Understand how features work and how they relate to one another.
-- Find guidance on how features might be used.
-
-It is **not** a marketing resource or sales pitch — it represents the actual platform.
-
-### Target Audience
-
-- **New users** learning the platform for the first time.
-- **Existing users** confirming functionality or exploring unfamiliar features.
-
-Users are expected to understand domain terminology (e.g. "timeslots", "sale items", "access control") but should not need deep technical knowledge.
-
-## Writing Style
-
-### Principles
-
-- **Factual, not promotional** — State what features do, not why they're great. Avoid marketing language, superlatives, and persuasive framing.
-- **Clear and concise** — Get to the point. Short sentences. No filler words.
-- **Domain language** — Use platform terminology naturally. Don't over-explain common concepts.
-- **Best format for the content** — Choose the formatting that conveys information most clearly (see Formatting below).
-- **Interconnected** — Link to related pages where relevant to help users navigate.
-
-### Writing Quality Bar
-
-The following rules define the difference between acceptable documentation and good documentation. Follow them strictly.
+These rules define what good documentation looks like. They are not bonus criteria — they are the baseline. Follow them strictly.
 
 **Write for someone trying to do something, not someone studying a schema.**
 Every page should feel like a knowledgeable colleague walking you through a feature. The reader has a task — help them complete it. Don't describe the data model and call it documentation.
@@ -156,60 +149,41 @@ The page should have a logical flow where each section follows naturally from th
 **Depth earns its place — thin pages are worse than no pages.**
 A 30-line page that lists field names without explaining how to use them is not helpful documentation. Every page should be substantive enough that a user learns something they couldn't have guessed. If you can't write substantive content, you haven't researched enough — go back to the codebase.
 
-**Match formatting to content purpose.**
-Don't use tables and bullets mechanically. Choose format based on what you're communicating:
-- Tables → comparing things (roles, statuses, permissions)
-- Numbered lists → sequential steps the user follows
-- Callouts → edge cases, warnings, non-obvious behaviour
-- Prose → explaining concepts, workflows, relationships
-- Bullets → independent facts, lists of options
+**Factual, not promotional.**
+State what features do, not why they're great. Avoid marketing language, superlatives, and persuasive framing.
 
-### Formatting
+**Use platform terminology naturally.**
+Use domain language without over-explaining common concepts. Write from the user's perspective — don't expose internal terminology, database column names, or architectural patterns.
 
-**Documentation is not limited to bullet points.** Use rich formatting to present information as clearly as possible. Choose the format best suited to the content:
+### Page Structure
 
-- **Bullet points** — Good for lists of independent facts, options, or items.
-- **Tables** — Ideal for comparing options, listing field definitions, or showing structured data.
-- **Numbered lists** — Use for sequential steps or ordered processes.
-- **Prose paragraphs** — Appropriate for explanatory context, workflows, or concepts that benefit from narrative flow.
-- **Code blocks** — For API examples, configuration snippets, or technical values.
-- **Callouts/Admonitions** — Warnings, tips, notes, and important information.
-- **Accordions** — For optional/advanced details that shouldn't clutter the main flow.
-- **Tabs** — When showing variations (e.g., different user roles, different platforms).
-- **Cards** — For navigation or linking to related topics.
+A documentation page is not a random collection of sections — it tells a story. The following framework describes the sections a complete page might contain. Not every page needs every section; choose the sections the feature demands.
 
-### Mintlify Components
+1. **Overview** — Contextual framing: what the feature does, who it's for, and why they'd use it. Ground the reader in purpose before any detail.
 
-Mintlify provides a rich set of MDX components beyond standard markdown. Use the **Mintlify MCP server** to look up available components, their syntax, and formatting options:
+2. **Use Cases** — For foundational features (core building blocks like timeslots, sale item groups, customer groups). Concrete, real-world scenarios that show *why* and *when* to use the feature. Use accordions to keep the page scannable. Skip this for narrow, self-explanatory features.
 
-- MCP endpoint: `https://mintlify.com/docs/mcp`
+3. **How It Works / Workflow** — The mechanism or process. How the feature operates, what the steps are, what roles are involved. Tables, diagrams, or numbered steps as appropriate.
 
-Query the MCP server when you need to:
-- Find the right component for a specific use case
-- Check the correct syntax for a component
-- Discover new components that might better present your content
+4. **Configuration** — Settings, fields, and options. Explain what each setting controls and its effect — don't just list field names.
+
+5. **User Tasks** — Action-oriented sections named after what users actually do: "Requesting Approval", "Adding Members", "Configuring Notifications". These are the core of most pages.
+
+6. **Reference** — Statuses, notifications, restrictions, edge cases. Structured information users look up rather than read sequentially.
+
+7. **Related pages** — Links to connected features and further reading.
+
+The key test: can a reader go top-to-bottom and feel like they followed a coherent journey from "what is this?" through "how do I use it?" to "what else should I know?" If the page reads like disconnected index cards, restructure it.
 
 ### Reference Example
 
-The overview section from `core-platform/event-management/introduction.mdx` demonstrates the target style:
+`core-platform/event-management/event-approvals.mdx` is the gold standard for a complete documentation page. Study it before writing. What makes it work:
 
-```markdown
-## Overview
-
-- Events can either be standalone or form part of a [schedule](/core-platform/event-scheduling/event-discovery). Both types of events can be [manually copied](/core-platform/event-management/copying-events) to create a replica standalone event.
-- Event pages can be customised, see [event page customisations](/core-platform/event-management/event-page-customisations) for more details.
-- An event has a single start and end date, however, entrance times can be divided up into [timeslots](/core-platform/event-management/timeslots) within the bounds of the event's overall start & end date.
-- All dates associated with an event [...] are set in the event's [timezone](/core-platform/core/timezones).
-- [Seating plans](/core-platform/event-management/seating-plans) may optionally be attached to an event, promoting it to a seated event.
-```
-
-Key observations:
-- Each bullet is a self-contained fact.
-- Internal links connect related concepts.
-- No fluff — just what, how, and where to learn more.
-- Domain terms used without excessive explanation.
-
-Note: This example uses bullet points, but other formats (tables, prose, callouts, etc.) may be more appropriate depending on the content. Choose the format that best serves clarity.
+- **Overview grounds the reader in purpose** — "Event approvals add a review step to the event publishing workflow" tells you what, who, and why in one sentence. It doesn't start with abstraction.
+- **Sections are named as user tasks** — "Requesting Approval", "Finding Events Awaiting Approval", "Reviewing Approval Requests" map directly to things users do.
+- **Tables compare roles, statuses, and permissions** — Structured information is presented in the format that makes it easiest to scan and compare.
+- **Notes handle edge cases without cluttering the main flow** — "If an approval request was previously rejected, the button changes to Request Publishing Approval Again" is tucked into a Note, not buried in prose.
+- **The page reads top-to-bottom as a narrative journey** — From understanding the feature, through how it works, to performing each task, to reference information. A reader never has to jump around.
 
 ### Anti-Pattern Example
 
@@ -247,6 +221,15 @@ What's wrong with this:
 - **No anticipation** — Doesn't address any "what if" questions or edge cases.
 
 A page like this should be rewritten to walk the user through the actual editing experience: how to find a customer, what each section of the edit screen contains, what validation exists, what side effects editing can have, and how it connects to other features.
+
+### User-Facing Language
+
+Write from the user's perspective, not from the implementation's perspective. Avoid exposing internal terminology, database column names, or architectural patterns that would confuse a non-technical reader.
+
+- **Avoid:** "Related groups across a schedule are linked via a parent-child relationship"
+- **Prefer:** "Groups created across a schedule are automatically linked, so future bulk updates can target all related groups at once"
+
+If an internal concept has no user-facing equivalent, describe the *behaviour* the user experiences rather than the *mechanism* behind it.
 
 ### Use Cases
 
@@ -297,25 +280,29 @@ When a feature has a public API, reference it at the **point of relevance** — 
 - The endpoint is implemented in the actual API code — read the controller/route to verify it does what you claim.
 - The behaviour you describe (e.g. "add customers to a group") matches the real implementation, not just the schema summary.
 
-### User-Facing Language
+### Formatting & Components
 
-Write from the user's perspective, not from the implementation's perspective. Avoid exposing internal terminology, database column names, or architectural patterns that would confuse a non-technical reader.
+Choose the format best suited to the content:
 
-- **Avoid:** "Related groups across a schedule are linked via a parent-child relationship"
-- **Prefer:** "Groups created across a schedule are automatically linked, so future bulk updates can target all related groups at once"
+- **Tables** → comparing things (roles, statuses, permissions, field definitions)
+- **Numbered lists** → sequential steps the user follows
+- **Callouts** → edge cases, warnings, non-obvious behaviour
+- **Prose paragraphs** → explaining concepts, workflows, relationships
+- **Bullets** → independent facts, lists of options
+- **Code blocks** → API examples, configuration snippets, technical values
+- **Accordions** → optional/advanced details that shouldn't clutter the main flow
+- **Tabs** → showing variations (e.g. different user roles, different platforms)
+- **Cards** → navigation or linking to related topics
 
-If an internal concept has no user-facing equivalent, describe the *behaviour* the user experiences rather than the *mechanism* behind it.
+Mintlify provides a rich set of MDX components beyond standard markdown. Use the **Mintlify MCP server** to look up available components, their syntax, and formatting options:
+
+- MCP endpoint: `https://mintlify.com/docs/mcp`
+
+Query the MCP server when you need to find the right component, check syntax, or discover components that might better present your content.
 
 ### Common Patterns
 
-**Introducing a concept (bullets):**
-```markdown
-## Overview
-
-- [Feature] allows [who] to [do what].
-- [Feature] is configured via [location/method].
-- Related: [link to related pages].
-```
+These are starting points for syntax reference, not templates to fill in. A page built by slotting content into these skeletons will be thin and unhelpful. Write the page the feature needs, then use these patterns for the mechanics.
 
 **Introducing a concept (prose):**
 ```markdown
@@ -333,14 +320,6 @@ to enable [workflow]. Configuration is managed through [location].
 |-------|-------------|---------|
 | Field Name | What this field controls | `option1`, `option2` |
 | Another Field | Effect of this setting | Default: `value` |
-```
-
-**Configuration options (list):**
-```markdown
-## Configuration
-
-- **Field Name**: Description of what this field controls and its effect.
-- **Another Field**: Description. Options: `value1`, `value2`, `value3`.
 ```
 
 **Step-by-step process:**
@@ -373,6 +352,8 @@ to enable [workflow]. Configuration is managed through [location].
 </Tabs>
 ```
 
+---
+
 ## Checklist
 
 ### Selection Phase
@@ -382,42 +363,27 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Select the task type (initial draft, flesh out, refinement, gap analysis).
 - [ ] Read the current state of the target page.
 
-### Research Phase (Required for ALL tasks)
+### Research Phase
 
-- [ ] **Identify the core entities** — What models/tables are involved? Read their definitions.
-- [ ] **Trace the backend** — Find services, controllers, and business logic. Understand the rules.
-- [ ] **Examine the frontend** — Find the Vue components and pages. What fields exist? What's conditional?
-- [ ] **Read the lang files** — Extract exact UI labels, tooltips, and help text.
-- [ ] **Map relationships** — What other features connect to this? Follow the dependencies.
-- [ ] **Search broadly** — Don't stop at the first result. Search for related terms across the codebase.
-- [ ] **Check for variations** — Feature flags, role-based behaviour, permission gates.
-- [ ] **Document your findings** — Keep notes of what you discovered and where.
+- [ ] Identify the core entities — what models/tables are involved?
+- [ ] Trace backend services, controllers, and business logic.
+- [ ] Examine frontend components and pages — what fields exist, what's conditional?
+- [ ] Read the lang files — extract exact UI labels, tooltips, and help text.
+- [ ] Map relationships — what other features connect to this?
+- [ ] Check for feature flags, role-based behaviour, and permission gates.
 
 ### Writing Phase
 
-- [ ] For **Initial Draft**:
-  - Structure content based on research findings.
-  - Cover all discovered functionality — don't leave gaps.
-  - Use exact terminology from lang files.
-  - Link to related documentation pages.
-
-- [ ] For **Flesh Out**:
-  - Identify sections that lack detail.
-  - Research specific gaps in the codebase.
-  - Add missing configuration options, edge cases, or relationships.
-  - Verify existing content is still accurate.
-
-- [ ] For **Refinement**:
-  - Review for clarity — remove fluff, tighten sentences.
-  - Ensure structure aids scanning (headings, bullets, tables).
-  - Verify terminology consistency with lang files.
-  - Check all internal links are valid.
-
-- [ ] For **Gap Analysis**:
-  - Compare every documented statement against the codebase.
-  - Flag anything that cannot be verified.
-  - Note missing features that should be documented.
-  - Identify outdated information.
+- [ ] Does the overview ground the reader in purpose, not abstraction?
+- [ ] Does the page read like a colleague explaining the feature, not a schema description?
+- [ ] Would a user learn something they couldn't have guessed from field names alone?
+- [ ] Are sections named as user tasks, not abstract data categories?
+- [ ] Does the page have narrative flow from top to bottom?
+- [ ] Are UI elements named concretely (buttons, statuses, navigation paths)?
+- [ ] Are edge cases and follow-up questions addressed in Notes?
+- [ ] Does the page use the format best suited to each type of content?
+- [ ] Are all statements verified against the codebase?
+- [ ] Does terminology match the platform UI exactly (checked against lang files)?
 
 ### Review Phase
 
@@ -425,4 +391,5 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Terminology matches the platform UI exactly.
 - [ ] All internal links point to existing pages.
 - [ ] No assumptions or generalisations made without code evidence.
+- [ ] The page meets the Quality Standard — reread it and check.
 - [ ] Present changes for human review before committing.
