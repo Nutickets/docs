@@ -92,11 +92,13 @@ You must investigate **all** of the following:
 **Surface-level investigation is not sufficient.**
 
 - Don't stop at the first file you find — a feature may be implemented across multiple services, controllers, and components.
+- **Trace the full chain of operations.** A feature's logic is often distributed across multiple actions, services, or middleware. For example, eligibility validation might be split across a validation action and a separate guard action that runs later — stopping at the first file means you document half the rules. Follow the call chain: if Action A calls Action B, read both. If a controller delegates to a service that delegates to another service, read all three.
 - Search for the feature name, related terms, and entity names across the entire codebase.
 - Read the actual implementation, not just type definitions or interfaces.
 - Look for feature flags that may alter behaviour.
 - Check for role-based or permission-based variations.
 - Understand what happens in edge cases (empty states, limits, errors).
+- **Read exception classes.** Exception classes often enumerate every distinct way a feature can fail, each mapped to a lang key with the exact user-facing error message. These are a goldmine for documenting eligibility rules, validation errors, and blockers.
 
 <Note>
 **Never assume, guess, or extrapolate.** If you haven't seen it in the code, don't document it. Don't guess at field names — read the actual form components and lang files. Don't document what logically "should" exist — document what does exist. Don't fill gaps from memory of similar systems — this platform has its own implementation.
@@ -135,6 +137,14 @@ Reference exact button labels, field names, badges, statuses, and navigation pat
 - Bad: "Submit the form to proceed."
 - Good: "Click **Request Publishing Approval**. The event remains in **Draft** status with an **Awaiting approval** badge."
 
+**Use exact UI text to anchor scenario tables.**
+When documenting different outcomes (payment scenarios, error states, status changes), use the precise text users see in the product as the anchor. Don't describe a scenario abstractly — root it in the actual label or message the user is looking at.
+
+- Bad: "If the new total is lower, the user sees the remaining balance."
+- Good: "The basket shows **Remaining amount to spend before checkout** with the difference. Checkout is blocked until items are added to bring the total up."
+
+When a user encounters specific text in the product and comes to the docs, they should find an immediate match. This is especially important for tables that map scenarios to outcomes — the left column should contain what the user *sees*, not an abstract description of the situation.
+
 **Anticipate follow-up questions.**
 After explaining the main flow, consider what a user would ask next. Address edge cases, "what if" scenarios, and non-obvious behaviours using `<Note>` blocks so they don't clutter the main flow but are still covered.
 
@@ -142,6 +152,15 @@ Examples of good anticipation:
 - "What if it was rejected before?" → Explain that the button text changes
 - "What if I don't configure email notifications?" → Explain the workflow still functions
 - "Can I see past approvals?" → Include an approval history section
+
+**Document the full lifecycle, not just start and end.**
+Users spend most of their time in the middle of a workflow — editing, reviewing, waiting. Don't jump from "how to initiate" to "what happens when it completes." Document what the user sees and can do while the process is in progress: changed button labels, info banners, restricted actions, timeout behaviour. If a basket header changes from **Order summary** to **Modifying order**, that's worth documenting. If certain actions are temporarily blocked while a process is in flight, say so.
+
+**Confirmation moments deserve full coverage.**
+Any point where the system pauses to warn the user — confirmation modals, warning dialogs, acknowledgement checkboxes — is a critical documentation moment. These are the last thing a user sees before committing to an action. Document every warning shown in a confirmation modal, every condition that changes the warnings, and any checkbox the user must tick to proceed. A confirmation modal with 6 conditional warnings is not a minor UI detail — it's 6 pieces of information the user needs to understand.
+
+**Enumerate every distinct outcome — don't bundle.**
+If the codebase defines 15 different error messages or 5 different payment scenarios, document each one individually with its exact message text. Bundling ("various eligibility checks may prevent modification") forces users to guess which specific situation applies to them. Each distinct message, status, or error state the user can encounter earns its own row in a table.
 
 **Connect sections into a narrative.**
 The page should have a logical flow where each section follows naturally from the previous one. A reader going top-to-bottom should feel like they're following a journey, not reading disconnected index cards.
@@ -165,7 +184,7 @@ A documentation page is not a random collection of sections — it tells a story
 
 3. **How It Works / Workflow** — The mechanism or process. How the feature operates, what the steps are, what roles are involved. Tables, diagrams, or numbered steps as appropriate.
 
-4. **Configuration** — Settings, fields, and options. Explain what each setting controls and its effect — don't just list field names.
+4. **Configuration** — Settings, fields, and options. Explain what each setting controls and its effect — don't just list field names. For toggle settings, describe the behaviour in **both** states (enabled and disabled). Users configuring a setting need to understand the consequences of each choice, not just one side.
 
 5. **User Tasks** — Action-oriented sections named after what users actually do: "Requesting Approval", "Adding Members", "Configuring Notifications". These are the core of most pages.
 
@@ -376,6 +395,8 @@ to enable [workflow]. Configuration is managed through [location].
 
 - [ ] Identify the core entities — what models/tables are involved?
 - [ ] Trace backend services, controllers, and business logic.
+- [ ] Follow the full call chain — if an action delegates to another action or guard, read both.
+- [ ] Read exception classes — enumerate every distinct failure mode and its user-facing message.
 - [ ] Examine frontend components and pages — what fields exist, what's conditional?
 - [ ] Read the lang files — extract exact UI labels, tooltips, and help text.
 - [ ] Map relationships — what other features connect to this?
@@ -389,6 +410,10 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Are sections named as user tasks, not abstract data categories?
 - [ ] Does the page have narrative flow from top to bottom?
 - [ ] Are UI elements named concretely (buttons, statuses, navigation paths)?
+- [ ] Is the full lifecycle covered — not just initiation and completion, but the in-progress state?
+- [ ] Are confirmation dialogs, modals, and warning messages documented in full?
+- [ ] Are distinct error messages, blockers, and outcomes enumerated individually — not bundled?
+- [ ] Do toggle/setting descriptions explain both the enabled and disabled behaviour?
 - [ ] Are edge cases and follow-up questions addressed in Notes?
 - [ ] Does the page use the format best suited to each type of content?
 - [ ] Are all statements verified against the codebase?
