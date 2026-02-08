@@ -142,6 +142,14 @@
                 ]
               },
               {
+                "group": "Account Balances",
+                "pages": [
+                  "core-platform/account-balances/top-ups",
+                  "core-platform/account-balances/cash-outs",
+                  "core-platform/account-balances/self-service-refunds"
+                ]
+              },
+              {
                 "group": "Refund Protection",
                 "pages": [
                   "core-platform/refund-protection/protect-group",
@@ -242,14 +250,6 @@
                   "core-platform/customer-management/editing-customers",
                   "core-platform/customer-management/merging-customers",
                   "core-platform/customer-management/customer-groups"
-                ]
-              },
-              {
-                "group": "Account Balances",
-                "pages": [
-                  "core-platform/account-balances/top-ups",
-                  "core-platform/account-balances/cash-outs",
-                  "core-platform/account-balances/self-service-refunds"
                 ]
               },
               {
