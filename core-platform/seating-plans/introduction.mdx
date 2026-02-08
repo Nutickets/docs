@@ -1,14 +1,109 @@
 ---
-title: "Introduction"
-description: "Documentation for Introduction"
+title: 'Introduction'
+description: 'Create, manage, and maintain reusable seating plans for your venues.'
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Introduction** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Seating plans define your reusable venue layout: seats, rows, tables, general admission areas, labels, and plan-level settings.
+
+Each seating plan belongs to a single venue, and a venue can have multiple seating plans.
+
+This section covers the **authoring side** of seating:
+
+- Creating plans
+- Choosing a plan type
+- Building layouts in the editor
+- Managing revisions
+- Managing holds
+
+Operational workflows such as attaching plans to events, syncing event data, and managing event-level availability are covered in [Seated Events](/core-platform/event-management/seated-events).
+
+## How Seating Plans Fit Into The Workflow
+
+1. Create a seating plan from **Seating plans**.
+2. Choose a plan type (small/medium or large), or import an existing plan file.
+3. Build and save the layout in the editor.
+4. Complete the plan by setting a **Name** and **Venue**.
+5. Attach and sync the plan to one or more events from the event workflow.
+
+<Note>
+  Plans must be complete before they can be attached to events. Incomplete plans
+  can be saved as drafts and continued later.
+</Note>
+
+## Access And Requirements
+
+| Requirement               | Details                                                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Seating plans feature** | Your company must have seating plans enabled.                                                       |
+| **Permissions**           | You need the relevant seating plan permissions to view/create/edit plans.                           |
+| **Venue access**          | Plan completion requires a venue, and venue selection is constrained to venues you can access.      |
+| **Large plans**           | Large plan creation is only available when your company has the large-plan seating context enabled. |
+
+## Plan Types
+
+When you create a new seating plan, you choose a type:
+
+- **Small / medium plan**
+- **Large plan** (if enabled for your company)
+
+The type controls how the editor behaves and how the layout is structured.
+
+### Type Comparison
+
+| Type               | Best for                                            | Structure                              | Capacity guidance              | Availability                             |
+| ------------------ | --------------------------------------------------- | -------------------------------------- | ------------------------------ | ---------------------------------------- |
+| **Small / medium** | Theatres, cinemas, comedy clubs, and similar venues | Single canvas                          | Up to **1,000 seats** per plan | Available when seating plans are enabled |
+| **Large**          | Stadiums and large multi-zone venues                | Main plan with separate editable areas | Up to **1,000 seats per area** | Requires the large-plan seating context  |
+
+<Note>
+  The editor shows live seat counters and enforces seat/space limits while you
+  build.
+</Note>
+
+### Choosing A Type
+
+From **Create seating plan**, you can:
+
+- Start a new small/medium plan
+- Start a new large plan (if available)
+- Import an existing plan file
+- Continue an incomplete draft
+
+For imports:
+
+- Small plan import supports `.nuspx`
+- Large plan import supports `.nuspx` and `.nuspb` (when large plans are enabled)
+
+### Important Behaviours
+
+#### Type Is Fixed After Creation
+
+Once a plan exists, its type is preserved on future saves. If you need a different type, create a new plan.
+
+#### Large Plans Use Area Editing
+
+Large plans are designed around areas:
+
+- Build the high-level area map in the main view
+- Enter an area to edit its detailed seat content
+- Save area changes back to the main plan
+
+#### Feature Gating
+
+If a large plan file is imported into a company without large-plan access, the import is blocked and users are prompted to use supported plan types.
+
+## What You’ll See In The Seating Plans Area
+
+- A primary list of complete plans.
+- A separate flow for continuing recent incomplete drafts.
+- A holds tab (when holds are enabled and you have access), used to manage reusable hold groups.
+
+## Related
+
+- [Editor](/core-platform/seating-plans/editor)
+- [Revisions](/core-platform/seating-plans/revisions)
+- [Holds](/core-platform/seating-plans/holds)
+- [Seated Events](/core-platform/event-management/seated-events)
+- [Venues](/core-platform/event-management/venues)

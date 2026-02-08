@@ -1,14 +1,64 @@
 ---
 title: "Holds"
-description: "Documentation for Holds"
+description: "Create and manage seating plan holds to control who can sell restricted spaces."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Holds** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Holds are reusable access groups for seating restrictions.
+
+You can apply holds to seats (and optionally general admission spaces, depending on feature context) so only permitted users can sell those spaces in operational tools such as box office flows.
+
+## Access And Feature Requirements
+
+| Requirement | Details |
+|---|---|
+| **Seating plan holds feature** | Holds management is available only when this feature is enabled for the company. |
+| **Permissions** | You need hold permissions to view/create/edit holds. |
+| **Seating plans prerequisite** | Holds are an extension of seating plans and depend on seating-plan availability. |
+
+An additional permission, **Sell from any seating plan hold**, controls broader hold-based selling access.
+
+## Creating A Hold
+
+From **Seating plans → Holds**:
+
+1. Click **Add new hold**.
+2. Enter a **Name**.
+3. Set a **Colour**.
+4. Assign **Hold users** (admin users for the current company).
+5. Submit.
+
+Validation includes unique hold naming and user validity checks.
+
+## Hold Contexts
+
+Holds support two feature contexts:
+
+| Context | Behaviour |
+|---|---|
+| **Seats only** | Holds can restrict seat-based spaces. |
+| **Seats + general admissions** | Holds can also be applied to general admission spaces (with hold-level stock controls at event level). |
+
+## Managing Existing Holds
+
+The holds index shows operational metadata for each hold:
+- Number of associated users
+- Number of events using the hold
+- Number of seating plans where the hold is applied
+
+You can:
+- Edit hold details
+- Soft delete and restore holds
+- Filter seating plans by hold usage from the seating plans list
+
+## Relationship To Event Operations
+
+This page covers hold setup and administration.
+
+Applying holds to event spaces (status changes, GA hold stock, and event-level restrictions) is covered in [Seated Events](/core-platform/event-management/seated-events).
+
+## Related
+
+- [Introduction](/core-platform/seating-plans/introduction)
+- [Seated Events](/core-platform/event-management/seated-events)

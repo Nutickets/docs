@@ -1,14 +1,55 @@
 ---
 title: "Revisions"
-description: "Documentation for Revisions"
+description: "Understand how seating plan revisions are created and how they are applied to events."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Revisions** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Revisions track structural changes made to seating plans after those plans are already in use by events.
+
+They let event teams apply plan updates intentionally, instead of automatically overwriting event-level data every time the source plan changes.
+
+## When Revisions Are Created
+
+A revision is created only when all of the following are true:
+
+| Condition | Behaviour |
+|---|---|
+| **Plan has attached events** | Revisions are only generated once the plan is in event use. |
+| **A save includes a change delta** | No delta, no revision record. |
+| **Change is saved at plan or area level** | Both whole-plan saves and large-plan area saves can produce revisions. |
+
+If a plan has never been attached to events, saves update the plan directly without creating revision history for event sync.
+
+## What A Revision Represents
+
+Revisions capture schema changes such as:
+- New or removed spaces/seats
+- Structural edits to layout objects
+- Plan/area schema updates that need to be reflected in synced event copies
+
+Revisions do **not** automatically mutate event data until a sync action is run from the event context.
+
+## Applying Revisions To Events
+
+Applying revisions is an event-level action from **Plan settings**.
+
+- **Apply revisions** imports pending plan changes since the last completed sync.
+- **Factory reset** rebuilds event seating from source plan state and overrides event-specific customisations.
+
+Event-level details are documented in [Seated Events](/core-platform/event-management/seated-events).
+
+<Warning>
+Factory reset is a high-impact operation and is generally intended for setup phases, not mid-sale operational windows.
+</Warning>
+
+## Best Practices
+
+1. Finalise major structural edits before attaching plans to production events where possible.
+2. Use **Apply revisions** for ongoing incremental updates.
+3. Reserve **Factory reset** for scenarios where full event seating regeneration is explicitly required.
+
+## Related
+
+- [Editor](/core-platform/seating-plans/editor)
+- [Seated Events](/core-platform/event-management/seated-events)

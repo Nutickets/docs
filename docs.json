@@ -93,7 +93,6 @@
             "group": "Seating Plans",
             "pages": [
               "core-platform/seating-plans/introduction",
-              "core-platform/seating-plans/plan-types",
               "core-platform/seating-plans/editor",
               "core-platform/seating-plans/revisions",
               "core-platform/seating-plans/holds"

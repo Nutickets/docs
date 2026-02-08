@@ -1,14 +1,500 @@
 ---
-title: "Editor"
-description: "Documentation for Editor"
+title: 'Editor'
+description: 'Deep reference for all seating plan editor tooling, including drawing, labels, scoring, and object configuration.'
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Editor** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The seating plan editor is the authoring workspace for building and maintaining reusable plan schemas.
+
+This page focuses on creation and design tooling:
+
+- Drawing areas, blocks, rows, tables, and general admission areas
+- Configuring labels, metadata, and visual behavior
+- Managing object-level properties and plan-level settings
+- Running plan checks before save/export
+
+Operational event workflows (assigning plans to events, event availability, event pricing allocation, holds at event level) are documented in [Seated Events](/core-platform/event-management/seated-events).
+
+## Editor Surface
+
+| Workspace area             | What it is for                                                                                      |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Top menu**               | Plan-level actions, edit commands, view controls, seat tools, and label tooling                     |
+| **Object menu (left)**     | Add/draw new plan objects (areas, blocks, tables, GA, text, shapes, icons)                          |
+| **Canvas**                 | Draw, select, move, resize, reorder, and visually inspect the layout                                |
+| **Settings panel (right)** | Configure selected objects and plan metadata (price bands, gates, stairs, stands, tags)             |
+| **Plan information modal** | Stats, duplicate label checks, preview generation, rendering version, area-wide maintenance actions |
+
+## Top Menu Tools
+
+### Plan
+
+| Tool                        | What it does                                  | Why/when to use it                                                 |
+| --------------------------- | --------------------------------------------- | ------------------------------------------------------------------ |
+| **Change plan settings**    | Opens the plan settings modal                 | Finalizing plan metadata (name, venue, completion)                 |
+| **Plan information**        | Opens detailed plan stats and checks          | Validation and pre-save QA (counts, duplicates, preview)           |
+| **Export**                  | Exports the current plan                      | Sharing, backup, or moving plan data between environments          |
+| **Editor performance mode** | Simplifies block rendering detail until hover | Improves editor responsiveness in dense layouts                    |
+| **Background settings**     | Opens background color/image options          | Aligning geometry to a venue map and improving editing readability |
+
+### Edit
+
+| Tool                                        | What it does                            | Why/when to use it                                               |
+| ------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------- |
+| **Duplicate** (`Ctrl/Cmd + C`)              | Duplicates current selection            | Fast repetition of similar layout structures                     |
+| **& flip vertically / & flip horizontally** | Mirrors selected object                 | Symmetry workflows (especially polygonal shapes, blocks, tables) |
+| **Delete** (Backspace)                      | Removes selected object                 | Removing obsolete layout elements                                |
+| **Send to back / Send to front**            | Changes z-order layer position          | Managing overlapping objects and labels                          |
+| **Select all** (`Ctrl/Cmd + A`)             | Selects all editable objects in context | Bulk move/reconfigure workflows                                  |
+| **Draw selection**                          | Starts polygon selection drawing        | Precision multi-select across irregular seat geometry            |
+| **Cancel drawing** (`Esc`)                  | Cancels active draw/selection overlay   | Exiting drawing mode quickly                                     |
+| **Select seats / Select objects**           | Changes draw-selection targeting mode   | Switch between fine seat-level edits and whole-object operations |
+
+### View
+
+| Tool                                               | What it does                                | Why/when to use it                                                 |
+| -------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------ |
+| **Enter/Exit full screen** (`F11` or `Ctrl+Cmd+F`) | Toggles editor full-screen mode             | More canvas space for dense plans                                  |
+| **Default size** (`Ctrl/Cmd + 0`)                  | Resets zoom                                 | Recovering from extreme zoom states                                |
+| **Zoom in / Zoom out** (`Ctrl/Cmd + +/-`)          | Changes zoom level                          | Precise editing or high-level review                               |
+| **Enable zooming help for customers**              | Enables zoom-assist overlay behavior        | Shop usability, especially when seats are very small at entry zoom |
+| **Enable sticky grid**                             | Snaps moved objects to nearest grid line    | Cleaner spacing and alignment consistency                          |
+| **Show alignment guides**                          | Shows alignment guides while moving objects | Faster visual alignment across blocks/labels/shapes                |
+
+### Seats
+
+| Tool                        | What it does                                            | Why/when to use it                                      |
+| --------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| **Hide selected seats**     | Marks selected seats as hidden                          | Temporarily or permanently removing saleable visibility |
+| **Unhide selected seats**   | Reverses hidden state for selection                     | Re-enabling seats in a section                          |
+| **Show deleted seats**      | Switches to deleted-seat selection mode                 | Reviewing and restoring previously deleted seats        |
+| **Delete selected seats**   | Marks selected seats as deleted                         | Structural seat removals                                |
+| **Restore selected seats**  | Restores deleted seats (in delete mode)                 | Undoing seat removals                                   |
+| **Set best seats**          | Adds focal point object (feature-gated)                 | Enabling best-available seat scoring                    |
+| **Show heatmap**            | Toggles score heatmap rendering                         | Visual QA for best-available distribution               |
+| **View from seat settings** | Opens 3D Digital Venue mapping modal (feature-gated)    | Linking seats/areas to third-party view IDs             |
+| **Grid spacing**            | Adjusts editing grid step (`gridStep` / `areaGridStep`) | Controlling drawing/snap granularity                    |
+
+<Note>
+  The top-right seat counter displays `current / max seats` for the active
+  scope. The editor enforces hard seat/space limits and will disable creation
+  tools when the limit is reached.
+</Note>
+
+<Note>
+  Some teams call removed seats **kills**. In editor terms, this usually maps to
+  structural seat removal (**Delete selected seats** / **Restore selected
+  seats**). Event-level sale controls are documented in [Seated
+  Events](/core-platform/event-management/seated-events).
+</Note>
+
+### Hidden Vs Delete Seats
+
+Use these two tools for different outcomes:
+
+| Option     | Use it when                                                                   | Key behavior                                                                      |
+| ---------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Hidden** | You want seats out of sale/customer view but may need them back later         | Seats stay in the plan structure and keep their labels; unhide is available later |
+| **Delete** | You are making structural plan changes and want seats removed from the schema | Seats are marked as deleted, labels are removed, and restore requires delete mode |
+
+### Deletion Limits And Guardrails
+
+- **Attached-event limitation:** once a plan has already been synced to events, existing synced seats cannot be deleted in the editor. Use **Hidden** instead for operational removals.
+- **Capacity limitation:** you cannot **unhide** or **restore** seats when the plan is already at its hard seat limit.
+- **Mutual exclusivity:** setting seats to hidden clears deleted state, and deleting seats clears hidden state.
+- **Restore workflow:** use **Show deleted seats** to select deleted seats before running **Restore selected seats**.
+
+If your goal is event-level availability management (rather than changing plan structure), use event seat statuses in [Seated Events](/core-platform/event-management/seated-events).
+
+### Labels
+
+| Tool                                      | What it does                                 | Why/when to use it                                     |
+| ----------------------------------------- | -------------------------------------------- | ------------------------------------------------------ |
+| **Show table/row names in the shop plan** | Toggles parent labels in rendered plan       | Customer-facing wayfinding clarity                     |
+| **Show block/row labels in editor**       | Toggles object labels in editor only         | Reducing visual noise during layout work               |
+| **Show seat labels in editor**            | Toggles seat labels in editor only           | Faster seat-level troubleshooting                      |
+| **Advanced options**                      | Opens full label/tooltip configuration modal | Controlling auto-labeling behavior and tooltip payload |
+| **Font family**                           | Sets editor/label font family                | Readability and brand consistency                      |
+
+#### Label Advanced Options (modal)
+
+| Group                          | Tools                                                                                         |
+| ------------------------------ | --------------------------------------------------------------------------------------------- |
+| **Tooltip settings**           | Toggle tooltip fields: price band, price, table, block, row, comment, stand, stair, gate, tag |
+| **Area settings**              | Toggle area details (for example, show price in shop)                                         |
+| **Area labeling**              | Area prefix, definition source, label type                                                    |
+| **Block labeling**             | Block prefix, definition source, label type (including hidden)                                |
+| **Table labeling**             | Table prefix, label type                                                                      |
+| **General admission labeling** | GA prefix, definition source, label type                                                      |
+| **Excluded labels**            | Manage labels/numbers skipped by auto-generation                                              |
+| **Recalculate labels**         | Rebuild labels when area label settings changed                                               |
+
+### Background Settings (modal)
+
+| Tool                         | What it does                                |
+| ---------------------------- | ------------------------------------------- |
+| **Background colour**        | Transparent or custom color                 |
+| **Color picker + hex input** | Fine color control                          |
+| **Background image upload**  | Imports a venue image for drawing reference |
+| **Adjust background image**  | Opens image positioning/adjustment flow     |
+
+Supported upload types: `jpeg`, `jpg`, `png`, `webp`.
+
+## Canvas Tools
+
+### Selection Strip
+
+The canvas includes a quick selection strip for:
+
+- Default select tool
+- Rectangle selection
+- Lasso (polygon) selection
+- Clear current selection
+
+### Guide Tools
+
+The canvas edge controls can add:
+
+- **Horizontal guide**
+- **Vertical guide**
+
+Guides are editing aids and are not part of customer-facing output.
+
+### Zoom HUD
+
+Canvas zoom HUD supports:
+
+- Inline `+`, `-`, and reset controls
+- Relative zoom percentage display
+- Optional full-size rendering toggle
+
+## Plan Information Modal (Plan stats)
+
+**Plan information** is a maintenance/QA workspace, not only a stats readout.
+
+It provides:
+
+- Scope switch between whole plan and individual area stats (large plans)
+- Plan preview generation/regeneration image
+- Duplicate seat label detection with direct seat-jump actions
+- Object and capacity counts (areas, blocks, rows, tables, seats, GA, accessible)
+- Price band / gate / stair / stand / tag usage breakdowns
+- Restore actions when referenced metadata items are missing
+- Rendering version selector (with version help text)
+
+Footer actions:
+
+- **Save all areas**
+- **Recalculate labels**
+
+## Left Object Menu (Creation Tools)
+
+### Area Tools
+
+| Tool                     | What it does                         |
+| ------------------------ | ------------------------------------ |
+| **Add rectangular area** | Inserts a rectangular area container |
+| **Draw area**            | Draws polygonal area boundaries      |
+
+Large-plan workflows use areas as authoring units.
+
+### Block/Row Tools
+
+| Tool           | What it does                                              |
+| -------------- | --------------------------------------------------------- |
+| **Draw seats** | Draws a seat block polygon                                |
+| **Draw row**   | Draws a row shape                                         |
+| **Add block**  | Opens modal to add a rectangular block by row/seat counts |
+| **Add row**    | Opens modal to add a single row by seat count             |
+
+### Table Tools
+
+| Tool           | What it does                                   |
+| -------------- | ---------------------------------------------- |
+| **Add tables** | Opens table wizard (simple and advanced modes) |
+
+### General Admission Tools
+
+| Tool                    | What it does                               |
+| ----------------------- | ------------------------------------------ |
+| **Add GA**              | Opens GA modal                             |
+| **Add circular area**   | Creates circular GA block with capacity    |
+| **Add rectangular GA**  | Creates rectangular GA block with capacity |
+| **Draw polygonal area** | Creates polygonal GA block with capacity   |
+
+### Text, Shapes, and Symbols
+
+| Tool                           | What it does                                           |
+| ------------------------------ | ------------------------------------------------------ |
+| **Add text**                   | Adds text object                                       |
+| **Add circle / Add rectangle** | Adds shape objects                                     |
+| **Draw line / Draw polygon**   | Adds drawable figure objects                           |
+| **Add icon**                   | Opens symbol library modal and inserts selected symbol |
+
+### Background Shortcut
+
+**Background settings** is available from the object menu as a direct shortcut to the background modal.
+
+### Menu Orientation
+
+Object menu can switch between:
+
+- Vertical dock
+- Horizontal dock
+
+### Guardrails
+
+- Seat/space creation actions are disabled when the max space limit is reached.
+- Add block/row/table controls auto-clamp input to hard seat limits.
+
+## Add Tables Wizard
+
+The table wizard has two modes.
+
+### Simple Mode
+
+| Setting               | What it controls               |
+| --------------------- | ------------------------------ |
+| **Seats per table**   | Seat count on each table       |
+| **No. of tables**     | Number of tables to generate   |
+| **Advanced settings** | Switches to advanced grid mode |
+
+Simple mode actions:
+
+- **Add circular table(s)**
+- **Add rectangular table(s)**
+
+### Advanced Mode
+
+| Group                | Settings                                               |
+| -------------------- | ------------------------------------------------------ |
+| **Grid geometry**    | Column count, row count, seats per table               |
+| **Totals**           | Total tables and total seats vs remaining soft limit   |
+| **Table structure**  | Table shape, seat disposition (for rectangular tables) |
+| **Booking behavior** | Disallow individual seat booking                       |
+| **Label options**    | Seat label type, order, offset                         |
+| **Display options**  | Grid gap, angle                                        |
+
+Advanced mode action:
+
+- **Add table grid** (or **Add table** if single table)
+
+<Note>
+  When best-available seats is enabled, the wizard warns that tables requiring
+  whole-table booking are excluded from best-seat suggestions.
+</Note>
+
+## Icon Library
+
+**Add icon** opens categorized symbol sets:
+
+- Generic
+- Occasions
+- Food & drink
+- Sports
+
+Selecting an icon inserts it directly on the canvas.
+
+## Right Settings Panel
+
+### Main Tabs (seating mode)
+
+| Tab             | Purpose                                                      |
+| --------------- | ------------------------------------------------------------ |
+| **Properties**  | Object-level configuration for current selection             |
+| **Price bands** | Define and manage price band visuals and assignment behavior |
+| **Gates**       | Manage gate taxonomy and apply to selected seats/GA          |
+| **Stairs**      | Manage stair taxonomy and apply to selected seats/GA         |
+| **Stands**      | Manage stand taxonomy and assignment                         |
+| **Tags**        | Manage tags and assignment behavior                          |
+
+### Large-Plan Area Header Controls
+
+When working with areas, the header exposes:
+
+- **Save & back**
+- **Edit boundaries**
+- **Center area**
+- Area context indicator (main area vs active area)
+
+Area state warnings appear when:
+
+- Label settings changed and area labels need recalculation
+- Focal point scoring changed and area scores need recalculation
+
+### Layer List
+
+When no single object is selected, the panel shows a draggable layer list for:
+
+- Reordering objects
+- Selecting objects directly from layer entries
+- Seeing area/type badges per layer
+
+### Taxonomy Management Tools
+
+#### Price Bands
+
+- Add new price band
+- Edit label, color, and marker shape
+- Apply selected price band to selected seats/GA
+- Toggle shop display behavior:
+  - Show price band colors/shapes
+  - Show unavailable items in filters
+  - Show unavailable legend
+
+#### Gates, Stairs, Stands, Tags
+
+Common management pattern:
+
+- Add new item
+- Rename item term (for example, custom gate/stair naming)
+- Edit item metadata
+- Apply to selection / remove from selection
+
+Tags include extra metadata:
+
+- Color
+- Description
+- Used as filter
+- Used as tooltip
+- Show as ticket info
+
+## Object Property Tooling
+
+The **Properties** tab is object-type aware.
+
+### Allocated Block
+
+| Group             | Available tooling                                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Structure**     | Row count, seat/column count, block shape, seat layout, row alignment, row label position                    |
+| **Labels**        | Row/seat label type, order, start offset, post offset                                                        |
+| **Display**       | Angle, automatic radius sizing, radius margin, curve, row spacing, skew, seat spacing, inner radius, opacity |
+| **Row overrides** | Per-row label and seat-count overrides, reset-to-default, add/delete row                                     |
+
+### Table
+
+| Group         | Available tooling                                                     |
+| ------------- | --------------------------------------------------------------------- |
+| **Structure** | Seat count, table shape, seat disposition, whole-table booking toggle |
+| **Labels**    | Seat label type, order, offset, post offset                           |
+| **Display**   | Automatic size, radius/length/height, angle                           |
+
+### General Admission Block
+
+| Group             | Available tooling                                        |
+| ----------------- | -------------------------------------------------------- |
+| **Structure**     | Custom label, capacity                                   |
+| **Label display** | Label offsets, font size, hide label                     |
+| **Seat options**  | Bulk seat/GA settings via shared seat settings component |
+| **Display**       | Width/height/radius/angle (shape dependent)              |
+
+### Area
+
+| Group             | Available tooling                                                     |
+| ----------------- | --------------------------------------------------------------------- |
+| **Area actions**  | Save/enter/load area (depending on state), delete area (when allowed) |
+| **Warnings**      | Recalculate labels or scores when out of sync                         |
+| **Display**       | Stroke/fill colors, rectangle dimensions, angle                       |
+| **Label display** | Hide label, offsets, font size                                        |
+| **Seat options**  | Bulk seat/GA settings in area scope                                   |
+
+### Shape (Figure)
+
+| Group          | Available tooling                               |
+| -------------- | ----------------------------------------------- |
+| **Appearance** | Fill, opacity, stroke width/style/color         |
+| **Geometry**   | Radius (circle), width/height/angle (rectangle) |
+| **Linking**    | Add/remove URL link and link target             |
+
+### QR / Barcode Object
+
+| Group         | Available tooling                                  |
+| ------------- | -------------------------------------------------- |
+| **Code type** | QR code or barcode type                            |
+| **Geometry**  | Width, height, angle (with type-aware constraints) |
+
+### Text Object
+
+| Group             | Available tooling                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| **Content**       | Plain text, rich text (HTML), or ticket-data variable                               |
+| **Variable data** | Field picker and test preview values                                                |
+| **Typography**    | Font size, text color, style, decoration                                            |
+| **Text block**    | Automatic size, width/height, padding, shrink-to-fit, horizontal/vertical alignment |
+| **Box styling**   | Stroke width/style/color, background/fill color                                     |
+| **Linking**       | Add/remove URL link and link target                                                 |
+| **Display**       | Angle                                                                               |
+
+### Image Object
+
+| Group               | Available tooling                           |
+| ------------------- | ------------------------------------------- |
+| **Appearance**      | Scale, opacity, angle                       |
+| **Shop visibility** | Show image in ticket shop (size-limited)    |
+| **Asset update**    | Replace image via background image uploader |
+
+### Symbol Object
+
+| Group          | Available tooling     |
+| -------------- | --------------------- |
+| **Appearance** | Opacity, scale, angle |
+
+### Seat
+
+| Group                   | Available tooling                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| **Seat metadata**       | Custom label, comment, restricted flag, accessibility flag, accessibility icon mode |
+| **Assignments**         | Price band, gates, stairs, stand, tags                                              |
+| **Best-seat scoring**   | Score and score adjustment (when focal point exists)                                |
+| **Seat status actions** | Hide, unhide, delete, restore                                                       |
+
+### Row (single-row override)
+
+| Group                    | Available tooling                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| **Row metadata**         | Custom label, seat count override                                                    |
+| **Layout overrides**     | Row alignment, row label position, left/top offsets, radius offset (when applicable) |
+| **Seat label overrides** | Seat label type, order, offset, post offset                                          |
+
+### Focal Point
+
+| Group             | Available tooling                                       |
+| ----------------- | ------------------------------------------------------- |
+| **Scoring**       | Intensity slider                                        |
+| **Visualization** | Heatmap toggle                                          |
+| **Sync aid**      | Recalculate scores action when areas become out of sync |
+
+## View-From-Seat (3D) Tooling
+
+When **View from seat settings** is available:
+
+- Set 3D venue ID at plan level
+- Map seat-level view IDs
+- Paginate through seat mappings
+- Save mappings (and optionally **Save all areas** on large plans)
+
+## Tips And Shortcuts
+
+The settings panel exposes shortcut guidance for selected objects, including:
+
+- Rotate by small increments with modifier + left/right arrows
+- Rotate by larger increments with modifier + up/down arrows
+- Move objects with arrow keys
+- Increase move distance with `Shift`
+
+## Guardrails And Limits
+
+- Seat/space hard limits block further creation once reached.
+- Input controls for block/table/row creation clamp to allowed ranges.
+- Some operations are constrained when plans have events/sales attached.
+- Area deletion is restricted for saved areas when events are attached.
+- Image-in-shop toggles are disabled above file-size threshold.
+
+## Related
+
+- [Introduction](/core-platform/seating-plans/introduction)
+- [Revisions](/core-platform/seating-plans/revisions)
+- [Holds](/core-platform/seating-plans/holds)
+- [Seated Events](/core-platform/event-management/seated-events)

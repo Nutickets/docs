@@ -1,6 +1,6 @@
 ---
-title: "Seated Events"
-description: "Attach a seating plan to an event, sync event-level data, and configure seat selection, best available seats, and space management."
+title: 'Seated Events'
+description: 'Attach a seating plan to an event, sync event-level data, and configure seat selection, best available seats, and space management.'
 ---
 
 ## Overview
@@ -12,17 +12,19 @@ description: "Attach a seating plan to an event, sync event-level data, and conf
 - Because the sync creates event-specific copies of the plan data, you can manage seat statuses, holds, and price band assignments independently per event without affecting the source plan or other events using the same plan.
 
 <Note>
-Seating plans require the seating plans feature to be enabled for your company. You need event edit or edit-relationship permissions to attach, change, or configure event seating.
+  Seating plans require the seating plans feature to be enabled for your
+  company. You need event edit or edit-relationship permissions to attach,
+  change, or configure event seating.
 </Note>
 
 ## Attaching A Seating Plan
 
 ### Prerequisites
 
-| Requirement | Details |
-|---|---|
-| **Venue match** | Only seating plans belonging to the same venue as the event are available for selection. |
-| **Plan completeness** | The seating plan must be marked as complete before it can be attached. |
+| Requirement           | Details                                                                                        |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| **Venue match**       | Only seating plans belonging to the same venue as the event are available for selection.       |
+| **Plan completeness** | The seating plan must be marked as complete before it can be attached.                         |
 | **No existing sales** | If the event already has sales and no seating plan is attached, a plan can no longer be added. |
 
 ### Steps
@@ -49,43 +51,47 @@ Once a seating plan is synced, configure event-level behaviour from **Plan setti
 
 ### Customer Seat Selection
 
-| Setting | Behaviour |
-|---|---|
-| **Allow customer seat selection** | When enabled, customers can manually pick specific seats in the shop. When disabled, only best available seat allocation is used. |
-| **Focus shop view on available seats** | Zooms customers into saleable areas and crops unavailable areas when navigating the plan in the shop. |
-| **Display remaining general admission spaces in shop** | Shows the remaining quantity for general admission areas. |
+| Setting                                                | Behaviour                                                                                                                         |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Allow customer seat selection**                      | When enabled, customers can manually pick specific seats in the shop. When disabled, only best available seat allocation is used. |
+| **Focus shop view on available seats**                 | Zooms customers into saleable areas and crops unavailable areas when navigating the plan in the shop.                             |
+| **Display remaining general admission spaces in shop** | Shows the remaining quantity for general admission areas.                                                                         |
 
 ### Best Available Seats
 
 Best available seats suggests optimal seat allocation based on scoring and price band logic. The feature requires a focal point to be set on the seating plan.
 
 <Note>
-Best available seat controls only appear when the feature is enabled for the company. If no focal point exists on the plan, the option is unavailable. To enable it, edit the seating plan to add a focal point and then resync.
+  Best available seat controls only appear when the feature is enabled for the
+  company. If no focal point exists on the plan, the option is unavailable. To
+  enable it, edit the seating plan to add a focal point and then resync.
 </Note>
 
-| Setting | Behaviour |
-|---|---|
-| **Enable best available seats** | Activates best-seat suggestions. General admission spaces and seats for tables requiring full-table booking are excluded from suggestions. |
+| Setting                                 | Behaviour                                                                                                                                                                                  |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Enable best available seats**         | Activates best-seat suggestions. General admission spaces and seats for tables requiring full-table booking are excluded from suggestions.                                                 |
 | **Best available seats adjacency mode** | Controls how seats are grouped: **Any** (adjacent or otherwise), **Prefer adjacency** (prefer adjacent but permit non-adjacent), or **Only adjacent** (only adjacent seats are permitted). |
 
 ### Orphan Seat Protection
 
-| Setting | Behaviour |
-|---|---|
+| Setting                           | Behaviour                                                                                                                                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Enable orphan seat protection** | Reduces stranded single-seat gaps during both best available and manual seat selection. On manual selection, the system prevents leaving empty seats in the middle or on the sides of a selection sequence. |
 
 <Warning>
-Orphan seat protection cannot be enabled when the adjacency mode is set to **Any**. The **Any** mode naturally fills orphaned seats as capacity approaches 100%.
+  Orphan seat protection cannot be enabled when the adjacency mode is set to
+  **Any**. The **Any** mode naturally fills orphaned seats as capacity
+  approaches 100%.
 </Warning>
 
 ### Automatic Ticket Selection
 
 When multiple tickets are mapped to the same seat, automatic ticket selection picks one for the customer.
 
-| Setting | Behaviour |
-|---|---|
+| Setting                               | Behaviour                                                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **Enable automatic ticket selection** | Auto-selects a ticket when multiple tickets exist for a seat. Free tickets are excluded from automatic selection. |
-| **Automatic ticket selection mode** | **Lowest price** (selects the cheapest ticket) or **Highest price** (selects the most expensive ticket). |
+| **Automatic ticket selection mode**   | **Lowest price** (selects the cheapest ticket) or **Highest price** (selects the most expensive ticket).          |
 
 ### Assigning Tickets To Price Bands
 
@@ -110,6 +116,7 @@ After initial attachment, use **Resync plan** from plan settings to apply update
     <Warning>
     Factory reset is recommended during event setup only. If the event is already on sale, it will become unavailable for customers while being reset. Large plans with more than 10,000 seats may take over an hour to reset.
     </Warning>
+
   </Tab>
 </Tabs>
 
@@ -128,12 +135,23 @@ Once synced and configured, the event plan dashboard provides tools for managing
 
 Each space can be set to one of four statuses:
 
-| Status | Behaviour |
-|---|---|
-| **Available** | The seat can be purchased. |
-| **Unavailable** | The seat cannot be purchased. |
-| **Hidden** | The seat is hidden from the shop and box office and cannot be purchased. |
-| **Restricted** | The seat is restricted to specific [roles or holds](/core-platform/seating-plans/holds). |
+| Status          | Behaviour                                                                                |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Available**   | The seat can be purchased.                                                               |
+| **Unavailable** | The seat cannot be purchased.                                                            |
+| **Hidden**      | The seat is hidden from the shop and box office and cannot be purchased.                 |
+| **Restricted**  | The seat is restricted to specific [roles or holds](/core-platform/seating-plans/holds). |
+
+### Kills
+
+In ticketing operations, teams often use **kills** to mean spaces removed from sale.
+
+In this platform, that is handled through seat status changes:
+
+- Use **Hidden** when a space should be removed from sale and hidden from customer-facing views.
+- Use **Unavailable** when a space should be removed from sale but still shown as unavailable.
+
+If you need to remove spaces from the seating plan structure itself (rather than applying an event status), use the [Editor](/core-platform/seating-plans/editor#hidden-vs-delete-seats) tooling and then apply sync/revision updates to events.
 
 ### Other Dashboard Actions
 
@@ -145,7 +163,7 @@ Each space can be set to one of four statuses:
 ## Related
 
 - [Seating Plans Introduction](/core-platform/seating-plans/introduction)
-- [Plan Types](/core-platform/seating-plans/plan-types)
+- [Seating Plan Types](/core-platform/seating-plans/introduction#plan-types)
 - [Revisions](/core-platform/seating-plans/revisions)
 - [Holds](/core-platform/seating-plans/holds)
 - [Capacity Controls](/core-platform/event-management/capacity-controls)
