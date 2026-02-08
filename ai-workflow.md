@@ -113,6 +113,57 @@ Users are expected to understand domain terminology (e.g. "timeslots", "sale ite
 - **Best format for the content** — Choose the formatting that conveys information most clearly (see Formatting below).
 - **Interconnected** — Link to related pages where relevant to help users navigate.
 
+### Writing Quality Bar
+
+The following rules define the difference between acceptable documentation and good documentation. Follow them strictly.
+
+**Write for someone trying to do something, not someone studying a schema.**
+Every page should feel like a knowledgeable colleague walking you through a feature. The reader has a task — help them complete it. Don't describe the data model and call it documentation.
+
+**Open with context, not abstraction.**
+The overview should answer: what does this feature do, who is it for, and when/why would someone use it? Ground the reader before diving into configuration or detail.
+
+- Bad: "Customer records are managed from the admin customer area."
+- Good: "Event approvals add a review step to the event publishing workflow. Users who can create events but cannot publish them must request approval before their events can go live."
+
+The bad example describes a system. The good example describes an experience. Always write the good version.
+
+**Structure sections around user tasks, not data categories.**
+Section headings should be actions or questions a user has, not abstract labels.
+
+- Bad: "What You Can Update", "Operational Context"
+- Good: "Requesting Approval", "Finding Events Awaiting Approval", "Reviewing Approval Requests"
+
+Ask: "Would a user search for this heading?" If not, rewrite it.
+
+**Be concrete — name the actual UI elements.**
+Reference exact button labels, field names, badges, statuses, and navigation paths. The reader should be able to follow along in the product.
+
+- Bad: "Submit the form to proceed."
+- Good: "Click **Request Publishing Approval**. The event remains in **Draft** status with an **Awaiting approval** badge."
+
+**Anticipate follow-up questions.**
+After explaining the main flow, consider what a user would ask next. Address edge cases, "what if" scenarios, and non-obvious behaviours using `<Note>` blocks so they don't clutter the main flow but are still covered.
+
+Examples of good anticipation:
+- "What if it was rejected before?" → Explain that the button text changes
+- "What if I don't configure email notifications?" → Explain the workflow still functions
+- "Can I see past approvals?" → Include an approval history section
+
+**Connect sections into a narrative.**
+The page should have a logical flow where each section follows naturally from the previous one. A reader going top-to-bottom should feel like they're following a journey, not reading disconnected index cards.
+
+**Depth earns its place — thin pages are worse than no pages.**
+A 30-line page that lists field names without explaining how to use them is not helpful documentation. Every page should be substantive enough that a user learns something they couldn't have guessed. If you can't write substantive content, you haven't researched enough — go back to the codebase.
+
+**Match formatting to content purpose.**
+Don't use tables and bullets mechanically. Choose format based on what you're communicating:
+- Tables → comparing things (roles, statuses, permissions)
+- Numbered lists → sequential steps the user follows
+- Callouts → edge cases, warnings, non-obvious behaviour
+- Prose → explaining concepts, workflows, relationships
+- Bullets → independent facts, lists of options
+
 ### Formatting
 
 **Documentation is not limited to bullet points.** Use rich formatting to present information as clearly as possible. Choose the format best suited to the content:
@@ -159,6 +210,43 @@ Key observations:
 - Domain terms used without excessive explanation.
 
 Note: This example uses bullet points, but other formats (tables, prose, callouts, etc.) may be more appropriate depending on the content. Choose the format that best serves clarity.
+
+### Anti-Pattern Example
+
+The following is an example of **what not to write**. It is thin, clinical, and unhelpful:
+
+```markdown
+## Overview
+
+- Customer records are managed from the admin customer area.
+- Editing covers core identity/contact data and selected profile attributes.
+- Customer screens also expose related orders, transactions, wallets, and item history.
+
+## What You Can Update
+
+| Area | Examples |
+|---|---|
+| Profile identity | Name, email, phone, title, DOB |
+| Address details | Address lines, city, postcode, country |
+| Data capture answers | Configured customer question responses |
+
+## Operational Context
+
+Customer pages also provide visibility into:
+
+- purchased tickets/products/guest-list entries
+- donation and top-up history
+- wallet balances and refundable values
+```
+
+What's wrong with this:
+- **No user task orientation** — "What You Can Update" and "Operational Context" are abstract labels, not things a user is trying to do.
+- **No guidance on how** — Lists field names but never explains how to actually edit anything, where to navigate, or what buttons to click.
+- **No depth** — A table of field category names tells the user nothing they couldn't guess. What are the constraints? What happens after editing? Are there side effects?
+- **Circular descriptions** — "Integration-linked customer profile data where enabled" explains nothing.
+- **No anticipation** — Doesn't address any "what if" questions or edge cases.
+
+A page like this should be rewritten to walk the user through the actual editing experience: how to find a customer, what each section of the edit screen contains, what validation exists, what side effects editing can have, and how it connects to other features.
 
 ### Use Cases
 
