@@ -102,8 +102,7 @@
             "group": "Fees",
             "pages": [
               "core-platform/fees/default-system-fees",
-              "core-platform/fees/custom-fees",
-              "core-platform/fees/blended-fees",
+              "core-platform/fees/sale-item-fees",
               "core-platform/fees/fulfilment-fees"
             ]
           },
