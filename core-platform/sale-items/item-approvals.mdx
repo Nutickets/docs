@@ -1,14 +1,208 @@
 ---
 title: "Item Approvals"
-description: "Documentation for Item Approvals"
+description: "Require manual approval of purchased items before orders are confirmed or payment is taken."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Item Approvals** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Item approvals allow you to review and approve or reject individual items before an order is confirmed. This is useful when purchases need to be vetted — for example, guest list registrations, membership applications, or limited-availability items that require manual review.
+- When a customer purchases an item that requires approval, the order is held as a reservation with a status of **Awaiting approval** until an admin reviews it.
+- Approvals operate at the **individual item level** — within a single order, each item can be independently approved or rejected.
+- Item approvals are controlled by a company-level feature flag and configured per sale item.
+
+## Use Cases
+
+<Accordion title="Guest list vetting">
+  A venue runs guest list events where attendees must be reviewed before entry is confirmed.
+  By enabling approval on guest list items, each registration is held until an admin approves
+  the attendee. Guest list items have a special behaviour: approved guests receive their
+  tickets immediately without needing to complete a separate payment step.
+</Accordion>
+
+<Accordion title="Membership or application-based tickets">
+  An organisation sells tickets that are only available to qualifying applicants. By marking
+  the ticket as requiring approval, each purchase is held for review. Once approved, the
+  customer receives a payment link to complete their purchase.
+</Accordion>
+
+<Accordion title="Controlled allocation of limited items">
+  A festival has a limited number of VIP upgrades that need to be reviewed before confirming
+  allocations. Marking the item as requiring approval lets the team review each request,
+  approve or reject with a reason, and only then trigger payment collection.
+</Accordion>
+
+## Enabling Item Approvals
+
+Item approvals require a company-level feature flag to be enabled:
+
+1. Navigate to company feature flags.
+2. Enable **Allow item approval before payment**.
+
+<Note>
+With this feature enabled, companies can mark non-guest list items as requiring approval. Customers will be unable to pay for or complete their order until it has been approved.
+</Note>
+
+Once enabled, a **Does this require approval?** toggle appears on the item configuration form for supported [item types](#supported-item-types).
+
+### Guest List Exception
+
+[Guest list](/core-platform/sale-items/core-concepts#item-types) items can always be configured to require approval, regardless of whether the feature flag is enabled. This is because guest list approval is a core part of the guest list workflow.
+
+## Configuring a Sale Item
+
+To mark a sale item as requiring approval:
+
+1. Open the sale item (or inventory item) configuration form.
+2. Enable the **Does this require approval?** toggle.
+
+The help text shown depends on the approval mode:
+- **Standard mode**: "You will be required to approve each purchase."
+- **Reservation mode** (approval before payment): "You will be required to approve each reservation, before customers can make payment."
+
+### Supported Item Types
+
+| Item Type | Approval Support |
+|-----------|-----------------|
+| **Ticket** | Requires feature flag |
+| **Product** | Requires feature flag |
+| **Season Ticket** | Requires feature flag |
+| **Gift Voucher** | Requires feature flag |
+| **Guest List** | Always available |
+| **Donation** | Not supported |
+| **Bundle** | Not supported |
+| **Fee / Fulfilment Fee** | Not supported |
+
+### Mixed Basket Restriction
+
+<Warning>
+Mixed approval baskets are not permitted. A customer cannot add items that require approval alongside items that do not require approval in the same order. Fees, fulfilment fees, and charity donations are exempt from this restriction and can be included in any basket.
+</Warning>
+
+### Bundle Restriction
+
+- Sale items with mixed approval requirements cannot be [bundled](/core-platform/sale-items/bundles) together.
+- Items that are part of a bundle cannot have their approval requirements changed independently.
+
+## Approval Workflow
+
+When a customer purchases items that require approval, the order follows this workflow:
+
+```
+1. Customer completes checkout
+   └── Order status: Awaiting approval
+   └── Stock is reserved
+
+2. Admin reviews the order
+   └── Each item can be individually approved or rejected
+
+3a. All items approved                     3b. Some or all items rejected
+    ├── If no payment required:                └── Order status: Rejected
+    │   └── Order completes automatically      └── Rejected items are restocked
+    │   └── Customer is notified               └── Customer receives rejection email
+    └── If payment required:
+        └── Payment link sent to customer
+        └── Customer pays to complete order
+```
+
+### How Payment Works
+
+When the feature flag is enabled, items requiring approval use **deferred payment** — the customer does not pay at checkout. Instead:
+
+1. The order is placed without payment and enters **Awaiting approval** status.
+2. Once approved, if the approved items have a cost, a **payment link** is sent to the customer via email (and optionally SMS).
+3. The customer completes payment through the link to finalise their order.
+
+If all approved items are free (zero total), the order completes automatically without requiring payment.
+
+### Guest List Behaviour
+
+Guest list items that require approval have a distinct behaviour: they do not block order completion. When a guest list item is in an otherwise completed order, the guest list item can be individually approved or rejected after the order is already complete. This allows the rest of the order to proceed while guest list entries are reviewed separately.
+
+## Reviewing Orders
+
+### Finding Orders Awaiting Approval
+
+Orders pending approval can be found in the **Reservations** section of the admin panel:
+
+- Filter by the **Awaiting approval** status to see all orders pending review.
+- Sale items that require approval display an **active reservations count**, and offer a quick link to **Bulk review approval** that filters the reservations list to show only orders for that specific event.
+
+### Approving or Rejecting an Order
+
+From the reservation detail page, click **Approve order** to open the approval modal:
+
+1. Each item in the order is listed, grouped by event.
+2. For each item, select **Approve** or **Reject**.
+3. If rejecting an item, provide a **rejection note** (supports rich text).
+4. Optionally add **additional information** that will be included in the customer notification.
+5. Optionally enable **SMS notification** (if SMS is configured and the customer has a phone number).
+6. Click **Confirm** to process.
+
+To reject all items in an order, click **Reject order** from the dropdown menu. This rejects every item and sets the order status to **Rejected**.
+
+### Bulk Review
+
+Multiple orders can be reviewed at once from the reservations list:
+
+1. Select the orders you want to review.
+2. Click **Approve / reject orders** to open the bulk review modal.
+3. Two modes are available:
+   - **Review all** — Apply the same approve/reject decision to all items across all selected orders.
+   - **Review individually** — Step through each order, reviewing items one by one with per-item approve/reject controls.
+4. Each item can have an individual rejection note, and each order can have additional information.
+5. Data capture answers (both event-level and item-level) are displayed alongside each item to aid the review.
+6. A summary shows the total number of approved and rejected items before confirmation.
+
+## Item Statuses
+
+Order items that require approval have their own status lifecycle:
+
+| Status | Meaning |
+|--------|---------|
+| **Requires approval** | Item has been purchased but not yet reviewed |
+| **Approved** | Item has been approved by an admin |
+| **Rejected** | Item has been rejected by an admin |
+
+These statuses are visible on order item details throughout the admin panel. On the customer-facing side:
+- Items pending approval show a **Requires approval** label and cannot be downloaded or accessed.
+- Rejected items show a **Rejected** label.
+- Approved items in a completed order behave as normal purchased items.
+
+## Customer Experience
+
+### At Checkout
+
+When a customer purchases items requiring approval, the confirmation page displays:
+
+- **"Thank you for your reservation"** as the heading (instead of "Thank you for your order").
+- A message explaining the order requires approval: *"Your reservation requires approval before it is confirmed. We will be in touch once this has taken place."*
+- If the order requires payment after approval: *"Your reservation requires approval before you can make payment. Once approved, you will be sent details of how to make payment."*
+
+### After Review
+
+- **If approved with payment required**: The customer receives an email and optional SMS containing a payment link.
+- **If approved with no payment required**: The order completes automatically and the customer receives a confirmation.
+- **If rejected**: The customer receives a rejection email. Rejected items are restocked.
+
+### In My Account
+
+In the customer's account area:
+- Items pending approval cannot be downloaded or shared.
+- Rejected items display a **Rejected** status and cannot be downloaded.
+- Approved items (in completed orders) are available for download and other actions as normal.
+
+## Approving Individual Items on Completed Orders
+
+For items that require approval within an already-completed order (such as guest list items), individual items can be approved from the order item detail view. Approving an individual item sends an approval notification email to the customer.
+
+For programmatic access, the API provides an endpoint to approve or reject order items — see the **Approve/reject order items** endpoint in the [API Reference](/api-reference/introduction).
+
+## Notifications
+
+| Event | Recipient | Channel |
+|-------|-----------|---------|
+| Order placed (awaiting approval) | Customer | Email |
+| Items approved (payment required) | Customer | Email + SMS (optional) |
+| Items approved (no payment required) | Customer | Email + SMS (optional) |
+| Order rejected | Customer | Email + SMS (optional) |
+| Individual item approved | Customer | Email |

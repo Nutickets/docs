@@ -5,34 +5,64 @@ description: "Create and manage event zones for scanning, attendance control, an
 
 ## Overview
 
-- A zone is an access boundary inside an event.
-- Zones can be configured per event with independent scanning and entry rules.
-- The zone list includes attendance stats, historical peaks, and zone-level reports.
+- Zones represent distinct areas within your event where attendees are scanned in or out.
+- Every event has at least one zone — the default **Entry** zone — and additional zones can be created for separate areas such as VIP sections, stages, or product collection points.
+- Zones are managed from the **Zones** tab on the event dashboard.
 
-## Core Configuration
+## Zone Configuration
 
-| Area | What it controls |
-|---|---|
-| Basic details | Zone name and optional opening/closing date window |
-| Eligible items | All tickets/items or a selected set of sale items |
-| Scanning settings | Scan mode, scan accuracy mode, scan limit, capacity |
-| Advanced settings | Age restrictions, auto-scan-out schedule, validity bypass, attendee visibility |
+| Setting | Description |
+|---------|-------------|
+| **Name** | The zone name, displayed in the scanning app and reports. |
+| **Scanning mode** | Controls how scans are recorded for this zone. See [scan modes](/core-platform/access-control/standard-entry#scan-modes-zone-level). |
+| **Scanning limit** | Controls whether attendees can re-enter the zone. See [scan limits](/core-platform/access-control/standard-entry#scan-limits). |
+| **Scanning accuracy** | **Precision scanning** shows a confirmation screen when a scan matches multiple eligible items (e.g. a ticket with add-ons). **Rapid scanning** selects the first eligible item automatically for faster throughput. |
+| **Capacity** | Maximum number of attendees allowed in the zone at any time. Leave blank for unlimited. Only tracked when using an in/out scanning mode. |
+| **Opening date** | Optionally restrict scanning to after a specific date and time. |
+| **Closing date** | Optionally restrict scanning to before a specific date and time. |
 
-## Scanning Accuracy
+## Eligible Items
 
-| Mode | Behaviour |
-|---|---|
-| Precision scanning | Full validation for each scan result. |
-| Rapid scanning | Optimised for fast throughput in queue-heavy scenarios. |
+By default, all barcoded items (tickets, products, etc.) for the event can be used to access every zone. You can restrict a zone to specific sale items by disabling **Allow all tickets** and selecting the items that should be permitted.
 
-## Capacity Behaviour
+## Age Restrictions
 
-- Zone capacity is meaningful for in/out capable modes.
-- In-only zones do not track real-time occupancy decrement.
+Zones can optionally enforce minimum and/or maximum age limits. This requires the date of birth [data capture](/core-platform/data-capture/introduction) field to be enabled. When an attendee's date of birth is not available, it is at the operator's discretion whether to admit them.
 
 ## Auto Scan-Out
 
-Zones can hold a schedule of auto scan-out timestamps. This is useful for timed clear-down rules where operators do not manually scan customers out.
+For zones using an in/out scanning mode, you can configure **auto scan-out times** — scheduled times at which all attendees currently in the zone are automatically scanned out. This is useful for clearing a zone at the end of a session, shift, or event day.
+
+Entering a past time will immediately scan out all current attendees.
+
+## Advanced Zone Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Ignore validity dates** | When enabled, the zone does not check the sale item's validity dates when admitting attendees. Useful for zones that should accept any valid ticket regardless of time restrictions. |
+| **Hide attendees** | Hides the attendee list from the zone view in the [Access Control Pro](/mobile-apps/access-control-pro) app. |
+
+## Zone Statistics
+
+The zones listing on the event dashboard displays real-time statistics for each zone:
+
+- **Attendance** — Number of unique attendees scanned in (and current occupancy for in/out zones).
+- **Capacity** — Current occupancy relative to the zone's capacity limit.
+- **Scan mode** — The zone's scanning mode (in only, in/out).
+- **Scan limit** — Whether access is unlimited or single-entry.
+- **Age restrictions** — Minimum and/or maximum age, if configured.
+
+### Reports
+
+Three reports are available from the zones listing:
+
+- **Scanning Report** — Detailed log of all scans across zones.
+- **Zone Summary Report** — Aggregated statistics per zone.
+- **Customer Journey Report** — Tracks each attendee's movement across zones.
+
+## Data Capture
+
+Custom [data capture](/core-platform/data-capture/introduction) fields can be configured for access control. When enabled, these fields are presented to operators in the scanning app, allowing information to be collected at the point of admission.
 
 ## Permissions
 
@@ -41,5 +71,6 @@ Zone management requires event edit access plus zone permissions (view/create/ed
 ## Related
 
 - [Standard Entry](/core-platform/access-control/standard-entry)
+- [Validity Dates](/core-platform/access-control/validity-dates)
 - [Admitting Via App](/core-platform/access-control/admitting-via-app)
 - [Admitting Via Admin](/core-platform/access-control/admitting-via-admin)

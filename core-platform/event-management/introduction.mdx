@@ -72,17 +72,7 @@ If mandatory organiser details are enabled for your company, you must provide or
 
 ### Capacity Controls
 
-Capacity limits control how many items can be sold for an event. See [capacity controls](/core-platform/event-management/capacity-controls) for detailed information.
-
-| Field | Description |
-|-------|-------------|
-| **Total Capacity** | The overall capacity limit across all item types. |
-| **Total Ticket Capacity** | Maximum number of tickets that can be sold. |
-| **Total Product Capacity** | Maximum number of products that can be sold. |
-| **Total guest list capacity** | Maximum number of guest list entries. |
-| **Total donation capacity** | Maximum number of donations that can be made. |
-| **Ticket capacity includes season tickets** | When enabled, season ticket sales within the schedule count towards the ticket capacity. |
-| **Take off sale if no ticket capacity remains** | Automatically takes the event off sale when ticket capacity is reached, preventing other items (like products) from being purchased. |
+Capacity is managed at multiple levels — event, timeslot, sale item group, sale item, inventory, and seating plan. See [capacity controls](/core-platform/event-management/capacity-controls) for how these layers interact.
 
 ### Purchase Settings
 
@@ -90,31 +80,6 @@ Capacity limits control how many items can be sold for an event. See [capacity c
 |-------|-------------|
 | **Maximum tickets per customer** | Limits how many tickets a single customer can purchase. Customers must share or transfer tickets beyond this limit. Lower limits can be set on individual tickets. |
 | **Show number of items remaining** | Displays a badge on each sale item showing "X Remaining" for items with limited availability. |
-
-### Images
-
-| Field | Constraints | Description |
-|-------|-------------|-------------|
-| **Card Thumbnail** | Min: 600×300px, Max: 1800×1800px, Aspect: 2:1 | Displayed on event listing cards and search results. |
-| **Heading Image** | Min: 600×300px, Max: 1800×1800px, Aspect: 2:1 | Displayed as the hero image on the event page. |
-
-### SEO Metadata
-
-Controls how the event appears when shared on social media or in search engine results.
-
-| Field | Description |
-|-------|-------------|
-| **Meta title** | The page title shown in search results and browser tabs. |
-| **Meta description** | The description shown in search results and social media previews. |
-| **Meta image** | The image shown when the event is shared on social media. |
-
-### Organiser Details
-
-Optional contact information for the event organiser, displayed on the event page contact block.
-
-- **Organiser name**
-- **Organiser email**
-- **Organiser phone**
 
 ### Visibility & Discovery
 
@@ -124,93 +89,6 @@ Optional contact information for the event organiser, displayed on the event pag
 | **On sale / Off sale status** | Controls whether items can be purchased. |
 | **Tags** | [Event tags](/core-platform/event-management/event-tags) used for filtering in search and automatically including events in listings. |
 | **Visibility groups** | Controls which [admin users](/core-platform/system-access/visibility-groups) can see and interact with the event. |
-
-### Sharing & Ticket Naming
-
-Configure preferences for [item transfers](/core-platform/event-management/item-transfers) and attendee name assignment.
-
-<Tabs>
-  <Tab title="Ticket Sharing">
-    Control when customers can share tickets with others:
-    - **During checkout** — Share while completing purchase
-    - **After checkout** — Share from the order confirmation
-    - **Both** — Share at any time
-    - **None** — Sharing disabled
-  </Tab>
-  <Tab title="Product Sharing">
-    Control when customers can share products with others:
-    - **During checkout** — Share while completing purchase
-    - **After checkout** — Share from the order confirmation
-    - **Both** — Share at any time
-    - **None** — Sharing disabled
-  </Tab>
-  <Tab title="Ticket Renaming (Shop)">
-    Allow customers to assign attendee names to tickets without transferring:
-    - **Disabled** — No renaming allowed
-    - **Enabled** — Optional renaming during checkout
-    - **Mandatory** — Required before completing purchase
-
-    Optionally allow renaming after checkout.
-  </Tab>
-  <Tab title="Ticket Renaming (Box Office)">
-    Allow box office users to assign attendee names:
-    - **Disabled** — No renaming allowed
-    - **Enabled** — Optional renaming during checkout
-    - **Mandatory** — Required before completing purchase
-  </Tab>
-</Tabs>
-
-### Resale Settings
-
-Configure [primary resale](/core-platform/resale/configuration) for the event. Settings can be inherited from company defaults or overridden per event.
-
-| Field | Description |
-|-------|-------------|
-| **Enable resale** | Inherit / Enabled / Disabled. Can also be controlled per sale item. |
-| **Allow resale listing** | How long before the event customers can list items for resale. |
-| **Start resale purchase** | When resale listings become available for purchase. |
-| **End resale purchase** | When resale listings automatically close. |
-| **[Sales channels](/core-platform/information/sales-channels)** | Where resale is available: Shop only, or Shop and box office. |
-| **Pricing strategy** | Controls how sellers can price their listings (purchased price, set own price, or capped). |
-| **Payout behaviour** | How sellers receive proceeds: original payment method, account balance, or pending balance. |
-| **Who pays [resale fees](/core-platform/resale/resale-fees)** | Buyer pays all, seller pays all, split, or seller chooses. |
-
-### Manual Payment Settings
-
-Configure [invoice payments](/core-platform/payments/invoice-payments) for the event. By default, settings are inherited from company configuration.
-
-<Note>
-Event-level manual payment settings only apply when all items in an order are for this event. Otherwise, company settings apply.
-</Note>
-
-| Field | Description |
-|-------|-------------|
-| **Enabled** | Override company settings for this event. |
-| **Enable instant access** | Allow customers to access tickets before paying their invoice. |
-| **Unpaid invoice title** | Text displayed on invoices before payment. |
-| **Paid invoice title** | Text displayed on invoices after payment. |
-| **Minimum order value** | Minimum order total to unlock the invoice payment method (no currency conversion applied). |
-| **Payment instructions** | Instructions included in the invoice email explaining how to pay. |
-| **Show customer billing address on invoice** | Inherit / Show / Hide. |
-| **Show customer name and email on invoice** | Inherit / Show / Hide. |
-
-### Access Control
-
-| Field | Description |
-|-------|-------------|
-| **Scanning Mode** | Controls the [Access Control Pro](/mobile-apps/access-control-pro) app behaviour: **QR Only** (standard QR/barcodes), **Secure QR Only** (dynamic QR codes), or **NFC** (NFC ticket pairing). |
-
-### Live Stream Settings
-
-For online or hybrid events, configure streaming access for attendees.
-
-| Field | Description |
-|-------|-------------|
-| **Enable live stream** | Unlocks live stream access for attendees. Individual sale items can be opted out of granting stream access. |
-| **Stream provider** | The streaming platform: YouTube, Vimeo, or Other. |
-| **Stream URL** | The live stream URL from your streaming provider. |
-| **Stream body** | Optional content ([WYSIWYG](/core-platform/information/wysiwyg)) displayed on the private streaming page. |
-| **Display live chat** | Show the provider's chat alongside the stream (YouTube and Vimeo only). |
 
 ### Tracking & Analytics
 
@@ -231,6 +109,17 @@ For online or hybrid events, configure streaming access for attendees.
 | **External ID** | Optional identifier for third-party integrations. Exposed in the events API. |
 | **Send purchase summary email** | Send an email to specified recipients for every purchase made for this event. Useful for staff to receive real-time sales notifications. |
 | **Refund protection** | Configure [refund protection](/core-platform/refund-protection/protect-group) for this event. |
+
+### Additional Event Settings
+
+The following settings are configured on the event dashboard and documented on their respective pages:
+
+- **Images, SEO & organiser details** — See [event page customisations](/core-platform/event-management/event-page-customisations).
+- **Sharing & ticket naming** — See [item transfers](/core-platform/event-management/item-transfers).
+- **Resale** — See [primary resale](/core-platform/resale/configuration). Settings can be inherited from company defaults or overridden per event.
+- **Manual payments** — See [invoice payments](/core-platform/payments/invoice-payments). Event-level settings only apply when all items in an order are for this event.
+- **Access control & scanning mode** — See [access control](/core-platform/event-management/access-control).
+- **Live streaming** — See [online events](/core-platform/event-management/online-events). Applies to online and hybrid events only.
 
 ## Relationships
 

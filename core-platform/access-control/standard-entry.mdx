@@ -5,10 +5,25 @@ description: "How standard zone-based entry works for scanned tickets, products,
 
 ## Overview
 
-- Standard entry is managed with **zones** on an event.
-- A zone defines which sale items can be scanned, how scans are interpreted, and whether entry is limited.
+- Access control manages how attendees are admitted to an event using barcode or NFC scanning.
+- Standard entry is managed with **zones** on an event. A zone defines which sale items can be scanned, how scans are interpreted, and whether entry is limited.
 - Scanning writes `in` / `out` records against order items, and attendance is calculated from the latest scan state.
 - Entry behaviour depends on both zone settings and sale item validity settings.
+- Scanning is performed via the [Access Control Pro](/mobile-apps/access-control-pro) mobile app, the [Box Office Pro](/mobile-apps/box-office-pro) app, or [through the admin panel](/core-platform/access-control/admitting-via-admin).
+
+## Scanning Mode (Event-Level)
+
+The scanning mode is an event-level setting that controls how the [Access Control Pro](/mobile-apps/access-control-pro) app reads tickets. It is configured from the event dashboard.
+
+| Mode | Description |
+|------|-------------|
+| **QR Only** | Scans standard QR codes and barcodes printed on tickets or displayed in the customer's account. |
+| **Secure QR Only** | Scans time-based dynamic QR codes that rotate periodically, preventing screenshot sharing. See [secure barcodes](/core-platform/advanced/secure-barcodes). |
+| **NFC** | Pairs NFC tags to tickets for tap-based entry. See [NFC pairing](/core-platform/advanced/nfc-pairing). |
+
+<Note>
+The scanning mode affects the mobile app only. Admin-based admission and box office admission are not affected by this setting.
+</Note>
 
 ## Entry Flow
 
@@ -17,20 +32,26 @@ description: "How standard zone-based entry works for scanned tickets, products,
 3. Configure scan mode and limits.
 4. Admit customers from [Access Control Pro](/core-platform/access-control/admitting-via-app), [mobile box office](/core-platform/access-control/admitting-via-mbo), or [admin tools](/core-platform/access-control/admitting-via-admin).
 
-## Scan Modes
+## Scan Modes (Zone-Level)
+
+Each zone has its own scanning mode that controls how entry and exit are tracked.
 
 | Mode | Behaviour |
-|---|---|
-| In only | Records entry scans only. Current attendance cannot be decremented by scan-out. |
-| In/Out manual | Supports both directions, selected by the operator at scan time. |
-| In/Out automatic | Alternates by current state (scan in, then scan out). |
+|------|-----------|
+| **In Only** | Attendees are scanned in. No exit scanning. Suitable for general entry gates where you only need to know who has arrived. |
+| **In/Out Manual** | The operator selects whether they are scanning an attendee in or out. Tracks current occupancy and visit duration. |
+| **In/Out Automatic** | The system automatically determines whether to scan in or out based on the attendee's current status. Tracks current occupancy and visit duration. |
+
+<Note>
+When using In/Out Automatic mode, rapid scanning is enabled automatically to avoid confusion during the automatic in/out decision.
+</Note>
 
 ## Scan Limits
 
 | Setting | Behaviour |
-|---|---|
-| Unlimited access | The same item can be admitted multiple times. |
-| Single access | The item can only be admitted once for that zone. |
+|---------|-----------|
+| **Unlimited access** | Attendees can enter the zone as many times as they like. |
+| **Single access** | Each ticket can only be scanned in once. Subsequent entry attempts are rejected. |
 
 ## What Can Be Scanned
 

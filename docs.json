@@ -35,32 +35,56 @@
             "group": "Event Management",
             "pages": [
               "core-platform/event-management/introduction",
-              "core-platform/event-management/timeslots",
-              "core-platform/event-management/seated-events",
-              "core-platform/event-management/capacity-controls",
-              "core-platform/event-management/venues",
-              "core-platform/event-management/event-approvals",
-              "core-platform/event-management/sale-item-groups",
-              "core-platform/event-management/event-cancellations",
-              "core-platform/event-management/event-page-customisations",
-              "core-platform/event-management/sales-periods",
-              "core-platform/event-management/item-transfers",
-              "core-platform/event-management/online-events",
-              "core-platform/event-management/group-team-events",
-              "core-platform/event-management/event-tags",
-              "core-platform/event-management/access-control",
-              "core-platform/event-management/copying-events"
+              {
+                "group": "Setup & Structure",
+                "pages": [
+                  "core-platform/event-management/timeslots",
+                  "core-platform/event-management/venues",
+                  "core-platform/event-management/seated-events",
+                  "core-platform/event-management/online-events",
+                  "core-platform/event-management/group-team-events",
+                  "core-platform/event-management/capacity-controls"
+                ]
+              },
+              {
+                "group": "Sales & Display",
+                "pages": [
+                  "core-platform/event-management/sales-periods",
+                  "core-platform/event-management/sale-item-groups",
+                  "core-platform/event-management/event-page-customisations",
+                  "core-platform/event-management/event-tags"
+                ]
+              },
+              {
+                "group": "Operations",
+                "pages": [
+                  "core-platform/event-management/access-control",
+                  "core-platform/event-management/item-transfers",
+                  "core-platform/event-management/copying-events",
+                  "core-platform/event-management/event-approvals",
+                  "core-platform/event-management/event-cancellations"
+                ]
+              }
             ]
           },
           {
             "group": "Sale Items",
             "pages": [
               "core-platform/sale-items/core-concepts",
-              "core-platform/sale-items/item-types",
-              "core-platform/sale-items/add-ons",
-              "core-platform/sale-items/bundles",
-              "core-platform/sale-items/gift-vouchers",
-              "core-platform/sale-items/donations",
+              {
+                "group": "Item Relationships",
+                "pages": [
+                  "core-platform/sale-items/add-ons",
+                  "core-platform/sale-items/bundles"
+                ]
+              },
+              {
+                "group": "Specialized Types",
+                "pages": [
+                  "core-platform/sale-items/gift-vouchers",
+                  "core-platform/sale-items/donations"
+                ]
+              },
               "core-platform/sale-items/item-approvals"
             ]
           },

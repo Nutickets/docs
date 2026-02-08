@@ -100,9 +100,7 @@ Stock controls how many of each item can be sold.
 - **Unlimited stock** — The item can be sold without limit (subject to event [capacity controls](/core-platform/event-management/capacity-controls)).
 - **Limited stock** — A total stock quantity is set when the item is created. The platform tracks current remaining stock in real time as purchases and reservations are made.
 
-Stock can also be managed at the [sale item group](/core-platform/event-management/sale-item-groups) level, providing a shared stock pool across multiple items.
-
-See [stock management](/core-platform/sale-items/stock-management) for detailed information.
+Stock can also be managed at the [sale item group](/core-platform/event-management/sale-item-groups) level, providing a shared stock pool across multiple items. See [capacity controls](/core-platform/event-management/capacity-controls) for how stock interacts with other capacity layers.
 
 ## On-Sale Dates
 
@@ -187,15 +185,7 @@ See [sale item groups](/core-platform/event-management/sale-item-groups) for det
 
 ## Validity & Scanning
 
-Sale items that support scanning (tickets, products, season tickets, guest lists) can be configured with validity dates that control when the item is valid for entry via [access control](/core-platform/event-management/access-control).
-
-| Setting | Description |
-|---------|-------------|
-| **Check-in time** | When the item becomes valid for scanning: anytime, one hour before the event, custom dates, or based on the assigned timeslot. |
-| **Scanning grace period** | Extends the validity window by a specified number of minutes before and after the configured times. |
-| **Show validity in shop** | Displays the check-in times to customers in their account, order confirmation, and on ticket media. |
-
-See [validity dates](/core-platform/access-control/validity-dates) for more information.
+Sale items that support scanning (tickets, products, season tickets, guest lists) can be configured with validity dates that control when the item is valid for entry. Check-in time presets, grace periods, and shop display options are configured per sale item. See [validity dates](/core-platform/access-control/validity-dates) for full details on all options.
 
 ## Media & Delivery
 
