@@ -82,21 +82,11 @@
                 "group": "Specialized Types",
                 "pages": [
                   "core-platform/sale-items/gift-vouchers",
-                  "core-platform/sale-items/donations"
+                  "core-platform/sale-items/donations",
+                  "core-platform/sale-items/season-tickets"
                 ]
               },
               "core-platform/sale-items/item-approvals"
-            ]
-          },
-          {
-            "group": "Access Control",
-            "pages": [
-              "core-platform/access-control/standard-entry",
-              "core-platform/access-control/validity-dates",
-              "core-platform/access-control/zones",
-              "core-platform/access-control/admitting-via-app",
-              "core-platform/access-control/admitting-via-mbo",
-              "core-platform/access-control/admitting-via-admin"
             ]
           },
           {
@@ -104,15 +94,9 @@
             "pages": [
               "core-platform/seating-plans/introduction",
               "core-platform/seating-plans/plan-types",
-              "core-platform/seating-plans/best-available-seats",
-              "core-platform/seating-plans/revisions",
               "core-platform/seating-plans/editor",
-              "core-platform/seating-plans/holds",
-              "core-platform/seating-plans/live-price-band-updates",
-              "core-platform/seating-plans/holds-and-role-restrictions",
-              "core-platform/seating-plans/seat-status-management",
-              "core-platform/seating-plans/export-plan-image",
-              "core-platform/seating-plans/orphan-seat-protection"
+              "core-platform/seating-plans/revisions",
+              "core-platform/seating-plans/holds"
             ]
           },
           {
@@ -141,14 +125,6 @@
               "core-platform/event-scheduling/event-discovery",
               "core-platform/event-scheduling/mixed-events",
               "core-platform/event-scheduling/repeat-events"
-            ]
-          },
-          {
-            "group": "Season Tickets",
-            "pages": [
-              "core-platform/season-tickets/overview",
-              "core-platform/season-tickets/standard-seasons",
-              "core-platform/season-tickets/seated-seasons"
             ]
           },
           {
@@ -372,8 +348,7 @@
               "core-platform/information/paying-invoices",
               "core-platform/information/going-live",
               "core-platform/information/waiting-rooms",
-              "core-platform/information/feature-flag-reference",
-              "core-platform/information/company-switching",
+                            "core-platform/information/company-switching",
               "core-platform/information/wysiwyg",
               "core-platform/information/supported-languages",
               "core-platform/information/supported-currencies",
@@ -394,7 +369,7 @@
           {
             "group": "Topics",
             "pages": [
-              "partner-hub/get-started/feature-funnels",
+              "partner-hub/get-started/feature-flags",
               "partner-hub/get-started/reseller-fees",
               "partner-hub/get-started/company-invoices",
               "partner-hub/get-started/parent-child-companies",
