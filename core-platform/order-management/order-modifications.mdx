@@ -1,14 +1,125 @@
 ---
 title: "Order Modifications"
-description: "Documentation for Order Modifications"
+description: "How to edit paid orders after checkout in Shop and Box Office."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Order Modifications** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+- Order modification lets you edit an already-paid order by creating a replacement basket from the original order.
+- The original order is locked while changes are in progress, and is only cancelled when the modified order is successfully checked out.
+- You can enable order modification separately for **Box Office** staff and **Shop** customers.
+- If an order cannot be modified, the **Modify order** action is disabled and shows the reason.
+
+## Use Cases
+
+<Accordion title="Customer self-service date or item changes">
+  A customer can no longer attend their original date, opens **My Account > Orders**, and starts **Modify order**. They remove the original ticket and add a different date or ticket type, then check out the difference if required. This avoids a manual support refund and lets the customer resolve the change in one flow.
+</Accordion>
+
+<Accordion title="Box office assisted upsell">
+  A customer calls to upgrade from standard to premium tickets. Staff open the order in admin and select **Modify order**, then adjust the basket and collect the uplift at checkout. The original order stays intact until payment succeeds, so staff are not forced to cancel first and rebuild from scratch.
+</Accordion>
+
+<Accordion title="Handling lower-value changes with clear outcomes">
+  A customer removes items and the new total becomes lower than the original payment. You can decide whether to allow this and whether unused value is returned to account balance. This supports clear commercial rules for credits versus forfeited remainder.
+</Accordion>
+
+<Accordion title="Controlled amendment window before event start">
+  You want to allow post-purchase edits, but only up to a defined number of days before the event. Set a **Cutoff period** so last-minute operational changes are restricted while still giving customers flexibility earlier in the sales cycle.
+</Accordion>
+
+## Configure Order Modification
+
+Go to **Settings** > **Order modification**.
+
+| Setting | What it controls |
+|---|---|
+| **Enable order modification in box office** | Allows staff to modify eligible completed orders from admin order pages. |
+| **Enable order modification in shop** | Allows signed-in customers to modify eligible orders from My Account. |
+| **Cutoff period** | Minimum number of days before event start when modification is still allowed (set separately for Box Office and Shop). |
+| **Forfeit fees** | If enabled, fees paid on the original order are not carried forward into available balance for the replacement order. |
+| **Reduced value orders** | If disabled, checkout is blocked when modified total is lower than the original paid total. |
+| **Allow refund to account balance** | If enabled, unused value on lower-value modifications is returned to customer account balance. |
+
+<Note>
+Cutoff values are stored in days. In the UI you can enter days or weeks. If any item in the order breaches the cutoff, modification is blocked.
+</Note>
+
+## Start A Modification
+
+<Tabs>
+  <Tab title="Shop (Customer)">
+    1. Go to **My Account** > **Orders**.
+    2. Open a completed order.
+    3. Click **Modify order**.
+    4. Review the warning modal, then confirm.
+
+    If the order is not eligible, the button is disabled with a tooltip explaining why.
+  </Tab>
+  <Tab title="Box Office (Admin)">
+    1. Open an order in admin.
+    2. Use the **Modify order** quick action.
+    3. You are redirected into Box Office with the replacement basket loaded.
+  </Tab>
+</Tabs>
+
+## Eligibility Rules
+
+An order can only be modified if all checks pass.
+
+| Blocker | Result |
+|---|---|
+| Active basket already exists for the user/session | Modification is blocked until the active basket is cleared. |
+| Order is not in a valid state (for example not completed, already frozen, cancelled/refunded) | Modification is blocked. |
+| Event cutoff is breached (including `0` days when events have already started) | Modification is blocked. |
+| Order contains top-ups, gift vouchers, purchased resale items, discounted items, access-code usage, or variable-priced items | Modification is blocked. |
+| Order contains transferred, scanned, paired-NFC, cancelled, or non-eTicket-fulfilled items | Modification is blocked. |
+| Order has outstanding payment | Modification is blocked. |
+
+## Editing The Replacement Basket
+
+- The original order is locked while modification is in progress.
+- Removed replacement items are still visible in the basket view so quantity changes can be reversed.
+- Checkout is blocked if:
+  - No actual order changes were made.
+  - All valid items were removed.
+  - The new total is lower but reduced-value checkout is disallowed.
+
+## Payment Outcomes
+
+The replacement order carries a **Balance from previous order** amount, then applies normal checkout/payment rules.
+
+| Modified total vs original value | Outcome |
+|---|---|
+| Higher | Customer pays the uplift. |
+| Equal | No additional payment due. |
+| Lower + reduced-value disabled | Checkout blocked. |
+| Lower + reduced-value enabled + balance refunds enabled | Difference is credited to account balance. |
+| Lower + reduced-value enabled + balance refunds disabled | Difference is forfeited (customer must explicitly confirm in checkout). |
+
+Additional behavior:
+
+- Modified orders must pay using either **Split payment** or **Balance from previous order** logic.
+- If balance on hand fully covers the new total, **Balance from previous order** is the only payment method shown.
+- Deposit payment flow is not available for replacement orders.
+- For box-office-only orders, lower-value checkout is blocked even if reduced-value orders are enabled.
+
+## Complete, Cancel, Or Time Out
+
+### When checkout succeeds
+
+- The replacement order becomes the active completed order.
+- The original order is cancelled and unlocked.
+- Removed original items are restocked; preserved items keep capacity reserved.
+
+### If modification is cancelled or expires
+
+- Use **Cancel modifying order** to abandon changes.
+- If the basket expires/times out, no modification is applied.
+- The original order is unlocked and remains the active original purchase.
+
+## Related
+
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Split Payments](/core-platform/payments/split-payments)
+- [Refunds And Cancellations](/core-platform/order-management/refunds-and-cancellations)
