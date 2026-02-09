@@ -156,12 +156,6 @@ Examples of good anticipation:
 **Document the full lifecycle, not just start and end.**
 Users spend most of their time in the middle of a workflow — editing, reviewing, waiting. Don't jump from "how to initiate" to "what happens when it completes." Document what the user sees and can do while the process is in progress: changed button labels, info banners, restricted actions, timeout behaviour. If a basket header changes from **Order summary** to **Modifying order**, that's worth documenting. If certain actions are temporarily blocked while a process is in flight, say so.
 
-**Confirmation moments deserve full coverage.**
-Any point where the system pauses to warn the user — confirmation modals, warning dialogs, acknowledgement checkboxes — is a critical documentation moment. These are the last thing a user sees before committing to an action. Document every warning shown in a confirmation modal, every condition that changes the warnings, and any checkbox the user must tick to proceed. A confirmation modal with 6 conditional warnings is not a minor UI detail — it's 6 pieces of information the user needs to understand.
-
-**Enumerate every distinct outcome — don't bundle.**
-If the codebase defines 15 different error messages or 5 different payment scenarios, document each one individually with its exact message text. Bundling ("various eligibility checks may prevent modification") forces users to guess which specific situation applies to them. Each distinct message, status, or error state the user can encounter earns its own row in a table.
-
 **Connect sections into a narrative.**
 The page should have a logical flow where each section follows naturally from the previous one. A reader going top-to-bottom should feel like they're following a journey, not reading disconnected index cards.
 
@@ -395,8 +389,6 @@ to enable [workflow]. Configuration is managed through [location].
 
 - [ ] Identify the core entities — what models/tables are involved?
 - [ ] Trace backend services, controllers, and business logic.
-- [ ] Follow the full call chain — if an action delegates to another action or guard, read both.
-- [ ] Read exception classes — enumerate every distinct failure mode and its user-facing message.
 - [ ] Examine frontend components and pages — what fields exist, what's conditional?
 - [ ] Read the lang files — extract exact UI labels, tooltips, and help text.
 - [ ] Map relationships — what other features connect to this?
@@ -409,11 +401,7 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Would a user learn something they couldn't have guessed from field names alone?
 - [ ] Are sections named as user tasks, not abstract data categories?
 - [ ] Does the page have narrative flow from top to bottom?
-- [ ] Are UI elements named concretely (buttons, statuses, navigation paths)?
 - [ ] Is the full lifecycle covered — not just initiation and completion, but the in-progress state?
-- [ ] Are confirmation dialogs, modals, and warning messages documented in full?
-- [ ] Are distinct error messages, blockers, and outcomes enumerated individually — not bundled?
-- [ ] Do toggle/setting descriptions explain both the enabled and disabled behaviour?
 - [ ] Are edge cases and follow-up questions addressed in Notes?
 - [ ] Does the page use the format best suited to each type of content?
 - [ ] Are all statements verified against the codebase?
