@@ -1,14 +1,245 @@
 ---
-title: "Parent Child Companies"
-description: "Documentation for Parent Child Companies"
+title: "Parent-Child Companies"
+description: "Link companies into parent-child hierarchies so they can share customers, centralise transactions, and list each other's events."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Parent Child Companies** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Parent-child companies let you organise related companies into a single-level hierarchy. A parent company can manage data across its children, list their events alongside its own, and optionally share customer accounts and payment processing.
+
+This is useful when:
+- An organisation runs multiple brands or venues, each with its own company, but wants a unified customer experience across all of them.
+- A venue operator needs separate companies for different departments (e.g. events vs. hospitality) while centralising sales and reporting under one parent.
+- A group of related companies needs to share customer accounts and present a combined event catalogue without merging into a single company.
+
+Parent-child relationships are configured in the Partner Hub when creating or editing a company, or programmatically via the Partner API.
+
+## How It Works
+
+Every company exists in one of three states:
+
+| State | Description |
+|-------|-------------|
+| **Standalone** | No parent, no children. Operates independently. |
+| **Parent** | Has one or more child companies. Cannot itself have a parent. |
+| **Child** | Linked to exactly one parent company. Cannot have children of its own. |
+
+The hierarchy is always **single-level** — a child company cannot itself be a parent. There are no grandchildren.
+
+Both the parent and child must belong to the **same reseller**. When selecting available companies for a parent-child relationship, only companies within the same reseller are shown.
+
+### What Parent Companies Can Do
+
+When a company has children, it gains visibility across the family:
+
+- **Events from child companies** appear alongside the parent's own events in the ticket shop and admin event listings.
+- **Tags** from child companies are available when filtering events.
+
+Parent companies always retain access to the **Sales** section in admin, regardless of other settings.
+
+### Two Key Settings
+
+Each child company has two settings that control how deeply it integrates with its parent:
+
+<Tabs>
+  <Tab title="Global Login">
+    **Global login** allows customers to use the same credentials across the parent company and any child companies that have it enabled.
+
+    When enabled:
+    - A customer who registers on the parent company's shop can log in to the child company's shop (and vice versa).
+    - Events from the child company can be browsed and purchased from the parent company's shop without redirecting.
+    - Box office users on the parent company can process sales for the child company's events.
+
+    When disabled:
+    - The parent and child maintain **separate customer databases**.
+    - Customers browsing a child company's event on the parent shop are redirected to the child company's own shop to complete the purchase.
+    - Box office sales for the child company's events **must be processed in the child company's box office directly**, since the customer databases are separate.
+
+    <Note>
+    Global login must be enabled on **both** the parent and child for it to take effect. Enabling it on just one side has no effect.
+    </Note>
+  </Tab>
+  <Tab title="Global Transactions">
+    **Global transactions** centralise all sales and payment processing under the parent company. This is a deeper level of integration than global login alone.
+
+    When enabled:
+    - Sales and transactions for the child company are **managed by the parent company**.
+    - The child company does not need its own payment providers — the parent's payment configuration is used.
+    - The child company's **Sales** section in admin is hidden, since the parent handles all financial operations.
+    - **Global login is automatically enabled**, because shared transactions require shared customer accounts.
+
+    When disabled:
+    - The child company manages its own sales, transactions, and payment providers independently.
+    - Global login can be enabled or disabled separately.
+
+    <Note>
+    Global transactions can only be enabled when a parent company is assigned. Removing the parent automatically disables global transactions.
+    </Note>
+  </Tab>
+</Tabs>
+
+---
+
+## Setting Up a Parent-Child Relationship
+
+Parent-child relationships are configured on the **company edit page** in the Partner Hub. The setup differs depending on whether you are designating a company as a parent or as a child.
+
+### Creating a Parent Company
+
+When creating or editing a company:
+
+1. In the **System Settings** section, set the company type to **Parent Company**.
+2. A **child company selector** appears, showing all available companies within the same reseller.
+3. Select the companies that should become children.
+4. For each selected child, configure:
+   - **Global login** — whether customers are shared between this parent and the child.
+   - **Global transactions** — whether the parent manages the child's sales and payments.
+5. Click **Save**.
+
+<Note>
+Only standalone companies (those without an existing parent and without children of their own) appear as available children. A company that already has a parent assigned by a different company, or that is itself a parent, cannot be selected.
+</Note>
+
+### Creating a Child Company
+
+When creating or editing a company:
+
+1. In the **System Settings** section, set the company type to **Child Company**.
+2. A **parent company selector** appears as a searchable dropdown.
+3. Select the parent company.
+4. Configure **Global login** and **Global transactions** settings for this child.
+5. Click **Save**.
+
+<Note>
+A company that already has children cannot be made into a child. You must remove its children first.
+</Note>
+
+### Removing a Relationship
+
+To remove a parent-child link:
+- **From the parent side**: Edit the parent company and deselect the child from the child company selector. The child becomes a standalone company.
+- **From the child side**: Edit the child company and clear the parent selection (set to **No parent**). Global transactions and global login are reset.
+
+### Via the Partner API
+
+Parent-child relationships can also be configured programmatically when creating or updating a company through the Partner API.
+
+To designate a company as a **child**, include a `parent` object:
+
+```json
+{
+  "parent": {
+    "id": 123,
+    "globalTransactions": false,
+    "globalLogin": true
+  }
+}
+```
+
+To designate a company as a **parent**, include a `children` array:
+
+```json
+{
+  "children": [
+    {
+      "id": 456,
+      "globalTransactions": true,
+      "globalLogin": true
+    }
+  ]
+}
+```
+
+The `parent` and `children` fields cannot be used together in the same request. Both `globalTransactions` and `globalLogin` default to `false`. The same validation rules apply as in the Partner Hub UI.
+
+<Note>
+See the [Create Company](/partner-api-reference/companies/create-company) and [Update Company](/partner-api-reference/companies/update-company) endpoints for full details.
+</Note>
+
+---
+
+## Modifying Global Settings
+
+Changes to **global login** and **global transactions** are blocked when the child company has existing orders against its own sale items.
+
+When this restriction applies, the toggles appear **disabled** in the UI with a warning message. This prevents inconsistencies — for example, switching a child to global transactions after it has already processed local payments would create conflicting financial records.
+
+<Note>
+This restriction is evaluated per child company. If a parent has three children, some may allow global setting changes while others do not, depending on whether each child has existing orders.
+</Note>
+
+### Automatic Behaviour When Toggling Global Transactions
+
+| Action | Effect |
+|--------|--------|
+| Enable global transactions | Global login is **automatically enabled** (transactions require shared customers). Payment provider settings on the child are no longer used. |
+| Disable global transactions | The child company can now configure its own payment providers. Global login can be independently enabled or disabled. |
+| Remove parent company | Both global transactions and global login are **reset to disabled**. |
+
+---
+
+## Effects on Platform Features
+
+### Ticket Shop
+
+Parent companies display events from their child companies alongside their own. How customers interact with these events depends on the global login setting:
+
+| Global Login | Customer Experience |
+|--------------|---------------------|
+| **Enabled** | Customers browse and purchase child company events directly from the parent's shop. No redirect occurs. |
+| **Disabled** | Customers viewing a child company's event on the parent shop are **redirected to the child company's shop** to complete the purchase, since the customer databases are separate. |
+
+### Box Office
+
+| Global Login | Box Office Behaviour |
+|--------------|----------------------|
+| **Enabled** | Box office users on the parent company can process sales for child company events. |
+| **Disabled** | Sales for child company events must be processed in the child company's own box office. Attempting to process them from the parent shows: *"Sales for '[event name]' must be processed in the [company name] box office directly as they use a separate customer database (global login is disabled)."* |
+
+### Seating Plans
+
+Parent companies see an informational message on the seating plans page:
+
+> *"Seating plans for any child events/companies must now be managed directly in the individual child company accounts."*
+
+While events on the parent can reference seating plans from child companies, the plans themselves are created and edited within the child company's admin.
+
+### Access Codes
+
+Parent company admins can attach child company events, items, schedules, and sale items to their access codes. How those codes behave depends on which shop the customer is using:
+
+| Shop | Behaviour |
+|------|-----------|
+| **Parent company shop** | The access code **works as expected** — it restricts or grants access to the attached child company items just as it would for the parent's own items. |
+| **Child company shop** | The access code **has no effect**. Customers shopping directly on a child company's site will not be restricted by a parent company's access code. |
+
+A warning is displayed in the admin when a parent company access code has items attached:
+
+> *"This code will not restrict access to items, events, schedules or price bands via a child company shop."*
+
+---
+
+## Deletion and Restoration
+
+Parent-child relationships affect the order in which companies can be deleted and restored:
+
+| Action | Rule |
+|--------|------|
+| **Deleting a parent** | Blocked while child companies exist. You must delete or reassign all children first. Message: *"Parent companies cannot be deleted before their children."* |
+| **Restoring a child** | Blocked if the parent company is still deleted. You must restore the parent first. Message: *"Cannot restore child company of a deleted parent company. Please restore parent company first."* |
+
+---
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Gateway Settings" icon="credit-card" href="/partner-hub/get-started/gateway-settings">
+    Configure payment providers that child companies use when global transactions is disabled.
+  </Card>
+  <Card title="Feature Flags" icon="toggle-on" href="/partner-hub/get-started/feature-flags">
+    Control which capabilities are available to parent and child companies.
+  </Card>
+  <Card title="Plans & Packages" icon="box" href="/partner-hub/get-started/plans-and-packages">
+    Assign feature plans to companies in the hierarchy.
+  </Card>
+</CardGroup>
