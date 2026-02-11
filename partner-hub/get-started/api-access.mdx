@@ -1,0 +1,133 @@
+---
+title: "API Access"
+description: "Control how companies connect to the platform API — set access modes, rate limits, and manage authentication tokens."
+---
+
+## Overview
+
+API access allows companies to integrate with the platform programmatically through the public API. From the hub, you control whether each company can use the API, what level of access they have, and how many requests they can make. You can also generate personal API tokens for authenticating your own API calls as a hub user.
+
+API access is gated by the **API Access** [feature flag](/partner-hub/get-started/feature-flags) — a company must have this feature enabled before any API settings take effect. The feature flag follows the standard [reseller funnelling](/partner-hub/get-started/feature-flags#reseller-funnelling) pattern, meaning the reseller must also have the feature enabled.
+
+## Access Modes
+
+Each company has an **API access type** setting that controls what kind of API operations are permitted. This is configured in the **API settings** section of the company edit page.
+
+| Access Type | Behaviour |
+|-------------|-----------|
+| **None** | The company cannot use the API at all. All API requests are rejected with an unauthorised error. This is the default |
+| **Read only** | The company can make `GET` requests to retrieve data but cannot create, update, or delete anything. Non-GET requests are rejected with a *"Read access only"* error |
+| **Read/write** | The company has full API access — all request methods are permitted, subject to the user's permissions and role |
+
+The help text for this setting reads: *"'Read-only' allows only GET requests, whereas 'read/write' allows all requests."*
+
+<Note>
+Changing a company's access type from **None** to **Read only** or **Read/write** automatically enables the **API Access** feature flag for that company if it isn't already enabled. This ensures the feature flag and access type stay in sync.
+</Note>
+
+## Rate Limits
+
+API rate limits control how many requests a company can make per minute. Rate limits are enforced at two levels: the reseller sets a ceiling, and each company has its own limit that cannot exceed the reseller's.
+
+### How Rate Limits Work
+
+| Level | Setting | Default | Maximum |
+|-------|---------|---------|---------|
+| **Reseller** | API rate limit on the reseller settings | 60 requests/minute | 1,200 requests/minute |
+| **Company** | API rate limit on the company settings | 60 requests/minute | Capped at the reseller's rate limit |
+
+The **effective rate limit** for a company is the lower of the company's own limit and its reseller's limit. This means a reseller can always reduce a company's effective rate limit by lowering the reseller-level cap — even if the company's own setting is higher.
+
+The company rate limit field displays the help text: *"API rate limit is capped at [reseller limit]. If you would like to enter a higher amount, please contact your account manager."* — where the reseller's current limit is shown as the maximum.
+
+<Note>
+Requests from the platform's mobile apps are excluded from rate limits. The rate limiting only applies to third-party API integrations using personal access tokens.
+</Note>
+
+### API Delay Between Requests
+
+An optional **API delay between requests** setting (in seconds) can be configured per company. This defines the recommended minimum interval between consecutive requests to the same endpoint. The help text reads: *"The recommended interval between subsequent requests to the same endpoint. This is strictly enforced by our mobile apps. An empty value allows the apps to decide freely."*
+
+This setting is primarily used to throttle mobile app request frequency. Leaving it empty allows apps to determine their own request timing.
+
+## Configuring API Settings on a Company
+
+API settings are found in the company edit page in the hub. The settings are conditionally displayed — the rate limit and delay fields only appear when the access type is set to something other than **None**.
+
+1. Navigate to the company edit page.
+2. Find the **API settings** section (or similar heading depending on the company edit layout).
+3. Set the **API access type** using the radio card selector — choose **None**, **Read only**, or **Read/write**.
+4. If access is enabled, configure the **API rate limit** (requests per minute). The maximum is capped at the reseller's rate limit.
+5. Optionally set the **API delay between requests** (in seconds) to throttle mobile app request frequency.
+6. Save the company.
+
+## Partner API Tokens
+
+Hub users can generate personal API tokens from the **Partner API Tokens** page. These tokens authenticate API calls made on behalf of the user and inherit the user's permissions.
+
+### Generating a Token
+
+1. Navigate to **Partner API Tokens** from the hub navigation.
+2. Click **Generate token**.
+3. Enter a **Name** for the token — this is an internal identifier to help you recognise what the token is used for. The help text reads: *"The name is used as an internal identifier."*
+4. Click **Submit**.
+5. The newly generated token is displayed in a modal. **Copy the token immediately** — it will not be shown again.
+
+<Warning>
+The token is only displayed once at the time of creation. If you lose the token, you will need to generate a new one. The confirmation reads: *"Please copy your new API token. For your security, it won't be shown again. If you lose this token, you will have to generate a new one."*
+</Warning>
+
+### Token Permissions
+
+The token shares the permissions of the user who created it. The help text on the tokens page explains: *"You can generate a token to authenticate third-party API calls. The generated token will share your permissions. If you wish to restrict API access to certain subsets of data or endpoints, we recommend that you create a separate user with separate roles and generate a token for that user instead."*
+
+This means:
+- A super user's token has full access
+- A restricted user's token is limited to what that user can do
+- To create a token with limited scope, create a dedicated hub user with the appropriate role and generate a token for that user
+
+### Managing Tokens
+
+The tokens list shows all tokens belonging to the current user, with:
+
+- **Token name** and a masked token ID
+- **Created at** timestamp
+- **Last used at** — shows when the token was last used for an API request (displayed as a relative time)
+
+You can filter tokens by name using the search field.
+
+To revoke a token, click the delete button next to it. A confirmation dialog appears before deletion. Revoking a token immediately invalidates it — any API calls using that token will fail.
+
+### API Documentation Link
+
+The tokens page includes a link to the platform's API documentation, allowing you to reference available endpoints and their expected parameters directly from the token management screen.
+
+## API Logs
+
+The hub provides an **API Logs** dashboard for monitoring API activity across all companies. This page is accessible to users with the relevant viewing permission.
+
+The logs dashboard shows:
+
+- **Request details** — URI, endpoint, HTTP method, request IP, request and response headers/bodies
+- **Response information** — status code, response time, and any exceptions
+- **Company and user** — which company and user made each request
+- **Filtering** — filter by date range (defaults to last 24 hours), company, user, endpoint, HTTP method, response code, response time threshold, and whether an exception occurred
+
+The dashboard also provides aggregated views:
+- **Most requested endpoints** — the top 10 endpoints by request count
+- **Slowest endpoints** — the top 10 endpoints by average response time
+- **Most active companies** — the top 10 companies by request count
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Feature Flags" icon="toggle-on" href="/partner-hub/get-started/feature-flags">
+    Enable the API Access feature flag for resellers and companies.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Full reference documentation for all available API endpoints.
+  </Card>
+  <Card title="Partner API Reference" icon="handshake" href="/partner-api-reference">
+    API endpoints available to partner/hub users.
+  </Card>
+</CardGroup>

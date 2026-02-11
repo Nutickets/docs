@@ -1,0 +1,129 @@
+---
+title: "Waiting Rooms"
+description: "Manage virtual waiting rooms that queue shoppers during high-traffic periods to protect checkout stability and create a fair purchasing experience."
+---
+
+## Overview
+
+Virtual waiting rooms protect a company's ticket shop during periods of high demand. When more shoppers arrive than the shop can comfortably handle, the waiting room automatically queues excess visitors and releases them in order as space becomes available. This prevents the shop from becoming overloaded and ensures every customer gets a fair chance to purchase, regardless of their device or internet speed.
+
+Waiting room settings are configured per company from the company edit page in the hub. The hub also provides a real-time monitoring dashboard that shows queue activity across all companies.
+
+<Note>
+Waiting rooms are enabled by default for new companies. The settings that control queue behaviour — user limit, inactivity timeout, and maximum hold time — can be adjusted on each company individually.
+</Note>
+
+## How It Works
+
+The waiting room operates on a simple threshold model:
+
+1. Every visitor to a company's ticket shop is tracked by session.
+2. As long as the number of active visitors stays below the **Maximum number of simultaneous shoppers** threshold, everyone accesses the shop normally.
+3. Once the threshold is exceeded, new visitors are placed into a queue and shown a waiting room page with their position.
+4. As existing shoppers leave or become inactive, queued visitors are released into the shop in the order they arrived.
+
+The system maintains separate queues for human visitors and automated bots, so bot traffic does not displace real customers.
+
+### What Shoppers See
+
+When placed in the waiting room, shoppers see a branded page (using the company's theme colours and branding) that displays:
+
+- A **"You are now in line"** header
+- Their current **position in the queue**, which updates automatically
+- An animated progress bar showing movement through the queue
+- The option to **receive a browser notification** when they reach the front
+- A link to **give up their spot** if they change their mind
+
+The page polls for position updates at intervals that scale with queue depth — shoppers near the front receive faster updates (every 15 seconds) while those further back poll less frequently (up to 90 seconds) to reduce server load.
+
+When a shopper reaches the front of the queue, the page automatically redirects them into the ticket shop.
+
+<Note>
+If a shopper starts a basket reservation while on the shop, their session is secured until either the basket expires or they complete checkout — they will not be sent back to the waiting room mid-purchase.
+</Note>
+
+### Inactivity and Hold Time
+
+Two timers work together to keep the queue moving:
+
+| Timer | Purpose |
+|-------|---------|
+| **Inactivity timeout** | If a shopper on the site stops browsing (no page loads) for longer than the configured inactivity period, they lose their spot and are moved to the back of the queue |
+| **Maximum hold time** | The absolute longest a shopper can hold their position on the site, even if they remain active. After this time, they are returned to the queue to give others a turn |
+
+The inactivity timeout ensures abandoned sessions don't block the queue. The maximum hold time prevents a single shopper from occupying the site indefinitely during a high-demand sale.
+
+## Configuring Waiting Room Settings
+
+Waiting room settings are found in the **Waiting room settings** section on the company edit page. These settings control whether the waiting room is active and how it behaves.
+
+<Note>
+The **Enable virtual waiting room** toggle and the **Maximum number of simultaneous shoppers** field are restricted to super users. The inactivity and hold time fields can be edited by any hub user with company edit access.
+</Note>
+
+### Settings Reference
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Enable virtual waiting room** | Master switch that activates the waiting room for this company's ticket shop. The help text reads: *"This feature helps to create a fair shopping experience for all customers during high traffic periods."* | Enabled |
+| **Maximum number of simultaneous shoppers** | The number of concurrent visitors allowed on the shop before the queue activates. Visitors beyond this number are placed in the waiting room. The help text reads: *"This value represents the number of simultaneous users allowed on-site before the virtual waiting room starts to operate."* | 200 |
+| **Maximum inactivity time in minutes** | How long a shopper can remain inactive (no page activity) before losing their spot. The help text reads: *"How long must a user remain inactive before they lose their spot and are forced to the back of the queue."* Accepts values between 1 and 20. | 5 minutes |
+| **Maximum position hold time in minutes** | The absolute maximum time a shopper can hold their position on the site, regardless of activity. The help text reads: *"The longest period of time in which a user can hold their spot in the queue, assuming they remain within the inactivity bounds."* Accepts values between 5 and 120. | 60 minutes |
+
+### Choosing the Right User Limit
+
+The **Maximum number of simultaneous shoppers** value depends on the company's expected traffic patterns:
+
+- **Too low** — shoppers are queued unnecessarily during normal traffic, creating frustration when the shop could handle more visitors
+- **Too high** — the shop may become overloaded during peak demand before the queue activates, leading to slow page loads and failed checkouts
+- A starting point of **200** works for most companies, but high-demand events may benefit from a lower threshold to maintain checkout stability
+
+### Custom Waiting Room Text
+
+Companies can customise the text shown on the waiting room page. The **Waiting room options** section (labelled *"Here you can add more specific text to your waiting room. This will replace the generic text when users are waiting to access your shop"*) provides two text block fields:
+
+- **Waiting room text block one**
+- **Waiting room text block two**
+
+These replace the default queue messaging when configured, allowing companies to include event-specific information or instructions for waiting shoppers.
+
+## Monitoring Waiting Rooms
+
+The **Waiting rooms** dashboard in the hub provides real-time visibility into queue activity across all companies. This page is accessible to users with the **Access Dev Tools** permission.
+
+The dashboard displays:
+
+### Per-Company Statistics
+
+Each company with an active queue shows:
+
+| Metric | Description |
+|--------|-------------|
+| **Company name** | The company with the active queue, along with its reseller |
+| **Humans — total** | Total human visitors currently tracked (both on-site and queuing) |
+| **Humans — waiting** | Human visitors currently in the queue (total minus the user limit) |
+| **Bots — total** | Total bot visitors currently tracked |
+| **Bots — waiting** | Bot visitors currently in the queue |
+
+Companies are sorted by the number of humans waiting, so the busiest queues appear first.
+
+The dashboard also shows a warning count of companies that do not have the waiting room enabled.
+
+### Cloudflare Waiting Rooms
+
+The dashboard additionally displays Cloudflare waiting room statistics where configured. These are infrastructure-level waiting rooms that operate at the DNS/CDN layer, separate from the application-level waiting rooms described above. Each Cloudflare entry shows the host, path, number of queued users, and number of active users.
+
+<Note>
+The dashboard auto-refreshes every 10 seconds to provide near-real-time monitoring during high-traffic events.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Feature Flags" icon="toggle-on" href="/partner-hub/get-started/feature-flags">
+    Manage which capabilities are available to companies, including features that interact with the ticket shop experience.
+  </Card>
+  <Card title="Waiting Rooms (Company Guide)" icon="clock" href="/core-platform/information/waiting-rooms">
+    The company-facing documentation for waiting room behaviour and configuration.
+  </Card>
+</CardGroup>
