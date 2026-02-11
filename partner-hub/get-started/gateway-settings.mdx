@@ -1,14 +1,137 @@
 ---
 title: "Gateway Settings"
-description: "Documentation for Gateway Settings"
+description: "Configure which payment gateways are available to companies and manage credentials at the reseller level."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Gateway Settings** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Gateway settings control which payment processors are available across a reseller's portfolio of companies. Payment gateways are configured at the reseller level and then assigned to individual companies — a company can only use gateways that its reseller has enabled.
+
+This follows the same [reseller funnelling](/partner-hub/get-started/feature-flags#reseller-funnelling) pattern as feature flags: gateways must be enabled on the reseller before they can be assigned to any of its companies.
+
+## Supported Gateways
+
+The platform supports a wide range of payment processors. Gateways fall into two categories based on where their credentials are managed.
+
+### Reseller-Managed Gateways
+
+These gateways have their credentials configured once at the reseller level. Companies connect to the reseller's account — the specifics of how this works depend on the gateway.
+
+| Gateway |
+|---------|
+| **Stripe** |
+| **SumUp** |
+| **PayPal** |
+| **Ryft** |
+| **Curlec** |
+| **Nuvei** |
+
+### Company-Managed Gateways
+
+All other gateways require credentials to be configured at the company level. The reseller enables the gateway (making it available), but each company provides its own merchant credentials.
+
+| Gateway | | |
+|---------|---------|---------|
+| QuickPay | PayTabs | Authorize.Net |
+| Barclays ePDQ | SimplePay | Tap |
+| Adyen | Pay Retailers | DPO Pay |
+| ONVO | Netpay | Transbank |
+| PowerTranz | Bloomin | M-Pesa |
+| HyperPay | Banorte | Worldpay |
+| Revolut | | |
+
+<Note>
+The platform also uses internal gateway types (e-wallet and balance-on-hand) for account balance payments, but these are not configurable as payment gateways — they are managed through feature flags.
+</Note>
+
+## How Gateways Are Assigned
+
+### Reseller Configuration
+
+Gateways are assigned to resellers during reseller setup or editing. Each reseller maintains a list of enabled gateways, along with any reseller-level credentials for reseller-managed gateways.
+
+### Company Configuration
+
+When creating or editing a company in the hub, the gateway assignment step shows only the gateways enabled on the company's reseller. Companies can be assigned one or more gateways.
+
+Each company gateway has several configuration options:
+
+| Setting | Description |
+|---------|-------------|
+| **Credentials** | Gateway-specific merchant credentials (for company-managed gateways) |
+| **Enabled in shop** | Whether the gateway is available for online transactions in the ticket shop |
+| **Enabled in box office** | Whether the gateway is available for box office transactions |
+| **Primary (shop)** | The default gateway used for shop transactions when multiple gateways are enabled |
+| **Primary (box office)** | The default gateway used for box office transactions when multiple gateways are enabled |
+
+<Note>
+When a gateway is disabled for a sales channel, and it was the primary gateway for that channel, the next enabled gateway is automatically promoted to primary.
+</Note>
+
+### During Self-Service Registration
+
+Companies created through [self-service registration](/partner-hub/get-started/self-service-registration) are automatically assigned the reseller's first available payment gateway. The registering user does not select a gateway — it is inherited from the reseller.
+
+## Gateway Credentials
+
+### Reseller-Level Credentials
+
+For reseller-managed gateways, credentials are configured at the reseller level. Companies connect to the reseller's account, though some gateways may have additional configuration options at the company level.
+
+### Company-Level Credentials
+
+For company-managed gateways, each company provides its own credentials. The specific fields vary by gateway but typically include API keys, merchant IDs, and secrets.
+
+Companies can view and update their gateway credentials from their admin **Payment settings** page. Some gateways also support additional credential fields such as:
+
+- **MOTO enabled** — allows mail order / telephone order transactions
+- **Terminal enabled** — supports card-present payments via connected terminals
+
+### Self-Managed Payment Mode
+
+The **Company self manage payment mode** feature flag controls whether companies can switch their own gateway between live and test modes. When enabled, companies can toggle between modes from their admin settings without hub intervention.
+
+## Gateway Requirements
+
+Some gateways impose additional requirements on the checkout experience:
+
+| Requirement | Gateways |
+|-------------|----------|
+| **Billing address required** | PayTabs, Pay Retailers, Netpay, Bloomin, Banorte, Nuvei |
+| **Phone number required** | Netpay |
+
+When a gateway with these requirements is enabled for a company, the corresponding data capture fields are automatically set to mandatory in the company's checkout settings.
+
+## Gateways and Parent-Child Companies
+
+Gateway configuration interacts with the [parent-child company](/partner-hub/get-started/parent-child-companies) hierarchy:
+
+| Setting | Gateway Behaviour |
+|---------|-------------------|
+| **Global transactions enabled** | The child company uses the **parent company's** payment configuration. The child does not need its own gateway credentials |
+| **Global transactions disabled** | The child company manages its own gateways independently |
+
+## Webhook Configuration
+
+Some gateways support webhooks for receiving real-time payment status updates from the processor. For gateways that require webhooks:
+
+- The webhook URL is generated automatically based on the gateway type and the reseller's domain
+- Webhook events are configured per gateway during reseller setup
+- The platform handles webhook signature verification and routing internally
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Payment Processors" icon="credit-card" href="/core-platform/payments/payment-processors">
+    Detailed documentation on each payment processor's capabilities and configuration at the company level.
+  </Card>
+  <Card title="Parent-Child Companies" icon="sitemap" href="/partner-hub/get-started/parent-child-companies">
+    How global transactions affect which company's gateway credentials are used.
+  </Card>
+  <Card title="Self-Service Registration" icon="user-plus" href="/partner-hub/get-started/self-service-registration">
+    How gateways are automatically assigned to companies during registration.
+  </Card>
+  <Card title="Feature Flags" icon="toggle-on" href="/partner-hub/get-started/feature-flags">
+    Enable the self-managed payment mode flag to let companies control their own gateway mode.
+  </Card>
+</CardGroup>

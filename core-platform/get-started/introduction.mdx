@@ -1,34 +1,87 @@
 ---
 title: "Introduction"
-description: "A functional reference manual for the platform's features, settings, and operational controls."
+description: "Get oriented with the Nuweb platform — understand the key concepts, how the system is structured, and where to find what you need."
 ---
 
-<Danger>
-  This is currently a proof-of-concept, please refer to other documentation in the meantime.
-</Danger>
+The Nuweb platform is an event management and ticketing system. You use it to create events, sell tickets and products, manage customers, process payments, control venue access, and run on-site operations — all from a single admin dashboard.
 
-This documentation serves as the central reference manual for the Nuweb platform. It provides a complete overview of the platform's features, configuration options, and operational controls.
+This documentation is a reference for everything the platform can do. Whether you're setting up your first event or looking up how a specific feature works, start here to understand how the pieces fit together.
 
-## Purpose of this Manual
+## How the Platform Is Structured
 
-This guide is designed to function as a knowledge base for navigating the platform's capabilities & ecosystem. It details the available settings and logic for every corner of the system including context, use-cases and helpful references.
+Everything in the platform revolves around a few core concepts. Understanding these will help you navigate both the system and this documentation.
 
-Use this reference to:
+### Companies
 
-- **Verify System Logic:** Understand the rules, limitations & concepts that govern how the platform operates.
-- **Explore Configuration Options:** Review the available settings for system features to determine the best setup for your specific use case.
-- **Troubleshoot Operations:** Locate the specific controls required to manage day-to-day tasks and resolve common operational scenarios.
+A **company** is your account on the platform. It's where all your events, customers, orders, and settings live. Each company has its own [ticket shop](/core-platform/ticket-shop/homepage) — a public-facing website where customers browse and purchase.
 
-## Documentation Structure
+Companies can operate independently or as part of a parent–child structure, where a parent company manages shared settings and features across multiple child companies.
 
-The manual is organized into logical functional groups. Topics with significant depth or complexity are broken out into dedicated categories to provide comprehensive detail.
+### Events
 
-Where functionality depends on or interacts with other areas of the platform, cross-references are provided to link relevant sections. Use the sidebar navigation or the global search to locate specific features.
+[Events](/core-platform/event-management/introduction) are the central building block. An event has a date, a location (physical, online, or both), and one or more things to sell. Events can be standalone or grouped into a [schedule](/core-platform/event-management/schedules) for recurring or multi-date series.
 
-## Getting Started
+Each event is configured with its own [capacity controls](/core-platform/event-management/capacity-controls), [access control rules](/core-platform/event-management/access-control), [sales periods](/core-platform/event-management/sales-periods), and [page customisations](/core-platform/event-management/event-page-customisations).
 
-Navigate using the sidebar to find the specific module or functional area you need. Most sections begin with a **Core Concepts/Introduction** page explaining the fundamental logic before detailing specific settings. Use the **glossary** to get comfortable with the terminology used in this documentation.
+### Sale Items
 
-<Note>
-  In addition to this user manual, refer to the **Mobile Apps** guides for hardware operations, the **Release Notes** for a full product changelog, and the **API** references for technical integrations.
-</Note>
+A [sale item](/core-platform/sale-items/core-concepts) is anything a customer can purchase — tickets, products, guest list entries, donations, season tickets, or bundles. Each sale item is configured with its own pricing, stock, on-sale dates, and sales channel visibility.
+
+Sale items are sold through an **inventory** — the entity that owns and lists them. Events are the most common inventory, but sale items can also belong to [EPOS shops](/core-platform/epos/overview) or to the company itself (for items sold independently of any event).
+
+Sale items can be enhanced with [add-ons](/core-platform/sale-items/add-ons), restricted to [customer groups](/core-platform/customer-management/customer-groups), and organised into [groups](/core-platform/event-management/sale-item-groups) that control how they appear to customers.
+
+### Orders & Customers
+
+When a customer completes a purchase, it becomes an [order](/core-platform/order-management/core-concepts). Orders contain individual order items — each with a unique barcode — and support [refunds](/core-platform/order-management/refunds-and-cancellations), [modifications](/core-platform/order-management/order-modifications), and [transfers](/core-platform/event-management/item-transfers).
+
+Customers are created automatically when someone makes a purchase or registers an account. You can [edit customer records](/core-platform/customer-management/editing-customers), [merge duplicates](/core-platform/customer-management/merging-customers), and segment customers into [groups](/core-platform/customer-management/customer-groups) for targeted access and pricing.
+
+## Sales Channels
+
+Sale items can be made available across multiple sales channels, and each channel serves a different selling context:
+
+| Channel | Description |
+|---------|-------------|
+| **Ticket Shop** | Your [customer-facing website](/core-platform/ticket-shop/homepage). Customers browse events, select items, and check out on their own. The shop supports [event listings](/core-platform/ticket-shop/event-listings), [search](/core-platform/ticket-shop/event-search), a [global basket](/core-platform/ticket-shop/global-basket) across multiple events, and [guest checkouts](/core-platform/ticket-shop/guest-checkouts). Its appearance is controlled through the [CMS](/core-platform/cms/theme-and-branding). |
+| **Box Office** | [Staff-assisted web sales](/core-platform/box-office/introduction) — at the door, over the phone, or anywhere a staff member is helping a customer. Runs inside the shop with staff authentication, adding operational tools like [instant checkout](/core-platform/box-office/instant-checkout), [named orders](/core-platform/box-office/named-orders), and additional [payment methods](/core-platform/box-office/payment-methods). |
+| **Mobile Box Office** | Staff-assisted sales through the [Box Office Pro](/mobile-apps/box-office-pro) mobile app, designed for on-the-ground selling with connected hardware. |
+| **Kiosk** | Self-service purchasing for customers at a physical location, without staff involvement. |
+| **API** | Programmatic sales through the [public API](/api-reference/introduction), enabling third-party integrations and custom sales flows. |
+
+Each sale item can be independently enabled or disabled per channel, so you can control exactly where each item is available for purchase.
+
+## Navigating This Documentation
+
+The documentation is organised into sections that mirror how the platform works:
+
+<CardGroup cols={2}>
+  <Card title="Events" icon="calendar" href="/core-platform/event-management/introduction">
+    Creating events, configuring timeslots, venues, capacity, seating plans, access control, and sales periods.
+  </Card>
+  <Card title="Commerce & Revenue" icon="cart-shopping" href="/core-platform/sale-items/core-concepts">
+    Sale items, pricing, fees, tax, discount codes, payment processing, refund protection, and resale.
+  </Card>
+  <Card title="Channels & Experience" icon="store" href="/core-platform/ticket-shop/homepage">
+    Ticket shop configuration, box office mode, CMS, data capture, notifications, and EPOS.
+  </Card>
+  <Card title="Data & Insights" icon="chart-line" href="/core-platform/order-management/core-concepts">
+    Order management, customer management, reporting, and data imports.
+  </Card>
+  <Card title="Platform & Admin" icon="gear" href="/core-platform/system-access/users">
+    Users, roles, permissions, system defaults, integrations, and technical settings.
+  </Card>
+  <Card title="Information" icon="circle-info" href="/core-platform/information/terminology">
+    Glossary, sales channel details, supported languages and currencies, and other reference material.
+  </Card>
+</CardGroup>
+
+Use the sidebar to drill into any section, or use the search to jump directly to a specific feature.
+
+## Beyond the Core Platform
+
+This tab covers the admin platform and ticket shop. For other parts of the ecosystem, see the other documentation tabs:
+
+- **[Mobile Apps](/mobile-apps/get-started/introduction)** — Access Control Pro, Box Office Pro, and EPOS Pro for on-site operations with mobile devices.
+- **[API Reference](/api-reference/introduction)** — Public API for building integrations, automating workflows, and accessing platform data programmatically.
+- **[Webhook Reference](/webhook-reference/introduction)** — Real-time event notifications for external systems.

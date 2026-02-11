@@ -1,14 +1,180 @@
 ---
-title: "Plans And Packages"
-description: "Documentation for Plans And Packages"
+title: "Plans & Packages"
+description: "Create predefined bundles of features and fees that can be assigned to companies for consistent, repeatable configuration."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Plans And Packages** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Plans are reusable configuration templates that bundle together a set of [feature flags](/partner-hub/get-started/feature-flags) and [reseller fees](/partner-hub/get-started/reseller-fees). Instead of manually configuring each company's features and fees individually, you can create a plan once and assign it to multiple companies — all of which then share the same configuration.
+
+This is useful when:
+- You have tiers of service (e.g. basic, professional, enterprise) with different feature sets and fee structures
+- You want to ensure consistent configuration across companies with the same offering
+- You need to update features or fees for a group of companies at once rather than editing each one individually
+- You use [self-service registration](/partner-hub/get-started/self-service-registration) and want new companies to receive a standard configuration automatically
+
+Plans are managed per reseller and require the **Plans** feature flag to be enabled on the reseller.
+
+## How Plans Work
+
+A plan has three components:
+
+| Component | Description |
+|-----------|-------------|
+| **Name** | A label to identify the plan (e.g. "Standard", "Enterprise") |
+| **Features** | The set of feature flags that companies on this plan receive |
+| **Usage fees** | The reseller fee schedule (per currency and fee type) that companies on this plan are charged |
+
+Plans also support optional settings such as an **event timeslots limit** that restricts the maximum number of timeslots a company can create per event.
+
+### Reseller Funnelling
+
+A plan can only include features that its reseller has enabled. This follows the same [reseller funnelling](/partner-hub/get-started/feature-flags#reseller-funnelling) pattern as direct feature assignment — the reseller acts as a gate, and the plan can only pass through what the reseller allows.
+
+If a feature is later disabled on the reseller, it will no longer be available when editing the plan.
+
+### Assigning a Plan to a Company
+
+Plans are assigned on the company edit page or during company creation in the hub. When a plan is assigned:
+
+1. **Features** from the plan are synced to the company. Features that came from the plan appear as read-only on the company's feature flag list.
+2. **Fees** from the plan are optionally synced to the company (controlled by the **Use plan fees** setting on the company).
+3. **Settings** from the plan (e.g. event timeslots limit) are applied to the company.
+
+A company can only be assigned to one plan at a time. Assigning a different plan replaces the previous one.
+
+<Note>
+Removing a feature that was assigned via a plan triggers a confirmation warning, since it means the company is deviating from its plan's standard configuration.
+</Note>
+
+## Creating a Plan
+
+Plans are created from the reseller's plans page.
+
+1. Navigate to the reseller's **Plans** section
+2. Click **Add new plan**
+3. Enter the plan **name**
+4. Configure **usage fees** — set the fee schedule per currency and fee type. This works the same as configuring [reseller fees](/partner-hub/get-started/reseller-fees) but scoped to this plan
+5. Configure **features** — toggle the features that companies on this plan should receive. Only features available on the reseller are shown
+6. Click **Save**
+
+The plan is now available for assignment to companies.
+
+<Note>
+Plans also support a **blended reseller** fee option per currency. When blended fees are enabled, the reseller fee and gateway processing fee are combined into a single charge rather than being itemised separately.
+</Note>
+
+## Editing a Plan
+
+When you edit a plan, changes propagate to all companies currently assigned to it. This is one of the key benefits of plans — update once, apply everywhere.
+
+### Feature Changes
+
+If you **add features** to a plan, those features are synced to all assigned companies.
+
+If you **remove features** from a plan, a confirmation dialog appears showing:
+- Which features are being removed
+- Which companies are affected
+
+After confirming, the removed features are deactivated on all assigned companies.
+
+### Fee Changes
+
+When fees are modified, you are asked how to apply the changes:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Apply to all items (old and new)** | Fees are recalculated across all existing sale items for all companies on this plan |
+| **Apply only to new/edited items** | Updated fees take effect only when new items are created or existing items are edited |
+
+<Warning>
+Choosing to apply fee changes to all items triggers a recalculation across every sale item for every company on the plan. For plans with many companies, this runs as a background job.
+</Warning>
+
+### Blended Fee Changes
+
+If the **blended reseller** setting changes for any fee, all item fees for affected companies must be recalculated. This is enforced automatically — there is no option to defer it to new items only.
+
+## Fees and Plans
+
+Each company on a plan has a **Use plan fees** setting that controls whether the company inherits the plan's fee schedule:
+
+| Setting | Behaviour |
+|---------|-----------|
+| **Use plan fees** enabled | The company's fees are managed by the plan. The company fee table displays the plan's fees and shows: *"This company will inherit the fees configured in '[Plan Name]'."* Changes to the plan's fees automatically propagate to the company |
+| **Use plan fees** disabled | The company maintains its own independent fee schedule. Plan fee changes do not affect this company. The company fee table shows: *"This company will not inherit the fees configured in '[Plan Name]'."* |
+
+A **Reset to plan fees** option is available for companies where plan fee inheritance has been disabled, allowing you to re-sync with the plan's current fee schedule.
+
+<Note>
+When a plan is first assigned to a company (including during [self-service registration](/partner-hub/get-started/self-service-registration)), **Use plan fees** is enabled by default.
+</Note>
+
+## Archiving Plans
+
+Plans can be archived to hide them from selection without affecting companies already using them.
+
+| Action | Effect |
+|--------|--------|
+| **Archive** | The plan is hidden from the plan selection dropdown when creating or editing companies. Companies already assigned to the plan remain on it and continue to receive updates |
+| **Unarchive** | The plan reappears as an available option for assignment |
+
+The archive tooltip explains: *"Archiving plans allows you to hide them as options when assigning to companies but keeps them assigned to any existing companies."*
+
+Archiving is useful when you want to retire a plan for new companies while maintaining it for existing ones.
+
+## Deleting a Plan
+
+Deleting a plan removes it entirely and unlinks all companies:
+
+1. All companies assigned to the plan are set to **Custom** configuration (no plan)
+2. Companies **retain their current features and fees** — nothing is removed from them
+3. The plan is soft-deleted and can be restored later
+
+The confirmation message reads: *"Are you sure you want to delete "[Plan Name]"? All companies assigned to this plan will retain their fees and features but be set to "Custom"."*
+
+### Restoring a Deleted Plan
+
+Soft-deleted plans can be restored from the plans list by filtering for deleted plans and clicking **Restore**. Restoration makes the plan available for assignment again but does not re-assign it to any companies that were previously linked.
+
+## Plans and Self-Service Registration
+
+Plans integrate with [self-service registration](/partner-hub/get-started/self-service-registration) through the **default registration plan** setting on the reseller. When configured:
+
+- New companies that register through the self-service form are automatically assigned the default plan
+- The plan's features and fees are applied to the new company immediately
+- The **Plans** feature flag must be enabled on the reseller for this to take effect
+
+If the default registration plan is archived, deleted, or the Plans feature flag is disabled, new registrations proceed without a plan assignment.
+
+## The Plans List
+
+The plans index page shows all plans for a reseller in a card-based grid layout. Each card displays:
+
+- The plan **name**
+- **Feature count** — e.g. *"12 feature(s)"*
+- **Company count** — e.g. *"Assigned to 5 company(s)"*, with an expandable list of company names
+
+Available actions per plan:
+- **Edit** — modify the plan's name, features, and fees
+- **Archive / Unarchive** — toggle visibility for new assignments
+- **Delete** — remove the plan (with confirmation)
+
+The list can be filtered by:
+- **Name** — partial text match
+- **Deleted status** — show or hide soft-deleted plans
+- **Archived status** — hide archived, show all, or show only archived
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Feature Flags" icon="toggle-on" href="/partner-hub/get-started/feature-flags">
+    The features that plans bundle together. Plans can only include features available on the reseller.
+  </Card>
+  <Card title="Reseller Fees" icon="receipt" href="/partner-hub/get-started/reseller-fees">
+    The fee structures that plans can define per currency and type.
+  </Card>
+  <Card title="Self-Service Registration" icon="user-plus" href="/partner-hub/get-started/self-service-registration">
+    Automatically assign a default plan to companies that register through self-service.
+  </Card>
+</CardGroup>
