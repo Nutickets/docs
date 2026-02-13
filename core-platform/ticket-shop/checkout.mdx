@@ -1,0 +1,218 @@
+---
+title: "Checkout"
+description: "Understand the multi-step checkout flow that guides customers from their basket to a completed order, including guest checkout, data collection, and payment."
+---
+
+## Overview
+
+The checkout is a multi-step process that takes customers from their basket through to a completed order. What makes it distinctive is that the steps are **dynamic** -- the system evaluates your company settings, the items in the basket, and the customer's existing profile data, then builds a checkout flow that only includes the steps that are actually needed.
+
+A customer buying a single free ticket with a complete profile might see just two steps (basket and confirmation). A customer buying shipped merchandise for a charity event with custom questions might see eight or more. The checkout adapts automatically -- you do not manually configure which steps appear.
+
+## Checkout Steps
+
+The checkout consists of up to ten steps. Each step is conditionally shown or skipped based on the current order context.
+
+1. **Basket review** -- Always shown. The customer reviews their items, quantities, and pricing. Discount codes and access codes are applied here.
+
+2. **Customer details** -- Shown if your company requires customer profile data (name, phone, date of birth, address, etc.) and the customer's profile is incomplete. The system checks which fields you have marked as required and only shows this step if any are missing.
+
+3. **Charity donations** -- Shown only if the charity donations feature is enabled and the basket contains applicable items.
+
+4. **Event data capture** -- Shown per event if the event has custom questions configured. Each event with questions gets its own separate step, so a customer buying tickets for three events with questions will see three data capture steps.
+
+5. **Gift Aid declaration** -- Shown per item for charity donation items that have Gift Aid enabled. Each eligible order item gets its own declaration step.
+
+6. **Delivery address** -- Shown if the order contains shipped items and a delivery address is required.
+
+7. **Item sharing / Named holders** -- Shown if any items require named ticket holders or compulsory transfers to other people.
+
+8. **Billing address** -- Shown if your company requires a billing address and the customer has not provided one. Only applies to paid orders (skipped for zero-total orders). Also skipped in box office mode, where billing is handled at the payment stage.
+
+9. **Refund protection** -- Shown if refund protection is available and applicable to the order.
+
+10. **Payment** -- Always shown as the final step. The customer selects a payment method and completes the purchase.
+
+<Note>
+Steps 4 and 5 can each appear multiple times -- once per event with questions, and once per eligible donation item. The total number of checkout steps depends entirely on what is in the basket.
+</Note>
+
+## Step Visibility Reference
+
+This table summarises when each step appears:
+
+| Step | Condition to appear |
+|------|-------------------|
+| **Basket review** | Always |
+| **Customer details** | Company requires profile fields that the customer has not yet provided |
+| **Charity donations** | Charity donations feature enabled and applicable items in basket |
+| **Event data capture** | Event has custom questions configured (repeats per event) |
+| **Gift Aid declaration** | Charity donation item with Gift Aid enabled (repeats per item) |
+| **Delivery address** | Order contains shipped items requiring a delivery address |
+| **Item sharing** | Items require named ticket holders or compulsory transfers |
+| **Billing address** | Company requires billing address, customer has not provided one, and order total is greater than zero |
+| **Refund protection** | Refund protection is available for the order |
+| **Payment** | Always |
+
+## Guest Checkout
+
+By default, customers must sign in or create an account before they can check out. Enabling guest checkout lets customers complete a purchase without creating a full account -- they simply enter their email address and proceed.
+
+### Enabling Guest Checkout
+
+1. Navigate to **Company Settings**
+2. Find **Enable shop guest checkout**
+3. Toggle the setting on
+
+Once enabled, customers see a **Checkout as guest** option alongside the standard sign-in form. They enter their email address and continue directly into the checkout flow.
+
+<Note>
+The setting description reads: "Enabling guest checkouts will allow customers to checkout quickly without creating an account." This is enabled by default.
+</Note>
+
+### Guest Checkout vs Account Checkout
+
+| Aspect | Guest checkout | Account checkout |
+|--------|---------------|-----------------|
+| **Account required** | No -- email only | Yes -- email and password |
+| **Order tracking** | Via confirmation email only | Full order history in account |
+| **Returning purchases** | Must re-enter details each time | Profile data is remembered |
+| **Post-purchase upgrade** | Prompted to upgrade to full account | Already has an account |
+| **Payment history** | Not available until account is created | Available immediately |
+
+### Guest Checkout Restrictions
+
+Guest checkout is not always available, even when the setting is enabled:
+
+- **Email already linked to an account** -- If the email the customer enters belongs to an existing account, they see: "This email is already linked to an account, please sign in or retrieve your password from the sign in page." They must sign in rather than continue as a guest.
+- **Conflicting baskets** -- If there is a conflicting basket in another browser session, the customer sees: "Guest checkout is not available, as there are conflicting baskets - please return to your previous browser."
+
+In both cases, the customer can click **Change check out method** to switch back to the sign-in form.
+
+### Guest User Logout
+
+For shared devices (such as kiosks or public terminals), you can enable automatic logout for guest users:
+
+1. Navigate to **Company Settings**
+2. Find **Enable guest user logout**
+3. Toggle the setting on
+
+When enabled, guest users are automatically logged out after completing their order or when their basket expires. This prevents the next person using the device from accessing the previous customer's session.
+
+<Note>
+The setting description reads: "When enabled, guest users will be logged out when a guest checkout is completed or when the basket expires. This is useful if guest checkout is being used on a shared device."
+</Note>
+
+### Upgrading from Guest to Full Account
+
+After completing a guest checkout, customers see a prompt on their order confirmation page offering them the option to upgrade:
+
+- **Heading:** "Upgrade to a full account?"
+- **Description:** "By upgrading to a full account, you can track all your orders and view your payment history."
+- **Button:** **Upgrade!**
+
+When the customer clicks the button, they receive a confirmation: "Your account is being created. Please check your inbox to verify your details and finish your account creation." The customer completes account creation via the verification email.
+
+## Customer Data Collection
+
+The checkout can collect two types of customer data: system profile fields and custom event questions.
+
+### System Profile Fields
+
+These are company-wide fields that apply to every order. Each field can be set to **required**, **optional**, or **hidden** in your company settings:
+
+| Field | Description |
+|-------|-------------|
+| **Title** | Salutation (Mr, Mrs, etc.) |
+| **First name** | Customer's first name |
+| **Last name** | Customer's last name |
+| **Email** | Email address (always collected) |
+| **Phone number** | Contact phone number |
+| **Date of birth** | Customer's date of birth |
+| **Address** | Residential address |
+| **Billing address** | Billing address for payment |
+| **Delivery address** | Shipping address for physical items |
+| **Nationality** | Customer's nationality |
+
+The **Customer details** checkout step only appears if any required fields are missing from the customer's profile. If a customer has previously completed all required fields, this step is skipped entirely.
+
+### Custom Data Capture Questions
+
+These are per-event questions you configure in the event settings. When a customer buys tickets for an event that has custom questions, a dedicated **Event data capture** step appears during checkout for that event. If the basket contains tickets for multiple events with questions, each event gets its own step.
+
+### Marketing Preferences
+
+The checkout can include a marketing consent section where customers opt in or out of marketing communications. The section heading and body text are configurable, allowing you to tailor the messaging to your brand.
+
+## Payment
+
+The payment step is always the final step in the checkout. Customers select their preferred payment method and submit their order.
+
+### Available Payment Methods
+
+The payment methods available to customers depend on your payment gateway configuration and company settings:
+
+| Payment method | Availability |
+|----------------|-------------|
+| **Card payment** | Available when a payment gateway (Stripe, Adyen, PayPal, etc.) is configured |
+| **Apple Pay / Google Pay** | Available where supported by your configured gateway |
+| **Account balance** | Available if balance spending in shop is enabled and the customer has a balance |
+| **Manual payment / Invoice** | Available if enabled for the shop |
+| **Gift vouchers** | Redeemed against the customer's account balance |
+
+### Split Payments
+
+Customers can split their payment between their account balance and another payment method. For example, a customer with a partial account balance can pay the remainder with a card. The system automatically calculates the split.
+
+### Zero-Total Orders
+
+When the order total is zero -- for example, free items or an order fully covered by a discount code or account balance -- the payment step still appears, but no payment method selection is required. The customer simply confirms the order to complete the checkout.
+
+## Order Confirmation
+
+After a successful payment, customers see the order confirmation page.
+
+### What Customers See
+
+- **Title:** "Order successful!"
+- **Message:** "Thank you for your order"
+- The order reference number
+- Any available ticket downloads or digital items
+- A link to view the full order in their account (for account holders)
+
+### Confirmation Emails
+
+A confirmation email is sent to the customer automatically after the order is completed. This can be disabled via the company setting **Disable shop confirmation emails** if you prefer to handle order communications through other channels.
+
+### Order Processing
+
+Some payments require asynchronous processing -- for example, 3D Secure card verification. During this time, customers see a processing page that automatically polls for the payment result. Once the payment is confirmed, they are redirected to the order confirmation page.
+
+### Payment Failure
+
+If a payment fails, the customer sees an error message and can return to the basket to try again or select a different payment method. The basket contents are preserved so the customer does not need to start over.
+
+## Order Modification Checkout
+
+When customers modify an existing order (adding or changing items), the checkout flow adapts to reflect that this is a change rather than a new purchase.
+
+### How It Differs
+
+| Aspect | Standard checkout | Order modification checkout |
+|--------|------------------|---------------------------|
+| **Basket title** | "Your basket" | "Edit your order #REF" |
+| **Info banner** | None | "Your previous order is still active, and won't be cancelled until you check out your current changes. If your basket times out no changes will be made." |
+| **Confirmation message** | Standard payment confirmation | "Your current order will remain active and will not be cancelled until you confirm any modifications." |
+| **Checkout button** | "Check out" | "Check out changes" |
+
+<Warning>
+The original order remains active and is not cancelled until the customer completes the modification checkout. If the basket times out before checkout is completed, no changes are made to the original order.
+</Warning>
+
+## Related Pages
+
+- [Basket](/core-platform/ticket-shop/basket) -- Basket management before checkout
+- [Payment Processors](/core-platform/payments/payment-processors) -- Gateway configuration
+- [Data Capture](/core-platform/data-capture/introduction) -- Custom questions setup
+- [Customer Accounts](/core-platform/ticket-shop/customer-accounts) -- Account creation and login
+- [Order Modifications](/core-platform/order-management/order-modifications) -- Modifying existing orders

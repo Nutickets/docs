@@ -1,0 +1,213 @@
+---
+title: "Email Settings"
+description: "Configure which emails are sent, who they come from, and how automatic reminders work."
+---
+
+## Overview
+
+Email settings are spread across three levels: company settings provide the defaults, event settings allow per-event overrides, and shop settings control cashless shop behaviour. This page covers all the settings that affect email delivery, organised by what they control.
+
+## Sender Configuration
+
+Every email sent by the platform has a "from" name, "from" address, and optional "reply-to" address. These are resolved through a cascade — if no company-level override is set, the platform falls back to reseller-level defaults, then to global platform defaults.
+
+### How the Cascade Works
+
+| Priority | From Name | From Email | Reply-To Email |
+|----------|-----------|------------|----------------|
+| 1 (highest) | Company from name | Company from email | Company reply-to email |
+| 2 | Reseller from name | Reseller from email | Reseller reply-to email |
+| 3 (lowest) | Company name | Platform default | None |
+
+### Setting the Company From Address
+
+Company-level email sender settings are managed in the hub:
+
+1. Navigate to the company edit page in the hub
+2. Find the **Ownership** section
+3. Configure the following fields:
+
+| Field | Effect |
+|-------|--------|
+| **Company from name** | The sender name that appears in the recipient's inbox (e.g. "Acme Events") |
+| **Company from email** | The email address emails are sent from. Must be a verified sending address |
+| **Company reply-to email** | The email address used when a recipient clicks "Reply". If not set, no reply-to header is included |
+
+<Warning>
+Custom from email addresses must be verified with the email delivery provider before they can be used. Setting an unverified address may cause emails to fail. Use the **Send test email** button to verify your configuration.
+</Warning>
+
+### Testing Your Configuration
+
+When a from email or reply-to email is configured, a **Send test email** button appears. Clicking it sends a test email to your own email address to confirm the configuration is working. The test email confirms whether the from and reply-to addresses are correctly verified for sending.
+
+### Setting the Reseller From Address
+
+Reseller-level defaults apply to all companies under that reseller unless overridden at the company level. These are configured on the reseller edit page in the hub under **Email Preferences**:
+
+| Field | Effect |
+|-------|--------|
+| **Reseller from name** | Default sender name for all companies under this reseller |
+| **Reseller from email** | Default from address for all companies under this reseller |
+| **Reseller reply-to email** | Default reply-to address for all companies under this reseller |
+
+---
+
+## Disabling Confirmation Emails
+
+The platform sends order and reservation confirmation emails by default. These can be disabled for specific channels at the company level.
+
+Navigate to **Company Settings** to find these toggles:
+
+| Setting | Effect when enabled |
+|---------|-------------------|
+| **Disable order and reservation confirmation emails in box office** | Suppresses confirmation emails for orders placed through the box office. Useful when staff are handing physical tickets to customers in person |
+| **Disable order and reservation confirmation emails in shop** | Suppresses confirmation emails for orders placed through the online shop |
+| **Disable tax receipt emails** | Suppresses all automatic tax receipt emails |
+
+<Note>
+When box office confirmation emails are disabled, the checkout completion message changes to reflect this: *"The order was successfully processed, but no confirmation email was sent to the customer."* Staff can still resend confirmation emails manually from the order page if needed.
+</Note>
+
+### Box Office Per-Order Override
+
+Even when box office confirmation emails are enabled at the company level, the box office checkout screen includes a **Send a Confirmation email** toggle. This allows staff to suppress or send the confirmation email on a per-order basis.
+
+When a checkout is completed without an email address on the order, no confirmation email is sent regardless of this setting.
+
+---
+
+## Purchase Summary Emails
+
+Purchase summary emails notify designated staff whenever a purchase is made for their event. These are configured per event.
+
+### Enabling Purchase Summaries
+
+1. Open the event dashboard
+2. Click **Email Preferences** (in the quick actions)
+3. Enable **Send purchase summary email**
+4. Add one or more recipient email addresses
+
+Each recipient receives an email for every completed order containing items from this event. The email includes the customer name, items purchased, quantities, and order total.
+
+### Enriched Purchase Notifications
+
+By default, purchase summary emails contain basic order information. An enriched variant is available that adds:
+
+- Customer billing address
+- Customer address
+- Data capture responses associated with the order
+- SSO identifiers (if applicable)
+
+Enable this at the company level in **Company Settings** with the **Enable enriched purchase notifications** toggle. This applies to all events under the company.
+
+### Enriched Order Confirmations
+
+A similar enrichment is available for customer-facing order confirmation emails. When **Enable enriched order confirmation emails** is enabled in company settings, order confirmation emails sent to customers include address details and data capture responses.
+
+---
+
+## Confirmation Email Splitting
+
+By default, when a customer purchases items from multiple events in a single order, they receive one confirmation email covering all items. The **Dispatch confirmation email per inventory source** setting in company settings changes this behaviour so the customer receives a separate confirmation email for each event.
+
+When enabled, the customer also sees a note in each email: *"Please note that as your order contains items from multiple events, a confirmation email has been sent for each event individually."*
+
+---
+
+## Automatic Event Reminder Emails
+
+Automatic reminder emails notify attendees before an event takes place, providing download links for their tickets. This feature must be enabled for the company before it can be used.
+
+### Enabling at the Company Level
+
+1. Navigate to **Company Settings**
+2. Find **Enable automatic event reminder emails**
+3. Enable the toggle
+4. Set the **time before event** — this determines how far in advance of the event start time the reminder is sent (configurable in hours, days, or weeks)
+
+This creates a company-wide default. All events inherit this setting unless overridden at the event level.
+
+<Warning>
+When enabling company-wide reminders, any events that already fall within the reminder window (i.e. events starting sooner than the configured time) will have reminders automatically disabled at the event level. This prevents a flood of unexpected reminder emails for imminent events.
+</Warning>
+
+### Overriding per Event
+
+Individual events can override the company default:
+
+1. Open the event dashboard
+2. Click **Email Preferences**
+3. Under **Automatic Reminder Emails**, choose:
+   - **Inherit company settings** — uses the company default (the current company setting is shown for reference)
+   - **Disabled** — no reminder emails for this event
+   - **Enabled** — reminder emails are sent, with a custom time-before-event if desired
+
+When set to **Inherit company settings**, the event follows whatever the company default is at the time the reminder is due — if the company setting changes, the event automatically reflects the new setting.
+
+### How Reminders Are Processed
+
+The platform checks for upcoming events every 30 minutes. When an event falls within its configured reminder window, reminder emails are created and queued for each attendee with items for that event. Each attendee receives one reminder per event, regardless of how many items they hold.
+
+The reminder email includes download links for the attendee's tickets and a calendar link for the event.
+
+<Note>
+Reminder emails are sent approximately at the configured time, not exactly. Because the system checks every 30 minutes, there may be a delay of up to 30 minutes from the configured reminder time.
+</Note>
+
+### Customising Reminder Content
+
+The subject and body of the reminder email can be customised through the website text manager. From the event's **Email Preferences** modal, click **Customise reminder email** to go directly to the relevant text editing page.
+
+See [Customising Emails](/core-platform/notifications/customising-emails) for more on editing email content.
+
+---
+
+## Event Approval Emails
+
+When using the [event approval workflow](/core-platform/event-management/event-approvals), email addresses can be configured to receive notifications when approval is requested.
+
+1. Navigate to **Company Settings**
+2. Find **Event approval email(s)**
+3. Enter one or more email addresses, separated by commas
+
+These recipients are notified whenever a user requests publishing approval for an event. The email includes the event name, the requesting user's name, and a link to review the event.
+
+<Note>
+If no approval email addresses are configured, the approval workflow still functions — approvers can find events awaiting approval using the **Status** filter on the events list. The email notification is an optional convenience.
+</Note>
+
+---
+
+## Event Creation Notifications
+
+The platform can notify designated recipients whenever a new event is created or copied. This is configured at the company level in the hub.
+
+1. Navigate to the company edit page in the hub
+2. Enable **Send event creation notification email**
+3. Add one or more recipient email addresses
+
+---
+
+## SMS Notifications
+
+SMS notifications are available as an optional channel for reservation approval and rejection workflows when the SMS integration is enabled for the company. When available, reservation approval and rejection actions can include an SMS notification to the customer alongside the standard email.
+
+Three SMS message types are supported:
+
+| Scenario | Message |
+|----------|---------|
+| Reservation approved, payment required | Includes the order reference and a payment link |
+| Reservation approved, no payment required | Confirms the reservation and notes that tickets will be emailed |
+| Reservation rejected | Confirms the reservation reference was rejected |
+
+<Note>
+SMS is a supplementary channel — email remains the primary notification method. When SMS is available, it is offered as an option during the approval or rejection action rather than replacing email.
+</Note>
+
+## Related Pages
+
+- [Email Types](/core-platform/notifications/email-types) — Complete reference of every email
+- [Customising Emails](/core-platform/notifications/customising-emails) — Change email content
+- [Sending Emails](/core-platform/notifications/sending-emails) — Send and resend emails manually
+- [Email Logs](/core-platform/notifications/email-logs) — Track delivery status

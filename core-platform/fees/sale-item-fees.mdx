@@ -1,14 +1,240 @@
 ---
 title: "Sale Item Fees"
-description: "Documentation for Sale Item Fees"
+description: "Create custom fees that are automatically applied to customer orders at company level or event level, with control over pricing, application rules, and display."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Custom Fees** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Sale item fees are custom fee products that you create and manage. Unlike [default system fees](/core-platform/fees/default-system-fees) (which are set by the platform), sale item fees give you full control over what to charge, when to charge it, and how it appears to customers.
+
+There are two levels of sale item fees:
+
+- **Order fees** — applied to every order placed at your company, regardless of the events or items purchased.
+- **Event fees** — applied only to purchases of tickets, products, and season tickets from a specific event.
+
+Common uses include service charges, booking fees, handling fees, or any additional charge you want to apply to customer purchases.
+
+## Order Fees vs Event Fees
+
+| | Order Fees | Event Fees |
+|---|---|---|
+| **Scope** | Every order at the company | Orders containing items from a specific event |
+| **When to use** | Charges that apply universally (e.g. a company-wide booking fee) | Charges specific to certain events (e.g. a venue surcharge) |
+| **Created from** | **Order fees** section in the main navigation | The event dashboard or via the **Order fees** section |
+| **Applies to** | All item types in any order | Tickets, products, and season tickets from the event |
+
+<Note>
+Event fees can be further restricted to specific sale items within the event. When a fee is attached to particular sale items, it only applies to purchases of those items rather than all items from the event.
+</Note>
+
+## Creating a Fee
+
+### Creating an Order Fee
+
+1. Navigate to **Order fees**
+2. Click **Create order fee**
+3. Complete the fee configuration form (see [Configuring a Fee](#configuring-a-fee) below)
+4. Click **Save**
+
+### Creating an Event Fee
+
+1. Navigate to **Order fees**
+2. Click **Create event fee**
+3. Search for and select the event
+4. Complete the fee configuration form
+5. Click **Save**
+
+You can also create event fees directly from the event dashboard.
+
+<Note>
+When creating an event fee, you will see a message confirming that the fee will be applied to all purchases of tickets, products, and season tickets for that event. If you need the fee to apply globally across all events, use an order fee instead.
+</Note>
+
+## Configuring a Fee
+
+The fee creation form has several sections that control how the fee behaves.
+
+### Basic Information
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The name displayed to customers in their basket and order summary |
+| **Description** | Optional description shown alongside the fee |
+
+### Fee Type
+
+The **Select fee type** setting controls how the fee appears in the customer's basket:
+
+<Tabs>
+  <Tab title="Line item">
+    The fee appears as its own line in the customer's basket, displaying the name, description, and image you provide. It is **not** included in the **Fees** section of the order summary.
+
+    Revenue from line item fees appears in the **Order Net** column of reports.
+  </Tab>
+  <Tab title="Order summary">
+    The fee appears only in the **Fees** section of the customer's order summary. It does not show a description or image in the basket.
+
+    Revenue from order summary fees is considered an expense and reduces the **Order Net** column in reports.
+  </Tab>
+</Tabs>
+
+<Note>
+If a fee belongs to a [fee group](#fee-groups), it cannot be set as a **Line item** — it must use the **Order summary** type.
+</Note>
+
+### Fee Application
+
+The **Select fee application** setting determines how many times the fee is charged per order:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Per-item fee** | The fee is applied to each qualifying item in the basket. If a customer buys 3 tickets, the fee is charged 3 times. |
+| **Per-order fee** | The fee is applied once per order, regardless of how many items are purchased. |
+
+### Pricing
+
+Fee pricing works like standard sale item pricing. You set a price per currency, and the fee is added to the customer's basket at that amount.
+
+<Note>
+Fees cannot have a price of zero — they must always have a value.
+</Note>
+
+#### Dynamic Pricing
+
+With dynamic pricing enabled, fees can include a **percentage-based** element that is calculated based on the value of the items in the basket or the individual item the fee applies to. This allows fees to scale with the order value rather than being a flat amount.
+
+For example, a 2.5% per-item fee on a £100 ticket would charge £2.50, while the same fee on a £50 ticket would charge £1.25.
+
+#### Tiered Pricing
+
+Tiered pricing allows you to set different fee amounts based on the value of the item or order the fee applies to. You define price tiers with minimum and maximum bounds, and the appropriate tier is used based on the qualifying amount.
+
+For example:
+- Items priced £0–£50: fee of £1.00
+- Items priced £50–£100: fee of £2.00
+- Items priced £100+: fee of £3.00
+
+### Applies to Item Types
+
+The **Applies to item types** setting restricts which types of sale items the fee can be applied to. If set, the fee will only be charged when the basket contains items of the selected types. If not set, the fee applies to all qualifying item types.
+
+### Active Dates
+
+The **Active dates** control when the fee is active. Outside of these dates, the fee will not be applied to any purchases. This is useful for temporary or seasonal fees.
+
+### Additional Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Max order quantity** | The maximum number of times a fee will be applied to any one order, regardless of the number of items purchased. Only relevant for per-item fees. |
+| **Can this item attract discount?** | When enabled, discount codes can reduce the fee amount. |
+| **Sales channels** | Control which sales channels the fee is available on (online shop, box office, kiosk). |
+
+## Fee Hierarchy
+
+When the same fee item exists at multiple levels — for example, as both an order fee (company-wide) and an event fee — the fee hierarchy determines which version applies.
+
+The hierarchy from most specific to least specific is:
+
+1. **Sale item fee** — a fee attached to a specific sale item within an event
+2. **Event fee** — a fee applied to all items from an event
+3. **Order fee** — a fee applied company-wide
+
+When **Enforce fee hierarchy** is enabled on a fee, only the most specific version applies. If a sale item has its own fee, the event-level and order-level versions of that same fee are not applied. If only an event-level fee exists, the order-level version is skipped.
+
+<Note>
+Fee hierarchy only applies between instances of the **same** fee item at different levels. Different fee items always stack — they are not deduplicated by hierarchy.
+</Note>
+
+## Fee Groups
+
+Fee groups combine multiple order summary fees into a single line displayed during checkout. Instead of seeing three separate fee lines, the customer sees one line with the group's name and the combined total.
+
+### Creating a Fee Group
+
+1. Navigate to the fee group management area
+2. Click **Add new fee group**
+3. Enter a **Fee group name** — this is the label customers will see at checkout
+4. Select the fees to include in the group using the **Assign fees to group** selector
+5. Click **Save**
+
+<Note>
+Fee groups only work with **Order summary** type fees. Line item fees cannot be part of a fee group. Event fees within a group are only included in the total when the basket contains an item from the relevant event.
+</Note>
+
+### How Fee Groups Appear at Checkout
+
+Without a fee group, customers see individual fee lines:
+
+```
+Fees                          £8.50
+  Booking fee                 £2.00
+  Service charge              £3.50
+  Venue fee                   £3.00
+```
+
+With a fee group named "Service fees":
+
+```
+Fees                          £8.50
+  Service fees                £5.50
+  Venue fee                   £3.00
+```
+
+The individual fees (Booking fee and Service charge) are combined under the group name, while ungrouped fees remain separate.
+
+## Viewing Event Fees on a Sale Item
+
+When editing a sale item that has event fees attached to it, the **Event fees** card shows all fees that apply to that item. From this view you can:
+
+- See which fees are assigned to the item
+- Remove a fee from the item (detach it, so it no longer applies to this sale item specifically)
+- Click through to edit the fee itself
+
+<Note>
+Removing a fee from a sale item does not delete the fee — it only removes the sale-item-level attachment. The fee may still apply at the event level if it is not restricted to specific sale items.
+</Note>
+
+## Managing Fees
+
+### Finding Fees
+
+The **Order fees** page lists all order fees and provides filters to help you find specific fees:
+
+| Filter | Options |
+|--------|---------|
+| **Name** | Search by fee name |
+| **Deleted** | Show all, show deleted, or show only deleted fees |
+| **Off sale** | Hide off-sale fees, show all, or show only off-sale fees |
+
+### Editing a Fee
+
+Click on any fee in the list to open it for editing. All configuration options available during creation can be modified. Changes take effect on future orders — existing orders are not retroactively updated.
+
+### Deleting a Fee
+
+Fees can be deleted from the edit page. Deleted fees are soft-deleted and can be filtered for in the fee list.
+
+<Note>
+Fees that have been included in orders cannot be permanently deleted. They are marked as off sale instead, preventing them from being applied to future orders while preserving the historical order data.
+</Note>
+
+## Resale Behaviour
+
+Two settings control how fees interact with resale transactions:
+
+| Setting | Description |
+|---------|-------------|
+| **Omit from resale orders** | When enabled, this fee is not applied to resale orders. Use this for fees that should only apply to primary sales. |
+| **Enforce fee hierarchy** | When the same fee exists at multiple levels, only the most specific version applies to resale transactions as well. |
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Default System Fees" icon="gear" href="/core-platform/fees/default-system-fees">
+    Processing and platform fees that are automatically applied to all sales.
+  </Card>
+  <Card title="Fulfilment Fees" icon="truck" href="/core-platform/fees/fulfilment-fees">
+    Charge for delivery methods beyond e-tickets.
+  </Card>
+</CardGroup>

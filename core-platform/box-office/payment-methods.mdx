@@ -1,21 +1,153 @@
 ---
 title: "Payment Methods"
-description: "Control which payment options are available in box-office assisted checkout."
+description: "Configure which payment methods are available in box office mode, including card terminals, manual payments, invoices, and how payment methods are ranked by usage."
 ---
 
 ## Overview
 
-- Box-office checkout uses enabled company payment methods and method-specific eligibility rules.
-- Some methods only appear when basket totals or flow conditions are met.
-- Method configuration is managed through payment settings and box-office payment-method settings.
+Box office mode supports a wider range of payment methods than the public shop, including both digital and in-person options. Each payment gateway and method can be individually enabled or disabled for box office use, and gateways can have a separate primary designation for box office versus the public shop.
 
-## Behaviour Highlights
+## Available Payment Methods
 
-- Complimentary/zero-value style methods are treated separately from paid methods.
-- Balance-on-hand style methods are excluded from instant-checkout action lists.
-- Manual payment and invoice controls come from company payment settings.
+The following payment method types can be used in box office:
 
-## Related
+| Method | Description |
+|--------|-------------|
+| **Cash** | Record a cash payment |
+| **Cheque** | Record a cheque payment (optionally capturing the cheque number) |
+| **Money order** | Record a money order payment (optionally capturing the money order number) |
+| **Card present (terminal)** | Process a card payment through a connected card terminal |
+| **Card present (offline)** | Record an offline card payment (optionally capturing the card network) |
+| **Card MOTO** | Process a mail order / telephone order card payment |
+| **Invoice** | Send an invoice for manual payment (bank transfer, etc.) |
+| **Complimentary** | Mark the order as complimentary (zero payment) |
+| **E-wallet** | Pay using the customer's e-wallet balance |
+| **Split payment** | Split the order across multiple payment methods |
+| **Account balance** | Pay using the customer's account balance (when enabled) |
 
-- [Payments Introduction](/core-platform/payments/introduction)
-- [Instant Checkout](/core-platform/box-office/instant-checkout)
+<Note>
+Online-only payment methods (such as standard card-not-present payments) are not available in box office — only card terminal, offline card, and MOTO methods are available for card payments.
+</Note>
+
+## Configuring Payment Gateways
+
+Each payment gateway has a separate toggle for box office availability:
+
+1. Navigate to **Payment settings**
+2. For each gateway, toggle **Box Office** to enable or disable it
+
+The tooltip reads: **"Enable in Box Office"**
+
+Gateways display badges indicating their role:
+- **Shop primary** (globe icon) — the default gateway for online checkout
+- **Box office primary** (cash register icon) — the default gateway for box office checkout
+
+You can set different primary gateways for the shop and box office, allowing you to route in-person payments through a different processor than online payments.
+
+<Note>
+If a payment is attempted through a gateway that is not enabled for box office, the system blocks it with: **"The selected gateway is not enabled for the box office sales point."**
+</Note>
+
+### Terminal and MOTO Requirements
+
+For card terminal and MOTO payments to be available, the payment gateway must have the appropriate credentials configured:
+
+- **Card terminal** — requires terminal credentials on the gateway
+- **Card MOTO** — requires MOTO credentials on the gateway
+
+If these credentials are not configured, the corresponding payment methods will not appear in box office even if the gateway is enabled.
+
+## Payment Method Ranking
+
+Payment methods in box office are ranked by usage frequency. The system tracks which payment methods staff use most often and surfaces them first, making it faster to select the most common method.
+
+Ranking is calculated per company based on the last 3 months of box office transactions. A payment method must have been used at least twice to appear in the ranked list.
+
+## Manual Payment Capture
+
+Several offline payment methods support optional data capture to maintain an audit trail:
+
+| Setting | Payment Method | Effect |
+|---------|---------------|--------|
+| **Capture cheque number in box office** | Cheque | Makes the cheque number field mandatory when using the cheque payment method |
+| **Capture offline card network in box office** | Card present (offline) | Makes the card network selection mandatory when using the offline card payment method |
+| **Capture money order number in box office** | Money order | Makes the money order number field mandatory when using the money order payment method |
+
+These settings are configured in the company settings. When enabled, staff must enter the required information before completing the transaction.
+
+## Manual Payments (Invoices)
+
+Invoice payments allow staff to send customers a payment instruction for bank transfer or other manual payment methods.
+
+To make invoices available in box office:
+
+1. Navigate to **Manual payment settings**
+2. Enable **Enable in Box Office**
+
+The help text reads: **"Allow invoices to be sent from Box Office, with instructions and account details to make manual payments."**
+
+### Invoice Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Default payment period** | How many days the customer has to pay. The help text notes: **"This can be changed during box office sales."** |
+| **Instant access** | When enabled, customers can access tickets and downloadable items immediately, before paying the invoice. **"Allow customers to access tickets & other downloadable items the moment that they complete their reservation, before paying their invoice."** |
+| **Minimum order value** | The minimum order value to offer invoice payments. **"This only applies to non box-office checkouts"** — box office can always use invoices regardless of order value. |
+
+<Note>
+Manual payments are only available for orders containing items from a single event. If global basket is enabled and the order spans multiple events, the invoice option is not available. The settings page notes: **"If manual payments are enabled, this will only be available for orders containing a single event."**
+</Note>
+
+## E-wallet and Account Balance
+
+### E-wallet Payments
+
+E-wallet payments are available in box office when:
+
+- A customer is assigned to the order (not purchasing as the box office user)
+- The customer's wallet currency matches the basket currency
+- The wallet balance is sufficient for the order total
+
+If the customer's balance is insufficient, staff see: **"The current customer has an insufficient account balance to make this payment ([balance])"** — or, if split payments are available: **"The current customer has an insufficient account balance to make this payment. If you wish to use the available balance ([balance]) as partial payment please select Split payment."**
+
+When signed in as the box office user without a customer assigned, the e-wallet option is disabled with the message: **"You are signed in as the box office user — assign a customer to use e-wallet payments."**
+
+### Account Balance Spending
+
+To enable account balance payments in box office:
+
+1. Navigate to **Company Settings**
+2. Enable **Allow balance spending in box office**
+
+The help text reads: **"Enabling this option allows box office users to make payments using customer account balances"**
+
+A customer must be assigned to the order to use account balance spending.
+
+## Complimentary Orders
+
+The complimentary payment method is always available in box office, even when the order total is zero. This allows staff to process free orders — for example, issuing replacement tickets or processing guest list entries.
+
+## Split Payments
+
+When split payments are enabled, staff can split an order across multiple payment methods. For example, paying part by cash and part by card terminal.
+
+The help text reads: **"Allows box office users to process orders with more than 1 payment method by splitting the money across multiple transactions."**
+
+Split payments must be enabled for box office use. The availability can be configured as **Box office only** or **Shop and box office**.
+
+## Deposits
+
+Deposit payment plans can be enabled separately for box office. When configured, staff can offer deposit-based payment options during checkout, allowing customers to pay an initial deposit with the remainder due later.
+
+The deposit settings include a separate **Enable in box office** toggle, allowing different deposit rules for in-person sales versus the public shop.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Checkout Flow" icon="cart-shopping" href="/core-platform/box-office/checkout-flow">
+    The modified checkout process including customer assignment
+  </Card>
+  <Card title="Instant Checkout" icon="bolt" href="/core-platform/box-office/instant-checkout">
+    Rapid transactions using the instant checkout side panel
+  </Card>
+</CardGroup>

@@ -1,44 +1,68 @@
 ---
 title: "Introduction"
-description: "How payment methods, gateways, and settlement rules work across shop and box office checkouts."
+description: "How payments work across your ticket shop and box office, from gateway setup to checkout completion."
 ---
 
 ## Overview
 
-Payments in the platform are built from three layers:
+Payments control how customers pay for orders placed through your ticket shop or box office. The platform supports a range of payment methods — from online card payments through a gateway, to offline methods like cash and bank transfer, to deferred flows where payment is collected after the order is placed.
 
-- **Order state**: what is currently due (full payment, deposit, remaining balance, invoice, or approval flow).
-- **Allowed payment methods**: what the company/reseller has enabled for this channel.
-- **Gateway processing**: where card or local payment requests are actually sent.
+Payment behaviour is shaped by three things:
 
-Payment behavior can differ between **shop** and **box office**, and can also differ by company in parent/child setups where global transaction settings are enabled.
+- **What the customer owes** — whether they're paying the full amount, a deposit, or a remaining balance
+- **Which payment methods are available** — determined by your gateway configuration and channel settings
+- **How the payment is processed** — through an online gateway, recorded offline, or deferred for later collection
 
-## Core Concepts
+## Channels
 
-| Concept | What it controls |
-|---|---|
-| **Payment mode (live/test)** | Whether a company uses live credentials or test/sandbox credentials (if self-management is enabled). |
-| **Payment company** | The company that owns payment configuration and receives funds for the order. |
-| **Manual payments (invoice)** | Deferred payment flow that can be enabled globally and optionally in shop. |
-| **Split payments** | Paying one order with multiple methods in the same checkout flow. |
-| **Deposit plan** | Taking an initial payment now and collecting the remainder later. |
-
-## Where Configuration Lives
-
-- `Settings > Payment` in admin controls gateway settings, checkout behavior, and invoice/manual payment settings.
-- Resellers can provide or manage gateway credentials in Hub, depending on gateway and reseller setup.
-- Some controls are feature-gated and only appear when enabled for the company/reseller.
-
-## Channel Differences
+Payments can work differently depending on where the sale happens:
 
 <Tabs>
   <Tab title="Ticket Shop">
-    Focuses on customer self-service and gateway-based online methods. Checkout step order is dynamic based on basket content (data capture, VAT, gift aid, charity, etc.).
+    The customer-facing online checkout. Payment methods here are typically gateway-based (card payments, local payment methods). Invoice payments and account balance spending can also be enabled for the shop.
+
+    The checkout flow adapts dynamically based on basket content — additional steps may appear for data capture, VAT details, gift aid, or charity donations depending on configuration.
   </Tab>
   <Tab title="Box Office">
-    Includes in-person/offline methods, optional customer assignment, and additional operational controls for staff-led sales.
+    The staff-facing sales interface. Box office supports all online methods plus in-person methods like cash, cheque, bank transfer, and external card terminals. Staff can also generate payment links, create invoice reservations, and reserve orders for on-site payment.
+
+    Box office includes additional controls for customer assignment, confirmation emails, and payment method metadata (e.g. cheque numbers, card network details).
   </Tab>
 </Tabs>
+
+## Payment Methods
+
+The platform supports a wide range of payment methods, broadly grouped by how they're processed:
+
+| Category | Methods |
+|----------|---------|
+| **Online gateway** | Card payments, MOTO transactions, local payment methods (e.g. OXXO) |
+| **Offline** | Cash, bank transfer, cheque, money order, external card terminal |
+| **Account balance** | Customer account balance (e-wallet), balance carried forward from a previous order |
+| **Deferred** | Payment link, invoice, reserve to pay on-site, pending approval |
+| **Other** | Complimentary, gift card, split payment (multiple methods on one order) |
+
+Not all methods are available in every context. Gateway-based methods require a configured payment processor, some methods are box office only, and certain methods (like invoice or account balance) require specific settings or feature access to be enabled.
+
+## Payment Company
+
+Every order is processed through a **payment company** — the company whose payment configuration and gateway credentials are used for the transaction.
+
+In most setups, this is simply the company running the event. In parent/child company structures where global transaction settings are enabled, the parent company may handle payment processing on behalf of child companies.
+
+## Where to Configure Payments
+
+Payment configuration is managed from **Settings > Payment** in the admin panel. This page is organised into sections:
+
+| Section | What it controls |
+|---------|-----------------|
+| **Payment gateways** | Connect and configure payment processors, set primary gateways per channel, toggle live/test mode |
+| **Manual payments** | Enable invoice payments, set minimum order values, configure payment instructions |
+| **Deposit payments** | Set deposit percentages, minimum order values, and payment deadlines |
+| **Checkout settings** | Payment link expiry, confirmation email toggles, box office payment metadata requirements |
+| **Balance settings** | Account balance spending, top-ups, cashouts, and balance refund controls |
+
+Some settings sections are only visible when the relevant feature is enabled for your company.
 
 ## Related
 

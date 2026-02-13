@@ -1,27 +1,119 @@
 ---
 title: "Entry Points"
-description: "Launch box-office sessions from admin and direct staff into specific sales contexts."
+description: "Launch box office mode from the admin panel, deep link to specific events or customers, and manage the box office session lifecycle."
 ---
 
 ## Overview
 
-Box office mode is launched from admin and redirected into signed shop routes.
+Box office mode is launched from the admin panel and opens in the ticket shop. The transition between admin and shop is handled through a secure signed URL that authenticates the staff member and optionally deep links them to a specific event, customer, or order.
 
-## Supported Launch Inputs
+## Launching Box Office
 
-| Parameter | Purpose |
-|---|---|
-| `event` | Opens box office directly on an event page |
-| `customer` | Pre-selects a customer context |
-| `custom_url` | Uses a specific company custom-url target where available |
-| `params` | Additional query params for deep-link behaviour |
+There are several ways to start a box office session from the admin panel:
 
-## Start and Cancel
+### From the Events Dashboard
 
-- **Start**: creates a secure access URL and redirects staff into shop box-office mode.
-- **Cancel**: exits box-office mode, clears session context, and returns staff to previous/admin flow.
+1. Navigate to the event you want to sell
+2. Click **Sell event** in the event actions
 
-## Related
+This launches box office and navigates directly to that event's ticket selection page.
 
-- [Box Office Introduction](/core-platform/box-office/introduction)
-- [Instant Checkout](/core-platform/box-office/instant-checkout)
+<Note>
+The **Sell event** button is only visible when the staff member has the **Sell items** permission on the event. It is disabled if the event is in the past or is not on sale.
+</Note>
+
+### From the Admin Navigation
+
+1. Click **Enter box office** in the admin panel
+
+This launches box office at the shop homepage, where the staff member can browse all available events.
+
+### From a Customer Profile
+
+1. Open a customer's profile in the admin panel
+2. Click **Open in box office**
+
+This launches box office with that customer pre-assigned to the session. A confirmation prompt appears: **"Begin box office for [name]? Beginning a new Box Office Order for [name] will start a new Box Office Session with an empty basket. Any current baskets you have in Box Office will be lost."**
+
+<Note>
+Starting a new box office session clears any existing box office basket. If you need to keep your current basket, use the same session rather than launching a new one.
+</Note>
+
+## Deep Link Parameters
+
+When launching box office, optional parameters control where the staff member lands and what context is pre-loaded:
+
+| Parameter | Effect |
+|-----------|--------|
+| **Event** | Navigates directly to the specified event's ticket selection page |
+| **Customer** | Pre-assigns the specified customer to the box office session |
+| **Order** | Reactivates an expired or reserved order and navigates to the payment step (see [Order Reactivation](#order-reactivation)) |
+| **Timeslot** | For time-based events, pre-selects a specific timeslot |
+| **Spaces** | For seated events, pre-selects specific seats |
+| **Custom URL** | Opens box office on a specific custom domain rather than the default shop URL |
+
+These parameters can be combined — for example, launching box office for a specific event with a pre-assigned customer.
+
+## Session Lifecycle
+
+### How Sessions Work
+
+When box office is launched:
+
+1. The admin panel generates a **signed URL** that is valid for 1 minute
+2. The staff member is redirected to the shop domain using this URL
+3. The shop validates the signature and creates a box office session
+4. The staff member's admin account is authenticated in the shop
+
+The session is stored server-side and persists until the staff member exits or the session is invalidated.
+
+### Session Validation
+
+On every page load within box office, the system checks that:
+
+- The staff member is still logged in
+- The staff member still has access to the company
+
+If either check fails, the box office session is automatically terminated and the staff member is redirected back to the admin panel.
+
+### Multiple Sessions
+
+A staff member can only have one active box office session at a time. Starting a new session ends the previous one.
+
+If a staff member tries to view the public shop while a box office session is active, a warning appears: **"Viewing the site will end any active Box Office sessions in other tabs or windows. If you wish to keep any current Box Office sessions, you can Copy the Shop URL and use that on a different web browser or device."**
+
+## Order Reactivation
+
+Box office can reactivate expired or reserved orders, allowing staff to complete a sale that timed out:
+
+1. Launch box office with an **order** parameter (typically from the admin order view via **Open in box office**)
+2. The system checks that the order is either reserved or expired
+3. The order's expiry time is refreshed and items are restocked if they were previously released
+4. The staff member is taken directly to the payment step to complete the order
+
+<Note>
+Order reactivation only works for orders that are in a reserved or expired state. Completed or cancelled orders cannot be reactivated.
+</Note>
+
+## Exiting Box Office
+
+To leave box office mode:
+
+1. Click **Exit box office** in the shop navigation
+
+This ends the box office session and redirects back to the admin panel — specifically, to the page the staff member was on before launching box office.
+
+<Warning>
+If the basket has an active reservation, exiting box office will expire it. The exit link warns: **"Exiting the box office will expire your active reservation."**
+</Warning>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="cash-register" href="/core-platform/box-office/introduction">
+    Overview of box office mode and key differences from the public shop
+  </Card>
+  <Card title="Checkout Flow" icon="cart-shopping" href="/core-platform/box-office/checkout-flow">
+    The modified checkout process including customer assignment
+  </Card>
+</CardGroup>

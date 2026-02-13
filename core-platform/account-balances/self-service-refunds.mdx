@@ -1,31 +1,144 @@
 ---
 title: "Self Service Refunds"
-description: "Allow customers to refund eligible orders to account balance from the ticket shop."
+description: "Allow customers to refund eligible orders directly to their account balance from the ticket shop, without needing to contact staff."
 ---
 
 ## Overview
 
-- Self-service balance refunds allow customers to move eligible order value into wallet balance without staff intervention.
-- This behaviour is controlled by balance-refund settings at company level.
-- Availability can be limited with a cutoff window and fee-refund toggles.
+Self service refunds let customers refund their own orders directly to their account balance from the ticket shop. Instead of contacting support and waiting for a manual refund to their original payment method, customers can instantly move the value of eligible order items into their account balance — ready to spend on future purchases.
 
-## Balance Refund Settings
+This is different from a [cash out](/core-platform/account-balances/cash-outs), which withdraws existing balance back to the original payment method. A self service refund moves money *into* the balance from an order, while a cash out moves money *out* of the balance to a payment method.
 
-| Setting | Behaviour |
-|---|---|
-| Enabled | Turns on balance-refund capability |
-| Self serve enabled | Exposes customer-facing refund flow |
-| Cutoff hours | Blocks late refund requests close to event start |
-| Refund processing fees | Includes processing fees in wallet refund value |
-| Refund reseller fees | Includes reseller fees in wallet refund value |
+## How It Works
 
-## Access Model
+The self service refund flow works as follows:
 
-- Feature availability depends on account-balance refund feature context.
-- Admin-only and admin+customer modes are both supported through feature context configuration.
+1. Customer views a completed order in their account
+2. They click **Refund** on the order
+3. They select which items to refund (only ticket items are eligible)
+4. The refund amount is credited to their account balance immediately
+5. The transaction appears in their balance history as **Refund to account**
 
-## Related
+The refunded value goes directly into the customer's account balance for the order's currency. From there, the customer can spend it on future purchases (if balance spending is enabled) or it remains available in their balance.
 
-- [Cash Outs](/core-platform/account-balances/cash-outs)
-- [Order Management Core Concepts](/core-platform/order-management/core-concepts)
-- [Payments Introduction](/core-platform/payments/introduction)
+## Enabling Self Service Refunds
+
+Self service refunds require several settings to be enabled, all found in **Settings > Payment Settings > Balance settings**:
+
+1. **Enable balance refunds in admin** — the master toggle that enables refunding to account balance (for both admin and self service)
+2. **Enable self-serve refunds in shop** — exposes the refund flow to customers in the ticket shop
+
+Both must be turned on for customers to see the refund option. If only the admin toggle is enabled, staff can refund to balance from the admin panel but customers cannot self-serve.
+
+<Note>
+The **Account Balances** feature and the **Account Balance Refunds** feature must both be enabled for your company. The self-serve refunds setting only appears in the admin panel when these features are active.
+</Note>
+
+## What Customers See
+
+### On the Order Page
+
+When self service refunds are available, a **Refund** button appears on the customer's order page. This button is only visible when:
+
+- The order is **complete**
+- The order is not currently being modified (not frozen)
+- There is no pending payment link on the order
+- The customer is the order owner
+
+### On the Refund Page
+
+After clicking **Refund**, the customer sees:
+
+- A list of refundable items from their order
+- Their **current balance** and the projected **balance after refund**
+- Items that have passed the cutoff window are shown as unavailable
+- A **Refund** button to confirm
+
+## Configuring the Refund Window
+
+### Cutoff Time
+
+The **Self-serve refund cutoff time** setting controls how close to an event's start a customer can still request a refund. This prevents last-minute refunds.
+
+The cutoff is calculated from the event's start date. For example:
+
+| Cutoff setting | Event starts | Refund available until |
+|---------------|-------------|----------------------|
+| 24 hours | 25 Dec, 7:00 PM | 24 Dec, 7:00 PM |
+| 3 days (72 hours) | 25 Dec, 7:00 PM | 22 Dec, 7:00 PM |
+| 1 week (168 hours) | 25 Dec, 7:00 PM | 18 Dec, 7:00 PM |
+
+Items past their cutoff are excluded from the refund — the customer cannot select them. If all items in an order are past cutoff, the refund option is no longer available.
+
+<Note>
+The cutoff is set in hours but can be configured using hours, days, or weeks in the admin panel. Setting the cutoff to zero means there is no time restriction — customers can refund right up until the event.
+</Note>
+
+### Fee Handling
+
+Two settings control whether fees are included in the refund amount:
+
+| Setting | Effect when enabled |
+|---------|-------------------|
+| **Refund processing fees on self-serve refund** | Processing fees paid by the customer are included in the refund to their balance |
+| **Refund platform fees on self-serve refund** | Platform/reseller fees are included in the refund to their balance |
+
+When these settings are disabled, the corresponding fees are not returned to the customer — only the base item value is refunded to their balance.
+
+<Note>
+Fee refund settings only apply to self service refunds. Admin-initiated refunds may handle fees differently depending on the refund configuration used.
+</Note>
+
+## Eligibility Rules
+
+### Eligible Items
+
+Only **ticket** items can be refunded through self service. Other item types — including top ups, fees, and add-ons — are not eligible.
+
+Additional item requirements:
+
+- The item must not already be cancelled
+- The item must be within the cutoff window (not past the event's refund deadline)
+- Bundle items can only be refunded if the lead bundle item is also included in the refund
+
+### Order-Level Restrictions
+
+Some order conditions affect whether self service refunds are available:
+
+| Condition | Effect |
+|-----------|--------|
+| **Order has discount codes** | Partial refunds may be restricted — if the order used discount codes, the customer may only be able to refund the entire order rather than individual items |
+| **Order contains non-ticket discounted items** | Self service refund is blocked entirely if the order includes discounted non-ticket items |
+| **Order is being modified** | Refund button is hidden while the order is frozen for modification |
+| **Pending payment link** | Refund button is hidden while there is an outstanding payment link on the order |
+
+<Note>
+When an order uses discount codes and contains only ticket items, the customer can still refund — but they must refund all items, not a selection. This prevents scenarios where partial refunds could exploit discount pricing.
+</Note>
+
+## Admin-Only Balance Refunds
+
+If **Enable balance refunds in admin** is turned on but **Enable self-serve refunds in shop** is turned off, staff can still refund orders to a customer's account balance from the admin panel. The customer simply does not see the self-service refund option in the ticket shop.
+
+This gives you the flexibility to offer balance refunds as a support tool without exposing self-service to customers.
+
+## Transaction Recording
+
+Self service refunds appear in the customer's balance history as **Refund to account**. The transaction is linked to the original order, providing a full audit trail.
+
+In the admin panel, the refund appears in:
+
+- The customer's wallet transaction history
+- The **Account Balances > Transactions** list (filterable by **Refund to account** type)
+- The original order's refund history
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Top Ups" icon="circle-plus" href="/core-platform/account-balances/top-ups">
+    Create and manage top-up items that customers purchase to load funds onto their balance.
+  </Card>
+  <Card title="Cash Outs" icon="money-bill-transfer" href="/core-platform/account-balances/cash-outs">
+    Withdraw funds from an account balance back to the original payment method.
+  </Card>
+</CardGroup>

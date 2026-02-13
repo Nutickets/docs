@@ -1,0 +1,257 @@
+---
+title: "Selling and Buying"
+description: "How customers list items for resale through the verified marketplace, how buyers purchase them, and how admins manage listings."
+---
+
+## Overview
+
+Once [resale is enabled](/core-platform/resale/configuration), two new experiences become available: sellers can list purchased items for resale from their account, and buyers can purchase resale items alongside standard inventory in the shop. Admins can monitor and manage all listings from the admin panel.
+
+## Listing Items for Resale
+
+### Starting a Listing
+
+Customers can list items for resale from any eligible order in their account:
+
+1. Navigate to the order in the account section
+2. Click **Sell your tickets** (or **Sell your ticket** if only one item is eligible)
+3. The resale setup flow opens
+
+<Note>
+The button only appears if the order contains items that are [eligible for resale](/core-platform/resale/introduction#item-eligibility). Items that are already listed, or that don't meet the eligibility criteria, are shown but disabled with a reason.
+</Note>
+
+### Choosing Items to List
+
+The setup flow walks the seller through selecting items:
+
+1. **Choose an event** — If the order spans multiple events, the seller first selects which event's items to list. All items in a single listing must belong to the same event.
+2. **Select items** — The seller selects which items to list. Each item shows its name, seat or space information (if applicable), original order reference, and holder name (if assigned).
+
+Items that cannot be listed are shown as disabled with an explanation, such as the item already being listed for resale or not being eligible.
+
+### Setting the Price
+
+What the seller sees depends on the [pricing strategy](/core-platform/resale/configuration#pricing-strategy) configured for the item:
+
+| Strategy | What the seller sees |
+|----------|---------------------|
+| **Purchased price** | The price is fixed at the original purchase price. No price input is shown. |
+| **Set your own price** | A price input appears with the message: **The ticket price needs to be between [min] and [max]**. The range is calculated from the original purchase price using the configured margins. |
+| **Set your own price (capped)** | Same as above, but the range is calculated from the current live sale item price. |
+
+### Choosing Who Pays Fees
+
+If the [fee payer](/core-platform/resale/configuration#fee-payer) is set to **Seller can choose**, the seller sees a **Who will pay the fees?** option for each item with two choices:
+
+- **Buyer** — The buyer pays all resale fees on top of the listing price
+- **Me** — The seller contributes toward fees, with the prompt: **Promote your ticket by covering some of the fees**
+
+If the fee payer is set to any other option, this choice is not shown — the split is applied automatically.
+
+### Listing Options
+
+#### Selling Together or Individually
+
+When listing multiple items, the seller chooses how they should be sold:
+
+- **Together** — All items must be purchased as a single bundle. The buyer must take all items.
+- **Individually** — Items can be purchased one by one.
+
+The seller sees: **How would you like to list your tickets?** with the options **Together** and **Individually**. A help message explains: **Set whether these tickets must be purchased together, or can be purchased one-by-one.**
+
+#### Sale Deadline
+
+The seller sets an **On sale until** date — the latest time the items will remain listed. If the items haven't sold by this deadline, they are automatically taken off sale.
+
+The help message explains: **If your tickets haven't sold by the deadline, they will be taken off sale automatically.**
+
+The deadline must fall within the configured [time windows](/core-platform/resale/configuration#time-windows).
+
+### Fee Breakdown
+
+Before confirming, the seller sees a real-time breakdown of fees and the amount they will receive. This updates as the seller changes prices or fee split options.
+
+The breakdown shows:
+
+| Line | Description |
+|------|-------------|
+| **Listing price** | The price the buyer will pay for the item |
+| **Fees paid by me** | The seller's share of resale fees (if applicable) |
+| **I will receive** | The net amount the seller receives after any fee deductions |
+
+The seller can expand the **Fee breakdown** to see individual fee line items, the **Resale fee total**, and how fees are split between **Fees paid by buyer** and the seller's contribution.
+
+<Note>
+If the seller's fee contribution exceeds the listing price (meaning the seller would receive nothing or a negative amount), the listing cannot be submitted. The seller sees: **Please increase the price or set fees to be paid by the buyer.**
+</Note>
+
+### Payout Information
+
+The fee breakdown also shows where the seller's payout will go, based on the configured [payout mode](/core-platform/resale/configuration#payout-behaviour):
+
+| Payout mode | What the seller sees |
+|-------------|---------------------|
+| **Original payment method** | **Your payout amount** with the refund amount. If the resale price exceeds the original purchase price, a **Profits going to account balance** line shows the additional profit. |
+| **Account balance** | **If your ticket(s) sell, you will receive [amount] to your account balance**, along with the projected **new account balance**. |
+| **Pending balance** | **Your tickets will be listed for [amount]**. The seller sees: **This payout will be held until after the event ends.** |
+
+### Confirming the Listing
+
+When the seller clicks **Set up tickets for resale**, a confirmation modal appears summarising:
+
+- **On sale start** — When the items will become available for purchase (calculated from the purchase window). If available immediately, the message reads: **Your items will be listed shortly.**
+- **On sale until** — The sale deadline the seller set
+- **Payout amount** — How much the seller will receive
+- **Payout destination** — Where the money will go (original payment method, account balance, or pending balance)
+
+The seller confirms by clicking **Confirm & set up resale**. A success message appears: **Congratulations! Your items have been listed for resale.**
+
+<Note>
+The confirmation modal includes: **If your tickets do not sell, you get to keep them. Your listing could be cancelled by the organiser at their discretion.**
+</Note>
+
+## Managing Resale Listings
+
+### Viewing Listings
+
+Sellers can view all their listings from the account section under **Resale listings**. Each listing shows:
+
+- The event name and date
+- Items sold count (e.g. **2 of 5 items sold**)
+- Listing status
+- The **On sale from** and **On sale until** dates
+
+If the seller has no listings, the page shows: **You have no resale listings.**
+
+### Listing Detail
+
+Clicking a listing shows the full detail page with:
+
+- **Listing status** — The current status badge
+- **Created** — When the listing was created
+- **On sale from** / **On sale until** / **Closed** — Relevant date information
+- **Minimum purchase quantity** — If items must be purchased together
+
+The **Listed Items** section shows each item with:
+
+| Column | Description |
+|--------|-------------|
+| Item name | The ticket or product name, with seat/space information if applicable |
+| **Original price** | The price the seller originally paid (shown with strikethrough if different from listing price) |
+| **Listing price** | The price set for resale |
+| **Your fees** | The seller's fee contribution (if applicable) |
+| Contract status | **Available**, **Sold**, or **Cancelled** |
+
+### Listing Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Active** | The listing is live and items are available for purchase |
+| **Closed** | All items have been sold or the sale deadline has passed |
+| **Cancelled** | The listing was cancelled by the seller or an admin |
+| **Inactive** | The listing exists but the purchase window has not yet opened |
+
+### Cancelling a Listing
+
+Sellers can cancel an active listing from the listing detail page by clicking **Cancel listing**. A confirmation prompt appears:
+
+**Are you sure you want to end your listing?** — **If you end your listing early, you will keep your unsold tickets.**
+
+After confirming, unsold items return to the seller's order and the listing status changes to **Cancelled**. Items that were already sold remain with their buyers.
+
+<Note>
+A listing cannot be cancelled while any of its items are in a buyer's active basket. The seller sees: **This listing cannot be cancelled while items are in an active basket.**
+</Note>
+
+## How Sellers Get Paid
+
+When a buyer completes a purchase containing resale items, payouts are processed automatically. The exact flow depends on the configured [payout mode](/core-platform/resale/configuration#payout-behaviour):
+
+### Original Payment Method
+
+The seller receives a refund to their original payment method for up to the amount they originally paid. If the resale price was higher than the original price (a profit), the difference is deposited into the seller's account balance, immediately available to spend.
+
+If the refund to the original payment method fails (e.g. the card has expired), the system automatically deposits the full proceeds into the seller's account balance instead.
+
+### Account Balance
+
+The full payout is deposited into the seller's account balance, immediately available to spend.
+
+### Pending Balance
+
+The full payout is deposited into the seller's pending account balance. The funds are held and not available to spend until released.
+
+## Buying Resale Items
+
+### Finding Resale Items
+
+When resale items are available for an event, buyers see a **Verified resale tickets available** indicator on the event page. Clicking it reveals the **Available resale tickets from verified sellers** section.
+
+Each available listing shows:
+
+- The number of tickets remaining at that price (e.g. **3 tickets left at this price** or **Only 1 ticket left at this price**)
+- Seat or space information (if applicable)
+- The price, with a **Lowest price** badge on the cheapest listing
+- A quantity selector
+- If the listing requires a minimum purchase quantity, a message indicates how many tickets must be purchased together (e.g. **You'll get 2 tickets together in this row**)
+
+### Purchasing Resale Items
+
+Buyers add resale items to their basket and complete checkout like any other purchase. The basket shows resale items alongside regular items, with applicable [resale fees](/core-platform/resale/resale-fees) displayed according to the [fee transparency](/core-platform/resale/configuration#fee-transparency) setting.
+
+<Note>
+Some resale items must be purchased as part of a bundle if the seller listed them together. If a buyer tries to add only some items from a bundled listing, they see: **Some of the selected resale items must be purchased as part of a bundle.**
+</Note>
+
+## Admin Listing Management
+
+### Viewing All Listings
+
+Admins can view all resale listings across the company by navigating to **Resale listings** in the admin panel.
+
+The listing index provides filters to narrow results:
+
+| Filter | Options |
+|--------|---------|
+| **Status** | Open, Closed, All |
+| **Sold status** | Unsold, Has sales, All |
+| **Event** | Multi-select event filter with search |
+| **Show deleted** | Toggle to include cancelled/deleted listings |
+
+Each listing in the list shows:
+- Seller name and email
+- Event name and date
+- A capacity bar showing items listed vs items sold
+- The **On sale until** date
+- Status badge
+
+### Listing Detail
+
+Clicking a listing shows the full admin detail view, including:
+
+- Seller information
+- Event and date details
+- A table of all contracts with:
+  - Original item name and a link to the original order
+  - Original price and listing price
+  - Buyer information (if sold)
+  - Contract status badge
+
+### Cancelling Listings
+
+Admins can cancel any active listing from the listing detail page. This returns unsold items to the seller's order. Items that were already sold remain with their buyers.
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Primary Resale" icon="tag" href="/core-platform/resale/introduction">
+    Overview of how primary resale works.
+  </Card>
+  <Card title="Configuration" icon="gear" href="/core-platform/resale/configuration">
+    Set up resale settings at company, event, and sale item level.
+  </Card>
+  <Card title="Resale Fees" icon="receipt" href="/core-platform/resale/resale-fees">
+    Create and manage fees applied to resale transactions.
+  </Card>
+</CardGroup>

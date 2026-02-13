@@ -1,20 +1,77 @@
 ---
 title: "Internal Questions"
-description: "Configure internal-question workflows (event codes) for staff/internal assignment scenarios."
+description: "Create and manage event codes and staff-only data capture questions."
 ---
 
 ## Overview
 
-- Internal questions are managed separately from standard external questions.
-- They are powered by the internal-question feature set and often surfaced as event-code style data.
-- Assignment type options control where and how these questions are used.
+Internal questions are data capture questions visible only to staff — they never appear to customers during checkout or on any public-facing page. They are primarily used as **event codes**: structured data fields attached to events for operational tracking, internal references, or staff-entered metadata.
 
-## Operational Notes
+Internal questions are managed separately from standard data capture questions through their own interface at **Data Capture > Event codes**.
 
-- Internal question management is feature-flag gated.
-- Create/edit/delete/restore actions follow dedicated internal-question permissions.
+<Note>
+Internal questions require the **Event codes** feature to be enabled for your company.
+</Note>
 
-## Related
+## How Internal Questions Differ
 
-- [Introduction](/core-platform/data-capture/introduction)
-- [Event Management Introduction](/core-platform/event-management/introduction)
+| Aspect | Standard Questions | Internal Questions |
+|--------|-------------------|-------------------|
+| **Visible to customers** | Yes — shown during checkout and on forms | No — admin only |
+| **Managed from** | Data capture questions library | Event codes tab |
+| **Can be assigned to** | Events, items, tickets, registration, forms | Events, EPOS shops, EPOS products |
+| **Responses linked to** | Customer and order | Source entity only (no user association) |
+| **Multiple responses** | One per customer per field (marketing questions create a new record each time) | One per source entity, updated in place |
+
+## Creating an Internal Question
+
+1. Navigate to **Data Capture > Event codes**
+2. Click **Create**
+3. Complete the form:
+   - **Question** — The label staff will see when entering data
+   - **Question type** — The same [types](/core-platform/data-capture/managing-questions#question-types) available for standard questions (text, selection, date, etc.)
+   - **Applies to** — The [assignment type](#assignment-types) that controls where the question appears
+4. If the question type supports options, add the available choices
+5. Click **Save**
+
+When an internal question is created, it is automatically assigned to the selected entity type across all relevant entities.
+
+## Assignment Types
+
+Internal questions can be assigned to three entity types:
+
+| Assignment | Description |
+|------------|-------------|
+| **Event** | The question appears on events. This is the most common use case — event codes, internal reference numbers, or operational metadata attached to each event. |
+| **EPOS Shop** | The question appears on EPOS shop configurations. Only available when the **EPOS** feature is enabled. |
+| **EPOS Product** | The question appears on individual EPOS product items. Only available when the **EPOS** feature is enabled. |
+
+## Entering Responses
+
+Internal question responses are entered directly on the entity they are assigned to. For event-assigned questions, staff view and complete responses from the event's management area.
+
+Each internal question stores a single response per entity. When a value is updated, it replaces the previous answer rather than creating a new record — there is no response history for internal questions.
+
+<Note>
+Because internal questions are not linked to a specific user, they represent data about the entity itself (such as an event's internal tracking code) rather than information collected from a customer.
+</Note>
+
+## Managing Internal Questions
+
+The **Event codes** page lists all internal questions for your company. From here you can:
+
+- **Create** new internal questions
+- **Edit** existing questions (text, type, options)
+- **Delete** questions (soft-deleted, preserving historical responses)
+- **Restore** previously deleted questions using the **Show deleted** toggle
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="book-open" href="/core-platform/data-capture/introduction">
+    Overview of the data capture system
+  </Card>
+  <Card title="Managing Questions" icon="circle-question" href="/core-platform/data-capture/managing-questions">
+    Create and configure data capture questions
+  </Card>
+</CardGroup>

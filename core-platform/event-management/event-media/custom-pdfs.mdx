@@ -1,15 +1,233 @@
 ---
-title: 'Custom Pdfs'
-description: 'Documentation for Custom Pdfs'
+title: "Custom PDFs"
+description: "Design branded PDF tickets, products, and vouchers using the template designer with dynamic fields, custom layouts, and flexible paper sizes."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Custom Pdfs** has not been written yet.
-
-</Warning>
 
 ## Overview
 
-Coming soon.
+Custom PDFs let you control exactly how your tickets, products, and vouchers look when customers download them or when staff print them at the box office. Using the template designer, you can create layouts with your branding, event details, barcodes, seating information, and any other data relevant to your items.
+
+The platform provides pre-built templates to get you started — including a detailed A4 ticket, a compact 4-per-page layout, and blank canvases — but you can build entirely custom designs from scratch or import templates from other accounts.
+
+## Pre-Built Templates
+
+When creating a new printable, you can start from one of these pre-built templates:
+
+| Template | Description |
+|----------|-------------|
+| **Detailed ticket** | Full A4 page with event details, QR code, and item information |
+| **Small ticket** | Four tickets per A4 page — compact layout for bulk printing |
+| **Blank ticket** | Empty canvas at your chosen paper size — build from scratch |
+| **Badge** | Name badge format |
+| **Wristband** | Wristband-sized layout |
+
+For gift vouchers, the available templates are:
+
+| Template | Description |
+|----------|-------------|
+| **Default Gift Voucher** | Pre-designed voucher with redemption code, recipient name, and message |
+| **Blank voucher** | Empty canvas for a fully custom gift voucher design |
+
+## Paper Sizes
+
+When creating a template from a blank canvas, you choose a paper size that determines the page dimensions and how many items fit per page.
+
+### Standard Paper Sizes
+
+<Tabs>
+  <Tab title="International">
+    | Size | Dimensions | Orientation |
+    |------|-----------|-------------|
+    | A4 | 210 × 297 mm | Portrait or Landscape |
+    | A5 | 148 × 210 mm | Portrait or Landscape |
+    | A6 | 105 × 148 mm | Portrait or Landscape |
+  </Tab>
+  <Tab title="North American">
+    | Size | Dimensions | Orientation |
+    |------|-----------|-------------|
+    | Letter | 216 × 279 mm | Portrait or Landscape |
+    | Legal | 216 × 356 mm | Portrait or Landscape |
+    | Tabloid | 279 × 432 mm | Portrait or Landscape |
+    | Ledger | 432 × 279 mm | Landscape |
+  </Tab>
+  <Tab title="Boca Systems">
+    | Size | Dimensions | Orientation |
+    |------|-----------|-------------|
+    | Boca | 101 × 76 mm | Landscape |
+  </Tab>
+</Tabs>
+
+The **Boca Systems** paper size is designed for thermal ticket printers manufactured by Boca Systems. The standard 101 × 76 mm landscape format matches common thermal ticket stock. When you generate a PDF using a Boca-sized template, the output is a standard PDF at those dimensions — print it using your thermal printer's native driver.
+
+### Custom Paper Sizes
+
+If none of the presets match your needs, you can enter custom dimensions:
+
+1. Select **Custom** from the paper size options
+2. Set the **Page width** and **Page height** in millimetres
+3. Configure **Rows** and **Columns** to control how many items appear per page
+
+For example, setting 2 columns and 2 rows on an A4 page produces 4 items per page, each occupying a quarter of the page.
+
+## Building a Template
+
+The template designer is a visual editor where you place objects on a canvas to build your layout. The canvas represents one page (or one item within a multi-item page).
+
+### Adding Objects
+
+Use the object menu on the left side of the designer to add elements to your canvas:
+
+- **Text** — Add static labels (like "Event Name:" or "Admit One") or dynamic fields that pull in real data
+- **QR code** — Add a scannable barcode that encodes the item's unique barcode for entry scanning, or a redemption URL for gift vouchers
+- **Image** — Add logos, backgrounds, or decorative images
+- **Shape** — Add rectangles, circles, lines, and other geometric elements for borders, dividers, or decorative layout
+
+Each object can be positioned, resized, and styled using the properties panel on the right side of the designer. You can set colours, fonts, opacity, borders, and alignment.
+
+### Dynamic Fields
+
+Dynamic fields are the core of what makes each generated PDF unique. When you add a text object, you can insert field placeholders that are replaced with actual data when the PDF is generated.
+
+To insert a dynamic field, use the **Choose ticket data** field picker in the text object properties. Fields are organised into categories:
+
+<Accordion title="Order fields">
+  Information about the overall order:
+  - **Order reference** — The unique order reference code
+  - **Order total** — Total order value
+  - **Order discount** — Any discount applied
+  - **Order completion date** — When the order was completed
+  - **Order delivery address** — Full delivery address (and individual parts: line 1, line 2, city, postcode, country)
+  - **Order billing address** — Full billing address (and individual parts)
+  - **Order source** — Where the order was placed (online, box office, etc.)
+</Accordion>
+
+<Accordion title="Order item fields">
+  Information about the specific ticket or product:
+  - **Item ID** — Unique item identifier
+  - **Item barcode** — The scannable barcode value
+  - **Item name** — Name of the item
+  - **Item quantity** — Quantity purchased
+  - **Base price**, **Total price**, **Paid price** — Pricing information
+  - **Sale item name** and **description** — The sale item details
+  - **Additional information** — Any extra information configured on the sale item
+</Accordion>
+
+<Accordion title="Seating fields">
+  For events with assigned seating:
+  - **Space** — The seat or space name
+  - **Row** — Row identifier
+  - **Table** — Table name
+  - **Block** — Seating block
+  - **Stand** — Stand name
+  - **Area** — Area name
+  - **Gates** — Entry gates
+  - **Stairs** — Nearest stairs
+</Accordion>
+
+<Accordion title="Timeslot fields">
+  For events with timeslots:
+  - **Timeslot name** — Display name of the timeslot
+  - **Display time** — Formatted time display
+  - **Start date**, **Start date and time** — When the timeslot begins
+  - **End date**, **End date and time** — When the timeslot ends
+</Accordion>
+
+<Accordion title="Event fields">
+  Information about the event:
+  - **Event name**, **Event date**, **Event time**
+  - **Venue name** and **Venue address**
+  - **Organiser name**
+  - **Event start/end date and time**
+</Accordion>
+
+<Accordion title="Purchaser and holder fields">
+  Customer information:
+  - **Purchaser name**, **email**, **phone**
+  - **Holder name**, **email**, **phone** (the person assigned to the ticket, if different from purchaser)
+</Accordion>
+
+<Accordion title="Labels">
+  Customisable label text that can be translated:
+  - **Ticket type**, **Valid date**, **Name**, **Venue**, **Space**, **Team** — Labels you can place alongside dynamic data fields
+</Accordion>
+
+<Accordion title="Data capture">
+  If your events use data capture questions:
+  - **Question labels** — The text of each data capture question
+  - **Question answers** — The customer's responses
+</Accordion>
+
+When a field has no value for a particular item (for example, seating fields on an unseated event), the placeholder is replaced with the template's **empty variable text** — which defaults to a dash (`-`). You can change this default in the template settings.
+
+### Gift Voucher Fields
+
+Gift voucher templates have additional fields specific to vouchers:
+
+- **Gift voucher code** — The redemption code
+- **Gift voucher amount** — The voucher value
+- **To** and **From** — Recipient and sender names
+- **Note** — Personal message from the sender
+
+The QR code on gift vouchers encodes a redemption URL rather than a barcode, allowing recipients to redeem online by scanning.
+
+### Fonts
+
+The template designer supports multiple font families. Select your font from the **Font family** dropdown in the template settings. Use the **Preview** feature to verify how your chosen font renders in the final PDF, as font rendering can vary between the designer canvas and the generated output.
+
+### Background Images
+
+You can set a background image for your template that fills the entire page behind all other objects. Access background settings from the designer's settings panel. Background images are useful for pre-printed ticket stock or fully branded designs.
+
+## Previewing Templates
+
+After saving a template, use the **Preview** button to generate a sample PDF with placeholder data. This shows exactly how the template will look when real tickets are generated.
+
+You can customise the preview data:
+
+- **Set preview texts** — Enter custom values for each dynamic field to test specific scenarios
+- **Set preview texts (set 2)** — A second set of preview values for comparison
+- **Reset preview texts** — Revert to default placeholder values
+
+<Note>
+The Preview button is only available after saving the template at least once. If it appears greyed out, save your template first.
+</Note>
+
+## Box Office Visibility
+
+When editing a printable template, you can enable **Visible in Box Office**. This makes the template available as a print option in the box office download interface, allowing staff to choose between different templates when printing — for example, switching between an A4 template and a thermal printer template depending on the equipment available.
+
+## Importing and Exporting Templates
+
+Templates can be shared between accounts using the `.nuem` file format:
+
+**Exporting:** Use the **Export** button in the template designer to download the current template as a `.nuem` file.
+
+**Importing:** When creating a new template, select **Import Printable** and upload a `.nuem` file. The imported template appears in the designer where you can review and modify it before saving.
+
+## Secure Barcodes and PDF Downloads
+
+If an event uses [secure barcodes](/core-platform/event-management/access-control), PDF downloads behave differently. Secure barcodes are dynamic and change periodically to prevent sharing — but PDFs are static documents. When a box office user downloads a PDF for an order with secure barcodes, they are warned that the download will convert the barcodes to standard (non-secure) barcodes.
+
+The warning explains:
+- The tickets have secure barcodes
+- Downloading as PDF will convert them to unsecure barcodes
+- Unsecure barcodes can be shared with third parties
+- Secure barcodes can be re-enabled later, but that will invalidate the downloaded QR code
+
+<Note>
+This restriction only applies to PDF downloads. [Apple Wallet passes](/core-platform/event-management/event-media/mobile-wallets) support secure barcodes natively because the pass can refresh its barcode dynamically.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Event Media Overview" icon="palette" href="/core-platform/event-management/event-media/overview">
+    Template types, assignment hierarchy, and general management
+  </Card>
+  <Card title="Cover Sheets" icon="envelope" href="/core-platform/event-management/event-media/cover-sheets">
+    Adding cover pages to PDF downloads for postal delivery
+  </Card>
+  <Card title="Mobile Wallets" icon="wallet" href="/core-platform/event-management/event-media/mobile-wallets">
+    Apple Wallet passes as an alternative to PDF tickets
+  </Card>
+</CardGroup>

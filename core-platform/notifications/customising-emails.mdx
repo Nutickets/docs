@@ -1,0 +1,143 @@
+---
+title: "Customising Emails"
+description: "Change the subject lines, body text, and formatting of the emails the platform sends using the website text manager."
+---
+
+## Overview
+
+Every email the platform sends uses default text that can be customised per company. Customisations are managed through the website text manager — the same tool used to customise other text across the platform. You can change email subjects, greetings, body content, and calls to action without touching any code.
+
+Customisations can also be scoped to specific events, event schedules, or customer groups, so you can tailor email content for different audiences while keeping a company-wide default.
+
+## Accessing the Text Manager
+
+1. Navigate to **Settings > Website Text**
+2. Open the **Category** dropdown
+3. Select an email template from the **Emails** group
+
+The dropdown groups all customisable text by type. Email templates appear under the **Emails** heading.
+
+## Available Email Templates
+
+The following email templates can be customised:
+
+| Template | What it controls |
+|----------|-----------------|
+| **Order confirmation email** | Confirmation sent after a successful purchase |
+| **Reservation confirmed email** | Confirmation sent when a reservation is submitted |
+| **Reservation approved email** | Notification sent when a reservation is approved |
+| **Reservation rejected email** | Notification sent when a reservation is rejected |
+| **Payment link email** | Email requesting payment with a payment link |
+| **Deposit received email** | Confirmation sent when a deposit is received |
+| **Payment failure email** | Alert sent when a payment attempt fails |
+| **Tax receipt email** | Tax receipt email subject and title |
+| **Refund confirmation email** | Confirmation sent when a refund is processed |
+| **Cancellation confirmation email** | Confirmation sent when items are cancelled |
+| **Claim your items email** | Transfer email sent to item recipients |
+| **Item approved email** | Notification when individual items are approved |
+| **Item rejected email** | Notification when individual items are rejected |
+| **Event reminder email** | Automatic reminder sent before an event |
+| **Deferred tickets email** | Notification when withheld tickets become available |
+| **Added to customer group email** | Welcome email when added to a customer group |
+| **Organiser purchase notification email** | Purchase summary sent to event staff |
+| **Event approval notification email** | Notification when event approval is requested |
+| **Password reset email** | Password reset link email |
+| **Complete your account email** | Account setup email for imported customers |
+| **Email verification notification** | Email address verification email |
+| **Global email text** | Shared text that appears across multiple email types (footer text, common headers) |
+
+## Editing Email Content
+
+When you select an email template, the page displays each editable field in a two-column layout:
+
+- **Left column** — The default text (read-only), showing what the platform sends if no customisation is applied
+- **Right column** — Your custom override, where you can enter replacement text
+
+Fields are organised into groups, typically **Main Content** for the primary editable text and **Advanced** for additional options.
+
+### Field Types
+
+Each field uses the input format best suited to its content:
+
+| Type | Used for |
+|------|----------|
+| **Text** | Short values like email subjects |
+| **Textarea** | Multi-line plain text like email body content |
+| **Rich text editor** | HTML content with formatting (bold, italic, links) |
+
+### Placeholders
+
+Many email fields support dynamic placeholders that are replaced with real values when the email is sent. Available placeholders are displayed below the input field as badges.
+
+Common placeholders include:
+
+| Placeholder | Replaced with |
+|-------------|--------------|
+| `:name` | The customer's name |
+| `:reference` | The order reference number |
+| `:company` | The company name |
+| `:platform` | The platform name |
+| `:total` | The order total amount |
+| `:url` | A link to the customer's account or order |
+| `:eventName` | The event name |
+| `:sender` | The name of the person sharing items (transfer emails) |
+| `:deposit_amount` | The deposit amount received |
+| `:remaining_amount` | The remaining balance due |
+| `:expires` | The reservation expiry date |
+
+<Note>
+The placeholders shown for each field are specific to that email type. Only use the placeholders displayed — other placeholder names will appear as literal text in the sent email.
+</Note>
+
+### Restoring Defaults
+
+Each field has a **Restore default** link. Clicking it reverts the field to the platform's original text. If you customise a field and then change it back to match the default exactly, the customisation is automatically removed.
+
+## Multi-Language Support
+
+If the company supports multiple languages, a locale switcher appears on each field. Switching the locale shows the default text and your custom override for that language.
+
+The fallback chain when sending an email is:
+
+1. Custom text for the email's locale
+2. Custom text for the company's fallback language
+3. Default text in English
+
+The email locale is determined by the customer's language preference or the language selected during checkout.
+
+## Scoping Customisations
+
+By default, customisations apply company-wide — every email of that type uses the customised text. For more targeted customisation, you can scope overrides to specific entities.
+
+### Per Event
+
+Most email templates support per-event overrides. When available, an **Event** dropdown appears above the editing fields. Select a specific event to create an override that only applies to emails related to that event.
+
+If the event also belongs to an event schedule, an **Event Schedule** dropdown appears alongside the event dropdown, allowing you to scope the override to the schedule level instead.
+
+**Resolution order:** When an email is sent for a specific event, the platform looks for text overrides in this order:
+
+1. Override scoped to the specific event
+2. Override scoped to the event's schedule
+3. Company-wide override
+4. Platform default text
+
+### Per Customer Group
+
+The **Added to customer group email** template supports per-group overrides. A **Customer Group** dropdown appears when this template is selected, allowing you to customise the welcome email content for each group individually.
+
+<Note>
+Per-event and per-schedule overrides are only applied when the email relates to a single event or a single schedule. For orders spanning multiple unrelated events, the company-wide override is used.
+</Note>
+
+## Customising Reminder Emails
+
+The event reminder email can also be reached directly from the event's **Email Preferences** modal. Click **Customise reminder email** to jump to the text manager with the event reminder template and the current event pre-selected.
+
+See [Automatic Event Reminder Emails](/core-platform/notifications/email-settings#automatic-event-reminder-emails) for setting up reminders.
+
+## Related Pages
+
+- [Email Settings](/core-platform/notifications/email-settings) — Configure which emails are sent
+- [Email Types](/core-platform/notifications/email-types) — Reference of every email type
+- [Sending Emails](/core-platform/notifications/sending-emails) — Send and resend emails manually

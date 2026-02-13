@@ -1,14 +1,121 @@
 ---
 title: "Fulfilment Fees"
-description: "Documentation for Fulfilment Fees"
+description: "Create delivery fees for different fulfilment methods, giving customers a choice of how they receive their purchases at checkout."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Fulfilment Fees** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Fulfilment fees allow you to offer delivery options beyond the default e-ticket. When fulfilment fees are configured, a **Delivery method** step appears at checkout where customers choose how they want to receive their purchases — and each method can carry its own fee.
+
+For example, you might offer free e-tickets as the default, a £2.50 option for in-person collection, and a £5.00 option for postal delivery. The customer selects their preferred method and the corresponding fee is added to their order.
+
+## Fulfilment Methods
+
+Each fulfilment fee is linked to a delivery method. The available methods are:
+
+| Method | Icon | Description |
+|--------|------|-------------|
+| **eTicket** | Mobile | Digital tickets delivered electronically. This is the default method and does not require a fulfilment fee — it is always available as a free option when items support it. |
+| **In person** | Handshake | Collection at the venue or a designated pickup point. |
+| **Digital** | Pointer | Digital delivery via a download or link. |
+| **Shipped** | Truck | Physical delivery by post or courier. |
+
+<Note>
+The **eTicket** method is built in and does not need to be created as a fulfilment fee. It appears automatically at checkout whenever the items in the basket support electronic delivery. Fulfilment fees are only needed for the other delivery methods.
+</Note>
+
+## Creating a Fulfilment Fee
+
+1. Navigate to **Fulfilment fees**
+2. Click **Create fulfilment fee**
+3. Select the **Fulfilment method** — choose from **In person**, **Digital**, or **Shipped**
+4. Enter a **Name** for the fee (this is what customers see at checkout)
+5. Set the **Pricing** for each currency
+6. Configure **Active dates** if the fee should only be available during specific periods
+7. Click **Save**
+
+### Pricing
+
+Fulfilment fee pricing works like standard sale item pricing — you set a fixed price per currency. The fee is added to the customer's order when they select the corresponding delivery method.
+
+<Note>
+Fulfilment fees cannot be free. If you want to offer a delivery method at no cost, the eTicket option serves that purpose by default.
+</Note>
+
+### Active Dates
+
+The **Active dates** control when the fulfilment fee is available. Outside of these dates, the delivery method will not appear as an option at checkout. This is useful for seasonal delivery options or methods that are only available for a limited period.
+
+## How Fulfilment Fees Work at Checkout
+
+When one or more fulfilment fees are configured, customers see a **Delivery method** step during checkout.
+
+### The Delivery Method Step
+
+The step presents all available delivery methods as selectable cards, each showing:
+
+- The method name
+- An icon representing the delivery type
+- The fee amount (or free for eTicket)
+- Whether the fee is charged **/ item** or **/ order**
+
+The customer selects their preferred method and clicks **Continue** to proceed.
+
+<Note>
+If the only available option is eTicket (no fulfilment fees are configured or active), the delivery method step is skipped entirely and the order defaults to electronic delivery.
+</Note>
+
+### After Selection
+
+Once a delivery method is selected:
+
+- The fulfilment fee is added to the order total
+- The selected method is shown in the order summary
+- For **Shipped** methods, the customer may be prompted to provide a delivery address (if delivery address capture is enabled in company settings)
+
+### Changing the Delivery Method
+
+Customers can change their delivery method during checkout by returning to the delivery step. The previous fulfilment fee is removed and the new one is applied.
+
+<Note>
+If a deposit has already been paid on an order, the delivery method cannot be changed.
+</Note>
+
+## Managing Fulfilment Fees
+
+### Finding Fulfilment Fees
+
+The **Fulfilment fees** page lists all fulfilment fees with filters for:
+
+| Filter | Options |
+|--------|---------|
+| **Name** | Search by fee name |
+| **Deleted** | Show all, show deleted, or show only deleted fees |
+| **Off sale** | Hide off-sale fees, show all, or show only off-sale fees |
+
+### Editing a Fulfilment Fee
+
+Click on any fulfilment fee to open it for editing. You can update the name, pricing, fulfilment method, and active dates. Changes take effect on future orders.
+
+### Deleting a Fulfilment Fee
+
+Fulfilment fees can be deleted from the edit page. If the fee has been used in orders, it is marked as off sale instead of being permanently deleted, preserving the historical order data.
+
+## Delivery Address Capture
+
+When the **Shipped** fulfilment method is selected, customers can be asked to provide a delivery address. This requires delivery address capture to be enabled in your company settings.
+
+<Note>
+If fulfilment fees are enabled, the delivery address data capture setting must be enabled and set to mandatory for the **Shipped** method to work correctly.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Default System Fees" icon="gear" href="/core-platform/fees/default-system-fees">
+    Processing and platform fees that are automatically applied to all sales.
+  </Card>
+  <Card title="Sale Item Fees" icon="receipt" href="/core-platform/fees/sale-item-fees">
+    Create custom fees that are added to orders at event or company level.
+  </Card>
+</CardGroup>

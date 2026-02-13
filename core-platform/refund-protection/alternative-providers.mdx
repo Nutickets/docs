@@ -1,14 +1,204 @@
 ---
 title: "Alternative Providers"
-description: "Documentation for Alternative Providers"
+description: "Configure manual refund protection fees that give you full control over pricing and terms — either as a self-managed protection service or as a way to integrate with third-party providers outside of Protect Group."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Alternative Providers** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Manual refund protection provides a flexible alternative to the [Protect Group integration](/core-platform/refund-protection/protect-group). Instead of connecting to an external API that handles pricing and claims automatically, you define your own protection fee items with custom pricing, descriptions, and terms. Customers see these as selectable options during checkout and can choose one to add to their order.
+
+This approach is useful in two scenarios:
+
+- **Self-managed protection** — You run your own refund protection service, set your own pricing, and handle claims directly
+- **Third-party provider integration** — You work with a refund protection provider other than Protect Group, configure fees that match their pricing, and push sales data to them via reports or APIs separately
+
+In both cases, the platform handles the checkout experience and fee collection. What happens after the sale — whether you process claims yourself or pass the data to a third party — is managed outside the platform.
+
+## How It Works
+
+The manual refund protection flow is simpler than the Protect Group integration because there is no external API involved during checkout:
+
+| Stage | What Happens |
+|-------|-------------|
+| **Configuration** | You create one or more refund protection fee items with custom names, pricing, descriptions, and terms |
+| **Checkout** | Customers see the available protection options as selectable cards and choose one (or decline) |
+| **Order completion** | The selected fee is included in the order total. Protection status is tracked on each covered item |
+| **Post-sale** | You handle claims and fulfilment outside the platform — either directly or through your chosen provider |
+
+### What Gets Protected
+
+The same item types are eligible for protection as with Protect Group:
+
+- Tickets
+- Products
+- Fees
+- Fulfilment fees
+- Resale fees
+
+Items with zero value, deferred payment items, and rejected items are excluded. If only fee items remain eligible (no tickets or products), protection is not offered.
+
+<Note>
+Unlike Protect Group fees, manual refund protection fees are **not refundable** when an order is cancelled. This is because the platform has no way to coordinate refunds with an external claims process you manage separately.
+</Note>
+
+## Enabling Manual Refund Protection
+
+1. Navigate to **Settings**
+2. Open **Manual Refund Protect settings**
+3. Toggle **Manual Refund Protection** on
+
+When you enable manual refund protection for the first time, a prompt appears to create your first fee item. Protection does not appear in the checkout until at least one fee item exists.
+
+### Configuration Options
+
+| Setting | Description |
+|---------|-------------|
+| **Minimum order value** | The minimum basket total (of protectable items) required before protection is offered. Configured per currency. When set to 0 for a currency, protection is not offered for orders in that currency. |
+| **Cut-off before the event** | How close to the event start date protection can still be purchased. The default is 72 hours. For baskets containing items from multiple events, the earliest event start date is used. |
+| **Cut-off for future events** | The maximum time into the future that an event can start for protection to be offered. The default is 1,095 days (approximately 3 years). Events starting beyond this date are not eligible. |
+
+<Note>
+Manual refund protection does not support event-level overrides. When enabled, it applies to all events that meet the eligibility criteria. To exclude specific events, adjust the minimum order value or cut-off settings.
+</Note>
+
+## Creating Refund Protection Fee Items
+
+Fee items define the protection options that customers see during checkout. You can create multiple fee items to offer different tiers or levels of coverage.
+
+To create a fee item:
+
+1. Navigate to **Settings > Manual Refund Protect settings**
+2. Click **Configure Refund Protect Fees**
+3. Click **Create Refund Protect Fee**
+
+### Fee Item Configuration
+
+Each fee item has the following properties:
+
+| Property | Description |
+|----------|-------------|
+| **Name** | The name displayed to customers during checkout (e.g., "Standard Protection", "Premium Protection") |
+| **Description** | Optional rich text description explaining what the protection covers, displayed below the fee name |
+| **Image** | Optional image displayed on the protection card during checkout |
+| **Sales widget** | Optional HTML content rendered on the checkout card — useful for embedding provider-specific widgets or branding |
+| **Terms and conditions** | Optional terms text. When provided, a **View Terms** link appears on the checkout card, opening a panel with the full terms |
+| **Colour** | The background colour of the protection card header in checkout. Defaults to green (#005C3D). A preview of how the badge will appear is shown while editing |
+
+### Pricing
+
+Fee pricing is flexible and supports three models:
+
+| Model | How It Works |
+|-------|-------------|
+| **Fixed** | A flat fee amount added to the order (e.g., £5.00) |
+| **Percentage** | A percentage of the total protectable items value (e.g., 10% of the basket) |
+| **Hybrid** | A combination of a fixed fee plus a percentage (e.g., £2.00 + 5% of the basket) |
+
+Pricing can be configured per currency and per sales channel, allowing different rates for different markets.
+
+<Note>
+If you're integrating with a third-party provider, set your fee pricing to match their rates. You can then export sales data via reports or APIs to reconcile with the provider.
+</Note>
+
+### Managing Fee Items
+
+All fee items are managed from **Settings > Configure Refund Protect Fees**:
+
+- **Edit** an existing fee to update its name, pricing, description, or terms
+- **Delete** a fee to remove it from checkout (soft-deleted and can be restored)
+- **Restore** a previously deleted fee to make it available again
+- **Filter** the list by name, deleted status, or on/off-sale status
+
+<Note>
+If manual refund protection is enabled but no fee items are on sale, protection will not appear during checkout. The fee management page shows a notice: **"Manual refund protection is turned off, so no refund protection fees will appear in the Shop."** if the feature is disabled.
+</Note>
+
+## The Checkout Experience
+
+When manual refund protection is active and eligible, customers see a **Select Refund Protection** step during checkout with a green **RECOMMENDED** badge.
+
+The available fee items are displayed as selectable cards, each showing:
+
+- A coloured header with the fee name and price
+- An optional image and description
+- A **View Terms** link (if terms are configured)
+
+Below the fee options, a final option allows the customer to decline: selecting this shows a warning — **"You are about to complete your booking without refund protection, are you sure you want to continue?"**
+
+After selecting a fee, the customer clicks **Continue** to proceed to the order confirmation step, where the protection fee appears as a line item in the order summary.
+
+### Basket Changes After Selection
+
+As with Protect Group, if the customer modifies their basket after selecting protection, the fee is automatically recalibrated:
+
+- The protection is removed and eligibility is re-checked
+- If still eligible, the fee is recalculated based on the updated basket contents
+- If no longer eligible, the protection is removed entirely
+
+For percentage-based pricing, this means the fee amount updates dynamically as items are added or removed.
+
+## Viewing Protection Status
+
+### Order Items
+
+Protected items display a **Protected** badge (green shield) on the order item view, both for customers and in the admin. Items not covered show a **Not Protected** badge (grey shield).
+
+If a claim is later processed (marked manually), the badge changes to **Claimed** (shield with checkmark).
+
+### Admin Order View
+
+The admin order page shows a **Refund Protection** section when protection was applied. The **Show Details** link opens a panel with:
+
+- **Status** — confirmation that protection is active on the order
+- **Terms and Conditions** — the terms from the selected fee item
+
+### Marking Claims
+
+Since manual refund protection does not connect to an external claims processor, the platform provides a way to manually record when a claim has been made. This updates the protection badge to **Claimed** and maintains an accurate audit trail.
+
+## Refunds and Cancellations
+
+When items on a manually protected order are cancelled:
+
+| Scenario | What Happens |
+|----------|-------------|
+| **Items cancelled** | The protection status for each cancelled item is updated to reflect the cancellation |
+| **Protection fee** | Manual protection fees are **not automatically refunded** — the fee remains on the order |
+
+This differs from Protect Group, where fees are refundable and cancellations are coordinated via API. With manual protection, any fee refunds or claim processing must be handled separately.
+
+## Eligibility Rules
+
+An order must meet all of the following criteria for manual protection to be offered:
+
+| Rule | Detail |
+|------|--------|
+| **Feature enabled** | Manual refund protection must be active for the company |
+| **Fee items exist** | At least one protection fee item must be on sale and visible for the sales channel |
+| **Minimum order value** | The total of protectable items must meet the per-currency minimum |
+| **Cut-off not passed** | The earliest event in the basket must start after the configured cut-off period (default: 72 hours) |
+| **Future cut-off not exceeded** | The latest event in the basket must start within the configured maximum future period (default: 3 years) |
+| **Single company** | For multi-company baskets, only orders from a single event company are eligible |
+| **Protectable items exist** | The basket must contain at least one eligible item type — not just fees |
+
+## Using with Third-Party Providers
+
+If you're working with a refund protection provider other than Protect Group, you can use manual refund protection to handle the customer-facing checkout while managing the provider relationship separately:
+
+1. **Configure fees to match your provider's pricing** — Set up fee items with the same rates your provider charges, using percentage-based pricing if they charge a percentage of order value
+2. **Customise the checkout experience** — Use the description, image, and sales widget fields to display your provider's branding and terms during checkout
+3. **Export sales data** — Use the platform's reporting tools or APIs to extract protection sales data and share it with your provider for reconciliation
+4. **Handle claims externally** — When customers submit claims through your provider, process them outside the platform and use the claim tracking feature to update order records
+
+This approach gives you the flexibility to work with any provider while maintaining a consistent checkout experience for customers.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Protect Group" icon="shield-check" href="/core-platform/refund-protection/protect-group">
+    Integrated refund protection through Protect Group with automated claims
+  </Card>
+  <Card title="Refunds and Cancellations" icon="rotate-left" href="/core-platform/order-management/refunds-and-cancellations">
+    Processing refunds and cancellations on orders
+  </Card>
+</CardGroup>

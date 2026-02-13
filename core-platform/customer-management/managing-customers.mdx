@@ -1,0 +1,187 @@
+---
+title: "Managing Customers"
+description: "Find, view, and edit customer profiles from the admin area — including personal details, order history, account balances, and data capture responses."
+---
+
+## Overview
+
+Every person who creates an account or is added through box office, data imports, or the API has a customer record in the admin area. The customer management section gives admins a central view of each customer's profile, purchase history, account balances, and connected data — along with tools to edit details, add notes, and take actions like creating orders or merging duplicates.
+
+Navigate to the customer list from the main admin navigation. If [customer groups](/core-platform/customer-management/customer-groups) are enabled, the page includes tabs to switch between **Customers** and **Customer Groups**.
+
+## Finding Customers
+
+The customer list displays all customers associated with your company, sorted by most recently created by default.
+
+### Filters
+
+| Filter | Description |
+|--------|-------------|
+| **Name** | Search by customer name. Results update as you type. |
+| **Email** | Search by email address. Results update as you type. |
+| **EPOS Only** | Toggle between **All** customers or only those with EPOS activity. |
+
+### Sort Options
+
+| Sort | Description |
+|------|-------------|
+| **Last Created (Newest)** | Most recently created customers first. This is the default. |
+| **Last Created (Oldest)** | Oldest customers first. |
+| **Alphabetical (A–Z)** | Sorted by name ascending. |
+| **Alphabetical (Z–A)** | Sorted by name descending. |
+
+### Quick Actions
+
+Each customer in the list has quick-access buttons and a dropdown menu:
+
+- **Call** — Initiates a phone call if the customer has a phone number on file.
+- **Email** — Opens your email client with the customer's email address.
+- **Sell to Customer** — Opens box office mode to create an order for this customer.
+- **View on Attendance Report** — Shows the customer's purchased items across events.
+- **View All Orders** — Opens the orders list filtered to this customer.
+- **View All Reservations** — Opens the reservations list filtered to this customer.
+
+## Viewing a Customer Profile
+
+Click a customer's name to open their profile page. The profile is split into a main content area showing personal information and a sidebar with action cards and quick links.
+
+### Personal Information
+
+The main card displays all available profile data. Fields only appear when they have a value:
+
+| Field | Description |
+|-------|-------------|
+| **Title** | Salutation (e.g. Mr, Mrs, Dr, Prof). Only shown if titles are enabled in company settings. |
+| **Name** | Full name, displayed alongside the customer ID (e.g. #1234). |
+| **Email** | Clickable email address. |
+| **Address** | Address line 1, address line 2, city, country, and postcode — each shown if populated. |
+| **VAT Number** | Tax identification number, if provided. |
+| **Language** | The customer's preferred language. |
+| **Nationality** | Country of nationality, if captured. |
+| **Date of Birth** | Formatted according to your company's date format setting. |
+| **Contact Number** | Phone number with country code. |
+| **Origin** | The company where this customer was originally created, shown with the company ID. Only appears for multi-company setups. |
+| **External ID** | An identifier from an external system, if one has been linked. |
+| **Guest Customer** | Indicates whether this is a guest record (created without a full account). |
+
+### Authentication Providers
+
+If the customer has connected social login providers (SSO), these appear below the profile fields. Each provider shows the provider name and identifier. Admins can unlink a provider if needed — a confirmation prompt warns that this cannot be undone, though the customer can reconnect by logging in with a matching email address.
+
+### Internal Notes
+
+A notes section allows admins to add free-text annotations to a customer record. These notes are internal only and not visible to the customer. Use them to record context about the customer, flag follow-up actions, or leave information for other team members.
+
+### Marketing Preferences
+
+If marketing data capture questions are configured, the profile shows the customer's responses in a grid. Each answer includes when it was last updated. If a question's text has changed since the customer answered, an info icon shows the original question text they responded to.
+
+### Sidebar Actions
+
+The sidebar provides quick access to related features and data. Each card links to a panel, page, or action:
+
+| Action | Description |
+|--------|-------------|
+| **Edit** | Opens the customer edit form. |
+| **View Data Capture** | Opens a panel showing the customer's responses to data capture questions. Only appears if data capture fields exist. |
+| **Check Email Logs** | Opens a panel listing emails sent to this customer. |
+| **Create Order** | Opens box office mode to start a new order for this customer. |
+| **Merge Customer** | Opens the [merge workflow](/core-platform/customer-management/merging-customers). Only available if the merge feature is enabled. Disabled with a tooltip if the customer belongs to a different company. |
+| **Orders** | Opens a panel listing the customer's orders, with export options. Disabled if the customer has no orders. |
+| **Transactions** | Opens a panel listing payment transactions. Disabled if no transactions exist. |
+| **Customer Groups** | Opens a panel showing which [customer groups](/core-platform/customer-management/customer-groups) this customer belongs to, with a button to force re-sync membership. Only appears if customer groups are enabled. |
+| **Tickets** | Opens a panel listing purchased tickets with barcode, timeslot, status, and export options. |
+| **Products** | Opens a panel listing purchased products. Only appears if product sales are enabled. |
+| **Guest Lists** | Opens a panel listing guest list entries. Only appears if guest list sales are enabled. |
+| **Donations** | Opens a panel listing donations. Only appears if charities are configured. |
+| **EPOS Products** | Opens a panel listing EPOS purchases. Only appears if EPOS is enabled. |
+
+<Note>
+Action cards that reference data (Orders, Tickets, etc.) are disabled when the customer has no records of that type, so you can quickly see what activity exists at a glance.
+</Note>
+
+### Account Balances
+
+If account balances are enabled for your company, the profile includes an account balance section. When a customer has balances in multiple currencies, each currency appears as a separate tab.
+
+The section shows:
+- The current account balance
+- A link to **View account balance** — opening the detailed balance page with full transaction history and NFC tag information
+- A **Top Up** action if the customer has no existing balance but top-ups are available
+- A **Topups** action to view the customer's top-up history
+
+For full details on account balance management, see [Account Balances](/core-platform/account-balances/top-ups).
+
+### Merge History
+
+If a customer has been involved in a merge, the profile shows a **Merge history** indicator. Click it to open a panel listing all merges in chronological order. Each entry shows when the merge occurred, which customer was merged in (by customer ID), and who performed the merge.
+
+### Data Capture Responses
+
+The **View Data Capture** panel shows responses to all customer-level data capture questions — the questions configured to be asked during account registration. Each response displays the question label and the customer's answer.
+
+<Note>
+Data capture questions can also be configured at the event, schedule, or item level. Those responses are associated with specific orders rather than the customer profile, and can be found in order-level reports.
+</Note>
+
+## Editing a Customer
+
+Click **Edit** from the customer profile sidebar to open the edit form. The form is organised into sections, with some fields appearing conditionally based on your company's settings.
+
+### Profile Fields
+
+| Field | Notes |
+|-------|-------|
+| **Title** | Dropdown with options including Mr, Mrs, Miss, Ms, Dr, Prof, and others. Only appears if titles are enabled in company settings. |
+| **Name** | Required. The customer's full name. |
+| **Email** | The customer's email address. If SSO is enabled, this field is read-only with the message "Field editing disabled (SSO)". |
+| **Date of Birth** | Date input for the customer's date of birth. |
+| **Phone Number** | Phone number with a country code selector. |
+
+### Address Information
+
+The address section includes a Google Places address lookup that can auto-populate fields, or you can enter the address manually:
+
+- **Address Line 1**
+- **Address Line 2**
+- **City**
+- **Region**
+- **Postcode**
+- **Country**
+
+### Nationality
+
+A nationality selector appears if nationality collection is enabled in company settings.
+
+### Data Capture
+
+If customer-level data capture questions are configured, they appear as editable fields below the address section. The field types match the question configuration — text inputs, dropdowns, checkboxes, and other formats as defined in the data capture setup.
+
+### Additional Options
+
+If the customer has invoicing documents (Szamlazz integration), a toggle appears asking whether to regenerate those documents after saving. The help text shows the number of invoices and receipts that would be affected.
+
+### Saving Changes
+
+Click **Submit** to save. The form validates all fields before submitting. If validation fails, error messages appear next to the relevant fields. After a successful save, you are returned to the customer profile page.
+
+<Note>
+Editing a customer's name or email updates their user account — this affects how they log in and how their name appears on all existing orders and purchases.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Merging Customers" icon="code-merge" href="/core-platform/customer-management/merging-customers">
+    Consolidate duplicate customer records while preserving all orders, tickets, and activity.
+  </Card>
+  <Card title="Customer Groups" icon="users" href="/core-platform/customer-management/customer-groups">
+    Segment customers to control access to sale items and discount codes.
+  </Card>
+  <Card title="Account Balances" icon="wallet" href="/core-platform/account-balances/top-ups">
+    Manage customer account balances, top-ups, and cash-outs.
+  </Card>
+  <Card title="Data Imports" icon="file-import" href="/core-platform/data-imports/introduction">
+    Import customer data and group memberships via CSV.
+  </Card>
+</CardGroup>

@@ -1,0 +1,190 @@
+---
+title: "Customer Accounts"
+description: "Understand how customers register, sign in, and use their accounts in the ticket shop to view orders, manage profiles, track balances, and complete purchases faster."
+---
+
+## Overview
+
+Customer accounts give buyers a persistent identity in your ticket shop. With an account, a customer can view their full order history, download tickets, manage personal details, track their account balance, and complete future purchases faster because their information is already saved.
+
+Accounts are created in one of three ways:
+
+- **Registration** -- the customer signs up directly through the shop
+- **Purchase** -- an account is created automatically during checkout
+- **Social login** -- the customer authenticates through a third-party provider such as Google or Facebook
+
+Once an account exists, the customer can sign in from any device to access their orders, profile, and balance.
+
+## Registration
+
+Customers register for an account from the shop header by clicking the profile icon or the **Sign in** link, then selecting **Create an account** (or following the "Need an account?" prompt on the sign-in page).
+
+### Registration Requirements
+
+| Field | Requirement |
+|-------|-------------|
+| **Name** | Required |
+| **Email** | Required -- must be unique |
+| **Password** | Minimum 8 characters, mixed case, at least 1 number |
+
+After completing the form, the customer's account is created and they are signed in immediately.
+
+<Note>
+If social login providers are enabled, the registration page also displays provider buttons under "Create account with", allowing customers to register via a social account instead of filling in the form manually.
+</Note>
+
+## Signing In
+
+Returning customers sign in from the shop header using the profile icon or the **Sign in** link. The sign-in page presents an email and password form, a **Forgot password** link for account recovery, and -- if enabled -- social login provider buttons under "Sign in with".
+
+New visitors see a "Need an account?" prompt that links directly to the registration page.
+
+## Authentication Methods
+
+Your shop supports multiple ways for customers to authenticate. Standard email and password login is always available; social login and SSO are optional and configured at the company level.
+
+### Social Login Providers
+
+Each social login provider can be independently enabled or disabled in your company settings. When enabled, the provider's button appears on both the sign-in and registration pages.
+
+| Provider | Default State |
+|----------|---------------|
+| **Facebook** | Enabled |
+| **Google** | Enabled |
+| **Twitter/X** | Disabled |
+| **Apple** | Disabled |
+
+Social login lets customers authenticate with an existing social account rather than creating a separate password. This reduces friction during registration and sign-in, particularly on mobile devices.
+
+### Single Sign-On (SSO)
+
+If your organisation uses an external identity provider, you can configure SSO so customers authenticate through that system instead. When SSO is active, the shop delegates authentication, password management, and -- optionally -- email changes to the external provider.
+
+SSO configuration includes:
+
+| Setting | Purpose |
+|---------|---------|
+| **SSO provider name** | The label displayed to customers (e.g. your organisation's name) |
+| **Change email URL** | Redirects customers to the external system to change their email |
+| **Change password URL** | Redirects customers to the external system to change their password |
+| **Logout URL** | Redirects customers to the external system on sign-out |
+
+<Note>
+When SSO is configured with external URLs for email or password changes, the corresponding fields in the shop's profile editor redirect to the external system rather than handling the change locally. This ensures the external identity provider remains the single source of truth.
+</Note>
+
+## The Account Area
+
+Once signed in, customers access their account from the profile icon in the shop header. The dropdown menu adapts dynamically based on which features are enabled for your company.
+
+### Account Balance
+
+If the wallet feature is enabled, the customer's current balance is displayed at the top of the account dropdown (e.g. "Current balance: £25.00"), along with action buttons:
+
+| Action | When it appears |
+|--------|-----------------|
+| **Top up** | Wallet top-ups are enabled and top-up items are available |
+| **Cash out** | Wallet cash outs are enabled and the customer has a positive balance |
+| **Claim gift voucher** | Gift vouchers feature is enabled |
+
+<Note>
+The **Cash out** button is disabled with a tooltip reading "You don't have any balance to cash out" when the customer's balance is zero. It only becomes active once the customer has funds to withdraw.
+</Note>
+
+### Menu Items
+
+Below the balance section, the dropdown contains links to the account pages. The exact items depend on your enabled features, but common entries include:
+
+| Menu item | Purpose |
+|-----------|---------|
+| **My Orders** | View full order history |
+| **Profile** / **Edit Profile** | Edit personal details |
+| **Marketing Preferences** | Manage communication opt-ins |
+| **Sign Out** | End the current session |
+
+## Order History
+
+The **My Orders** page lists every order the customer has placed, showing the order number, date, items, and current status for each one. From an individual order's detail view, customers can:
+
+- View a breakdown of the order contents and charges
+- Download tickets and PDF documents when available
+- Add passes to **Apple Wallet** or **Google Wallet**
+- Initiate **item transfers** to send tickets to another person
+
+This is the primary self-service page for customers -- it reduces the number of support queries about order status, ticket downloads, and transfers.
+
+## Profile Editing
+
+The profile page lets customers update their personal details:
+
+- Name
+- Email address
+- Phone number
+- Address
+- Date of birth
+- Responses to custom data capture questions (if configured)
+
+After saving, the customer sees a confirmation: "Your details have been saved."
+
+<Note>
+If the customer's account is linked to an external system via SSO and the update fails to sync, they see a more specific message: "Your details have been saved internally, but there was an issue updating them in an external system associated with this account." The local changes are still saved -- only the external sync failed.
+</Note>
+
+## Marketing Preferences
+
+Customers can manage their communication preferences from the **Edit marketing preferences** link. This page allows them to opt in or opt out of marketing communications.
+
+You can customise the header text and body copy shown on this page through your company settings. Use this to explain what types of communications customers will receive, how often, and why opting in is valuable.
+
+## Account Balance Management
+
+When the wallet feature is enabled, customers have a dedicated area to manage their account balance. From here they can:
+
+- **View** their current balance and transaction history
+- **Top up** their balance by purchasing top-up items
+- **Cash out** to withdraw funds from their balance
+- **Claim gift vouchers** by entering a voucher code
+
+For full details on how balances, top-ups, and cash outs work, see the [Account Balances](/core-platform/account-balances/top-ups) documentation.
+
+## Guest Users
+
+Customers who complete a purchase through guest checkout receive a limited account. Guest users are identified with the name "Guest Customer" and can only view their most recent order -- they do not have access to the full account area, profile editing, or balance management.
+
+### Upgrading a Guest Account
+
+Guest users are prompted to upgrade to a full account with the message:
+
+> Upgrade to a full account? By upgrading to a full account, you can track all your orders and view your payment history.
+
+Clicking the **Upgrade!** button begins the upgrade process. The customer sees a confirmation: "Your account is being created. Please check your inbox to verify your details and finish your account creation."
+
+<Warning>
+If a guest user has an account balance (e.g. from a refund to balance), they see an additional prompt: "You currently have an available account balance that may be used for payment. Please upgrade your account to allow account balance spending." Until they upgrade, the balance exists but cannot be spent.
+</Warning>
+
+## Restricted Content
+
+Some shop features require customers to be signed in before they can interact with them. When an unauthenticated customer encounters restricted content, the shop displays a prompt instead of the usual interface:
+
+| Restriction type | What the customer sees |
+|------------------|------------------------|
+| **Items restricted to a customer group** | "Login to buy now" |
+| **Events with restricted dates** | "Login to view dates & book" or "Login to view times & book" |
+| **Claiming a transfer** | "Login or register to claim" |
+
+These prompts link directly to the sign-in page so customers can authenticate and return to the restricted content.
+
+<Note>
+Restricted content is commonly used alongside [customer groups](/core-platform/customer-management/customer-groups) to offer exclusive items or early access to specific audiences. Customers must both be signed in and belong to the correct group to see restricted items.
+</Note>
+
+## Related Pages
+
+- [Checkout](/core-platform/ticket-shop/checkout) -- The full checkout process including guest checkout
+- [Customer Management](/core-platform/customer-management/managing-customers) -- Admin-side customer management
+- [Customer Groups](/core-platform/customer-management/customer-groups) -- Grouping customers for access control and pricing
+- [Account Balances](/core-platform/account-balances/top-ups) -- Top-ups and balance management
+- [Item Transfers](/core-platform/event-management/item-transfers) -- Transferring tickets between customers
+- [SSO](/core-platform/advanced/sso) -- Single Sign-On configuration
+- [Marketing Preferences](/core-platform/notifications/email-settings) -- Email notification settings

@@ -1,31 +1,172 @@
 ---
 title: "Top Ups"
-description: "Create and manage wallet top-up sale items for account balance funding."
+description: "Let customers add funds to their account balance by purchasing top-up items through the shop or box office."
 ---
 
 ## Overview
 
-- Top ups are sale items that add value to a customer wallet.
-- They are managed from wallet top-up screens in admin and sold through enabled sales channels.
-- Top-up sale items use dedicated item type behaviour (`wallet_topup`) and company-scoped inventories.
+Top ups allow customers to load funds onto their account balance, which they can then spend on future purchases. Customers purchase top-up items just like any other sale item — through the ticket shop or box office — and the funds are credited to their balance once the order is complete.
+
+Top ups are managed as sale items in the admin panel. You can offer fixed-amount top ups (e.g. £10, £25, £50) or variable-price top ups where customers choose their own amount. Each top-up item can be configured with its own pricing, sales channels, and tax settings.
+
+<Note>
+Top ups require the **Account Balances** feature to be enabled for your company, and the **Enable online top ups** setting must be turned on in **Settings > Payment Settings > Balance settings**.
+</Note>
+
+## Creating a Top Up
+
+To create a new top-up sale item:
+
+1. Navigate to **Account Balances > Top Ups**
+2. Click **Create topup**
+3. Configure the top-up item (see [Configuration](#configuration) below)
+4. Click **Save**
+
+The top-up item becomes available for purchase through the sales channels you select.
 
 ## Configuration
 
-| Area | Notes |
-|---|---|
-| Pricing | Currency-specific top-up amounts and pricing records |
-| Sales channels | Ticket shop and box office channel support |
-| Tax | Uses normal sale item tax-band assignment where configured |
-| Availability | Top ups are treated as always-stocked (`has_unlimited_stock`) |
+### Pricing
 
-## Operational Notes
+Top ups support two pricing models:
 
-- Wallet features are only available when account-balance features are enabled for the company.
-- Top-up creation and editing are permission-controlled.
-- Top-up sale items appear in wallet reporting and transaction history.
+| Model | How it works |
+|-------|-------------|
+| **Fixed price** | Customers purchase a set amount (e.g. £10 top up for £10). Set a specific price per currency. |
+| **Variable price** | Customers enter their own amount at purchase time. You set a minimum amount (starting from £0.01). |
 
-## Related
+Pricing is configured per currency — if your company operates in multiple currencies, you set pricing for each one independently.
 
-- [Cash Outs](/core-platform/account-balances/cash-outs)
-- [Self Service Refunds](/core-platform/account-balances/self-service-refunds)
-- [Payments Introduction](/core-platform/payments/introduction)
+<Note>
+Top-up items cannot be free. Every top-up must have a price or a minimum variable price of at least £0.01.
+</Note>
+
+### Sales Channels
+
+Top ups can be sold through:
+
+- **Ticket shop** — customers purchase top ups from their account page or during checkout
+- **Box office** — staff sell top ups on behalf of customers
+
+Control visibility with the **Hide from shop** and **Hide from box office** toggles when editing a top-up item.
+
+### Tax
+
+Top ups use standard tax band assignment. If your company has tax bands configured, you can assign one to a top-up item just like any other sale item.
+
+### Fees
+
+Top-up items support fee configuration. Fees can be:
+
+- **Fixed** — a flat fee added to each top up
+- **Percentage-based** — a percentage of the top-up amount
+- **Minimum/Maximum** — bounds on the fee amount
+
+The fee display depends on your company's fee absorption settings — fees may be shown separately or included in the displayed price.
+
+### Availability
+
+You can control when top ups are available for purchase using:
+
+- **On sale from** — the date and time the top up becomes available
+- **On sale until** — the date and time the top up stops being available
+
+Top-up items always have unlimited stock — they never sell out.
+
+## How Customers Purchase Top Ups
+
+### From the Account Page
+
+Customers can top up their balance from the **Account** section of the ticket shop:
+
+1. The customer navigates to their account page
+2. They click **Top up** on their balance card
+3. A modal opens showing their **current balance** and projected **balance after top up**
+4. They select a top-up package (or enter a custom amount for variable-price top ups)
+5. The top-up item is added to their basket and they proceed to checkout
+6. Once the order is complete, the funds are credited to their account balance
+
+<Note>
+If your company supports multiple currencies, customers only see top-up options that match their current wallet currency.
+</Note>
+
+### During Checkout
+
+If balance spending is enabled, a top-up card appears in the checkout sidebar showing:
+
+- **Current balance** (if the customer has no top ups in the basket)
+- **Balance after checkout** (if the customer has added top ups to their basket)
+
+Customers can click **Add top up** to add a top-up item to their current order.
+
+## How Top Ups Are Credited
+
+When a customer completes an order containing a top-up item, the funds are automatically credited to their account balance. The top-up amount is recorded as a transaction on the customer's wallet — either as an **Online top up** or **Offline top up** depending on the payment method used.
+
+Each top-up item can only be claimed once. If an order contains multiple top-up items, each is credited individually.
+
+<Note>
+Top ups are only credited when the order reaches **Complete** status. If an order is pending or cancelled, the top-up funds are not added to the customer's balance.
+</Note>
+
+## Claiming Gift Vouchers
+
+Customers can also add funds to their account balance by redeeming gift vouchers. This is a separate flow from purchasing top ups, but the result is the same — funds are credited to the customer's wallet.
+
+To claim a gift voucher:
+
+1. The customer clicks **Claim gift voucher** on their account page
+2. They enter the voucher code
+3. The system validates the code and shows the voucher amount
+4. The customer clicks **Redeem** to add the funds to their balance
+
+The transaction appears in their history as **Claimed gift voucher**.
+
+<Warning>
+Once redeemed, the full balance associated with a gift voucher is assigned to the customer. Gift vouchers cannot be reused or split between accounts. The voucher's currency must match the customer's account balance currency.
+</Warning>
+
+<Note>
+Gift voucher claiming requires the **Gift Vouchers** feature to be enabled for your company. If balance spending in shop is not enabled, customers will not be able to spend their claimed balance — a warning is shown to admins when this situation is detected.
+</Note>
+
+## Managing Top Ups in Admin
+
+### Viewing Top Ups
+
+Navigate to **Account Balances > Top Ups** to see all top-up sale items. The list shows each top-up item with its name, pricing, and availability status.
+
+### Editing a Top Up
+
+Click on any top-up item to edit its configuration. You can update pricing, sales channels, tax bands, and availability dates. Changes take effect immediately for future purchases.
+
+### Top Up Transactions
+
+When a customer purchases a top up, it appears in the admin **Account Balances > Transactions** list. Each top-up transaction shows:
+
+- The customer who purchased it
+- The amount credited
+- The transaction type (**Online top up** or **Offline top up**)
+- The date and time
+
+You can also view a specific customer's top-up history from their wallet page at **Customers > [Customer] > Account Balance**.
+
+## Cashout Expiry
+
+If **Enable online cash outs** is turned on, you can set an **Account balance cashout topup expiry** time. After this period, top ups purchased by a customer can no longer be cashed out (refunded back to the original payment method).
+
+- If set to zero, top ups remain cashable out indefinitely
+- This only applies to newly purchased top ups — it cannot be applied retroactively to past purchases
+
+For more on cash outs, see [Cash Outs](/core-platform/account-balances/cash-outs).
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Cash Outs" icon="money-bill-transfer" href="/core-platform/account-balances/cash-outs">
+    Withdraw funds from an account balance back to the original payment method.
+  </Card>
+  <Card title="Self Service Refunds" icon="rotate-left" href="/core-platform/account-balances/self-service-refunds">
+    Allow customers to refund orders to their account balance without staff involvement.
+  </Card>
+</CardGroup>

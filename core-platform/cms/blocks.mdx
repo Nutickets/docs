@@ -1,29 +1,216 @@
 ---
 title: "Blocks"
-description: "Compose CMS pages using event blocks, article blocks, listing blocks, and template blocks."
+description: "Configure event blocks, article blocks, and template blocks to compose your CMS pages with dynamic, styled content."
 ---
 
 ## Overview
 
-- Blocks are reusable content/query units attached to listings.
-- Multiple block types are supported and can be reordered per listing.
-- Restoring/deleting block usage is handled across linked listing-block records.
+Blocks are the building units of [CMS pages](/core-platform/cms/pages). Each block is a self-contained content module with its own layout, content source, and visual styling. You add blocks to pages to create rich, dynamic landing pages — and because blocks are reusable, a single block can appear on multiple pages.
 
-## Block Types
+There are three block types:
 
-| Type | Typical use |
-|---|---|
-| Event block | Display event collections |
-| Article block | Display article content/lists |
-| Template block | Reusable templated content structures |
-| Listing block | The link record joining a block to a listing |
+- **Event blocks** — pull in events and display them in grids, lists, sliders, maps, or calendars
+- **Article blocks** — pull in [articles](/core-platform/cms/articles) and display them in lists, grids, or sliders
+- **Template blocks** — display custom-designed content defined with a JSON schema
 
-## Operational Notes
+Blocks are created through a guided wizard when you add one to a page. You can also manage all blocks from their dedicated sections in admin.
 
-- Reordering is persisted explicitly.
-- Block deletion from a listing can affect all linked listing-block records for that block instance.
+## Event Blocks
 
-## Related
+Event blocks display collections of events on your pages. They are the most versatile block type, with multiple layout and content source options.
 
-- [Pages](/core-platform/cms/pages)
-- [Articles](/core-platform/cms/articles)
+### Creating an Event Block
+
+The event block wizard guides you through four steps:
+
+1. **Block style** — choose a layout
+2. **Select events** — choose how events are sourced
+3. **Block details** — set the block name, event limit, ordering, and assign to pages
+4. **Confirm** — review and save
+
+### Layouts
+
+| Layout | Description |
+|--------|-------------|
+| **Standard List** | Events displayed as a vertical list |
+| **Featured Style** | A prominent featured layout with highlighted events |
+| **Two-column Layout** | Events arranged in a two-column grid |
+| **Three-column Layout** | Events arranged in a three-column grid |
+| **Grouped Layout** | Events grouped by a shared attribute (city, tag, venue, or company) |
+| **Slider Layout** | Events displayed in a horizontal carousel that visitors can scroll through |
+| **Interactive Map** | Events plotted on an interactive map based on their venue locations |
+| **Calendar** | Events displayed in a calendar view |
+
+### Event Sources
+
+Choose how the block finds its events:
+
+| Source | Description |
+|--------|-------------|
+| **Handpicked events** | Manually select specific events to display — you control the exact lineup |
+| **Events with tags** | Automatically display events that match selected tags — the block updates as tagged events change |
+| **Recently added events** | Automatically display the most recently created events |
+| **Recently viewed events** | Display events the current visitor has recently viewed (personalised per customer) |
+| **Recently liked events** | Display events the current visitor has liked (personalised per customer) |
+
+### Ordering
+
+Control the order events appear within the block:
+
+| Order | Description |
+|-------|-------------|
+| **Order by start date** | Earliest upcoming events first |
+| **Order by event ordering** | Uses the manual event sort order |
+| **Order by tag ordering** | Orders events by their tag sort position |
+| **Order by liked date** | Most recently liked first (for recently liked source) |
+| **Order by viewed date** | Most recently viewed first (for recently viewed source) |
+
+### Grouping
+
+When using the **Grouped Layout**, events are organised under group headings. Choose a grouping attribute:
+
+| Group by | Result |
+|----------|--------|
+| **City** | Events grouped by their venue's city |
+| **Tag** | Events grouped by tag |
+| **Venue** | Events grouped by venue |
+| **Company** | Events grouped by company (useful for multi-company setups) |
+
+You can also enable **Group by event schedule** to group events that belong to the same schedule together, regardless of the primary grouping.
+
+### Event Limit
+
+Most layouts support setting an **event limit** to cap how many events are shown. The **Calendar** layout does not use an event limit — it shows all matching events within the visible date range.
+
+### Additional Options
+
+- **Show past events** — include events that have already occurred
+- **Show pagination** — display pagination controls when the number of events exceeds the limit
+
+## Article Blocks
+
+Article blocks display collections of [articles](/core-platform/cms/articles) on your pages. They work similarly to event blocks but are tailored for article content.
+
+### Creating an Article Block
+
+The article block wizard guides you through four steps:
+
+1. **Block style** — choose a layout
+2. **Select articles** — choose how articles are sourced
+3. **Block details** — set the block name, article limit, ordering, and assign to pages
+4. **Confirm** — review and save
+
+### Layouts
+
+| Layout | Description |
+|--------|-------------|
+| **Standard List** | Articles displayed as a vertical list |
+| **Featured Style** | A prominent featured layout with highlighted articles |
+| **Two-column Layout** | Articles arranged in a two-column grid |
+| **Three-column Layout** | Articles arranged in a three-column grid |
+| **Mixed grid Layout** | Articles displayed in a mixed-size grid combining large and small cards |
+| **Slider Layout** | Articles displayed in a horizontal carousel |
+
+### Article Sources
+
+| Source | Description |
+|--------|-------------|
+| **Handpicked articles** | Manually select specific articles to display |
+| **Articles with tags** | Automatically display articles that match selected tags |
+| **Recently published articles** | Automatically display the most recently published articles |
+
+### Ordering
+
+| Order | Description |
+|-------|-------------|
+| **Order by publish date** | Most recently published articles first |
+| **Order by tag ordering** | Orders articles by their tag sort position |
+
+### Article Limit and Pagination
+
+Set an **article limit** to cap how many articles are shown, and toggle **Show pagination** to add pagination controls.
+
+## Template Blocks
+
+Template blocks display custom-designed content using a JSON schema. They are the most flexible block type — rather than pulling in events or articles, they render whatever structure and content you define in the schema.
+
+Template blocks are ideal for:
+- Hero banners with custom layouts
+- Promotional sections with specific styling
+- Any bespoke content that doesn't fit the event or article block formats
+
+### Creating a Template Block
+
+Template blocks use a single-step wizard:
+
+1. Enter a **Name** for the block
+2. Define the **Schema** — the JSON structure that controls the block's content and layout
+3. Assign the block to one or more **Pages**
+4. Save
+
+<Note>
+Template blocks must be enabled for your company before they appear as an option. When enabled, you can add pre-designed templated blocks to event pages, article pages, and CMS pages.
+</Note>
+
+## Block Styling
+
+Event and article blocks support visual customisation through preset themes and individual style settings. These control how event and article cards appear within the block.
+
+### Presets
+
+Choose from preset themes to quickly style a block:
+
+| Preset | Description |
+|--------|-------------|
+| **Default** | Standard card appearance |
+| **Background** | Cards with a background fill |
+| **Simple** | Minimal, clean card styling |
+| **Transparent** | Cards with no background |
+| **Colour** | Cards using the brand colour scheme |
+| **Bold** | High-contrast, visually prominent cards |
+
+### Customisable Properties
+
+Beyond presets, you can fine-tune individual styling options including:
+
+- **Edge shape** — from sharp corners to fully rounded (pill)
+- **Shadow** — from no shadow to extra large
+- **Font sizes and weights** — for event/article name, date, venue, and price
+- **Tag display** — show or hide tags, control their position and styling
+- **Like button** — show or hide, choose icon and position
+- **Date badge** — show or hide, control position
+- **Hover effects** — visual feedback when visitors hover over cards
+- **Padding and spacing** — control the internal spacing of cards
+- **Animations** — enable scroll-triggered entrance animations for cards as they come into view
+
+## Managing Blocks
+
+Blocks can be managed from two places:
+
+- **From a page** — add, reorder, or remove blocks directly on the page
+- **From the block type's admin section** — manage all event blocks, article blocks, or template blocks across your site
+
+### Reordering
+
+Drag and drop blocks on a page to change their display order. The order is saved automatically.
+
+### Removing vs Deleting
+
+- **Removing** a block from a page breaks the association but keeps the block available for other pages
+- **Deleting** a block removes it entirely — it will be removed from all pages it appears on
+
+Deleted blocks can be restored from the trash.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Pages" icon="file" href="/core-platform/cms/pages">
+    Create and manage the pages that blocks are added to
+  </Card>
+  <Card title="Articles" icon="newspaper" href="/core-platform/cms/articles">
+    Create article content displayed by article blocks
+  </Card>
+  <Card title="Theme & Branding" icon="palette" href="/core-platform/cms/theme-and-branding">
+    Configure the overall visual theme that frames your blocks
+  </Card>
+</CardGroup>

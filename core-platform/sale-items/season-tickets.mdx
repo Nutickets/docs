@@ -1,14 +1,272 @@
 ---
 title: "Season Tickets"
-description: "Documentation for Season Tickets"
+description: "Sell a single item that grants access to every event in a schedule, with optional guaranteed seating across the entire run."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Season Tickets** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Season tickets let you sell a single item that covers every event in a [schedule](/core-platform/event-management/schedules). Instead of buying a separate ticket for each match, performance, or show in a series, a customer purchases one season ticket and receives entry to the full run. When the schedule uses a [seating plan](/core-platform/seating-plans/introduction), each season ticket holder is guaranteed the same seat for every event.
+
+Season tickets appear alongside regular tickets in the ticket shop. Customers see a **Season ticket** badge (or your custom label) distinguishing them from single-event tickets. Once purchased, a season ticket generates a barcode that is scanned for entry at each event in the schedule.
+
+<Note>
+Season tickets require the **Season tickets** feature to be enabled for your company. If you don't see the option to add season tickets, contact your account manager.
+</Note>
+
+## Use Cases
+
+<Accordion title="Sports league with a fixed fixture list">
+  A football club sells season tickets covering all home matches in a schedule. Fans purchase once and attend every fixture. With a seating plan applied, each season ticket holder keeps their assigned seat for the entire season — no need to re-select a seat for each match.
+</Accordion>
+
+<Accordion title="Theatre or concert series">
+  A venue runs a six-show theatre season. Season tickets give subscribers access to all six performances. The venue can set a season ticket price that offers a discount compared to buying six individual tickets, and use [customer groups](/core-platform/customer-management/customer-groups) to restrict early access to members.
+</Accordion>
+
+<Accordion title="Festival weekend pass">
+  A multi-day festival creates a schedule with one event per day. A season ticket acts as a weekend pass — one purchase grants entry to every day. Since the festival is general admission (no seating plan), there is no seat assignment, just entry access.
+</Accordion>
+
+## How It Works
+
+A season ticket is a [sale item type](/core-platform/sale-items/core-concepts) that belongs to an event within a schedule. When created, it can be assigned to all events in the same schedule. This means:
+
+- **One purchase = access to every event** in the schedule
+- **One barcode** is scanned at each event for entry
+- **One seat** (if using a seating plan) is reserved across every event in the schedule
+
+### Requirements
+
+Season tickets work within the following constraints:
+
+| Requirement | Detail |
+|-------------|--------|
+| **Schedule** | The event must be part of a schedule. A season ticket on a non-scheduled event behaves like a regular ticket. |
+| **No timeslots** | Events with season tickets cannot use timeslots. You'll see: *"You cannot enable timeslots for an event which has got season tickets"* |
+| **No teams** | Events with season tickets cannot use teams. You'll see: *"You cannot enable teams for an event which has got season tickets"* |
+| **Feature flag** | The **Season tickets** feature must be enabled for your company |
+
+## Creating a Season Ticket
+
+To create a season ticket:
+
+1. Open the event dashboard for any event in your schedule
+2. Scroll to the **Season tickets** section
+3. Click **Add season tickets**
+4. In the modal, click **Create new season ticket**
+5. Configure the season ticket (see [Configuration](#configuration) below)
+6. Save the season ticket
+
+When saving, you'll be asked: **"Do you want to assign season ticket sale items to all events that are in the same schedule as the event provided?"** If you select yes, the season ticket is automatically made available across every event in the schedule. If you select no, it is only available on the current event.
+
+<Note>
+You can also add an existing season ticket from another event in the schedule by selecting it from the modal instead of creating a new one.
+</Note>
+
+## Configuration
+
+The season ticket form is organised into several sections. Many settings are shared with other sale item types — see [Core Concepts](/core-platform/sale-items/core-concepts) for general sale item configuration. The sections below highlight settings that are particularly relevant to season tickets.
+
+### Basic Details
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The name shown to customers in the ticket shop and on their ticket (e.g. "Adult Season Pass") |
+| **Name suffix** | Optional text appended to the name, useful for distinguishing variants |
+| **Requires approval** | When enabled, purchases require admin approval before they are confirmed |
+| **External ID** | Optional identifier for integrations |
+
+### Pricing
+
+Set the price for the season ticket. This is a single price covering the entire schedule — customers pay once for access to all events.
+
+Season tickets support:
+- Fixed pricing or percentage-based pricing
+- Multiple [tax bands](/core-platform/sale-items/core-concepts), including conditional tax bands
+- [Discount](/core-platform/sale-items/core-concepts) attraction (enabled by default)
+- Per-event fees (fixed, percentage-based, with optional minimum and maximum)
+
+### Stock and Purchase Limits
+
+Season tickets have **unlimited stock** by default. You can configure:
+
+| Field | Description |
+|-------|-------------|
+| **Minimum order quantity** | Fewest season tickets a customer can buy in one order |
+| **Maximum order quantity** | Most season tickets a customer can buy in one order |
+| **Multiples of** | Require purchases in set multiples (e.g. pairs) |
+| **Purchase limit per customer** | Maximum a single customer can buy across all orders |
+
+<Note>
+On events with a seating plan, minimum order quantity enforcement is automatically disabled to avoid forcing customers to select more seats than they need.
+</Note>
+
+### Purchase Restrictions
+
+Control who can purchase season tickets using:
+
+- **Prerequisites** — Require customers to already hold specific items before they can add this season ticket
+- **Customer groups** — Restrict availability to members of specific [customer groups](/core-platform/customer-management/customer-groups)
+- **Access codes** — Require a code to unlock the season ticket for purchase
+
+### Sales Channels and Display
+
+| Field | Description |
+|-------|-------------|
+| **Sales channels** | Choose where the season ticket is sold: **Ticket Shop**, **Box Office**, or **Kiosk**. Season tickets are excluded from kiosk by default. |
+| **Hide when off sale** | Hide the season ticket from the shop when outside its sale dates |
+| **Hide when out of stock** | Hide when sold out |
+| **On sale from / until** | Set the sale window for the season ticket |
+| **Custom sale badge** | Add a badge (e.g. "Best Value") with optional tooltip |
+
+### Scanning and Validity
+
+| Field | Description |
+|-------|-------------|
+| **Scanning grace period** | How many minutes before the event start time scanning is allowed |
+| **Show validity in shop** | Display the validity period to customers during purchase |
+
+<Note>
+Season tickets do not have a check-in time — they are valid for the event's own scheduled time.
+</Note>
+
+### Fulfilment
+
+| Field | Description |
+|-------|-------------|
+| **Can be downloaded** | Allow customers to download their season ticket as a PDF |
+| **Can be fulfilled** | Enable physical fulfilment (if fulfilment is available for your company) |
+| **Printable** | Assign a printable template for the ticket |
+| **Apple Wallet pass** | Assign an Apple Wallet pass template |
+
+### Bundles
+
+Season tickets can be [bundled](/core-platform/sale-items/bundles) with other items. When a customer purchases a bundled season ticket, all bundled items are included automatically.
+
+### Resale
+
+If your company has resale enabled, you can configure resale settings for the season ticket.
+
+## Price Bands and Seating Plans
+
+When an event uses a seating plan, season tickets can be assigned to a specific **price band**. This controls which seats are available to season ticket holders.
+
+The key benefit of season tickets on seating plan events is the **guaranteed same-seat assignment**: when a customer selects a seat for their season ticket, that same seat is reserved for them at every event in the schedule. The customer picks their seat once and keeps it for the entire run.
+
+### Assignment Conflicts
+
+When assigning a season ticket to events in a schedule, conflicts can arise if a customer already holds a direct ticket (purchased separately) for one of the events with the same seat.
+
+The platform detects these conflicts automatically. When conflicts exist, you'll see a list showing:
+
+- **Order reference** — linked to the order
+- **Customer name and email**
+- **Barcode and seat information**
+
+You must acknowledge the conflicts by checking the confirmation checkbox before proceeding. You can also download the conflicts as a PDF for reference.
+
+<Warning>
+Communication with attendees who purchased or received their season tickets outside of the current event is not supported from the assignment screen. Those attendees must be reached via the event of purchase or the order directly.
+</Warning>
+
+## Capacity Management
+
+By default, season ticket sales count towards the event's ticket capacity. For scheduled events, you can control this with the **Ticket capacity includes season tickets** setting.
+
+To configure this:
+
+1. Open the event dashboard
+2. Find the **Capacities** section
+3. Toggle **Ticket capacity includes season tickets**
+
+When **enabled** (default): season ticket sales reduce the available ticket capacity for the event. For example, if an event has a capacity of 1,000 and 200 season tickets are sold, only 800 regular tickets remain available.
+
+When **disabled**: season ticket sales are tracked separately and do not reduce the regular ticket capacity. This is useful when you want to manage season ticket allocation independently.
+
+<Note>
+This setting only appears for events that are part of a schedule and have season tickets.
+</Note>
+
+For more detail on how capacity works across the platform, see [Capacity Controls](/core-platform/event-management/capacity-controls).
+
+## Custom Season Ticket Label
+
+By default, season tickets display a **Season ticket** badge in the ticket shop. You can customise this label per schedule to match your terminology — for example, "Season Pass", "Membership", or "Full Series".
+
+To set a custom label:
+
+1. Open the schedule settings
+2. Go to the **Season tickets** tab
+3. Enter your custom label (supports multiple languages)
+4. Save
+
+The custom label appears everywhere the badge is shown: in the ticket shop item selector, in the basket, and on the order summary.
+
+## Season Tickets on the Dashboard
+
+### Event Dashboard
+
+The event dashboard shows a **Season tickets** section listing all season tickets for the event, with a count in the header (e.g. "Season tickets (3)").
+
+From this section you can:
+- **Add season tickets** — create a new season ticket or assign an existing one
+- **View attendance** — opens the order items list filtered to season ticket attendance
+- **Reorder** — sort season tickets alphabetically or drag to reorder
+
+If the event has season tickets but is not part of a schedule, an information message explains: *"Season tickets assigned to a non-scheduled event will behave like a normal ticket."*
+
+### Schedule Dashboard
+
+The schedule dashboard shows season tickets alongside regular tickets for each event, with:
+- **Capacity bars** showing sold ticket counts (green) and sold season ticket counts (blue) per event
+- **Item cards** listing each season ticket with its sold and reserved counts
+- **Assignment links** — click **Grants access to X events** on any season ticket to see which events it covers
+
+## Purchasing a Season Ticket
+
+In the ticket shop, season tickets appear in the same item selector as regular tickets, distinguished by a badge. The badge shows either the default text **Season ticket** or your [custom label](#custom-season-ticket-label).
+
+For general admission events, customers simply select a quantity. For seating plan events, customers choose their seat — and that seat is reserved across every event in the schedule.
+
+If a selected seat is no longer available for one or more events in the schedule, the customer sees: *"The space (seat name) for (event name) is no longer available in one or more events."*
+
+## Transfers
+
+Season tickets can be [transferred](/core-platform/event-management/item-transfers) between customers. When a season ticket is transferred, the new holder receives access to all remaining events in the schedule.
+
+Dedicated reporting is available for season ticket transfers — see [Reporting](#reporting) below.
+
+## Reporting
+
+Three dedicated reports are available for season tickets:
+
+| Report | Description |
+|--------|-------------|
+| **Season Ticket Sales** | Sales figures per season ticket type: issued count, discounts, refunds, net revenue, fees, and tax — broken down by currency |
+| **Season Ticket Attendance** | Attendance data for purchased season tickets: barcode, holder name, item name, event, first scan date, and seating information |
+| **Season Ticket Transfers** | Transfer history: old and current barcodes, transferring and receiving customer, event, and transfer date |
+
+For general information about reports, see [Reporting Fundamentals](/core-platform/reporting/fundamentals).
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Core Concepts" icon="cube" href="/core-platform/sale-items/core-concepts">
+    Understand the fundamentals of sale items — shared settings and configuration options.
+  </Card>
+  <Card title="Schedules" icon="calendar" href="/core-platform/event-management/schedules">
+    How event schedules work — the foundation that season tickets build on.
+  </Card>
+  <Card title="Seating Plans" icon="chair" href="/core-platform/seating-plans/introduction">
+    Create and manage seating plans, including seat assignments for season tickets.
+  </Card>
+  <Card title="Capacity Controls" icon="gauge" href="/core-platform/event-management/capacity-controls">
+    How capacity is managed across events, including the season ticket capacity setting.
+  </Card>
+  <Card title="Bundles" icon="box" href="/core-platform/sale-items/bundles">
+    Group season tickets with other items into a single purchasable bundle.
+  </Card>
+  <Card title="Item Transfers" icon="arrow-right-arrow-left" href="/core-platform/event-management/item-transfers">
+    Transfer season tickets between customers.
+  </Card>
+</CardGroup>

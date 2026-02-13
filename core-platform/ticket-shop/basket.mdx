@@ -1,0 +1,223 @@
+---
+title: "Basket"
+description: "Understand how the ticket shop basket reserves items, manages timeouts, and offers discount and access code entry before checkout."
+---
+
+## Overview
+
+The basket is where customers collect tickets and products before checking out. When a customer adds items, those items are **reserved** -- stock is held so no one else can purchase the same seats or limited inventory. A countdown timer shows how long the reservation lasts, and when the timer expires, items are released back to inventory for other customers.
+
+Beyond holding items, the basket is the place where customers enter discount codes, apply access codes, and (optionally) are guided through an upsell wizard before proceeding to checkout.
+
+Several company settings control basket behaviour. This page walks through each one and explains how they affect the customer experience.
+
+## Basket Timeout
+
+Every basket has a countdown timer. When items are added, the timer starts and the customer has a fixed window to complete checkout before their reserved items are released.
+
+### Configuring the Timeout
+
+Set the timeout duration in **General Settings** under **Basket timeout (in minutes)**.
+
+| Setting | Value |
+|---------|-------|
+| **Default** | 10 minutes |
+| **Maximum** | 60 minutes |
+
+Choose a timeout that balances urgency (shorter timers reduce stock-holding conflicts) with customer convenience (longer timers suit complex orders or slow connections).
+
+### Timer Extensions
+
+Customers can extend their basket timer during checkout if it is about to expire. Extensions are offered automatically when the timer falls below one minute.
+
+| Rule | Detail |
+|------|--------|
+| **Maximum extensions** | 3 per basket |
+| **Extension trigger** | Timer is within 1 minute of expiry |
+| **Total maximum hold time** | 3 x the configured basket timeout |
+
+For example, with a 10-minute timeout, a customer who uses all three extensions can hold items for up to 30 minutes.
+
+### What Happens When a Basket Expires
+
+When the timer reaches zero, all items are released back to inventory. The customer sees **"Your basket is empty"** along with one of these messages:
+
+| Scenario | Message |
+|----------|---------|
+| All items can be recovered | "Unfortunately your basket has expired, but your items are saved." |
+| Some items can be recovered | "Unfortunately your basket has expired, but some of your items are saved." |
+
+The customer can click **Rebuild basket** to attempt recovery. The system tries to re-reserve each item and reports the result:
+
+| Outcome | Message |
+|---------|---------|
+| Full recovery | "All of your previous basket items were restored." |
+| Partial recovery | "Some of your previous order was recovered -- some items may have been out of stock, so were not added." |
+| No recovery | "The items that you've attempted to recover are no longer available." |
+
+<Note>
+Recovery depends on current stock availability. If another customer purchased the same items while the basket was expired, those items cannot be recovered.
+</Note>
+
+## Basket Size Limit
+
+You can cap the number of items a single basket can contain.
+
+Configure this in **Company Settings** under **Basket size limit**. This setting optionally overrides the default and applies only to the ticket shop -- it is **not** enforced in box office.
+
+| Limit | Value |
+|-------|-------|
+| **System maximum** | 300 items |
+| **Default display limit** | 50 items |
+| **Custom limit** | Set per-company via the setting |
+
+<Note>
+The basket size limit does not apply to box office orders. Box office staff can add items beyond the configured limit.
+</Note>
+
+## Global Basket (Multi-Event Purchasing)
+
+By default, customers can add items from **multiple events** into a single basket and check out once. This is called the global basket.
+
+Configure this in **Company Settings** under **Enable global basket**.
+
+### When Enabled (Default)
+
+Customers freely add tickets and products from different events into one basket. All items appear together and are purchased in a single checkout.
+
+### When Disabled
+
+Customers can only hold items from **one event** at a time. If they try to add items from a different event, a modal appears:
+
+> "You already have items in your basket from a different event. Please finish your previous purchase before trying to purchase new items."
+
+The modal offers two choices:
+
+| Button | Action |
+|--------|--------|
+| **Finish current order** | Returns to the existing basket |
+| **Start a new order** | Clears the basket and starts fresh with the new event |
+
+<Warning>
+Global basket **cannot** be enabled when event-level tracking pixels are configured. The toggle is disabled with the message: "Global basket cannot be turned on when tracking pixels are enabled." Remove event-level tracking pixels before enabling global basket.
+</Warning>
+
+## Forced Checkout
+
+Forced checkout prevents customers from navigating away from the checkout flow once they have items in their basket, reducing abandoned carts.
+
+Configure this in **Company Settings** under **Enable forced checkout**.
+
+| Requirement | Detail |
+|-------------|--------|
+| **Availability** | Only when global basket is **disabled** |
+| **Scope** | Ticket shop only -- does not apply in box office |
+
+<Note>
+Forced checkout and global basket are mutually exclusive. You cannot enable both at the same time. If global basket is enabled, the forced checkout toggle is disabled with the message: "Forced checkout is only available when global basket is disabled."
+</Note>
+
+### How It Works
+
+When a customer with items in their basket tries to navigate to any other page, a confirmation modal appears:
+
+- **Title:** "Are you sure?"
+- **Message:** "Are you sure you want to leave checkout? Your selected items will be removed from your basket and may not be available later."
+
+| Button | Action |
+|--------|--------|
+| **Leave checkout** | Clears the basket and navigates away |
+| **Continue checkout** | Stays on the checkout page |
+
+## Discount Codes
+
+Customers can enter discount codes directly in the basket to reduce their order total.
+
+The discount code field is controlled by the **Show discount input** setting in **Company Settings**. When enabled, the basket displays: "If you have a discount code, please enter it in the box below" with an **Apply** button.
+
+| Event | What the customer sees |
+|-------|----------------------|
+| Code applied successfully | "We have applied your discount code to your order." with a **Discount Applied** badge |
+| Code removed | The discount is removed and the basket total recalculates |
+
+Customers can remove applied discount codes individually if they change their mind.
+
+For creating and managing discount codes, see [Discount Codes](/core-platform/basket-codes/discount-codes).
+
+## Access Codes
+
+Access codes work differently from discount codes -- rather than reducing prices, they **unlock hidden sale items** that are not otherwise visible in the shop.
+
+The access code field is controlled by the **Show access code input** setting in **Company Settings**. When enabled, customers can enter their code in the basket or via the **Profile** icon in the menu.
+
+The basket displays: "If you have an access code, please enter it in the box below to unlock additional items." with an **Apply** button.
+
+| Event | What the customer sees |
+|-------|----------------------|
+| Code applied successfully | "We have applied your access code to your order." with an **Access Code Applied** badge |
+| Invalid code | "The access code specified is invalid." |
+
+<Note>
+Access codes unlock items -- they do not apply a price discount. Once an access code is applied, previously hidden sale items become available for the customer to browse and add to their basket.
+</Note>
+
+For creating and managing access codes, see [Access Codes](/core-platform/basket-codes/access-codes).
+
+## Upsell Wizard
+
+The upsell wizard encourages customers to consider additional products and donations after they add items to their basket, before they proceed to checkout.
+
+Configure this in **Company Settings** under **Enable upsell wizard**.
+
+### How It Works
+
+When enabled, adding items to the basket triggers a guided wizard that presents relevant non-ticket items such as merchandise, food and drink packages, or donation options. The customer can:
+
+| Button | Action |
+|--------|--------|
+| **Add & checkout** | Adds the selected upsell items and proceeds to checkout |
+| **Skip & checkout** | Skips the upsell suggestions and proceeds directly to checkout |
+
+## Basket Page Layout
+
+The basket page shows customers everything they need before checking out:
+
+- **Title:** "Your basket"
+- Each item with its name, quantity, and price
+- Running order total
+- Discount code and access code sections (if enabled)
+- Countdown timer
+- **Checkout** button
+
+When the basket is empty, customers see **"Your basket is empty."** with an empty basket icon.
+
+<Accordion title="Basket during order modification">
+When a customer is modifying an existing order, the basket page adapts:
+
+- **Title** changes to "Edit your order #REF" (where REF is the order reference)
+- **Checkout button** changes to "Check out changes"
+- An informational message is displayed: "Your previous order is still active, and won't be cancelled until you check out your current changes. If your basket times out no changes will be made."
+
+The original order remains untouched until the customer completes checkout with the modified items. If the basket expires during modification, no changes are applied to the original order.
+</Accordion>
+
+## Settings Reference
+
+A summary of all company settings that affect basket behaviour:
+
+| Setting | Location | Effect |
+|---------|----------|--------|
+| **Basket timeout (in minutes)** | General Settings | How long items are reserved |
+| **Basket size limit** | Company Settings | Maximum items per basket (ticket shop only) |
+| **Enable global basket** | Company Settings | Allow multi-event purchasing |
+| **Enable forced checkout** | Company Settings | Prevent navigation away from checkout |
+| **Show discount input** | Company Settings | Show discount code field in basket |
+| **Show access code input** | Company Settings | Show access code field in basket |
+| **Enable upsell wizard** | Company Settings | Guide customers through upsells before checkout |
+
+## Related Pages
+
+- [Checkout](/core-platform/ticket-shop/checkout) -- The checkout flow after the basket
+- [Discount Codes](/core-platform/basket-codes/discount-codes) -- Creating and managing discount codes
+- [Access Codes](/core-platform/basket-codes/access-codes) -- Creating and managing access codes
+- [Order Modifications](/core-platform/order-management/order-modifications) -- Modifying existing orders

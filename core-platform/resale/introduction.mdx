@@ -1,0 +1,105 @@
+---
+title: "Primary Resale"
+description: "Give customers a safe, controlled way to resell their tickets through a verified marketplace built into your shop."
+---
+
+## Overview
+
+Primary resale provides a built-in marketplace where customers can list purchased tickets for resale directly through your shop. Instead of turning to unauthorised third-party platforms, buyers and sellers transact within your ecosystem — giving you full control over pricing, fees, and the customer experience.
+
+Resale is useful for organisations where:
+- Customers regularly need to resell tickets they can no longer use
+- You want to prevent unauthorised resale on external platforms
+- You want to capture fees on secondary transactions
+- You need to control how resale prices are set relative to the original price
+
+When enabled, customers see a **Sell your tickets** button on their orders. Buyers see **Verified resale tickets available** alongside standard inventory on event pages.
+
+## How It Works
+
+The resale lifecycle involves three participants: the **admin** who configures the rules, the **seller** who lists items, and the **buyer** who purchases them.
+
+```
+1. Admin enables resale and configures settings
+   └── Company, event, and/or sale item level
+
+2. Seller lists items for resale
+   └── Chooses items, sets price (if allowed), sets sale deadline
+   └── Items become available in the shop
+
+3. Buyer purchases resale items
+   └── Resale items appear alongside standard inventory
+   └── Buyer completes checkout as normal
+
+4. Seller receives payout
+   └── Proceeds sent via configured payout method
+   └── Original items transferred to buyer
+```
+
+### What Happens Behind the Scenes
+
+When a seller lists items, each item becomes a **resale contract** within a **resale listing**. The listing groups the items together and controls shared settings like the sale deadline and minimum purchase quantity. Each contract tracks the individual item's status — whether it is available, sold, or cancelled.
+
+When a buyer purchases a resale item, the original seller's item is cancelled and a new item is created for the buyer. The seller receives their payout according to the configured [payout mode](/core-platform/resale/configuration#payout-behaviour), minus any [resale fees](/core-platform/resale/resale-fees) they are responsible for.
+
+## Settings Inheritance
+
+Resale settings are configured through a three-level hierarchy:
+
+| Level | Scope | Purpose |
+|-------|-------|---------|
+| **Company** | All events and sale items | Sets the defaults for your entire account |
+| **Event** | All sale items within an event | Overrides company defaults for a specific event |
+| **Sale item** | Individual sale item | Overrides event defaults for a specific item type |
+
+At each level, settings can be explicitly set or left blank to inherit from the level above. For example, if you set **Pricing strategy** to **Purchased price** at the company level but want a specific event to allow flexible pricing, you can override just that setting at the event level — all other settings continue to inherit from the company.
+
+<Note>
+Enabling resale at the company level means all events and sale items will have resale enabled by default. You can manage resale settings individually for each event from the event dashboard, or for each sale item from the sale item settings.
+</Note>
+
+For full details on every setting and how to configure them, see [Resale Configuration](/core-platform/resale/configuration).
+
+## Item Eligibility
+
+Not all items can be listed for resale. The platform checks eligibility automatically and displays a reason to the customer if an item cannot be listed.
+
+| Condition | Message shown to customer |
+|-----------|--------------------------|
+| Resale is disabled for the item | Resale is not currently available for this item. |
+| Item type is not supported (e.g. addon) | This item is not a valid type for resale. |
+| Item has addons attached | This item cannot be resold as it contains addons. |
+| Item is part of a bundle | This item cannot be resold as it is a bundle. |
+| Outside the listing window | This item cannot be listed for resale until X hour(s) before the event begins. |
+| Event has already passed | Items for this event can no longer be listed for resale. |
+| Item was free | Free items cannot be listed for resale. |
+| Item was complimentary | Complimentary items cannot be listed for resale. |
+| Item has been transferred | Transferred items cannot be listed for resale. |
+| Item is not in a valid state | The order item is not in a valid state for resale. |
+
+<Note>
+Items that are already listed for resale cannot be listed again. Each item can only have one active resale contract at a time.
+</Note>
+
+## Restrictions
+
+Resale interacts with other platform features in the following ways:
+
+- **Order modifications** — Orders cannot be modified while any of their items are listed for resale. The order is temporarily locked until the listing is closed or cancelled.
+- **Transfers** — Items cannot be transferred while listed for resale. Conversely, items that have been transferred to a different customer cannot be listed for resale.
+- **Resale orders** — Orders that contain items purchased through resale cannot themselves be modified.
+- **Cancellation** — A resale listing cannot be cancelled while any of its items are in a buyer's active basket.
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Configuration" icon="gear" href="/core-platform/resale/configuration">
+    Set up resale settings at company, event, and sale item level.
+  </Card>
+  <Card title="Selling and Buying" icon="arrows-rotate" href="/core-platform/resale/selling-and-buying">
+    How customers list and purchase resale items.
+  </Card>
+  <Card title="Resale Fees" icon="receipt" href="/core-platform/resale/resale-fees">
+    Create and manage fees applied to resale transactions.
+  </Card>
+</CardGroup>

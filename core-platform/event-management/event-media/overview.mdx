@@ -1,15 +1,137 @@
 ---
-title: 'Overview'
-description: 'Documentation for Overview'
+title: "Event Media"
+description: "Customise how tickets, products, and vouchers appear when customers download PDFs or add passes to their Apple Wallet."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Overview** has not been written yet.
-
-</Warning>
 
 ## Overview
 
-Coming soon.
+Event media controls the visual design and layout of the documents your customers receive — whether that's a downloadable PDF ticket, a gift voucher, a cover sheet for postal delivery, or an Apple Wallet pass. Each of these is a **template** you can create and customise using the built-in template designer, then assign at multiple levels across your organisation.
+
+Out of the box, the platform provides default templates for each media type. Event media lets you replace those defaults with branded designs that match your events, venue, or organisation.
+
+## Media Types
+
+The event media system supports four types of template, each serving a different purpose:
+
+| Type | Purpose | Format |
+|------|---------|--------|
+| **Printable** | Ticket and product PDFs that customers download or you print at the box office | PDF |
+| **Gift voucher** | Voucher PDFs with redemption codes, personalised messages, and branding | PDF |
+| **Cover sheet** | Cover pages included with PDF downloads — typically for postal delivery with recipient addresses | PDF |
+| **Apple Pass** | Mobile wallet passes that customers add to Apple Wallet on their iPhone | PKPass |
+
+Printables, gift vouchers, and cover sheets are all PDF-based and share the same template designer. Apple Passes have their own configuration interface tailored to Apple's pass format.
+
+<Note>
+Event media requires the **Event Media** feature to be enabled for your account. Without it, the platform uses built-in default templates.
+</Note>
+
+## The Template Designer
+
+All PDF-based templates (printables, gift vouchers, and cover sheets) are created and edited using the **template designer** — a visual editor where you build your layout by placing and arranging objects on a canvas.
+
+The designer supports the following object types:
+
+| Object | Description |
+|--------|-------------|
+| **Text** | Static labels or dynamic fields that pull in order, ticket, or event data |
+| **QR code** | Scannable barcodes for ticket entry or gift voucher redemption |
+| **Image** | Logos, backgrounds, or decorative graphics |
+| **Shape** | Rectangles, circles, lines, and other geometric elements |
+
+Text objects can include **dynamic fields** — placeholders like `order_reference` or `order_item_name` that are automatically replaced with real data when the PDF is generated. The designer provides a searchable field picker so you can browse all available placeholders, organised by category (order details, item details, seating, timeslots, purchaser, holder, event, labels, and data capture questions).
+
+For detailed information on creating templates, paper sizes, and available fields, see [Custom PDFs](/core-platform/event-management/event-media/custom-pdfs).
+
+## Assigning Templates
+
+Templates can be assigned at multiple levels, creating a cascade where more specific assignments override broader defaults. The platform resolves which template to use for a given item by checking these levels in order:
+
+| Level | Scope | Example |
+|-------|-------|---------|
+| **Sale item** | A specific sale item on a specific event | VIP tickets use a premium branded template |
+| **Item type per event** | All items of a type on a specific event | All tickets on this event use a festival-branded template |
+| **Event** | All items on a specific event | Everything on this event uses the same template |
+| **Venue** | All events at a venue | All events at this venue share a venue-branded template |
+| **Item type (company)** | All items of a type across your account | All season tickets company-wide use a specific template |
+| **Company** | All items across your account | The organisation-wide default |
+| **System default** | Built-in fallback | The platform's built-in template |
+
+The platform checks from the top of this list downward and uses the first template it finds. This means you can set a company-wide default and then override it for specific venues, events, or individual sale items without affecting everything else.
+
+### Configuring Default Templates
+
+To set company-wide default templates:
+
+1. Navigate to **Event Media**
+2. Select the **Settings** tab
+3. Under **Select a default event media to use for your customers**, choose your default printable template
+4. Optionally, expand each item type (tickets, products, season tickets, guest lists) to set type-specific defaults
+5. Click **Save**
+
+<Note>
+The settings page also controls [mobile wallet pass](/core-platform/event-management/event-media/mobile-wallets) defaults and whether mobile wallet downloads are enabled.
+</Note>
+
+### Overriding Templates Per Event
+
+To assign a different template to a specific event, configure it in the event's settings. The event-level assignment overrides the company and venue defaults for all items on that event. You can also set item-type-specific overrides at the event level — for example, using one template for tickets and a different one for products on the same event.
+
+### Overriding Templates Per Sale Item
+
+For the most granular control, individual sale items can have their own template assignment. This overrides all other levels and is useful when a specific ticket type needs a unique design — such as a VIP ticket with a distinct layout.
+
+## Managing Templates
+
+### Navigating to Event Media
+
+Navigate to **Event Media** from the main admin navigation. The page displays all your templates organised by type, with tabs for **Printables**, **Apple Passes**, **Gift Vouchers**, **Cover Sheets**, and **Settings**.
+
+### Creating a Template
+
+1. Select the tab for the type of template you want to create
+2. Click **Create**
+3. Choose a starting point:
+   - **Pre-built template** — Select from templates like **Detailed ticket**, **Small ticket**, or **Blank ticket** to start with a ready-made layout
+   - **Import** — Upload a `.nuem` file to import a template exported from another account
+4. If starting from a blank template, choose a paper size (see [Paper sizes](/core-platform/event-management/event-media/custom-pdfs#paper-sizes))
+5. Use the template designer to build your layout
+6. Click **Save**, enter a name, and confirm
+
+### Editing a Template
+
+Click any template on the event media listing to open it in the template designer. Changes are saved when you click **Save**.
+
+### Previewing a Template
+
+After saving a template at least once, use the **Preview** button in the designer to see how it will look with sample data. You can customise the preview text using **Set preview texts** to test different data scenarios.
+
+### Deleting a Template
+
+Delete a template from the event media listing. Any events, items, or sale items that were using the deleted template will revert to the next template in the assignment hierarchy.
+
+<Warning>
+Deleting a template cannot be undone. All assignments using that template will fall back to the next available default.
+</Warning>
+
+### Exporting and Importing Templates
+
+Templates can be exported as `.nuem` files and imported into other accounts. This is useful for sharing branded designs across organisations or backing up templates.
+
+## Box Office Visibility
+
+Printable templates can be marked as **Visible in Box Office**, which makes them available for selection when printing tickets from the box office interface. This is useful when box office staff need to choose between different print formats — for example, selecting a thermal printer template versus a standard A4 template depending on the printer in use.
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Custom PDFs" icon="file-pdf" href="/core-platform/event-management/event-media/custom-pdfs">
+    Creating and customising PDF ticket templates
+  </Card>
+  <Card title="Cover Sheets" icon="envelope" href="/core-platform/event-management/event-media/cover-sheets">
+    Adding cover pages to PDF downloads
+  </Card>
+  <Card title="Mobile Wallets" icon="wallet" href="/core-platform/event-management/event-media/mobile-wallets">
+    Apple Wallet passes for mobile tickets
+  </Card>
+</CardGroup>

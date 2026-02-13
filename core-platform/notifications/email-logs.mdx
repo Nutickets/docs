@@ -1,0 +1,109 @@
+---
+title: "Email Logs"
+description: "Track every email the platform sends with delivery statuses, recipient details, and email content previews."
+---
+
+## Overview
+
+Every email the platform sends is logged and can be reviewed through the email logs. This gives you visibility into what was sent, who received it, whether delivery succeeded, and — if you have the right permissions — the email content itself.
+
+Email logs are accessible in two ways: a dedicated **Email Logs** page showing all emails across the company, and inline log panels on individual order, reservation, and customer pages showing emails related to that specific record.
+
+## Viewing the Email Logs Page
+
+Navigate to **Email Logs** in the admin sidebar to see all emails sent by the company.
+
+The page displays a grid with the following columns:
+
+| Column | What it shows |
+|--------|--------------|
+| **Type** | The email type (e.g. Order confirmation, Payment link, Event reminder) |
+| **Recipients** | The recipient's name and email address |
+| **Sent At / Queued At** | When the email was sent and when it was queued |
+| **Status** | The current delivery status |
+
+### Filtering Emails
+
+Use the filters panel to narrow down the list:
+
+| Filter | Options |
+|--------|---------|
+| **Recipient** | Search by name or email address |
+| **Email Type** | Filter by a specific email type (Order confirmation, Tax receipt, Deposit received, Payment link, Reservation, Claim your items, Order rejected, Refund confirmation, Event reminder, and others) |
+| **Status** | Show all emails, only **Sent**, or only **Queued** |
+
+### Email Statuses
+
+Each email has one of four statuses:
+
+| Status | Meaning |
+|--------|---------|
+| **Pending** | The email has been created but not yet added to the send queue |
+| **Queued** | The email has been queued for delivery and is being processed |
+| **Sent** | The email was delivered to the email service successfully |
+| **Failed** | The email could not be sent after multiple attempts |
+
+<Note>
+A **Sent** status means the email was accepted by the email delivery service. It does not guarantee the email reached the recipient's inbox — it may still be caught by spam filters or bounced by the recipient's email provider.
+</Note>
+
+## Viewing Email Details
+
+Click any row in the email logs grid to open a detail panel showing the full email record:
+
+| Field | Description |
+|-------|-------------|
+| **Status** | Delivery status with timestamp |
+| **Type** | The email type label |
+| **Sender** | The admin user who triggered the email (for manually sent emails) |
+| **From** | The sender name and email address |
+| **To** | The recipient's name and email address |
+| **CC** | Carbon copy recipients (if any) |
+| **BCC** | Blind carbon copy recipients (if any) |
+| **Subject** | The email subject line |
+| **Email Language** | The language the email was sent in |
+| **Queued At** | When the email was added to the queue |
+| **Sent At** | When the email was successfully sent |
+| **Company** | The company the email was sent for |
+
+### Viewing Email Content
+
+If the email has stored HTML content and you have the **View email media** permission, a **Show** button appears in the detail panel. Clicking it displays the email body in a preview frame, rendered exactly as the recipient would see it.
+
+<Note>
+Links in the email preview are disabled to prevent accidental clicks. The preview is read-only.
+</Note>
+
+## Viewing Emails for a Specific Record
+
+Email logs are also accessible directly from order, reservation, and customer pages, showing only emails related to that record.
+
+### From an Order or Reservation
+
+On the order or reservation detail page, click the envelope icon in the quick actions to open the email log panel. This shows two sets of logs:
+
+- **Order emails** — all emails linked to this specific order (confirmations, payment links, refunds, etc.)
+- **Customer emails** — all emails sent to the customer across all their orders
+
+The panel also provides quick action buttons to resend emails. See [Sending Emails](/core-platform/notifications/sending-emails) for details on resending.
+
+### From a Customer Record
+
+On the customer detail page, the envelope icon opens a panel showing all emails ever sent to that customer. This is useful for checking whether a customer received a specific email or for reviewing their complete email history.
+
+## Permissions
+
+Access to email logs is controlled by two permissions:
+
+| Permission | What it controls |
+|------------|-----------------|
+| **View email logs** | Access to the Email Logs page and the email log panels on order, reservation, and customer pages |
+| **View email media** | Ability to preview the HTML content of sent emails |
+
+Users without the **View email logs** permission see a simplified **Resend confirmation email** quick action instead of the email log panel on order pages.
+
+## Related Pages
+
+- [Email Types](/core-platform/notifications/email-types) — Reference of every email type
+- [Email Settings](/core-platform/notifications/email-settings) — Configure which emails are sent
+- [Sending Emails](/core-platform/notifications/sending-emails) — Send and resend emails manually

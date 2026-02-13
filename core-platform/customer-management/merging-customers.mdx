@@ -1,35 +1,122 @@
 ---
 title: "Merging Customers"
-description: "Consolidate duplicate customer records while preserving orders, transfers, and linked activity."
+description: "Consolidate duplicate customer records into a single profile, preserving all orders, tickets, account balances, and linked activity."
 ---
 
 ## Overview
 
-- Customer merge combines a duplicate customer into a final customer record.
-- The workflow is transactional and moves linked records to the target customer.
-- A merge history record is stored for audit and timeline review.
+When the same person ends up with multiple customer records — perhaps from checking out as a guest and later creating an account, or being added separately through box office and online — you can merge them into one. The merge process moves all orders, tickets, account balances, authentication providers, and other linked data into the chosen primary record, then removes the duplicate.
 
-## Merge Behaviour
+Merging is permanent and cannot be undone. A merge history log is created for audit purposes.
 
-During merge, the platform reassigns linked records such as:
+<Note>
+Customer merging requires the merge customers feature to be enabled for your company.
+</Note>
 
-- orders and order items
-- data-capture responses
-- transfers and transaction requests
-- addresses and supported provider identities
-- customer-group memberships
+## Starting a Merge
 
-When account balances are enabled, wallet funds are transferred as part of merge handling.
+1. Navigate to the customer profile of the record you want to **keep** (the primary customer).
+2. Click **Merge Customer** in the sidebar actions.
 
-## Constraints
+This opens the merge panel.
 
-Merges are blocked when:
+## Searching for the Duplicate
 
-- either record belongs to admin/hub user identities
-- records belong to different companies
-- required merge permissions or feature access are missing
+The merge panel opens with a search field. Type the name or email address of the duplicate customer you want to merge into this account.
 
-## Related
+Search results show each customer's name, email, and customer ID. Click a result to select it as the duplicate.
 
-- [Editing Customers](/core-platform/customer-management/editing-customers)
-- [Account Balances](/core-platform/account-balances/top-ups)
+<Note>
+Only customers from the same company can be merged. If the customer you're looking for belongs to a different company, the search will not return them.
+</Note>
+
+## Reviewing the Comparison
+
+After selecting the duplicate, the panel shows a side-by-side comparison:
+
+| Side | Indicator | What Happens |
+|------|-----------|-------------|
+| **Left (red)** | "This customer will be deleted" | The duplicate customer. Their record will be removed after the merge. |
+| **Right (green)** | "This customer will be updated" | The primary customer. All data will be consolidated into this record. |
+
+If you selected the wrong customer, click **Change customer** to go back and search again.
+
+## Resolving Conflicts
+
+The panel displays each profile field that differs between the two customers. For each field, you choose which value to keep on the merged record.
+
+| Field | How Conflicts Appear |
+|-------|---------------------|
+| **Name** | Shown if the customers have different names. |
+| **Email** | Shown if the email addresses differ. |
+| **Phone Code** | Shown if either customer has a phone country code. |
+| **Phone Number** | Shown if either customer has a phone number. |
+| **Date of Birth** | Shown if either customer has a date of birth on file. |
+| **Address** | Shown as a complete address block (address lines, city, region, country, postcode). Selecting an address applies all address fields together. |
+
+Each field displays:
+- A **No Conflict** badge (green) if only one customer has a value, or both have the same value. The available value is used automatically.
+- A **Conflict** badge (red) if the values differ. Click on the value you want to keep — it shows **Selected** with a checkmark, while the other appears struck through.
+
+## What Gets Moved
+
+The following data is automatically transferred from the duplicate to the primary customer during the merge. This is not configurable — all linked records are moved.
+
+| Data | Behaviour |
+|------|-----------|
+| **Orders** | All orders are reassigned to the primary customer. |
+| **Order items** | All tickets, products, guest list entries, and other purchased items are reassigned. |
+| **Data capture responses** | All data capture answers are moved to the primary customer. |
+| **Authentication providers** | Social login connections (SSO) are moved. If the primary customer already has the same provider connected, the duplicate's version is removed to prevent login conflicts. |
+| **Customer group memberships** | Group memberships are merged. If the primary customer is already in a group, the duplicate membership for that group is removed. Otherwise, the membership (including removal date) is transferred. |
+| **Account balances** | If account balances are enabled, funds from each of the duplicate's currency wallets are transferred to the primary customer via a balance transfer. |
+| **Addresses** | Saved addresses are moved to the primary customer. |
+| **Item transfers** | Transfer records (both sent and received) are reassigned. |
+| **Customer effort scores** | Feedback responses are moved to the primary customer. |
+
+After all data is moved, the duplicate customer record is deleted.
+
+<Note>
+Orders retain their original **created by** attribution. If an order was created by a different admin user, that attribution is preserved — only the customer ownership changes.
+</Note>
+
+## Confirming the Merge
+
+Before submitting, you must acknowledge the terms:
+
+> You acknowledge that merging these customer accounts is permanent and will modify associated data in a way that cannot be undone or recovered.
+
+Check the acknowledgement box to enable the **Submit** button. Once confirmed, the merge executes and you are redirected to the primary customer's profile with a confirmation message: **Customer records merged successfully.**
+
+## When Merges Are Blocked
+
+The merge cannot proceed if any of the following apply:
+
+| Condition | Reason |
+|-----------|--------|
+| Either customer is an admin user | Admin user accounts cannot be merged to prevent disruption to system access and audit trails. |
+| Either customer is a hub user | Hub user accounts are similarly protected. |
+| Customers belong to different companies | Cross-company merges are not supported. The search only returns customers from the same company. |
+| Merge feature is not enabled | The merge customers feature must be enabled for your company. |
+| Insufficient permissions | You must have edit permissions on customer records. |
+
+## Merge History
+
+After a merge, the primary customer's profile displays a **Merge history** section. Click it to see a chronological list of all merges into this customer, showing:
+
+- The date and time of the merge
+- Which customer was merged in (by customer ID)
+- The name and email of the admin who performed the merge
+
+This history is permanent and provides an audit trail for all consolidation activity on the account.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Managing Customers" icon="user" href="/core-platform/customer-management/managing-customers">
+    Find, view, and edit customer profiles.
+  </Card>
+  <Card title="Account Balances" icon="wallet" href="/core-platform/account-balances/top-ups">
+    Understand how account balances work, including transfers during merges.
+  </Card>
+</CardGroup>

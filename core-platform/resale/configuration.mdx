@@ -1,35 +1,179 @@
 ---
-title: "Configuration"
-description: "Configure primary resale behavior at company, event, and sale-item level."
+title: "Resale Configuration"
+description: "Configure primary resale settings at company, event, and sale item level to control pricing, time windows, payouts, and fees."
 ---
 
 ## Overview
 
-Primary resale settings can be configured at multiple layers:
+Resale behaviour is controlled through a layered configuration system. You set company-wide defaults, then optionally override specific settings at the event or sale item level. This lets you run different resale rules for different events or item types without reconfiguring everything from scratch.
 
-- company defaults
-- event overrides
-- sale-item overrides
+All resale settings are managed from:
+- **Company level** — Navigate to **Settings > Resale**
+- **Event level** — Open the event dashboard and find the **Resale settings** section
+- **Sale item level** — Open the sale item settings and find the **Resale** section
 
-## Core Settings
+## Enabling Resale
 
-| Setting | Description |
-|---|---|
-| **Enabled** | Turn resale on/off (or inherit at lower levels). |
-| **Listing window start** | How far before event start customers can list. |
-| **Purchase window start/end** | When resale purchases are allowed. |
-| **Payout mode** | Where seller proceeds are sent. |
-| **Sales channel** | Where resale is visible (web-only or wider contexts). |
-| **Pricing strategy** | How resale prices can be set (plus optional min/max margins). |
-| **Fee payer split** | Whether buyer, seller, or both pay fees (with seller contribution where relevant). |
+### At the Company Level
 
-## Validation Rules
+Navigate to **Settings > Resale** and toggle resale on or off for the entire company.
 
-- Purchase window start cannot be later than listing window start.
-- Purchase window end cannot be later than purchase window start.
-- Hour values are bounded to one year (0-8760 hours).
+- **Enabled** — All events and sale items inherit resale as enabled by default. Customers can list eligible items for resale, and resale items appear in the shop.
+- **Disabled** — Resale is off across all events unless explicitly enabled at a lower level.
 
-## Related
+<Warning>
+Enabling resale at the company level means all events and sale items will have resale enabled by default. This will impact existing events, tickets, and sales. You can manage resale settings individually for each event from the event dashboard.
+</Warning>
 
-- [Resale Fees](/core-platform/resale/resale-fees)
-- [Payments](/core-platform/payments/introduction)
+### At the Event Level
+
+From the event dashboard, you can enable or disable resale for that event regardless of the company setting. When resale is disabled at the event level, a message confirms: **Resale disabled for this event**.
+
+<Note>
+Even when resale is disabled at the event level, individual sale items within the event can still have resale enabled via their own settings. If this happens, a warning appears listing the sale items that currently have resale enabled.
+</Note>
+
+### At the Sale Item Level
+
+From the sale item settings, toggle **Enable resale for this sale item** to control resale for that specific item type. If the parent event has resale disabled, the sale item settings page shows a message linking to the event settings.
+
+## How Inheritance Works
+
+Settings cascade downward: company → event → sale item. At each level, any setting left blank inherits the value from the level above.
+
+For example:
+- You set **Pricing strategy** to **Purchased price** at the company level
+- You override it to **Set your own price** on a specific event
+- A sale item within that event with no pricing strategy set will inherit **Set your own price** from the event
+- A sale item in a *different* event will inherit **Purchased price** from the company
+
+When viewing event or sale item settings, inherited values are shown as helper text (e.g. **Inherited from company defaults** or **Inherited from event defaults**) so you can see what will apply without the override.
+
+## Configuration Settings
+
+### Pricing Strategy
+
+Controls how resale prices are determined when a seller lists items.
+
+| Strategy | Label | Behaviour |
+|----------|-------|-----------|
+| **Purchased price** | Purchased price | Items must be listed for the price they were originally purchased for. Sellers cannot change the price. |
+| **Set your own price** | Set your own price | Sellers can set their own price within a configurable margin range, calculated against the **original purchase price**. |
+| **Set your own price (capped)** | Set your own price (capped) | Sellers can set their own price within a configurable margin range, calculated against the **live price** of the sale item at the time of listing. |
+
+#### Price Margins
+
+When using either **Set your own price** strategy, two additional fields appear:
+
+| Field | Label | Description |
+|-------|-------|-------------|
+| **Minimum price permitted** | Minimum price permitted | The maximum discount percentage below the reference price. For example, 20% means the seller can list at up to 20% below the reference price. |
+| **Maximum price permitted** | Maximum price permitted | The maximum markup percentage above the reference price. For example, 50% means the seller can list at up to 50% above the reference price. |
+
+The reference price depends on the strategy:
+- **Set your own price** — the original purchase price (what the seller paid)
+- **Set your own price (capped)** — the current live sale item price
+
+<Note>
+Price margins are not shown when the pricing strategy is **Purchased price**, since the price is fixed.
+</Note>
+
+### Time Windows
+
+Time windows control when sellers can list items and when buyers can purchase them. All values are specified in hours before the event start time.
+
+| Field | Label | Description |
+|-------|-------|-------------|
+| **Listing window** | Allow resale listing | How many hours before the event start that sellers can begin listing items. Items cannot be listed until this window opens. |
+| **Purchase window start** | Start resale purchase | How many hours before the event start that resale items become available for buyers to purchase. |
+| **Purchase window end** | End resale purchase | How many hours before the event start that resale items are automatically taken off sale. |
+
+#### How the Windows Relate
+
+```
+Event date ──────────────────────────────────────► Event starts
+                                                   │
+◄── Listing window start ─────────────────────────►│
+         Sellers can list items                     │
+                                                   │
+     ◄── Purchase window start ───────────────────►│
+              Buyers can purchase                  │
+                                         │         │
+              Purchase window end ──────►│         │
+              Listings auto-close        │         │
+```
+
+For example, with a listing window of 720 hours (30 days), a purchase window start of 480 hours (20 days), and a purchase window end of 24 hours (1 day):
+- Sellers can list items starting 30 days before the event
+- Buyers can purchase resale items starting 20 days before the event
+- All unsold resale items are automatically taken off sale 1 day before the event
+
+#### Validation Rules
+
+- The purchase window start cannot be later than the listing window start (sellers must be able to list before buyers can purchase)
+- The purchase window end cannot be later than the purchase window start
+- All values must be between 0 and 8,760 hours (one year)
+
+### Payout Behaviour
+
+Controls how the seller receives their proceeds when a resale item is sold.
+
+| Mode | Label | Behaviour |
+|------|-------|-----------|
+| **Original payment method** | Payout to original payment method, and deposit any profits into account balance (immediately available to spend) | The seller receives a refund to their original payment method for up to the amount they originally paid. Any profit above the original price is deposited into their account balance, immediately available to spend. |
+| **Account balance** | Payout everything to account balance (immediately available to spend) | The full payout is deposited into the seller's account balance, immediately available to spend. |
+| **Pending balance** | Payout everything to pending account balance (not available to spend) | The full payout is deposited into the seller's pending account balance. The funds are not available to spend until released. |
+
+<Note>
+When the payout mode is set to **Original payment method** and the refund to the payment gateway fails, the system automatically falls back to depositing the proceeds into the seller's account balance instead.
+</Note>
+
+### Sales Channels
+
+Controls where resale items are visible and available for purchase.
+
+| Channel | Label | Behaviour |
+|---------|-------|-----------|
+| **Shop only** | Shop only | Resale items are only available through the public web shop. |
+| **Box office only** | Box office only | Resale items are only available through the box office. |
+| **Shop and box office** | Shop and box office | Resale items are available through both channels. |
+
+### Fee Payer
+
+Controls who pays the [resale fees](/core-platform/resale/resale-fees) applied to a transaction.
+
+| Option | Label | Behaviour |
+|--------|-------|-----------|
+| **Buyer pays all** | Buyer pays all | The buyer absorbs all resale fees. Fees are added on top of the listing price. |
+| **Seller pays all** | Seller pays all | The seller absorbs all resale fees. Fees are deducted from the seller's proceeds. |
+| **Buyer and seller split** | Buyer and seller split | Fees are split between buyer and seller. An additional **Seller contribution** percentage field appears — this is the percentage of the listing price that the seller must contribute toward fees. Remaining fees are covered by the buyer. |
+| **Seller can choose** | Seller can choose | The seller decides at listing time how to split fees. During the listing process, the seller sees an option to either have the buyer pay all fees or to contribute toward them. |
+
+#### Seller Contribution
+
+When the fee payer is set to **Buyer and seller split**, an additional field appears:
+
+- **Mandatory seller contribution** — The percentage of the listed item price that the seller is required to contribute toward resale fees. All remaining fees are covered by the buyer.
+
+### Fee Transparency
+
+Controls how much detail buyers see about resale fees in the basket. This setting is only available at the company level.
+
+| Level | Label | Behaviour |
+|-------|-------|-----------|
+| **High** | High | Buyers see the total price of individual resale fees in the basket, as well as the value of any seller contributions toward those fees. |
+| **Low** | Low | Buyers see a single **Resale fees** summary line in the basket. They cannot see how much a seller has contributed toward fees. This only applies to the basket view. |
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Primary Resale" icon="tag" href="/core-platform/resale/introduction">
+    Overview of how primary resale works.
+  </Card>
+  <Card title="Selling and Buying" icon="arrows-rotate" href="/core-platform/resale/selling-and-buying">
+    How customers list and purchase resale items.
+  </Card>
+  <Card title="Resale Fees" icon="receipt" href="/core-platform/resale/resale-fees">
+    Create and manage fees applied to resale transactions.
+  </Card>
+</CardGroup>

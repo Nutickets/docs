@@ -1,48 +1,86 @@
 ---
-title: "Fundamentals"
-description: "Core reporting architecture: default reports, custom reports, filters, groupings, widgets, and exports."
+title: "Reporting Overview"
+description: "Extract, analyse, and share operational data across events, orders, customers, and finances using configurable reports."
 ---
 
 ## Overview
 
-Reporting has two primary modes:
+Reporting gives you access to detailed operational data across events, orders, customers, finances, attendance, and more. You can view data in the browser, customise which fields appear and how results are grouped, export to spreadsheets, and automate delivery on a schedule.
 
-- **Default reports**: predefined report templates.
-- **Custom reports**: saved, editable report definitions with custom settings.
+Reports are organised into two tiers:
 
-The report engine supports filtering, grouping, intervals, column selection, widget visualization, and exports.
+- **Default reports** are pre-built report templates covering common scenarios — event sales by ticket type, completed orders, attendance summaries, and dozens more. They are ready to use immediately and serve as the starting point for any analysis.
+- **Custom reports** are your own saved configurations built on top of default reports. When you adjust filters, select specific fields, or change groupings, you can save those settings as a custom report to reuse later. Custom reports also unlock [widgets](/core-platform/reporting/custom-reports#widgets) and [scheduling](/core-platform/reporting/scheduled-reports).
 
-## Report Types
+## Report Categories
 
-Custom reports map to report-type classes (for example sales, attendance, orders, customers, invoices, scanning, transfers, discount/access codes, seating plan utilization, wallets, and exchange-rate style datasets).
+Reports are grouped by category on the reports listing page. The categories you see depend on which features are enabled for your account.
 
-## Core Building Blocks
+| Category | What it covers |
+|----------|---------------|
+| **Sales reports** | Revenue, item counts, and financial breakdowns by event, item type, sale item, payment method, sales channel, and more |
+| **Attendance reports** | Per-item attendance data including purchaser/holder details, scanning history, fulfilment status, and data capture responses |
+| **Attendance summary reports** | Aggregated attendance counts at event, ticket type, and timeslot level |
+| **Order reports** | Order-level data including completed, active, abandoned, and rejected orders with full transaction details |
+| **Customer reports** | Customer records, registration dates, purchase history, and customer group membership |
+| **Seating plan reports** | Space allocation, area/block/price band utilisation, and seating plan sales |
+| **Gift voucher reports** | Gift voucher issuance and redemption tracking |
+| **EPOS reports** | Point-of-sale activity including shop sales and EPOS product purchases |
+| **Account balance reports** | Wallet top-ups, cash-outs, transactions, and current balances |
+| **Zone reports** | Live zone capacity, attendance tracking, and customer journey through zones |
+| **Scanning reports** | Individual scan records for tickets, products, guest lists, and all item types |
+| **Data capture reports** | Responses to data capture forms |
+| **Transfer reports** | Item transfers between customers (tickets, products, season tickets) |
+| **Discount code reports** | Discount code usage, export for bulk editing, and voucher code tracking |
+| **Access code reports** | Access code usage and export for bulk editing |
+| **Customer feedback** | Customer effort scores and post-purchase feedback |
+| **Activity reports** | Platform activity metrics (daily, weekly, monthly) — available at reseller level |
+| **Payout reports** | Reseller payout tracking for standard and connect payment gateways — available at reseller level |
+| **Invoices** | Invoice records and fee invoice breakdowns — available at reseller level |
+| **Miscellaneous reports** | Barcode history, event configuration overview, exchange rates, and admin user details |
 
-| Building block | Purpose |
-|---|---|
-| **Filters** | Narrow dataset (event, schedule, venue, company, date, status, payment method, etc.). |
-| **Headers** | Select fields/columns included in output. |
-| **Grouping / secondary grouping** | Aggregate data by one or two dimensions. |
-| **Interval** | Bucket by time interval where supported. |
-| **Widgets** | Visual components built from report headers/groupings. |
-| **Exports** | Background generation of CSV/XLSX/PDF/other supported formats. |
+## Navigating the Reports Section
+
+The reports section has three main areas, accessible from the top of the reports listing page:
+
+- **Reports** — Browse and open default reports and your custom reports. Use the search bar to find custom reports by name.
+- **Report Exports** — View the history of all exported report files. Download completed exports or check the progress of exports still being generated.
+- **Scheduled Reports** — View and manage automated report schedules that deliver exports on a recurring basis.
+
+<Note>
+Each of these areas requires its own permission. If you cannot see one of these sections, check that your role has the appropriate reporting permissions assigned.
+</Note>
 
 ## Permissions
 
-Access is permission-based and scoped:
+Access to reporting features is controlled through [roles and permissions](/core-platform/system-access/roles-and-permissions). The key permissions are:
 
-- View default reports.
-- View/create/edit/delete custom reports.
-- Create/edit/delete widgets.
-- Create scheduled reports.
+| Permission | What it controls |
+|------------|-----------------|
+| **View default reports** | Access to the pre-built report templates |
+| **View custom reports** | Access to saved custom report configurations |
+| **Create custom reports** | Ability to save new custom reports from default report templates |
+| **Edit custom reports** | Ability to modify existing custom report settings |
+| **Delete custom reports** | Ability to remove custom reports |
+| **Create widgets** | Ability to add chart widgets to custom reports |
+| **View scheduled reports** | Access to the scheduled reports listing |
+| **Create scheduled reports** | Ability to set up automated report delivery |
 
-## Export Model
+Reports are also scoped by your company and visibility group access. Two users with the same report open may see different data if their access is scoped to different companies or visibility groups.
 
-Exports are tracked as report export records and may run asynchronously. Download links are signed and progress is available from the exports listing.
+## Next Steps
 
-## Related
-
-- [Custom Reports](/core-platform/reporting/custom-reports)
-- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
-- [Report Publishing](/core-platform/reporting/report-publishing)
-- [Interpreting Data](/core-platform/reporting/interpreting-data)
+<CardGroup cols={2}>
+  <Card title="Using Reports" icon="table-columns" href="/core-platform/reporting/using-reports">
+    Learn how to view, filter, group, and export report data.
+  </Card>
+  <Card title="Custom Reports & Widgets" icon="floppy-disk" href="/core-platform/reporting/custom-reports">
+    Save report configurations and build visual dashboards.
+  </Card>
+  <Card title="Scheduled Reports" icon="clock" href="/core-platform/reporting/scheduled-reports">
+    Automate report delivery on a recurring schedule.
+  </Card>
+  <Card title="Report Reference" icon="book" href="/core-platform/reporting/default-reports">
+    Complete field, filter, and grouping reference for every report type.
+  </Card>
+</CardGroup>

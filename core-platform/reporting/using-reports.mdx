@@ -1,0 +1,276 @@
+---
+title: "Using Reports"
+description: "View, filter, group, sort, and export report data using the report interface."
+---
+
+## Overview
+
+When you open a report, you see a three-panel interface: **filters** on the left, **fields** in the centre, and **data** on the right. Together, these controls let you shape exactly what data appears, how it is organised, and in what format you can take it away.
+
+This page covers the shared functionality available across all report types. For field and filter details specific to each report, see the [Report Reference](/core-platform/reporting/default-reports).
+
+## Selecting Fields
+
+Fields (also called headers or columns) control which data columns appear in the report. Every report has a set of default fields, but you can add, remove, and reorder them to suit your needs.
+
+### Adding Fields
+
+Use the dropdowns above the active fields list to add columns:
+
+- **Add System Field** — Standard report fields such as order reference, event name, financial totals, and dates.
+- **Add Global Data Capture Field** — Responses to data capture questions configured globally.
+- **Add Assigned Data Capture Field** — Responses to data capture questions assigned to specific events or items.
+
+Fields are organised into groups (such as **Purchaser fields**, **Order total fields**, **Event fields**, **Seating plan fields**) to help you find what you need. The available groups depend on the report type.
+
+### Reordering Fields
+
+Drag fields using the handle on the left of each field to change the column order. The order in the field list matches the column order in the data table and any exports.
+
+### Removing Fields
+
+Click the **X** button on any field to remove it from the report. Use **Clear All** to reset back to the report's default fields.
+
+### Field Configuration
+
+Expand any field to access additional settings:
+
+| Setting | What it does |
+|---------|-------------|
+| **Key** | A read-only identifier for this column. You can reference this key in custom field formulas. |
+| **Header name** | Override the default column label with your own name. This affects the data table and exports. |
+| **Column prefix** | Add a prefix to every value in this column (for example, a currency symbol or label). |
+| **Favour Purchaser Response** | For data capture fields — when an item has been transferred to a new holder, show the original purchaser's response instead of the current holder's. |
+| **Fallback to Purchaser Response** | For data capture fields — if the current holder has not provided a response, fall back to the purchaser's response. |
+
+### Custom Fields
+
+You can create calculated or reference columns that do not exist in the underlying data:
+
+1. Click **Add Custom Field**
+2. Enter a **Header Name** (the column label)
+3. Enter a **Custom Value** using one of these formats:
+
+| Format | Example | Result |
+|--------|---------|--------|
+| **Static text** | `VIP` | Every row shows "VIP" |
+| **Field reference** | `` `order_reference` `` | Duplicates the value from the referenced column. Wrap the field key in backticks. |
+| **Formula** | `` =(`order_gross`-`order_refunded`)*2.5 `` | Calculates a value from other columns. Prefix with `=` for math operations. |
+
+Formulas support basic arithmetic (`+`, `-`, `*`, `/`) and the functions `round`, `floor`, and `ceil`. For example: `` =round(`order_gross`-`order_refunded`) ``
+
+<Note>
+Custom fields are not sortable in the data table because they are calculated after the data is loaded.
+</Note>
+
+### Conditional Display
+
+You can add conditional rules to any field to control when a value is shown:
+
+1. Expand the field
+2. Click **Add Condition**
+3. Select a **column** to evaluate, an **operator** (equals, not equals, greater than, less than, etc.), and a **value** to compare against
+4. Enter the **output value** to display when the condition is met
+
+When a condition is set, the column displays the output value for rows where the condition is true, and nothing for rows where it is false. You can add multiple conditions to a single field.
+
+## Filtering Data
+
+Filters narrow the dataset to show only the records you need. The available filters depend on the report type — sales reports offer event and payment filters, attendance reports offer scanning filters, and so on.
+
+### Adding Filters
+
+Click the **filters** panel on the left to expand it. Use the **Add Filter** dropdown to select a filter, then configure its value.
+
+### Filter Types
+
+| Type | How it works | Examples |
+|------|-------------|----------|
+| **Date range** | Select a preset (today, last 7 days, last 30 days, this month, etc.) or enter a custom date range | Order completed date, event start date, transaction date |
+| **Multi-select** | Search and select one or more values from a list | Events, venues, companies, payment gateways, sales channels |
+| **Text search** | Enter a value to search for | Order reference, barcode, customer email, purchaser name |
+| **Toggle** | Switch between yes/no or include/exclude options | Purchaser is guest, has access code, has split payments |
+| **Selection** | Choose from a fixed set of options | Payment mode (live/demo/all), order status, event status |
+
+### Mandatory Filters
+
+Some reports require specific filters before they can display data. If a mandatory filter is missing, the report shows a message listing which filters need to be applied. For example, data capture reports require a form to be selected.
+
+<Note>
+When viewing reports at the reseller level (Hub), a **reseller** filter is mandatory for most reports.
+</Note>
+
+### Common Filters
+
+These filters appear across many report types:
+
+| Filter | What it narrows |
+|--------|----------------|
+| **Date range** | Restricts results to a specific time period. Different reports offer different date dimensions (order completion date, event start date, transaction date, etc.). |
+| **Events** | Limits to specific events. Searchable with pagination for large event catalogues. |
+| **Event schedules** | Limits to events within specific schedules. |
+| **Venues** | Limits to events at specific venues. |
+| **Companies** | Limits to specific companies (relevant in multi-company setups). |
+| **Item types** | Limits to specific item types (tickets, products, guest list entries, season tickets, etc.). |
+| **Statuses** | Limits to specific order statuses (complete, active, expired, cancelled, etc.). |
+| **Payment methods** | Limits to specific payment methods (card, cash, invoice, complimentary, etc.). |
+| **Payment gateways** | Limits to specific payment gateway providers. |
+| **Sales channels** | Limits to where the sale originated (ticket shop, box office, API). |
+| **Currencies** | Limits to specific currencies. |
+| **Zones** | Limits to specific scanning zones. |
+| **Visibility groups** | Limits to specific visibility groups. |
+| **Payment mode** | Filters between live transactions, demo/test transactions, or all. Options: **Honour company setting**, **Live transactions only**, **Demo transactions only**, **All transactions**. |
+
+## Grouping Results
+
+Grouping aggregates individual records into summary rows. Instead of seeing one row per order item, you might group by event to see totals per event, or group by payment method to see a breakdown by how customers paid.
+
+### Primary Grouping
+
+Select a grouping from the **Group Results By** dropdown in the fields panel. The available groupings depend on the report type. Common groupings include:
+
+- Event name, venue, company, reseller
+- Item type, item name, sale item
+- Payment gateway, card network, sales channel
+- Admin user, timeslot, sale item group
+- And more depending on the report
+
+When a grouping is active, the report aggregates data and numeric columns show totals for each group rather than individual record values.
+
+### Secondary Grouping
+
+Some reports support a **secondary grouping** via the **Then Group Results By** dropdown. This adds a second level of aggregation — for example, group by event, then by payment gateway to see revenue per event broken down by gateway.
+
+### Multi-Grouping
+
+Certain reports (event sales, seating plan sales, access codes, customer feedback) support selecting multiple groupings simultaneously. When multi-grouping is available, the grouping dropdown allows selecting more than one option.
+
+<Note>
+Changing the grouping can affect which fields are available. Some fields only appear when a specific grouping is active, and others are hidden when grouping is applied. The field list updates automatically when you change groupings.
+</Note>
+
+## Time Intervals
+
+For reports that support it, the **Over Time Interval** dropdown lets you bucket results into time periods. This is useful for spotting trends — for example, viewing daily sales over the past month, or hourly attendance on event day.
+
+Available intervals:
+
+| Interval | Buckets data by |
+|----------|----------------|
+| **All Time** | No time bucketing (default) |
+| **Minutely** | Per minute |
+| **Quarter Hourly** | Per 15 minutes |
+| **Hourly** | Per hour |
+| **Daily** | Per day |
+| **Weekly** | Per week |
+| **Monthly** | Per month |
+| **Yearly** | Per year |
+
+When a time interval is active, a **Time interval** column is added to the report showing the start of each time bucket.
+
+<Note>
+Some interval and date range combinations have limits. Daily activity reports cannot span more than 2 months, and activity reports in general cannot span more than 2 years.
+</Note>
+
+## Sorting
+
+Click any column header in the data table to sort by that column. Click again to reverse the sort direction. An arrow indicator shows the current sort direction.
+
+You can sort by multiple columns — each additional sort is numbered (e.g. #1, #2) to show the sort priority. Click **Clear Sorting** to remove all sorts.
+
+<Note>
+Custom fields cannot be sorted because they are calculated after the data is retrieved.
+</Note>
+
+## Totals Row
+
+When a report contains more than 12 rows, a **totals row** appears at the bottom of the data table. This row shows the sum of all numeric and monetary columns across the entire filtered dataset (not just the current page).
+
+For monetary columns, the totals row respects the currency context. If the report contains data in multiple currencies without a single currency filter applied, monetary totals may be left blank to avoid misleading cross-currency sums.
+
+## Exporting Reports
+
+You can export report data to a file for use in spreadsheets, external tools, or record keeping.
+
+### Export Formats
+
+| Format | Extension | Best for |
+|--------|-----------|----------|
+| **Excel (XLSX)** | `.xlsx` | Modern spreadsheets with formatting support |
+| **CSV** | `.csv` | Universal compatibility, data imports |
+| **ODS** | `.ods` | Open-source spreadsheets (LibreOffice, etc.) |
+| **XLS** | `.xls` | Legacy Excel compatibility |
+| **HTML** | `.html` | Browser viewing and printing |
+
+<Note>
+PDF export is no longer supported for new exports. Existing scheduled reports using PDF format will continue to function, but the format cannot be selected for new exports.
+</Note>
+
+### How Exporting Works
+
+1. Click the **download** button on the report page and select your preferred format.
+2. The export is queued and generated in the background. You will receive an email notification when it is ready.
+3. Download the file from the **Report Exports** page or directly from the email link.
+
+For large reports, the system automatically splits the export into multiple files (chunks) and combines them into a single download. The **Report Exports** page shows the progress of each export, including the completion percentage for multi-part exports.
+
+<Warning>
+Reports exceeding the maximum row limit cannot be exported. If you encounter this limit, use filters to narrow the dataset before exporting.
+</Warning>
+
+### Viewing Export History
+
+Navigate to **Report Exports** from the reports listing page to see all past exports. Each entry shows:
+
+- The file format (shown as a badge)
+- The filename
+- Which report the export came from
+- Status: a download button for completed exports, a spinner for in-progress exports, or a red indicator for failed exports
+
+Download links are time-limited signed URLs that do not require you to be logged in — useful for sharing a download link with someone who needs the file.
+
+## Interpreting Report Data
+
+### Currency Context
+
+Financial fields (gross, net, discounts, fees, refunds) are displayed in the currency of the underlying transactions. If your report spans multiple currencies, pay attention to the **Currency code** or **Currency symbol** fields to understand which currency each row represents.
+
+When applying totals, the system only sums values within the same currency. Mixed-currency totals are intentionally left blank.
+
+### Before and After Adjustments
+
+Many reports distinguish between figures "before adjustments" and "after adjustments":
+
+- **Before adjustments** includes all originally issued items, regardless of whether they were later cancelled or refunded.
+- **After adjustments** excludes items that have since been cancelled or refunded, giving you a net figure.
+
+For example, **Items issued (before adjustments)** counts every item ever issued, while **Items issued (after adjustments)** subtracts any that were subsequently cancelled.
+
+### Gross, Net, and Fee Breakdowns
+
+Financial reports use consistent terminology:
+
+| Term | What it represents |
+|------|--------------------|
+| **Gross** | Total before any deductions (discounts, refunds, fees) |
+| **Discount** | Amount deducted by discount or promo codes |
+| **Refunded** | Amount returned to the customer |
+| **Processing fees** | Payment processing fees charged on the transaction |
+| **Reseller fees** | Platform or reseller fees |
+| **Cancellation fees** | Fees retained when an order is cancelled |
+| **Net** | After discounts and refunds |
+| **Net (after all fees)** | After discounts, refunds, processing fees, and reseller fees |
+| **Sales tax** | Tax amount calculated on the sale |
+
+### Payment Mode
+
+By default, most reports honour the company's payment mode setting and only show live transaction data. Use the **Payment mode** filter to explicitly include or exclude test/demo transactions:
+
+- **Honour company setting** — Uses whatever the company has configured (default)
+- **Live transactions only** — Only real transactions
+- **Demo transactions only** — Only test transactions
+- **All transactions** — Both live and demo
+
+### Data Freshness
+
+Reports display a **synced** timestamp in the top bar showing when the data was last loaded. Click **Refresh** to reload the data with the latest information. Some reports use temporary tables that are regenerated periodically — if the data appears stale, refreshing will trigger a rebuild.

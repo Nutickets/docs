@@ -1,0 +1,148 @@
+---
+title: "Managing Questions"
+description: "Create, configure, and organise reusable data capture questions in your question library."
+---
+
+## Overview
+
+The question library is where you create and manage reusable data capture questions. Each question defines what information to collect and how — the question text, the input type, optional validation rules, and any selectable options. Once created, a question can be [assigned](/core-platform/data-capture/assigning-questions) to appear across multiple events, items, or registration contexts.
+
+Navigate to **Data Capture > Data capture questions** in the admin area to manage your question library.
+
+## Creating a Question
+
+To create a new question:
+
+1. Navigate to **Data Capture > Data capture questions**
+2. Click **Create**
+3. Complete the question form:
+   - **Question** — The text shown to customers (required)
+   - **Question type** — Select from the [available types](#question-types) below (required)
+   - **Category** — Optionally assign to a [category](#categories) for organisation
+   - **Description** — Rich text content displayed below the question to provide customers with additional context or instructions
+   - **Validation** — Optional rules to restrict what customers can enter (see [Validation Rules](#validation-rules))
+4. If the selected question type supports options (Selection, Multiple Checkboxes, or Radio Buttons), add the available choices
+5. Click **Save**
+
+<Note>
+Questions support multiple languages. If your platform uses translations, the question text and description can be provided in each configured language.
+</Note>
+
+## Question Types
+
+Each question type determines the input format customers see and how answers are validated and stored. There are 14 types available, grouped into three categories.
+
+### Text and Numeric Types
+
+| Type | Input | When to Use |
+|------|-------|-------------|
+| **Short Text** | Single-line text field | Names, reference numbers, brief answers |
+| **Long Text** | Multi-line text area | Detailed responses, special requirements, notes |
+| **Number** | Numeric input | Quantities, ages, numeric identifiers |
+| **Email** | Email input with format validation | Collecting additional email addresses — validated against RFC and DNS standards |
+| **Phone** | Phone input with country code selector | Collecting phone numbers with international format validation |
+
+### Selection Types
+
+| Type | Input | When to Use |
+|------|-------|-------------|
+| **Selection** | Dropdown menu | Choose one option from a list — automatically switches to a searchable dropdown when more than four options are configured |
+| **Radio Buttons** | Radio button group | Choose one option with all choices visible at once |
+| **Checkbox** | Single checkbox | Consent acknowledgements, opt-ins, or single confirmations |
+| **Multiple Checkboxes** | Checkbox group | Select one or more options from a list |
+| **Yes / No** | Toggle control | Binary choice between yes and no |
+
+### Date and Time Types
+
+| Type | Input | When to Use |
+|------|-------|-------------|
+| **Date** | Date picker | Single dates such as arrival date or date of birth |
+| **Date & time** | Date and time picker | Precise moments such as flight arrival times |
+| **Date range** | Two date pickers (start and end) | Periods such as accommodation dates |
+| **Date & time range** | Two date and time pickers | Precise periods with specific start and end times |
+
+### Marketing-Eligible Types
+
+The following types can be used as marketing preference questions: **Checkbox**, **Yes / No**, **Date**, **Date & time**, **Date range**, and **Date & time range**.
+
+Marketing questions behave differently from standard questions — each time a customer responds, a new record is created rather than updating the previous answer. This preserves a complete audit trail of preference changes over time, along with a snapshot of the marketing preference text that was displayed at the time of consent.
+
+## Adding Options
+
+For **Selection**, **Radio Buttons**, and **Multiple Checkboxes** question types, you define the options customers can choose from.
+
+Each option has:
+
+- **Value** — The text displayed to customers (required)
+- **Description** — Optional additional context for the option
+
+Options can be reordered by dragging. Deleted options are soft-deleted, preserving any existing responses that reference them.
+
+<Note>
+If duplicate options are detected (same value and description), the system automatically merges them into a single option and reassigns all existing responses to the merged record.
+</Note>
+
+## Validation Rules
+
+Beyond the built-in validation each question type provides (such as email format checking for Email questions or numeric-only input for Number questions), you can add custom validation rules to further constrain answers:
+
+| Rule | Format | Effect |
+|------|--------|--------|
+| Minimum length or value | `min:N` | Sets a minimum character count for text fields or minimum value for numbers and dates |
+| Maximum length or value | `max:N` | Sets a maximum character count for text fields or maximum value for numbers and dates |
+| Date format | `date_format:FORMAT` | Requires answers to match a specific date format |
+| Before date | `before_or_equal:DATE` | Answer must be on or before the specified date |
+| After date | `after_or_equal:DATE` | Answer must be on or after the specified date |
+| Required | `required` | Field must be completed — this can also be controlled via field assignment settings when [assigning the question](/core-platform/data-capture/assigning-questions#field-settings) |
+
+Multiple rules are combined with a pipe character. For example, `min:2|max:100` requires between 2 and 100 characters.
+
+## Categories
+
+Categories help organise your question library as it grows. They act purely as filters — when viewing or assigning questions, you can filter by category to quickly find what you need.
+
+To manage categories:
+
+1. Navigate to **Data Capture > Categories**
+2. Create, edit, or delete categories as needed
+
+Categories have no effect on where or how questions are displayed to customers. They are an organisational tool for administrators only.
+
+## External Identifiers
+
+Questions can be given an **External ID** for integration with external systems. This identifier must be unique within your company and can be used when referencing questions through the API or during data imports.
+
+## Protected Fields
+
+Questions can be marked as **protected**, which prevents their configuration from being modified after creation. Protected questions cannot have their type, text, or validation rules changed. This is typically used for system-generated questions or fields that external integrations depend on.
+
+## Editing Questions
+
+Click any question in the list to edit its text, type, options, or validation rules. Changes affect how the question appears going forward — existing responses retain the answer that was originally given.
+
+<Warning>
+If a question already has responses, changing its type may cause stored answers to no longer align with the new input format. Consider creating a new question instead of changing the type of one that has existing responses.
+</Warning>
+
+## Deleting and Restoring Questions
+
+Deleting a question soft-deletes it along with all its field assignments. The question and its historical responses are preserved for reference but the question no longer appears to customers.
+
+To view or restore deleted questions:
+
+1. Navigate to **Data Capture > Data capture questions**
+2. Enable the **Show deleted** toggle
+3. Click **Restore** on any question you want to bring back
+
+Restoring a question makes it available again in the library, but you will need to reassign it to the contexts where it should appear.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Assigning Questions" icon="list-check" href="/core-platform/data-capture/assigning-questions">
+    Control where and when questions appear
+  </Card>
+  <Card title="Internal Questions" icon="lock" href="/core-platform/data-capture/internal-questions">
+    Event codes and staff-only questions
+  </Card>
+</CardGroup>

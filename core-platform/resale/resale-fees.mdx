@@ -1,29 +1,143 @@
 ---
 title: "Resale Fees"
-description: "Create and manage resale fee sale items at company or event level, including tax and channel behavior."
+description: "Create and manage fees that are applied to resale transactions, at company or event level."
 ---
 
 ## Overview
 
-Resale fees are implemented as fee sale items and can be configured globally (company source) or per event.
+Resale fees are charges applied to resale transactions — separate from your standard event fees. They let you capture revenue from secondary market activity and cover the operational cost of facilitating resale.
 
-## Scope Options
+Resale fees work like other fee sale items in the platform, but they are specifically scoped to resale transactions. They can be created at two levels:
 
-- **Company resale fees**: reusable defaults managed from resale fee listing.
-- **Event resale fees**: event-specific resale fee behavior.
+- **Company-level resale fees** — Apply to all resale transactions across all events
+- **Event-level resale fees** — Apply only to resale transactions for a specific event
 
-## Configuration Inputs
+Who actually pays these fees — the buyer, the seller, or both — is controlled by the [fee payer](/core-platform/resale/configuration#fee-payer) setting in your resale configuration.
 
-- currencies and pricing
-- tax band / conditional tax settings
-- applicable channels
-- restricting item types where relevant
+## Company-Level Resale Fees
 
-## Permissions and Feature Gates
+Company-level resale fees apply to every resale transaction across your entire account. Use these for standard platform fees that should apply regardless of the event.
 
-Managing resale fees requires resale access and fee permissions. Some integration modes may restrict order-level fee behavior.
+### Creating a Company Resale Fee
 
-## Related
+1. Navigate to **Resale fees** in the admin panel
+2. Click **Add new resale fee**
+3. Configure the fee (see [Fee Settings](#fee-settings) below)
+4. Save the fee
 
-- [Configuration](/core-platform/resale/configuration)
-- [Custom Fees](/core-platform/fees/custom-fees)
+The fee will apply to all resale purchases across all events. A help message confirms: **Create a resale fee that will be applied to all resale items across all events.**
+
+### Managing Company Resale Fees
+
+The **Resale fees** page lists all company-level resale fees with their pricing and status. From here you can:
+
+- **Edit** an existing fee to update its pricing or settings
+- **Restore** a previously deleted fee
+
+Fees that are past their active sale period are hidden by default. Use the filter to show off-sale fees.
+
+## Event-Level Resale Fees
+
+Event-level resale fees apply only to resale transactions for a specific event. Use these when you need different fee structures for different events, or when a particular event warrants additional charges.
+
+### Creating an Event Resale Fee
+
+1. Open the event dashboard
+2. Navigate to the resale fees section
+3. Click to create a new resale fee
+4. Configure the fee (see [Fee Settings](#fee-settings) below)
+5. Optionally assign the fee to specific sale items within the event
+
+If you do not assign the fee to specific sale items, it applies to all resale purchases for tickets, products, and season tickets at that event.
+
+### Assigning to Specific Sale Items
+
+When creating or editing an event-level resale fee, you can restrict it to specific sale items. This is useful when different ticket types should have different fee structures — for example, applying a higher fee to premium tickets.
+
+<Note>
+If you do not specify sale items, all resale purchases for tickets, products, and season tickets at the event will be charged this fee.
+</Note>
+
+## Fee Settings
+
+When creating or editing a resale fee, the following settings are available:
+
+### Basic Information
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The display name for the fee, visible in the basket and order summary |
+| **Code** | An internal reference code |
+| **Description** | Optional description of the fee |
+
+### Pricing
+
+Resale fees support the same pricing configuration as other fee sale items:
+
+- **Fixed pricing** — A set fee amount per item or per order
+- **Variable fee** — A percentage of the item price
+- **Multiple currencies** — Set pricing for each currency your company supports (fiat currencies only)
+
+### Application Mode
+
+Resale fees can be applied in two ways:
+
+| Mode | Behaviour |
+|------|-----------|
+| **Per item** | The fee is applied to each qualifying resale item in the basket |
+| **Per order** | The fee is applied once per resale order, regardless of how many items are purchased |
+
+### Tax
+
+Configure the tax band for the fee. If your company has conditional tax bands enabled, you can set different tax rates based on country classifications.
+
+### Active Period
+
+Set an active date range to control when the fee is charged. Fees outside their active period are not applied to transactions.
+
+## How Fees Are Split
+
+Who pays resale fees is controlled by the [fee payer](/core-platform/resale/configuration#fee-payer) setting in your resale configuration, not on the individual fee item. The four options are:
+
+| Option | Effect on fees |
+|--------|----------------|
+| **Buyer pays all** | All resale fees are added on top of the listing price. The buyer sees them in their basket. |
+| **Seller pays all** | All resale fees are deducted from the seller's proceeds. The buyer does not see resale fees in their basket. |
+| **Buyer and seller split** | The seller contributes a configured percentage of the listing price toward fees. Remaining fees are covered by the buyer. |
+| **Seller can choose** | The seller decides during listing setup whether the buyer pays all fees or whether they contribute. |
+
+For full details on configuring fee payer settings, see [Resale Configuration](/core-platform/resale/configuration#fee-payer).
+
+## Fee Transparency
+
+How buyers see resale fees in the basket is controlled by the [fee transparency](/core-platform/resale/configuration#fee-transparency) setting:
+
+- **High** — Buyers see individual resale fee line items in the basket, as well as the value of any seller contributions toward those fees
+- **Low** — Buyers see a single **Resale fees** summary line in the basket and cannot see how much the seller has contributed
+
+## Standard Fees and Resale
+
+Standard event fees (non-resale fees) have an option to control whether they apply to resale orders:
+
+- **Applies to resale orders** — When enabled, the fee is included in resale transactions as well as standard purchases
+- **Omit from resale orders** — When enabled, the fee is excluded from resale transactions
+
+This allows you to keep standard booking fees on resale orders or exclude them, depending on your fee structure.
+
+## Permissions
+
+Managing resale fees requires both resale feature access and fee management permissions. Without the appropriate permissions, the resale fees pages are not accessible.
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Primary Resale" icon="tag" href="/core-platform/resale/introduction">
+    Overview of how primary resale works.
+  </Card>
+  <Card title="Configuration" icon="gear" href="/core-platform/resale/configuration">
+    Set up resale settings including fee payer and transparency.
+  </Card>
+  <Card title="Selling and Buying" icon="arrows-rotate" href="/core-platform/resale/selling-and-buying">
+    How customers list and purchase resale items.
+  </Card>
+</CardGroup>

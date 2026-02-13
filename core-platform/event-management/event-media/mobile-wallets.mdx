@@ -1,15 +1,177 @@
 ---
-title: 'Mobile Wallets'
-description: 'Documentation for Mobile Wallets'
+title: "Mobile Wallets"
+description: "Let customers add tickets to Apple Wallet on their iPhone, with customisable pass designs, colours, and images."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Mobile Wallets** has not been written yet.
-
-</Warning>
 
 ## Overview
 
-Coming soon.
+Mobile wallet passes let your customers save their tickets directly to **Apple Wallet** on their iPhone. Instead of downloading a PDF and keeping track of a file, customers tap a button and the ticket appears in their Wallet app — ready to present at entry by showing the QR code on their phone screen.
+
+Wallet passes are an alternative to [PDF tickets](/core-platform/event-management/event-media/custom-pdfs), not a replacement. Both can be available simultaneously, giving customers the choice of how they want to access their tickets.
+
+<Note>
+Mobile wallet passes currently support **Apple Wallet only**. There is no Google Wallet integration at this time.
+</Note>
+
+## Enabling Mobile Wallet Passes
+
+Mobile wallet downloads are controlled at multiple levels. The setting can be enabled or disabled at each level, and the platform checks them in order until it finds a configured value:
+
+| Level | Setting |
+|-------|---------|
+| **Sale item** | Override for a specific sale item |
+| **Event** | Override for all items on a specific event |
+| **Venue** | Override for all events at a venue |
+| **Company** | Account-wide default |
+
+To enable mobile wallet passes at the company level:
+
+1. Navigate to **Event Media**
+2. Select the **Settings** tab
+3. Set **Enable mobile wallet downloads** to enabled
+4. Click **Save**
+
+Events, venues, and individual sale items can override this setting to enable or disable wallet passes independently. For example, you might enable wallet passes company-wide but disable them for a specific event that requires printed tickets.
+
+<Note>
+Mobile wallet passes are available for **tickets**, **products**, and **season tickets**. Gift vouchers cannot be added to Apple Wallet.
+</Note>
+
+## What Customers See
+
+When mobile wallet passes are enabled, customers see an **Add to Apple Wallet** button on their ticket download page alongside the PDF download option.
+
+### On iPhone (iOS / Safari)
+
+Tapping the **Add to Apple Wallet** button downloads the pass directly. The customer's iPhone prompts them to add it to their Wallet app, where it appears alongside boarding passes, loyalty cards, and other passes.
+
+### On Other Devices
+
+For customers using Android or desktop browsers, tapping the button opens a modal with a **QR code**. The customer scans this QR code with an iPhone to add the pass to their Apple Wallet. The modal displays the message **Scan code with iPhone to add to your Apple Wallet**.
+
+<Note>
+The QR code option is only available for orders with 20 or fewer items, to ensure reliable performance.
+</Note>
+
+## Pass Types and Layouts
+
+Apple Wallet supports several pass layouts. When creating an Apple Pass template, you choose a **pass type** that determines the overall structure:
+
+| Pass Type | Description |
+|-----------|-------------|
+| **Event ticket** | Standard event ticket layout — the most common choice for events |
+| **Boarding pass** | Airline boarding pass style with departure/arrival layout |
+| **Generic pass** | Flexible layout suitable for memberships or general passes |
+| **Store card** | Loyalty or store card format |
+
+Some pass types offer **variants** that change how images and content are arranged:
+
+| Pass Type | Variant | Image Display |
+|-----------|---------|--------------|
+| **Event ticket** | Strip | Wide banner image behind the primary fields |
+| **Event ticket** | Background | Full background image behind the entire pass |
+| **Generic pass** | Rectangular | Rectangular thumbnail beside the fields |
+| **Generic pass** | Square | Square thumbnail beside the fields |
+
+## Customising a Pass Design
+
+### Creating an Apple Pass Template
+
+1. Navigate to **Event Media**
+2. Select the **Apple Passes** tab
+3. Click **Create**
+4. Choose the **Event Pass** template as a starting point
+5. Configure the pass type, colours, and images
+6. Click **Save**, enter a name, and confirm
+
+### Colours
+
+Each pass design has three colour settings:
+
+| Setting | Controls |
+|---------|----------|
+| **Background colour** | The main card background |
+| **Foreground colour** | Primary text colour |
+| **Label colour** | Secondary text colour for labels and helper text |
+
+Colours are set using colour pickers in the pass configuration form.
+
+**Automatic background colour:** Enable **Automatic background colour** to have the pass background colour inherited from the ticket type's tag colour in your seating plan. This is useful for events with colour-coded sections — each ticket type can automatically appear in its assigned colour.
+
+### Images
+
+Depending on the pass type and variant, you can upload different images:
+
+| Image | Dimensions | Where It Appears |
+|-------|-----------|-----------------|
+| **Icon** | 29 × 29 pt | Lock screen notifications and email previews |
+| **Logo** | 160 × 50 pt | Top-left corner of the pass, next to the organisation name |
+| **Strip image** | 375 × 144 pt | Banner behind the primary fields (Event ticket — strip variant) |
+| **Background image** | 180 × 220 pt | Behind the entire front of the pass (Event ticket — background variant) |
+| **Thumbnail** | 90 × 90 pt | Beside the fields (Generic — rectangular/square variants) |
+| **Footer image** | 286 × 15 pt | Near the barcode (Boarding pass only) |
+
+**Automatic images:** Two auto-detection options save you from uploading duplicate images:
+
+- **Automatic strip image** — Inherits the event's header image, so each event's pass automatically uses its page banner
+- **Automatic thumbnail image** — Inherits the event's card thumbnail image
+
+When auto-detection is enabled, you don't need to upload separate images for each event — the pass design automatically picks up the event's existing images.
+
+## Pass Content
+
+The pass content is generated automatically from the order and event data. Depending on the pass layout, the following information appears on the pass:
+
+- **Event name** — Displayed prominently as the primary field
+- **Date and time** — Event start date and time
+- **Venue** — Venue name
+- **Seat information** — Row, seat, block, or area details (for seated events)
+- **Customer name** — The ticket holder's name
+- **QR code** — Scannable barcode for entry
+
+The back of the pass can include additional details such as the full venue address.
+
+### Location Awareness
+
+If the venue has coordinates configured, the pass includes location data. When the customer is near the venue, their iPhone can surface the pass automatically on the lock screen — making it easy to find at entry time.
+
+## Assigning Pass Templates
+
+Apple Pass templates follow the same [assignment hierarchy](/core-platform/event-management/event-media/overview#assigning-templates) as printable templates. The platform resolves which pass design to use by checking:
+
+1. **Sale item** — Specific sale item override
+2. **Item type per event** — Type-specific override (ticket, product, season ticket, guest list)
+3. **Event** — Event-wide default
+4. **Venue** — Venue default
+5. **Item type (company)** — Company-wide type-specific default
+6. **Company** — Company-wide default
+7. **System default** — Built-in default pass design
+
+Configure defaults in **Event Media > Settings** under the Apple Pass sections. Override per event or sale item in their respective settings.
+
+## Secure Barcodes
+
+Unlike [PDF downloads](/core-platform/event-management/event-media/custom-pdfs#secure-barcodes-and-pdf-downloads), Apple Wallet passes **fully support secure barcodes**. Because the pass is a live digital document on the customer's phone, the barcode can refresh dynamically. There is no need to convert to static barcodes when using wallet passes.
+
+This makes wallet passes the preferred download method for events using secure barcodes, as they maintain the anti-fraud protection that secure barcodes provide.
+
+## Limitations
+
+- **Apple Wallet only** — No Google Wallet integration. Android users can still view the QR code to scan with an iPhone
+- **No gift vouchers** — Gift vouchers cannot be added to Apple Wallet
+- **Single item per pass** — Each ticket generates its own individual pass
+- **QR code limit** — The QR code download option (for non-iOS users) is only available for orders with 20 or fewer items
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Event Media Overview" icon="palette" href="/core-platform/event-management/event-media/overview">
+    Template types, assignment hierarchy, and general management
+  </Card>
+  <Card title="Custom PDFs" icon="file-pdf" href="/core-platform/event-management/event-media/custom-pdfs">
+    Creating and customising PDF ticket templates
+  </Card>
+  <Card title="Cover Sheets" icon="envelope" href="/core-platform/event-management/event-media/cover-sheets">
+    Adding cover pages to PDF downloads for postal delivery
+  </Card>
+</CardGroup>

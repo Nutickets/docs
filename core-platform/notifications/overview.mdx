@@ -1,0 +1,88 @@
+---
+title: "Overview"
+description: "Understand how the platform sends email notifications to customers, staff, and system administrators."
+---
+
+## Overview
+
+The platform uses email as its primary notification channel. Emails are sent automatically throughout key workflows — order confirmations when a purchase completes, payment links when a reservation is approved, refund confirmations when a cancellation is processed — and can also be sent manually in bulk by admin users.
+
+Every email is tracked through [email logs](/core-platform/notifications/email-logs), giving visibility into what was sent, to whom, and whether delivery succeeded.
+
+## How Emails Work
+
+Emails fall into two categories based on how they are triggered:
+
+| Category | How it works | Examples |
+|----------|-------------|----------|
+| **Automatic** | Sent by the platform when a workflow event occurs — no manual action required | Order confirmations, payment links, refund confirmations, transfer claim emails |
+| **Manual** | Triggered by an admin user, either individually or in bulk | Resending a confirmation email, emailing all attendees of an event, sending payment reminders |
+
+Both categories are processed through a queue, so emails are not sent instantaneously. Automatic emails from checkout workflows are prioritised and typically arrive within seconds. Bulk emails sent to large audiences are processed at a controlled rate and may take longer — the platform displays a confirmation that emails have been added to the queue.
+
+## What You Can Control
+
+The platform provides several layers of control over email notifications:
+
+- **Which emails are sent** — Company and event-level settings control whether specific email types are enabled or disabled. For example, you can suppress order confirmation emails in box office, or enable automatic event reminder emails. See [Email Settings](/core-platform/notifications/email-settings).
+
+- **What emails say** — Email subjects, greetings, body text, and calls to action can all be customised per company through the website text manager. Customisations can also be scoped to specific events, schedules, or customer groups. See [Customising Emails](/core-platform/notifications/customising-emails).
+
+- **Who emails come from** — The sender name, from address, and reply-to address are configurable at the company level, with a fallback to reseller-level defaults. See [Sender Configuration](/core-platform/notifications/email-settings#sender-configuration).
+
+- **Who receives admin emails** — Purchase summary emails and event creation notifications can be directed to specific email addresses configured per event or at the company level. See [Email Settings](/core-platform/notifications/email-settings).
+
+## Email Types at a Glance
+
+The platform sends emails to three audiences:
+
+### Customer Emails
+
+Emails sent to the people who purchase items or receive transfers:
+
+- Order and reservation confirmations
+- Payment links and deposit receipts
+- Refund and cancellation confirmations
+- Transfer claim emails
+- Event reminders
+- Item approval and rejection notices
+- Payment failure alerts
+
+### Admin and Staff Emails
+
+Emails sent to organisers and administrators:
+
+- Purchase summary notifications
+- Event approval workflow emails
+- Event creation notifications
+- Bulk refund summaries
+
+### System Emails
+
+Emails sent to platform operators:
+
+- Report export notifications
+- Scheduled report deliveries
+- System health alerts
+
+For a complete reference of every email type, when it is triggered, and who receives it, see [Email Types](/core-platform/notifications/email-types).
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Email Types" icon="envelope" href="/core-platform/notifications/email-types">
+    Complete reference of every email the platform sends.
+  </Card>
+  <Card title="Email Settings" icon="gear" href="/core-platform/notifications/email-settings">
+    Configure which emails are sent and who they come from.
+  </Card>
+  <Card title="Customising Emails" icon="pen" href="/core-platform/notifications/customising-emails">
+    Change email content through the website text manager.
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/core-platform/notifications/sending-emails">
+    Send emails manually or resend to attendees in bulk.
+  </Card>
+  <Card title="Email Logs" icon="clock-rotate-left" href="/core-platform/notifications/email-logs">
+    Track sent emails and check delivery status.
+  </Card>
+</CardGroup>

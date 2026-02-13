@@ -1,24 +1,100 @@
 ---
 title: "Website Text"
-description: "Override user-facing translation strings for global and context-specific shop copy."
+description: "Override the default text shown throughout your shop — globally or scoped to specific events, schedules, or customer groups."
 ---
 
 ## Overview
 
-- Website text allows controlled overrides of translation keys used by the shop.
-- Overrides can be applied globally or scoped to contexts such as event, schedule, or customer group.
-- Original language-line values remain available for reference.
+Website text lets you customise the wording used throughout your ticket shop. Every label, button, message, and piece of copy in the shop comes from a default set of translations. With website text overrides, you can change any of these to match your brand voice, terminology, or specific event needs — without touching code.
 
-## Contexts
+Overrides can be applied **globally** (affecting every page in the shop) or **scoped** to a specific context so the change only appears in certain situations.
 
-| Context | Use case |
-|---|---|
-| Global | Company-wide wording adjustments |
-| Event | Event-specific copy |
-| Schedule | Shared copy across scheduled events |
-| Customer group | Segment-specific wording variations |
+Website text is managed from the **Website text** section in admin.
 
-## Related
+## How Overrides Work
 
-- [Core Translations](/core-platform/core/translations)
-- [Customer Groups](/core-platform/customer-management/customer-groups)
+The shop displays text using translation keys — each piece of text has a key (like a label for "Add to basket" or "Sold out") and a default value. When you create a website text override, you replace the default value with your custom text for that key.
+
+The original default value is always shown alongside your override for reference, so you can see what the text would normally say.
+
+### What You Can Override
+
+Any user-facing text in the shop can be overridden, including:
+
+- Button labels (e.g. changing "Add to basket" to "Reserve now")
+- Status messages and notifications
+- Form field labels and help text
+- Navigation text
+- Error messages and validation text
+- Email template text
+
+### Multi-Language Support
+
+If your shop supports multiple languages, you can set overrides for each language independently. When editing a text override, you'll see fields for each enabled language so you can customise the wording in every supported locale.
+
+## Scoping Overrides
+
+Overrides can be scoped to different contexts, allowing the same text key to show different values depending on the situation.
+
+### Global Overrides
+
+A global override applies company-wide — every page and every context in the shop will use the overridden text. This is the default scope.
+
+**Use for:** Company-wide terminology changes, brand voice adjustments, or any wording change that should apply everywhere.
+
+### Event-Specific Overrides
+
+Scope an override to a single event so the custom text only appears when a customer is interacting with that event.
+
+**Use for:** Event-specific terminology (e.g. changing "Tickets" to "Passes" for a particular event), event-specific messaging, or promotional wording for a single event.
+
+### Schedule-Specific Overrides
+
+Scope an override to an event schedule so the custom text appears for all events within that schedule.
+
+**Use for:** Consistent terminology across a series of related events that share a schedule.
+
+### Customer Group-Specific Overrides
+
+Scope an override to a customer group so the custom text only appears for customers in that group.
+
+**Use for:** Segment-specific messaging, VIP-specific wording, or different terminology for different customer audiences.
+
+## Priority Resolution
+
+When multiple overrides exist for the same text key, the most specific override takes priority:
+
+1. **Event-specific** override (highest priority)
+2. **Schedule-specific** override
+3. **Customer group-specific** override
+4. **Global** override
+5. **Default translation** (lowest priority — used when no override exists)
+
+If an event-specific override exists for a text key, it will be used instead of any global or schedule override for that same key when a customer is viewing that event.
+
+<Note>
+Event-specific text only displays when the customer's basket contains items from a **single event**. If the basket contains items from multiple events, event-specific overrides cannot be applied and the global override (or default) is used instead. For the same reason, if you rely on event-specific text, consider disabling the global basket so customers check out per-event.
+</Note>
+
+## Editing Website Text
+
+1. Navigate to the **Website text** section in admin
+2. Optionally select a context (event, schedule, or customer group) to scope the overrides
+3. Browse or search for the text you want to change
+4. Enter your custom text in the override field — the original default is shown for reference
+5. Save your changes
+
+Changes take effect immediately in the shop.
+
+To revert an override, clear the custom text field and save. The shop will return to using the default translation.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Theme & Branding" icon="palette" href="/core-platform/cms/theme-and-branding">
+    Control the visual styling that frames your shop text
+  </Card>
+  <Card title="Customer Groups" icon="users" href="/core-platform/customer-management/customer-groups">
+    Create customer segments for group-specific text overrides
+  </Card>
+</CardGroup>

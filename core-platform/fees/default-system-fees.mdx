@@ -1,14 +1,180 @@
 ---
 title: "Default System Fees"
-description: "Documentation for Default System Fees"
+description: "Understand the processing fee and platform fee that are automatically applied to all sales, and how to control their visibility to customers."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Default System Fees** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Every sale on the platform can attract two automatic fees that are calculated on top of the item's base price:
+
+- **Processing fee** — covers payment gateway costs (card processing, transaction charges). This fee is calculated based on the payment method and item price.
+- **Platform fee** — the platform operator's per-item charge. This fee varies by item type (tickets, products, season tickets, etc.) and is set by the platform.
+
+These fees are configured at the platform level and apply across all events and items for your company. You cannot change the fee rates directly, but you can control how they appear to your customers through fee absorption and display settings.
+
+<Note>
+The processing fee is sometimes referred to as the **gateway fee** in administrative contexts. The platform fee uses the platform operator's brand name (e.g. "Acme fee") rather than the generic term "platform fee."
+</Note>
+
+## How Fees Are Calculated
+
+Both system fees use the same calculation structure. Each fee is defined with up to four components:
+
+| Component | Description |
+|-----------|-------------|
+| **Percentage** | A percentage of the item's base price |
+| **Fixed amount** | A flat charge added on top of the percentage |
+| **Minimum** | The lowest fee that can be charged (the fee is raised to this amount if the calculated value is lower) |
+| **Maximum** | The highest fee that can be charged (the fee is capped at this amount if the calculated value is higher) |
+
+The formula for each fee is:
+
+```
+Fee = (Base price × Percentage) + Fixed amount
+```
+
+The result is then clamped between the minimum and maximum values, if set.
+
+### Per-Channel Rates
+
+Fees can differ depending on the sales channel:
+
+| Channel | Description |
+|---------|-------------|
+| **Online** | Purchases made through the ticket shop |
+| **Box office** | Purchases made at the box office |
+| **Kiosk** | Purchases made via self-service kiosks |
+
+If a specific rate has not been set for a channel, the default rate applies. This means a customer buying through the ticket shop may pay a different fee than one purchasing at the box office.
+
+### Price Bands
+
+Fees can be configured with price bands (also known as tiered rates), where different rates apply depending on the item's base price. For example, items priced under £50 might attract a 5% fee, while items over £50 attract 3%.
+
+When an item's base price falls within a band's range, that band's rates are used for the fee calculation.
+
+## Processing Fee
+
+The processing fee covers the cost of payment processing through the payment gateway. It is calculated on the combined value of the base price and any platform fee, meaning the processing fee accounts for the total amount being processed.
+
+When the processing fee is visible to customers, it appears as a separate component in the pricing breakdown alongside the platform fee.
+
+### Blended Fees
+
+In some configurations, the platform fee is set to be **inclusive of gateway fees**. This is known as a blended fee arrangement. When blended:
+
+- No separate processing fee is shown to customers — it is absorbed into the platform fee
+- The platform operator shares their fee with the payment gateway
+- Only a single combined fee line appears in the customer's order summary
+
+Whether blended fees are in use depends on how the platform has configured your company's fee structure. You will see either one fee line (blended) or two separate fee lines (processing + platform) in your pricing.
+
+## Platform Fee
+
+The platform fee is the platform operator's charge per item sold. The rate varies by item type:
+
+- Tickets
+- Products
+- Season tickets
+- Guest list entries
+- Donations
+- Gift vouchers
+- Bundles
+- Account balance top-ups
+
+Each item type can have its own percentage and fixed fee components. When you view the pricing breakdown for a sale item, the platform fee is labelled with the platform operator's name (e.g. **Fee you will pay to [Platform Name]**).
+
+<Note>
+Platform fee rates are set by the platform operator and cannot be changed from within your company's admin panel.
+</Note>
+
+## Absorbing Fees
+
+When setting up pricing for a sale item (such as a ticket or product), you can choose to **absorb** one or both system fees. Absorbing a fee hides it from the customer by rolling it into the base price — the customer sees a single price with no separate fee line.
+
+The absorption options appear on the sale item pricing form:
+
+| Toggle | Effect |
+|--------|--------|
+| **Absorb all fees** | Absorbs both the processing fee and the platform fee into the base price |
+| **Absorb processing fee** | Absorbs only the processing fee |
+| **Absorb [Platform Name] fee** | Absorbs only the platform fee |
+
+When fees are absorbed, the item's displayed price is higher (because it includes the fee), but the customer does not see any separate fee charges.
+
+<Warning>
+If a refund is processed, you will be required to refund the total amount including any absorbed fees. Because the fee is part of the base price, the refund covers the full amount the customer paid.
+</Warning>
+
+<Note>
+Fee absorption is configured per sale item, per currency. You can absorb fees for some items and not others, giving you flexibility over how pricing is presented across your catalogue.
+</Note>
+
+## Pricing Fee Display
+
+At the event level, you can control whether the prices shown on the ticket shop include or exclude fees. This setting is found in the event configuration under **Pricing fee display**:
+
+| Option | Effect |
+|--------|--------|
+| **Include fees** | Displayed prices include system fees — the customer sees the total price upfront |
+| **Exclude fees** | Displayed prices show the base price only — fees are shown separately with a **+ fees** label |
+
+This setting only affects how prices are initially displayed to customers browsing the event. Regardless of this setting, the full fee breakdown is always visible at checkout.
+
+<Note>
+This setting works alongside fee absorption. If a fee is absorbed, it is always included in the displayed price regardless of the **Pricing fee display** setting, because the fee is part of the base price itself.
+</Note>
+
+## How Fees Appear to Customers
+
+### On the Ticket Shop
+
+When browsing items, customers see either:
+- The total price (if **Include fees** is selected or fees are absorbed)
+- The base price with a **+ fees** label (if **Exclude fees** is selected)
+
+### At Checkout
+
+The order summary at checkout breaks down the cost:
+
+| Line | Description |
+|------|-------------|
+| **Item total** | The combined base price of all items |
+| **Fees** | The total of all non-absorbed system fees, with a breakdown showing each fee component |
+| **Total** | The final amount the customer pays |
+
+If all fees are absorbed, the **Fees** section does not appear and the item total already includes the fee amounts.
+
+### On Order Confirmations and Receipts
+
+Orders record the processing fee and platform fee separately, even when absorbed. The order detail view shows:
+- The base price (excluding fees)
+- The processing fee amount
+- The platform fee amount
+- Whether each fee was absorbed
+
+## Refund Behaviour
+
+When processing refunds, system fees are handled as follows:
+
+- **Processing fee** — can optionally be included in the refund. The refund form shows an **Also refund the processing fee** option.
+- **Platform fee** — can optionally be included in the refund. The refund form shows an **Also refund the [Platform Name] fee** option. In some configurations, platform fees may be non-refundable.
+
+<Note>
+Fees that were absorbed into the base price are automatically included in any refund of that item, since they are part of the price the customer paid.
+</Note>
+
+## Variable Price Items
+
+For items with variable pricing (where the customer enters their own price, such as donations), system fees are calculated on the amount the customer enters. However, fees for variable price items do **not** increase the total price shown to the customer — the fee is absorbed into the entered amount.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Sale Item Fees" icon="receipt" href="/core-platform/fees/sale-item-fees">
+    Create custom fees that are added to orders at event or company level.
+  </Card>
+  <Card title="Fulfilment Fees" icon="truck" href="/core-platform/fees/fulfilment-fees">
+    Charge for delivery methods beyond e-tickets.
+  </Card>
+</CardGroup>

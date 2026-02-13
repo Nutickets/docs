@@ -1,14 +1,319 @@
 ---
 title: "Core Concepts"
-description: "Documentation for Core Concepts"
+description: "Understand order lifecycle, statuses, and how to find and manage orders across admin and customer accounts."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Core Concepts** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+An order is a record of a completed (or in-progress) purchase. It captures everything about the transaction: the items bought, the customer, payments made, and the current state of the purchase. Orders are created when a customer or staff member begins checkout — whether through the online shop, box office, or admin — and progress through a series of statuses as payment is processed, items are fulfilled, and post-purchase actions are taken.
+
+Most day-to-day order management happens in admin under **Sales > Orders**, where you can search, filter, refund, transfer items, modify orders, and track fulfilment. Customers manage their own orders through **My Account > Orders**, where they can view details, request refunds, modify orders, and transfer items to other people.
+
+## Order Lifecycle
+
+Orders move through a predictable set of states from creation to completion — and potentially through post-purchase actions like refunds or modifications.
+
+```
+Customer adds items to basket
+    └── Order created (Active)
+
+Checkout initiated
+    └── Payment processing (Processing)
+
+    ┌── Payment succeeds ──────────────── Order Complete
+    │                                         │
+    │   ┌─────────────────────────────────────┤
+    │   │                                     │
+    │   ├── Some items refunded ──── Partially Refunded
+    │   ├── All items refunded ───── Refunded
+    │   ├── Items cancelled ──────── Cancelled
+    │   └── Order modified ───────── Original frozen → new order created
+    │
+    ├── Payment fails ─────────────── Failed
+    ├── Basket expires ────────────── Expired
+    └── Items require approval ────── Awaiting Approval
+                                          │
+                                ┌─────────┤
+                                │         │
+                         Approved    Rejected
+                      (payment link    (items
+                        sent)         released)
+```
+
+### Deferred Payment States
+
+Not all orders complete immediately. Several statuses represent orders waiting for payment through different channels:
+
+| Status | Meaning |
+|---|---|
+| **Partially paid** | A deposit has been taken. The remainder is due by a specified deadline. |
+| **Awaiting payment link** | A payment link has been sent to the customer to complete payment remotely. |
+| **Awaiting payment** | The customer is expected to pay on-site (e.g. at the door or counter). |
+| **Awaiting invoice** | An invoice has been issued and payment is pending. |
+| **Awaiting local payment** | The customer is paying via bank transfer or another offline method. |
+
+Orders in these states still reserve stock — items are held until the order is completed, expires, or is manually expired by staff.
+
+## Order Statuses
+
+Every order has a status that reflects where it sits in the lifecycle. Here is the complete reference:
+
+| Status | Description |
+|---|---|
+| **Active** | Items are in the basket and checkout has not completed. Stock is reserved. |
+| **Processing** | Payment is being processed by the payment gateway. |
+| **Complete** | Payment succeeded and the order is finalised. |
+| **Partially paid** | A deposit payment has been taken. The remaining balance is due by the expiry date. |
+| **Awaiting payment link** | A payment link has been generated and sent to the customer. |
+| **Awaiting payment** | The order is reserved for on-site payment. |
+| **Awaiting invoice** | An invoice has been issued for the order. |
+| **Awaiting local payment** | The order is pending an offline payment (e.g. bank transfer). |
+| **Awaiting approval** | The order contains items that require admin review before payment can proceed. |
+| **Expired** | The order timed out before payment was completed. Reserved stock has been released. |
+| **Failed** | Payment was attempted but failed. |
+| **Rejected** | An admin rejected the order during the approval process. |
+| **Cancelled** | The order was cancelled (items removed without refund). |
+| **Partially refunded** | Some items have been refunded but others remain active. |
+| **Refunded** | All items have been refunded. |
+| **Unknown** | The order is in an indeterminate state, typically due to a gateway communication issue. Requires manual investigation. |
+
+## Finding Orders
+
+### Admin Order List
+
+Navigate to **Sales > Orders** to see all orders across your events. The list shows each order's customer name, reference number, completion date, event, status, fulfilment state, total, and payment mode.
+
+#### Filtering
+
+The order list supports extensive filtering to help you find specific orders:
+
+| Filter | What it finds |
+|---|---|
+| **Customer email** / **Customer name** | Orders for a specific customer |
+| **Order reference** | Exact order reference lookup |
+| **Completed at** | Orders completed within a date range |
+| **Event** | Orders containing items from specific events |
+| **Contains** | Orders with specific item types |
+| **Status** | Filter by one or more order statuses |
+| **Fulfilment status** / **method** | Filter by fulfilment state |
+| **Sales channel** | Filter by where the order was placed (shop, box office, etc.) |
+| **Payment methods** | Filter by how the order was paid |
+| **Has split payments** | Orders paid with multiple payment methods |
+| **Has deposit payment** | Orders with a deposit/instalment arrangement |
+| **Has access code** | Orders that used an access code |
+
+You can also search by order reference, customer name, or email using the search bar.
+
+### Customer Order List
+
+Customers view their orders under **My Account > Orders**. This shows completed orders with their reference, completion date, and status. Customers can open any order to view details, access their tickets, or take actions like modifying, refunding, or transferring items.
+
+## The Order Detail Page
+
+Opening an order in admin shows a comprehensive view of the purchase.
+
+### Order Summary
+
+The top section displays key information about the order:
+
+- **Status** — Current order status with a colour-coded badge
+- **Customer** — The purchaser's name and email, with links to their customer record
+- **Order reference** — Unique identifier for the order
+- **Completed on** — When the order was finalised, shown in the event's timezone
+- **Sales point** — Where the order was placed (e.g. website, box office, telephone)
+- **Processed by** — The staff member who processed the order (for box office and admin orders)
+- **Internal notes** — Free-text notes visible only to staff, editable at any time
+
+If the order is a replacement (from an [order modification](/core-platform/order-management/order-modifications)), the summary shows a link to the original order it replaced.
+
+### Order Items
+
+All purchased items are listed, grouped by event or product category. Each item shows its name, price, any fees, and its individual status (e.g. whether it has been refunded, transferred, or is awaiting approval).
+
+### Financial Breakdown
+
+A collapsible panel shows the order's financial summary:
+
+- **Subtotal** — Item prices before fees and tax
+- **Fees** — Processing fees, fulfilment fees, and other charges
+- **Discounts** — Any discount codes applied
+- **Tax** — Tax amount
+- **Total** — Final order total
+- **Refunded** — Amount refunded (if any)
+
+### Quick Actions
+
+The order detail page provides quick-access buttons for common actions:
+
+| Action | What it does |
+|---|---|
+| **Modify order** | Start an [order modification](/core-platform/order-management/order-modifications) (if eligible) |
+| **Refund / Cancel items** | Open the [refund or cancellation](/core-platform/order-management/refunds-and-cancellations) flow |
+| **Transfer items** | [Transfer items](/core-platform/order-management/transfers-and-sharing) to another customer |
+| **Email logs** | View sent emails or resend the order confirmation |
+| **Resend tax receipt** | Resend the tax receipt email |
+| **Set fulfilment** | Update the fulfilment status of items |
+| **Move dates** | [Rebook](/core-platform/order-management/rebooking) items to a different event date |
+
+<Note>
+When an order is **frozen** (locked during an active modification or resale listing), a banner appears and certain actions — including refunds, transfers, and fulfilment changes — are temporarily unavailable.
+</Note>
+
+### Addresses
+
+Billing and delivery addresses are displayed in separate cards. Staff can edit addresses on non-frozen orders using the edit button on each card.
+
+### Discount and Access Codes
+
+If the order used a discount code or access code, these are shown with the code value and the date it was applied.
+
+## Order Sources
+
+Orders can originate from several channels. The source is recorded so you can track where purchases are coming from:
+
+| Source | Description |
+|---|---|
+| **Website** | Customer purchased through the online shop |
+| **Counter** | Staff processed the order at a physical counter (box office) |
+| **Telephone** | Staff took the order over the phone (box office) |
+| **Third party** | Order originated from a third-party integration |
+| **Admin** | Staff created the order directly in admin |
+
+In box office checkout, the staff member selects the order source before completing the sale. This is visible on the order detail page as the **Sales point**.
+
+## Reservations and Approvals
+
+Some items require admin approval before payment can be processed. When a customer checks out with approval-required items, the order enters **Awaiting approval** status instead of proceeding directly to payment.
+
+### Reviewing Reservations
+
+Find orders awaiting approval under **Sales > Reservations**, or filter the main orders list by the **Awaiting approval** status.
+
+### Approving a Reservation
+
+1. Open the order and click **Approve**.
+2. For each item, choose whether to **Approve** or **Reject** it.
+   - Rejected items require a rejection reason (supports rich text).
+3. Optionally add **Additional information** that applies to the whole order.
+4. Choose whether to **Skip payment method** (complete without payment) or **Capture payment method** (send a payment link).
+5. If SMS is available, optionally toggle **Resend confirmation SMS**.
+6. Submit the approval.
+
+**What happens next depends on the items approved:**
+
+- **If approved items require payment** — A payment link is generated and emailed to the customer. The order moves to **Awaiting payment link** status.
+- **If approved items don't require payment** (e.g. complimentary or zero-value) — The order is completed immediately.
+
+<Note>
+If some items are approved and others rejected, only the approved items proceed. The customer receives an email explaining which items were approved and which were rejected (with reasons).
+</Note>
+
+### Rejecting a Reservation
+
+To reject an entire reservation:
+
+1. Open the order and click **Reject order**.
+2. Provide a rejection reason for each item (supports rich text).
+3. Optionally add **Additional information**.
+4. Submit the rejection.
+
+The order moves to **Rejected** status. All reserved stock is released. The customer receives an email with the rejection reasons.
+
+<Note>
+A rejected order can be manually completed by staff if the situation changes. Use the **Complete order** action on a rejected order to process it with or without verifying payment through the gateway.
+</Note>
+
+## Order Expiry
+
+Orders that are not completed within their time limit expire automatically. This applies to active baskets, reservations awaiting payment, and deferred-payment orders that pass their deadline.
+
+### What Happens When an Order Expires
+
+- The order status changes to **Expired**
+- All reserved stock is released back to general availability
+- Any held wallet funds are reversed
+- Any split payment holds are reversed
+- If the order was a replacement (from a modification), the original order is unfrozen and restored
+
+### Manually Expiring an Order
+
+Staff can manually expire a pending order from the order detail page by clicking **Expire order**. A confirmation dialog warns that expiring the order will clear the reservation and release all reserved items for general sale, and that once expired, the reservation cannot be restored.
+
+<Note>
+Completed orders cannot be expired — use [refunds or cancellations](/core-platform/order-management/refunds-and-cancellations) instead.
+</Note>
+
+### Extending Expiry
+
+For orders with a payment deadline (such as deposit payments or payment links), staff can extend the expiry date to give the customer more time to pay.
+
+## Manually Completing an Order
+
+Staff can manually complete orders that are stuck in a non-complete state (e.g. **Processing**, **Rejected**, or payment-pending statuses). This is useful when you've confirmed payment was received outside the normal flow.
+
+1. Open the order and click **Complete order**.
+2. Optionally toggle **Skip payment verification** — this marks the order as complete without checking the payment gateway.
+3. Optionally add confirmation email text.
+4. Submit.
+
+<Warning>
+Manually completing an order without verifying payment could lead to overselling if the reserved items were already released. Only use this when you are certain the payment has been processed.
+</Warning>
+
+## Fulfilment Tracking
+
+Order items can be tracked through a fulfilment workflow. This is useful for orders that include physical goods, printed tickets, or items that need to be collected in person.
+
+### Fulfilment Statuses
+
+| Status | Meaning |
+|---|---|
+| **Pending** | Item needs to be fulfilled |
+| **Not required** | Fulfilment is not applicable (e.g. e-tickets that are delivered digitally) |
+| **Fulfilled** | Item has been fulfilled and delivered to the customer |
+
+### Fulfilment Methods
+
+| Method | Description |
+|---|---|
+| **E-ticket** | Digital ticket delivered electronically |
+| **In person** | Collected at the venue or event |
+| **Digital** | Other digital delivery |
+| **Shipped** | Physically shipped to the customer |
+
+### Updating Fulfilment
+
+1. Open the order and click **Set fulfilment** (or the fulfilment link in the order summary).
+2. Select one or more items using the checkboxes (or use **Select all**).
+3. Choose the new **Fulfilment status** and **Fulfilment method**.
+4. Save changes.
+
+Each item shows who fulfilled it and when, so you can track fulfilment progress across the order.
+
+## Changing the Order Customer
+
+Staff can reassign an order to a different customer. This is useful when an order was placed on behalf of someone else, or when the wrong customer was selected during box office checkout.
+
+1. Open the order and click **Change purchaser** (or **Set purchaser** if no customer is assigned).
+2. Enter the new customer's **Name** and **Email**.
+3. Optionally:
+   - **Send order confirmation email** to the new customer (with optional custom text)
+   - **Transfer original items** to reassign item ownership to the new customer
+   - **Regenerate item barcodes** to issue new barcodes (preventing the original holder from using old ones)
+4. Submit the change.
+
+If the new email doesn't match an existing customer, a new customer record is created automatically.
+
+<Note>
+Changing the customer does not affect payment records — the financial history remains linked to the original transaction. This action reassigns ownership of the order and optionally the items within it.
+</Note>
+
+## Related
+
+- [Refunds & Cancellations](/core-platform/order-management/refunds-and-cancellations)
+- [Order Modifications](/core-platform/order-management/order-modifications)
+- [Transfers & Sharing](/core-platform/order-management/transfers-and-sharing)
+- [Rebooking](/core-platform/order-management/rebooking)
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Split Payments](/core-platform/payments/split-payments)
+- [Deposit Payments](/core-platform/payments/deposit-payments)

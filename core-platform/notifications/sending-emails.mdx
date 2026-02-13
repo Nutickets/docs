@@ -1,0 +1,144 @@
+---
+title: "Sending Emails"
+description: "Send emails to attendees in bulk from the event dashboard, or resend individual emails from order pages."
+---
+
+## Overview
+
+Beyond the emails the platform sends automatically, admin users can manually send or resend emails in two ways: **bulk email tools** on the event dashboard for reaching groups of attendees, and **resend actions** on individual order pages for one-off resends.
+
+## Emailing Attendees in Bulk
+
+The bulk email tool lets you send emails to attendees of an event, filtered by scope and email type. It is available from three places on the event dashboard, each pre-selecting a different scope:
+
+| Entry point | Default scope |
+|-------------|--------------|
+| **Email attendees** button on the event dashboard header | Entire event |
+| **Email attendees** action on a sale item's capacity bar | That sale item |
+| **Email attendees** action on a timeslot's capacity bar | That timeslot |
+
+### Choosing the Email Scope
+
+If the entry point offers more than one possible scope, you are first asked to choose which audience to target:
+
+| Scope | Reaches |
+|-------|---------|
+| **Event** | All attendees of this event |
+| **Schedule** | All attendees across every event in this schedule |
+| **Timeslot** | All attendees of this specific timeslot |
+| **Sale item** | All attendees who purchased this specific sale item |
+| **Price band** | All attendees who purchased items within this specific price band |
+
+After selecting a scope, the platform loads the recipient counts for each email type so you can see exactly how many emails will be sent.
+
+### Choosing the Email Type
+
+The compose form presents the available email types as toggles. Select one or more:
+
+#### Order Confirmation Emails
+
+Resends the order confirmation email. Choose whether to send to:
+- **Purchasers** — the person who placed the order
+- **Attendees** — each individual attendee (useful when items have been transferred to other people)
+
+#### Item Transfer Emails
+
+Resends the "claim your items" email to transfer recipients who have pending transfers.
+
+#### Invoice Reminders
+
+Resends tax receipt or invoice emails. Choose the audience:
+- **Paid** — customers who have fully paid
+- **Unpaid** — customers with outstanding invoices
+- **All** — both paid and unpaid
+
+<Note>
+Invoice reminders are not available if **Disable tax receipt emails** is enabled in company settings.
+</Note>
+
+#### Payment Reminder Emails
+
+Resends payment-related emails. Choose the type:
+- **Payment link reminders** — resends payment links to customers with outstanding payments
+- **Deposit received notifications** — resends deposit confirmation emails
+
+### Composing the Email
+
+After selecting email types, you can optionally customise the email content:
+
+| Field | Description |
+|-------|-------------|
+| **Subject** | Override the default subject line for this send |
+| **Title** | A heading displayed in the email body |
+| **Body** | Additional content added to the email, edited with a rich text editor |
+| **Use blank email template** | When enabled, removes the default system content (order details, ticket information) and sends only your custom title and body. The **Title** field becomes required when this is enabled |
+
+The **Send** button shows the total number of emails that will be sent based on your selections (e.g. "Send 142 email(s)").
+
+### How Bulk Sends Are Processed
+
+Bulk emails are added to a queue and processed in the background. After submitting, you see a confirmation: *"E-mails have been added to the queue and will be processed shortly."*
+
+Emails are processed in batches of 100. For large audiences, all batches are queued together and processed sequentially. If an individual email fails to send, it does not prevent the remaining emails from being delivered.
+
+<Note>
+Allow up to 30 minutes for large bulk sends to complete. You can check the progress and delivery status of individual emails in [Email Logs](/core-platform/notifications/email-logs).
+</Note>
+
+---
+
+## Resending Emails from an Order
+
+Individual emails can be resent from the order detail page. This is useful when a customer did not receive their email or when you need to send an updated confirmation after making changes.
+
+### Resending a Confirmation Email
+
+1. Open the order in the admin
+2. Click the envelope icon or the **Resend confirmation email** quick action
+3. In the modal, review or adjust:
+   - **Email To** — pre-filled with the customer's email address, can be changed
+   - **Email Language** — the language the email will be sent in
+   - **Text** — optional additional text to include in the email (rich text editor)
+4. Click **Send**
+
+The email is sent immediately to the transactional queue and typically arrives within seconds.
+
+### Resending Other Email Types
+
+For orders in specific states, the platform automatically resolves which email to resend based on the order's current status:
+
+| Order status | Email sent |
+|-------------|------------|
+| Awaiting payment link | Payment link email |
+| Awaiting on-site payment | On-site payment instruction email |
+| Awaiting invoice payment | Invoice email |
+| Partially paid (deposit) | Deposit received email |
+
+This means clicking **Resend** on a reservation awaiting payment sends the payment link email rather than a standard confirmation.
+
+### Resending Tax Receipts
+
+If the order has a tax receipt, a **Resend tax receipt** action is available alongside the confirmation resend. This sends the tax receipt email to the customer's email address.
+
+### Sending to a Customer from an Order
+
+Admin users can also use the **Send a notification to the customer** action to compose a custom email to the purchaser directly from the order page.
+
+---
+
+## Resending Emails from a Reservation
+
+Reservations have similar resend capabilities. From the reservation detail page, you can resend the reservation confirmation email using the email log panel actions.
+
+---
+
+## Season Ticket Limitations
+
+When using the bulk email tools, attendees who purchased items through season tickets that were bought outside of the selected event may not be included in the email scope. A warning is displayed when this applies: *"This feature does not currently support communication with attendees who purchased season tickets outside of this event."*
+
+## Related Pages
+
+- [Email Types](/core-platform/notifications/email-types) — Reference of every email type
+- [Email Settings](/core-platform/notifications/email-settings) — Configure which emails are sent
+- [Customising Emails](/core-platform/notifications/customising-emails) — Change email content
+- [Email Logs](/core-platform/notifications/email-logs) — Track delivery status

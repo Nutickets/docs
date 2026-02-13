@@ -1,32 +1,119 @@
 ---
 title: "Menus"
-description: "Manage navigational menus for header, footer, logo, top bar, and account sidebar placements."
+description: "Build your shop's navigation by creating menu items across header, footer, top bar, logo, and account sidebar regions."
 ---
 
 ## Overview
 
-- Menu items are managed centrally and rendered into multiple menu regions.
-- Supported menu regions include top bar, header, footer, logo menu, and account sidebar.
-- Items can point to internal routes, listing pages, and configured links.
+Menus control how visitors navigate your ticket shop. You create menu items and assign them to different regions of the page — the header, footer, top bar, logo area, or account sidebar. Each item links to a destination: a CMS page, a built-in shop route like the events browse page, or a custom external URL.
 
-## Menu Management
+Menu items support up to three levels of nesting, icons, and button styling, giving you full control over your shop's navigation structure.
 
-| Action | Behaviour |
-|---|---|
-| Create | Choose menu region, label, link target, and optional parent |
-| Sort | Reorder nested menu structures |
-| Edit | Update labels, links, and hierarchy |
-| Delete | Removes the item from rendered navigation |
+Menus are managed from **CMS > Menu items** in admin.
 
-## Link Targets
+## Menu Regions
 
-Menu items can target:
+Each menu item belongs to one of five regions, controlling where it appears on the shop:
 
-- core shop routes (for example browse events)
-- listing pages
-- feature-specific pages enabled for the company (for example gift vouchers)
+| Region | Location | Typical use |
+|--------|----------|-------------|
+| **Header** | Main navigation bar | Primary site navigation — your most important links |
+| **Top bar** | Narrow bar above the header | Secondary links, contact info, or utility navigation |
+| **Footer** | Bottom of every page | Supporting links, legal pages, social links |
+| **Logo** | Logo area of the header | Custom logo behaviour or branding link |
+| **Account sidebar** | Customer account side menu | Additional account-related navigation for logged-in customers |
 
-## Related
+The visual appearance of each region is controlled by your [theme settings](/core-platform/cms/theme-and-branding).
 
-- [Pages](/core-platform/cms/pages)
-- [Theme And Branding](/core-platform/cms/theme-and-branding)
+## Creating a Menu Item
+
+1. Navigate to **CMS > Menu items**
+2. Click **Create new menu item**
+3. Configure the item:
+
+| Field | Description |
+|-------|-------------|
+| **Menu** | Which region this item appears in (Header, Top bar, Footer, Logo, Account sidebar) |
+| **Label** | The text displayed to visitors |
+| **Link type** | How the item links to its destination (see [Link Types](#link-types) below) |
+| **Parent** | Optional — nest this item under an existing item to create a dropdown |
+| **Target** | Whether the link opens in the same window or a new tab |
+
+4. Click **Save**
+
+## Link Types
+
+Each menu item uses one of three link types to connect to its destination:
+
+### Page Link
+
+Link to an existing [CMS page](/core-platform/cms/pages). Select from your available pages — the menu item will automatically point to the page's URL.
+
+### Route Link
+
+Link to a built-in shop route. Available routes include:
+
+- **Browse events page** — the default events listing
+- **Browse gift vouchers page** — the gift voucher shop (when gift vouchers are enabled)
+- **Browse charity donations page** — the charity donations page (when charity donations are enabled)
+
+Route links automatically adapt if feature URLs change.
+
+### Custom URL
+
+Link to any URL — internal or external. Enter the full URL manually. This is useful for linking to external websites, specific sections of your shop, or any destination not covered by page or route links.
+
+## Nesting and Hierarchy
+
+Menu items can be nested up to **three levels deep** to create dropdown menus:
+
+- **Level 1** — top-level items visible in the menu bar
+- **Level 2** — items nested under a level 1 item, shown as a dropdown
+- **Level 3** — items nested under a level 2 item, shown as a sub-dropdown
+
+When creating or editing an item, select a **Parent** to nest it. Only items that are themselves at level 1 or level 2 can be parents — you cannot create a fourth level.
+
+<Note>
+Deleting a parent item is not allowed while it has children. Remove or reassign child items first.
+</Note>
+
+## Icons
+
+Menu items can display an icon alongside their label. Icons are drawn from the FontAwesome library and support:
+
+- **Icon selection** — choose from available icons
+- **Icon colour** — set a custom colour for the icon
+- **Icon version** — choose between default and thick icon weights
+
+Icons are optional — most menu items use text labels only.
+
+## Button Styling
+
+Header menu items can be styled as buttons instead of plain text links. This is useful for call-to-action items like "Buy Tickets" or "Sign Up".
+
+| Style | Description |
+|-------|-------------|
+| **Primary** | Styled as a primary action button using your theme's primary button colours |
+| **Secondary** | Styled as a secondary action button using your theme's secondary button colours |
+
+Button-styled items also support an **animation** toggle that adds a subtle animated effect to draw attention.
+
+## Sorting Menu Items
+
+Drag and drop menu items within a region to change their display order. The sort order is saved automatically and supports reordering across all nesting levels — you can rearrange both top-level items and their children.
+
+## Editing and Deleting
+
+- **Edit** a menu item to change its label, link, parent, or styling at any time
+- **Delete** a menu item to remove it from the navigation — deleted items are soft-deleted and can be restored
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Pages" icon="file" href="/core-platform/cms/pages">
+    Create the CMS pages that menu items can link to
+  </Card>
+  <Card title="Theme & Branding" icon="palette" href="/core-platform/cms/theme-and-branding">
+    Control the visual styling of menu regions
+  </Card>
+</CardGroup>

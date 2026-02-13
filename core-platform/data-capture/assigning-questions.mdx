@@ -1,0 +1,164 @@
+---
+title: "Assigning Questions"
+description: "Control where and when data capture questions appear during checkout, registration, and forms."
+---
+
+## Overview
+
+Creating a question adds it to your [question library](/core-platform/data-capture/managing-questions), but it won't appear to customers until you assign it to a context. Assignment controls **where** a question is asked (at registration, during event checkout, per ticket), **whether** it's required, and **when** it appears (during checkout or post-purchase).
+
+Questions can be assigned globally from the data capture area, or per event from an event's data capture management page.
+
+## Assignment Levels
+
+The **Asked where** setting determines when and where a question appears. These levels range from broad (asked everywhere) to narrow (asked for a particular item type).
+
+### Customer Registration
+
+| Option | Behaviour |
+|--------|-----------|
+| **Initial registration** | Asked once during customer account creation. Responses are stored on the customer profile. |
+| **Every event** | Asked during checkout for every event the customer purchases. |
+
+### Event-Specific
+
+| Option | Behaviour |
+|--------|-----------|
+| **This event only** | Asked during checkout only when purchasing items for this specific event. |
+| **Every event in this schedule** | Asked during checkout for every event within the same schedule. Useful for recurring events where the same information is needed each time. |
+
+### Item-Specific
+
+| Option | Behaviour |
+|--------|-----------|
+| **Every item on this event** | Asked once per item type in the basket for this event. |
+| **On specific items on this event** | Asked only when purchasing selected sale items. After choosing this option, a selector lets you pick which items trigger the question. |
+| **On specific items across the schedule** | Like the above, but applies to the selected items across all events in the schedule. |
+| **Every ticket on this event** | Asked individually for **each ticket** purchased. If a customer buys 3 tickets, they answer this question 3 times — once per ticket. |
+| **Every ticket on every event** | Asked per ticket across all events. |
+
+<Note>
+When you change a question's assignment from a broader level to a narrower one (for example, from **Every item on this event** to **On specific items on this event**), the previous broader assignment is automatically removed to prevent the question being asked twice.
+</Note>
+
+## Managing Questions on an Event
+
+Each event has its own data capture management page where you can view all questions that apply to that event, assign new questions, and configure field settings.
+
+Navigate to an event, then open the **Data capture** tab.
+
+### Page Layout
+
+The page is divided into sections based on where questions are assigned:
+
+**Global questions** — A read-only section showing the [built-in customer fields](/core-platform/data-capture/introduction#built-in-customer-fields) (name, email, etc.) and any questions assigned at the **Initial registration** or **Every event** level. These are managed centrally from **Data Capture > Data capture global questions** and cannot be modified from the event page.
+
+**Event questions** — Questions assigned specifically to this event (via **This event only** or **Every event in this schedule**). These can be added, configured, and removed from this page.
+
+**Item questions** — Questions assigned to specific sale items or to all items on this event.
+
+**Inventory item questions** — Questions assigned to specific inventory items on this event.
+
+### Adding Questions
+
+To assign questions to an event:
+
+1. Click **Add question** in the relevant section (event, item, or inventory item)
+2. Select one or more questions from your library
+3. Configure the [field settings](#field-settings) for each question
+4. The questions immediately appear in the section
+
+### Field Settings
+
+Each assigned question has four configurable settings, displayed as columns in the data capture table:
+
+| Setting | Effect |
+|---------|--------|
+| **Enabled** | Controls whether the question is currently active. Disabled questions are not shown to customers but remain assigned for easy re-enabling. |
+| **Mandatory** | When enabled, customers must answer this question to proceed through checkout. |
+| **Hide during checkout** | The question is not shown during the checkout flow. Instead, it appears on the post-purchase **Complete data capture** page (see [Post-Purchase Data Capture](#post-purchase-data-capture)). |
+| **Asked where** | The [assignment level](#assignment-levels) that controls which events, items, or contexts this question appears in. |
+
+### Reordering Questions
+
+Drag questions using the handle icon to control the display order. Questions appear to customers in the order configured here, grouped by their assignment section.
+
+### Removing Questions
+
+Click the delete icon on a question row to remove it from the event. If the question is assigned at a global level (**Every event** or **Initial registration**), a warning indicates that removal affects all events — not just the one you're viewing.
+
+## Global Questions
+
+Questions assigned at the **Initial registration** or **Every event** level are managed from the **Data Capture > Data capture global questions** page in the admin area. These apply across all events and appear in the read-only **Global questions** section on every event's data capture page.
+
+Global questions include both the [built-in customer fields](/core-platform/data-capture/introduction#built-in-customer-fields) configured in settings and any custom questions you've assigned at a global level.
+
+## The Checkout Experience
+
+During checkout, customers encounter data capture questions at several points depending on how questions are assigned:
+
+1. **Customer details** — Built-in fields (name, email, date of birth, etc.) and any **Initial registration** questions appear as part of the customer information step.
+
+2. **Event data capture** — Event-level and item-level questions appear grouped by event. If a customer is purchasing items from multiple events, they see a separate data capture step for each event that has questions configured.
+
+3. **Per-ticket questions** — Questions assigned at the **Every ticket** level repeat for each individual ticket purchased. For example, if a customer buys 3 tickets and there is a per-ticket dietary requirement question, they see the question 3 times — once per attendee.
+
+<Note>
+If no data capture questions are configured for an event (or all questions are disabled or hidden), the event data capture step is skipped entirely during checkout.
+</Note>
+
+## Post-Purchase Data Capture
+
+Questions with **Hide during checkout** enabled are collected after purchase rather than during the checkout flow. This is useful for information that isn't needed to complete the transaction but should be gathered before the event — for example, detailed accessibility requirements or travel information.
+
+Customers access post-purchase data capture from their order:
+
+1. Navigate to their order in **My Orders**
+2. Click **Complete data capture**
+3. Fill in the outstanding questions, grouped by event
+4. Click **Submit**
+
+Questions that were answered during checkout appear as read-only on this page. Only hidden or unanswered questions are editable.
+
+<Note>
+If the **Disallow data capture edit** limitation is active, customers cannot modify data capture responses after checkout. They can only complete questions that were hidden during checkout and not yet answered.
+</Note>
+
+<Note>
+If a customer has incomplete data capture on an order, they see a message prompting them to complete outstanding questions before downloading items from that order.
+</Note>
+
+### Box Office Override
+
+When processing orders through the box office, staff with the appropriate permission can bypass mandatory data capture validation. Mandatory fields are still visually marked but can be submitted without answers, allowing staff to complete transactions quickly when full information isn't immediately available.
+
+## Form Data Capture
+
+Data capture questions can also be assigned to [forms](/core-platform/cms/forms). When a customer submits a form, their responses are stored as data capture responses linked to that form submission.
+
+Form data capture is managed from each form's configuration. The same question library is shared — you assign existing questions to forms in the same way you assign them to events, and the same field settings (enabled, mandatory, ordering) apply.
+
+## Reporting
+
+Data capture responses collected through forms can be exported using the **Data Capture Response Report**. The report groups responses by form and includes:
+
+- **Submission ID** — A unique identifier for each form submission
+- **Customer name and email**
+- **Submission date**
+- **Question responses** — Each data capture question appears as a dynamic column with the customer's answer
+
+Filter by date range and form to focus on specific submissions.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Managing Questions" icon="circle-question" href="/core-platform/data-capture/managing-questions">
+    Create and configure data capture questions
+  </Card>
+  <Card title="Internal Questions" icon="lock" href="/core-platform/data-capture/internal-questions">
+    Event codes and staff-only questions
+  </Card>
+  <Card title="Forms" icon="file-lines" href="/core-platform/cms/forms">
+    Create forms that collect data capture responses
+  </Card>
+</CardGroup>

@@ -1,24 +1,133 @@
 ---
 title: "Forms"
-description: "Build custom forms, assign data-capture questions, and connect integrations/recipients."
+description: "Build custom forms with data capture questions, email recipients, API integrations, and submission reporting."
 ---
 
 ## Overview
 
-- Forms support custom capture journeys with optional API integrations and recipient routing.
-- Each form has metadata, success messaging/redirect options, and assigned questions.
-- Form responses are reportable, and forms can be previewed.
+Forms let you create standalone data capture pages on your ticket shop — contact forms, enquiry forms, registration forms, or any custom form you need. Each form gets its own URL, collects responses through your existing [data capture](/core-platform/data-capture/introduction) questions, and can route submissions to email recipients and external services.
 
-## Core Capabilities
+Forms are managed from **Data Capture > Forms** in admin.
 
-| Capability | Notes |
-|---|---|
-| Data capture assignment | Attach and reorder question fields |
-| Integrations | Configure API integration settings per form |
-| Delivery | Set recipient email targets for submissions |
-| Publishing | Use preview URLs and response reporting |
+<Note>
+The form builder must be enabled for your company before the forms section appears in admin.
+</Note>
 
-## Related
+## Creating a Form
 
-- [Data Capture Introduction](/core-platform/data-capture/introduction)
-- [Technical Webhooks](/core-platform/technical/webhooks)
+1. Navigate to **Data Capture > Forms**
+2. Click **Add new form**
+3. Configure the form:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The form's title, displayed to visitors at the top of the form page |
+| **Description** | Optional introductory text shown above the form fields |
+| **Success message** | The message displayed after a visitor submits the form. If not set, a default confirmation message is shown |
+| **Success URL** | Optional — redirect visitors to this URL after submission instead of showing the success message |
+| **Recipients** | Email addresses that receive a notification when the form is submitted (enter multiple addresses separated by commas) |
+| **API integration** | Optional — connect the form to an external service like Mailchimp or Salesmate |
+
+4. Click **Save**
+
+## Adding Questions
+
+Forms collect data through **data capture questions** — the same question system used across the platform for events, customers, and payments. After creating a form, add questions to define what fields visitors see.
+
+1. Open the form from **Data Capture > Forms**
+2. Click **Add questions to form**
+3. Select questions from your data capture library
+4. Configure each question's settings for this form
+5. Drag questions to reorder them
+
+Questions support various field types — text, email, phone, dropdowns, checkboxes, and more. See [Data Capture](/core-platform/data-capture/introduction) for details on creating and configuring questions.
+
+<Note>
+The order you arrange questions in determines the order they appear to visitors on the form page.
+</Note>
+
+## API Integrations
+
+Forms can send submission data to external services automatically. When a visitor submits the form, the data is forwarded to the configured integration.
+
+### Supported Integrations
+
+| Integration | Description |
+|-------------|-------------|
+| **Mailchimp** | Add form respondents to a Mailchimp audience list |
+| **Salesmate** | Create contacts or leads in Salesmate CRM |
+
+### Configuring an Integration
+
+When you select an integration, additional configuration fields appear. Each integration has **default fields** that must be configured (like API credentials and list identifiers) and supports **custom field mapping** to connect form questions to fields in the external service.
+
+For each mapped field, choose the **data source**:
+
+| Source | Description |
+|--------|-------------|
+| **Fixed** | A static value you enter — the same value is sent for every submission |
+| **Data capture** | The value comes from one of the form's questions — each submission sends the visitor's answer |
+
+<Accordion title="Mailchimp configuration">
+Mailchimp integration requires:
+- **List ID** — the Mailchimp audience list to add contacts to
+- **Server prefix** — your Mailchimp data centre prefix (e.g. `us1`)
+- **API key** — your Mailchimp API key
+- **Email field** — which form question captures the email address
+
+Additional custom fields can map form questions to Mailchimp merge tags.
+</Accordion>
+
+## Previewing a Form
+
+Preview how the form appears to visitors before sharing it. From the form's detail page, click the preview action to open a signed preview URL showing the live form.
+
+## Embedding a Form
+
+Forms can be embedded on external websites using a **tracking script**. From the form's detail page, click **Form tracking script** to view the embed code. Copy this script and add it to any external page where you want the form to appear.
+
+## Viewing Responses
+
+Track form submissions from the form's detail page:
+
+- The **response count** shows how many unique submissions the form has received
+- Click **View report** to open the full response report, which lists all submissions with their question answers
+
+Responses are counted by unique submission identifier — a single visitor submitting the form once counts as one response.
+
+## Form SEO
+
+Each form supports SEO metadata:
+
+| Field | Purpose |
+|-------|---------|
+| **Meta title** | The title shown in search engine results and browser tabs |
+| **Meta description** | The summary shown in search engine results |
+| **Meta image** | The image displayed when the form page is shared on social media |
+
+## Webhooks
+
+Form submissions automatically trigger webhooks, sending the submission data to any configured webhook endpoints. The webhook payload includes:
+
+- Company information
+- Form details (ID and name)
+- All question answers
+- Customer information (if the visitor is logged in)
+- Submission timestamp
+
+See [Webhooks](/core-platform/technical/webhooks) for details on configuring webhook endpoints.
+
+## Deleting and Restoring Forms
+
+Deleting a form moves it to the trash and removes its public page. Deleted forms can be restored from the trash to bring them back.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Data Capture" icon="clipboard-question" href="/core-platform/data-capture/introduction">
+    Create and manage the questions used in your forms
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/core-platform/technical/webhooks">
+    Configure endpoints that receive form submission data
+  </Card>
+</CardGroup>

@@ -1,22 +1,168 @@
 ---
 title: "Articles"
-description: "Create and publish article content with types, tags, authors, and media."
+description: "Create and publish article content organised by type, with rich content blocks, tags, authors, and SEO controls."
 ---
 
 ## Overview
 
-- Articles are managed content entities with draft/published status.
-- Articles belong to article types and can be tagged.
-- Card/page media and SEO metadata are supported.
+Articles let you publish content alongside your events — news updates, guides, venue information, artist profiles, or anything else your audience needs. Each article has its own page with a dedicated URL, and articles are surfaced to visitors through [article blocks](/core-platform/cms/blocks#article-blocks) on your [CMS pages](/core-platform/cms/pages).
 
-## Management Workflow
+Articles are organised into **article types** (categories), can be tagged for filtering and discovery, and support rich content through a flexible content block system.
 
-1. Create article types.
-2. Create article records with author/type/tags.
-3. Edit content blocks and page settings.
-4. Publish and surface through article blocks/listings.
+Articles are managed from **CMS > Articles** in admin.
 
-## Related
+<Note>
+Articles must be enabled for your company before the articles section appears in admin.
+</Note>
 
-- [Blocks](/core-platform/cms/blocks)
-- [Pages](/core-platform/cms/pages)
+## Article Types
+
+Before creating articles, set up at least one **article type**. Article types act as categories that group related articles and give each group its own URL prefix and listing page.
+
+For example, you might create article types like **News**, **Guides**, or **Artist Profiles**. Each article type gets its own URL structure — an article in the "News" type with the URL `summer-announcement` would be accessible at `/news/summer-announcement`.
+
+### Creating an Article Type
+
+1. Navigate to **CMS > Article types**
+2. Click **Create**
+3. Enter a **Name** for the type
+4. Set the **URL** — this becomes the URL prefix for all articles in this type
+5. Optionally set **Meta title** and **Meta description** for the article type's listing page
+6. Click **Save**
+
+Article types can be hidden by toggling visibility. A hidden article type does not appear in navigation or listings but its articles remain accessible via direct URL.
+
+## Creating an Article
+
+1. Navigate to **CMS > Articles**
+2. Click **Create**
+3. Fill in the article details:
+
+| Field | Description |
+|-------|-------------|
+| **Article name** | The title displayed on the article page and in listings |
+| **Article type** | Which category this article belongs to |
+| **URL** | The article's URL slug — combined with the article type URL to form the full path |
+| **Subheading** | A subtitle displayed below the article name |
+| **Author** | The person credited as the article's author |
+| **Article date** | The publication date shown to readers |
+| **Article tags** | Tags used for filtering and for tag-based article blocks |
+
+4. Click **Save**
+
+<Note>
+Each article must have a unique URL within its article type. If you try to use a URL that already exists in the same type, validation will prevent saving.
+</Note>
+
+## Content Blocks
+
+Once an article is created, you build its content by adding **content blocks**. Each block is a section of the article page — you can mix different block types to create rich, varied layouts.
+
+### Adding Content Blocks
+
+1. Open the article from **CMS > Articles**
+2. Navigate to the article's content area
+3. Add content blocks in the order you want them to appear
+4. Drag to reorder blocks as needed
+
+### Content Block Types
+
+| Block type | Description |
+|------------|-------------|
+| **HTML** | Rich text content created with the WYSIWYG editor — the most common block type for article body text |
+| **Gallery** | An image gallery with multiple layout options |
+| **Video** | An embedded video |
+| **Article** | A section displaying related articles |
+| **Social** | An embedded social media post |
+| **Template** | Custom content defined by a JSON schema |
+| **Author** | An author biography section |
+| **Header** | A page section header |
+| **Footer** | A page section footer |
+| **Menu** | A navigation menu block |
+
+### Content Block Settings
+
+Each content block supports these settings:
+
+| Setting | Description |
+|---------|-------------|
+| **Title** | An optional title displayed above the block's content |
+| **Display in menu** | When enabled, the block appears as a navigable section in the article's sidebar menu |
+| **Layout** | Controls the visual arrangement of the block's content |
+
+### Content Block Layouts
+
+Blocks that display multiple items (galleries, related articles) support these layout options:
+
+| Layout | Description |
+|--------|-------------|
+| **Automatic** | System chooses the best layout based on content |
+| **2-column** | Content arranged in two columns |
+| **3-column** | Content arranged in three columns |
+| **Carousel** | Content displayed in a scrollable carousel |
+| **Collage** | Content arranged in a collage-style grid |
+| **Full-width** | Content spans the full page width |
+| **Banner** | Content displayed as a banner |
+
+## Article Page Settings
+
+Each article has page settings that control its appearance and metadata, separate from its content.
+
+### Images
+
+| Image | Purpose |
+|-------|---------|
+| **Page header** | The banner image displayed at the top of the article page |
+| **Card thumbnail** | The image shown when the article appears in listings and article blocks |
+| **Meta image** | The image displayed when the article is shared on social media |
+
+### SEO Metadata
+
+| Field | Purpose |
+|-------|---------|
+| **Meta title** | The title shown in search engine results (recommended: under 60 characters) |
+| **Meta description** | The summary shown in search engine results (recommended: under 160 characters) |
+
+### Article Content Width
+
+Control how wide the article content area is on the page. Narrower widths improve readability for text-heavy articles, while wider settings suit image-heavy or multi-column layouts.
+
+### Call to Action
+
+Add a call-to-action element to the article to direct readers to a specific destination after reading.
+
+## Publishing and Visibility
+
+Articles have two visibility controls:
+
+- **Article date** — articles are only visible to customers after their publication date has passed. Set a future date to schedule publication.
+- **Hidden** — toggle an article as hidden to remove it from listings and article blocks. Hidden articles are still accessible via their direct URL.
+
+### Draft and Published States
+
+Articles without a publication date or with a future date are effectively in a draft state — they won't appear in any article blocks or listings. Once the publication date passes, the article becomes visible wherever it's referenced.
+
+## Tags
+
+Tags help organise articles and power tag-based article blocks. When you create an [article block](/core-platform/cms/blocks#article-blocks) with the **Articles with tags** source, the block automatically displays all articles matching those tags.
+
+Tags are managed at the article level — add tags when creating or editing an article.
+
+## Authors
+
+Each article can be attributed to an author. The author name appears on the article page, and if you add an **Author** content block, it displays the author's biography and photo.
+
+## Deleting and Restoring Articles
+
+Deleting an article moves it to the trash. Deleted articles are removed from all article blocks and listings. You can restore a deleted article from the trash to bring it back.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Blocks" icon="cube" href="/core-platform/cms/blocks">
+    Configure article blocks to display your articles on CMS pages
+  </Card>
+  <Card title="Pages" icon="file" href="/core-platform/cms/pages">
+    Create the pages where article blocks appear
+  </Card>
+</CardGroup>

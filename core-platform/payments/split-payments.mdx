@@ -1,48 +1,131 @@
 ---
 title: "Split Payments"
-description: "Use multiple payment methods on a single order, including online gateway, wallet, balance on hand, and resale contribution splits."
+description: "Process a single order using multiple payment methods, splitting the total across different payment types."
 ---
 
 ## Overview
 
-Split payments let one order be paid by multiple methods. Each split includes:
+Split payments allow a single order to be paid using more than one payment method. For example, a customer might pay part of their order with their account balance and the remainder by card, or a box office operator might split a payment across cash and card.
 
-- `payment_method`
-- `amount`
+This is useful when:
+- A customer wants to use their account balance towards a purchase but it doesn't cover the full amount
+- A box office sale involves a mix of cash and card
+- An order modification creates a balance from the previous payment that needs to be combined with a new payment method
 
-The platform validates both structure and total before processing.
+<Note>
+Split payments is a feature that must be enabled for your company. The settings appear in **Settings > Payment** when available.
+</Note>
+
+## How Split Payments Work
+
+When a split payment is used, the order total is divided into two or more portions, each assigned to a different payment method. Every portion specifies:
+
+- The **payment method** (e.g. card, cash, account balance)
+- The **amount** to charge to that method
+
+The system validates that all portions add up to the exact amount due before processing. Each portion is processed as a separate transaction on the order.
+
+## Supported Payment Methods
+
+The following payment methods can be used in a split:
+
+| Method | Notes |
+|--------|-------|
+| **Online card payment** | Via your configured payment gateway. Maximum one online payment per split. |
+| **External card terminal** | For box office in-person card payments |
+| **Cash** | Box office only |
+| **Bank transfer** | Box office only |
+| **Cheque** | Box office only |
+| **Money order** | Box office only |
+| **Gift card** | External/third-party gift cards |
+| **Local payment** | Gateway-specific local methods |
+| **Mobile money transfer** | — |
+| **Account balance** | Customer's e-wallet balance. Maximum one per split. |
+| **MOTO** | Mail order / telephone order card entry |
+
+<Note>
+Not all methods are available in every context. The available methods depend on your gateway configuration, channel (shop vs box office), and user permissions.
+</Note>
+
+## Using Split Payments in Box Office
+
+When processing a box office sale with split payments:
+
+1. Select **Split payment** as the payment method
+2. Add the payment methods you want to use by clicking the available method buttons
+3. Enter the amount for each split
+4. Use **Split evenly** to divide the total equally across all splits, or **Set remaining** to automatically fill the last split with the outstanding balance
+5. Click **Confirm** to process the payment
+
+Each split is processed as a separate transaction. If one split includes an online payment method (card), that portion is sent to the payment gateway while other portions (cash, bank transfer) are recorded directly.
+
+### Metadata for Offline Methods
+
+Some offline payment methods require additional information when used in a split:
+
+| Method | Required information |
+|--------|---------------------|
+| **Cheque** | Cheque number (if required in checkout settings) |
+| **External card terminal** | Card network (if required in checkout settings) |
+| **Money order** | Money order number (if required in checkout settings) |
+
+These requirements are configured in **Settings > Payment > Checkout settings**.
+
+## Automatic Split Generation
+
+In some scenarios, the system automatically generates splits without manual input:
+
+| Scenario | What happens |
+|----------|-------------|
+| **Balance on hand** | When modifying an order, any balance from the previous payment is automatically applied as a split |
+| **Resale seller contribution** | In resale transactions, the seller's contribution is applied as a split that offsets part of the buyer's payment |
+| **Account balance spending** | When automatic balance spending is enabled in the shop, the customer's balance is applied as a split with the remainder charged to the selected payment method |
+
+<Note>
+When an order modification creates a balance on hand split, the balance amount is fixed and cannot be changed. The remaining amount must be covered by the other payment methods in the split.
+</Note>
 
 ## Validation Rules
 
-- Every split must contain a valid method key and numeric amount.
-- The sum of split amounts must match the expected amount due today.
-- Split mode is only treated as split mode when there is more than one valid split.
+The system enforces several rules when processing split payments:
 
-## Default Split Generation
+- The total of all split amounts must exactly match the amount due
+- Each split amount must be greater than zero
+- At least two payment methods must be selected
+- A maximum of one online gateway payment method is allowed per split
+- A maximum of one account balance payment method is allowed per split
+- The account balance split cannot exceed the customer's available balance
 
-When eligible, the system can pre-build splits for scenarios such as:
-
-- **Balance on hand** used first.
-- **Resale seller contribution** applied when relevant.
-- **Wallet balance spending** when enabled/encouraged.
-- **Gateway/card remainder** for any outstanding amount.
-
-## Gateway Portion in Split Flows
-
-In split mode, the platform identifies the online/gateway split and processes that portion through the selected gateway while preserving the other split records.
+If any rule is not met, the split cannot be confirmed and an error message is displayed.
 
 ## Tax and Fee Allocation
 
-For split payments, tax, reseller fee, and processing fee are proportioned against the relevant split amount to keep totals consistent.
+When an order uses split payments, taxes, reseller fees, and processing fees are allocated proportionally across the splits based on each split's share of the total. This ensures that financial records accurately reflect how much of each fee was collected through each payment method.
 
-## Typical Use Cases
+## Refunding Split Payment Orders
 
-- Part wallet + part card payment.
-- Box office order modification with mixed methods.
-- Resale transactions where seller contribution offsets part of buyer payment.
+Split payment orders can be refunded either proportionally or manually:
+
+| Refund mode | How it works |
+|-------------|-------------|
+| **Automatic (Proportional)** | The refund amount is distributed proportionally across each original payment method based on the ratio of the original payments |
+| **Manual** | You choose how much to refund to each payment method individually |
+
+When refunding, you can click on individual transactions to set specific refund amounts for each payment method.
+
+<Note>
+Deposit transactions within a split payment cannot be refunded. If a split includes a deposit, that portion is excluded from the refund options.
+</Note>
+
+## Restrictions
+
+- Rebooking (move dates) is not currently supported for split payment orders
+- Split payments cannot be combined with invoice/manual payment methods
+- The split payment interface is only available when the feature is enabled for your company
 
 ## Related
 
+- [Introduction](/core-platform/payments/introduction)
 - [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
 - [Deposit Payments](/core-platform/payments/deposit-payments)
 - [Invoice Payments](/core-platform/payments/invoice-payments)

@@ -1,31 +1,349 @@
 ---
 title: "Discount Codes"
-description: "Configure percentage, fixed, and advanced discount logic for basket and sale-item pricing."
+description: "Create and manage discount codes that reduce basket prices through fixed amounts, percentages, conditional offers, or multi-buy promotions."
 ---
 
 ## Overview
 
-- Discount codes apply pricing reductions to eligible basket lines.
-- The platform supports multiple discount-code types, including targeted and conditional models.
-- Codes can be manually entered, auto-applied, or generated in parent/child sets.
+Discount codes let you offer price reductions to customers. A customer enters a code during checkout, and the platform validates it and applies the discount to eligible items in their basket.
 
-## Common Capabilities
+The platform supports four discount code types, each suited to different promotional scenarios:
 
-| Capability | Notes |
-|---|---|
-| Targeting | Scope by events, schedules, sale items, items, price bands, and customer groups |
-| Conditions | Supports rule-based eligibility including conditional item requirements |
-| Auto-apply | Prioritised auto-apply codes with platform limits |
-| Lifecycle | Active, inactive, disabled, and soft-deleted states |
+- **Fixed value** — a set monetary amount off (e.g. £5 off)
+- **Percentage** — a percentage off eligible items (e.g. 10% off)
+- **Buy X Get Y** — purchase a specific item to receive a discount on another
+- **Multi-buy** — purchase a combination of items from different groups to unlock a discount
 
-## Operational Notes
+Discount codes can be manually entered by customers, [automatically applied](#auto-apply-discount-codes) to qualifying baskets, or used exclusively by [box office](#using-discount-codes-in-box-office) staff.
 
-- Box-office-only discounts are treated separately from standard discount-code records.
-- Generated code batches expose child-level activity and can be filtered in the admin UI.
-- Discount-code usage and exports are available through built-in reports.
+<Note>
+Only one discount code can be active on an order at a time. Entering a new code replaces any previously applied discount.
+</Note>
 
-## Related
+## Discount Code Types
+
+### Fixed Value Discount
+
+Reduces the basket total by a specific monetary amount.
+
+- Requires selecting a **Currency** — the code only works for orders in that currency
+- The discount is applied once across the entire order by default
+- If the discount exceeds the order total, it is capped at the order total
+
+<Note>
+If the **Net price discounts** feature is enabled on your account, you can choose whether fixed discounts are calculated against the gross price (including tax) or the net price (excluding tax). This is configured via the **Calculate using** setting when creating the code.
+</Note>
+
+### Percentage Discount
+
+Reduces eligible items by a percentage of their price.
+
+- Applies to each eligible item in the basket
+- Set the **Maximum items per order** eligibility rule to limit how many items receive the discount
+- Use **Maximum discount** to cap the total discount value per currency
+- Choose whether the discount applies to the **highest priced items first** or **lowest priced items first** to control which items are discounted when limits apply
+
+### Buy X Get Y
+
+Creates a conditional discount: when a customer purchases a specific quantity of one item, they receive a percentage discount on another.
+
+Configuration requires three elements:
+
+- **Condition sale item** — the item the customer must purchase, with a minimum quantity
+- **Discount amount** — the percentage discount to apply
+- **Target sale item** — the item that receives the discount, with a quantity
+
+For example: *Buy 2 × Adult Ticket → Get 1 × Child Ticket at 50% off*
+
+<Note>
+The condition and target can be the same sale item. For example, "Buy 3, get 1 at 100% off" creates a "buy 3 get 1 free" promotion on the same item.
+</Note>
+
+### Multi-Buy
+
+Requires a customer to purchase a combination of items from different groups to unlock a percentage discount. Unlike Buy X Get Y, multi-buy can involve multiple item types across different categories.
+
+Configuration:
+
+- Add **condition items** from inventory items, sale items, events, or price bands — each with a required quantity
+- Set the **discount amount** as a percentage
+
+For example: *Buy 1 × from Event A and 1 × from Event B → Get 20% off*
+
+<Note>
+Enable **Prevent cross-event purchase** in eligibility settings to require all condition items to come from the same event. This is useful for promotions within a single event such as "buy any 3 items, get 20% off".
+</Note>
+
+## Creating a Discount Code
+
+1. Navigate to **Discount Codes** in the admin
+2. Click **Add new discount code**
+3. Enter a **Discount code** — letters and numbers only, no spaces
+4. Select the **Discount code type** (Fixed value discount, Percentage discount, Buy X Get Y, or Multi-buy)
+5. Configure the type-specific fields (amount, currency, condition items, etc.)
+6. Optionally select a **Category** to organise your codes
+7. Click **Submit**
+
+The code is created in an active state and ready for use.
+
+## Targeting Items
+
+For fixed and percentage discount types, the **Applied to** section controls which items the discount applies to. Click **Add item** and choose from:
+
+| Scope | Effect |
+|-------|--------|
+| **Inventory items** | Discount applies to specific base items |
+| **Sale items** | Discount applies to specific sale items |
+| **Events** | Discount applies to all items for selected events |
+| **Price bands** | Discount applies to items in selected price bands |
+| **Schedules** | Discount applies to all items within selected schedules |
+
+When no items are assigned, the discount applies to every eligible item in the basket.
+
+### Targeting Mode
+
+When items are assigned, choose how the discount is applied:
+
+| Mode | Behaviour |
+|------|-----------|
+| **All** | Discount applies to all assigned items in the basket |
+| **Any** | Discount applies when at least a minimum number of assigned items are in the basket. Set the **Minimum specific items quantity** to control the threshold. |
+
+<Note>
+Buy X Get Y and multi-buy types handle targeting through their condition and target item configuration rather than the **Applied to** section.
+</Note>
+
+## Configuring Eligibility Rules
+
+Eligibility rules control when and how a discount code can be used. On the discount code detail page, click **Add new condition** to enable rules.
+
+### Usage Limits
+
+| Rule | Purpose |
+|------|---------|
+| **Maximum uses** | Total number of orders that can use this code across all customers |
+| **Maximum item uses** | Total number of items that can be discounted across all orders |
+| **Limit per customer** | Maximum orders per customer using this code |
+| **Item limit per customer** | Maximum items per customer that can be discounted |
+| **Limit per customer per event** | Maximum orders per customer per event |
+| **Limit per customer per schedule** | Maximum orders per customer per schedule |
+| **Maximum items per order** | How many items in a single order receive the discount (percentage type) |
+
+For fixed discounts, the code applies once across the entire order by default.
+
+### Validity Period
+
+| Rule | Purpose |
+|------|---------|
+| **Valid from** | The earliest date and time the code can be used |
+| **Valid to** | The latest date and time the code expires |
+
+### Financial Controls
+
+| Rule | Purpose |
+|------|---------|
+| **Currency restricted** | Limits the code to a specific currency (percentage and Buy X Get Y types). For fixed type, the currency is set during creation. |
+| **Minimum spend** | Sets a minimum order value before the code can be applied |
+| **Maximum discount** | Caps the total discount value per currency (percentage types). Can be configured per currency. |
+
+<Note>
+Setting a **Maximum discount** of zero effectively blocks the discount from applying. A warning is shown when this is configured.
+</Note>
+
+### Customer Restrictions
+
+| Rule | Purpose |
+|------|---------|
+| **New customers only** | Only customers placing their first order can use this code |
+| **Customer groups** | Restricts the code to customers in specific [customer groups](/core-platform/customer-management/customer-groups). Customer groups must be enabled on your account. |
+
+### Application Order
+
+| Rule | Purpose |
+|------|---------|
+| **Apply to highest priced items first** | The percentage discount is applied to the most expensive eligible items first |
+| **Apply to lowest priced items first** | The percentage discount is applied to the cheapest eligible items first |
+
+These rules only appear for percentage discount types and control which items receive the discount when **Maximum items per order** limits the number of discounted items.
+
+### Box Office Visibility
+
+| Rule | Purpose |
+|------|---------|
+| **Visible in box office** | Makes the code available to box office staff. Optionally restrict visibility to a specific box office role. |
+
+## Auto-Apply Discount Codes
+
+Instead of requiring customers to type a code, auto-apply codes are automatically applied to qualifying baskets.
+
+### How Auto-Apply Works
+
+1. Enable **Auto apply** on the discount code detail page
+2. The platform evaluates the basket against the code's eligibility rules
+3. If the basket qualifies, the discount is applied automatically
+4. The customer sees the label **Automatically applied** next to the discount in their basket
+
+### Priority
+
+When multiple auto-apply codes could apply to the same basket, only one is applied — the one with the highest priority. Manage the priority order from the discount codes admin page.
+
+### Limits
+
+- A maximum of **10 auto-apply codes** can be active per company
+- Only **one auto-apply code** is applied per order
+- If a customer manually enters a discount code, it takes precedence over any auto-applied discount
+- Auto-apply cannot be enabled alongside **Can be shared via URL**
+- Auto-apply codes cannot have child codes
+
+## Sharing Codes via URL
+
+Discount codes can be embedded in a URL so the discount is automatically applied when a customer visits the link.
+
+1. Open the discount code detail page
+2. Enable **Can be shared via URL**
+3. Copy the **Discount code link** shown on the page
+
+When enabled, you can also add a **Description** that is displayed to customers when the code is applied. This supports rich text formatting and can be translated for multi-language shops.
+
+<Note>
+URL sharing cannot be enabled alongside **Auto apply** or on parent codes with children. Choose one distribution method.
+</Note>
+
+## Generating Child Codes
+
+For scenarios where you need many unique codes with the same discount configuration — such as single-use promotional codes or partner-specific codes — generate child codes from a parent.
+
+### How It Works
+
+- The **parent code** holds the configuration but cannot itself be used by customers
+- **Child codes** are randomly generated unique codes that inherit all settings
+- Updating the parent syncs changes to all children
+
+### Creating Child Codes
+
+1. Open the discount code detail page
+2. Click **Add children**
+3. Enter the **Number of discount codes** to generate (between 2 and 10,000)
+4. Optionally enter a **Prefix** for the generated codes
+5. Click **Submit**
+
+Codes are generated in the background. The parent detail page shows children organised by status: **Active**, **Inactive**, **Disabled**, and **Deleted**.
+
+<Note>
+You cannot add children to a code that has already been used in an order, or to a code with **Auto apply** enabled.
+</Note>
+
+## Entering a Discount Code
+
+### Customer Experience
+
+When discount codes are enabled in your shop settings, customers see an **Enter discount code** input in the basket or checkout area.
+
+1. Customer types the code and clicks **Apply**
+2. The platform validates the code against all eligibility rules
+3. If valid: the discount is applied and the customer sees **Discount Applied** with the discount amount
+4. If invalid: an error message explains why (see [Validation Errors](#validation-errors))
+
+Customers can remove an applied discount code to try a different one.
+
+### Box Office Experience
+
+In box office mode, staff see a searchable dropdown to select from available discount codes rather than typing a code manually. The dropdown shows each code's ID and description to help staff find the right one.
+
+Staff can also apply:
+
+- **External voucher codes** — see [External Vouchers](/core-platform/basket-codes/external-vouchers)
+- **Custom discounts** — ad-hoc fixed or percentage reductions without a predefined code
+
+<Note>
+Staff with the **Overuse discounts** permission can bypass certain usage limits when applying codes in box office mode.
+</Note>
+
+## Using Discount Codes in Box Office
+
+Beyond selecting from available codes, box office mode offers additional discount tools:
+
+### Custom Discounts
+
+Box office staff with the appropriate permission can apply ad-hoc discounts without a predefined code:
+
+1. Click **Add custom discount** in the checkout
+2. Choose fixed amount (currency icon) or percentage (% icon)
+3. Enter the discount amount
+4. Submit to apply
+
+Custom discounts are separate from discount codes and do not require a code string.
+
+### Box-Office-Only Codes
+
+Discount codes with **Visible in box office** enabled appear in the box office dropdown. You can further restrict visibility to a specific box office role, ensuring only certain staff members see and use particular codes.
+
+## Managing Discount Codes
+
+### Discount Code States
+
+| State | Meaning | How It Happens |
+|-------|---------|----------------|
+| **Active** | Code is usable | Default state, within validity period, under usage limits |
+| **Inactive** | Code cannot currently be used | Validity period hasn't started, has expired, or max uses reached |
+| **Disabled** | Code has been manually deactivated | Admin deleted a code that had existing orders |
+| **Deleted** | Code has been soft-deleted | Admin deleted a code with no existing orders |
+
+### Disabling and Deleting
+
+When you delete a discount code:
+
+- If the code has **no orders**: it is soft-deleted and can be restored
+- If the code **has orders**: it is disabled instead (preserving order history)
+
+Disabled and deleted codes can be restored from the admin list.
+
+### Filtering the List
+
+The discount codes list supports filtering by:
+
+- **Code** — partial text search
+- **Category** — filter by category
+- **Generated** — filter by parent/generated codes
+- **Auto apply** — filter auto-apply codes
+- **Inactive/Disabled** — show or hide by state
+- **Deleted** — show or hide deleted codes
+
+### Exporting and Reporting
+
+The discount code detail page includes **View as Report** and **Export** options. Reports show usage data including order counts, item counts, and discount amounts. For parent codes, reports include data across all child codes.
+
+## Validation Errors
+
+When a discount code cannot be applied, the customer sees one of these messages:
+
+| Scenario | Message |
+|----------|---------|
+| Code does not exist or is disabled | *"This is not a valid discount code."* |
+| Maximum uses reached | *"The maximum number of orders for this discount code has been met."* |
+| Maximum item uses reached | *"The maximum number of item uses for this discount code has been met."* |
+| Per-customer limit reached | *"The maximum number of orders for this discount code has been met for this customer."* |
+| Per-customer item limit reached | *"The maximum number of item uses for this discount code has been met for this customer."* |
+| Per-event limit reached | *"The maximum number of orders for this discount code has been met for this customer for one or more events."* |
+| Per-schedule limit reached | *"The maximum number of orders for this discount code has been met for this customer for one or more event schedules."* |
+| Wrong currency | *"This discount code is not valid for this currency."* |
+| Below minimum spend | *"The minimum spend for this discount has not been met."* |
+| Required items missing | *"Required items are not present in basket for this discount."* |
+| Cross-event violation (multi-buy) | *"Eligible items must be purchased from the same event for this discount."* |
+| No eligible items in basket | *"This discount code does not apply to any items in the basket."* |
+| Wrong shop | *"This discount code cannot be used on this shop."* |
+| Wrong sales channel | *"This discount code cannot be used in this sales point."* |
+| New customer restriction | *"This discount code can only be used on a customer's first order."* |
+| Not in required customer group | *"This discount code requires the customer to be in a specific customer group."* |
+| Outside validity period | *"This discount code is outside of its validity period."* |
+| Must be logged in | *"You must be logged in to use this discount code."* |
+| No customer selected (box office) | *"You must select a customer to use this discount code."* |
+| Not visible in box office | *"This discount code is not available in box office."* |
+
+## Related Pages
 
 - [Access Codes](/core-platform/basket-codes/access-codes)
+- [External Vouchers](/core-platform/basket-codes/external-vouchers)
 - [Customer Groups](/core-platform/customer-management/customer-groups)
 - [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)
+- [Box Office Introduction](/core-platform/box-office/introduction)

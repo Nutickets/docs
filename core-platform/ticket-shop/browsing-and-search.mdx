@@ -1,0 +1,168 @@
+---
+title: "Browsing & Search"
+description: "Configure how customers discover events on the browse page — search, filters, sorting, display views, and event card presentation."
+---
+
+## Overview
+
+The browse page is the main event discovery interface for your ticket shop. Customers land here to search for events, narrow results with filters, and switch between different display views — list, calendar, or map. It is accessed at `/browse` and serves as the central hub where customers find events before selecting tickets.
+
+As an admin, you control nearly every aspect of this experience: which filters are available and which are prominently featured, what sort options customers can use, how many columns the grid displays, and whether calendar or map views are enabled. These settings are configured separately for the public shop and the box office, so each channel can have its own tailored experience.
+
+## Configuring the Browse Page
+
+Browse page settings live in the admin theme editor under the event browse options. The configuration is split into two tabs — **Shop** and **Box Office** — so you can tailor each channel independently.
+
+### General Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Page title** | The heading displayed at the top of the browse page. Supports translations. | "Browse events" |
+| **Page description** | Rich text (WYSIWYG) content shown below the title. Supports translations. | None |
+| **Search bar shape** | Controls the border radius of the search bar | Configurable: none, sm, md, lg, full |
+| **List view columns** | Number of columns in the event grid (1–6) | Varies by theme |
+| **Map sidebar** | Toggles a map panel alongside the list view | Off |
+
+### Enabling Display Views
+
+You can enable or disable three display views. Customers switch between enabled views using toggle buttons at the top of the browse page.
+
+| View | Description | Available in |
+|------|-------------|-------------|
+| **List** | Grid of event cards with configurable columns and optional map sidebar. Supports sorting. | Shop and Box Office |
+| **Calendar** | Interactive date-based view where events are grouped by day with carousel-style date navigation. | Shop only |
+| **Map** | Events plotted on an interactive map, clustered by location. Requires dynamic maps to be enabled. | Shop only |
+
+<Note>
+List view is always available in the box office. Calendar and map views are shop-only features and do not appear in the box office configuration.
+</Note>
+
+## Search
+
+The search bar appears at the top of the browse page with the placeholder text **"Search by event name, tags or venue"**. As a customer types, results appear in real time — there is a short delay (debounce) to avoid excessive requests while typing.
+
+Search results are grouped into categories:
+
+| Category | Max results shown |
+|----------|-------------------|
+| Events | 4 |
+| Tags | 8 |
+| Venues | 4 |
+| Cities | 4 |
+
+Customers can click a result to jump directly to an event page, or click a tag, venue, or city result to apply it as a filter on the browse page. This makes the search bar both a direct navigation tool and a filter entry point.
+
+<Note>
+Outside of the browse page, the search bar uses a broader placeholder — **"Search events by name, venue or artist"** — and provides the same grouped result categories.
+</Note>
+
+## Setting Up Filters
+
+Filters let customers narrow down the event list. You control which filters are available, which ones are pinned (featured prominently above the results), and what default values they start with.
+
+### Pinnable Filters
+
+Pinnable filters can be displayed prominently above the event results, giving customers immediate access without opening a filter panel. You can choose to pin any combination of these.
+
+| Filter | What it does |
+|--------|-------------|
+| **Date range** | A date range picker so customers can filter events to a specific time window |
+| **Venues** | Filter events by venue or location |
+| **Tags** | Filter events by category or type (uses your configured [event tags](/core-platform/event-management/event-tags)) |
+| **Cities** | Filter events by city |
+
+By default, the shop pins **Venues** and **Tags**. The box office pins **Date range**.
+
+### Additional Filters
+
+These filters appear in a dropdown panel and cannot be pinned. Each can be individually enabled or disabled.
+
+| Filter | What it does | Default state |
+|--------|-------------|---------------|
+| **Price** | Filter between free and priced events | Off |
+| **Location** | Filter between online-only and in-venue events | Off |
+| **Past events** | Include events that have already occurred | Off |
+| **Hide unavailable** | Remove sold-out events from results | Off |
+| **Group together** | Collapse recurring events into their schedule, showing one entry per schedule instead of individual dates | Off |
+| **Show liked** | Display only events the customer has liked | Off |
+
+<Note>
+When no events match the active filters, customers see a **"No matching events found"** message with a **Clear filters** button to reset all filters at once.
+</Note>
+
+## Configuring Sort Options
+
+Sorting controls the order events appear in the results. You can enable or disable each sort option per company, and **Upcoming** is always enabled as the default.
+
+| Sort option | Description | Available in |
+|-------------|-------------|-------------|
+| **Upcoming** | Events ordered by start date, soonest first. Always enabled. | Shop and Box Office |
+| **Alphabetical** | Events ordered A–Z by name | Shop and Box Office |
+| **Most Relevant** | Ordered by search match score. Only appears when the customer has an active search query. | Shop and Box Office |
+| **Nearest** | Events ordered by distance from the customer's location (geolocation-based) | Shop only |
+| **Price - Lowest to Highest** | Events ordered by price ascending | Shop only |
+| **Price - Highest to Lowest** | Events ordered by price descending | Shop only |
+
+The sort control displays as a **"Sort by:"** dropdown above the event results.
+
+<Note>
+The box office only supports **Alphabetical** and **Most Relevant** in addition to the always-available **Upcoming** sort. Location and price-based sorts are not available in the box office.
+</Note>
+
+## Event Card Display
+
+Each event in the browse results is presented as a card. Cards always show the event image, event name, start date, tags, and venue with city. Two additional display features can be enabled to enrich the cards.
+
+### Listing Badges
+
+Enable **listing page badges** in your company settings to show real-time availability indicators on event cards:
+
+- **On Sale Now** — displayed when tickets are currently available for purchase
+- **Sold Out** — displayed when all ticket types have sold out
+
+These badges perform real-time stock checks to ensure accuracy.
+
+<Warning>
+Listing badges are automatically disabled when **Performance mode** is enabled, because the real-time stock checks add overhead to page loads. If you are running a high-traffic sale and have enabled Performance mode, badges will not appear regardless of this setting.
+</Warning>
+
+### Price Ranges
+
+Enable **listing price ranges** in your company settings to display the minimum and maximum ticket price on each event card, giving customers a quick sense of cost before they click through.
+
+- Free items can be excluded from the displayed range separately
+- Price ranges are not shown in the box office
+
+<Note>
+Like listing badges, price ranges are automatically disabled when **Performance mode** is active.
+</Note>
+
+## Browsing a Schedule
+
+When a customer navigates to a specific schedule (a recurring event series), the browse page adapts to show only that schedule's events in a focused view:
+
+- The schedule name, date range, and description replace the standard browse page header
+- The results heading changes from **"Results"** to **"Upcoming dates"** or **"Schedule dates"**
+- Filters apply only to events within that schedule
+- The calendar view shows dates specific to the schedule
+
+This gives recurring events a dedicated discovery experience while reusing the same filtering and sorting tools from the main browse page.
+
+## Shop vs Box Office Differences
+
+The shop and box office share the same browse page foundation, but several features are restricted or defaulted differently for the box office.
+
+| Feature | Shop | Box Office |
+|---------|------|-----------|
+| Calendar view | Configurable | Not available |
+| Map view | Configurable | Not available |
+| List view | Configurable | Always available |
+| Pinned filters (default) | Venues, Tags | Date range |
+| Sort options | All six options | Upcoming, Alphabetical, Most Relevant |
+| Price ranges | Configurable | Not available |
+| Nearest sort | Configurable | Not available |
+
+## Related Pages
+
+- [Event Tags](/core-platform/event-management/event-tags) — Create and manage the tags customers use to filter events
+- [Homepage](/core-platform/ticket-shop/homepage) — Configure event listing blocks on shop pages

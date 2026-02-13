@@ -23,7 +23,7 @@ Cancelling an event applies the following changes in a single operation:
 |--------|--------|
 | **Status** | Set to **Cancelled**. |
 | **Off sale** | The event is immediately taken off sale. |
-| **Hidden** | The event is hidden from [event listings](/core-platform/ticket-shop/event-listings) and [search results](/core-platform/ticket-shop/event-search). |
+| **Hidden** | The event is hidden from [event listings](/core-platform/ticket-shop/browsing-and-search) and [search results](/core-platform/ticket-shop/browsing-and-search). |
 | **Audit note** | A timestamped note is added to the event record (e.g. "Cancelled 2025-01-15 14:30:00"). |
 
 ### What Does Not Happen
@@ -65,7 +65,7 @@ On the bulk refunds page, orders where all items for the event have already been
 - **[Payment links](/core-platform/payments/payment-lifecycle)** — Payment links for orders containing items from a cancelled event are blocked and cannot be activated.
 - **Basket links** — Basket links referencing a cancelled event are similarly blocked.
 - **Event dashboard** — The publish, on sale, and off sale actions are removed from the event dashboard once the event is cancelled.
-- **[Event listings](/core-platform/ticket-shop/event-listings)** — The event no longer appears in listings or search results.
+- **[Event listings](/core-platform/ticket-shop/browsing-and-search)** — The event no longer appears in listings or search results.
 - **[Reporting](/core-platform/reporting/fundamentals)** — The cancellation date is recorded and available in event reports. Revenue from unrefunded cancelled items is tracked separately from active sales.
 - **[API](/api-reference)** — The `is_cancelled` attribute is exposed on event responses.
 

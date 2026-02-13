@@ -1,27 +1,113 @@
 ---
 title: "External Vouchers"
-description: "Apply external voucher values in box-office assisted checkout flows."
+description: "Apply third-party voucher discounts during box office checkout using external voucher codes."
 ---
 
 ## Overview
 
-- External vouchers are represented as a dedicated external-voucher discount code type.
-- They are primarily used in box-office workflows where staff applies fixed or percentage reductions from third-party voucher schemes.
-- Voucher records are listed in admin for visibility and auditing.
+External vouchers let box office staff apply discounts from third-party voucher schemes during checkout. When a customer presents a physical or digital voucher from an external provider, the operator enters the voucher code and discount value into the system, and the platform applies it to the order.
 
-## Box Office Flow
+Unlike regular [discount codes](/core-platform/basket-codes/discount-codes), external vouchers:
 
-1. Operator enters external voucher value in box-office checkout.
-2. Platform finds or creates the voucher-backed discount code.
-3. Discount is applied to the active order.
-4. Removing the value clears discount lines from the order.
+- Are only available in **box office mode** — customers cannot apply them through the self-service shop
+- Are created dynamically when first used — staff enter the voucher details, and the system creates or retrieves the matching record
+- Are limited to **one use per order**
+- Replace any previously applied discount code on the order
 
-## Notes
+## Applying an External Voucher in Box Office
 
-- External voucher records are managed as discount-code entities, so standard permission and state controls still apply.
-- Customer-facing self-serve voucher entry uses standard discount-code paths, not the box-office external voucher endpoint.
+1. In the box office checkout, click **Add external voucher code**
+2. Enter the **External voucher code** — the code printed on or associated with the third-party voucher
+3. Optionally select a **Category** from the dropdown if [voucher categories](#voucher-categories) have been configured
+4. Choose the discount type by clicking the toggle:
+   - **Currency symbol** for a fixed amount discount
+   - **%** for a percentage discount
+5. Enter the discount amount
+6. Click the submit button to apply
 
-## Related
+The discount is distributed proportionately across all items in the basket.
+
+<Warning>
+Applying an external voucher removes any discount codes already applied to the order — including other external vouchers and regular discount codes. The new voucher discount replaces them entirely.
+</Warning>
+
+### Removing an External Voucher
+
+To remove an applied external voucher, re-open the external voucher input and submit with an amount of zero. This clears the discount from the order, allowing a different discount to be applied.
+
+## Voucher Types
+
+External vouchers support two discount types:
+
+| Type | Behaviour |
+|------|-----------|
+| **Fixed amount** | Reduces the order by a specific monetary value (e.g. £10 off) |
+| **Percentage** | Reduces the order by a percentage of the total (e.g. 25% off, up to 100%) |
+
+The operator selects the type each time they apply a voucher, matching the terms of the third-party voucher being redeemed.
+
+## Voucher Categories
+
+Categories let you organise external vouchers by their source scheme for tracking and reporting purposes. When categories are configured, a dropdown appears in the external voucher input allowing the operator to tag each voucher with its scheme.
+
+Categories help you:
+
+- Track redemption volumes per third-party voucher programme
+- Report on the total discount value given through each scheme
+- Compare the impact of different voucher partnerships
+
+<Note>
+Categories are optional. If no categories have been configured, the category dropdown does not appear and vouchers are created without a category.
+</Note>
+
+## Managing External Vouchers
+
+External voucher records are listed in the admin under **External voucher codes**. This page shows all voucher codes that have been created through box office usage.
+
+Each entry displays:
+
+- The voucher code
+- Discount type (fixed or percentage)
+- Discount amount
+- Category (if assigned)
+- Usage count
+
+You can filter the list to show or hide deleted vouchers.
+
+<Note>
+External voucher records are stored internally as a type of discount code. The same state controls apply — vouchers that have been used in orders can be disabled but not fully deleted, preserving the order history.
+</Note>
+
+## Reporting
+
+Two dedicated reports provide insight into external voucher usage:
+
+| Report | Purpose |
+|--------|---------|
+| **External Voucher Code Usage** | Shows usage per individual voucher code — including code, type, category, total discounted amount, and total uses |
+| **External Voucher Code Category Usage** | Shows aggregated usage per category — category name, total discounted amount, and total uses |
+
+Use the category report to evaluate the overall impact of each third-party voucher programme, and the code-level report to track individual voucher redemptions.
+
+## Permissions
+
+Box office staff must have the **Box office: Can apply external vouchers** permission to use external vouchers. This is a separate permission from:
+
+- Applying regular discount codes (available to all box office users with discount access)
+- Applying custom discounts (requires the **Box office: Can apply custom discounts** permission)
+
+## How External Vouchers Differ from Discount Codes
+
+| Aspect | Discount Codes | External Vouchers |
+|--------|---------------|-------------------|
+| Created by | Admin, in advance | Box office staff, at point of use |
+| Available in | Shop and/or box office | Box office only |
+| Code entered by | Customer or staff | Staff only |
+| Discount types | Fixed, percentage, Buy X Get Y, multi-buy | Fixed or percentage only |
+| Reusability | Configurable via usage limits | One use per order |
+| When applied | Replaces other discount codes | Removes all other discounts |
+
+## Related Pages
 
 - [Discount Codes](/core-platform/basket-codes/discount-codes)
 - [Box Office Introduction](/core-platform/box-office/introduction)

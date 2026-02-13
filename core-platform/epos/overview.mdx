@@ -1,14 +1,117 @@
 ---
-title: "Overview"
-description: "Documentation for Overview"
+title: "EPOS"
+description: "Sell physical products at events and venues using a mobile point-of-sale system with support for card, cash, and account balance payments."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Overview** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+EPOS (Electronic Point of Sale) lets you sell physical products — food, drinks, merchandise — at events and venues through a dedicated mobile app. Staff use the EPOS Pro app on a phone or tablet to process sales, accept payments, and manage stock in real time.
+
+The system is built around three concepts:
+
+- **Shops** represent physical selling points (a bar, a food stall, a merchandise stand). Each shop has its own product catalogue and assigned staff.
+- **Products** are the items sold within shops — each with its own pricing, stock, and availability settings.
+- **Payment methods** determine how customers pay: card, cash, card terminal, account balance, or complimentary.
+
+EPOS also integrates with the platform's [account balance](/core-platform/epos/custom-currencies) system, allowing customers to pay using preloaded wallet balances via NFC wristbands, cards, or badges.
+
+## How It Works
+
+A typical EPOS setup follows this flow:
+
+1. **Enable EPOS** and configure payment methods and currency in EPOS settings
+2. **Create shops** to represent each physical selling location
+3. **Add products** to each shop with pricing and availability
+4. **Assign staff** to shops so they can log in to the EPOS Pro app
+5. **Staff sell products** using the app, processing payments via card, cash, terminal, or account balance
+
+Orders placed through EPOS flow into the same reporting and transaction infrastructure as online orders, so all sales data is unified.
+
+## Enabling EPOS
+
+EPOS is disabled by default. To enable it:
+
+1. Navigate to **EPOS > EPOS Settings**
+2. Toggle **Enable epos** on
+3. Select an **Epos currency** — this is the currency used for all product pricing in EPOS
+4. Configure the payment and spending options described below
+5. Click **Save**
+
+<Note>
+When you first enable EPOS, a setup guide appears with links to create your first shop and configure top-up items. This guide also appears when you visit the settings page before EPOS is enabled.
+</Note>
+
+## Configuring Payment Methods
+
+The **payment controls** section defines which payment methods are available in the EPOS Pro app. Each method can be independently enabled or disabled, and individual staff members also need the corresponding permission to use each method.
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Enable card payments** | Allow staff to accept card payments directly on their device | Enabled |
+| **Enable card terminal payments** | Allow staff to accept card payments via a connected Stripe card reader | Enabled |
+| **Enable cash payments** | Allow staff to accept cash payments, with change calculation | Enabled |
+| **Enable complimentary payments** | Allow staff to process orders at no charge | Enabled |
+
+<Note>
+Enabling a payment method here makes it available in the app, but each staff member must also have the corresponding permission in their role to use it. This gives you granular control — for example, allowing managers to process complimentary orders while restricting regular staff to card and cash only.
+</Note>
+
+## Balance Spending
+
+If your account has the account balances feature enabled, you can allow customers to pay for EPOS purchases using their preloaded wallet balance. This is common at festivals and events where customers load credit onto a wristband or card and spend it at vendor stalls.
+
+To enable balance spending in EPOS:
+
+1. Toggle **Allow balance spending in epos** on
+2. Select an **authentication mode**
+3. If using NFC, select the **media type** that customers will use
+
+### Authentication Modes
+
+| Mode | How It Works |
+|------|-------------|
+| **NFC** | Staff tap the customer's physical media (wristband, card, badge, etc.) against the device's NFC reader to identify the customer and access their balance |
+| **QR** | Staff scan a QR code displayed by the customer to identify them |
+
+### Media Types
+
+When using NFC authentication, select the physical media type that customers will use. This determines the icon and terminology displayed throughout the app and customer-facing areas.
+
+| Media Type | Description |
+|------------|-------------|
+| **NFC Tag** | A standalone NFC tag |
+| **Card** | An NFC-enabled card |
+| **Wristband** | An NFC wristband — common at festivals |
+| **Badge** | An NFC badge — common at conferences |
+| **Lanyard** | An NFC-enabled lanyard |
+
+<Note>
+The media type selection is cosmetic — it changes labels and icons in the app to match the physical media you're using. All NFC media types function identically.
+</Note>
+
+## Guest Orders
+
+The **Allow guest orders** setting controls whether staff can process sales for customers who are not registered on the platform.
+
+- **Enabled** (default): Staff can sell to anyone without identifying a customer. This is typical for food and drink stalls where speed is more important than tracking individual purchases.
+- **Disabled**: Every sale requires a customer to be identified first (via NFC tag, QR code, or manual lookup). This is useful when all purchases need to be linked to a specific customer account.
+
+## EPOS Currency
+
+When enabling EPOS, you choose the currency used for product pricing. This can be:
+
+- **A standard currency** (GBP, USD, EUR, etc.) — products are priced in real money
+- **A custom currency** (tokens, credits, etc.) — products are priced in a custom denomination that customers purchase via top-ups
+
+When using a custom currency, processing fees are not applicable since transactions are in tokens rather than real money. See [Custom Currencies](/core-platform/epos/custom-currencies) for details on creating and managing custom currencies.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Shops & Products" icon="store" href="/core-platform/epos/shops-products-users">
+    Create shops, add products, assign staff, and manage your selling locations.
+  </Card>
+  <Card title="Custom Currencies" icon="coins" href="/core-platform/epos/custom-currencies">
+    Create token-based currencies for cashless event payments.
+  </Card>
+</CardGroup>

@@ -1,38 +1,135 @@
 ---
 title: "Cash Outs"
-description: "Process wallet cash-outs in admin and ticket shop flows."
+description: "Withdraw funds from a customer's account balance back to the original payment method used to purchase top ups."
 ---
 
 ## Overview
 
-- Cash-outs return wallet balance value back to the customer through refund processing.
-- Cash-outs can be initiated by staff (admin) or by customers (shop) depending on company settings.
-- The platform validates that the requested amount is refundable and available.
+Cash outs allow customers (or staff on their behalf) to withdraw funds from an account balance back to the original payment method. Unlike a standard refund, a cash out specifically targets the balance that was loaded through [top-up purchases](/core-platform/account-balances/top-ups) — the system traces each top up back to its originating order and processes refunds against those transactions.
+
+This means the refundable amount is not simply the current balance — it is limited to the value of unspent top ups that were paid for through eligible payment methods.
+
+## How Cash Outs Work
+
+When a cash out is processed, the system:
+
+1. Identifies the customer's top-up order items that are eligible for refund
+2. Filters them by payment method type (online or offline — see [Online vs Offline](#online-vs-offline) below)
+3. Allocates the requested cash-out amount across those top-up items
+4. Processes a refund for each originating order, returning money to the original payment method
+5. Deducts the cashed-out amount from the customer's account balance
+
+The customer's balance decreases and the funds are returned through the same payment channel they originally used to purchase the top ups.
+
+<Note>
+Cash outs are processed as refunds against the original top-up orders. This means the money goes back to the payment method the customer used when buying the top up — not to a bank account or other destination chosen at cash-out time.
+</Note>
+
+## Enabling Cash Outs
+
+Cash outs require two things to be enabled:
+
+1. The **Account Balances** feature must be active for your company
+2. The **Enable online cash outs** setting must be turned on in **Settings > Payment Settings > Balance settings**
+
+Once enabled, customers can initiate cash outs from their account page in the ticket shop, and admin staff can process cash outs from a customer's wallet page.
+
+## Online vs Offline
+
+Cash outs distinguish between two types based on how the original top ups were paid for:
+
+| Type | Refunds to | When to use |
+|------|-----------|-------------|
+| **Online** | Payment methods used for online top-up purchases (card payments, etc.) | Customer-initiated cash outs from the ticket shop |
+| **Offline** | A wider set of payment methods including those used for in-person top-up purchases | Admin-initiated cash outs from the admin panel |
+
+The **refundable balance** shown for each type may differ because each only considers top ups paid through its respective payment method set. A customer who loaded £50 online and £30 via box office would see a different refundable balance for online vs offline cash outs.
+
+## Customer-Initiated Cash Outs
+
+When cash outs are enabled, customers can withdraw funds from their account page in the ticket shop:
+
+1. The customer navigates to their account page
+2. They click **Cash out** on their balance card
+3. The system calculates the maximum refundable amount based on their online top-up history
+4. The refund is processed against the original top-up orders
+
+Customer-initiated cash outs always use the **online** type, meaning only top ups purchased through online payment methods are eligible.
+
+<Note>
+The **Cash out** button is disabled when the customer's balance is zero. A tooltip message explains: the balance must be greater than zero to cash out.
+</Note>
+
+## Admin-Initiated Cash Outs
+
+Staff can process cash outs on behalf of a customer from the admin panel:
+
+1. Navigate to **Customers** and find the customer
+2. Open their **Account Balance** page
+3. Click **Cash Out** in the quick actions
+4. Select the cash-out type:
+   - **Online** — refunds top ups paid via online payment methods
+   - **Offline** — refunds top ups paid via any payment method (broader eligibility)
+5. Review the **refundable balance** shown for the selected type
+6. Review the **current balance** and **balance after cash out**
+7. Click **Submit** to process the cash out
+
+<Note>
+Admin cash outs require the **cashout wallet transactions** permission. The cash-out panel shows the refundable balance for the selected type — this is the maximum amount that can be cashed out, not the full wallet balance.
+</Note>
+
+## Refundable Balance
+
+The refundable balance is not the same as the current wallet balance. It is calculated as:
+
+> The total value of unspent, unexpired top-up order items paid through eligible payment methods — capped at the current wallet balance.
+
+This means:
+
+- **Only top-up purchases count** — balance added through manual adjustments, complimentary credits, gift vouchers, or transfer-ins is not refundable via cash out
+- **Already-refunded top ups are excluded** — if a top up has already been partially or fully refunded, only the remaining unrefunded portion counts
+- **Expired top ups are excluded** — if a cashout expiry is configured and the top up has passed its expiry window, it is no longer eligible
+- **The current balance is the ceiling** — even if eligible top ups total more than the current balance (because the customer has spent some of it), the refundable amount cannot exceed what is actually in the wallet
+
+## Cashout Expiry
+
+You can set an expiry window on top-up cashout eligibility in **Settings > Payment Settings > Balance settings** under **Account balance cashout topup expiry**.
+
+- After the configured time has elapsed since purchase, a top up can no longer be cashed out
+- If set to zero, top ups remain eligible for cash out indefinitely
+- The expiry only applies to top ups purchased after the setting is configured — it is not applied retroactively
+
+<Note>
+The cashout expiry setting only appears when **Enable online cash outs** is turned on.
+</Note>
 
 ## Validation Rules
 
-Cash-out processing checks:
+Cash outs are rejected if any of the following conditions apply:
 
-- account-balance feature access
-- wallet ownership and permission model
-- company wallet cash-out setting (`cashouts_enabled`)
-- refundable source value from eligible top-up order items
-- current wallet balance ceiling
+| Condition | What happens |
+|-----------|-------------|
+| Cash-out amount is zero | The system does not process zero-amount cash outs |
+| Amount exceeds refundable balance | The requested amount is more than the refundable balance for the selected type (online or offline) |
+| Amount exceeds total unspent top ups | The requested amount is more than the total value of all unspent top ups, regardless of current balance |
+| Balance is zero | The cash-out button is disabled — there is nothing to cash out |
 
-## Online vs Offline Scope
+## Transaction Recording
 
-| Mode | Behaviour |
-|---|---|
-| Online | Restricts source top-ups to online payment transactions. |
-| Offline/Admin | Supports wider payment method sets based on operator action. |
+Each cash out creates transaction records in the customer's wallet history:
 
-## Important Behaviour
+- **Online cash out** — for cash outs of online top-up purchases
+- **Offline cash out** — for cash outs of offline top-up purchases
 
-- If amount is omitted in some staff workflows, the system derives a safe maximum.
-- Cash-out requests that exceed refundable value or available balance are rejected.
-- Cash-outs are executed through refund actions, preserving financial auditability.
+The corresponding top-up order items are updated to reflect the refunded amounts, maintaining a full audit trail from purchase through to cash out.
 
-## Related
+## Related Pages
 
-- [Top Ups](/core-platform/account-balances/top-ups)
-- [Refunds And Cancellations](/core-platform/order-management/refunds-and-cancellations)
+<CardGroup cols={2}>
+  <Card title="Top Ups" icon="circle-plus" href="/core-platform/account-balances/top-ups">
+    Create and manage the top-up items that customers purchase to load funds onto their balance.
+  </Card>
+  <Card title="Self Service Refunds" icon="rotate-left" href="/core-platform/account-balances/self-service-refunds">
+    Allow customers to refund orders to their account balance without staff involvement.
+  </Card>
+</CardGroup>

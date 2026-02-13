@@ -1,30 +1,99 @@
 ---
 title: "Pricing Display"
-description: "Control whether prices are entered and displayed inclusive or exclusive of taxes across customer-facing surfaces."
+description: "Control whether prices are entered and displayed including or excluding tax, and configure all-in pricing to show customers the total cost upfront."
 ---
 
 ## Overview
 
-Pricing display settings determine how prices are shown and interpreted in the platform.
+Pricing display settings determine how prices are entered by administrators and how they appear to customers throughout the ticket shop, checkout, and order details. These settings are configured at the company level and affect all sale items across the platform.
 
-## Primary Controls
+There are two related but distinct controls:
+- **Price input** — whether the prices you enter in the admin area include tax or not.
+- **Price display** — whether prices shown to customers in the shop include tax or not.
 
-| Setting | Purpose |
-|---|---|
-| **Price display** | Controls tax-inclusive vs tax-exclusive display behavior where supported. |
-| **Price input** | Controls whether entered prices are treated as including tax or excluding tax. |
+These settings are found under **Settings > Pricing settings** (requires the advanced tax controls feature).
 
-## Important Constraints
+## Price Input Settings
 
-Some combinations are blocked when specific pricing-display features are enabled. Validate display/input strategy before rolling out large pricing changes.
+The **Price input settings** control determines how the platform interprets the prices you enter when configuring sale items.
 
-## Customer Impact Areas
+| Option | Behaviour |
+|--------|-----------|
+| **Prices including taxes** (default) | The price you enter is the total amount the customer pays. Tax is calculated backwards from this total. For example, if you enter £120 with a 20% tax band, the net price is £100 and the tax is £20. |
+| **Prices excluding taxes** | The price you enter is the net amount before tax. Tax is added on top at checkout. For example, if you enter £100 with a 20% tax band, the customer pays £120. |
 
-- Event and item pricing presentation.
-- Checkout totals and line-item interpretation.
-- Reporting views that expose gross/net/tax breakdown.
+<Note>
+When using [conditional tax bands](/core-platform/tax/conditional-tax-bands), prices are always treated as **excluding tax**, regardless of this setting. This is because the tax rate varies by customer, so it can only be calculated at checkout.
+</Note>
 
-## Related
+## Price Display Settings
 
-- [Tax Bands](/core-platform/tax/tax-bands)
-- [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings)
+The **Price display settings** control determines how prices are presented to customers across the ticket shop.
+
+| Option | Behaviour |
+|--------|-----------|
+| **Prices including taxes** (default) | Customers see the total price inclusive of tax. This is the most common setting for consumer-facing sales. |
+| **Prices excluding taxes** | Customers see the net price, with tax shown separately. This is common in business-to-business (B2B) scenarios. |
+
+<Warning>
+You cannot display prices excluding tax when the [all-in pricing feature](#all-in-pricing) is enabled. The system will show: *"Cannot display prices excluding tax when the display pricing feature is enabled."*
+</Warning>
+
+## How the Two Settings Interact
+
+The combination of price input and price display settings determines the full pricing experience:
+
+| Price Input | Price Display | Effect |
+|------------|---------------|--------|
+| Including taxes | Including taxes | You enter the final price. Customers see that same price. Tax is extracted from the total. |
+| Including taxes | Excluding taxes | You enter the tax-inclusive price. Customers see the price minus tax, with tax shown separately. |
+| Excluding taxes | Including taxes | You enter the net price. Customers see the price plus tax combined. |
+| Excluding taxes | Excluding taxes | You enter the net price. Customers see the net price with tax shown separately. |
+
+## All-In Pricing
+
+All-in pricing is a separate feature that shows customers a single, all-inclusive price that includes the item's base price plus all applicable fees. Rather than seeing the base price and fees listed separately, customers see one combined figure throughout the shop experience.
+
+<Note>
+All-in pricing is a feature-flagged capability. Contact your account manager to enable it for your company.
+</Note>
+
+### How It Works
+
+When all-in pricing is enabled, the platform calculates a **display price** for each sale item by adding the base price and all applicable per-item fees together. This combined price is shown on event listings, item selection, and throughout the shop — giving customers a clear picture of the total cost per item before they reach checkout.
+
+The actual price breakdown (base price, fees, tax) is still tracked internally and appears in order details and reporting. All-in pricing only affects what customers see during the shopping experience.
+
+### Configuration
+
+All-in pricing settings are found under **Settings > Pricing settings** in the **All-in pricing settings** section:
+
+| Setting | Description |
+|---------|-------------|
+| **Include per-order fees** | When set to **Include**, fees that are applied once per order will be factored into each item's display price. When set to **Exclude**, only per-item fees are included. |
+
+<Note>
+Changing all-in pricing settings triggers a background recalculation of display prices for all items in your account. It may take a few minutes to see the changes reflected in the shop.
+</Note>
+
+### Limitations
+
+- All-in pricing **cannot be enabled alongside conditional tax bands**. These features are mutually exclusive.
+- All-in pricing **requires prices to be displayed including taxes**. If your company displays prices excluding tax, you cannot enable all-in pricing. You will see: *"Cannot enable display pricing when company displays tax exclusive pricing."*
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Tax Bands" icon="percent" href="/core-platform/tax/tax-bands">
+    Create and manage the tax rates applied to sale items.
+  </Card>
+  <Card title="Conditional Tax Bands" icon="globe" href="/core-platform/tax/conditional-tax-bands">
+    Apply different tax rates based on the customer's country.
+  </Card>
+  <Card title="Advanced Tax Settings" icon="gear" href="/core-platform/tax/advanced-tax-settings">
+    Configure tax calculation methods and VAT number collection.
+  </Card>
+  <Card title="Sale Item Fees" icon="receipt" href="/core-platform/fees/sale-item-fees">
+    Understand how fees work with pricing display.
+  </Card>
+</CardGroup>

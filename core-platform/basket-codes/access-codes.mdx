@@ -1,37 +1,276 @@
 ---
 title: "Access Codes"
-description: "Gate visibility and eligibility for events, items, and sale items with controlled access codes."
+description: "Control who can see and purchase specific items by distributing unique access codes that unlock restricted inventory."
 ---
 
 ## Overview
 
-- Access codes are basket-entry codes used to unlock restricted inventory.
-- Codes can target events, schedules, inventory items, or specific sale items.
-- Access codes support parent/child generation patterns for campaign-style distribution.
+Access codes let you restrict items so they are only visible and purchasable by customers who enter a valid code. When a customer enters an access code, the items linked to that code appear in the shop. Without the code, those items remain hidden.
 
-## Core Behaviour
+This is useful when you need to:
 
-| Area | Behaviour |
-|---|---|
-| Visibility gating | Codes can hide unrestricted items and only reveal eligible inventory |
-| Scope assignment | Can be linked to events, schedules, items, and sale items |
-| Lifecycle | Codes can be active, inactive, disabled, soft-deleted, then restored |
-| Analytics | Usage and orders are tracked for reporting/export |
+- Release items to a specific group before general availability (presale codes)
+- Offer exclusive items that only certain customers should see (VIP packages, partner allocations)
+- Stagger item availability across different audiences using separate codes
+- Gate access to specific events, schedules, or individual sale items
 
-## Parent and Child Codes
+<Note>
+Access codes must be enabled on your account. If you do not see **Access Codes** in your admin navigation, contact your account manager to enable this feature.
+</Note>
 
-- Parent codes can generate child code sets.
-- Child activity is trackable (uses, orders, state).
-- Restoring a deleted code validates collisions to avoid duplicates.
+## Use Cases
 
-## Administration
+<Accordion title="Presale access for loyalty members">
+  Create an access code linked to early-bird sale items and distribute it to your loyalty mailing list. Set a **Valid from** and **Valid to** date to control the presale window. Once the presale period ends, you can release the same items to the general public by removing the access code restriction.
+</Accordion>
 
-- Managed from **Access Codes** in admin.
-- Includes filtering by active/inactive/disabled/deleted state.
-- Supports CSV import via data-import workflows.
+<Accordion title="Partner allocations">
+  Generate [child codes](#generating-child-codes) with unique codes for each distribution partner. Each partner receives their own code linked to the same inventory. Use **Maximum uses** to cap each partner's allocation, and track redemptions through the [access code usage report](#reporting).
+</Accordion>
 
-## Related
+<Accordion title="VIP or invite-only items">
+  Link an access code to exclusive packages or premium experiences. Enable **Hide unrestricted items** so that when VIP customers enter their code, they see only the exclusive inventory — not the general catalogue.
+</Accordion>
+
+<Accordion title="Phased availability across audiences">
+  Create multiple access codes with staggered validity periods. The first code unlocks items during week one, a second code during week two, and so on. Each audience receives their own code and window.
+</Accordion>
+
+## How Access Codes Work
+
+An access code controls item visibility through a simple mechanism:
+
+1. You create an access code and link it to specific items, events, or schedules
+2. Those linked items are hidden from customers who haven't entered the code
+3. When a customer enters a valid code, the linked items become visible and purchasable
+4. Items that are not linked to any access code remain visible to all customers by default
+
+Only one access code can be active per customer session. Entering a new code replaces the previous one.
+
+### Visibility Settings
+
+Two settings control how item visibility changes when an access code is entered:
+
+| Setting | Effect |
+|---------|--------|
+| **Hide unrestricted items** | When enabled, items that are *not* restricted by any access code are hidden when this code is active. The customer sees only the items linked to their code. |
+| **Hide restricted items after validity period** | When enabled, items linked to this code are hidden after the code's validity period expires, even if the code was previously entered. |
+
+<Note>
+**Hide unrestricted items** is useful for scenarios where you want the access code to act as a filter — showing only the specific items allocated to that code holder, rather than adding items to the existing catalogue.
+</Note>
+
+## Creating an Access Code
+
+1. Navigate to **Access Codes** in the admin
+2. Click **Create new access code**
+3. Enter a **Code** — this is what customers will type. It must contain only letters, numbers, dashes, or underscores (no spaces).
+4. Optionally enable **Hide unrestricted items** if you want non-restricted items to be hidden when this code is active
+5. [Assign items](#assigning-items-to-an-access-code) the code should unlock
+6. Click **Submit**
+
+<Note>
+Each code must be unique within your company. If you attempt to restore a deleted code and another code with the same string already exists, the restore will be blocked to prevent duplicates.
+</Note>
+
+## Assigning Items to an Access Code
+
+The **Applied to** section controls which items the code unlocks. Click **Add item** and choose from:
+
+| Scope | Effect |
+|-------|--------|
+| **Inventory items** | Restricts specific base inventory items |
+| **Sale items** | Restricts specific sale items (product-timeslot combinations) |
+| **Events** | Restricts all items for the selected events |
+| **Schedules** | Restricts all events within the selected schedules |
+
+Each assigned item appears as a card showing its name, type badge, and associated event details. Remove an item by clicking the delete icon on its card.
+
+When no items are assigned, the access code does not restrict any inventory — it effectively does nothing until items are linked.
+
+<Note>
+If you operate a parent company with child company shops, access codes assigned to items at the parent level will **not** restrict access to those items via a child company shop.
+</Note>
+
+## Configuring Eligibility Settings
+
+Eligibility settings control when and how many times a code can be used. On the access code detail page, click **Add new condition** to enable any of the following:
+
+| Setting | Purpose |
+|---------|---------|
+| **Hide restricted items after validity period** | Hides the code's linked items after the validity period expires |
+| **Maximum uses** | Caps total uses across all customers (e.g. limit to 100 redemptions) |
+| **Maximum uses per customer** | Caps how many times a single customer can use the code |
+| **Valid from** | The earliest date and time the code can be used |
+| **Valid to** | The latest date and time the code can be used |
+
+Each condition can be independently enabled or disabled. When no eligibility settings are configured, the code can be used unlimited times with no time restrictions.
+
+## Generating Child Codes
+
+For scenarios where you need to distribute many unique codes that share the same configuration — such as individual partner codes or one-time-use codes — you can generate child codes from a parent.
+
+### How Parent and Child Codes Work
+
+- The **parent code** acts as a template. It holds all the configuration (assigned items, eligibility settings, visibility options) but cannot itself be used by customers.
+- **Child codes** are randomly generated unique codes that inherit all settings from the parent. These are the codes you distribute.
+- Updating the parent's settings automatically syncs changes to all child codes.
+
+### Creating Child Codes
+
+1. Open the access code detail page
+2. Click **Add children**
+3. Enter the **Number of access codes** to generate (between 2 and 10,000)
+4. Optionally enter a **Prefix** (e.g. `VIP-`) that will be prepended to each generated code
+5. Click **Submit**
+
+Child codes are generated in the background. The page shows the sync status while processing.
+
+<Note>
+You cannot add children to an access code that has already been used in an order. Create a new parent code instead.
+</Note>
+
+### Managing Child Codes
+
+The parent code detail page displays children in four tabs by status:
+
+| Tab | Contents |
+|-----|----------|
+| **Active** | Child codes currently usable |
+| **Inactive** | Codes outside their validity period or with maximum uses reached |
+| **Disabled** | Codes that have been manually disabled |
+| **Deleted** | Soft-deleted codes that can be restored |
+
+## Enabling the Access Code Input
+
+Customers need an input field to enter their access code. This can be enabled at two levels:
+
+### Per-Event
+
+On the event dashboard, find the **Show access code input** section:
+
+- Set to **Visible** to show the access code input on that event's page
+- Set to **Hidden** to hide it
+
+### Globally
+
+To enable the access code input across the entire shop:
+
+1. Open the access code settings (accessible from the access codes admin page)
+2. Enable **Show access code input**
+
+<Note>
+Even when the global setting is disabled, access codes can still be entered on individual event pages where the per-event toggle is enabled.
+</Note>
+
+## Entering an Access Code
+
+When the access code input is enabled, customers see it as an option on the event page or shop. The flow is:
+
+1. Customer clicks the access code input
+2. A modal appears with the prompt: *"If you have an access code, please enter it in the box below to unlock additional items."*
+3. Customer types their code and submits
+4. If valid: restricted items linked to the code become visible. A confirmation message appears: **Access Code Applied**.
+5. If invalid: an error message is shown (see [Error Messages](#error-messages))
+
+### Removing an Access Code
+
+Customers can remove an applied access code by clicking the remove button in the access code modal. A warning is shown: *"Removing an access code may remove associated items from your basket"*.
+
+When a code is removed:
+
+- Items restricted to that code are hidden again
+- Any restricted items already in the basket may be removed
+
+## Access Code URL
+
+Each access code has a shareable URL that automatically applies the code when a customer visits. The URL is displayed on the access code detail page with a **Copy** button. This allows you to distribute access codes as direct links rather than requiring customers to type the code manually.
+
+## Managing Access Codes
+
+### Access Code States
+
+| State | Meaning | How It Happens |
+|-------|---------|----------------|
+| **Active** | Code can be used | Default state when within validity period and under usage limits |
+| **Inactive** | Code cannot currently be used | Validity period hasn't started, has expired, or maximum uses reached |
+| **Disabled** | Code has been manually deactivated | Admin deleted a code that had existing orders |
+| **Deleted** | Code has been soft-deleted | Admin deleted a code with no existing orders |
+
+### Disabling and Deleting
+
+When you delete an access code:
+
+- If the code has **no orders**: it is soft-deleted and can be restored
+- If the code **has orders**: it is disabled instead (to preserve order history)
+
+### Restoring
+
+Disabled codes can be re-enabled from the detail page by changing the status to **Enabled**.
+
+Deleted codes can be restored from the admin list (filter to show deleted codes). If another code with the same code string already exists, the restore will fail to prevent duplicates.
+
+### Filtering the List
+
+The access codes list supports filtering by:
+
+- **Code** — partial text search
+- **Parents** — show only, hide, or show all
+- **Inactive** — show only or hide
+- **Disabled** — show only or hide
+- **Deleted** — show only, show alongside active, or hide
+
+## Importing Access Codes
+
+Access codes can be imported via CSV through the data import workflow. Available fields:
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `code` | Yes (unless updating) | Alphanumeric, dashes, underscores only |
+| `parent` | No | Parent code ID or code string |
+| `number_of_child_access_codes` | If parent specified | Between 2 and 10,000 |
+| `child_code_prefix` | No | Max 20 characters |
+| `maximum_number_of_uses` | No | Minimum: 1 |
+| `max_uses_per_customer` | No | |
+| `valid_from` | No | Format: `YYYY-MM-DD HH:MM:SS` |
+| `valid_to` | No | Must be after `valid_from` |
+| `hide_unrestricted_items` | No | |
+| `hide_restricted_items_after_validity_period` | No | |
+| `sale_item_ids` | No | Comma-separated IDs |
+| `event_ids` | No | Comma-separated IDs |
+| `schedule_ids` | No | Comma-separated IDs |
+| `item_ids` | No | Comma-separated IDs |
+
+For more details, see [Data Imports](/core-platform/data-imports/introduction).
+
+## Reporting
+
+The **Access Code Usage Report** provides insight into how codes are being used. Available data includes:
+
+- Code and code string
+- Total uses (unique orders)
+- Maximum uses and per-customer limits
+- Validity period
+- Associated items, events, and schedules
+- Number of child codes
+
+Reports can be filtered by code, events, and sale items. For parent codes with children, the report link on the detail page automatically filters to show the parent and all its children.
+
+## Error Messages
+
+When a customer enters an invalid or ineligible access code, they see one of these messages:
+
+| Scenario | Message |
+|----------|---------|
+| Code does not exist, is disabled, or is deleted | *"This is not a valid access code."* |
+| Global maximum uses reached | *"The maximum uses for this access code has been met."* |
+| Per-customer maximum uses reached | *"The maximum uses for this access code has been met for the customer"* |
+| Code is outside its validity period | Same as invalid code message |
+| Parent code entered (has children) | Same as invalid code message |
+
+## Related Pages
 
 - [Discount Codes](/core-platform/basket-codes/discount-codes)
 - [External Vouchers](/core-platform/basket-codes/external-vouchers)
 - [Data Imports](/core-platform/data-imports/introduction)
+- [Sale Items Core Concepts](/core-platform/sale-items/core-concepts)

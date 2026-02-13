@@ -1,0 +1,96 @@
+---
+title: "Discounts and Overrides"
+description: "Apply staff discounts, external voucher codes, and selectively bypass checkout validations during box office sales."
+---
+
+## Overview
+
+Box office mode provides additional tools for managing pricing and checkout rules that are not available in the public shop. Staff can apply manual discounts, use external voucher codes, and — with the right permissions — bypass validation rules that would normally prevent a sale.
+
+## Staff Discounts
+
+Staff with the **Box office: Can apply custom discounts** permission can apply manual discounts to any box office order. These discounts are applied during checkout and distributed proportionately across all items in the basket.
+
+The checkout displays a discount section with the help text: **"You can apply an arbitrary discount to this order as you are purchasing in box office mode. Entering a manual discount will remove any discount codes already applied and the amount will be distributed proportionately across any items in the basket."**
+
+### Applying a Discount
+
+1. During checkout, locate the **Box Office discount** section
+2. Enter either:
+   - A **fixed amount** (e.g. £5.00 off)
+   - A **percentage** (e.g. 10% off)
+3. The discount is applied to the basket total
+
+The system creates a dynamic discount code behind the scenes (visible in reporting as codes like `BOX-OFFICE-5%` or `BOX-OFFICE-5.50`) — staff don't need to remember or enter a code.
+
+### Discount Rules
+
+- Only one discount can be applied to a basket at a time
+- Applying a new discount replaces any existing discount
+- Entering an empty value removes the current discount
+- Staff discounts are not available on orders with deferred payment methods (payment links, invoices)
+
+## External Voucher Codes
+
+Staff with the **Box office: Can apply external vouchers** permission can apply external voucher codes during checkout. The checkout displays: **"You can apply an external voucher code as you are purchasing through box office. Entering an external voucher code will remove any discount codes already applied and the amount will be distributed proportionately across any items in the basket."**
+
+External voucher codes work the same way as staff discounts but are typically provided by the customer (e.g. a promotional code from a partner).
+
+## Discount Code Visibility
+
+Regular discount codes (not staff discounts) can be configured to appear in box office. Each discount code has visibility settings that control where it can be used:
+
+| Visibility Setting | Effect |
+|--------------------|--------|
+| **Visible in Box Office** | The discount code appears in the box office discount dropdown for all staff. **"Visible to all users in box office"** |
+| **Visible in box office to users with [role] role** | The discount code only appears for staff with a specific role |
+| **Not visible in box office** | The code is hidden in box office. If staff try to apply it manually, they see: **"This discount code is not available in box office."** |
+
+This allows you to restrict promotional codes to the public shop while keeping internal codes available only in box office, or limit sensitive discount codes to specific staff roles.
+
+## Validation Bypass Permissions
+
+Box office supports granular permissions that allow staff to bypass specific checkout validations. This is useful for handling edge cases — for example, selling a ticket past its on-sale date for a late-arriving customer, or overselling an event when you know additional capacity is available.
+
+Each bypass is controlled by a separate permission:
+
+| Permission | What It Bypasses |
+|------------|-----------------|
+| **Ignore box office validation: Oversell** | Allows selling beyond the available stock |
+| **Ignore box office validation: Data capture** | Allows skipping mandatory data capture fields |
+| **Ignore box office validation: On-sale dates** | Allows selling items outside their on-sale window |
+| **Ignore box office validation: Min & max order quantity** | Allows orders that fall outside minimum or maximum quantity rules |
+| **Ignore box office validation: Forced minimum order quantity** | Allows ordering fewer than the forced minimum quantity |
+| **Ignore box office validation: Must purchase in multiples of** | Allows ordering quantities that don't match the required multiple |
+| **Ignore box office validation: Limit item purchases (per customer)** | Allows exceeding per-customer purchase limits |
+| **Ignore box office validation: Must be purchased with other items** | Allows purchasing items that normally require companion items |
+| **Ignore box office validation: Must book entire table, not individual seats** | Allows booking individual seats when full table booking is required |
+| **Ignore box office validation: Min/Max event team size** | Allows team registrations outside the required team size |
+
+### Purchase Limit Warnings
+
+When an order includes items with purchase limits, the checkout displays a warning to ensure staff are aware of the restrictions:
+
+- **Without bypass permission:** **"The following items have purchase limits:"** — staff cannot proceed past the limit
+- **With bypass permission:** **"The following items have purchase limits which you can bypass whilst in box office mode:"** — staff can choose to proceed
+
+A reminder also appears on the confirmation step: **"There are items included on this order that have purchase limit restrictions, or mandatory transfer requirements."** — or, when bypasses are available: **"There are items included on this order that have purchase limit restrictions, or mandatory transfer requirements. These restrictions are optionally applied by you in box office mode."**
+
+<Note>
+Bypassing a validation does not remove the restriction — it allows the specific order to proceed despite the restriction. The validation continues to apply to all other orders. A notice on the completed order records that: **"Some validation rules that would usually fail for a normal, non-box office checkout were skipped."**
+</Note>
+
+### Overselling
+
+When stock is oversold through box office, the event dashboard shows a negative stock count with the note: **"A negative stock indicates the event has been oversold through the boxoffice."**
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Checkout Flow" icon="cart-shopping" href="/core-platform/box-office/checkout-flow">
+    Customer assignment and the modified checkout process
+  </Card>
+  <Card title="Payment Methods" icon="credit-card" href="/core-platform/box-office/payment-methods">
+    Available payment methods in box office
+  </Card>
+</CardGroup>

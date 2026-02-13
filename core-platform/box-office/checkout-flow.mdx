@@ -1,0 +1,141 @@
+---
+title: "Checkout Flow"
+description: "How the box office checkout differs from the public shop — including customer assignment, order source selection, named ticket holders, and confirmation email settings."
+---
+
+## Overview
+
+The box office checkout follows the same general structure as the public shop checkout, with several modifications designed for staff-assisted sales. Some steps are added (customer assignment, order source), some are skipped (billing address), and others behave differently based on box office settings.
+
+| Step | Public Shop | Box Office |
+|------|-------------|------------|
+| **Customer assignment** | Not applicable — the logged-in user is the customer | Configurable step where staff assign a customer, enter a name, or continue without one |
+| **Order source** | Always "Website" | Staff select **Counter**, **Telephone**, or **Third Party** |
+| **Billing address** | Collected from the customer | Automatically skipped |
+| **Named ticket holders** | Shown if configured for the event | Shown if configured for box office on the event |
+| **Data capture** | All mandatory fields required | Can be bypassed with appropriate permissions |
+| **Confirmation emails** | Always sent | Can be disabled company-wide for box office orders |
+
+## Customer Assignment
+
+The customer assignment step is the most significant difference in the box office checkout. It determines who the order is associated with and controls what information is collected.
+
+### Guest Checkout Settings
+
+The **Enable box office guest checkout** company setting controls how customer assignment works. The help text reads: **"Guest checkout lets box office users complete purchases faster. You can also request only a name, keeping tickets linked to individuals when email or full account details aren't available."**
+
+| Setting | Behaviour |
+|---------|-----------|
+| **Guest checkout enabled** | Staff can complete purchases without assigning a customer. Items are purchased under the staff member's account. This is the fastest mode for walk-up sales. |
+| **Allow customer name only** | Staff must enter at least a customer name, but an email address is optional. Useful when selling to customers who don't have or don't want to provide an email. |
+| **Require customer** | Staff must provide both a name and email address, creating or selecting a full customer record. Required for features like e-wallet payments and account balances. |
+
+<Note>
+Regardless of the guest checkout setting, a full customer record is always required when the basket contains wallet top-up items, or when certain integrations are active (such as fiscal reporting integrations that require customer details). When this applies, the checkout displays: **"The current basket contains a topup. To ensure the topup funds are assigned to the correct account please select a customer account."**
+</Note>
+
+### Assigning a Customer
+
+When the customer assignment step appears, staff have several options:
+
+**Search for an existing customer:**
+1. Start typing a name or email in the **Customer name or email** field
+2. Select a matching customer from the suggestions dropdown
+3. The customer's details are populated automatically
+
+**Create a new customer:**
+1. Enter the customer's name
+2. Click **Create new customer record**
+3. Enter the customer's email address
+4. The system creates the customer account and assigns them to the order
+
+**Enter a name only** (when the setting allows it):
+1. Enter the customer's name in the name field
+2. Click **Continue without email**
+3. The order is linked to the name but no customer account is created
+
+The order displays **"Box Office User"** when no customer is assigned. Once a customer is set, their name and email appear in the checkout header.
+
+### Continuing as the Box Office User
+
+If guest checkout is enabled, staff can skip customer assignment entirely by clicking **Check out as box office user / myself ([name])**. The checkout information notes: **"Items will be purchased under your name and no confirmation email will be issued. You can print tickets directly, change the purchaser or transfer individual tickets after the sale."**
+
+<Note>
+When purchasing as the box office user, e-wallet payments are not available, balance spending is disabled, and gift voucher redemption is blocked. These features require a customer to be assigned. The system displays: **"You must select a customer before redeeming a gift voucher"** if staff attempt to redeem a voucher without a customer.
+</Note>
+
+### Removing or Changing a Customer
+
+After assigning a customer, staff can:
+
+- Click **Edit** to change to a different customer
+- Click **Remove customer** to revert to the box office user
+- Click the **X** next to the customer name to remove just the name (when in name-only mode)
+
+<Note>
+During an order modification in box office, the customer cannot be changed. The system displays: **"You cannot change the customer during box office order modification."**
+</Note>
+
+## Order Source
+
+On the checkout confirmation step, staff select how the order was received:
+
+| Source | Icon | When to Use |
+|--------|------|-------------|
+| **Counter** | Shop | Walk-up sales at the box office counter (default) |
+| **Telephone** | Phone | Orders taken over the phone |
+| **Third Party** | People | Orders placed through a third party |
+
+The order source is recorded for reporting purposes and appears on the order details in the admin panel.
+
+## Named Ticket Holders
+
+If an event has ticket naming enabled for box office, a step appears during checkout where staff can assign an attendee name to each ticket. This is controlled by per-event settings:
+
+| Setting | Effect |
+|---------|--------|
+| **Can be modified in box office** | The naming step appears during box office checkout |
+| **Mandatory in box office** | Staff must enter a name for every ticket before completing checkout |
+
+When naming is optional, staff can skip it and assign names later. When mandatory, the checkout displays: **"Please enter a name for each ticket"** and blocks completion until all tickets are named.
+
+The **Box office ticket renaming** feature setting controls this globally: **"Allow box office users to assign attendee names to each ticket during checkout without the need for transferring."**
+
+<Note>
+Named ticket holders and customer assignment are separate features. A customer is the person who purchases the order. Named holders are the individual attendees assigned to each ticket — they may or may not be the same person as the customer.
+</Note>
+
+## Billing Address
+
+The billing address step is automatically skipped in box office mode. This streamlines the checkout for in-person sales where collecting a billing address is unnecessary.
+
+## Data Capture
+
+Customer data capture questions that are configured for the event still appear in box office checkout. However, if the order is being purchased as the box office user (no customer assigned), the customer data capture step is skipped — the staff member's profile should not be modified with customer information.
+
+When a customer is assigned, data capture works normally. Staff with the **Ignore box office validation: Data capture** permission can bypass mandatory data capture fields.
+
+## Confirmation Emails
+
+By default, order confirmation and reservation emails are sent for box office orders, just as they are for online orders. This can be disabled:
+
+1. Navigate to **Company Settings**
+2. Enable **Disable order and reservation confirmation emails in box office**
+
+The help text reads: **"This disables the order confirmation and reservation emails sent when completing a checkout within box office. You will still be able to manually send confirmation emails to customers when viewing an order in admin, or via the event dashboard."**
+
+When this setting is enabled, a notice confirms: **"Box office order confirmation and reservation emails will not be sent"**. When disabled: **"Box office order confirmation and reservation emails will be sent"**.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods" icon="credit-card" href="/core-platform/box-office/payment-methods">
+    Available payment methods and gateway configuration for box office
+  </Card>
+  <Card title="Discounts and Overrides" icon="percent" href="/core-platform/box-office/discounts-and-overrides">
+    Staff discounts, voucher codes, and validation bypasses
+  </Card>
+  <Card title="After the Sale" icon="clipboard-check" href="/core-platform/box-office/after-the-sale">
+    Post-sale actions including renaming orders and assigning customers later
+  </Card>
+</CardGroup>

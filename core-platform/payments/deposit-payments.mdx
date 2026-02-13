@@ -1,38 +1,142 @@
 ---
 title: "Deposit Payments"
-description: "Collect an initial deposit now and defer remaining balance payment to a later step."
+description: "Allow customers to pay a percentage of their order up front and settle the remaining balance before a deadline."
 ---
 
 ## Overview
 
-Deposit payments allow customers to confirm an order by paying only part of the total up front, then settle the remaining balance later.
+Deposit payments let customers confirm an order by paying only a portion of the total up front, with the remaining balance due at a later date. This is useful for high-value orders where customers may not want to pay the full amount immediately, or where organisers want to secure bookings while giving customers time to pay.
 
-## How It Works
+When a customer chooses the deposit option at checkout, they pay a percentage of the order total (plus applicable fees) and receive a confirmation with details of their outstanding balance and payment deadline.
 
-1. A deposit payment plan is selected for the checkout.
-2. The system calculates **total due today**.
-3. The order is created with an outstanding balance.
-4. Remaining balance is collected later using a remaining-balance payment context.
+<Note>
+Deposit payments is a feature that must be enabled for your company. The settings appear in **Settings > Payment** when available.
+</Note>
 
-## Calculation Behavior
+## Configuring Deposit Payments
 
-- If deposit mode is active and order is eligible, due-today uses the generated deposit amount.
-- Tax for deposit payments is proportioned relative to the amount collected now.
-- For later payments, unpaid tax is used to prevent over-allocation.
+Deposit settings are managed from **Settings > Payment** in the **Deposit payments** section.
 
-## Important Constraints
+### Enabling Deposits
 
-- Manual invoice payment methods are not available during deposit or remaining-balance payment flows.
-- Split payments can still be used for the amount due today where enabled.
+Enable deposits separately for each channel:
 
-## Operational Guidance
+| Toggle | Effect |
+|--------|--------|
+| **Enable in box office** | Deposit payment plans are available for box office sales |
+| **Enable in shop** | Deposit payment plans are available for customer checkout |
 
-- Keep customer comms clear on due dates and outstanding balance.
-- Monitor orders in awaiting-payment style statuses until final settlement.
-- Test gateway and reminder behavior for both deposit and balance payment stages.
+### Deposit Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Deposit percentage** | The percentage of the order total the customer pays up front. Set the initial payment amount relative to the full amount. |
+| **Minimum order amount** | Orders below this value will not have the deposit option available. Configured per currency — when set to 0 for a currency, deposits are not available for orders in that currency. |
+| **Payment deadline before the event** | How long before the event starts the remaining balance must be paid. Can be set in hours, days, or weeks. Changing this deadline does not affect existing deposits. |
+
+### Deposit Terms and Notifications
+
+From the deposit settings panel you can also configure:
+
+- **Deposit terms & conditions** — the terms shown to customers when they select a deposit payment plan at checkout. Edit these by clicking **Edit terms & conditions**.
+- **Deposit received email** — the confirmation email sent to customers after their deposit is collected. Edit the template by clicking **Edit deposit confirmation email**.
+
+<Warning>
+Initial deposit payments and any fees included as part of the deposit are non-refundable.
+</Warning>
+
+## How Deposits Work at Checkout
+
+When deposit payments are enabled and the order is eligible, customers see a payment plan choice during checkout:
+
+| Option | What the customer pays |
+|--------|----------------------|
+| **Pay in full** | The complete order total, charged immediately |
+| **Deposit** (e.g. "20% Deposit") | The deposit amount (percentage of total plus fees) now, with the remaining balance due later |
+
+When the customer selects the deposit option, the checkout displays:
+- The deposit amount with a **Now** label
+- The remaining balance with a **Later** label
+- The deposit terms and conditions
+
+After completing the deposit payment, the customer receives a deposit received email confirming their payment and detailing the outstanding balance and deadline.
+
+## How the Deposit Amount Is Calculated
+
+The deposit amount is calculated as:
+
+**Deposit = (order total excluding fees) x deposit percentage + fees**
+
+Fees (booking fees, processing fees) are always included in full with the deposit payment — they are not split proportionally. This means the customer pays all fees up front as part of the deposit.
+
+The deposit amount is capped to ensure it makes sense relative to the order total — if the calculated deposit would be less than the fees alone, or would exceed 80% of the total, the deposit option is not offered.
+
+<Note>
+Tax for deposit payments is proportioned relative to the amount collected. When the remaining balance is paid later, unpaid tax from the deposit is allocated to the balance payment to prevent over- or under-collection.
+</Note>
+
+## Order Status After Deposit
+
+After the deposit is paid:
+
+1. The order status changes to **Partially paid**
+2. The customer receives a deposit received email
+3. The order tracks the outstanding balance
+4. The customer must return and pay the remaining balance before the deadline
+
+The customer can pay their remaining balance by returning to their order and completing payment using any available payment method.
+
+## Eligibility
+
+An order is eligible for deposit payment only when all of the following conditions are met:
+
+| Condition | Detail |
+|-----------|--------|
+| Deposits are enabled | Enabled for the relevant channel (shop or box office) in your deposit settings |
+| Order meets minimum value | The order total is at or above the minimum order amount for the order's currency |
+| Deposit percentage is configured | A deposit percentage greater than 0% has been set |
+| Deposit amount is sensible | The calculated deposit is not less than the fees and does not exceed 80% of the total |
+| Not a modified order | Order modifications cannot use deposit payment |
+| Deadline not passed | The event has not already passed the payment deadline |
+| Not a third-party order | Orders placed through third-party integrations cannot use deposit payment |
+
+If any condition is not met, the deposit option does not appear at checkout — only **Pay in full** is available.
+
+## Remaining Balance Payment
+
+When a customer returns to pay their remaining balance:
+
+- The payment uses a **remaining balance** context, which is distinct from the original deposit transaction
+- Any available payment method can be used for the remaining balance (card, cash, account balance, etc.)
+- Split payments can be used for the remaining balance if enabled
+- Invoice/manual payment methods are **not** available for remaining balance payments
+
+Once the remaining balance is paid, the order status changes from **Partially paid** to **Complete** and the full order confirmation is sent.
+
+<Note>
+If the remaining balance is not paid by the deadline, the reservation may be cancelled and the reserved items released for general sale. The initial deposit is forfeited.
+</Note>
+
+## Deposit Terms
+
+The default deposit terms inform the customer:
+
+> The deposit is a non-refundable part of the total purchase price, and the remaining balance must be cleared before the due date. Failure to pay the remaining balance by the deadline will result in the cancellation of the reservation, the release of the reserved items for general sale, and the forfeiture of the deposit.
+
+You can customise these terms from the deposit settings panel. The terms are displayed to the customer at checkout when they select the deposit payment plan.
+
+## Restrictions
+
+- Deposits cannot be refunded — only the remaining balance payment is eligible for refunds
+- Fees included in the deposit are also non-refundable
+- Invoice/manual payment is not available during deposit or remaining balance flows
+- Order modifications cannot use deposit payment
+- Self-serve refunds are not available for deposit orders — customers must contact the organiser for refund requests
+- The delivery method cannot be changed after a deposit has been paid
 
 ## Related
 
+- [Introduction](/core-platform/payments/introduction)
 - [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Split Payments](/core-platform/payments/split-payments)
 - [Invoice Payments](/core-platform/payments/invoice-payments)
-- [Order Management Core Concepts](/core-platform/order-management/core-concepts)

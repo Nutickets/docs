@@ -1,30 +1,140 @@
 ---
 title: "Pages"
-description: "Create listing pages and page URLs that act as the core CMS page layer for the ticket shop."
+description: "Build custom landing pages for your ticket shop using composable content blocks, flexible header layouts, and SEO controls."
 ---
 
 ## Overview
 
-- CMS pages are managed as **listings** with their own URL, metadata, and block composition.
-- Listings can include event, article, and template blocks.
-- Listing pages support preview links and visibility controls.
+Pages are the foundation of your ticket shop's content. Each page has its own URL, header layout, and content — assembled from reusable [blocks](/core-platform/cms/blocks) that display events, articles, or custom template content.
 
-## Page Fields
+Every company starts with a default **Home** page at `/`. You can create additional pages for promotions, seasonal programmes, venue guides, or any other purpose, then link them from your [menus](/core-platform/cms/menus) to build out your site's navigation.
+
+Pages are managed from the **Pages** section under **CMS** in admin.
+
+## Creating a Page
+
+1. Navigate to **CMS > Pages**
+2. Click **Create new page**
+3. Enter a **Name** — the admin-facing label for this page
+4. Set the **URL** — the page's public address (e.g. `/summer-events`)
+5. Optionally add a **Subheading** and **Body** to display introductory content at the top of the page
+6. Choose a **Header style** to control how the top of the page appears
+7. Click **Save**
+
+Once created, you can start adding blocks to populate the page with content.
+
+## Header Styles
+
+The header style controls how the top of the page is presented to visitors. Choose the style that best suits the page's purpose and imagery.
+
+| Style | Description |
+|-------|-------------|
+| **Hidden header** | No header area — the page starts directly with content blocks |
+| **Simple** | Text-only header showing the page name and subheading |
+| **With header image** | Page name and subheading displayed alongside a sidebar image |
+| **With full width header image** | Page name and subheading overlaid on a full-width banner image |
+| **With header image (hidden heading)** | Sidebar image only — the page name and subheading are hidden |
+| **With full width header image (hidden heading)** | Full-width banner image only — the page name and subheading are hidden |
+
+For styles that include an image, upload a **Header image** in the page's image settings. If you choose a full-width style, the image spans the entire width of the page.
+
+## Composing Pages with Blocks
+
+Pages are built by adding **blocks** — modular content units that each display a different type of content. The three block types are:
+
+- **Event blocks** — display collections of events in layouts like grids, lists, sliders, maps, or calendars
+- **Article blocks** — display articles in list, grid, or slider layouts
+- **Template blocks** — display custom-designed content using a JSON schema
+
+Each block is configured independently with its own layout, content source, and styling. A single block can be shared across multiple pages. On any given page, blocks are displayed in the order you arrange them.
+
+To add a block to a page:
+
+1. Open the page from **CMS > Pages**
+2. Click **Add block** and choose the block type
+3. Follow the setup wizard to configure the block's layout, content source, and details
+4. The block appears on the page — drag to reorder if needed
+
+For full details on configuring each block type, see [Blocks](/core-platform/cms/blocks).
+
+<Note>
+Removing a block from a page does not delete the block itself — it only removes the association. The block remains available to add to other pages.
+</Note>
+
+## Page Settings
+
+### SEO Metadata
+
+Each page supports metadata for search engines and social sharing:
 
 | Field | Purpose |
-|---|---|
-| Name | Admin-facing page label |
-| URL | Public route slug |
-| Body/Subheading | Page-level copy |
-| Header style/image | Top-of-page presentation |
-| Meta title/description/image | SEO and share metadata |
-| Authentication type | Access behaviour for the page |
+|-------|---------|
+| **Meta title** | The title shown in search engine results and browser tabs (recommended: under 60 characters) |
+| **Meta description** | The summary shown in search engine results (recommended: under 160 characters) |
+| **Meta image** | The image displayed when the page is shared on social media |
 
-## Visibility
+If no meta title is set, the page name is used. If no meta description is set, the page body content is used as a fallback.
 
-Listings can be scoped with visibility groups so only permitted admin users manage them.
+### Authentication
 
-## Related
+Pages can be restricted so only logged-in customers can view them:
 
-- [Blocks](/core-platform/cms/blocks)
-- [SEO](/core-platform/core/seo)
+| Setting | Behaviour |
+|---------|-----------|
+| **Any auth state** (default) | Anyone can view the page, whether logged in or not |
+| **Authenticated only** | Only customers who are logged in can access the page — others are prompted to sign in |
+
+This is useful for members-only content, exclusive pre-sale pages, or any page intended for registered customers.
+
+### Event Search
+
+Toggle **Show event search** to display a search bar on the page, allowing visitors to search for events directly from the page.
+
+### Visibility Groups
+
+Pages can be scoped to specific visibility groups, controlling which admin users can manage them. This does not affect customer-facing visibility — it controls who in your team can edit the page.
+
+## Previewing Pages
+
+You can preview how a page will appear to visitors without making it publicly accessible. From the page list, use the **Preview** action to generate a signed preview URL that opens the page as customers would see it.
+
+## Importing and Exporting Pages
+
+Pages and their template blocks can be exported and imported, making it easy to replicate page structures across companies or environments.
+
+### Exporting
+
+1. Navigate to **CMS > Pages**
+2. Click **Export pages**
+3. Choose to export **all pages** or **selected pages**
+4. Download the export file
+
+The export includes each page's content (name, subheading, body, URL, header style, images, metadata) and any template blocks. Event blocks and article blocks are not included in exports because they reference company-specific content.
+
+### Importing
+
+1. Navigate to **CMS > Pages**
+2. Click **Import pages**
+3. Upload the export file
+4. Review the pages to be imported and confirm
+
+<Note>
+If an import file contains a single block rather than full pages, you will be prompted to import it on a specific page instead.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Blocks" icon="cube" href="/core-platform/cms/blocks">
+    Configure event, article, and template blocks that compose your pages
+  </Card>
+  <Card title="Menus" icon="bars" href="/core-platform/cms/menus">
+    Link pages into your site navigation
+  </Card>
+  <Card title="Articles" icon="newspaper" href="/core-platform/cms/articles">
+    Create article content to display through article blocks
+  </Card>
+  <Card title="Theme & Branding" icon="palette" href="/core-platform/cms/theme-and-branding">
+    Control the visual presentation of your shop and pages
+  </Card>
+</CardGroup>

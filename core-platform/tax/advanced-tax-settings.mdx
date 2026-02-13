@@ -1,27 +1,112 @@
 ---
 title: "Advanced Tax Settings"
-description: "Advanced tax controls including calculation strategy, country-aware behavior, and integration-specific constraints."
+description: "Configure how tax is calculated on orders, collect VAT numbers at checkout, and manage tax receipt emails."
 ---
 
 ## Overview
 
-Advanced tax behavior extends beyond assigning a single tax band. It includes calculation strategy, country-aware logic, and external integration constraints.
+Advanced tax settings provide granular control over how tax is calculated on orders, whether to collect VAT numbers from customers, and how tax-related communications are handled. These settings go beyond the basics of [tax bands](/core-platform/tax/tax-bands) and [pricing display](/core-platform/tax/pricing-display) to address specific invoicing and compliance requirements.
 
-## Typical Advanced Controls
+These settings are found under **Settings > Pricing settings** (requires the advanced tax controls feature).
 
-- Conditional tax band behavior by country classification.
-- Tax calculation option selection (where available).
-- Integration compatibility checks (for example tax precision limits required by specific providers).
+<Note>
+Advanced tax controls are a feature-flagged capability. Contact your account manager to enable this feature for your company.
+</Note>
 
-## Operational Checklist
+## Tax Calculation Method
 
-1. Confirm base tax bands are complete.
-2. Confirm country classifications are accurate.
-3. Test checkout in primary currencies and key customer geographies.
-4. Validate downstream exports/invoices for expected tax values.
+The **Tax calculation** setting determines how the platform calculates the tax component of an order item. This affects how tax totals appear on invoices and in reporting.
 
-## Related
+There are two options:
 
-- [Tax Bands](/core-platform/tax/tax-bands)
-- [Conditional Tax Bands](/core-platform/tax/conditional-tax-bands)
-- [Pricing Display](/core-platform/tax/pricing-display)
+### Use Total Price
+
+Ticket and fees are taxed as a **single line-item**. Tax is calculated on the combined total of the base price and fees together.
+
+**Example with 20% tax on a £25 total (£20 base + £5 fees):**
+1. £20 base price + £5 fees = **£25 total**
+2. 20% tax on £25 = £4.16666667
+3. Rounded to 2 decimal places = **£4.17 total tax**
+
+### Use Fees and Base Price Separately
+
+Ticket and fees are taxed as **separate line-items**. Tax is calculated on the base price and fees individually, then summed.
+
+**Example with 20% tax on a £25 total (£20 base + £5 fees):**
+1. £20 base price + £5 fees = **£25 total**
+2. 20% tax on £20 = £3.3333333, 20% tax on £5 = £0.83333333
+3. Rounded to 2 decimal places = £3.33 + £0.83 = **£4.16 total tax**
+
+<Note>
+The difference between these methods is a rounding variance (£4.17 vs £4.16 in the example above). Select the method that matches your invoicing structure. This setting can be changed at any time without impacting existing sales. Numbers ending in 0–4 round down and numbers ending in 5–9 round up.
+</Note>
+
+## VAT Number Collection
+
+When **Collect VAT number** is enabled, customers are presented with an additional step during checkout where they can enter their VAT number. This is particularly important when using [conditional tax bands](/core-platform/tax/conditional-tax-bands) with reverse charge, as it allows the system to verify whether a customer qualifies for reverse charge treatment.
+
+### How It Works
+
+1. During checkout, the customer sees a VAT number input field.
+2. The customer enters their VAT number.
+3. The system verifies the VAT number (if verification is configured).
+4. If valid, the customer's tax settings are updated accordingly — for example, triggering reverse charge on applicable items.
+
+<Note>
+Once a customer's VAT number has been set, it cannot be changed by the customer. They must contact support if it needs updating. The system displays: *"You cannot change your VAT number once it has been set. Please contact customer support if you need this changing."*
+</Note>
+
+### VAT Number Verification
+
+VAT number verification uses external services to validate the numbers provided by customers. Without verification enabled, customers can enter a VAT number but it will not be validated, and conditional tax bands will apply the rate based on location only.
+
+<Note>
+If VAT number verification is not enabled for your account, you will see a warning on the conditional tax band configuration: *"VAT number verification is not currently enabled for your account. This means customers will pay tax at the rate local to the event, regardless of their own location."* Contact your account manager to enable verification.
+</Note>
+
+## Tax Receipt Emails
+
+When a sale item has a [tax band](/core-platform/tax/tax-bands) assigned, the platform automatically sends a tax receipt email to the customer after a successful order. This is a separate email from the order confirmation and contains a detailed tax breakdown.
+
+### Disabling Tax Receipts
+
+If you handle tax receipts externally (e.g. through a separate accounting system), you can disable the automatic tax receipt emails:
+
+- **Disable tax receipt emails** — When enabled, tax receipt emails for orders placed through the shop and box office are suppressed. This is useful when you are sending tax receipts external to the platform.
+
+The setting clearly indicates the current status:
+- When disabled: *"Tax receipt emails will be sent"*
+- When enabled: *"Tax receipt emails will not be sent"*
+
+### Attaching PDFs to Tax Receipts
+
+When the PDF attachment feature is enabled, a PDF version of the tax receipt is attached to the tax receipt email. The PDF contains the same contents as the email itself, providing a downloadable document for the customer's records.
+
+### Resending Tax Receipts
+
+Tax receipts can be resent for individual orders from the order details screen. This sends a fresh tax receipt email to the customer's email address on file.
+
+## Szamlazz Integration
+
+For companies using the [Szamlazz integration](/core-platform/integrations/szamlazz), tax band names can be configured to match specific VAT codes. When a tax band's name corresponds to a recognised Szamlazz VAT code, the "VAT Rate" column in Szamlazz invoices will display the corresponding code rather than the numerical rate.
+
+<Note>
+The Szamlazz integration and [conditional tax bands](/core-platform/tax/conditional-tax-bands) are mutually exclusive — they cannot both be enabled for the same company.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Tax Bands" icon="percent" href="/core-platform/tax/tax-bands">
+    Create and manage the tax rates applied to sale items.
+  </Card>
+  <Card title="Conditional Tax Bands" icon="globe" href="/core-platform/tax/conditional-tax-bands">
+    Apply different tax rates based on the customer's country.
+  </Card>
+  <Card title="Pricing Display" icon="eye" href="/core-platform/tax/pricing-display">
+    Control how prices are shown to customers.
+  </Card>
+  <Card title="Szamlazz Integration" icon="file-invoice" href="/core-platform/integrations/szamlazz">
+    Hungarian accounting integration for tax invoicing.
+  </Card>
+</CardGroup>

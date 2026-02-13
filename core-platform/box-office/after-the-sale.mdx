@@ -1,0 +1,138 @@
+---
+title: "After the Sale"
+description: "Post-sale actions available in box office mode — including quick sell, printing, order renaming, transfers, refunds, and order modification."
+---
+
+## Overview
+
+After completing a box office order, the success page displays a set of actions designed for staff workflows. These actions allow staff to rapidly process the next sale, print tickets, assign customers, or manage the order — all without navigating back to the admin panel.
+
+The actions panel appears on the right side of the success page with the heading **"Box office actions"**.
+
+## Navigation Actions
+
+| Action | Description |
+|--------|-------------|
+| **Box office home** | Returns to the shop homepage to browse events and start a new order |
+| **Back to event** / **Back to events** | Returns to the event page. If the order contained items from multiple events, a modal appears to select which event to return to. |
+
+## Quick Sell Same Items
+
+Quick sell creates an exact copy of the current order for a different customer — same items, same pricing, same discounts. This is designed for high-volume scenarios where multiple customers are purchasing the same thing, such as a queue at a venue box office.
+
+### Using Quick Sell
+
+1. On the success page, click **Quick sell same items**
+2. A modal appears with the warning: **"Are you sure you wish to create an exact copy of this order with the same items, pricing and discounts?"**
+3. Enter the customer's **name** and **email** (pre-filled from the current order's customer if one was assigned)
+4. Click **Confirm**
+
+The system creates a new order, assigns the customer, and completes it using the same payment method as the original order.
+
+### Quick Sell Restrictions
+
+Quick sell is not available when:
+
+- The original order was paid with an online payment method — the message reads: **"Quick sell not supported for online payment methods, try the 'reserve same items' option instead."**
+- The original order contains reserved seating items — **"Quick sell not supported for reserved seating"**
+
+<Note>
+Quick sell requires sufficient stock for the new order. If items have sold out since the original order, quick sell will fail.
+</Note>
+
+## Reserve Same Items
+
+Reserve same items works similarly to quick sell but creates a reservation instead of completing the order immediately. This is useful when:
+
+- The customer needs time to pay
+- You want to use a different payment method than the original
+- The original used an online payment method (where quick sell isn't available)
+
+The reservation follows the standard reservation flow — the customer (or staff member) can complete payment within the reservation period.
+
+## Print and Download
+
+When the order contains items with downloadable media (tickets, e-tickets, etc.), printing and download actions are available:
+
+| Action | When Shown |
+|--------|------------|
+| **Print** | Staff has print permissions and the order is not too large to print |
+| **Download** | Staff does not have print permissions, or the order exceeds the print size limit |
+
+If the order is too large to print directly, the help text reads: **"Order too big to print"** and staff can download instead.
+
+<Note>
+Printing and downloading are only available for completed orders — not for reservations. The order must also contain items that have downloadable media configured.
+</Note>
+
+## Rename Order
+
+If the order was completed as the box office user (without assigning a customer), staff can rename the order after the sale:
+
+1. Click **Rename order**
+2. Enter the customer's name in the modal
+3. The order's purchaser name is updated
+
+This updates the display name on the order without creating a full customer account. It is shown as the **Named purchaser** on the order.
+
+<Note>
+Renaming is only available for orders purchased as the box office user. Orders with an assigned customer should be managed through the customer assignment flow instead.
+</Note>
+
+## Transfer Items
+
+Staff with the appropriate permissions can transfer individual items from the completed order to another customer:
+
+1. Click **Transfer items**
+2. Follow the standard item transfer flow
+
+This is useful when tickets were purchased under the staff member's account and need to be assigned to individual attendees.
+
+## Refund Order
+
+Staff with refund permissions can initiate a refund directly from the success page:
+
+1. Click **Refund order**
+2. Follow the standard refund flow
+
+<Note>
+Refunds to account balance are not available for box office orders that were completed without a customer. The system prevents this with the message: **"Refund to balance is not available for box office orders without a customer"**.
+</Note>
+
+## Order Modification
+
+When **Enable order modification in box office** is active in company settings, staff can re-open completed orders for modifications. The setting description reads: **"Allow staff to use box office to modify existing orders"**.
+
+This allows:
+
+- Adding items to an existing order
+- Removing items (with appropriate refund handling)
+- Changing quantities
+
+A modification cutoff can also be configured to limit how long after the original purchase an order can be modified.
+
+<Note>
+During order modification, the customer cannot be changed. The system displays: **"You cannot change the customer during box office order modification."** For full details on the order modification flow, see [Order Modification](/core-platform/order-management/order-modification).
+</Note>
+
+## Internal Notes
+
+The success page includes an **Internal notes** section where staff can add notes to the order. These notes are visible in the admin panel but not to the customer — useful for recording special instructions, issues, or context about the sale.
+
+## Fundraising
+
+If the order contains items eligible for fundraising, a **Start fundraising** action appears. This opens the fundraising modal, allowing staff to process on-the-spot donations linked to the order.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="cash-register" href="/core-platform/box-office/introduction">
+    Overview of box office mode and key differences from the public shop
+  </Card>
+  <Card title="Instant Checkout" icon="bolt" href="/core-platform/box-office/instant-checkout">
+    Rapid transactions using the instant checkout side panel
+  </Card>
+  <Card title="Refunds and Cancellations" icon="rotate-left" href="/core-platform/order-management/refunds-and-cancellations">
+    Processing refunds and cancellations on orders
+  </Card>
+</CardGroup>

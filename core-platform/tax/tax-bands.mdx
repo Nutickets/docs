@@ -1,31 +1,99 @@
 ---
 title: "Tax Bands"
-description: "Create and maintain tax bands used by sale items, fees, and reporting calculations."
+description: "Define named tax rates that can be applied to sale items and fees, enabling tax invoices and accurate tax reporting."
 ---
 
 ## Overview
 
-Tax bands define named tax rates used across sale items and fee items.
+Tax bands define named tax rates (e.g. "VAT 20%", "No Tax") that are applied to sale items and fees across the platform. When a tax band is assigned to a sale item, the system calculates tax on every purchase of that item and sends a separate tax receipt email to the customer alongside the standard order confirmation.
 
-## Core Operations
+Tax bands are managed from **Settings > Tax bands** in the admin area. They are the foundation of all tax-related functionality — [conditional tax bands](/core-platform/tax/conditional-tax-bands), [pricing display](/core-platform/tax/pricing-display), and [advanced tax settings](/core-platform/tax/advanced-tax-settings) all build on top of them.
 
-- Create tax band (`name`, `rate`).
-- Edit tax band details.
-- Soft-delete and restore.
+## Creating a Tax Band
 
-## Safety Rules
+1. Navigate to **Settings > Tax bands**.
+2. Click **Add new tax band**.
+3. Enter the following:
 
-A tax band cannot be deleted while it is in use by:
+| Field | Description |
+|-------|-------------|
+| **Name** | A descriptive name for the tax band (e.g. "Standard VAT", "Zero Rated"). This is visible when assigning tax bands to sale items. |
+| **Rate** | The tax percentage to apply. Supports up to 4 decimal places for precision (e.g. `21.5` or `7.7000`). |
 
-- sale items (`tax_band_id`), or
-- conditional sale-item tax mappings.
+4. Click **Submit** to save.
 
-## Scope
+<Note>
+If you attach a tax band to a sale item, a separate tax invoice email will be sent as well as the standard order confirmation email. You can set your company billing details that will appear on these invoices from **Company Settings**.
+</Note>
 
-Tax bands are available in admin and hub contexts, with visibility constrained by current scope and permissions.
+## Assigning Tax Bands to Sale Items
 
-## Related
+Once created, tax bands can be assigned to individual sale items during item setup. In the sale item editor, select a tax band from the **Tax Band** dropdown. This determines the tax rate applied to purchases of that item.
 
-- [Conditional Tax Bands](/core-platform/tax/conditional-tax-bands)
-- [Pricing Display](/core-platform/tax/pricing-display)
-- [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings)
+Each sale item can either use:
+- A **Single tax band** — one fixed rate for all customers.
+- **Multiple conditional tax bands** — different rates based on the customer's country. See [Conditional Tax Bands](/core-platform/tax/conditional-tax-bands) for details.
+
+## Editing a Tax Band
+
+1. Navigate to **Settings > Tax bands**.
+2. Click on the tax band you want to edit.
+3. Update the **Name** or **Rate** as needed.
+4. Click **Submit** to save your changes.
+
+<Note>
+Changing a tax band's rate affects all future orders for sale items that use it. Existing completed orders retain the rate that was in effect at the time of purchase.
+</Note>
+
+## Deleting a Tax Band
+
+Tax bands can be deleted from the tax bands list using the delete button next to each entry.
+
+A tax band **cannot be deleted** while it is in use by:
+- Any sale item (as its assigned tax band)
+- Any conditional tax band mapping
+
+If you attempt to delete a tax band that is in use, the system displays the message: *"This tax band cannot be deleted whilst it is in use."* Remove the tax band from all sale items and conditional mappings first, then delete it.
+
+<Note>
+Tax bands are soft-deleted, meaning they can be restored after deletion if needed.
+</Note>
+
+## Default Tax Band
+
+The system includes a default tax band (the first tax band created) that cannot be deleted. This ensures there is always at least one tax band available in the system.
+
+## Tax Receipts
+
+When a sale item has a tax band assigned, the platform automatically sends a tax receipt email to the customer after a successful purchase. This email is separate from the order confirmation and includes a breakdown of the tax applied.
+
+Tax receipt emails can be disabled from company settings if you handle tax receipts externally. See [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings) for details.
+
+## Company Default Tax Band
+
+A default tax band can be set at the company level from **Company Settings** under **Default tax band**. This determines the tax rate applied to any invoices generated for the company. If left blank, no sales tax information appears on company invoices.
+
+## Where Tax Bands Appear
+
+Tax bands are referenced throughout the platform:
+
+- **Sale item configuration** — selecting which tax rate applies to an item
+- **Checkout** — calculating the tax component of a customer's order
+- **Order details** — displaying the tax breakdown for an order
+- **Tax receipt emails** — itemised tax invoices sent to customers
+- **Reporting** — gross, net, and tax breakdowns in reports
+- **Company invoices** — tax applied to company-level billing
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Conditional Tax Bands" icon="globe" href="/core-platform/tax/conditional-tax-bands">
+    Apply different tax rates based on the customer's country.
+  </Card>
+  <Card title="Pricing Display" icon="eye" href="/core-platform/tax/pricing-display">
+    Control whether prices are shown including or excluding tax.
+  </Card>
+  <Card title="Advanced Tax Settings" icon="gear" href="/core-platform/tax/advanced-tax-settings">
+    Configure tax calculation methods and VAT number collection.
+  </Card>
+</CardGroup>

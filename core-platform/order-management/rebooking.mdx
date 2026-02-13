@@ -1,0 +1,129 @@
+---
+title: "Rebooking"
+description: "How to move orders to a different date within the same schedule, for both staff and customers."
+---
+
+## Overview
+
+Rebooking (also referred to as **Move dates**) allows completed orders to be moved from one event date to another within the same schedule. Instead of refunding and repurchasing, staff or customers can transfer their items directly to a different date — keeping the same order, the same payment, and avoiding the need for a new transaction.
+
+This is useful when a customer can no longer attend their original date and wants to switch to an alternative, or when an event needs to be rescheduled and you want to move affected orders in bulk.
+
+Rebooking is configured per schedule and can be enabled independently for staff and customers, each with their own cutoff period.
+
+## How Rebooking Works
+
+1. Staff or customer initiates **Move dates** from the order.
+2. A calendar shows available target events within the same schedule, colour-coded by availability:
+   - **Green** — Available for rebooking
+   - **Yellow** — Available but with a different time
+   - **Red** — Unavailable (sold out or prices don't match)
+3. The user selects a target event date.
+4. A side-by-side comparison shows the original items alongside their replacements in the new event.
+5. For each item, the user confirms the replacement sale item (and selects new seats for seated events).
+6. The rebooking is submitted.
+
+**What happens behind the scenes:**
+
+- The original items are cancelled and restocked
+- New items are created in the target event with the same pricing
+- Existing barcodes are replaced with new ones
+- Data capture responses are carried over from the original items
+- No additional payment is required — rebooking only works when replacement items have the same price
+
+## Configure Rebooking
+
+Rebooking is configured at the **schedule** level. Navigate to the schedule settings to find **Order rebooking settings**.
+
+### Staff Rebooking
+
+| Setting | What it controls |
+|---|---|
+| **Allow staff rebooking** | Enables the **Move dates** action on orders in admin |
+| **Staff rebooking cutoff** | How many days before the event starts that staff can still rebook. Set to 0 to allow rebooking even after the event has started. Leave empty for no cutoff. |
+
+When enabled, staff see the **Move dates** button on eligible orders in admin.
+
+### Customer Rebooking
+
+| Setting | What it controls |
+|---|---|
+| **Allow customer rebooking** | Enables rebooking from the customer's **My Account > Orders** page |
+| **Customer rebooking cutoff** | How many days before the event starts that customers can still rebook. Must be greater than 0 — customers cannot rebook after the event has started. |
+
+When enabled, customers see a rebooking option on their order page in the shop.
+
+<Note>
+Staff and customer rebooking are independent settings. You can enable one without the other — for example, allowing staff to rebook on behalf of customers while not offering self-service rebooking.
+</Note>
+
+## Rebooking from Admin (Staff)
+
+1. Open the order in admin.
+2. Click **Move dates**.
+3. Select the source event (the event whose items you want to move).
+4. Browse the calendar of available target events. Each date shows whether rebooking is possible.
+5. Select a target event.
+6. Review the item mapping — the system matches each original item to a replacement item in the target event with the same price.
+7. For **seated events**, select new seats for each item.
+8. Confirm the rebooking.
+
+<Note>
+Staff with the appropriate permission can oversell the target event during rebooking. Without this permission, rebooking is blocked if the target event doesn't have enough availability.
+</Note>
+
+## Rebooking from My Account (Customer)
+
+1. Go to **My Account > Orders** and open the order.
+2. Click the rebooking option.
+3. Browse available target dates within the same schedule.
+4. Select a target event and review the item mapping.
+5. For **seated events**, select new seats.
+6. Confirm the rebooking.
+
+Customers cannot oversell events — if the target date is sold out, it shows as unavailable.
+
+## Eligibility Rules
+
+Rebooking has several constraints. If any of these apply, the **Move dates** action is unavailable:
+
+| Constraint | Detail |
+|---|---|
+| **Same schedule only** | The target event must be in the same schedule as the source event. Cross-schedule rebooking is not supported. |
+| **Matching prices** | Every item being rebooked must have a replacement item in the target event with the same price, in the same currency and sales point. If prices don't match, the target date shows as unavailable. |
+| **No split payments** | Orders paid with multiple payment methods (split payments) cannot be rebooked. |
+| **No refund protection** | Orders with refund protection enabled cannot be rebooked. |
+| **Maximum 50 items** | Orders containing more than 50 items cannot be rebooked. |
+| **No teams** | Orders containing event team items cannot be rebooked. Team rebooking is not currently supported. |
+| **No custom fees** | Orders containing custom fees cannot be rebooked. |
+| **No included items** | Orders containing items with included sub-items cannot be rebooked. |
+| **Cutoff not breached** | The event must be outside the configured cutoff period. For customers, this cutoff must be greater than 0 (no post-event rebooking). |
+
+<Note>
+If the order contains **guest list** items, rebooking is still possible but a warning appears: the guest list item will require re-approval once moved to the new date.
+</Note>
+
+## Seated Events
+
+When rebooking items for a seated event, the system requires seat selection for the target event:
+
+1. After selecting the target event, a **Choose new spaces** section appears.
+2. For each item, select a seat in the target event's seating plan.
+3. Use **Change space** to modify a selection before confirming.
+
+The original seats are released back to general sale when the rebooking completes.
+
+## What Happens After Rebooking
+
+- **Original items are cancelled** — Marked as refunded internally with a rebooking transaction type
+- **New items are created** — In the target event with the same pricing and quantities
+- **Barcodes are regenerated** — New barcodes are issued for the rebooked items
+- **Data capture is preserved** — Any data capture responses from the original items are copied to the new items
+- **Seats are released and reserved** — Original seats are freed; new seats are held in the target event
+- **No additional payment** — The financial total remains the same since only matching-price items can be rebooked
+
+## Related
+
+- [Core Concepts](/core-platform/order-management/core-concepts)
+- [Order Modifications](/core-platform/order-management/order-modifications)
+- [Refunds & Cancellations](/core-platform/order-management/refunds-and-cancellations)

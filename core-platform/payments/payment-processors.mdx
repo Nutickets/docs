@@ -1,43 +1,142 @@
 ---
 title: "Payment Processors"
-description: "How payment gateways are configured, validated, and used across reseller and company contexts."
+description: "Connect and configure payment gateways to process card payments and other online payment methods."
 ---
 
 ## Overview
 
-A payment processor (gateway) is the service that authorizes and captures electronic payments. The platform supports multiple gateways, with credentials and availability determined by reseller/company setup.
+A payment processor (or gateway) is the external service that authorises and captures electronic payments on your behalf. Before you can accept online payments, you need to connect at least one payment gateway and configure it for the channels where you want to accept payments.
 
-## Gateway Configuration Model
+The platform supports over 25 payment gateways. Each gateway is connected using credentials from your gateway account, and can be enabled separately for the ticket shop and box office.
 
-| Level | Typical responsibility |
-|---|---|
-| **Reseller** | Can configure reseller-level credentials for supported gateways. |
-| **Company** | Can use reseller credentials or company-specific credentials depending on gateway rules and permissions. |
-| **Checkout channel** | Shop and box office can expose different method sets even when using the same gateway. |
+## Supported Gateways
 
-## Key Behaviors
+The following payment gateways are available:
 
-- Gateway credentials are validated before saving.
-- Companies can toggle payment mode (live/test) only when reseller policy allows self-management.
-- A company can have multiple gateways enabled and can set a primary/default gateway.
-- Some payment methods are gateway-agnostic/offline and do not call an external processor.
+| Gateway | Notable capabilities |
+|---------|---------------------|
+| **Stripe** | Terminal support, MOTO payments |
+| **PayPal** | — |
+| **Adyen** | MOTO payments |
+| **SumUp** | — |
+| **QuickPay** | — |
+| **PayTabs** | Requires billing address |
+| **Authorize.NET** | — |
+| **Barclays ePDQ** | — |
+| **SimplePay** | — |
+| **Tap** | — |
+| **Pay Retailers** | Requires billing address |
+| **DPO Pay** | — |
+| **Onvo** | — |
+| **Netpay** | Requires billing address and phone number |
+| **Transbank** | — |
+| **PowerTranz** | — |
+| **Bloomin** | Requires billing address |
+| **M-Pesa** | — |
+| **Ryft** | — |
+| **Hyperpay** | — |
+| **Banorte** | Requires billing address |
+| **Curlec** | — |
+| **Nuvei** | Requires billing address |
+| **Worldpay** | — |
+| **Revolut** | — |
 
-## Practical Setup Flow
+<Note>
+Some gateways require the customer's billing address or phone number at checkout. When you enable one of these gateways, the relevant fields are automatically added to the checkout flow.
+</Note>
 
-1. Enable/configure gateway credentials in Hub or Admin (depending on ownership model).
-2. Verify channel-level methods in payment settings.
-3. Confirm live/test mode.
-4. Run a test transaction in the target channel.
+## Connecting a Gateway
 
-## Common Failure Sources
+To connect a payment gateway:
 
-- Missing or invalid credentials.
-- Live mode enabled with test credentials (or vice versa).
-- Channel method enabled but gateway unavailable for that method.
-- Parent/child payment ownership mismatch when global transaction settings are used.
+1. Navigate to **Settings > Payment**
+2. Find the gateway you want to connect in the **Payment gateways** section
+3. Click the gateway to open its settings
+4. Enter your gateway credentials (API keys, merchant IDs, or other details specific to the gateway)
+5. Click **Save** — credentials are validated before being stored
+
+Each gateway has its own credential requirements. Refer to your gateway provider's documentation for the specific keys and identifiers you need.
+
+<Note>
+Gateway credentials are encrypted before being stored. If you need to disconnect a gateway, you can revoke its credentials from the same settings panel.
+</Note>
+
+## Enabling a Gateway per Channel
+
+After connecting a gateway, you choose where it's available:
+
+| Toggle | Effect |
+|--------|--------|
+| **Enable in box office** | Makes this gateway available for box office sales |
+| **Enable in shop** | Makes this gateway available for ticket shop sales |
+
+A gateway can be enabled in one or both channels. You can also have multiple gateways connected simultaneously — for example, Stripe for the shop and a different gateway for the box office.
+
+## Setting a Primary Gateway
+
+When multiple gateways are enabled for the same channel, you need to designate one as the **primary gateway**. The primary gateway is the default used for processing payments in that channel.
+
+Primary gateways are set independently for each channel:
+
+- **Shop Primary** — the default gateway for ticket shop transactions
+- **Box Office Primary** — the default gateway for box office transactions
+
+To set a primary gateway, click **Set primary gateway** on the gateway you want to use as the default for that channel.
+
+<Note>
+A gateway must be enabled for a channel before it can be set as the primary for that channel.
+</Note>
+
+## Payment Mode (Live vs Test)
+
+Each company has a payment mode that controls whether transactions use live or test credentials:
+
+| Mode | Behaviour |
+|------|-----------|
+| **Live** | Real payments are processed. Money is exchanged. |
+| **Demo** | No money is exchanged. Use test card numbers from your gateway's documentation. |
+
+The payment mode toggle is found at the top of **Settings > Payment**. Switching between modes is only available when your reseller allows self-management of payment mode.
+
+<Warning>
+Switching from demo to live mode means all subsequent transactions will process real payments. Verify your live credentials are correct before switching.
+</Warning>
+
+## Special Gateway Capabilities
+
+### MOTO Payments
+
+**Mail Order / Telephone Order (MOTO)** payments allow box office staff to process card payments by manually entering card details provided over the phone or by mail. This is supported by **Stripe** and **Adyen**.
+
+MOTO capability may need to be enabled on your gateway account — contact your payment gateway account manager to confirm MOTO is available.
+
+### Terminal Payments
+
+**Stripe** supports physical card terminal integration, allowing customers to tap or insert their card at a connected terminal device for in-person payments.
+
+## Reseller-Managed Gateways
+
+In some configurations, your reseller may manage gateway credentials on your behalf. When this is the case:
+
+- The reseller connects the gateway at the platform level
+- Your company uses the reseller's credentials for processing
+- You may not see credential fields or payment mode toggles in your settings
+
+Gateways that support reseller-level management include Stripe, SumUp, PayPal, Ryft, Curlec, and Nuvei.
+
+## Troubleshooting
+
+Common issues when configuring gateways:
+
+| Problem | Likely cause |
+|---------|-------------|
+| Credentials rejected when saving | Invalid API key, merchant ID, or secret. Double-check values from your gateway dashboard. |
+| Gateway enabled but payments fail | Payment mode mismatch — live credentials in demo mode (or vice versa). |
+| Gateway not appearing in checkout | Gateway is connected but not enabled for the relevant channel (shop or box office). |
+| Billing address errors at checkout | A gateway that requires billing address is enabled but the checkout form is not collecting it. This is handled automatically, but custom checkout implementations may need updating. |
 
 ## Related
 
 - [Introduction](/core-platform/payments/introduction)
 - [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
-- [Partner Hub: Gateway Settings](/partner-hub/get-started/gateway-settings)
+- [Split Payments](/core-platform/payments/split-payments)

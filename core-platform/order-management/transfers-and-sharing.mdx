@@ -1,0 +1,195 @@
+---
+title: "Transfers & Sharing"
+description: "How to transfer individual items to other people, or distribute items in bulk using shareable codes."
+---
+
+## Overview
+
+After an order is completed, items can be shared with other people in two ways:
+
+- **Transfers** — Send specific items to a named recipient via email or a shareable link. The recipient claims the items into their own account. This is a one-to-one handoff.
+- **Distributions** — Create a shareable code that multiple people can use to claim items from the order. This is a one-to-many share, useful for group organisers who need to hand out tickets to their team.
+
+Both mechanisms change item ownership — the recipient gets their own copy of the ticket or product, with a new barcode (depending on your settings), while the original item is removed from the sender's account.
+
+## Transferring Items
+
+Transfers let a customer or staff member send items from an order to another person. The recipient receives a notification and can claim the items into their account.
+
+### How Transfers Work
+
+1. The sender selects items to transfer and provides the recipient's name and email.
+2. The system creates a pending transfer.
+3. The recipient receives an email with a message like "It looks like [name] ([email]) has sent you something!" and a link to claim the items.
+4. The recipient clicks the link and claims the items into their account.
+5. Once claimed, the items appear in the recipient's account and are removed from the sender's order view.
+
+### Transfer Methods
+
+There are two ways to send a transfer:
+
+| Method | How it works |
+|---|---|
+| **Email transfer** | The recipient is identified by email address. They receive a claim email and must sign in (or create an account) to claim. |
+| **URL transfer** | A signed link is generated that the sender can share directly (e.g. via messaging apps). The recipient can claim without needing to be pre-identified by email. |
+
+### Starting a Transfer
+
+<Tabs>
+  <Tab title="Customer (Shop)">
+    1. Go to **My Account > Orders** and open the order.
+    2. Select the items to transfer.
+    3. Enter the recipient's **Name** and **Email**.
+    4. Choose **Share immediately** to transfer now, or set a **Don't share until** date to schedule the transfer for later.
+    5. Submit the transfer.
+  </Tab>
+  <Tab title="Staff (Admin)">
+    1. Open the order in admin and click **Transfer items**.
+    2. Select which items to transfer.
+    3. Enter the recipient's details.
+    4. Submit the transfer.
+
+    <Note>
+    Staff can transfer items on behalf of any customer in their orders. The transfer is processed under the customer's account.
+    </Note>
+  </Tab>
+</Tabs>
+
+### Scheduled Transfers
+
+Transfers can be scheduled for a future date using the **Don't share until** option. The system holds the transfer and sends the claim notification to the recipient at the specified date and time. This is useful when you want to prepare transfers in advance but don't want recipients to claim until closer to the event.
+
+### Claiming a Transfer
+
+When a transfer is ready to be claimed:
+
+1. The recipient receives an email with a claim link.
+2. They click the link, which takes them to the shop.
+3. They sign in (or create an account) and the items are added to their account.
+
+Depending on your settings, claiming a transfer may:
+- **Generate new barcodes** — The original barcodes are invalidated and new ones are issued to the recipient (prevents the sender from using old screenshots)
+- **Preserve barcodes** — The same barcodes carry over to the recipient
+
+### Instant Transfers
+
+When the **Instant transfers** setting is enabled, transfers are automatically claimed as soon as the order is completed or the items become available. The recipient doesn't need to manually claim — the items appear in their account immediately.
+
+This is useful for scenarios where transfers are set up during checkout (e.g. buying tickets on behalf of someone else) and you want the items delivered to the recipients right away.
+
+### Cancelling a Transfer
+
+A pending transfer (not yet claimed) can be cancelled by the sender:
+
+1. Open the order and find the transferred item.
+2. Click **Cancel transfer**.
+3. Confirm the cancellation.
+
+The item returns to the sender's account. Once a transfer has been claimed, it cannot be cancelled.
+
+### Transfer Corrections
+
+When the **Allow transfer corrections** setting is enabled, the original purchaser can re-transfer items that have already been claimed — effectively correcting a transfer that was sent to the wrong person. The item is transferred away from the current holder and a new transfer is initiated.
+
+## Transfer Eligibility
+
+Not all items can be transferred. The following restrictions apply:
+
+| Restriction | Detail |
+|---|---|
+| **Item type** | The sale item must have sharing enabled (configured per sale item). Not all item types support transfers. |
+| **Listed for resale** | Items currently listed on the resale market cannot be transferred. Cancel the resale listing first. |
+| **Active resale contract** | Items with an active resale contract cannot be transferred. |
+| **Frozen order** | Items in a frozen order (during modification) cannot be transferred. |
+
+<Note>
+Only the item holder or the original purchaser can initiate a transfer. If an item was previously transferred to a recipient, only that recipient (or the original purchaser with transfer corrections enabled) can transfer it again.
+</Note>
+
+## Distributing Items
+
+Distributions let a purchaser share items from their order with multiple people using a single shareable code. This is designed for group organisers — for example, a company buying 50 tickets and needing each attendee to claim their own.
+
+### How Distributions Work
+
+1. The purchaser creates a distribution, selecting which items to share and how many each person can claim.
+2. The system generates a unique code (e.g. "ABC123EFG") and a QR code.
+3. The purchaser shares the code or QR code with their group.
+4. Each recipient visits the claim page, enters the code, and claims their items.
+5. Claimed items are transferred to the recipient's account with new barcodes.
+
+### Creating a Distribution
+
+1. Open the order in **My Account > Orders**.
+2. Click **Distribute items** (or **Distribute more items** if a distribution already exists).
+3. For each eligible item type, configure:
+   - **Total distributable items** — How many of this item can be claimed in total
+   - **Individual claim limit** — Maximum number each person can claim
+4. Save the distribution.
+
+The system generates a unique code and QR code. Share these with your group using any method you prefer — email, messaging apps, printed materials, etc.
+
+### Claim Limits
+
+Distributions support two levels of control:
+
+- **Total distributable items** — The overall pool of items available for claiming. Once this number is reached, no more claims are accepted.
+- **Individual claim limit** — The maximum number of items a single person can claim. This prevents one person from claiming all the items.
+
+For example, if you distribute 20 tickets with an individual limit of 2, up to 10 people can claim 2 tickets each.
+
+### Claiming Distributed Items
+
+Recipients claim items by:
+
+1. Visiting the claim page (via a shared link or QR code).
+2. Entering the distribution code.
+3. Selecting which items and quantities they want to claim.
+4. Confirming the claim.
+
+A recipient does not need an existing account — one is created during the claim process if needed. Each claimed item is transferred to the recipient with a new barcode.
+
+<Note>
+A purchaser cannot claim items from their own distribution. The system prevents self-claiming.
+</Note>
+
+### Managing a Distribution
+
+After creating a distribution, you can:
+
+- **Edit** — Change the total distributable items or individual claim limits (but you cannot reduce below the number already claimed)
+- **Disable** — Temporarily pause claiming. The code remains valid but claims are blocked until you re-enable.
+- **View claim status** — See how many items have been claimed and how many remain
+
+Distributions are automatically disabled when all distributable items have been claimed.
+
+### Distribution vs Transfer
+
+| Feature | Transfer | Distribution |
+|---|---|---|
+| **Recipients** | One specific person | Multiple people via shared code |
+| **Identification** | Recipient identified by email | Recipients identified at claim time |
+| **Initiation** | Sender pushes items to recipient | Recipients pull items using a code |
+| **Claim method** | Email link or URL | Code entry or QR scan |
+| **Claim limits** | N/A (specific items sent) | Configurable per-person and total limits |
+| **Best for** | Sending specific items to known individuals | Distributing items to groups where recipients claim their own |
+
+## Settings
+
+The following settings control transfer and distribution behaviour:
+
+| Setting | Effect |
+|---|---|
+| **Instant transfers** | When enabled, transfers are automatically claimed as soon as the order completes. Recipients don't need to manually claim. |
+| **Preserve barcodes on instant transfer** | When enabled, barcodes are kept the same during instant transfers. When disabled, new barcodes are generated on claim. |
+| **Allow transfer corrections** | When enabled, the original purchaser can re-transfer items that have already been claimed to someone else. |
+
+<Note>
+Distributions require the **Order distributions** feature to be enabled for your account. If you don't see the **Distribute items** option, contact your administrator.
+</Note>
+
+## Related
+
+- [Core Concepts](/core-platform/order-management/core-concepts)
+- [Refunds & Cancellations](/core-platform/order-management/refunds-and-cancellations)
+- [Order Modifications](/core-platform/order-management/order-modifications)

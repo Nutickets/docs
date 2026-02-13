@@ -1,0 +1,340 @@
+---
+title: "Email Types"
+description: "A complete reference of every email the platform sends, when it is triggered, and who receives it."
+---
+
+## Overview
+
+This page catalogues every email the platform sends. Each entry describes what triggers the email, who receives it, and any conditions that affect whether it is sent. Use this as a reference when you need to understand what emails your customers or staff are receiving.
+
+<Note>
+All emails listed here can have their content customised through the website text manager. See [Customising Emails](/core-platform/notifications/customising-emails) for details.
+</Note>
+
+## Customer Emails
+
+These emails are sent to the people who purchase items, receive transfers, or interact with the shop.
+
+### Order Confirmation
+
+Sent to the purchaser when an order is completed successfully. Contains the order reference, a summary of purchased items grouped by event, download links for tickets and QR codes, and calendar links.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Successful checkout (shop or box office) |
+| **Recipient** | The email address on the order |
+| **Subject** | *Thanks for your order [reference]* |
+| **Conditions** | Not sent if confirmation emails are disabled for the channel (see [Disabling Confirmation Emails](/core-platform/notifications/email-settings#disabling-confirmation-emails)) |
+
+<Note>
+If an order contains items from multiple events and the **Dispatch confirmation email per inventory source** setting is enabled, the customer receives a separate confirmation email for each event rather than a single combined email.
+</Note>
+
+### Reservation Confirmation
+
+Sent when a customer places a reservation that requires approval before payment. Lets the customer know their reservation has been received and will be reviewed.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Reservation submitted for items requiring approval |
+| **Recipient** | The email address on the reservation |
+| **Subject** | *Your reservation is confirmed [reference]* |
+| **Conditions** | Not sent if confirmation emails are disabled for the channel |
+
+### Payment Link
+
+Sent when an admin creates a payment link for a customer, or when a reservation is approved and payment is required. Contains the amount due and a link to complete payment.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Reservation approved with payment required, or manual payment link creation |
+| **Recipient** | The email address on the order |
+| **Subject** | *[Company] has requested a payment* |
+
+<Note>
+If the reservation has an expiry date, the email includes a warning: *Your reservation will expire on [date].*
+</Note>
+
+### Deposit Received
+
+Sent when a deposit payment is received for a partially paid order. Confirms the deposit amount and provides a link to pay the remaining balance.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Deposit payment processed |
+| **Recipient** | The email address on the order |
+| **Subject** | *[Company] has received your deposit* |
+
+### Tax Receipt
+
+Sent when a tax receipt is generated for an order. Can include an attached PDF if the company has that feature enabled.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Tax receipt generated (automatic or manual) |
+| **Recipient** | The email address on the order |
+| **Conditions** | Not sent if **Disable tax receipt emails** is enabled in company settings |
+
+### Refund Confirmation
+
+Sent when items on a customer's order are refunded. Describes which items were refunded and confirms the refund method.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Refund processed (individual or bulk) |
+| **Recipient** | The email address on the order |
+| **Subject** | *Refund confirmation* |
+
+<Note>
+The email content differs depending on the refund method. Refunds to the original payment method state that the refund will be issued to the customer's original payment method. Refunds to account balance state that the refund will be issued to the customer's account balance.
+</Note>
+
+### Cancellation Confirmation
+
+Sent when items on an order are cancelled without a refund. Lists the cancelled items and confirms they are no longer valid.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Order items cancelled |
+| **Recipient** | The email address on the order |
+| **Subject** | *Order cancellation confirmation* |
+
+### Claim Your Items
+
+Sent to a transfer recipient when someone shares items with them. Contains the sender's name, the items being transferred, and a button to claim the items.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Item transfer created (sent on the scheduled transfer date, or immediately for instant transfers) |
+| **Recipient** | The transfer recipient's email address |
+| **Subject** | *[Sender] has sent you an item for [event]* |
+
+<Note>
+For scheduled transfers, the email is sent when the transfer date arrives, not when the transfer is created. A background process checks for pending transfers and sends notification emails as they become due.
+</Note>
+
+### Item Approved
+
+Sent when individual items on a reservation are approved. Confirms which items were approved and provides next steps.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Admin approves individual items on a reservation |
+| **Recipient** | The email address on the order |
+| **Subject** | *Guest list confirmation for [event]* |
+
+### Item Rejected
+
+Sent when individual items on a reservation are rejected.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Admin rejects individual items on a reservation |
+| **Recipient** | The email address on the order |
+| **Subject** | *Sorry, your reservation for [item] has not been successful* |
+
+### Order Rejected
+
+Sent when an entire reservation is rejected.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Admin rejects an entire reservation |
+| **Recipient** | The email address on the order |
+| **Subject** | *Your reservation has been rejected* |
+
+### Reservation Approved (Payment Required)
+
+Sent when a reservation is approved and the customer needs to pay. Includes a payment link.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Admin approves a reservation with outstanding payment |
+| **Recipient** | The email address on the order |
+| **Subject** | *Your reservation has been approved, it's time to pay* |
+
+### Payment Failure
+
+Sent when a payment attempt fails during checkout. Lets the customer know they should try again.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Failed payment attempt |
+| **Recipient** | The email address on the order |
+| **Subject** | *Payment failure for order [reference]* |
+
+### Event Reminder
+
+Sent automatically before an event takes place to remind attendees and provide download links for their tickets.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Automatic — a configurable number of hours before the event start time |
+| **Recipient** | Each attendee with items for the event |
+| **Subject** | *You have an upcoming event - [event name]* |
+| **Conditions** | Only sent if [automatic reminder emails](/core-platform/notifications/email-settings#automatic-event-reminder-emails) are enabled |
+
+### Deferred Tickets
+
+Sent when tickets that were withheld at the time of purchase become available for download.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Automatic — when the deferred ticket release date arrives |
+| **Recipient** | Each attendee whose tickets are now available |
+| **Subject** | *Your tickets are ready to download for [event name]* |
+
+### Order Item Reallocated
+
+Sent when an attendee's seat or space is moved to a different location.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Admin reallocates a customer's seat or space |
+| **Recipient** | The email address on the order |
+
+### Added to Customer Group
+
+Sent when a customer is added to a customer group, welcoming them and explaining any benefits.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Customer added to a customer group (when welcome email is enabled for the group) |
+| **Recipient** | The customer's email address |
+| **Subject** | *You have been added to [group name]* |
+
+### Account Verification
+
+Sent when a customer needs to verify their email address to complete their account setup.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Account creation during checkout or registration |
+| **Recipient** | The customer's email address |
+| **Subject** | *Verify your account with [platform]* |
+
+### Complete Your Account
+
+Sent when a customer account is created on their behalf (e.g. during a data import) and they need to set a password.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Customer imported or account created by an admin |
+| **Recipient** | The customer's email address |
+| **Subject** | *Finish setting up your account with [platform]* |
+
+### Password Reset
+
+Sent when a customer requests a password reset.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Customer requests password reset |
+| **Recipient** | The customer's email address |
+| **Subject** | *Reset your [platform] password* |
+
+---
+
+## Admin and Staff Emails
+
+These emails are sent to event organisers, administrators, and staff to keep them informed of activity.
+
+### Purchase Summary Notification
+
+Sent to designated staff members whenever a purchase is made for their event. Contains a summary of the order including the customer name, items purchased, and total.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Order completed for an event with purchase summary emails enabled |
+| **Recipient** | The email addresses configured in the event's [email preferences](/core-platform/notifications/email-settings#purchase-summary-emails) |
+| **Subject** | *[Customer] has just purchased [count] items* |
+| **Conditions** | Only sent if **Send purchase summary email** is enabled for the event |
+
+<Note>
+An enriched variant is available that includes additional detail such as billing address, customer address, and data capture responses. Enable this via **Enable enriched purchase notifications** in company settings.
+</Note>
+
+### Event Approval Requested
+
+Sent to approval recipients when a user requests approval to publish an event. Contains the event name, the requesting user, and a link to review the event.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | User requests publishing approval for an event |
+| **Recipient** | The email addresses configured in **Event approval email(s)** in company settings |
+| **Subject** | *Event approval request: [event name]* |
+| **Conditions** | Only sent if approval email addresses are configured |
+
+See [Event Approvals](/core-platform/event-management/event-approvals) for the full approval workflow.
+
+### Event Approval Request Sent
+
+Confirmation sent to the user who requested approval, confirming their request was submitted.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | User requests publishing approval for an event |
+| **Recipient** | The user who requested approval |
+| **Subject** | *Event approval request sent: [event name]* |
+| **Conditions** | Only sent if approval email addresses are configured |
+
+### Event Approved
+
+Sent to the user(s) who requested approval when their event is approved and published.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Approver publishes the event |
+| **Recipient** | All users who requested approval for the event |
+| **Subject** | *Your event "[event name]" was approved* |
+
+### Event Rejected
+
+Sent to the user(s) who requested approval when their event is rejected. Includes the rejection reason.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Approver rejects the event |
+| **Recipient** | All users who requested approval for the event |
+| **Subject** | *Your event "[event name]" was rejected* |
+
+### Event Creation Notification
+
+Sent to designated recipients when a new event is created or copied. Used to notify hub-level administrators of new event activity.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Event created or copied |
+| **Recipient** | The email addresses configured in the company's **Event creation notification** setting |
+| **Subject** | *Event creation notification* |
+| **Conditions** | Only sent if **Send event creation notification email** is enabled for the company |
+
+### Bulk Refund Summary
+
+Sent after a bulk refund operation completes, summarising the results.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Bulk refund operation completes |
+| **Recipient** | The admin who initiated the bulk refund |
+| **Subject** | *Bulk refund summary* |
+
+---
+
+## System Emails
+
+These emails are sent to system administrators for operational purposes. They are not configurable through the standard notification settings.
+
+| Email | Trigger | Description |
+|-------|---------|-------------|
+| **Report export ready** | Report export completes | Contains a download link for the exported report |
+| **Report export failed** | Report export fails | Notifies the user that their export could not be completed |
+| **Scheduled report ready** | Scheduled report completes | Delivers the scheduled report to the configured recipient |
+| **Scheduled report failed** | Scheduled report fails | Notifies the recipient that the scheduled report could not be generated |
+
+## Related Pages
+
+- [Email Settings](/core-platform/notifications/email-settings) — Configure which emails are sent
+- [Customising Emails](/core-platform/notifications/customising-emails) — Change email content
+- [Sending Emails](/core-platform/notifications/sending-emails) — Send and resend emails manually
+- [Email Logs](/core-platform/notifications/email-logs) — Track delivery status

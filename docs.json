@@ -60,8 +60,7 @@
                   "core-platform/event-management/event-media/overview",
                   "core-platform/event-management/event-media/custom-pdfs",
                   "core-platform/event-management/event-media/cover-sheets",
-                  "core-platform/event-management/event-media/mobile-wallets",
-                  "core-platform/event-management/event-media/boca-printers"
+                  "core-platform/event-management/event-media/mobile-wallets"
                 ]
               },
               {
@@ -159,7 +158,9 @@
               {
                 "group": "Primary Resale",
                 "pages": [
+                  "core-platform/resale/introduction",
                   "core-platform/resale/configuration",
+                  "core-platform/resale/selling-and-buying",
                   "core-platform/resale/resale-fees"
                 ]
               }
@@ -172,14 +173,11 @@
                 "group": "Your Ticket Shop",
                 "pages": [
                   "core-platform/ticket-shop/homepage",
-                  "core-platform/ticket-shop/event-listings",
-                  "core-platform/ticket-shop/event-search",
-                  "core-platform/ticket-shop/global-basket",
-                  "core-platform/ticket-shop/checkout-flow",
-                  "core-platform/ticket-shop/guest-checkouts",
-                  "core-platform/ticket-shop/my-account",
-                  "core-platform/ticket-shop/other-pages",
-                  "core-platform/ticket-shop/sitemap"
+                  "core-platform/ticket-shop/browsing-and-search",
+                  "core-platform/ticket-shop/basket",
+                  "core-platform/ticket-shop/checkout",
+                  "core-platform/ticket-shop/customer-accounts",
+                  "core-platform/ticket-shop/shop-settings"
                 ]
               },
               {
@@ -187,11 +185,11 @@
                 "pages": [
                   "core-platform/box-office/introduction",
                   "core-platform/box-office/entry-points",
+                  "core-platform/box-office/checkout-flow",
                   "core-platform/box-office/payment-methods",
-                  "core-platform/box-office/named-orders",
-                  "core-platform/box-office/named-holders",
+                  "core-platform/box-office/discounts-and-overrides",
                   "core-platform/box-office/instant-checkout",
-                  "core-platform/box-office/seating-plans"
+                  "core-platform/box-office/after-the-sale"
                 ]
               },
               {
@@ -203,32 +201,35 @@
                   "core-platform/cms/forms",
                   "core-platform/cms/articles",
                   "core-platform/cms/theme-and-branding",
-                  "core-platform/cms/website-text",
-                  "core-platform/cms/announcements"
+                  "core-platform/cms/website-text"
                 ]
               },
               {
                 "group": "Data Capture",
                 "pages": [
                   "core-platform/data-capture/introduction",
-                  "core-platform/data-capture/question-types",
-                  "core-platform/data-capture/external-questions",
+                  "core-platform/data-capture/managing-questions",
+                  "core-platform/data-capture/assigning-questions",
                   "core-platform/data-capture/internal-questions"
                 ]
               },
               {
                 "group": "Notifications",
                 "pages": [
-                  "core-platform/notifications/emails",
-                  "core-platform/notifications/sms"
+                  "core-platform/notifications/overview",
+                  "core-platform/notifications/email-types",
+                  "core-platform/notifications/email-settings",
+                  "core-platform/notifications/customising-emails",
+                  "core-platform/notifications/sending-emails",
+                  "core-platform/notifications/email-logs"
                 ]
               },
               {
                 "group": "EPOS",
                 "pages": [
                   "core-platform/epos/overview",
-                  "core-platform/epos/custom-currencies",
-                  "core-platform/epos/shops-products-users"
+                  "core-platform/epos/shops-products-users",
+                  "core-platform/epos/custom-currencies"
                 ]
               }
             ]
@@ -241,13 +242,15 @@
                 "pages": [
                   "core-platform/order-management/core-concepts",
                   "core-platform/order-management/refunds-and-cancellations",
-                  "core-platform/order-management/order-modifications"
+                  "core-platform/order-management/order-modifications",
+                  "core-platform/order-management/transfers-and-sharing",
+                  "core-platform/order-management/rebooking"
                 ]
               },
               {
                 "group": "Customer Management",
                 "pages": [
-                  "core-platform/customer-management/editing-customers",
+                  "core-platform/customer-management/managing-customers",
                   "core-platform/customer-management/merging-customers",
                   "core-platform/customer-management/customer-groups"
                 ]
@@ -256,11 +259,10 @@
                 "group": "Reporting",
                 "pages": [
                   "core-platform/reporting/fundamentals",
-                  "core-platform/reporting/default-reports",
+                  "core-platform/reporting/using-reports",
                   "core-platform/reporting/custom-reports",
                   "core-platform/reporting/scheduled-reports",
-                  "core-platform/reporting/report-publishing",
-                  "core-platform/reporting/interpreting-data"
+                  "core-platform/reporting/default-reports"
                 ]
               },
               {

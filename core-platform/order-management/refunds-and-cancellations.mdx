@@ -1,14 +1,220 @@
 ---
-title: "Refunds And Cancellations"
-description: "Documentation for Refunds And Cancellations"
+title: "Refunds & Cancellations"
+description: "How to refund or cancel order items through admin, customer self-service, or bulk operations."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Refunds And Cancellations** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+After an order is completed, you may need to return money to a customer (a **refund**) or remove items without returning money (a **cancellation**). Both actions are available from the order detail page in admin, and customers can self-serve refunds to their account balance if you enable that option.
+
+The platform supports several refund scenarios:
+
+- **Online refunds** — Money is returned to the customer's original payment method through the payment gateway
+- **Offline refunds** — The refund is recorded in the system but money is returned manually (e.g. cash, bank transfer)
+- **Account balance refunds** — The refund amount is credited to the customer's account balance for future purchases
+- **Cancellations** — Items are removed from the order without returning any money
+
+## Refunds vs Cancellations
+
+The distinction matters because the financial outcome is different:
+
+| Action | Money returned? | Items removed? | When to use |
+|---|---|---|---|
+| **Refund** | Yes — to original payment method, or to account balance | Yes | Customer wants money back or credit for future use |
+| **Cancellation** | No | Yes | Item needs to be removed but no financial return is warranted (e.g. no-show policy, terms violation) |
+
+Both actions restock the cancelled items (releasing capacity back to general sale) and update the order status accordingly.
+
+## Refunding an Order
+
+### Starting a Refund
+
+1. Open the order in admin and click **Refund order**.
+2. Select which items to refund using the checkboxes.
+3. For each item, optionally set a **cancellation fee** (the portion of the item price retained — the customer receives the remainder).
+4. Choose the refund method:
+   - **Online** — Refund is processed through the payment gateway back to the customer's original payment method
+   - **Offline** — Refund is recorded but you handle the actual money transfer manually
+   - **Account balance** — Refund amount is credited to the customer's account balance
+5. Optionally add a reason and choose whether to notify the customer by email.
+6. Submit the refund.
+
+### What Happens After a Refund
+
+- **Items are cancelled** — Each refunded item is marked as cancelled and no longer valid
+- **Stock is restocked** — Capacity reserved by the cancelled items is released back to general sale
+- **Order status updates** — The order moves to **Partially refunded** (if some items remain) or **Refunded** (if all items are refunded)
+- **Customer notification** — If enabled, the customer receives an email confirming the refund with details of the amount returned
+- **Wallet deductions** — If any refunded items were wallet top-ups, the corresponding balance is deducted from the customer's wallet
+
+### Online vs Offline Refunds
+
+**Online refunds** are processed automatically through the payment gateway. The money is returned to whichever payment method the customer originally used. This is the most common approach for card payments.
+
+**Offline refunds** are recorded in the system for accounting purposes, but you are responsible for actually returning the money (e.g. handing back cash, making a bank transfer). Use this for orders originally paid by cash, bank transfer, or when the payment gateway doesn't support automated refunds.
+
+<Note>
+For orders paid with [split payments](/core-platform/payments/split-payments), the refund is automatically distributed proportionately across the original payment transactions. For example, if a customer paid 60% by card and 40% by wallet, a refund of any item is split 60/40 across those payment methods.
+</Note>
+
+### Cancellation Fees
+
+When refunding an item, you can apply a **cancellation fee** — a portion of the item price that is retained rather than refunded. The customer receives the item total minus the cancellation fee.
+
+For example, if a ticket costs £50 and you set a £10 cancellation fee, the customer receives a £40 refund.
+
+The maximum cancellation fee for each item is calculated based on the item's available refund amount (total minus any processing or reseller fees that are configured as non-refundable).
+
+<Note>
+Cancellation fees require the **Cancellation fees** feature to be enabled, and the staff member must have the **Apply cancellation fees** permission.
+</Note>
+
+### Refunding to Account Balance
+
+Instead of returning money to the original payment method, you can credit the refund amount to the customer's account balance. This is useful when you want to retain the revenue while giving the customer credit for future purchases.
+
+Account balance refunds:
+- Require the **Account balances** feature to be enabled
+- Are not available for box office-only orders (orders placed without a customer account)
+- Are not available for complimentary (zero-value) orders
+- Can be configured to include or exclude processing fees and reseller fees
+
+### Fee Handling During Refunds
+
+When processing a refund, fees are handled based on your configuration:
+
+- **Processing fees** — By default, processing fees paid by the customer are included in the refund. If the **Reseller fees are non-refundable** limitation is active, platform fees are deducted from the refund amount.
+- **Reseller fees** — Depending on your configuration, these may or may not be included in the refund amount.
+- **Refund protection fees** — If the customer purchased refund protection, these fees may be handled separately depending on the refund protection provider.
+
+## Cancelling Items Without Refund
+
+To cancel items without returning money:
+
+1. Open the order in admin and click **Refund order**.
+2. Select the items to cancel.
+3. Choose **Cancellation** mode (instead of refund).
+4. Optionally choose whether to notify the customer.
+5. Submit.
+
+Cancelled items are removed from the order, stock is restocked, and the order status updates accordingly. No payment gateway transaction is created — the financial record simply reflects that the items were cancelled.
+
+<Note>
+Wallet top-up items that are cancelled will have the corresponding balance deducted from the customer's wallet. If the customer has already spent more than the wallet contains, the cancellation is blocked.
+</Note>
+
+## Customer Self-Service Refunds
+
+Customers can request refunds directly from their account if you enable the self-service refund feature. Self-service refunds are always processed as **account balance** credits — they are not returned to the original payment method.
+
+### Configuring Self-Service Refunds
+
+Self-service refund settings are managed through the account balance refund configuration:
+
+| Setting | What it controls |
+|---|---|
+| **Enable self-service refunds** | Allows customers to request refunds from their **My Account > Orders** page |
+| **Cutoff hours** | How many hours before the event starts that self-service refunds are no longer available |
+| **Refund processing fees** | Whether processing fees are included in the balance credit |
+| **Refund reseller fees** | Whether reseller fees are included in the balance credit |
+
+### How Customers Request a Refund
+
+1. The customer goes to **My Account > Orders** and opens the order.
+2. They click **Refund your order**.
+3. They select which items to refund and provide a refund reason.
+4. They confirm the refund.
+
+The refund is credited to their account balance immediately.
+
+### Self-Service Refund Restrictions
+
+| Restriction | Detail |
+|---|---|
+| **Tickets only** | Only ticket items can be refunded through self-service. Products, fees, and other item types are not eligible. |
+| **Before cutoff** | The event must be more than the configured cutoff hours away. Items beyond the cutoff show an error. |
+| **Bundles** | If refunding a bundle, the lead item must be included. Bundles containing non-ticket items cannot be refunded via self-service. |
+| **Discounted orders** | If the order contains discounted items, all non-bundled items must be refunded together (partial refunds are not available on discounted orders). |
+
+<Note>
+Customers who need a refund to their original payment method (rather than account balance) should contact the organiser. The self-service option always refunds to account balance.
+</Note>
+
+## Bulk Refunds
+
+For situations where you need to refund multiple orders at once — such as cancelling an event — use the bulk refund feature.
+
+### Processing a Bulk Refund
+
+1. Navigate to **Sales > Orders** and click **Bulk refund**.
+2. Select the event(s) whose orders you want to refund.
+3. The system displays all eligible orders with refundable items from those events.
+4. Configure the refund settings:
+   - **Online / Offline** — Whether to process refunds through the gateway or record them manually
+   - **Restock items** — Whether to release capacity
+   - **Refund processing fees** — Include or exclude
+   - **Refund reseller fees** — Include or exclude
+   - **Notify customers** — Send refund confirmation emails
+   - **Additional email text** — Custom message to include in the notification
+   - **Reason** — Refund reason for records
+5. Submit the bulk refund.
+
+Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue. After all orders are processed, you receive a **Bulk refund summary email** showing which orders were successfully refunded and which failed.
+
+<Warning>
+Bulk refunds cannot be undone. Review the list of affected orders carefully before submitting.
+</Warning>
+
+## Refund Eligibility
+
+Not all items or orders can be refunded. The following conditions prevent a refund:
+
+| Condition | Reason |
+|---|---|
+| **Order is frozen** | The order is locked during an active [modification](/core-platform/order-management/order-modifications) or resale listing. Wait for the modification to complete or cancel it first. |
+| **Item already refunded** | The item has already been cancelled or refunded. |
+| **Claimed gift voucher** | Gift vouchers that have been redeemed by the recipient cannot be refunded. |
+| **Pending refund in progress** | Another refund is currently being processed for this order (common with asynchronous payment gateways). Wait for it to complete. |
+| **Deposit item** | Deposit payments are non-refundable through the standard refund flow. |
+| **Third-party sync pending** | The order is awaiting a response from a third-party integration. The refund is blocked until the sync completes. |
+
+### Async Gateway Refunds
+
+Some payment gateways (such as Adyen) process refunds asynchronously. When you submit a refund through these gateways:
+
+1. The refund transaction is created with a **Pending** status.
+2. You see a confirmation that the refund has been submitted.
+3. The gateway confirms the refund later (typically within minutes to hours).
+4. Once confirmed, the refund transaction updates to **Success**.
+
+While a refund is pending, additional refunds on the same order are blocked.
+
+## Order Status After Refund
+
+The order status updates automatically based on the outcome:
+
+| Scenario | Resulting status |
+|---|---|
+| All items refunded (money returned) | **Refunded** |
+| Some items refunded, others remain | **Partially refunded** |
+| All items cancelled (no money returned) | **Cancelled** |
+
+## Email Notifications
+
+The system can send emails at each stage:
+
+| Action | Recipient | Content |
+|---|---|---|
+| **Refund processed** | Customer | Confirmation with refund amount and affected items |
+| **Cancellation processed** | Customer | Notification that items have been cancelled |
+| **Bulk refund complete** | Admin user who initiated | Summary of successful and failed refunds |
+
+Customer notifications are optional — you can choose whether to send them when processing each refund.
+
+## Related
+
+- [Core Concepts](/core-platform/order-management/core-concepts)
+- [Order Modifications](/core-platform/order-management/order-modifications)
+- [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
+- [Split Payments](/core-platform/payments/split-payments)
+- [Refund Protection](/core-platform/refund-protection/protect-group)

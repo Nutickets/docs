@@ -1,27 +1,230 @@
 ---
-title: "Theme And Branding"
-description: "Configure visual shop presentation, logos, schema options, and branding assets."
+title: "Theme & Branding"
+description: "Control your shop's visual identity — colours, logos, fonts, buttons, footer layout, menu styling, default images, and announcements."
 ---
 
 ## Overview
 
-- Theme and branding settings control shop-level visual presentation.
-- Company branding and theme configuration are managed from separate but related admin screens.
-- Theme schema controls layout, menus, banners, and many shop UI behaviours.
+Theme and branding settings define the visual identity of your ticket shop. From colour scheme and typography to logo placement and footer layout, these settings shape every page your customers see.
 
-## Common Areas
+Configuration is split across two areas in admin:
 
-| Area | Examples |
-|---|---|
-| Logos/assets | Default, dark/light variants, favicon, default imagery |
-| Theme schema | Header/menu layout, colour and spacing options |
-| Shop behaviour | Display options that influence rendered components |
+- **Company branding** — your colour theme and logos
+- **Shop theme** — detailed styling for fonts, buttons, menus, footers, default images, and announcements
 
-## Announcement Support
+## Colour Theme
 
-Top menu announcement content is managed within theme schema and displayed across shop pages when enabled.
+Your colour theme sets the primary colour palette used throughout the shop — for buttons, links, badges, navigation highlights, and other UI elements.
 
-## Related
+### Preset Themes
 
-- [Announcements](/core-platform/cms/announcements)
-- [Website Text](/core-platform/cms/website-text)
+Choose from 11 preset colour themes:
+
+| Theme | Description |
+|-------|-------------|
+| **Grey** | Neutral grey tones |
+| **Cool Grey** | Cool-toned grey |
+| **Red** | Red accent colour |
+| **Orange** | Orange accent colour |
+| **Yellow** | Yellow accent colour |
+| **Green** | Green accent colour |
+| **Teal** | Teal accent colour |
+| **Blue** | Blue accent colour |
+| **Indigo** | Indigo accent colour |
+| **Purple** | Purple accent colour |
+| **Pink** | Pink accent colour |
+
+### Custom Colours
+
+Select **Custom** to define your own colour values. Custom colours give you full control over the palette used across the shop.
+
+## Logos
+
+Upload logos that appear in your shop's navigation and branding areas. Multiple logo variants ensure your branding looks correct against different backgrounds.
+
+| Logo | Purpose |
+|------|---------|
+| **Default logo** | The primary logo used in the shop |
+| **Dark logo** | Used on light backgrounds where the default logo may not have enough contrast |
+| **Light logo** | Used on dark backgrounds (e.g. when the menu overlays a dark header image) |
+| **Favicon** | The small icon shown in browser tabs (cropped to 32x32 pixels) |
+
+### Logo Display
+
+Control where your logo appears:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Main menu** | Logo is displayed in the main navigation bar |
+| **Top menu** | Logo is displayed in the top bar above the main navigation |
+| **Hidden** | Logo is not displayed in the navigation |
+
+You can also enable **logo in footer** separately to show your logo in the footer area.
+
+## Fonts
+
+Customise the typography used across your shop:
+
+| Setting | Controls |
+|---------|----------|
+| **Heading font** | Font family and weight for headings throughout the shop |
+| **Body font** | Font family and weight for body text and general content |
+
+Choose from available font families and select a variant (weight) for each. You can enable multiple fonts, though a warning appears if you have many fonts active — each additional font adds to page load time.
+
+<Note>
+Fonts that are currently in use cannot be removed. To remove a font, first switch any settings that reference it to a different font.
+</Note>
+
+## Buttons
+
+Configure the appearance of buttons throughout your shop:
+
+### Button Shape
+
+| Shape | Description |
+|-------|-------------|
+| **Sharp** | Square corners with no rounding |
+| **Smooth** | Slightly rounded corners |
+| **Slightly round** | Moderately rounded corners |
+| **Round** | Well-rounded corners |
+| **Pill** | Fully rounded, capsule-shaped buttons |
+
+### Button Text Format
+
+| Format | Description |
+|--------|-------------|
+| **None** | Text displays in its natural case |
+| **Capitalise** | First letter of each word is capitalised |
+| **Lowercase** | All text in lowercase |
+| **Uppercase** | All text in uppercase |
+
+### Primary and Secondary Button Styles
+
+Both primary and secondary buttons can be configured independently:
+
+| Setting | Description |
+|---------|-------------|
+| **Button style** | Choose between filled (solid background) or line (outlined) |
+| **Button colour** | The background or border colour |
+| **Button text colour** | The colour of the text label |
+
+## Menu Styling
+
+Fine-tune how the navigation menus appear:
+
+| Setting | Description |
+|---------|-------------|
+| **Menu theme** | Choose between **Default** or **Gray** menu styling |
+| **Main menu text** | Text colour settings for the main navigation bar |
+| **Top menu text** | Text colour settings for the top bar |
+| **Menu dividing lines** | Show or hide lines between menu sections |
+| **Menu position** | Whether the menu sits **above** or **covers** full-width header images — this works best with menus that have some opacity |
+| **Opacity over images** | The menu's transparency level when overlaying header images |
+
+<Note>
+The menu position setting only affects pages that use a full-width header image style. On pages without a header image, the menu always appears above the content.
+</Note>
+
+## Footer
+
+Configure the footer area that appears at the bottom of every page:
+
+### Footer Layout
+
+Choose from 10 layout options to match the number and arrangement of your footer content:
+
+| Layout | Description |
+|--------|-------------|
+| **4 Columns (centered)** | Four equal columns, centered |
+| **3 Columns (centered)** | Three equal columns, centered |
+| **List** | Items displayed as a vertical list |
+| **Centered** | Content centered in a single area |
+| **Left aligned** | Content aligned to the left |
+| **Right aligned** | Content aligned to the right |
+| **6 Columns (centered)** | Six equal columns, centered |
+| **3 Columns (left)** | Three columns, left-aligned |
+| **4 Columns (left)** | Four columns, left-aligned |
+| **6 Columns (left)** | Six columns, left-aligned |
+
+Choose a column count that matches how many groups of links you intend to show. For example, if you have 3 or 6 footer menu items, a 3-column layout works well.
+
+### Footer Options
+
+| Setting | Description |
+|---------|-------------|
+| **Footer colour** | Background colour of the footer area |
+| **Footer dividing lines** | Show or hide lines between footer sections |
+| **Enable logo in footer** | Display your logo in the footer |
+| **Footer imprint** | Custom text displayed in the footer (e.g. legal information, company details) |
+
+## Social Links
+
+Add social media links that display as icons in your footer:
+
+| Platform | Field |
+|----------|-------|
+| **Facebook** | Facebook page username |
+| **X / Twitter** | X / Twitter username |
+| **Instagram** | Instagram username |
+
+The **Social media icon colour** setting controls the colour of these icons.
+
+## Default Images
+
+Set fallback images used when specific events or schedules don't have their own images uploaded. These appear wherever an image is expected but none has been provided.
+
+| Image | Used for |
+|-------|----------|
+| **Default event header** | Header image on event pages |
+| **Default event thumbnail** | Thumbnail image in event listings and blocks |
+| **Default event sharing image** | Image when events are shared on social media |
+| **Default schedule header** | Header image on schedule pages |
+| **Default item image** | Image for sale items without their own image |
+
+<Note>
+Default images are only used where no specific image has been uploaded for the individual event, schedule, or item.
+</Note>
+
+## Map Theme
+
+If your shop displays maps (e.g. in event blocks with the **Interactive Map** layout), choose a map visual style:
+
+| Theme | Description |
+|-------|-------------|
+| **Standard** | Default map styling |
+| **Light** | Light, minimal map styling |
+| **Blue** | Blue-tinted map |
+| **Green** | Green-tinted map |
+| **Dark** | Dark-themed map |
+
+## Announcements
+
+Display a banner message above the navigation on every page of your shop. Announcements are useful for important notices like maintenance windows, special promotions, or general information.
+
+### Configuring an Announcement
+
+Announcements are managed within the shop theme settings:
+
+| Setting | Description |
+|---------|-------------|
+| **Show menu announcement** | Toggle the announcement banner on or off |
+| **Announcement content** | The message displayed — supports rich text and HTML |
+| **Announcement colour** | Background colour of the announcement banner |
+| **Announcement padding** | Vertical spacing around the announcement content |
+
+When enabled, the announcement banner appears above the top menu across all shop pages.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Menus" icon="bars" href="/core-platform/cms/menus">
+    Create navigation items styled by your theme settings
+  </Card>
+  <Card title="Pages" icon="file" href="/core-platform/cms/pages">
+    Build pages that showcase your theme and branding
+  </Card>
+  <Card title="Website Text" icon="language" href="/core-platform/cms/website-text">
+    Override the text displayed throughout your shop
+  </Card>
+</CardGroup>

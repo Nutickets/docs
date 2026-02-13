@@ -1,25 +1,86 @@
 ---
 title: "Introduction"
-description: "Design and assign data-capture questions across checkout, forms, events, and internal workflows."
+description: "Collect structured information from customers during checkout, registration, and form submissions."
 ---
 
 ## Overview
 
-- Data capture provides reusable question definitions for collecting customer and operational data.
-- Questions can be assigned to multiple entities (events, forms, checkout contexts, and internal workflows).
-- Responses are persisted per field/question and reused in reporting and downstream workflows.
+Data capture lets you collect structured information from customers at key points in their journey — during event checkout, at registration, and through forms. You create reusable questions in a central library, then assign them to appear wherever you need them: across all events, on specific events, per ticket, or as part of customer registration.
 
-## Core Components
+The system handles the full lifecycle: question creation, assignment to the right context, collection during checkout or post-purchase, and storage of responses for reporting and operations.
 
-| Component | Role |
-|---|---|
-| Question | The reusable prompt and type definition |
-| Options | Select/radio/multi-choice values |
-| Field assignment | Placement of a question on a target entity/context |
-| Response | Captured answer payload linked to user/order/context |
+## How It Works
 
-## Related
+Data capture operates on three layers:
 
-- [Question Types](/core-platform/data-capture/question-types)
-- [External Questions](/core-platform/data-capture/external-questions)
-- [Internal Questions](/core-platform/data-capture/internal-questions)
+1. **Questions** — Reusable prompts defined in your [question library](/core-platform/data-capture/managing-questions). Each question has a type (text, date, selection, etc.), optional validation rules, and can include a description shown to customers.
+
+2. **Assignment** — Questions are [assigned to contexts](/core-platform/data-capture/assigning-questions) that control where they appear. A single question can be assigned to multiple contexts — for example, asked at every event, on specific ticket types, or only during customer registration.
+
+3. **Responses** — Customer answers are stored against their order or profile. Responses can be viewed per order, exported in reports, and included on invoices.
+
+### Question Groups
+
+Questions belong to one of four groups, which determines where they appear and who sees them:
+
+| Group | Visible to Customers | Purpose |
+|-------|---------------------|---------|
+| **Shop** | Yes | Standard questions shown during checkout |
+| **Marketing** | Yes | Marketing preference questions with consent tracking |
+| **Internal** | No | Event codes and EPOS questions for staff use |
+| **Access Control** | No | Questions prompted during zone scanning |
+
+Most data capture work involves **Shop** questions. [Internal questions](/core-platform/data-capture/internal-questions) have their own management interface and are covered separately.
+
+## Built-in Customer Fields
+
+In addition to custom questions, the platform includes built-in fields for collecting standard customer information. These are configured at the company level from **Data Capture > Settings** rather than through the question library.
+
+Each built-in field can be set to one of five states:
+
+| Setting | Behaviour |
+|---------|-----------|
+| **Disabled** | Field is not shown anywhere |
+| **Optional** | Field is shown during checkout but can be left blank |
+| **Required** | Field is shown during checkout and must be completed |
+| **Optional (hidden)** | Field is not shown during checkout — it appears on the post-purchase [Complete data capture](/core-platform/data-capture/assigning-questions#post-purchase-data-capture) page instead |
+| **Required (hidden)** | Field appears on the post-purchase **Complete data capture** page and must be completed |
+
+The available built-in fields are:
+
+| Field | Notes |
+|-------|-------|
+| **Full name** | Customer's first and last name |
+| **Date of birth** | |
+| **Address** | Full address fields (lines, city, postcode, country) |
+| **Phone number** | Includes country code selector |
+| **Title** | e.g. Mr, Mrs, Dr |
+| **Nationality** | Country selector |
+| **Billing address** | Shown during payment |
+| **Delivery address** | Shown during payment when fulfilment features are enabled |
+
+### Data Capture Settings
+
+Navigate to **Data Capture > Settings** to configure:
+
+- **Built-in customer fields** — Set each field to disabled, optional, required, or hidden as described above
+- **Imported orders can skip data capture** — When enabled, orders created through data imports are not required to have data capture responses
+- **Default country order** — Control the ordering of countries in nationality and address selectors, useful if most customers are from a specific region
+
+### Invoice Data Capture
+
+You can include customer data capture responses on invoices. From the settings page, select which registration questions should appear on generated invoices. Only responses to customer registration questions are available for invoice inclusion.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Managing Questions" icon="circle-question" href="/core-platform/data-capture/managing-questions">
+    Create and configure data capture questions
+  </Card>
+  <Card title="Assigning Questions" icon="list-check" href="/core-platform/data-capture/assigning-questions">
+    Control where and when questions appear
+  </Card>
+  <Card title="Internal Questions" icon="lock" href="/core-platform/data-capture/internal-questions">
+    Event codes and staff-only questions
+  </Card>
+</CardGroup>

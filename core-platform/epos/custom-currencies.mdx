@@ -1,14 +1,78 @@
 ---
 title: "Custom Currencies"
-description: "Documentation for Custom Currencies"
+description: "Create token-based currencies for cashless EPOS transactions at events and venues."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Custom Currencies** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Custom currencies let you replace real-money pricing with a token-based system for EPOS transactions. Instead of pricing products in GBP or USD, you create a named currency (e.g. "Tokens", "Credits", "Festival Bucks") that customers purchase via top-ups and spend at EPOS shops.
+
+This is common at festivals, conferences, and venues where a cashless wristband or card system is used — customers load tokens onto their account and spend them at vendor stalls without needing to handle cash or card payments for each transaction.
+
+## When to Use Custom Currencies
+
+<Accordion title="Cashless festivals and events">
+  Customers top up their wristband with tokens at a top-up station on arrival. They then tap their wristband at any food, drink, or merchandise stall to pay with tokens. At the end of the event, any remaining balance can be cashed out.
+</Accordion>
+
+<Accordion title="Closed-loop venue payments">
+  A venue creates its own currency that customers load onto a card or badge. Pricing in tokens simplifies transactions — a drink might cost 2 tokens rather than requiring exact change or card processing at every point of sale.
+</Accordion>
+
+<Accordion title="Simplified pricing across vendors">
+  When multiple vendors share a site, pricing everything in tokens avoids currency conversion complexity and gives customers a consistent experience. One token always equals one token, regardless of which shop they visit.
+</Accordion>
+
+## How Custom Currencies Differ from Standard Currencies
+
+| Aspect | Standard Currency | Custom Currency |
+|--------|-------------------|-----------------|
+| **Examples** | GBP, USD, EUR | Tokens, Credits |
+| **Currency code** | International standard (e.g. `GBP`) | Custom 3-character code (e.g. `TKN`) |
+| **Decimal places** | Yes (e.g. £4.50) | No — whole units only (e.g. 5 Tokens) |
+| **Processing fees** | Applicable | Not applicable |
+| **Tax bands** | Available on products | Available on products |
+
+## Creating a Custom Currency
+
+Custom currencies are created from the EPOS settings page:
+
+1. Navigate to **EPOS > EPOS Settings**
+2. In the **Epos currency** dropdown, select the custom currency option
+3. Enter a **Currency name** — this is the display name customers and staff will see (e.g. "Tokens")
+4. Enter a **Currency code** — a 3-character alphabetic code used in reports and exports (e.g. "TKN")
+5. Click **Save**
+
+The currency code must be:
+- Exactly 3 letters
+- Unique — it cannot match any standard international currency code or any other custom currency on your account
+
+<Note>
+Once a custom currency is created, you can update its name and code from the same settings page. The currency will continue to be used for all existing product pricing.
+</Note>
+
+## How Pricing Works with Custom Currencies
+
+When EPOS is configured with a custom currency:
+
+- All product prices are set in the custom currency (e.g. a burger costs 3 Tokens)
+- The **processing fee** fields are hidden on product forms, since token transactions don't involve real payment processing
+- Products still support **tax band** assignment
+- The **custom price** option remains available, allowing staff to enter a different token amount at the point of sale
+
+Customers acquire the custom currency by purchasing top-up items using real money (card or cash). The exchange rate is determined by the top-up item pricing — for example, a top-up of 10 Tokens for £10 creates a 1:1 exchange.
+
+## Using Multiple Currencies
+
+By default, EPOS operates with a single currency. All shops and products within your EPOS configuration share the same currency — whether that's a standard currency or a custom one.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="EPOS Overview" icon="cash-register" href="/core-platform/epos/overview">
+    Enable EPOS and configure payment methods, balance spending, and currency settings.
+  </Card>
+  <Card title="Shops & Products" icon="store" href="/core-platform/epos/shops-products-users">
+    Create shops, add products, assign staff, and manage your selling locations.
+  </Card>
+</CardGroup>

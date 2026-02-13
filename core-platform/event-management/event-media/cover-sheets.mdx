@@ -1,15 +1,87 @@
 ---
-title: 'Cover Sheets'
-description: 'Documentation for Cover Sheets'
+title: "Cover Sheets"
+description: "Add cover pages with recipient addresses and event details to PDF downloads — designed for postal ticket delivery from the box office."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Cover Sheets** has not been written yet.
-
-</Warning>
 
 ## Overview
 
-Coming soon.
+Cover sheets are optional pages that can be included at the beginning of a PDF ticket download. They're primarily used for postal delivery — providing a printable page with the recipient's address, order details, and event information that can be placed on top of the printed tickets before mailing.
+
+Cover sheets are available exclusively through the **box office** download interface. When box office staff download tickets for an order, they can optionally select one or more cover sheets to prepend to the PDF.
+
+## When to Use Cover Sheets
+
+Cover sheets are useful when:
+
+- **Posting tickets** — Include the recipient's delivery address on a cover page so staff can fold and mail the tickets
+- **Organising printed orders** — Add a cover page that identifies the order and purchaser for easier handling
+- **Including instructions** — Add custom text with entry instructions, parking details, or other information alongside the tickets
+
+## Pre-Built Templates
+
+Three cover sheet templates are available as starting points:
+
+| Template | Description |
+|----------|-------------|
+| **Cover sheet** | Standard cover page with event details, order information, and customisable text areas |
+| **Address sheet** | Focused on delivery address display — designed for windowed envelopes or mailing labels |
+| **Blank cover** | Empty canvas for building a fully custom cover sheet |
+
+## Creating a Cover Sheet
+
+Cover sheets are created in the same template designer used for [printable ticket templates](/core-platform/event-management/event-media/custom-pdfs):
+
+1. Navigate to **Event Media**
+2. Select the **Cover Sheets** tab
+3. Click **Create**
+4. Choose a starting template (**Cover sheet**, **Address sheet**, or **Blank cover**)
+5. Customise the layout using the template designer
+6. Click **Save**, enter a name, and confirm
+
+Cover sheets use A4 page dimensions (210 × 297 mm) and support all the same design objects as printable templates — text, images, shapes, and QR codes.
+
+### Available Fields
+
+Cover sheet templates support all the same dynamic fields as ticket templates, including:
+
+- **Purchaser name** and **delivery address** — Essential for postal delivery
+- **Order reference** and **completion date** — For identifying the order
+- **Event name**, **date**, **time**, and **venue** — Event details for context
+- **Organiser information** — Company or organiser details
+- **Data capture question answers** — Any responses collected during checkout
+
+See [Dynamic fields](/core-platform/event-management/event-media/custom-pdfs#dynamic-fields) for the full list of available placeholders.
+
+## Selecting a Cover Sheet at Download
+
+When downloading tickets from the box office, staff can choose to include a cover sheet:
+
+1. Open the order in the box office
+2. Select the items to download
+3. In the download options, under **Select your cover sheet(s)**, choose from available cover sheets — each displayed as a preview card showing the template's layout
+4. To skip the cover sheet, select **No cover sheet**
+5. Click **Download as PDF**
+
+The selected cover sheet(s) appear as the first page(s) of the generated PDF, followed by the ticket pages. The cover sheet is populated with the order's actual data — delivery address, purchaser name, event details, and any other fields included in the template.
+
+<Note>
+Cover sheet selection is only available in the box office download interface. Customers downloading their own tickets through the standard download page do not see cover sheet options.
+</Note>
+
+## Multiple Cover Sheets
+
+You can select more than one cover sheet for a single download. Each selected cover sheet generates its own page at the beginning of the PDF. This is useful if you need different information on separate pages — for example, an address page for the envelope and an instructions page for the customer.
+
+## Related Pages
+
+<CardGroup cols={3}>
+  <Card title="Event Media Overview" icon="palette" href="/core-platform/event-management/event-media/overview">
+    Template types, assignment hierarchy, and general management
+  </Card>
+  <Card title="Custom PDFs" icon="file-pdf" href="/core-platform/event-management/event-media/custom-pdfs">
+    Creating and customising PDF ticket templates
+  </Card>
+  <Card title="Mobile Wallets" icon="wallet" href="/core-platform/event-management/event-media/mobile-wallets">
+    Apple Wallet passes for mobile tickets
+  </Card>
+</CardGroup>

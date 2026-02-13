@@ -1,30 +1,95 @@
 ---
 title: "Introduction"
-description: "Use box office mode for assisted sales, customer assignment, and in-person checkout workflows."
+description: "Box office mode turns the ticket shop into a staff-operated point of sale, enabling in-person sales with flexible payment options, customer assignment, and streamlined checkout."
 ---
 
 ## Overview
 
-- Box office mode runs inside the shop stack but with staff-authenticated context.
-- Staff can start box office sessions from admin and optionally deep-link to a specific event or customer.
-- The mode supports assisted selling, payment shortcuts, and operational tools such as quick-sell actions.
+Box office mode lets staff sell tickets, products, and other items directly to customers — in person, over the phone, or on behalf of a third party. It runs inside the same ticket shop that customers use online, but with additional tools designed for staff-assisted sales: manual payment methods, customer lookup, staff discounts, validation overrides, and post-sale actions like quick sell and printing.
 
-## What Box Office Mode Adds
+When a staff member launches box office mode from the admin panel, a secure session is created in the ticket shop. The staff member browses events, adds items to a basket, assigns a customer (or sells without one), and completes the order using any available payment method — including cash, cheque, card terminal, and invoice.
 
-| Area | Capability |
-|---|---|
-| Session control | Start/stop secure box-office sessions |
-| Assisted checkout | Set basket customer, apply staff discounts/vouchers, process payments |
-| Event operations | Jump directly into event pages from admin launch links |
-| Basket tools | Instant checkout and quick-sell patterns for repeat orders |
+This is useful for:
 
-## Access Model
+- Walk-up ticket sales at venue box offices or kiosks
+- Phone orders taken by customer service staff
+- Processing orders on behalf of customers who need assistance
+- Selling to customers who don't have an online account
 
-- Starting box office requires sell-item permissions.
-- Box office behaviour can be globally limited by company feature/limitation settings.
+## How It Works
 
-## Related
+Box office mode operates as a session within the ticket shop. The session bridges the admin panel and the shop:
 
-- [Entry Points](/core-platform/box-office/entry-points)
-- [Payment Methods](/core-platform/box-office/payment-methods)
-- [Instant Checkout](/core-platform/box-office/instant-checkout)
+| Stage | What Happens |
+|-------|-------------|
+| **Launch** | A staff member clicks **Sell event** or **Enter box office** in the admin panel. A time-limited signed URL authenticates them into the shop. |
+| **Browse & select** | The staff member navigates the shop, selects events, and adds items to a basket — the same way a customer would online. |
+| **Checkout** | The checkout flow includes additional box office steps: customer assignment, order source selection, and an expanded set of payment methods. |
+| **Complete** | After payment, the staff member can print tickets, quick sell the same items to another customer, or start a new order. |
+
+The staff member's admin user account is temporarily authenticated in the shop. If they don't assign a specific customer to the order, items are purchased under their own account.
+
+## Key Differences from the Public Shop
+
+| Area | Public Shop | Box Office |
+|------|-------------|------------|
+| **Who checks out** | The customer | A staff member, optionally on behalf of a customer |
+| **Customer assignment** | Automatic (logged-in user) | Configurable — full customer, name only, or no customer |
+| **Payment methods** | Online payments (card, e-wallet) | Expanded: cash, cheque, card terminal, MOTO, invoice, complimentary, plus online methods |
+| **Billing address** | Collected during checkout | Automatically skipped |
+| **Confirmation emails** | Always sent | Can be [disabled in settings](/core-platform/box-office/checkout-flow#confirmation-emails) |
+| **Order source** | Website | Selectable: **Counter**, **Telephone**, or **Third Party** |
+| **Discounts** | Customer-facing codes only | Staff discounts, external vouchers, and customer-facing codes |
+| **Validation rules** | Fully enforced | Can be [selectively bypassed](/core-platform/box-office/discounts-and-overrides#validation-bypass-permissions) with appropriate permissions |
+| **Instant checkout** | Not available | [Side panel](/core-platform/box-office/instant-checkout) for rapid transactions |
+| **Post-sale actions** | Limited | Quick sell, reserve same items, print, transfer, rename, refund |
+
+## Permissions
+
+Box office access is controlled by role-based permissions:
+
+| Permission | What It Allows |
+|------------|----------------|
+| **Sell items** | Required to access box office mode. Can be scoped to specific events. |
+| **Enter box office** | Allows launching box office from the admin panel |
+| **Sell in box office** | Allows selling items through box office mode |
+| **Box office: Can apply custom discounts** | Apply manual staff discounts during checkout |
+| **Box office: Can apply external vouchers** | Apply external voucher codes during checkout |
+| **Ignore box office validation** permissions | Override specific checkout validations (see [Discounts and Overrides](/core-platform/box-office/discounts-and-overrides#validation-bypass-permissions)) |
+
+<Note>
+If a user has the **Sell items** permission on specific events rather than globally, they can only access box office for those events.
+</Note>
+
+## Company Settings
+
+Box office behaviour is configured through company settings. These are the key settings — specific pages cover each in more detail.
+
+| Setting | Description |
+|---------|-------------|
+| **Enable box office guest checkout** | Controls whether staff must assign a customer to orders. Three modes: guest checkout allowed, name only required, or full customer required. See [Checkout Flow](/core-platform/box-office/checkout-flow). |
+| **Disable order and reservation confirmation emails in box office** | When enabled, order confirmation and reservation emails are not sent for box office orders. Staff can still send confirmations manually from the admin order view or event dashboard. |
+| **Enable order modification in box office** | Allows staff to re-open paid orders for modifications. See [After the Sale](/core-platform/box-office/after-the-sale#order-modification). |
+| **Allow balance spending in box office** | Enables payments using customer account balances. A customer must be assigned to the order. |
+| **Auto-redirect to box office** | Staff with the required permissions are automatically redirected to box office mode when they log in. |
+
+<Note>
+Box office mode can be disabled entirely for a company using the **Disallow box office mode** limitation. When active, staff cannot access box office mode.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Entry Points" icon="arrow-right-to-bracket" href="/core-platform/box-office/entry-points">
+    Launching box office from the admin panel and deep linking
+  </Card>
+  <Card title="Checkout Flow" icon="cart-shopping" href="/core-platform/box-office/checkout-flow">
+    Customer assignment, order source, and the modified checkout process
+  </Card>
+  <Card title="Payment Methods" icon="credit-card" href="/core-platform/box-office/payment-methods">
+    Available payment methods and gateway configuration
+  </Card>
+  <Card title="Instant Checkout" icon="bolt" href="/core-platform/box-office/instant-checkout">
+    Rapid transactions using the instant checkout panel
+  </Card>
+</CardGroup>

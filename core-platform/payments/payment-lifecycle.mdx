@@ -1,51 +1,191 @@
 ---
 title: "Payment Lifecycle"
-description: "Order and payment state transitions from checkout to completion, including deferred and approval flows."
+description: "How orders move through statuses from checkout to completion, including immediate, deferred, and deposit payment flows."
 ---
 
 ## Overview
 
-An order can move through multiple statuses before it is fully complete. The payment lifecycle is driven by selected method, basket composition, and whether the order requires approval, invoice settlement, or additional payment.
+An order passes through multiple statuses between checkout and completion. The path it takes depends on the payment method selected, whether a deposit is being used, and whether the order requires approval. Understanding these statuses helps you monitor orders and know what action — if any — is needed.
 
-## Common Statuses
+## Order Statuses
 
-| Status family | Typical meaning |
-|---|---|
-| **Processing / Active** | Checkout in progress or awaiting payment confirmation. |
-| **Complete** | Fully paid (or approved with no payment due) and finalized. |
-| **Awaiting payment** | Deferred flow such as payment link, invoice, onsite payment, local payment, or partial balance. |
-| **Awaiting approval** | Reservation/items require admin approval before completion. |
-| **Expired / Failed / Cancelled / Rejected** | Checkout ended without successful completion. |
-| **Refunded / Partially refunded** | Post-sale refund outcomes. |
+Every order has a status that reflects where it is in the payment lifecycle:
 
-## Full Payment vs Deferred Payment
+| Status | What it means |
+|--------|---------------|
+| **Active** | The order is in a customer's basket. Items are reserved but no payment has been attempted. |
+| **Processing** | A payment attempt is in progress. The system is waiting for confirmation from the payment gateway. |
+| **Complete** | The order is fully paid and finalised. Items have been delivered to the customer. |
+| **Partially paid** | A deposit has been collected but the remaining balance is still outstanding. |
+| **Awaiting payment link** | A payment link has been sent to the customer. The order will update automatically when the customer pays or the link expires. |
+| **Awaiting invoice** | The customer has been provided with payment instructions. Once payment is received, the order must be manually completed. |
+| **Awaiting onsite payment** | The order has been reserved for the customer to pay later, typically at the venue. |
+| **Awaiting local payment** | A local payment method (such as OXXO) has been selected. The customer needs to complete payment through their local provider. |
+| **Awaiting approval** | The order contains items that require admin approval before payment can proceed. |
+| **Expired** | The reservation expired before the customer completed payment. Reserved items have been released. |
+| **Failed** | The payment was declined or could not be processed. Reserved items have been released. |
+| **Cancelled** | The order was cancelled by a customer or admin after completion. |
+| **Rejected** | The order was rejected during the approval process. |
+| **Refunded** | A full refund has been issued for the order. |
+| **Partially refunded** | A partial refund has been issued. The order remains active for the remaining items. |
+| **Unknown** | The system was unable to automatically detect the payment status. Manual investigation via the payment gateway is required. |
 
-<Tabs>
-  <Tab title="Immediate Payment">
-    The order is completed once payment is confirmed by the gateway/offline method and post-processing finishes.
-  </Tab>
-  <Tab title="Deferred Payment">
-    The order can stay in an awaiting state until payment is settled (for example invoice/manual payment, payment link, or remaining balance after deposit).
-  </Tab>
-</Tabs>
+<Note>
+Not every "awaiting" status means something has gone wrong. Payment link, invoice, on-site, and local payment statuses are all intentional deferred flows where payment is expected to arrive later.
+</Note>
 
-## Deposit Flow
+## Immediate Payment Flow
 
-When deposit payments are used, the order records a partial payment first. Remaining balance collection uses a different payment context than the initial deposit, and tax/fees are proportioned accordingly.
+The most common flow — the customer pays in full at checkout.
 
-## Invoice/Manual Flow
+```
+1. Customer adds items to basket
+   └── Status: Active
 
-Invoice/manual payment orders stay open until invoice settlement is recorded. Eligibility and behavior are controlled by manual payment settings and whether the order is single-event and above the minimum threshold.
+2. Customer completes checkout with payment
+   └── Status: Processing (while gateway confirms)
 
-## Operational Notes
+3. Payment confirmed
+   └── Status: Complete
+   └── Confirmation email sent
+   └── Items delivered to customer
+```
 
-- Not every awaiting state means a failure; many are intentional deferred workflows.
-- Processing pages can remain visible while asynchronous gateway confirmations complete.
-- Order completion emails and access timing can vary when instant access is enabled for manual payments.
+If the payment fails at step 3, the order moves to **Failed** and the reserved items are released back to stock.
+
+## Deferred Payment Flows
+
+Deferred flows create the order first and collect payment later. Each method follows a similar pattern but with different customer experiences and expiry behaviour.
+
+### Payment Link
+
+A payment link email is sent to the customer with a link to complete payment online.
+
+```
+1. Order created with payment link method
+   └── Status: Awaiting payment link
+   └── Payment link email sent to customer
+
+2a. Customer clicks link and pays     2b. Link expires
+    └── Status: Complete                  └── Status: Expired
+    └── Confirmation email sent           └── Items released
+```
+
+Payment links have a configurable expiry period (default: 72 hours). When generating a payment link from the box office, staff can optionally allow the customer to modify their basket before paying.
+
+<Note>
+If the customer modifies their basket on an editable payment link, the expiry resets to the default basket timeout. This could cause items to be released sooner than the original payment link expiry.
+</Note>
+
+### Invoice (Manual Payment)
+
+The customer receives payment instructions and pays outside the platform. An admin must manually complete the order once payment is received.
+
+```
+1. Order created with invoice payment method
+   └── Status: Awaiting invoice
+   └── Payment instructions included with order
+
+2. Admin confirms payment received
+   └── Status: Complete
+```
+
+Invoice orders can optionally have an expiry date set, controlled by the **default payment period** setting. See [Invoice Payments](/core-platform/payments/invoice-payments) for full configuration details.
+
+### Reserve to Pay On-Site
+
+The order is held for the customer to pay in person, typically at the venue.
+
+```
+1. Order created via box office with reserve to pay method
+   └── Status: Awaiting onsite payment
+   └── Confirmation email sent
+
+2. Customer pays at venue
+   └── Status: Complete
+```
+
+<Note>
+Reservations created without an expiry date will never expire automatically. If an expiry date is set, the reservation expires and items are released at that time.
+</Note>
+
+### Approval Flow
+
+Items requiring approval are reserved but payment is deferred until an admin reviews and approves the order.
+
+```
+1. Order created with items requiring approval
+   └── Status: Awaiting approval
+
+2a. Admin approves                    2b. Admin rejects
+    ├── If no payment due:                └── Status: Rejected
+    │   └── Status: Complete              └── Customer notified
+    │                                     └── Items released
+    └── If payment is required:
+        └── Payment link generated
+        └── Customer completes payment
+        └── Status: Complete
+```
+
+### Local Payment
+
+Local payment methods (such as OXXO via Stripe) redirect the customer to complete payment through a local provider.
+
+```
+1. Customer selects local payment method at checkout
+   └── Status: Awaiting local payment
+   └── Payment instructions provided
+
+2. Customer completes payment at local provider
+   └── Webhook confirms payment
+   └── Status: Complete
+```
+
+<Note>
+Local payment orders do not expire. The order remains in **Awaiting local payment** status until the customer completes payment or an admin manually updates the order.
+</Note>
+
+## Deposit Payment Flow
+
+When deposit payments are configured, the customer pays a percentage of the order total up front and the remaining balance is collected later.
+
+```
+1. Customer selects deposit payment plan at checkout
+   └── Deposit amount calculated (percentage of total + fees)
+
+2. Customer pays the deposit
+   └── Status: Partially paid
+   └── Deposit received email sent
+
+3. Customer returns to pay remaining balance
+   └── Status: Complete
+   └── Confirmation email sent
+```
+
+The remaining balance must be paid before the configured deadline. If the customer does not pay in time, the reservation may be cancelled and items released. See [Deposit Payments](/core-platform/payments/deposit-payments) for full details.
+
+## Post-Completion Statuses
+
+After an order is completed, it can still transition to these statuses:
+
+| Status | How it happens |
+|--------|----------------|
+| **Cancelled** | An admin or the customer cancels the order |
+| **Refunded** | A full refund is issued via the admin panel |
+| **Partially refunded** | A partial refund is issued — the order remains valid for unreturned items |
+
+## Handling Unknown Status
+
+Occasionally, the system cannot automatically determine whether a payment succeeded or failed. This is typically caused by gateway communication issues or unexpected responses.
+
+When an order is in **Unknown** status:
+- Items remain reserved (stock is not released)
+- You should check the payment status directly in your payment gateway's dashboard
+- Once confirmed, manually complete or expire the order in the admin panel
 
 ## Related
 
 - [Introduction](/core-platform/payments/introduction)
+- [Payment Processors](/core-platform/payments/payment-processors)
 - [Deposit Payments](/core-platform/payments/deposit-payments)
 - [Invoice Payments](/core-platform/payments/invoice-payments)
-- [Order Management Core Concepts](/core-platform/order-management/core-concepts)

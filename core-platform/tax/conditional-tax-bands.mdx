@@ -1,32 +1,137 @@
 ---
 title: "Conditional Tax Bands"
-description: "Apply different tax outcomes by country classification when a single flat tax band is not sufficient."
+description: "Apply different tax rates based on where your customers are located, using country classifications to determine the correct tax at checkout."
 ---
 
 ## Overview
 
-Conditional tax bands let you vary tax treatment based on customer country groupings.
+Conditional tax bands allow you to apply different tax rates to a sale item depending on the customer's country. Instead of a single fixed tax rate, you define multiple tax bands — each linked to a country classification — and the system automatically determines which rate to apply at checkout based on the customer's location.
 
-## Building Blocks
+This is essential for businesses selling internationally, where tax obligations vary by region. For example, a UK-based event organiser might charge 20% VAT for domestic customers, a different rate for EU customers, and zero tax for customers from the rest of the world.
 
-1. **Country classifications**: named sets/rules of countries.
-2. **Conditional mappings**: attach classification-aware tax behavior to items/fees where supported.
+Conditional tax bands require two building blocks:
+1. **Country classifications** — named groupings of countries (e.g. "Domestic", "EU", "Rest of World")
+2. **Conditional tax band mappings** — linking each classification to a specific [tax band](/core-platform/tax/tax-bands)
+
+<Note>
+Conditional tax bands are a feature-flagged capability. Contact your account manager to enable this feature for your company.
+</Note>
 
 ## Country Classifications
 
-You can create, edit, and delete classifications with:
+Country classifications define how the platform groups countries for tax purposes. You must create your classifications before you can assign conditional tax bands to sale items.
 
-- name
-- matching mode
-- country selections
+### Types of Country Classification
 
-Classifications include usage counts and are scoped by company visibility rules.
+Each classification uses a **matching mode** that determines how countries are assigned to it:
 
-## Where Used
+| Type | Description |
+|------|-------------|
+| **Domestic** | Automatically matches customers from the same country as the event venue. No country selection is needed — the system uses the venue's location. |
+| **Manually selected countries** | You choose specific countries that belong to this classification (e.g. selecting all EU member states). |
+| **All remaining countries** | A catch-all that matches any customer whose country does not fall into another classification. Acts as a wildcard. |
 
-Conditional tax options are exposed in fee/sale-item editors when the corresponding feature is enabled.
+### Creating a Country Classification
 
-## Related
+1. Navigate to **Settings > Tax bands**.
+2. Click **Country Classifications** in the header.
+3. Click **Add new country classification**.
+4. Enter a **Name** for the classification (e.g. "EU Countries", "Domestic").
+5. Select the matching mode:
+   - **Domestic** — no further configuration needed.
+   - **Manually selected countries** — select the countries that belong to this group.
+   - **All remaining countries** — no further configuration needed.
+6. Click **Submit**.
 
-- [Tax Bands](/core-platform/tax/tax-bands)
-- [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings)
+<Note>
+Each country can only belong to one classification at a time. If you try to add a country that is already assigned elsewhere, you will see: *"One or more of the selected countries are already assigned to another country classification."*
+</Note>
+
+### Editing a Country Classification
+
+You can update the name and country selections of an existing classification at any time. However, once a classification is assigned to any sale item, its **matching mode cannot be changed**. If you attempt this, you will see: *"Country selection method can't be changed as the classification is already associated with one or more sale items."*
+
+### Deleting a Country Classification
+
+A classification can only be deleted if it is not currently assigned to any sale items. If it is in use, you will see: *"Country classification can't be deleted as it's associated with one or more sale items."* Remove it from all sale items first, then delete.
+
+## Assigning Conditional Tax Bands to a Sale Item
+
+Once country classifications are created, you can assign conditional tax bands to individual sale items.
+
+1. Open the sale item editor.
+2. In the tax section, select **Multiple conditional tax bands** (instead of **Single tax band**).
+3. For each country classification, select a [tax band](/core-platform/tax/tax-bands) from the dropdown.
+4. Save the sale item.
+
+### Requirements
+
+When using conditional tax bands on a sale item, the following rules apply:
+
+| Rule | Detail |
+|------|--------|
+| Minimum classifications | At least 2 conditional tax bands must be configured. |
+| Domestic classification | Exactly one **Domestic** classification is required. |
+| Wildcard classification | Exactly one **All remaining countries** classification is required. |
+| No duplicates | Each country classification can only be used once per sale item. |
+| Price input | Prices must be entered **exclusive of tax**. Tax is applied at checkout once the customer's rate is determined. |
+
+<Note>
+When switching a sale item to multiple conditional tax bands, the platform automatically sets pricing to tax-exclusive. You will see the message: *"When using multiple conditional tax bands, prices entered must be exclusive of tax. Tax will be applied within the shop once the customers tax rate has been determined."*
+</Note>
+
+## Reverse Charge
+
+For certain country classifications, you can enable **reverse charge** handling. When reverse charge applies, the customer is responsible for paying any tax due in their own country, and the tax is recorded as a reverse charge on their invoice rather than being collected at the point of sale.
+
+### Configuring Reverse Charge
+
+Within the conditional tax band configuration for a sale item, each classification can have the following settings:
+
+| Setting | Description |
+|---------|-------------|
+| **Reverse charge applies** | When enabled, this tax band is recorded as a reverse charge. The customer sees the message: *"You have to pay the taxes in your home country according to the reverse charge procedure."* |
+| **Apply without requiring verification** | When enabled, reverse charge tax is applied for all customers who matched the classification, regardless of whether a VAT number is entered for verification. Without this, reverse charge only applies when the customer has provided and verified a VAT number. |
+| **Reverse charge instructions** | Custom text that appears on the customer's invoice within the reverse charge breakdown. |
+
+<Note>
+Only one tax band per sale item may be marked as a reverse charge band.
+</Note>
+
+## How Tax is Determined at Checkout
+
+When a customer purchases an item with conditional tax bands, the platform resolves the correct tax band using the following logic:
+
+1. **Is the customer domestic?** If the event venue's country matches the customer's country, the **Domestic** tax band applies.
+2. **Does the customer's country match a specific classification?** If a classification with manually selected countries includes the customer's country, that tax band applies.
+3. **Wildcard fallback.** If no specific match is found, the **All remaining countries** tax band applies.
+
+For reverse charge items, the system also checks whether the customer has provided a verified VAT number (unless "Apply without requiring verification" is enabled) before applying the reverse charge treatment.
+
+## VAT Number Collection
+
+For conditional tax bands with reverse charge to work accurately, customers may need to provide their VAT number during checkout. When VAT number collection is enabled, customers see an additional step at checkout where they can enter their VAT number for verification. See [Advanced Tax Settings](/core-platform/tax/advanced-tax-settings) for details on enabling VAT number collection.
+
+<Note>
+If VAT number verification is not enabled for your account, customers will pay tax at the rate local to the event regardless of their location. You will see a warning: *"VAT number verification is not currently enabled for your account."*
+</Note>
+
+## Limitations
+
+- Conditional tax bands **cannot be used alongside the Szamlazz integration**. These features are mutually exclusive.
+- Conditional tax bands **cannot be used alongside the all-in pricing feature**. These features are mutually exclusive.
+- Conditional tax bands **cannot be enabled when blended fees are active**.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Tax Bands" icon="percent" href="/core-platform/tax/tax-bands">
+    Create and manage the tax rates used by conditional mappings.
+  </Card>
+  <Card title="Pricing Display" icon="eye" href="/core-platform/tax/pricing-display">
+    Control how prices including or excluding tax are shown to customers.
+  </Card>
+  <Card title="Advanced Tax Settings" icon="gear" href="/core-platform/tax/advanced-tax-settings">
+    Configure VAT number collection and tax calculation methods.
+  </Card>
+</CardGroup>
