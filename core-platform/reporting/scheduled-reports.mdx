@@ -1,35 +1,145 @@
 ---
-title: "Scheduled Reports"
-description: "Automate report delivery using recipients, date windows, timezone-aware schedules, and optional endpoint publishing."
+title: "Scheduled Reports & Delivery"
+description: "Automate report generation and delivery via email, data endpoints, or both — on a daily, weekly, monthly, or hourly schedule."
 ---
 
 ## Overview
 
-Scheduled reports run custom reports automatically and deliver results to recipients (and optionally to configured data endpoints).
+Scheduled reports automatically generate and deliver a custom report's data on a recurring basis. Instead of manually opening a report and exporting it each time, you can set up a schedule that runs the report and sends the results to email recipients, a data endpoint (such as an S3 bucket), or both.
 
-## Schedule Components
+Scheduled reports are built on top of [custom reports](/core-platform/reporting/custom-reports). You must first save a custom report before you can schedule it.
 
-| Field | Meaning |
-|---|---|
-| **Recipients** | Email recipients for generated report output. |
-| **From / Until** | Active window for when the schedule is allowed to run. |
-| **Timezone** | Timezone used for cron due checks. |
-| **Expression / schedule mode** | Daily/weekly/monthly/hourly style cadence depending on config. |
-| **Format** | Export format for scheduled output. |
-| **Send if empty** | Whether to dispatch even when dataset is empty. |
-| **Data endpoint** | Optional destination for published results. |
+## Creating a Scheduled Report
 
-## Runtime Behavior
+1. Open the custom report you want to schedule.
+2. Select **Schedule Report** from the dropdown menu.
+3. Configure the schedule settings (described below).
+4. Click **Schedule**.
 
-- A schedule only runs when current time is between `from` and `until` and cron expression is due.
-- Next/last run times are calculated in schedule timezone.
-- Run history is tracked and visible in the scheduled reports list.
+You can also create scheduled reports from the **Scheduled Reports** page.
 
-## Manual Dispatch
+### Repeat Cycle
 
-You can dispatch a scheduled report immediately from the UI without waiting for the next scheduled due time.
+Choose how often the report should run:
 
-## Related
+| Cycle | Configuration |
+|-------|--------------|
+| **Once** | Runs a single time on a specific date |
+| **Hourly** | Runs every hour (or at a specific minute past each hour). Select the time offset: on the hour, quarter past, half past, or quarter to. |
+| **Daily** | Runs once per day at a specified time |
+| **Weekly** | Runs on selected days of the week at a specified time |
+| **Monthly** | Runs on a specific day of selected months at a specified time |
 
-- [Custom Reports](/core-platform/reporting/custom-reports)
-- [Report Publishing](/core-platform/reporting/report-publishing)
+<Note>
+Hourly scheduling is only available if the **High frequency scheduled reports** feature is enabled for your company. Without this feature, the hourly option is disabled.
+</Note>
+
+### Active Window
+
+Every schedule has a **from** and **until** date that define when the schedule is active:
+
+- The schedule will not run before the **from** date or after the **until** date.
+- For **once** schedules, only the **schedule on** date is required.
+- The active window determines the total lifespan of the schedule, not the data range in the report itself — the report's own filters control what data is included.
+
+### Timezone
+
+Select the timezone used for schedule timing. The schedule runs when the time in the selected timezone matches the configured time. This is important for organisations operating across multiple timezones — a daily report set to 8:00 AM in London will run at a different UTC time than one set to 8:00 AM in New York.
+
+### File Format
+
+Select the export format for the generated report file:
+
+- **Excel (XLSX)** — recommended for most use cases
+- **CSV** — for data imports and universal compatibility
+- **ODS** — for open-source spreadsheet applications
+- **XLS** — for legacy Excel compatibility
+- **HTML** — for browser viewing
+
+<Warning>
+PDF exports are no longer supported for new scheduled reports. Existing scheduled reports using PDF format will continue to function, but the schedule can only be modified if the format is changed to a supported option.
+</Warning>
+
+## Delivery Options
+
+### Email Delivery
+
+Enter one or more email addresses (comma-separated) in the **recipients** field. When the report is generated, each recipient receives an email with a download link for the exported file.
+
+The **Send email if report is empty** toggle controls whether recipients receive an email when the report generates no data. When enabled, recipients receive a notification that the report was empty. When disabled, no email is sent for empty reports.
+
+You can optionally add a custom **email body** message that is included in the notification email. This supports rich text formatting.
+
+### Data Endpoint Delivery
+
+If your organisation has configured data endpoints (external storage locations such as S3 buckets), you can direct scheduled report exports to a data endpoint in addition to or instead of email delivery.
+
+Select one of the following delivery modes:
+
+- **Email** — Send to email recipients only
+- **Data Endpoint** — Publish to a configured data endpoint only
+- **Both** — Send to email recipients and publish to a data endpoint
+
+<Note>
+Data endpoint delivery requires the **Report publishing** feature to be enabled. If you do not see the data endpoint option, this feature may not be available for your account.
+</Note>
+
+## Managing Scheduled Reports
+
+### Viewing Schedules
+
+Navigate to **Scheduled Reports** from the reports listing page to see all active and past schedules. Each entry shows the schedule name, frequency, last run date, and delivery destination.
+
+### Editing a Schedule
+
+1. Open the scheduled report from the **Scheduled Reports** page.
+2. Modify any settings (repeat cycle, recipients, format, active window, etc.).
+3. Click **Save**.
+
+### Deleting a Schedule
+
+1. Open the scheduled report.
+2. Click **Delete**.
+3. Confirm the deletion.
+
+Deleting a schedule stops future runs. Past exports generated by the schedule remain available in the **Report Exports** section.
+
+### Dispatching Immediately
+
+You can trigger a scheduled report to run immediately without waiting for the next scheduled time:
+
+1. Open the scheduled report.
+2. Click **Dispatch Now**.
+3. Confirm the dispatch — a confirmation shows which recipients will receive the report.
+
+The report is generated and delivered using the schedule's configured format and recipients.
+
+## Report Exports
+
+The **Report Exports** page provides a centralised view of all generated report files — whether from manual exports, scheduled reports, or immediate dispatches.
+
+### Export Status
+
+Each export entry shows one of three states:
+
+| Status | What it means |
+|--------|--------------|
+| **Download ready** | The export completed successfully. Click the download button to get the file. |
+| **Processing** | The export is still being generated. Large reports may take several minutes. |
+| **Failed** | The export encountered an error during generation. Try exporting again or adjusting filters to reduce the report size. |
+
+### Downloading Exports
+
+Click the download button next to any completed export. The download uses a signed URL — this means the link works without requiring you to be logged into the admin panel, but it expires after a limited time.
+
+For large reports that were split into multiple files during generation, the system automatically combines them into a single downloadable file.
+
+### Export Notifications
+
+When you trigger a manual export, the system displays a confirmation showing which email address will be notified when the export is ready. You can continue working and return to download the file later.
+
+If an export fails, you receive a failure notification email explaining what went wrong. Common causes include reports that exceed the maximum row limit — in these cases, use additional filters to reduce the dataset size before re-exporting.
+
+<Note>
+If a report generates a very large number of rows, consider adding more specific filters or date ranges to keep the export size manageable. The system enforces a maximum row limit to prevent excessive resource usage.
+</Note>

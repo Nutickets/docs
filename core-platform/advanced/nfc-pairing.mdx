@@ -1,48 +1,105 @@
 ---
 title: "NFC Pairing"
-description: "Pair order items to NFC tags for access-control scanning, with conflict handling and event-scope safeguards."
+description: "Link physical NFC wristbands or tags to tickets so attendees can tap for entry instead of scanning a QR code."
 ---
 
 ## Overview
 
-NFC pairing links an order item/ticket to an NFC tag so access-control entry can be handled through NFC scans.
+NFC pairing links a physical NFC wristband or tag to a ticket, enabling contactless access control. Instead of showing a QR code at each scanning point, an attendee taps their NFC tag against a scanner to gain entry.
 
-Pairing mode is configured at event level through scanning mode options.
+This is useful for:
+- Festivals and multi-day events where wristbands replace phone-based scanning
+- Venues with high-throughput entry points where tap-to-enter is faster than QR scanning
+- Events where attendees may not have their phone readily available
 
-## Scanning Modes
+All pairing happens on-site through the access control mobile app. Staff pair tags to tickets during check-in or at a dedicated NFC station.
 
-Event scanning modes include:
+## Setting the Scanning Mode
 
-- `qr-only`
-- `dynamic-qr-only`
-- `pair-nfc-no-credits`
-- `pair-nfc-with-credits` (legacy/disabled path retained for compatibility)
+NFC pairing must be enabled at the event level before staff can pair tags.
 
-Available options are filtered by feature access and current event state.
+1. Open the event in the admin panel
+2. Set the scanning mode to **NFC (online)**
 
-## Pairing Flow
+The available scanning modes are:
 
-Pairing is handled by API/action logic (`PairTicket`, `OrderItem::pairWithNfcTag`), with checks for:
+| Mode | Description |
+|------|-------------|
+| **QR Only** | Standard barcode scanning (default) |
+| **Secure QR Only** | Dynamic secure barcodes that rotate periodically |
+| **NFC (online)** | NFC-based access control, requires network connectivity |
 
-- Event/company scope validity.
-- Duplicate request UUID handling.
-- Existing pair conflicts for the same customer/event.
-- Invalid barcode or already-paired states.
+<Note>
+An **NFC (offline)** mode exists as a legacy option but is disabled for new configurations. Use **NFC (online)** for all NFC deployments.
+</Note>
 
-If the same NFC tag is paired across conflicting customers for the same event context, conflicting links are detached according to pairing rules.
+## Pairing an NFC Tag to a Ticket
 
-## Data Surface
+Staff use the access control mobile app to link a physical tag to a ticket:
 
-Paired NFC tag data is exposed in admin/shop payloads where relevant so downstream screens can render NFC-linked state.
+1. Open the access control app on the scanning device
+2. Tap or scan the NFC tag
+3. Scan the attendee's ticket barcode
+4. The system links the NFC tag to that ticket
 
-## Operational Considerations
+Once paired, the attendee can tap their NFC tag at any scanning point for that event instead of presenting a QR code.
 
-- Pairing should be done with clear event-day operational procedures.
-- Re-pairing behaviour can affect existing links; train event teams before live use.
-- Confirm scanning mode in each event before opening doors.
+<Note>
+The access control app and a network connection are required for pairing. All pairing is done on-site by event staff — attendees cannot pair tags themselves through the web or customer account.
+</Note>
+
+## Re-pairing and Conflict Resolution
+
+Staff can re-pair tags at any time. The system handles conflicts automatically:
+
+| Scenario | What happens |
+|----------|-------------|
+| Pairing a **new tag** to a ticket that already has one | The old tag is replaced. The previous tag no longer works for that ticket. |
+| Pairing a tag that is **already linked** to a different ticket at the same event | The existing link is detached, and the tag is paired to the new ticket. |
+| Pairing a tag that is linked to a ticket at a **different event** | The other event's pairing is unaffected. Tags can be paired independently per event. |
+
+<Note>
+When a new tag replaces an existing one, the old tag is immediately invalidated for that ticket. Make sure the attendee understands their previous tag will no longer grant entry.
+</Note>
+
+## How Zone Scanning Works with NFC
+
+When an attendee taps their NFC tag at a scanning point, the system resolves the correct ticket by:
+
+1. Searching for tickets linked to that NFC tag ID
+2. Filtering to tickets in completed orders (or orders with instant access enabled)
+3. If multiple matches exist, narrowing to tickets for the specific event
+4. Selecting the most recently updated pairing if multiple matches remain
+
+This means a single NFC tag can be paired to tickets across different events without interference.
+
+## NFC Tags in the Customer Account
+
+If the **EPOS** feature is enabled, customers can manage their paired NFC tags through their account wallet:
+
+- **View** their paired NFC tags
+- **Name** a tag (e.g. "My Wristband" or "VIP Band") for easy identification
+- **Freeze / Unfreeze** a tag to temporarily disable or re-enable it
+
+<Note>
+Customer-facing NFC management requires the EPOS feature to be enabled for the company. Without it, NFC pairing is purely an operational feature managed by staff through the access control app.
+</Note>
+
+## Viewing Pairing Status in Admin
+
+NFC pairing status is visible on individual order items in the admin panel. When a ticket has a paired NFC tag, the pairing details appear alongside the barcode actions for that item.
+
+## Operational Checklist
+
+Before using NFC pairing at an event:
+
+- Set the event scanning mode to **NFC (online)** before doors open
+- Ensure all scanning devices have the access control app installed
+- Confirm network connectivity is available at all scanning and pairing stations
+- Brief staff on re-pairing behaviour — pairing a new tag invalidates the previous one for that ticket
+- If customers will manage their own tags, verify the EPOS feature is enabled
 
 ## Related
 
 - [Access Control](/core-platform/event-management/access-control#via-access-control-pro)
-- [Advanced: Secure Barcodes](/core-platform/advanced/secure-barcodes)
-- [Advanced: Lead Capture](/core-platform/advanced/lead-capture)
+- [Secure Barcodes](/core-platform/advanced/secure-barcodes)

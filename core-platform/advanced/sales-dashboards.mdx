@@ -1,52 +1,122 @@
 ---
 title: "Sales Dashboards"
-description: "Operational dashboards for company, event, and schedule sales monitoring with live widget-driven views."
+description: "Monitor real-time sales activity, capacity, and customer behaviour across your events with live, widget-driven dashboards."
 ---
 
 ## Overview
 
-Sales dashboards provide high-speed operational visibility for:
+Sales dashboards give you real-time operational visibility into what is happening across your events right now -- who is shopping, how fast orders are completing, how much revenue has come in, and how capacity is tracking. They are designed for live monitoring during on-sales and event days, not for post-event reporting or data exports.
 
-- Company-level sales
-- Single-event sales
-- Event-schedule sales
+Dashboards are widget-driven. You choose which data panels to display, arrange them in a layout that suits your workflow, and the dashboard auto-refreshes to keep everything current. There are three dashboard levels, each scoped to a different view of your data:
 
-These views are designed for rapid monitoring rather than formal reporting exports.
+| Dashboard | What it shows | Where to find it |
+|-----------|---------------|------------------|
+| **Company sales dashboard** | Aggregate data across all your events | Admin home dashboard |
+| **Event sales dashboard** | Data for a single event | Event dashboard page |
+| **Schedule sales dashboard** | Aggregate data across all events in a schedule | Schedule view |
 
-## Dashboard Surfaces
+<Note>
+Sales dashboards require the **FEATURE_SALES_DASHBOARDS** feature flag to be enabled for your company. This is controlled by your reseller and cannot be self-managed. You also need the **VIEW_DEFAULT_REPORTS** permission to access dashboards.
+</Note>
 
-Admin controllers and routes provide dedicated pages for:
+## Understanding the Dashboard Layout
 
-- Company sales dashboard
-- Event sales dashboard
-- Event schedule sales dashboard
+Each sales dashboard has two main areas: **widgets** at the top and **data tables** below.
 
-Shared dashboard context includes company currencies and event item types to support consistent widget data across views.
+Widgets are compact, focused panels that surface a single metric or trend. Data tables provide a structured breakdown of events and inventory items with capacity and revenue figures.
 
-## What Dashboards Show
+### Data Tables
 
-Dashboard screens are widget-driven and include operational indicators such as:
+The tables shown depend on which dashboard you are viewing:
 
-- Sales and distribution trends
-- Capacity breakdowns (sold/reserved/complimentary) where relevant
-- Event lists and related quick-navigation actions
+- **Company sales dashboard** -- An events table showing each event with capacity bars that visualise the breakdown of sold, reserved, and complimentary items.
+- **Event and schedule sales dashboards** -- An events table plus an inventory items table with per-item sales breakdowns and revenue figures.
 
-## Permissions
+On the schedule sales dashboard, you can optionally filter to a specific event within the schedule.
 
-Access is permission-gated:
+## Available Widgets
 
-- Company dashboards require reporting-level visibility permission.
-- Event/schedule dashboards require view access to those entities.
+You can add any combination of the following widgets to your dashboard:
 
-## Dashboard vs Reporting
+| Widget | What it shows |
+|--------|---------------|
+| **Queue** | The number of active shoppers and how many are currently queuing. Displayed as a progress bar. |
+| **Orders** | Active reservations, completed orders, and abandoned baskets. Displayed as a progress bar. |
+| **Active throughput** | The median time to complete an order and the rate of ticket sales per minute. |
+| **Revenue** | Total revenue broken down by currency and item type. |
+| **No. items sold** | Quantity of items sold, broken down by item type. |
+| **Seat selection mode** | The split between best available and manual seat selection. Displayed as a progress bar. |
+| **Customer sentiment** | Positive, neutral, and negative customer feedback. Displayed as a progress bar. |
 
-Use dashboards for live monitoring and operational decisions.
+<Note>
+The **Customer sentiment** widget requires an additional reseller-level feature flag and may also be disabled per company. If you do not see it as an option, contact your reseller.
+</Note>
 
-Use reporting when you need:
+## Customising Your Dashboard
 
-- Exportable datasets
-- Repeatable filter logic
-- Scheduled distribution and publication
+Click **Edit widgets** to enter edit mode, where you can configure the dashboard layout and choose which widgets to display.
+
+### Layout and Columns
+
+Use **Dashboard columns** to set how many columns widgets are arranged in. You can choose between 1 and 6 columns depending on your screen size and how many widgets you want visible at once.
+
+### Adding and Removing Widgets
+
+Click **Add new widget** to add a widget to your dashboard. Each widget can also be removed individually from the edit view. Widgets can be dragged and reordered to arrange them in the order that matters most to you.
+
+### Setting the Refresh Rate
+
+Use **Refresh rate** to control how frequently the dashboard fetches new data. The available intervals are:
+
+| Interval | Best for |
+|----------|----------|
+| **10 seconds** | High-intensity on-sales where you need near-real-time updates |
+| **30 seconds** | Active monitoring during steady sales periods |
+| **60 seconds** | Background monitoring or lower-traffic periods |
+
+<Note>
+Auto-refresh only runs while the browser tab is in focus. If you switch to another tab, refreshes pause and resume when you return. This prevents unnecessary server load when you are not actively watching the dashboard.
+</Note>
+
+## Refreshing Data
+
+Dashboards show a **Last refreshed** indicator displaying the relative time since data was last updated (e.g. "a few seconds ago", "1 minute ago"). This helps you gauge how current the figures are.
+
+In addition to auto-refresh, you can click the refresh button in the dashboard header at any time to pull the latest data immediately. This is useful if you have just made a change and want to see its effect without waiting for the next automatic cycle.
+
+## Company Sales Dashboard
+
+The company sales dashboard provides a high-level view across all your events. Navigate to the admin home dashboard to access it.
+
+This is the right starting point when you want to understand overall sales performance without drilling into individual events. The events table shows each event with a capacity bar, so you can quickly spot which events are selling well and which have availability remaining.
+
+From here, you can click through to an individual event's sales dashboard for more detail.
+
+## Event Sales Dashboard
+
+The event sales dashboard focuses on a single event. Access it from the event dashboard page.
+
+This is where you monitor a specific on-sale or event day. In addition to widgets showing real-time metrics, the data tables break down sales by inventory item -- showing you exactly which ticket types or products are moving, their capacity status, and revenue generated.
+
+## Schedule Sales Dashboard
+
+The schedule sales dashboard aggregates data across all events within a schedule. Access it from the schedule view.
+
+This is useful when you run recurring events (e.g. a weekly show or a festival with multiple dates) and want to see combined performance. You can optionally filter to a specific event within the schedule if you need to narrow the view.
+
+## Dashboards vs Reports
+
+Sales dashboards and [reports](/core-platform/reporting/fundamentals) serve different purposes:
+
+| | Sales dashboards | Reports |
+|---|---|---|
+| **Purpose** | Live operational monitoring | Post-event analysis and record-keeping |
+| **Data** | Real-time, auto-refreshing | Point-in-time snapshots |
+| **Output** | On-screen widgets and tables | Exportable datasets |
+| **Filters** | Limited to dashboard scope | Full filter and grouping controls |
+| **Scheduling** | Not applicable | Can be [scheduled for automatic delivery](/core-platform/reporting/scheduled-reports) |
+
+Use dashboards when you need to watch what is happening now. Use reports when you need to analyse what happened, export data, or set up recurring deliveries.
 
 ## Related
 

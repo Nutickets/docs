@@ -1,49 +1,137 @@
 ---
 title: "Lead Capture"
-description: "How exhibitor lead capture works through event zones, exhibitor contacts, permissions, and automated reporting."
+description: "Let exhibitors collect attendee details at your event by scanning tickets with the access control app."
 ---
 
 ## Overview
 
-Lead capture is implemented through **Exhibitors** on events and is feature-gated by `lead_capture`.
+Lead capture gives exhibitors at your events a simple way to collect attendee contact details. Each exhibitor scans attendee tickets using the access control app, and after the event, a CSV report of all scanned leads is automatically emailed to the exhibitor's contact.
 
-When enabled, events can include exhibitor-specific access-control zones and scoped exhibitor users for scanning and lead collection workflows.
+This is useful for:
+- Trade shows and expos where exhibitors need to collect visitor information
+- Sponsored events where partners want to follow up with attendees
+- Any event where third parties need a controlled way to capture attendee data
 
-## Where It Appears
+Behind the scenes, each exhibitor is a specially configured access control zone with its own user account, permissions, and automated report.
 
-- Event access-control/settings areas expose Exhibitor options when the feature is enabled.
-- Admin exhibitor views provide list/create/edit/delete flows per event.
+## Prerequisites
 
-## How Exhibitors Are Created
+Lead capture requires two feature flags to be enabled:
 
-`SaveExhibitor` and related actions create and maintain:
+| Feature Flag | Purpose |
+|--------------|---------|
+| **Access Control** | Provides the scanning infrastructure that exhibitors use |
+| **Lead Capture** | Enables the exhibitor creation and management interface |
 
-- An exhibitor `EventZone` (`TYPE_EXHIBITOR`) with exhibitor-oriented defaults.
-- A contact user (new or linked existing).
-- A hidden role with restricted exhibitor permissions.
-- Related report and scheduling settings via `SyncExhibitorSettings`.
+Both must be active before you can create exhibitors. Access control is the underlying technology — lead capture builds on top of it.
 
-Default zone behaviour includes settings such as single-scan style entry constraints and attendee visibility controls appropriate for lead workflows.
+## Creating an Exhibitor
 
-## Permissions and Access
+To set up a new exhibitor:
 
-Exhibitor access is intentionally scoped:
+1. Navigate to the event and open **Exhibitors**
+2. Click **Create exhibitor** (or **Add new exhibitor**)
+3. Fill in the following fields:
+   - **Exhibitor name** — the name displayed in the admin panel and in the access control app
+   - **Contact name** — the person managing the exhibitor
+   - **Contact email** — the email address that will receive login credentials and the automated lead report after the event
 
-- Exhibitor users receive a constrained permission set through generated hidden roles.
-- Access is tied to the exhibitor/company/event context.
+When you save, the system automatically:
+- Creates (or locates) a user account for the contact email address
+- Sends a password reset email so the contact can set their credentials
+- Creates the exhibitor's scanning zone with lead-capture-specific settings
+- Adds a **Notes** data capture field for the exhibitor to annotate scans
+- Creates a scheduled **Lead Capture** report to be delivered after the event
+- Assigns a restricted role so the contact can only access what they need
 
-## Reporting and Outputs
+<Note>
+If the contact email belongs to an existing user, that account is linked to the exhibitor rather than creating a duplicate. The user receives the restricted exhibitor role for this event.
+</Note>
 
-Lead-capture reporting is auto-provisioned for exhibitors, including scheduled output generation after event-end windows where configured.
+## What the Exhibitor Zone Does
 
-## Operational Notes
+Each exhibitor zone is automatically configured with settings optimised for lead collection:
 
-- Treat exhibitor contact accounts as privileged access for event-day data collection.
-- Review role/visibility scope when reusing existing users as exhibitor contacts.
-- Confirm event-zone setup before event day to avoid scanning/visibility surprises.
+| Setting | Value | Why |
+|---------|-------|-----|
+| Fast scan | Enabled | Keeps the queue moving at busy stands |
+| Scan limit | Once per attendee | Prevents duplicate leads |
+| Direction | Entry only | No need to track exits |
+| Accepted tickets | All event tickets | Any attendee can be scanned |
+| Attendee list | Hidden | Exhibitors should not see the full attendee roster |
+
+You do not need to configure these settings — they are applied automatically when the exhibitor is created.
+
+## The Exhibitor Experience
+
+Once an exhibitor is created, the contact goes through this workflow:
+
+1. **Receives a password reset email** and sets their password
+2. **Logs in** with their restricted account — they can only access the access control app for their assigned event
+3. **Scans attendee tickets** at their stand using the access control app
+4. **Adds notes** during scanning to record context about each lead (e.g. product interest, follow-up action)
+5. **Receives the lead report** via email after the event ends
+
+<Note>
+Exhibitors do not have access to the admin panel. All scanning happens through the access control app. The admin interface is only for creating and managing exhibitors.
+</Note>
+
+## Managing Exhibitors
+
+### Viewing Your Exhibitors
+
+The **Exhibitors** page lists all exhibitors for the event, showing:
+- Exhibitor name
+- Contact details
+- A live count of leads captured (scanned attendees)
+
+Use the search bar to filter exhibitors by name.
+
+### Editing an Exhibitor
+
+You can update an exhibitor's name and contact details at any time.
+
+<Note>
+If you change the contact email, the previous contact loses access and the new contact receives a password reset email. The automated report delivery address also updates to the new contact email.
+</Note>
+
+### Deleting an Exhibitor
+
+Deleting an exhibitor removes the exhibitor zone, the contact's access, the report, and the scheduled report delivery. Deleted exhibitors can be restored from the exhibitor list.
+
+### Restoring an Exhibitor
+
+When you restore a deleted exhibitor, the system reinstates the zone, contact access, and report. It also re-syncs the scheduled report delivery time, which is useful if event dates changed while the exhibitor was deleted.
+
+## Automated Lead Report
+
+Each exhibitor gets a scheduled report that delivers their captured leads automatically.
+
+| Detail | Value |
+|--------|-------|
+| Report name | Lead Capture: {exhibitor name} |
+| Format | CSV |
+| Delivery | Emailed to the exhibitor's contact email |
+| Schedule | One day after the event ends, at midnight in the event's timezone |
+
+### Report Contents
+
+The CSV includes one row per scanned attendee with the following columns:
+
+| Column | Description |
+|--------|-------------|
+| `scan_date` | When the attendee was scanned |
+| `customer_name` | The attendee's name from their ticket |
+| `customer_email` | The attendee's email from their ticket |
+| `event_id` | The event identifier |
+| `event_name` | The event name |
+| `event_start_date` | When the event started |
+| `data_capture_notes` | Any notes the exhibitor added during scanning |
+
+Exhibitors can also view their report directly in the system without waiting for the scheduled email.
 
 ## Related
 
-- [Access Control: Zones](/core-platform/event-management/access-control#zones)
-- [Reporting: Scheduled Reports](/core-platform/reporting/scheduled-reports)
-- [Advanced: NFC Pairing](/core-platform/advanced/nfc-pairing)
+- [Access Control](/core-platform/event-management/access-control)
+- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
+- [NFC Pairing](/core-platform/advanced/nfc-pairing)

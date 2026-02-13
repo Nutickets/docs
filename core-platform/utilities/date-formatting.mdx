@@ -1,34 +1,81 @@
 ---
-title: "Date Formatting"
-description: "Control date/time display standards across admin and customer-facing surfaces."
+title: "Date & Time Formatting"
+description: "Control how dates, times, and timezone information are displayed across your admin and customer-facing shop."
 ---
 
 ## Overview
 
-Date and time formatting is centrally configurable through company settings.
+Date and time formatting settings control how dates and times appear throughout the platform — in the admin panel, on the customer-facing shop, in order confirmations, and across reports. These settings are configured per company, so each company can display dates and times in the format their audience expects.
 
-## Date Display Options
+All three settings — date format, time format, and timezone display — are configured in **General Settings**.
 
-- ISO
-- Middle-endian
-- Big-endian
-- Little-endian
+## Date Display Format
 
-## Time Display Options
+The date display setting controls the order of day, month, and year across the platform.
 
-- ISO
-- 12-hour
-- 24-hour
+| Format | Example Patterns | When to Use |
+|--------|-----------------|-------------|
+| **Localised** | Adapts automatically based on the customer's language | Best for shops serving multiple languages — each visitor sees dates in their locale's natural format |
+| **Middle endian** | 04/22/1996, April 22, 1996 | Common in the United States |
+| **Big endian** | 1996-04-22, 1996 April 22 | ISO standard, common in East Asia and technical contexts |
+| **Little endian** | 22/04/1996, 22 April 1996 | Common in the UK, Europe, Australia, and most of the world |
+
+### Choosing a Format
+
+- If your shop serves a single region, choose the format that matches local conventions (e.g. **Little endian** for UK audiences, **Middle endian** for US audiences)
+- If your shop serves multiple regions or languages, **Localised** automatically adapts to each visitor's language preference
+
+<Note>
+The **Localised** format relies on the customer's selected language to determine formatting. If your shop only supports one language, localised formatting will use that language's conventions for all visitors.
+</Note>
+
+## Time Display Format
+
+The time display setting controls whether times use a 12-hour or 24-hour clock.
+
+| Format | Examples | When to Use |
+|--------|---------|-------------|
+| **Localised** | Adapts based on customer's language | Best for multi-language shops |
+| **12-hour** | 9:00 AM, 9:00 PM | Common in the US, UK, Australia |
+| **24-hour** | 09:00, 21:00 | Common in continental Europe and technical contexts |
 
 ## Timezone Display
 
-A separate setting controls whether timezone information is shown to users.
+A separate toggle controls whether timezone information is shown alongside times.
 
-## Best Practice
+When **Show timezone information** is enabled, timezone indicators appear across the shop — in baskets, on event pages, and in order confirmations. This helps customers in different timezones understand exactly when an event takes place.
 
-Pick one display standard per company and keep it consistent across training, reporting, and customer comms.
+<Note>
+If your events are all in a single timezone and your audience is predominantly local, you may prefer to leave timezone display disabled to keep the interface clean. For events that attract international visitors, enabling timezone display prevents confusion about event start times.
+</Note>
 
-## Related
+## Where These Settings Apply
 
-- [Core: Timezones](/core-platform/core/timezones)
-- [Information: Supported Languages](/core-platform/information/supported-languages)
+Date and time formatting settings affect how dates and times appear across:
+
+- **Admin panel** — event listings, order details, reports, dashboards
+- **Customer shop** — event pages, basket, checkout, order confirmation
+- **Emails** — order confirmations, approval notifications, refund notifications
+- **Reports and exports** — generated reports and downloadable data
+- **Calendar views** — event calendar date formatting
+
+## Configuring Date & Time Settings
+
+1. Navigate to **General Settings**
+2. Find the **Date display settings** dropdown and select your preferred date format
+3. Find the **Time display settings** dropdown and select your preferred time format
+4. Optionally enable **Show timezone information**
+5. Click **Save**
+
+The help text below each dropdown shows example formatting for the selected option, so you can preview how dates and times will appear before saving.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Timezones" icon="globe" href="/core-platform/core/timezones">
+    How timezones work across the platform
+  </Card>
+  <Card title="Supported Languages" icon="language" href="/core-platform/information/supported-languages">
+    Managing language support for your shop
+  </Card>
+</CardGroup>

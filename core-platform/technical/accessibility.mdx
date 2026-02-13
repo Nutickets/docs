@@ -1,14 +1,65 @@
 ---
 title: "Accessibility"
-description: "Documentation for Accessibility"
+description: "How the platform supports accessible navigation, screen readers, keyboard interaction, and inclusive design."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Accessibility** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform is designed with accessibility in mind, ensuring that users with diverse needs — including those using screen readers, keyboard-only navigation, or assistive technologies — can navigate and interact with the product. Accessibility features are built into the platform's core components and are available to all users by default.
+
+## Keyboard Navigation
+
+All interactive elements — buttons, links, form fields, dropdowns, and modals — are operable using a keyboard. The following patterns are used throughout the platform:
+
+| Key | Action |
+|-----|--------|
+| **Tab** | Move focus to the next interactive element |
+| **Shift + Tab** | Move focus to the previous interactive element |
+| **Enter** | Activate the focused button or link |
+| **Space** | Toggle checkboxes, activate buttons, or select items |
+| **Escape** | Close modals, dropdowns, and overlays |
+| **Arrow keys** | Navigate within dropdowns, select lists, and date pickers |
+
+### Skip to Main Content
+
+A **Skip to main content** link appears at the top of each page when a user presses **Tab**. Activating this link moves focus directly to the main content area, allowing keyboard users to bypass the site header and navigation on every page.
+
+## Screen Reader Support
+
+The platform uses semantic HTML and ARIA (Accessible Rich Internet Applications) attributes to provide meaningful context to screen readers:
+
+- **Buttons and links** include descriptive labels, even when the visible text is an icon. Screen reader-only text (visually hidden but announced by assistive technology) provides context for icon-only controls.
+- **Form fields** are associated with their labels, ensuring screen readers announce what each field is for.
+- **Decorative elements** — icons, images, and visual separators that don't convey meaning — are hidden from screen readers to reduce noise.
+- **Dynamic components** such as accordions, dropdown menus, and tooltips communicate their current state (expanded, collapsed, selected) through ARIA attributes.
+
+## Focus Management
+
+Visible focus indicators highlight which element is currently selected, making it clear where keyboard input will be directed. Focus is managed carefully in interactive patterns:
+
+- **Modals** trap focus within the dialog while open, preventing users from accidentally tabbing to content behind the overlay. When a modal closes, focus returns to the element that opened it.
+- **Dropdowns** return focus to the triggering element when closed.
+- **Form validation** directs focus to error messages when submissions fail.
+
+## Accessible Forms
+
+Form components across the platform follow accessible patterns:
+
+- **Labels** are explicitly linked to their inputs, so screen readers announce the field name when the input is focused.
+- **Fieldsets and legends** group related inputs (such as radio buttons or checkbox sets) with a shared description.
+- **Toggle switches** announce their current state — on or off — using ARIA attributes, so users who cannot see the visual indicator still know the setting's value.
+- **Error messages** are associated with their fields so assistive technology can announce validation errors in context.
+
+## Seating Plans
+
+For events with assigned seating, the platform provides an accessibility filter to help users find suitable seats:
+
+- The **Space Accessibility** filter, labelled **Show accessible seats**, highlights seats designated as accessible within the venue map.
+
+<Note>
+Accessible seat availability depends on how the venue's seating plan has been configured. The filter only appears when accessible seats have been defined in the seating plan.
+</Note>
+
+## Cookie Consent
+
+The cookie consent banner is fully accessible — it can be navigated and activated using the keyboard, and its content is readable by screen readers. See [Sessions & Cookies](/core-platform/technical/sessions) for details on the cookie banner and cookie types.

@@ -1,14 +1,49 @@
 ---
 title: "Caching"
-description: "Documentation for Caching"
+description: "How the platform uses caching to deliver fast page loads, and how to manage data freshness."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Caching** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform uses caching at multiple levels to ensure fast page loads and responsive interfaces, even during high-traffic periods. In most cases, caching is transparent — pages load quickly and data stays current without any action needed. Understanding how caching works helps when you notice a brief delay between making a change and seeing it reflected, or when working with features that have specific refresh behaviours.
+
+## How Caching Affects What You See
+
+When you make changes in the admin panel — such as updating event details, modifying sale items, or adjusting settings — the changes take effect in the system immediately. However, cached versions of pages that customers see may take a short time to update, typically under a minute.
+
+If you need changes to appear to customers immediately, clearing the cache or waiting briefly will ensure the latest content is served. Changes made within the admin panel itself are generally reflected without delay.
+
+## Report Caching
+
+Reports use caching to avoid regenerating results on every page load. When you view a report that has been previously generated, you may see cached results from the last run rather than a freshly computed report.
+
+When cached results are displayed, a message appears: **Click refresh to clear report cache.** Clicking refresh regenerates the report with the latest data.
+
+<Note>
+Report caching is useful when reviewing the same report multiple times — the page loads instantly rather than recalculating. If you need up-to-the-minute data, click refresh to regenerate. Report caching can also be disabled entirely at the platform level if real-time results are always required.
+</Note>
+
+## Seating Plan Availability
+
+Seating plan availability — which seats are available, held, or sold — refreshes automatically at regular intervals rather than in real time:
+
+| Context | Default refresh interval | Minimum interval |
+|---------|--------------------------|------------------|
+| **Customer-facing (shop)** | Every 10 seconds | 5 seconds |
+| **Admin panel** | Every 30 seconds | 1 second |
+
+These intervals determine how frequently the seating plan fetches the latest availability data. During high-demand on-sales, the admin panel interval can be configured shorter (down to 1 second) for near-real-time visibility of which seats are being selected.
+
+<Note>
+A shorter refresh interval provides more current data but increases server load. For most events, the default intervals provide a good balance between freshness and performance. Consider reducing the admin interval only during high-demand on-sales where real-time visibility is critical.
+</Note>
+
+## Performance Mode
+
+**Performance mode** is a setting designed for high-traffic scenarios such as major on-sales. When enabled, it disables non-essential platform features to reduce server load and prioritise the core checkout flow.
+
+This ensures that the buying experience remains fast and responsive even under heavy traffic, at the cost of temporarily reduced functionality in non-critical areas.
+
+<Note>
+Performance mode is intended as a temporary measure during peak traffic periods. Disable it once traffic returns to normal levels to restore full platform functionality.
+</Note>

@@ -1,53 +1,123 @@
 ---
-title: "SSO"
-description: "Configure single sign-on providers and identity mapping for customer authentication and account lifecycle flows."
+title: "Single Sign-On (SSO)"
+description: "Authenticate customers through an external identity provider instead of built-in email and password login."
 ---
 
 ## Overview
 
-Single sign-on (SSO) allows customers to authenticate against an external identity provider instead of local username/password flows.
+Single sign-on (SSO) lets customers log in and register through an external identity provider rather than the built-in email and password flow. When SSO is enabled for a company, the standard login form on the shop is replaced with a button that redirects customers to the external provider for authentication.
 
-SSO is configured at company level in Partner Hub and used by shop auth controllers/actions.
+SSO is configured at the company level in Partner Hub. It supports several provider types including OpenID Connect and Azure AD B2C, allowing organisations to integrate their existing identity infrastructure with the shop experience.
 
-## Supported SSO Types
+## Supported Provider Types
 
-Configured through company settings (`sso_type`) with built-in type definitions in `CompanySetting::ssoTypes()`:
+The platform supports four SSO provider types:
 
-- OpenID Connect
-- Laravel Passport style integration
-- External/custom
-- Azure AD B2C
+| Provider Type | Description |
+|---------------|-------------|
+| **OpenID Connect** | Standard OpenID Connect protocol |
+| **Laravel Passport** | Laravel Passport OAuth integration |
+| **External/Custom** | Custom external authentication provider |
+| **Azure AD B2C** | Microsoft Azure Active Directory B2C |
 
-Each type has specific required fields (for example base URL, client ID/secret, policy, identifier mapping).
+The provider type determines how the platform communicates with the external identity system. All types follow the same general OAuth flow: the customer is redirected to the external provider, authenticates there, and is redirected back to the shop.
 
-## Core Settings
+## Configuring SSO
 
-Common SSO settings include:
+SSO is configured in **Partner Hub** on the company edit page. All SSO settings are grouped together in the SSO settings section.
 
-- `sso_enabled`
-- `sso_type`
-- `sso_base_url`
-- `sso_client_id` / `sso_client_secret`
-- `sso_identifier_key`
-- `sso_name`
-- optional change-email / change-password / logout URLs
+### Enabling SSO
 
-## Runtime Behaviour
+1. Navigate to the company edit page in **Partner Hub**
+2. Find the SSO settings section
+3. Toggle **SSO** on
+4. Select a provider type from the **SSO Type** dropdown
+5. Complete the required configuration fields
+6. Save the settings
 
-When SSO is enabled:
+### Configuration Fields
 
-- Shop auth flows route users through external-login logic.
-- External identity attributes can be mapped into local user/provider records.
-- Password-reset and auth UX behaviour changes to respect SSO ownership.
+| Field | Description | Required |
+|-------|-------------|----------|
+| **SSO** | Master toggle that enables or disables SSO for the company | - |
+| **SSO Type** | The provider type to use (OpenID Connect, Laravel Passport, External/Custom, or Azure AD B2C) | When SSO is enabled |
+| **SSO Name** | Display name shown on the login and registration buttons in the shop (e.g. "Company Portal") | When SSO is enabled |
+| **SSO Base URL** | The provider's OAuth endpoint URL | When SSO is enabled |
+| **SSO Client ID** | The OAuth client identifier issued by the provider | When SSO is enabled |
+| **SSO Client Secret** | The OAuth client secret issued by the provider | When SSO is enabled |
+| **SSO Identifier Key** | The field name in the provider's response that contains the user's unique identifier | When SSO is enabled |
+| **SSO Policy** | The Azure policy name | Azure AD B2C only |
+| **SSO Change Email URL** | An external URL where customers can change their email address | Optional |
+| **SSO Change Password URL** | An external URL where customers can change their password | Optional |
+| **SSO Logout URL** | A URL to redirect customers to after they log out | Optional |
 
-Logout handling can use provider-native logout support where available, with fallback to configured logout URL behaviour.
+<Note>
+Client ID and Client Secret values are encrypted when stored. They are not visible in plain text after saving.
+</Note>
 
-## Reporting and Data
+<Note>
+The **SSO Policy** field only appears when the provider type is set to Azure AD B2C.
+</Note>
 
-SSO-linked identity values are available in several reporting contexts (for example customer/order/attendance report SSO identifiers), enabling reconciliation with external identity systems.
+### Optional Redirect URLs
+
+The three optional URL fields -- **SSO Change Email URL**, **SSO Change Password URL**, and **SSO Logout URL** -- let you redirect customers to your external provider for account management actions that should be handled outside the platform.
+
+- **SSO Change Email URL** -- When set, any email change links in the shop redirect the customer to this URL instead of the built-in email change flow.
+- **SSO Change Password URL** -- When set, any password change links in the shop redirect the customer to this URL instead of the built-in password change flow.
+- **SSO Logout URL** -- When set, customers are redirected to this URL after they successfully log out. For OpenID Connect and Azure AD B2C providers, this is described as an optional additional URL to redirect the user to after they have successfully logged out.
+
+<Note>
+If these URLs are not configured, the corresponding links in the shop either point to the built-in flows or are handled by the provider's standard logout mechanism.
+</Note>
+
+## Shop Login Experience
+
+When SSO is enabled, the shop login page changes significantly. The standard email and password form is completely hidden -- not just disabled, but removed from the page entirely.
+
+### What Customers See
+
+In place of the login form, customers see a single button:
+
+**"Sign in with {SSO Name}"**
+
+The button label uses the **SSO Name** configured in Partner Hub. If no SSO Name is set, the company name is used as a fallback.
+
+On the registration page, customers see:
+
+**"Register with {SSO Name}"**
+
+### The Authentication Flow
+
+1. The customer clicks **Sign in with {SSO Name}** on the shop login page
+2. They are redirected to the external identity provider
+3. They authenticate with the provider (entering credentials, completing MFA, etc.)
+4. After successful authentication, the provider redirects the customer back to the shop
+5. The platform logs the customer in automatically
+
+The same flow applies to registration -- the customer clicks **Register with {SSO Name}** and is routed through the external provider. The platform creates a local account linked to the external identity after successful authentication.
+
+<Note>
+Social login buttons (Google, Facebook, etc.) can still appear alongside the SSO button if social logins are configured for the company. SSO replaces only the email/password form, not other authentication methods.
+</Note>
+
+## What Changes When SSO Is Enabled
+
+Enabling SSO affects several parts of the shop experience beyond the login page:
+
+| Area | Behaviour with SSO Enabled |
+|------|---------------------------|
+| **Login** | Email/password form replaced with **Sign in with {SSO Name}** button |
+| **Registration** | Standard registration replaced with **Register with {SSO Name}** button |
+| **Email changes** | If **SSO Change Email URL** is set, email change links redirect to the external URL |
+| **Password changes** | If **SSO Change Password URL** is set, password change links redirect to the external URL |
+| **Logout** | If **SSO Logout URL** is set, customers are redirected to the external URL after logging out |
+
+## Reporting
+
+SSO-linked identity values are available in reporting contexts. This allows organisations to reconcile platform activity (orders, attendance, customer records) with identities in their external identity system.
 
 ## Related
 
 - [System Access: Users](/core-platform/system-access/users)
-- [Order Management: Core Concepts](/core-platform/order-management/core-concepts)
-- [Partner Hub: Integration Settings](/partner-hub/get-started/integration-settings)
+- [Integration Settings](/partner-hub/get-started/integration-settings)

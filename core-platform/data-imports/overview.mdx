@@ -1,0 +1,187 @@
+---
+title: "Data Imports"
+description: "Bulk import data from external systems into the platform using CSV files."
+---
+
+## Overview
+
+Data imports let you migrate data from external systems into the platform using CSV files. Whether you're onboarding from another ticketing provider, bulk-creating events for a new season, or importing customer records from a CRM, data imports handle the process through a guided, step-by-step wizard.
+
+Every import follows the same workflow: upload a CSV file, map its columns to the expected fields, review validation results, then approve the import to begin processing. The system validates every row before processing anything, so you can catch and correct errors before any records are created.
+
+Data imports are available under **Settings > Data imports** and require the **Data imports** feature to be enabled for your company.
+
+## Available Import Types
+
+The platform supports importing a wide range of data types. Each has its own set of fields and optional settings — see [Import Types](/core-platform/data-imports/import-types) for detailed field references.
+
+| Import Type | What It Does |
+|-------------|-------------|
+| [**Customer Import**](/core-platform/data-imports/import-types#customer-import) | Import customer records with contact details, addresses, and data capture responses |
+| [**User Import**](/core-platform/data-imports/import-types#user-import) | Import admin users with role and visibility group assignments |
+| [**Venue Import**](/core-platform/data-imports/import-types#venue-import) | Import venue records with addresses and coordinates |
+| [**Event Import**](/core-platform/data-imports/import-types#event-import) | Import events with scheduling, capacity, and publishing options |
+| [**Event Sale Item Import**](/core-platform/data-imports/import-types#event-sale-item-import) | Import tickets, products, guest list entries, and season tickets into events |
+| [**Sale Item Group Import**](/core-platform/data-imports/import-types#sale-item-group-import) | Import sale item groups and associate existing sale items |
+| [**Order Item Import**](/core-platform/data-imports/import-types#order-item-import) | Import order items with full customer, event, and seating details |
+| [**Tag Import**](/core-platform/data-imports/import-types#tag-import) | Import tags and tag categories |
+| [**Data Capture Question Import**](/core-platform/data-imports/import-types#data-capture-question-import) | Import data capture questions for checkout, marketing, or internal event use |
+| [**Discount Code Import**](/core-platform/data-imports/import-types#discount-code-import) | Create new or bulk update existing discount codes |
+| [**Access Code Import**](/core-platform/data-imports/import-types#access-code-import) | Create new or bulk update existing access codes |
+| [**Wallet Adjustment Import**](/core-platform/data-imports/import-types#wallet-adjustment-import) | Add or remove account balance credit for customers |
+| [**EPOS Shop Import**](/core-platform/data-imports/import-types#epos-shop-import) | Import EPOS shops with user assignments |
+| [**EPOS Product Import**](/core-platform/data-imports/import-types#epos-product-import) | Import products into EPOS shops |
+
+<Note>
+Some import types are only available when their corresponding feature is enabled. **Wallet Adjustment** requires the Account Balances feature, **Sale Item Group** requires the Sale Item Groups feature, and **EPOS Shop** / **EPOS Product** require the EPOS feature.
+</Note>
+
+## The Import Workflow
+
+Every import follows the same five-stage process, regardless of type:
+
+1. **Upload** — Select an import type, configure settings, and upload your CSV file
+2. **Headers** — Map the columns in your CSV to the expected data fields
+3. **Validation** — The system validates every row against the rules for that import type
+4. **Approval** — Review the validation results and approve the import to begin
+5. **Processing** — The system creates records from the validated data
+
+### Starting an Import
+
+1. Navigate to **Settings > Data imports**
+2. Click **Begin data import**
+3. Choose an import type from the available options
+
+Each import type shows a description of what it imports and a **Download template** button. The template is a CSV file pre-populated with the correct column headers — use it as a starting point for preparing your data.
+
+### Configuring Settings
+
+Some import types have configurable settings that appear before the file upload. These vary by type — for example, the order item import lets you choose whether to send confirmation emails to customers, while the customer import can trigger account setup emails.
+
+Settings are configured before uploading your file and cannot be changed after the import is created. For the full list of settings available per import type, see [Import Types](/core-platform/data-imports/import-types).
+
+### Uploading the File
+
+The upload step lists the minimum required fields for the selected import type, with a description of each. Upload a `.csv` file to continue.
+
+<Warning>
+Ensure your CSV file uses UTF-8 encoding, especially if it contains non-standard characters such as accented letters or special symbols.
+</Warning>
+
+<Note>
+Each import file can contain a maximum of **10,000 rows**. If your data exceeds this limit, split it into smaller files and run multiple imports.
+</Note>
+
+## Mapping Headers
+
+After uploading, the system reads the column headers from your CSV file and presents them for mapping. Each expected field is shown with a dropdown of your CSV columns, displayed as **Column N: [header name]**.
+
+The system automatically suggests mappings where it can match your CSV headers to expected field names. Review these suggestions and correct any that are wrong. All required fields must be mapped before you can continue.
+
+Click **Submit** to confirm the mappings. The system then ingests the rows and begins validation automatically.
+
+<Note>
+You don't need to map every CSV column — only the fields you want to import. Unmapped columns are ignored. However, all required fields for the import type must be mapped.
+</Note>
+
+## Reviewing Validation
+
+Once headers are mapped, the system validates every row in the background. The validation page refreshes automatically while this is in progress, showing a progress bar and the current status.
+
+Each row is colour-coded to show its validation result:
+
+| Colour | Meaning |
+|--------|---------|
+| Green | Validation passed |
+| Red | Validation failed — per-field error messages are shown |
+| Orange | Validation still pending |
+
+Use the filter dropdown to narrow the view to **All**, **Validation passed**, or **Validation failed** rows.
+
+When validation completes, you'll see one of two outcomes:
+
+- **"This data file has passed validation"** — all rows are valid and ready to process.
+- **"This data file has validation errors"** — some rows have issues. You can either approve the import as-is (rows with errors will be skipped during processing) or correct the errors and submit a new import.
+
+Click **Begin import** to approve and start processing.
+
+<Note>
+If you need to fix errors, click **Download file** to retrieve your original CSV, make corrections, and start a fresh import with the updated file.
+</Note>
+
+<Note>
+If the validation page remains empty for an extended period, a background processing issue may have occurred. The page displays a message explaining this and suggesting manual intervention may be needed.
+</Note>
+
+## Processing and Results
+
+After approval, the system processes each valid row in the background, creating the corresponding records. The results page shows a progress bar and refreshes automatically until processing completes.
+
+Each row displays its outcome:
+
+| Result | Meaning |
+|--------|---------|
+| Links to created records | Row processed successfully — click the links to view the created entities (e.g. **customer record #123**, **order record #456**) |
+| Error message | Row failed during processing — the error message explains why |
+| **Skipped as validation failed** | Row had validation errors and was not processed |
+| Warning message | Row was processed but with a non-fatal warning (e.g. incomplete address data) |
+
+Use the filter dropdown to view **All**, **Failed**, **Succeeded**, or **Skipped** rows.
+
+When processing finishes, the import status changes to **Complete** or **Complete with errors** if any rows encountered issues.
+
+<Note>
+A row can pass validation but still fail during processing. This can happen if referenced data changes between validation and processing, or if a unique constraint is violated. Processing errors are shown per-row in the results.
+</Note>
+
+## Managing Imports
+
+The data imports index page (**Settings > Data imports**) shows all your imports across two tabs:
+
+- **Complete data imports** — finished imports, whether successful or failed
+- **In-progress data imports** — imports still being worked through
+
+Each import displays its type, ID (e.g. **#123**), record count, timestamps, and a colour-coded status badge. In-progress imports also show either an **Action required** badge (when they need your attention, such as header mapping or validation approval) or **No action required** (when the system is processing in the background).
+
+Click any import to continue where you left off or to view its results.
+
+### Deleting an Import
+
+You can delete an import by clicking the delete button on the headers or validation page, but only before processing has begun. Once you approve the import and processing starts, it cannot be deleted.
+
+### Downloading the Original File
+
+You can download the original CSV file at any point — during the import process or after completion — by clicking **Download file** on the import's page.
+
+## Status Reference
+
+| Status | Meaning |
+|--------|---------|
+| **Requires headers** | CSV has been uploaded and headers extracted — waiting for you to map columns to fields |
+| **Importing data** | Rows are being read from the CSV file |
+| **Validating** | Rows are being validated against the import type's rules |
+| **Pending approval** | Validation is complete — waiting for you to review and approve |
+| **Processing** | Approved rows are being processed and records are being created |
+| **Complete** | All rows have been processed successfully |
+| **Complete with errors** | Processing finished, but some rows encountered errors |
+| **Unexpected error** | The import failed due to a system error — contact support if this persists |
+
+## Permissions
+
+Data imports require two things to be in place:
+
+1. **Feature enabled** — The **Data imports** feature must be enabled for your company. When enabled, the description reads: *"When enabled, the company will have access to the data import tools."*
+2. **Permission granted** — Your user role must include the **Data imports** permission, which controls access to create, view, and manage imports.
+
+Once both are configured, **Data imports** appears under the **Settings** menu. Permissions are managed through [Roles and Permissions](/core-platform/system-access/roles-and-permissions).
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Import Types" icon="list" href="/core-platform/data-imports/import-types">
+    Field reference and configuration guidance for each import type.
+  </Card>
+  <Card title="Roles and Permissions" icon="shield" href="/core-platform/system-access/roles-and-permissions">
+    Configure user permissions including data import access.
+  </Card>
+</CardGroup>

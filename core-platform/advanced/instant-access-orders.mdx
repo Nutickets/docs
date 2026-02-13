@@ -1,56 +1,145 @@
 ---
 title: "Instant Access Orders"
-description: "Allow invoice/manual-payment orders to access tickets before invoice settlement, with controlled eligibility and safeguards."
+description: "Let customers who pay by invoice access their tickets and downloadable items immediately, before the invoice is paid."
 ---
 
 ## Overview
 
-Instant access orders allow invoice/manual-payment orders to complete checkout with immediate access to purchased items before payment is settled.
+Instant access orders allow customers who choose to pay by invoice to receive their tickets and downloadable items the moment they complete their order, without waiting for payment to be received. The invoice is generated and sent separately, and the customer can download and use their items right away.
 
-This is feature-gated and controlled by company manual-payment settings.
+This is useful for organisations that:
+- Trust their invoice customers to pay after the event or within a payment window
+- Want to remove friction for corporate or institutional buyers who routinely pay by invoice
+- Need customers to have tickets in hand before an invoice clears (e.g. events happening before a typical payment cycle)
+
+Instant access orders build on top of the [invoice payments](/core-platform/payments/invoice-payments) feature. Invoice payments must be fully configured before instant access can be enabled.
+
+## How It Works
+
+When a customer places an order and selects **Pay by Invoice** at checkout, the system checks whether the order qualifies for instant access. If it does, the customer receives their tickets and downloadable items immediately rather than waiting for payment.
+
+### Order Flow
+
+```
+Customer selects Pay by Invoice
+    └── System checks instant access eligibility
+        └── Eligible: order created with immediate access
+            └── Status: Awaiting Invoice
+            └── Tickets and downloads available immediately
+            └── Invoice sent in a separate email
+                └── Payment received → order marked as Completed
+```
+
+The order stays in **Awaiting Invoice** status with no expiry date until payment is received. Unlike standard invoice orders, instant access orders do not expire --- they remain valid indefinitely until the company marks them as paid.
+
+### What the Customer Sees
+
+After completing checkout, the customer lands on a success page that confirms their items are available immediately:
+
+- A download button appears on the success page
+- A message explains: "Your items have been reserved and you can access them immediately... Your invoice will be sent in a separate email."
+- The order appears in **My Orders** with an **Awaiting Invoice** status
+- The customer can download their tickets at any time from their account
+
+Once the company receives payment and marks the order as completed, the invoice becomes a receipt.
+
+## Enabling Instant Access Orders
+
+Instant access requires three things to be in place: invoice payments enabled, the feature flag activated, and the instant access setting turned on.
+
+### 1. Enable Invoice Payments
+
+Invoice payments must be enabled at the company level before instant access becomes available. Navigate to your company payment settings and ensure **Enable manual payments** is turned on. For full setup details, see [Invoice Payments](/core-platform/payments/invoice-payments).
+
+### 2. Activate the Feature Flag
+
+The **Instant access orders** feature flag must be activated for your company. This is managed through the partner hub. If you do not see the instant access setting after enabling invoice payments, contact your partner to enable this feature flag.
+
+### 3. Turn On Instant Access
+
+Once the prerequisites are in place:
+
+1. Navigate to your company payment settings
+2. Find the **Enable instant access** setting
+3. Enable the toggle
+
+The setting description reads: "Allow customers to access tickets & other downloadable items the moment that they complete their reservation, before paying their invoice."
+
+<Note>
+Instant access can also be controlled at the event level. An event-level setting can override the company-level default in either direction --- enabling instant access for a specific event even if it is disabled company-wide, or disabling it for a specific event even if it is enabled company-wide.
+</Note>
+
+## Configuring Invoice Settings
+
+When using instant access orders, several related invoice settings control the customer experience. These are configured in your company payment settings:
+
+| Setting | Purpose |
+|---------|---------|
+| **Enable in Shop** | Allow invoice payments in the public ticket shop (not just box office) |
+| **Minimum order value** | Set a minimum order amount required to unlock the invoice payment option |
+| **Valid for (days)** | The number of days customers have to pay the invoice |
+| **Unpaid invoice title** | The label shown on the invoice before payment (max 40 characters) |
+| **Paid invoice title** | The label shown once the invoice has been paid (max 40 characters) |
+| **Payment instructions** | Instructions shown to the customer explaining how to pay --- this field supports rich text and can be translated |
+
+Additional display options let you control what information appears on the invoice:
+
+- **Show customer billing address** on the invoice
+- **Show customer name and email** on the invoice
+- Data capture question responses can be included on invoices if configured
 
 ## Eligibility Requirements
 
-An order is eligible only when all relevant conditions are met:
+Not all invoice orders qualify for instant access. The system evaluates several conditions when a customer checks out:
 
-- Manual payments are enabled.
-- Company has feature access to `instant_access_orders`.
-- Company setting `manual_payments_instant_access_enabled` is enabled.
-- Standard manual-payment eligibility checks pass.
+| Requirement | Detail |
+|-------------|--------|
+| Invoice payments enabled | The company must have manual payments turned on |
+| Feature flag active | The instant access orders feature flag must be enabled for the company |
+| Instant access enabled | The **Enable instant access** setting must be on (at company or event level) |
+| Single-event order | The order must contain items for a single event only |
+| Not a deposit payment | Orders using deposit payments do not qualify |
+| Standard invoice eligibility | All other invoice payment eligibility rules must also pass (e.g. minimum order value) |
 
-Eligibility is evaluated by `ManualPaymentSettings::eligibleForInstantAccess()` and surfaced during checkout.
+<Note>
+Multi-event orders --- where a customer buys items for more than one event in a single checkout --- are not eligible for instant access. The customer would need to place separate orders for each event to use instant access.
+</Note>
 
-## Configuration
+## Managing Instant Access Orders
 
-Configured via company payment settings (saved in `SaveCompanySettings`):
+### Filtering Orders
 
-- `manual_payments_enabled`
-- `manual_payments_instant_access_enabled`
-- Pending-payment windows and related invoice settings
+The admin order list includes a filter specifically for instant access orders:
 
-Validation rules enforce correct combinations, including pending-day limits based on instant-access state.
+| Filter option | What it shows |
+|---------------|---------------|
+| **All** (default) | All orders, including instant access |
+| **Hide** | Hides instant access orders, showing only completed orders |
+| **Only** | Shows only incomplete instant access orders |
 
-## Runtime Behaviour
+This helps you separate orders that are awaiting invoice payment from fully completed orders, making it easier to track outstanding invoices.
 
-When an eligible invoice is generated (`GenerateInvoiceForOrder`):
+### Identifying Instant Access Orders
 
-- `instant_access` is set on the invoice/order context.
-- Pending expiry can be lifted for that instant-access path.
+In the admin panel, instant access orders display an **Instant access order** badge. The badge includes a note explaining that the customer has already been given access to their tickets, so you know items have been delivered before payment.
 
-Customers get immediate access flow while the invoice remains payable.
+### Completing an Order
 
-## Operational Considerations
+When payment is received for an instant access order:
 
-Use this only where invoice-credit risk is acceptable.
+1. Open the order in the admin panel
+2. Mark the order as paid
+3. The order status changes from **Awaiting Invoice** to **Completed**
+4. The invoice document becomes a receipt
 
-Recommended controls:
+## Restrictions
 
-- Tight eligibility and approval policies for invoice payers.
-- Clear payment instructions and due dates.
-- Reporting/review process for overdue instant-access invoices.
+- **Single-event orders only** --- instant access is not available for orders containing items from multiple events
+- **No deposit payments** --- orders using deposit payment plans cannot use instant access
+- **Invoice eligibility still applies** --- all standard invoice payment rules (minimum order value, etc.) must be met in addition to the instant access requirements
 
 ## Related
 
-- [Payments: Invoice Payments](/core-platform/payments/invoice-payments)
-- [Information: Paying Invoices](/core-platform/information/paying-invoices)
-- [Order Management: Core Concepts](/core-platform/order-management/core-concepts)
+- [Invoice Payments](/core-platform/payments/invoice-payments) --- full setup and configuration for pay-by-invoice
+- [Paying Invoices](/core-platform/information/paying-invoices) --- customer-facing guidance on paying invoices
+- [Order Management](/core-platform/order-management/core-concepts) --- order statuses and lifecycle

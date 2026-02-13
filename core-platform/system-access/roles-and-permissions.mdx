@@ -1,44 +1,179 @@
 ---
-title: "Roles And Permissions"
-description: "How scoped roles and abilities control access across admin and hub workflows."
+title: "Roles & Permissions"
+description: "Control what users can do by assigning roles that bundle permissions together, with optional fine-tuning through direct abilities."
 ---
 
 ## Overview
 
-Authorization uses permission constants and scoped roles. Roles are assigned to users; permission checks resolve through those roles and optional direct abilities.
+Roles and permissions control what each user can do in the admin area. A role is a named collection of abilities — such as creating events, processing refunds, or managing users — that can be assigned to any number of users.
 
-## Scoping Rules
+Rather than configuring permissions individually for each user, you create roles that match job functions (e.g. "Event Manager", "Box Office Staff", "Marketing") and assign them to the relevant users. When responsibilities change, update the role once and every user with that role is affected.
 
-- Admin role checks are company-scoped.
-- Hub role checks are reseller/hub-scoped.
-- Roles can be system/read-only in some contexts.
+## How Roles Work
 
-## Role Management
+Each role contains a set of **abilities** that grant permission to perform specific actions on specific types of data. For example, a role might include the ability to edit events, view orders, and create discount codes.
 
-- Create custom roles with selected abilities.
-- Edit role title/abilities (except read-only/system restrictions).
-- Soft-delete/restore roles where supported.
+When a user tries to perform an action, the system checks whether any of their assigned roles include the required ability. If no role grants the ability, the action is denied.
 
-## Permission Patterns
+### Ability Structure
 
-Common checks include:
+Abilities have two dimensions:
 
-- `view_any`
-- `view`
-- `create`
-- `edit`
-- `delete`
-- domain-specific actions (publish, access, manage-fees, etc.)
+| Dimension | Description | Examples |
+|-----------|-------------|---------|
+| **Action** | What the user can do | Manage, View, Edit, Create, Delete |
+| **Entity** | What type of data the action applies to | Events, Orders, Venues, Users |
 
-`MANAGE` acts as broad shorthand for full entity control and should be used intentionally.
+For example, the ability "Edit Events" grants permission to modify event details, while "View list of Orders" grants permission to see the orders list.
 
-## Operational Guidance
+The **Manage** action is a shorthand that grants View, Edit, Delete, and Restore for the entity type. However, **Create** and **View list of** must always be granted explicitly — the Manage action does not include them.
 
-- Prefer reusable role templates over many direct per-user abilities.
-- Keep privileged roles (for example super-user style) tightly controlled.
-- Review roles after major feature rollouts to avoid accidental overexposure.
+<Note>
+This distinction matters: a user with **Manage events** can edit and delete individual events they have access to, but cannot create new events or see the full events list unless those abilities are also granted.
+</Note>
 
-## Related
+### Ability Visibility
 
-- [Users](/core-platform/system-access/users)
-- [Visibility Groups](/core-platform/system-access/visibility-groups)
+For abilities like View, Edit, Manage, and Delete, you can control *which* records the user can access:
+
+| Visibility level | Effect |
+|-----------------|--------|
+| **All** | User can access all records of that type |
+| **Selected** | User can access only the specific records you choose |
+| **Created by them** | User can access only records they personally created |
+
+For example, a role could grant "Edit events" with **Selected** visibility and then specify exactly which events the user can edit. A role with "Manage venues" set to **Created by them** would let the user fully manage venues they created while keeping other venues hidden.
+
+## Role Types
+
+The platform has several types of roles, each serving a different purpose.
+
+### Super User
+
+The **Super user** role bypasses all permission checks. Users with this role have unrestricted access to everything in the admin area, including abilities that cannot normally be assigned.
+
+<Warning>
+Assigning the Super user role shows a confirmation: **You are about to give someone Super User privileges.** This role gives access to all data in the system. Assign it only to users who genuinely need unrestricted access.
+</Warning>
+
+### System Roles
+
+System roles are built-in roles designed for specific operational functions. They cannot be edited or deleted, but can be assigned to users.
+
+| Role | Purpose |
+|------|---------|
+| **Box Office User** | Access to box office selling functions |
+| **Scanning User** | Access to scanning and access control |
+| **Cashless Top Up User** | Access to cashless top-up operations |
+| **Cashless Shop User** | Access to cashless shop operations |
+| **Event Organiser Basic** | Basic event management access |
+
+<Note>
+System roles display the message: **This is a system role, and cannot be edited, but can be assigned to users.**
+</Note>
+
+### Shared Company Roles
+
+Shared company roles are created at the reseller level and are available to all companies under that reseller. They provide a consistent baseline of roles across your organisation without each company needing to create their own.
+
+These roles appear in the admin area and can be assigned to users, but can only be created and edited from the hub.
+
+### Company-Specific Roles
+
+Company-specific roles are custom roles created within a single company's admin area. They are only available to that company and can be fully edited and deleted by users with the appropriate permissions. This is the most common way to tailor access for your team.
+
+## Creating a Role
+
+To create a new role within your company:
+
+1. Navigate to **Users** and select the **Roles** tab
+2. Click **Add new role**
+3. Enter a **Role title** — this is the name users see when the role is assigned
+4. Configure the role's abilities (see [Configuring Abilities](#configuring-abilities))
+5. Click **Submit**
+
+## Configuring Abilities
+
+The role form presents abilities grouped by entity type (Events, Orders, Venues, Users, etc.) in a sidebar menu. For each entity type, you configure:
+
+1. **Which permissions to grant** — select from the available actions (Manage, Create, View list of, Edit, Delete, and any specialised actions for that entity type)
+2. **Which records those permissions apply to** — choose a visibility level:
+   - **All** — applies to every record of that type
+   - **Selected** — opens a panel where you can search and select specific records
+   - **Created by them** — applies only to records the user created
+
+Some entity types have specialised permissions beyond the standard set. For example:
+- **Events** include abilities like **Box office: sell items**, **Publish**, and **Cancel**
+- **Orders** include **Refund** and **Apply cancellation fees**
+- **Users** include **Access** (for [accessing another user's account](/core-platform/system-access/users#accessing-a-users-account))
+- **Mobile box office** includes separate abilities for selling, applying discounts, issuing refunds, viewing reports, and opening the cash drawer
+
+<Note>
+You can only assign abilities that you yourself have. This prevents users from creating roles more powerful than their own.
+</Note>
+
+### Help Text for Specific Abilities
+
+Some abilities display additional guidance:
+
+- **Zones**: You do not require zone permissions to scan zones for events you can edit. Zone permissions are only needed to scan zones belonging to events the user cannot otherwise edit.
+- **Seating plans**: To create new seating plans, the user must also have the ability to view at least one venue or create new venues.
+
+## Editing a Role
+
+To edit an existing role:
+
+1. Navigate to **Users** and select the **Roles** tab
+2. Click the role you want to edit
+3. Modify the title or abilities as needed
+4. Click **Submit**
+
+<Note>
+System roles and shared company roles cannot be edited from the admin area. They display as read-only with a message explaining that they are system-defined.
+</Note>
+
+<Note>
+If a role is a shared company role that has already been assigned to users, the reseller association cannot be changed.
+</Note>
+
+## Deleting and Restoring Roles
+
+Roles can be deleted when they are no longer needed. Deleted roles are soft-deleted and can be restored later.
+
+To delete a role:
+
+1. Navigate to **Users** and select the **Roles** tab
+2. Click the delete button next to the role
+3. Confirm the deletion
+
+To restore a deleted role:
+
+1. Filter the roles list to show deleted roles
+2. Click **Restore** next to the role
+
+<Note>
+The Super user role and system roles cannot be deleted.
+</Note>
+
+## Default Role
+
+A default role can be configured at the reseller level. When a new user is added to any company under that reseller, they are automatically assigned the default role. This saves time when onboarding users who should all start with the same baseline permissions.
+
+The default role can be overridden during user creation by selecting different roles on the creation form. If no default role is configured, new users (after the first) are created without any roles and must have roles assigned manually.
+
+## Direct Abilities
+
+In addition to roles, individual abilities can be assigned directly to a specific user. Direct abilities supplement the user's role-based permissions without needing to create a dedicated role — useful for granting one-off access to a particular resource.
+
+Direct abilities follow the same rules as role abilities: you can only assign abilities you yourself have.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Users" icon="users" href="/core-platform/system-access/users">
+    Add users and assign them roles
+  </Card>
+  <Card title="Visibility Groups" icon="eye" href="/core-platform/system-access/visibility-groups">
+    Control which data users can see, separate from permissions
+  </Card>
+</CardGroup>

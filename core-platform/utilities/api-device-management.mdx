@@ -1,25 +1,112 @@
 ---
 title: "API Device Management"
-description: "View and control registered API devices, including block/unblock operations and activity review."
+description: "View and control devices that connect to the platform via the API, including blocking compromised or unwanted devices."
 ---
 
 ## Overview
 
-API device management lists registered devices and allows operational controls such as blocking compromised devices.
+API device management gives you visibility into which devices are connecting to the platform through the API — and the ability to block any device that should no longer have access. Devices are registered automatically when they make API requests, so the device list is populated without any manual setup.
 
-## Supported Actions
+This is useful for:
+- Identifying which devices are actively sending data
+- Blocking a device that has been lost, stolen, or is behaving unexpectedly
+- Reviewing when devices last communicated with the platform
+- Tracking device software and hardware details over time
 
-- Search/filter devices.
-- Rename device.
-- Block/unblock by setting `blocked_at` state.
-- Review last activity ordering.
+## How Devices Are Registered
 
-## Typical Use Cases
+Devices register themselves automatically when they make API requests. Each API request can include device identification headers, and the platform uses these to create and maintain device records:
 
-- Disabling lost/stolen hardware.
-- Temporarily blocking suspicious integrations.
-- Cleaning up stale/unused devices.
+| Header | Information |
+|--------|-------------|
+| **Device ID** | Unique identifier for the device |
+| **Application** | Name of the application making the request |
+| **Application version** | Version of the application |
+| **Operating system** | Device OS (e.g. iOS, Android) |
+| **OS version** | Operating system version |
+| **Manufacturer** | Device manufacturer (e.g. Apple, Samsung) |
+| **Model** | Device model (e.g. iPhone 14, Galaxy S24) |
 
-## Related
+There is no manual device registration process. If a device has never made an API request, it will not appear in the list.
 
-- [API Token Management](/core-platform/utilities/api-token-management)
+## Viewing Devices
+
+Navigate to **Settings > API Devices** to see all registered devices. Each device in the list shows:
+
+- **Name** — either a custom name you've assigned, or the device identifier
+- **Application** — the application that registered the device
+- **Manufacturer and model** — hardware details (hidden on mobile)
+- **Last activity** — when the device last made an API request, or when it was blocked
+
+### Filtering the List
+
+| Filter | Description |
+|--------|-------------|
+| **Name** | Search by device name or identifier |
+| **Blocked status** | Show all devices, hide blocked devices, or show only blocked devices |
+
+Devices are sorted by most recently active first.
+
+## Viewing Device Details
+
+Click on a device to view its full details:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Editable custom name for the device |
+| **Identifier** | The unique device identifier (read-only) |
+| **Manufacturer** | Device manufacturer |
+| **Model** | Device model |
+| **Application** | Application name |
+| **Operating system** | OS name |
+| **Last data upload** | When the device last sent data (POST request) to the platform |
+| **Last active** | When the device last made any API request |
+| **Blocked at** | When the device was blocked (if applicable) |
+
+### Renaming a Device
+
+To make devices easier to identify, you can assign a custom name:
+
+1. Click on the device to open its details
+2. Edit the **Name** field
+3. Save the changes
+
+The custom name replaces the device identifier in the list view, making it easier to distinguish between similar devices (e.g. "Box Office iPad - Main Entrance" instead of a technical identifier).
+
+## Blocking a Device
+
+Blocking a device immediately prevents it from making any API requests. A blocked device receives an access denied response for every request until it is unblocked.
+
+To block a device:
+
+1. Click on the device to open its details
+2. Click **Block device**
+3. The device is blocked immediately
+
+<Note>
+Blocking a device does not revoke any API tokens. The device itself is blocked — if the same token is used from a different device, those requests will still work. To fully revoke access, also revoke the associated [API token](/core-platform/utilities/api-token-management).
+</Note>
+
+## Unblocking a Device
+
+To restore access to a previously blocked device:
+
+1. Find the device (use the **blocked status** filter to show only blocked devices)
+2. Click on the device to open its details
+3. Click **Unblock device**
+4. The device can immediately resume making API requests
+
+## Device History
+
+The platform tracks changes to a device's software and hardware over time. When a device's application version, operating system, or hardware details change, a history record is created. This helps you identify when devices were updated or replaced.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="API Token Management" icon="key" href="/core-platform/utilities/api-token-management">
+    Create and revoke personal access tokens
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Platform API documentation
+  </Card>
+</CardGroup>

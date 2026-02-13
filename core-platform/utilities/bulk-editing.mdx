@@ -1,32 +1,145 @@
 ---
-title: 'Bulk Editing'
-description: 'Apply controlled changes across many records (events, timeslots, sale items, and related entities) while preserving guardrails.'
+title: "Bulk Editing"
+description: "Apply changes across many timeslots, events, or orders at once instead of updating records one by one."
 ---
 
 ## Overview
 
-Bulk editing is available across multiple modules to reduce repetitive one-by-one updates.
+Bulk editing lets you update multiple records simultaneously rather than repeating the same change across each one individually. This is available for several entity types — timeslots, events in a schedule, reservation approvals, and refunds — each with its own scope controls and safeguards.
 
-## Typical Bulk Targets
+All bulk operations respect your existing permissions and visibility groups. Fields that could compromise data integrity are excluded from bulk edits.
 
-- Events in a schedule.
-- Timeslots in an event/schedule.
-- Sale items linked by inventory source.
-- Multi-record review workflows (for example approvals).
+## Bulk Editing Timeslots
 
-## Best Practice Pattern
+Timeslot bulk editing is the most flexible bulk operation. When you edit a timeslot, you can choose to apply the same change to other matching timeslots across the event or schedule — rather than editing each one manually.
 
-1. Start with the smallest safe scope.
-2. Use filters to target only intended records.
-3. Preview counts where available.
-4. Apply and validate on a small sample before large updates.
+### Selecting Which Timeslots to Update
 
-## Guardrails
+When you open a timeslot for editing, the bulk edit modal lets you control which other timeslots receive the same changes using four filters:
 
-- Permission and visibility scopes still apply in bulk operations.
-- Some fields are intentionally excluded from bulk edits where data integrity could be harmed.
+| Filter | Options | Purpose |
+|--------|---------|---------|
+| **Scope** | Individual, Event, Schedule | How wide to search — just this timeslot, all timeslots in the event, or all timeslots across the entire schedule |
+| **Direction** | All, Future, Historic | Which timeslots by date — all of them, only those starting from this timeslot onward, or only those before it |
+| **Time** | All, Same minute, Exact time | Match by start time — all times, timeslots starting at the same minute (e.g. all XX:15 timeslots), or the exact same time (e.g. all 14:00 timeslots) |
+| **Position** | All, After, Before | Filter by time of day relative to the source timeslot — all, only those later in the day, or only those earlier in the day |
 
-## Related
+After setting your filters, the system suggests matching timeslots (up to 100 are shown). You can toggle individual timeslots on or off, or select all.
 
-- [Event Scheduling](/core-platform/event-management/schedules)
-- [Timeslots](/core-platform/event-management/timeslots)
+<Note>
+When more than 100 timeslots match your criteria, the system applies changes to all matching timeslots rather than listing them individually. This prevents the UI from becoming unwieldy for large schedules.
+</Note>
+
+### Editable Timeslot Fields
+
+Select which fields to update using checkboxes. Only fields you explicitly select are changed — all other fields on the target timeslots remain untouched.
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Timeslot display name |
+| **Start / End** | Start and end dates and times |
+| **On sale from / On sale until** | Sale period dates |
+| **Hide when off sale** | Whether to hide the timeslot from customers when outside the sale period |
+| **Hide when out of stock** | Whether to hide when all stock is sold |
+| **Stock** | Unlimited toggle or fixed stock quantity |
+| **Sale items** | Which sale items are available in this timeslot |
+
+### How Date Changes Work
+
+When updating dates across multiple timeslots, the system uses **relative offsets** rather than setting all timeslots to the same date. If your source timeslot's start date is one day ahead of a target timeslot, the same offset is maintained after the update. This preserves the natural spacing between timeslots in a schedule.
+
+### Changes Preview
+
+Before confirming, the bulk edit modal shows a preview of what will change — displaying the old and new values for each field you selected. This lets you verify the update before it's applied.
+
+<Note>
+Bulk timeslot updates are processed in the background via a queue. For large batches, changes may take a moment to appear.
+</Note>
+
+## Bulk Updating Events in a Schedule
+
+When working with events in a schedule, you can apply changes across multiple events at once using the mass update modal.
+
+### Selecting Events
+
+Choose which events in the schedule to update using selection patterns:
+
+| Pattern | Description |
+|---------|-------------|
+| **Single** | This event only |
+| **All** | Every event in the schedule |
+| **Weekly** | Events on the same day of the week |
+| **Monthly** | Events on the same day of the month |
+| **Annually** | Events on the same day and month each year |
+| **Weekdays** | Custom day-of-week selection |
+| **Custom** | Manually select individual events |
+
+After choosing a pattern, the matching events are listed (up to 200). You can toggle individual events on or off.
+
+### What Can Be Updated
+
+The mass update modal lets you selectively update:
+
+- **Event-level fields** — properties marked as available for mass updates
+- **Price bands** — select which price bands each event should have
+- **Timeslots** — select timeslots per event
+- **Timeslot price bands** — assign price bands to specific timeslots within events
+
+Use the field selection checkboxes to choose which categories of data to update. Only selected fields are changed.
+
+<Note>
+If the update includes price bands that don't exist on some target events, the system can automatically create the missing sale item groups to accommodate them.
+</Note>
+
+## Bulk Reviewing Reservations
+
+When reservations require approval, you can review multiple orders at once rather than approving or rejecting them individually.
+
+1. Select the orders you want to review
+2. Open the **Bulk review orders** modal
+3. For each order, review the items and choose to **approve** or **reject** each one
+4. For rejected items, provide a **rejection reason** (supports rich text)
+5. Optionally add **additional information** to each order
+6. Choose whether to **send an SMS notification** to affected customers
+7. Submit the review
+
+<Note>
+Bulk reservation reviews are processed via a queue. You'll receive a confirmation once all reviews have been applied.
+</Note>
+
+## Bulk Refunds
+
+Bulk refunds let you refund multiple orders at once, typically when cancelling an event or addressing a widespread issue.
+
+1. Navigate to **Orders > Bulk refund**
+2. Filter orders by **event** to narrow the scope
+3. Review the refundable orders (up to 500 per batch)
+4. Configure refund options:
+
+| Option | Description |
+|--------|-------------|
+| **Restock** | Return items to available stock |
+| **Refund processing fee** | Include the processing fee in the refund |
+| **Refund reseller fee** | Include the reseller fee in the refund |
+| **Reason** | A reason for the refund |
+| **Notify customer** | Send the customer a refund notification email |
+| **Additional email text** | Custom text to include in the notification |
+
+5. Submit the bulk refund
+
+A summary email is sent to you when the batch completes.
+
+<Warning>
+Bulk refunds process in the background and cannot be undone once submitted. Start with a small batch to verify the results before processing a large number of orders.
+</Warning>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Timeslots" icon="clock" href="/core-platform/event-management/timeslots">
+    Configure event timeslots
+  </Card>
+  <Card title="Schedules" icon="calendar-days" href="/core-platform/event-management/schedules">
+    Managing recurring events with schedules
+  </Card>
+</CardGroup>

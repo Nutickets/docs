@@ -1,14 +1,101 @@
 ---
-title: "Sessions"
-description: "Documentation for Sessions"
+title: "Sessions & Cookies"
+description: "How user sessions are managed, basket timeout behaviour, and cookie usage across the platform."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Sessions** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform uses sessions and cookies to maintain user state throughout a visit — keeping track of login status, basket contents, language preferences, and currency selections. Understanding how sessions work is especially important during checkout, where a countdown timer governs how long items are held in the basket.
+
+## Basket Timers
+
+When a customer adds items to their basket, a countdown timer begins. This timer ensures that reserved items are released back to availability if the customer doesn't complete their purchase within the allowed time.
+
+### How the Timer Works
+
+- The countdown starts when items are added to the basket and is visible during checkout.
+- The timer resets each time the basket is modified (items added or removed).
+- When the timer expires, the basket is cleared and items are released for other customers to purchase.
+
+### Configuring the Basket Timeout
+
+The basket timeout duration is configurable per company:
+
+1. Navigate to your company settings.
+2. Find **Basket timeout (in minutes)**.
+3. Set the desired timeout duration.
+
+The default timeout is **10 minutes**. This applies to all orders within the company.
+
+<Note>
+If a customer has a payment link and modifies their basket, it resets the expiry date back to the default basket timeout. The platform warns: **If the customer modifies their basket, it will reset the expiry date back down to the default basket timeout. This could cause some items to be released sooner than anticipated.**
+</Note>
+
+### When Time Runs Low
+
+When the countdown reaches **30 seconds remaining**, a warning modal appears with the message: **Your time is almost up!**
+
+The modal reassures the customer: **Looks like your reservation is about to expire — but don't worry! Your tickets remain safe in the basket while the countdown is active.**
+
+Customers have two options:
+
+- **I need more time** — Extends the basket timer by the configured timeout duration
+- **Continue checkout** — Dismisses the modal and returns to checkout
+
+<Note>
+Basket time can be extended a **maximum of 3 times**. After the third extension, the **I need more time** option is no longer available and the basket will expire when the timer reaches zero.
+</Note>
+
+### Basket Expiry
+
+When the timer reaches zero, the basket expires and the customer sees: **Unfortunately your basket has expired, but your items are saved.**
+
+Behind the scenes, the platform runs an automatic process every minute to expire baskets that have passed their timeout. When a basket expires:
+
+- Reserved items are released back to available stock
+- Any pending payment transactions are cancelled
+- If the basket was part of an order modification, the original order is restored
+
+### Recovering an Expired Basket
+
+If a customer's basket expires, they can attempt to recover it. Recovery creates a new basket with the same items as the expired one, subject to availability — if any items have been purchased by another customer in the interim, those items will not be included in the recovered basket.
+
+<Note>
+Basket recovery is only available for the most recently expired basket. If the customer starts a new basket and that one also expires, only the latest expired basket can be recovered.
+</Note>
+
+## Session Expiry
+
+Each user session lasts for **120 minutes** of inactivity. After this period, the session expires and the user must log in again. If a session expires while the user is on a page, submitting a form may display a **page expired** message — refreshing the page and logging in again resolves this.
+
+<Note>
+The session timeout (120 minutes) is separate from the basket timeout. A session can expire after the user has completed checkout, without affecting their completed order. Conversely, a basket can expire while the session is still active.
+</Note>
+
+## Logging In
+
+When a customer logs in, their session is refreshed with a new identifier for security. Any items in the basket and any waiting room position are automatically carried over to the new session — customers do not lose their place or their basket contents when logging in during checkout.
+
+## Cookies
+
+The platform uses cookies to maintain user state. A cookie consent banner appears on first visit, allowing users to manage their preferences.
+
+### Cookie Types
+
+| Type | Description | Can Be Disabled |
+|------|-------------|-----------------|
+| **Necessary cookies** | Enable core functionality such as security, network management, and accessibility. Required for the platform to function. | No (but can be blocked via browser settings, which may affect functionality) |
+| **Analytics cookies** | Collect anonymised usage data to help improve the platform. Do not directly identify individual users. | Yes |
+
+### Cookie Consent Banner
+
+The cookie consent banner presents two options:
+
+- **Use necessary cookies** — Accepts only the essential cookies required for the platform to function
+- **Allow all cookies** — Accepts both necessary and analytics cookies
+
+The banner text and descriptions for each cookie type are customisable per company.
+
+<Note>
+The cookie consent banner can be enabled or disabled per company via the **Cookie banner** setting. When disabled, no cookie consent banner is shown to visitors.
+</Note>

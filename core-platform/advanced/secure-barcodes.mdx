@@ -1,44 +1,130 @@
 ---
-title: 'Secure Barcodes'
-description: 'Dynamic/secure barcode issuance and controls for fraud resistance in ticket distribution and scanning.'
+title: "Secure Barcodes"
+description: "Replace static QR codes with dynamic barcodes that rotate over time, preventing ticket fraud from screenshots and barcode sharing."
 ---
 
 ## Overview
 
-Secure barcodes use rotating/dynamic barcode behaviour to reduce static barcode misuse.
+Static QR codes can be screenshotted, forwarded, or posted online — anyone with the image can attempt entry. Secure barcodes solve this by replacing the static code with a dynamically-generated barcode that rotates periodically. Because the code changes, a screenshot taken minutes ago is already invalid.
 
-The feature is tied to event scanning configuration and eligible item types.
+When secure barcodes are active on an event:
+- Customers see a rotating QR code in their account instead of a static barcode
+- PDF ticket downloads are blocked for customers (the code would be static on paper)
+- Apple Wallet passes remain available
+- Scanning is performed via the [Access Control Pro](/mobile-apps/access-control-pro) app
 
-## Eligibility Requirements
+Secure barcodes apply to **tickets** and **season tickets** on events. Shop products and non-event items are not affected.
 
-A sale item/order item can only use secure barcodes when required conditions are met, including:
+## Enabling Secure Barcodes
 
-- Event scanning mode supports dynamic/secure QR.
-- Item type is eligible for secure barcode handling.
-- Required secret/configuration values are present.
+Secure barcodes are controlled by two settings: a company-level feature flag and an event-level scanning mode.
 
-Eligibility logic is implemented across sale-item and order-item checks (`shouldHaveSecureBarcode`, `canHaveSecureBarcode`, related guards).
+### Feature Flag
 
-## Operational Controls
+Your account must have the **Dynamic QR Codes** feature enabled. Contact support if you do not see the secure barcode options described below.
 
-Admin can enable/disable secure barcodes for order items via secure-barcode controller endpoints.
+### Event Scanning Mode
 
-Secure barcode seed generation is handled in batch for dynamic-QR events (`GenerateSecureBarcodeSeeds`).
+Once the feature is available on your account, enable secure barcodes per event:
 
-## Download Behaviour
+1. Open the event dashboard
+2. Navigate to the scanning mode setting
+3. Select **Secure QR Only**
 
-When secure barcode is active on an order item, PDF-download behaviour is restricted by order-item download guards (`canDownloadPdf`).
+The system begins generating secure seeds for all eligible order items in the background. This runs as a batched job (processing 200 items at a time), so there may be a short delay before all items are ready.
 
-## Why Use It
+<Note>
+The scanning mode setting is also covered in [Access Control — Scanning Mode](/core-platform/event-management/access-control#scanning-mode). Changing the scanning mode only affects how the mobile app reads tickets — admission through the admin panel is not affected.
+</Note>
 
-Secure barcodes are most useful where:
+## What Customers See
 
-- Screenshot/static-barcode sharing is a risk.
-- Real-time scan validity is required.
-- Event access should depend on freshest token state.
+When secure barcodes are active, the customer experience changes in two ways:
+
+**Dynamic QR code** — Instead of a static barcode, customers see a rotating QR code in their account. This code regenerates periodically and cannot be meaningfully screenshotted or shared.
+
+**No PDF download** — The PDF download option is removed. If a customer attempts to download, they see the message: *"These tickets have secure barcodes"*. Apple Wallet downloads remain available.
+
+## Managing Secure Barcodes on Orders
+
+Admins can manage secure barcodes at the individual order item level from the order detail page. Each item with an active secure barcode displays a green **Secure Barcode** badge.
+
+### Disabling Secure Barcodes on an Item
+
+To convert an individual item back to a static barcode:
+
+1. Open the order detail page
+2. Find the item with the **Secure Barcode** badge
+3. Disable the secure barcode
+
+The item reverts to a standard static barcode. The customer will see a confirmation: *"Secure barcodes have been disabled."*
+
+<Note>
+Disabling is permanent for that barcode — the static barcode generated is a new code. The confirmation warns: *"This will permanently disable the secure barcode for [item]. The barcode will become an unsecure barcode that can be copied or printed."*
+</Note>
+
+### Re-enabling Secure Barcodes on an Item
+
+If an item was previously converted to a static barcode, you can re-enable secure barcodes:
+
+1. Open the order detail page
+2. Click **Enable Secure Barcode** on the item
+
+A new secure seed is generated, and the previous static barcode is invalidated. The customer sees: *"Secure barcodes have been enabled."*
+
+<Note>
+Re-enabling generates a completely new barcode. Any previously downloaded or printed static barcode for that item will no longer work. The confirmation warns: *"This will generate new secure barcodes for the selected tickets. The previous unsecure barcodes will no longer work."*
+</Note>
+
+### Generating New Barcodes and Barcode History
+
+For items that have been converted to static barcodes, you also have access to:
+
+- **Generate New Barcode** — creates a fresh static barcode, invalidating the previous one
+- **Barcode History** — view all previous barcodes generated for the item
+
+### Frozen Orders
+
+Secure barcode controls are locked when an order is frozen. You must unfreeze the order before enabling or disabling secure barcodes on any of its items.
+
+## PDF Downloads for Admins
+
+While customers cannot download PDFs when secure barcodes are active, admins can — but with a warning.
+
+When an admin attempts to download a PDF for an order with secure barcodes, a confirmation dialog appears:
+
+> *"These tickets have secure barcodes. Downloading as PDF will convert them to unsecure barcodes. Unsecure barcodes can be shared with other 3rd parties like resale sites. You can always re-enable secure barcodes, however that will invalidate the downloaded QR code."*
+
+Clicking **Yes, download as PDF** proceeds with the download and converts the affected items to static barcodes. You can re-enable secure barcodes afterwards, but the downloaded PDF will no longer be valid.
+
+## Disabling the Feature at Company Level
+
+If the Dynamic QR Codes feature is disabled at the company level:
+
+- All events currently set to **Secure QR Only** revert to **QR Only**
+- Future order items have their secure seeds cleared
+- Historical order data is preserved for reporting purposes
+
+<Note>
+This is an account-wide change. If you only want to disable secure barcodes for a specific event, change that event's scanning mode to **QR Only** instead.
+</Note>
+
+## Background Processing
+
+Secure seed generation runs automatically in the background:
+
+- When an event's scanning mode is set to **Secure QR Only**, seeds are generated for all eligible order items in batches of 200
+- A scheduled command fills in any missing seeds for future events
+- Items that already have seeds are skipped
+
+If an event has a large number of orders, there may be a brief delay between enabling secure barcodes and all customers seeing the dynamic QR code.
+
+<Note>
+If an event is not configured for secure barcodes but an admin attempts to enable them on an individual item, the system displays: *"This event is not configured for secure barcodes."*
+</Note>
 
 ## Related
 
-- [Access Control](/core-platform/event-management/access-control#via-access-control-pro)
-- [Advanced: NFC Pairing](/core-platform/advanced/nfc-pairing)
-- [Event Media: Mobile Wallets](/core-platform/event-management/event-media/mobile-wallets)
+- [Access Control](/core-platform/event-management/access-control) — scanning modes, zones, and admission workflow
+- [NFC Pairing](/core-platform/advanced/nfc-pairing) — an alternative scanning mode using NFC tags
+- [Mobile Wallets](/core-platform/event-management/event-media/mobile-wallets) — Apple Wallet pass configuration

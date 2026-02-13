@@ -1,14 +1,112 @@
 ---
-title: "Embedded iframes"
-description: "Documentation for Iframe Embeds"
+title: "Website Integration"
+description: "Embed your event pages and checkout flow directly on external websites using the platform's embedding tools."
 ---
-
-<Warning>
-  **Work in Progress**
-
-  This page is currently a placeholder. The content for **Iframe Embeds** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Website integration allows you to embed your event pages and checkout flow directly on an external website. Instead of redirecting customers away to purchase tickets, an embedded checkout opens in a modal overlay — keeping customers on your website throughout the purchase process.
+
+This is useful when:
+
+- You want to sell tickets directly from your own website without redirecting customers
+- Partners or sponsors need to sell tickets from their sites
+- You want a seamless branded experience that keeps customers in your ecosystem
+
+## How Embedding Works
+
+The platform provides a JavaScript embed script and a button that you place on your external website. When a customer clicks the button, a modal overlay opens containing your event page inside a secure frame. The customer can browse items, add them to their basket, and complete checkout — all without leaving the host website.
+
+The embed script handles:
+
+- Opening and closing the modal overlay
+- Secure communication between the host page and the embedded checkout
+- Responsive sizing across desktop and mobile devices
+- Origin validation to prevent unauthorised embedding
+
+## Setting Up an Embed
+
+To generate embed code for an event:
+
+1. Open the event in the admin panel.
+2. Click **Website integration** to launch the embed wizard.
+
+The wizard walks through four steps:
+
+### Step 1: Button Settings
+
+Configure how the embed button appears on the external website:
+
+| Setting | Description |
+|---------|-------------|
+| **Button text** | The label displayed on the embed button |
+| **Access code** | Optionally apply an access code to all orders made through this embed |
+| **Language** | Set the language for the embedded checkout |
+| **Currency** | Set the default currency for the embedded checkout |
+
+### Step 2: Modal Settings
+
+Control the appearance and behaviour of the modal overlay:
+
+| Setting | Description |
+|---------|-------------|
+| **Modal opacity** | The darkness of the background overlay behind the modal (0–100%) |
+| **Full screen** | Whether the modal fills the entire browser window |
+| **Show site menu** | Display the site navigation menu within the embedded checkout |
+| **Hide logout button** | Remove the logout option from the embedded view |
+| **Hide close button** | Remove the modal close button |
+| **Show items** | Display purchasable items by default when the embed opens |
+
+### Step 3: Embed Code
+
+The wizard generates HTML code to copy and paste onto your external website. The code includes:
+
+- A `<script>` tag that loads the embed script
+- A `<button>` element with a configuration attribute containing your settings
+
+Paste this code into your website's HTML where you want the button to appear.
+
+### Step 4: Troubleshooting
+
+The final step includes a troubleshooting guide to help resolve common issues with embedded checkouts.
+
+## Cross-Site Analytics
+
+When the checkout is embedded on an external website, the platform sends tracking events via the browser's `postMessage` API. The host website can listen for these events to integrate embedded checkout activity with its own analytics tools.
+
+Events include:
+
+- **Page views** — When the customer navigates between pages within the embed
+- **Product impressions** — When products are displayed to the customer
+
+To capture these events, add a `message` event listener on the host page that checks for the `nuTracker` property in the event data.
+
+<Note>
+Cross-site analytics are separate from the platform's built-in analytics. They allow you to track embedded checkout activity in your own analytics tools (such as Google Analytics on the host website).
+</Note>
+
+## Seating Plan Integration
+
+For events with assigned seating, the embedded checkout supports a rich interaction API for controlling the seating plan from the host website. The host page can programmatically:
+
+- Enable or disable seat selection
+- Highlight specific areas, price bands, or individual seats
+- Select or deselect seats
+- Navigate into and out of venue areas
+- Listen for seat selection, deselection, and error events
+
+This enables building custom seating experiences where the host website provides its own UI alongside the embedded seating plan. Communication uses the browser's `postMessage` API — the host page sends commands to the embedded frame and receives events back.
+
+<Note>
+The seating plan integration API is designed for advanced use cases where the host website needs programmatic control over the seating selection experience. For standard ticket sales, the built-in seating plan interface within the embed requires no additional integration.
+</Note>
+
+## Sessions in Embedded Checkouts
+
+Embedded checkouts handle sessions differently from standard visits because third-party cookies may not be available within embedded frames on some browsers. When cookies cannot be set, the platform automatically falls back to passing a session identifier via URL parameters or request headers — no additional configuration is needed.
+
+The session is validated on each request to prevent hijacking, and the platform tracks the client's identity to ensure session integrity.
+
+<Note>
+If customers experience issues completing checkout in an embedded view, ensure that the host website's domain is not blocked by browser privacy settings. The platform's automatic session fallback handles most scenarios transparently.
+</Note>

@@ -1,31 +1,137 @@
 ---
 title: "Visibility Groups"
-description: "Use visibility groups to constrain record visibility for users while preserving operational permissions."
+description: "Control which events, venues, and other data users can see without changing their permissions."
 ---
 
 ## Overview
 
-Visibility groups control **what users can see**, separate from what they are allowed to do. They are used across entities such as events, venues, listings, and users.
+Visibility groups control what data users can see in the admin area, independent of their permissions. A user might have full editing permissions for events, but if they belong to a visibility group, they will only see the events assigned to that same group.
 
-## Core Behavior
+This separation is important: [roles and permissions](/core-platform/system-access/roles-and-permissions) determine *what a user can do* (edit events, process refunds, manage users), while visibility groups determine *which records they can do it on*.
 
-- A user may belong to one or more visibility groups.
-- Entity records can be associated with visibility groups.
-- Queries using visibility-aware scopes only return records within the user’s permitted groups.
+## How Visibility Groups Work
 
-## Management Rules
+Visibility groups create a filter between users and data:
 
-- Visibility groups are company-scoped.
-- Deletion is blocked if it would orphan users with no remaining visibility group.
-- Users cannot delete a visibility group they currently belong to.
+1. **Users** are assigned to one or more visibility groups
+2. **Entities** (events, venues, event listings) are assigned to one or more visibility groups
+3. A user can only see entities that share at least one visibility group with them
 
-## Typical Use Cases
+If a user belongs to groups A and B, they see all entities assigned to group A, group B, or both. The result is the union of all their groups' data.
 
-- Segregating teams by venue or region.
-- Restricting promoters to their own events.
-- Limiting operational teams to specific business units.
+<Note>
+Users with **no visibility groups** assigned see all data — there are no restrictions. Visibility groups only take effect once at least one group is assigned to a user.
+</Note>
 
-## Related
+### Supported Entities
 
-- [Users](/core-platform/system-access/users)
-- [Roles And Permissions](/core-platform/system-access/roles-and-permissions)
+The following entity types can be assigned to visibility groups:
+
+| Entity | Effect |
+|--------|--------|
+| **Events** | Controls which events appear in the user's event list and which events they can manage |
+| **Venues** | Controls which venues the user can see and work with |
+| **Event listings** | Controls which event page templates are visible to the user |
+
+## Use Cases
+
+<Accordion title="Regional teams managing their own events">
+  An organisation with teams in different cities can create a visibility group for each region (e.g. "London", "Manchester", "Birmingham"). Each team's users are assigned to their region's group, and events are assigned to the region where they take place. London staff only see London events, even though they may have the same role and permissions as staff in other cities.
+</Accordion>
+
+<Accordion title="Promoters restricted to their own events">
+  External promoters who create events on the platform can be placed in a visibility group that only contains their events. The promoter has full event management permissions but can only see and edit events assigned to their group, keeping other organisers' events hidden.
+</Accordion>
+
+<Accordion title="Venue-specific operations teams">
+  Operations staff who work at a specific venue can be assigned to a visibility group containing just that venue and its events. They see everything related to their venue while other venues and their events remain hidden.
+</Accordion>
+
+## Creating a Visibility Group
+
+To create a new visibility group:
+
+1. Navigate to **Users** and select the **Visibility Groups** tab
+2. Click **Add new visibility group**
+3. Enter a **Name** for the group
+4. Click **Submit**
+
+The group is created empty — you then assign users and entities to it.
+
+## Assigning Visibility Groups to Users
+
+Visibility groups are assigned to users during [user creation](/core-platform/system-access/users#adding-a-user) or editing:
+
+1. Navigate to the user's detail page and click **Edit**
+2. In the **Visibility groups** section, select the groups the user should belong to
+3. Click **Submit**
+
+A user can belong to multiple visibility groups. Their visible data is the combined set of all assigned groups.
+
+<Note>
+You cannot edit your own visibility groups. Another user with appropriate permissions must make changes to your assignments. The message **Editing visibility groups of own user is not permitted** is shown if you attempt this.
+</Note>
+
+## Assigning Visibility Groups to Entities
+
+Events, venues, and event listings can be assigned to visibility groups from their respective edit pages. For example, to assign an event to a visibility group:
+
+1. Open the event dashboard
+2. Find the **Visibility groups** section
+3. Select the groups this event should be visible to
+4. Save the changes
+
+Entities can belong to multiple visibility groups. Any user who shares at least one group with the entity can see it.
+
+<Note>
+When you create a new entity (such as an event) and you belong to visibility groups, the entity is automatically assigned to your visibility groups. This ensures you can always see entities you create.
+</Note>
+
+## Assigning Events to Individual Users
+
+Beyond visibility group membership, specific events can be assigned directly to individual users. This is useful when a user needs access to a particular event that falls outside their visibility groups — for example, a staff member temporarily helping with an event in another region.
+
+Event assignment is managed from the [user's detail page](/core-platform/system-access/users#assigning-events-to-users). The user gains access to the assigned events in addition to everything their visibility groups already provide.
+
+<Note>
+Event assignment requires the user to belong to at least one visibility group. Users without visibility groups already have access to all data, so direct assignment would have no effect.
+</Note>
+
+## Viewing Visibility Group Membership
+
+The visibility groups list shows each group with summary counts:
+
+| Column | Description |
+|--------|-------------|
+| **Users** | Number of users assigned to the group |
+| **Events** | Number of events assigned to the group |
+| **Venues** | Number of venues assigned to the group |
+| **Event listings** | Number of event listings assigned to the group |
+
+These counts help you understand the scope of each group and identify groups that may be unused or overly broad.
+
+## Deleting a Visibility Group
+
+Visibility groups can be deleted when they are no longer needed, but two safeguards prevent accidental data access issues:
+
+| Condition | Result |
+|-----------|--------|
+| Deleting the group would leave a user with no remaining visibility groups | Deletion is blocked with the message: **Deleting this visibility group would create orphaned users** |
+| You are a member of the group you are trying to delete | Deletion is blocked with the message: **You are a member of this visibility group, and therefore cannot delete it** |
+
+Before deleting a visibility group, reassign its users to other groups or remove users from the group entirely.
+
+<Note>
+When a visibility group is deleted, its associations with entities (events, venues, etc.) are also removed. Entities that were only in the deleted group become visible to all users without visibility group restrictions.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Users" icon="users" href="/core-platform/system-access/users">
+    Assign visibility groups when creating or editing users
+  </Card>
+  <Card title="Roles & Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+    Control what users can do, separate from what they can see
+  </Card>
+</CardGroup>

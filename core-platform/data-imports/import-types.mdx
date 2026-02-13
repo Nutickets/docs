@@ -1,0 +1,613 @@
+---
+title: "Import Types"
+description: "Field reference, settings, and guidance for each available data import type."
+---
+
+## Overview
+
+Each import type has its own set of fields and optional settings. This page provides a detailed reference for every available import type — what fields are supported, which values are required, and how to format your data.
+
+Every import type provides a **Download template** button on the type selection page. The template CSV contains the correct column headers for that type — use it as a starting point for preparing your data.
+
+<Note>
+All fields listed for an import type must be present as columns in your CSV file (they must be mapped during the header mapping step). However, most fields accept empty values — only fields marked as requiring a value must contain data in each row. When in doubt, download the template and refer to the field descriptions shown during import setup.
+</Note>
+
+### Formatting Conventions
+
+These formatting patterns apply across multiple import types:
+
+| Format | Example | Used For |
+|--------|---------|----------|
+| Date/time | `2023-11-03 04:00:00` (Y-m-d H:i:s) | Event dates, sale periods, validity windows |
+| Boolean | `0` or `1` | Toggles and yes/no fields. If left blank, the default (typically `0`) is assumed |
+| Pipe-separated list | `Option A\|\|Option B` | Visibility groups, tag lists, data capture options (separated by `\|\|`) |
+| Comma-separated list | `23,56,78` | IDs, email addresses, role names |
+| Country | `GB`, `US`, `ES` | ISO 3166-1 alpha-2 country codes. If no match is found, the system attempts to resolve by country name |
+| Currency | `GBP`, `EUR`, `USD` | ISO 4217 currency codes |
+
+### Data Capture Columns
+
+Several import types support dynamic data capture columns. Add columns with the header format `DC:field_id` (where `field_id` is the data capture question ID) to include responses for free-text and checkbox question types. Alternatively, use `ExternalDC:external_question_id` to reference questions by their external ID from the Data Capture Question Import. Data capture question IDs can be found under **Data Capture > Questions**.
+
+---
+
+## Customer Import
+
+Import customer records from an external system. If a customer with the same email address already exists, the existing record is updated rather than creating a duplicate. Customers can also be matched by their internal ID or external ID, with ID taking priority over external ID, and external ID taking priority over email.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **ID** | No | Internal customer ID. Used to update an existing record — takes priority over External ID and email |
+| **External ID** | No | External system identifier for cross-referencing |
+| **Name** | No | Full name as a single value (not separate first/last name fields) |
+| **E-mail address** | Yes | Customer's email address. Used for sign-in and as a fallback for matching existing records |
+| **Date of Birth** | No | Accepted formats: `DD/MM/YYYY`, `YYYY/MM/DD`, or a valid timestamp |
+| **Phone** | No | Full phone number |
+| **Locale** | No | Two-digit language code (e.g. `en`, `es`, `sa`). If blank, no preference is stored |
+| **Address Line 1** | No | First line of the customer's address |
+| **Address Line 2** | No | Second line of the customer's address |
+| **City** | No | City |
+| **Region** | No | Region, state, or province |
+| **Postcode** | No | Postal or zip code |
+| **Country** | No | Country in ISO2 format (e.g. `GB`, `US`). Falls back to name matching if no ISO2 match is found |
+| **Note** | No | A note to attach to the customer record |
+| **Customer Groups** | No | Comma-separated list of customer group names. If left empty, the customer is removed from all groups. Requires the **Customer Groups** feature |
+| **Account balance currency** | No | Currency code for the account balance. Required together with Account balance addition. Requires the **EPOS** feature |
+| **Account balance addition** | No | Initial credit for the account balance. Required together with Account balance currency. Requires the **EPOS** feature |
+
+In addition to the standard fields, you can include data capture responses by adding `DC:field_id` columns to your CSV.
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Send customer complete your account e-mails** | When enabled, each imported customer receives an email with a link to set their password and complete their account setup |
+| **Additional text for the "complete your account" e-mail** | Custom text that appears at the top of the account completion email. Only available when the email setting is enabled |
+
+<Note>
+If address fields are partially provided (e.g. city but no postcode), the address is not saved and a warning is recorded: **Address not saved for this customer due to missing fields: [fields]**.
+</Note>
+
+<Note>
+When email sending is enabled, emails are dispatched during processing with a short delay between each to manage email throughput.
+</Note>
+
+---
+
+## User Import
+
+Import admin users with role and visibility group assignments. If a user with the same email address already exists, the existing record is updated rather than creating a new one.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier |
+| **Name** | Yes | Full name (e.g. `John Smith`) |
+| **Email** | Yes | Email address for sign-in |
+| **Password** | No | If left blank, the user must reset their password before logging in |
+| **Phone** | No | Phone number |
+| **Roles** | No | Comma-separated list of role titles. Roles must already exist — create them under **Users > Manage roles** |
+| **Visibility groups** | No | Visibility group names separated by `\|\|`. Groups must already exist — create them under **Users > Manage visibility groups** |
+| **Shop names** | No | Shop names separated by `\|\|`. Requires the **EPOS** feature. Shops can be found under **Epos > Shops** |
+| **Shop ID's** | No | Comma-separated list of internal shop IDs. Requires the **EPOS** feature |
+| **Shop External ID's** | No | Comma-separated list of external shop IDs. Requires the **EPOS** feature |
+
+---
+
+## Venue Import
+
+Import venue records with addresses and coordinates. Venues are a prerequisite for importing events — run the venue import first if your events reference venues by external ID.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier. Stored against the venue for reference by other imports (e.g. Event Import) |
+| **Name** | Yes | Venue name |
+| **Address** | Yes | Venue street address |
+| **City** | Yes | City |
+| **Region** | Yes | Region, state, or province |
+| **Country** | Yes | Country in ISO2 format (e.g. `GB`, `US`). Falls back to name matching if no ISO2 match is found |
+| **Postcode** | No | Postal or zip code |
+| **Latitude** | No | Geographic latitude coordinate |
+| **Longitude** | No | Geographic longitude coordinate |
+| **Capacity** | No | Venue capacity |
+| **Visibility groups** | No | Visibility group names separated by `\|\|`. Groups must already exist — create them under **Users > Manage visibility groups** |
+
+---
+
+## Event Import
+
+Import events with scheduling, capacity, organiser details, and publishing options. Venues must already exist in the system and can be referenced by their internal ID or the external ID stored during a Venue Import.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier |
+| **Name** | Yes | Event name |
+| **Venue ID** | Conditional | Internal venue ID (found under **Events > Venues**). Required if External Venue ID is not provided |
+| **External Venue ID** | Conditional | External venue ID from a previous Venue Import. Required if Venue ID is not provided |
+| **Start date/time** | Yes | Event start in `Y-m-d H:i:s` format |
+| **End date/time** | Yes | Event end in `Y-m-d H:i:s` format |
+| **Notes** | No | Notes to store against the event |
+| **Visibility groups** | No | Visibility group names separated by `\|\|` |
+| **Hide event dates** | No | Boolean (`0`/`1`). Controls whether event dates are hidden in the shop |
+| **Description** | No | Event description (HTML is supported) |
+| **Meta title** | No | Meta title for social media sharing |
+| **Meta description** | No | Meta description for social media sharing |
+| **Tags** | No | Tag names separated by `\|\|`. Tags must already exist in your account |
+| **Organiser name** | No | Event organiser's name |
+| **Organiser email** | No | Event organiser's email address |
+| **Organiser phone** | No | Event organiser's phone number |
+| **Max tickets per customer** | No | Maximum tickets per customer. If blank, unlimited |
+| **Ticket sharing** | No | Boolean (`0`/`1`). Controls ticket sharing. If blank, sharing is enabled |
+| **Product sharing** | No | Boolean (`0`/`1`). Controls product sharing. If blank, sharing is enabled |
+| **Purchase notification recipients** | No | Comma-separated email addresses to receive purchase notifications |
+| **Data capture questions** | No | Comma-separated question IDs. Append `:1` or `:0` to control mandatory status (e.g. `23:1,13:0,16:1`) |
+| **Data capture questions (External ID's)** | No | Same as above but using external question IDs |
+| **Total capacity** | No | Overall event capacity. If blank, unlimited |
+| **Ticket capacity** | No | Ticket-specific capacity. If blank, unlimited |
+| **Product capacity** | No | Product-specific capacity. If blank, unlimited |
+| **Guest list capacity** | No | Guest list capacity. If blank, unlimited |
+| **Donation capacity** | No | Donation capacity. If blank, unlimited |
+| **Hidden** | No | Boolean (`0`/`1`). Hides the event in the shop. If blank, the event is visible |
+| **Off sale** | No | Boolean (`0`/`1`). Sets the event as off sale. If blank, the event is off sale |
+| **Published** | No | Boolean (`0`/`1`). Publishes the event. If blank, the event is not published |
+| **Thumbnail image** | No | URL of the thumbnail image. Also used as the meta/social sharing image |
+| **Page header image** | No | URL of the page header image |
+
+Events with internal questions will also show dynamic fields for each configured question.
+
+<Note>
+Images are downloaded from the provided URLs during processing. Ensure the URLs are publicly accessible.
+</Note>
+
+---
+
+## Event Sale Item Import
+
+Import sale items — tickets, products, guest list entries, or season tickets — into existing events. Events must already exist and can be referenced by internal ID or external ID from a previous Event Import.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier |
+| **Item name** | Yes | Sale item name |
+| **Item type** | Yes | One of: `Ticket`, `Product`, `Guest List`, `Season Ticket` |
+| **Event ID** | Conditional | Internal event ID. Required if External Event ID is not provided |
+| **External Event ID** | Conditional | External event ID. Required if Event ID is not provided |
+| **Sale item group ID** | No | Internal sale item group ID to associate with |
+| **External sale item group ID** | No | External sale item group ID to associate with |
+| **Description** | No | Sale item description |
+| **Stock** | No | Stock level |
+| **Minimum purchase limit** | No | Minimum quantity per purchase |
+| **Maximum purchase limit** | No | Maximum quantity per purchase |
+| **Currency** | No | ISO currency code. If blank, your company's default currency is used |
+| **Base price** | No | Sale item base price |
+| **Processing fees** | No | Processing fee amount |
+| **Absorb processing fees** | No | Boolean (`0`/`1`). Whether your company absorbs processing fees |
+| **Absorb reseller fees** | No | Boolean (`0`/`1`). Whether your company absorbs reseller fees |
+| **Tax band ID** | No | Tax band ID (found under **Ecommerce > Tax bands**) |
+| **Hide from shop** | No | Boolean (`0`/`1`). Hides the item from the online shop |
+| **Hide from box office** | No | Boolean (`0`/`1`). Hides the item from the box office |
+| **Hide when off sale** | No | Boolean (`0`/`1`). Hides the item when not on sale |
+| **Hide when out of stock** | No | Boolean (`0`/`1`). Hides the item when out of stock |
+| **On sale from date/time** | No | When the item goes on sale (`Y-m-d H:i:s`) |
+| **On sale until date/time** | No | When the item comes off sale (`Y-m-d H:i:s`) |
+| **Valid from date/time** | No | When the item becomes valid (`Y-m-d H:i:s`) |
+| **Valid until date/time** | No | When the item expires (`Y-m-d H:i:s`) |
+| **Scanning grace period** | No | Grace period in minutes for access control scanning |
+| **Must be purchased with** | No | Comma-separated internal or external sale item IDs that must be purchased alongside this item |
+| **Must be purchased with (External IDs)** | No | Same as above using external IDs |
+| **Data capture questions** | No | Comma-separated question IDs with optional mandatory flag (e.g. `23:1,13:0`) |
+| **Data capture questions (External ID's)** | No | Same as above using external question IDs |
+| **Customer purchase limit** | No | Maximum quantity each customer can own of this item |
+| **Parent sale item ID** | No | Internal ID of the parent sale item (for add-on items) |
+| **External parent sale item ID** | No | External ID of the parent sale item (for add-on items) |
+| **Can be downloaded** | No | Boolean (`0`/`1`). Sets whether the item is downloadable. This field is optional in the CSV |
+| **Can be fulfilled** | No | Boolean (`0`/`1`). Sets the fulfilment capability. This field is optional in the CSV. Requires the **Fulfilment Fees** feature |
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Assign season tickets to all events in same schedule** | When enabled, imported season tickets are automatically assigned to all events within the same schedule |
+
+<Note>
+When importing add-on items, you must provide either the internal or external ID of the parent sale item.
+</Note>
+
+---
+
+## Sale Item Group Import
+
+Import sale item groups for events and optionally associate existing sale items to them. Requires the **Sale Item Groups** feature.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier |
+| **Parent ID** | No | Internal ID of the parent group. Used to link groups across events in the same schedule for bulk updates |
+| **External Parent ID** | No | External ID of the parent group. Same purpose as Parent ID |
+| **Event ID** | Conditional | Internal event ID. Required if External Event ID is not provided |
+| **External Event ID** | Conditional | External event ID. Required if Event ID is not provided |
+| **Name** | Yes | Group name |
+| **Description** | No | Group description |
+| **Collapsed by default** | No | Boolean (`0`/`1`). Whether the group appears collapsed in the shop |
+| **On sale from date/time** | No | When items in this group go on sale (`Y-m-d H:i:s`) |
+| **On sale until date/time** | No | When items in this group come off sale (`Y-m-d H:i:s`) |
+| **Hide when off sale** | No | Boolean (`0`/`1`). Hides items in this group when off sale |
+| **Hide when out of stock** | No | Boolean (`0`/`1`). Hides items in this group when out of stock |
+| **Total stock** | No | Group-level capacity cap, regardless of individual item stock. If blank, unlimited |
+| **Sale items** | No | Comma-separated internal sale item IDs to associate with this group |
+| **External sale items** | No | Comma-separated external sale item IDs to associate with this group |
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Automatically associate similar groups** | When enabled, the import links groups with the same name that belong to events in the same schedule. This enables bulk updates across related groups |
+
+---
+
+## Order Item Import
+
+The most feature-rich import type. Import order items with full customer, event, sale item, and seating details. Each row creates an order item — rows with the same Order ID are grouped into a single order.
+
+Events and sale items can be resolved by internal ID, external ID, or by name (with optional auto-creation if the **Create sale items if not found** setting is enabled).
+
+### Fields
+
+The order item import supports over 40 fields, grouped here by category for clarity.
+
+#### Order Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Order ID** | No | External order ID for grouping items. Items with the same ID are combined into one order. If blank, a new order is created |
+| **Order Date** | No | Order completion date in `Y-m-d H:i:s` format |
+| **Order Total** | No | Custom order total. If provided, overrides the calculated total |
+| **Quantity** | No | Number of items to add (defaults to 1) |
+| **Order Notes** | No | Notes stored against the order. If multiple items share an order, the last item's notes are used |
+
+#### Event Resolution
+
+Provide one of these methods to identify the event:
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Event ID** | Conditional | Internal event ID (found under **Events > View Events**) |
+| **External Event ID** | Conditional | External event ID from a previous import |
+| **Event Name** | Conditional | Event name — used together with Event Start Date and Event End Date when no ID is given |
+| **Event Start Date** | Conditional | Event start date in `Y-m-d H:i:s` format — used with Event Name |
+| **Event End Date** | Conditional | Event end date in `Y-m-d H:i:s` format — used with Event Name |
+
+#### Sale Item Resolution
+
+Provide one of these methods to identify the sale item:
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Sale Item ID** | Conditional | Internal sale item ID |
+| **External Sale Item ID** | Conditional | External sale item ID |
+| **Item Type** | Conditional | Item type when no ID is given (e.g. `Ticket`, `Product`) |
+| **Item Name** | Conditional | Item name when no ID is given. If **Create sale items if not found** is enabled, a new sale item is created when no match is found |
+
+#### Timeslot Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Timeslot ID** | No | Internal timeslot ID if the timeslot already exists |
+| **Timeslot Start Date/Time** | No | Start date/time for creating a new timeslot (`Y-m-d H:i:s`) |
+| **Timeslot End Date/Time** | No | End date/time for creating a new timeslot (`Y-m-d H:i:s`) |
+| **Timeslot Name** | No | Name for a new timeslot |
+
+#### Customer Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Customer Name** | Yes | Full name as a single value |
+| **Customer Email** | No | Email address for sign-in. Used to find or create the customer record |
+| **Customer DOB** | No | Date of birth |
+| **Customer Phone Code** | No | Phone country code |
+| **Customer Phone** | No | Phone number |
+| **Customer Locale** | No | Two-digit language code (e.g. `en`, `es`) |
+| **SSO ID** | No | Single sign-on identifier (only for custom SSO setups) |
+
+#### Purchaser Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Purchaser Name** | No | Separate purchaser name. If blank, the customer details are used |
+| **Purchaser Email** | No | Separate purchaser email. If blank, the customer details are used |
+
+#### Address Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Address Line 1** | No | Street address line 1 |
+| **Address Line 2** | No | Street address line 2 |
+| **City** | No | City |
+| **Region** | No | Region |
+| **Postcode** | No | Postal code |
+| **Country** | No | Country in ISO2 format |
+
+#### Pricing Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Currency** | No | ISO currency code (e.g. `GBP`, `EUR`). If blank, your company's default currency is used |
+| **Price** | No | Final price after discounts, inclusive of fees |
+| **Processing Fees** | No | Processing fee amount. Also stored against the sale item if one is auto-created |
+| **Reseller fees** | No | Reseller fee amount. This field is optional in the CSV |
+| **Item Discount** | No | Total discount applied to this item |
+
+#### Barcode & NFC Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Barcode** | No | Unique barcode. If blank, a new barcode is generated automatically |
+| **Parent Barcode** | No | Barcode of the parent order item |
+| **NFC ID** | No | NFC tag identifier. If this NFC ID is already paired with another ticket for the same event, it is unpaired from that ticket and paired with this one |
+
+#### Seating Fields
+
+For seated events, provide the seating plan location:
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Area** | No | Seating area name |
+| **Stand** | No | Stand name |
+| **Block** | No | Block name |
+| **Row** | No | Row name |
+| **Table** | No | Table name |
+| **Seat** | No | Seat name |
+
+In addition to the standard fields, you can include data capture responses using `DC:field_id` or `ExternalDC:external_question_id` column headers.
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Send confirmation e-mails** | Sends a confirmation email to customers for each imported order (one email per unique order) |
+| **Additional e-mail text** | Custom text at the top of confirmation emails. Available when confirmation emails are enabled |
+| **Use a blank email template** | Uses a plain email template instead of the standard branded template. Available when confirmation emails are enabled |
+| **Send payment links to customers** | Sends payment link emails instead of confirmations. Customers pay online to complete their order |
+| **Order expiry date** | When payment links expire. Available when payment links are enabled |
+| **Additional payment link e-mail text** | Custom text at the top of payment link emails |
+| **Reserve to pay on site** | Creates reservations that customers pay in person. Sends reservation confirmation emails |
+| **Order expiry date** | When on-site reservations expire |
+| **Additional on-site reservation e-mail text** | Custom text at the top of reservation emails |
+| **Create sale items if not found** | Automatically creates sale items when no matching item is found by name and type |
+| **Create timeslots if not found** | Automatically creates timeslots when no matching timeslot is found |
+| **Set any fees as absorbed** | Marks all fees as absorbed by your company |
+| **Run basket validation against the order** | Applies standard basket validation rules to imported orders |
+| **Regenerate barcodes** | Generates new barcodes for all items, even if a barcode is provided in the CSV. If the barcode column is empty, a new barcode is always generated regardless of this setting |
+
+<Warning>
+The email options are mutually exclusive — you can only enable one of **Send confirmation e-mails**, **Send payment links to customers**, or **Reserve to pay on site** at a time. Enabling one disables the others.
+</Warning>
+
+<Note>
+When emails are enabled, the system deduplicates notifications per order — if multiple rows belong to the same order, only one email is sent.
+</Note>
+
+---
+
+## Tag Import
+
+Import tags and tag categories. If a category name is provided and doesn't already exist, it is created automatically.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Name** | Yes | Tag name |
+| **Category name** | No | Tag category name. If the category exists, the tag is associated with it. If not, a new category is created |
+
+---
+
+## Data Capture Question Import
+
+Import data capture questions for use during checkout, as marketing preferences, or as internal event questions. Questions are assigned to a group that determines where they appear.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier. Stored for reference by other imports (e.g. using `ExternalDC:` headers in Order Item Import) |
+| **Question** | Yes | The question text displayed to users |
+| **Description** | No | Help text displayed beneath the question |
+| **Question type** | Yes | The input type (e.g. text, checkbox, dropdown, radio, etc.) |
+| **Question group** | Yes | Determines where the question appears. Options: `shop` (checkout), `marketing` (marketing preferences), or `event_code` (internal event questions in Admin) |
+| **Category** | No | Category name to organise questions. If the category doesn't exist, it is created |
+| **Options** | Conditional | Required for question types that have predefined options (e.g. dropdown, radio, checkbox). Options are separated by `\|\|` |
+
+---
+
+## Discount Code Import
+
+Create new discount codes or bulk update existing ones. You can export your current discount codes as a CSV using the **Download template** button or via the **Export** button on the discount codes index page, modify them, and re-import.
+
+To update an existing code, include either its internal **ID** or **Code** value. To create child discount codes under a parent, provide the **Parent** field with the parent's ID or code.
+
+### Fields
+
+#### Code Identity
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **ID** | No | Internal discount code ID. Required when updating and the Code field is empty |
+| **Parent** | No | Parent discount code ID or code. When provided, all configuration fields are ignored — the child inherits from the parent |
+| **Number of child discount codes** | No | Number of child codes to generate. Only applies to new discount codes; ignored for existing ones |
+| **Child code prefix** | No | Prefix for generated child codes |
+| **Code** | Conditional | The discount code string. Required for new codes and for updates when ID is empty |
+
+#### Discount Configuration
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Type** | Conditional | Discount type (e.g. fixed amount, percentage, buy X get Y). Required for new standalone codes |
+| **Category** | No | Name of an existing discount code category |
+| **Amount** | No | Discount amount. Interpretation depends on type: fixed amount off, percentage off, or percentage off for buy X get Y |
+| **When customer buys amount** | No | Quantity required to qualify for buy X get Y discount |
+| **When customer buys sale item** | No | Sale item ID the customer must purchase for buy X get Y |
+| **On up to amount** | No | Maximum number of items the buy X get Y discount applies to |
+| **On up to sale item** | No | Sale item ID the discount is applied to for buy X get Y |
+
+#### Usage Limits
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Applies to specific items** | No | Boolean (`0`/`1`). When `1`, at least one of Sale item IDs, Event IDs, or Price band IDs must be provided |
+| **Apply once per order** | No | Boolean (`0`/`1`). Limits the discount to one application per order |
+| **Restricted to currency** | No | Currency code the discount is restricted to (e.g. `GBP`). Required when a minimum spend is set |
+| **Maximum number of uses** | No | Total number of times this code can be used |
+| **One use per customer** | No | Boolean (`0`/`1`). Limits to one use per customer |
+| **Maximum uses per customer** | No | Maximum uses per customer |
+| **Maximum uses per customer per event** | No | Maximum uses per customer per event |
+| **Maximum uses per customer per schedule** | No | Maximum uses per customer per schedule |
+| **Maximum uses per order** | No | Maximum number of items the discount applies to within a single order |
+| **New customers only** | No | Boolean (`0`/`1`). Restricts the code to new customers |
+| **Minimum spend** | No | Minimum order total required to use this code |
+
+#### Validity & Visibility
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Valid from** | No | Start date/time in `Y-m-d H:i:s` format |
+| **Valid until** | No | End date/time in `Y-m-d H:i:s` format |
+| **Visible in box office** | No | Boolean (`0`/`1`). Makes the code visible in box office search |
+| **Box office role** | No | Role name to restrict box office visibility to a specific role |
+| **Can be shared via URL** | No | Boolean (`0`/`1`). Allows the code to be shared via URL |
+
+#### Scope
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Sale item IDs** | No | Comma-separated sale item IDs the discount applies to. Only applies when Applies to specific items is `1` |
+| **Event IDs** | No | Comma-separated event IDs the discount applies to |
+| **Price band IDs** | No | Comma-separated price band IDs the discount applies to |
+| **Schedule IDs** | No | Comma-separated schedule IDs the discount applies to |
+| **Item IDs** | No | Comma-separated inventory item IDs the discount applies to |
+| **Description** | No | Discount code description. A separate column is generated for each active language |
+
+---
+
+## Access Code Import
+
+Create new access codes or bulk update existing ones. Like discount codes, you can export your current access codes as a CSV via the **Download template** button or the **Export** button on the access codes index page, modify them, and re-import.
+
+To update an existing code, include either its internal **ID** or **Code** value. To create child codes under a parent, provide the **Parent** field.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **ID** | No | Internal access code ID. Required when updating and the Code field is empty |
+| **Parent** | No | Parent access code ID or code. When provided, all configuration fields are ignored — the child inherits from the parent |
+| **Number of child access codes** | No | Total number of child codes the parent should have. For existing parents, new children are created to reach this total (e.g. if 10 exist and you specify 15, 5 new codes are generated) |
+| **Child code prefix** | No | Prefix for generated child codes |
+| **Code** | Conditional | The access code string. Required for new standalone codes. If blank when providing a parent, a code is generated using the child prefix |
+| **Maximum number of uses** | No | Total number of times this code can be used |
+| **One use per customer** | No | Boolean (`0`/`1`). Limits to one use per customer |
+| **Maximum uses per customer** | No | Maximum uses per customer |
+| **Valid from** | No | Start date/time in `Y-m-d H:i:s` format |
+| **Valid to** | No | End date/time in `Y-m-d H:i:s` format |
+| **Hide unrestricted items** | No | Boolean (`0`/`1`). When `1`, sale items not restricted by this code are hidden when the code is entered |
+| **Hide restricted items after validity period** | No | Boolean (`0`/`1`). When `1`, restricted items are hidden once the code's validity period has passed |
+| **Sale item IDs** | No | Comma-separated sale item IDs this code grants access to |
+| **Event IDs** | No | Comma-separated event IDs this code applies to |
+| **Schedule IDs** | No | Comma-separated schedule IDs this code applies to |
+| **Item IDs** | No | Comma-separated inventory item IDs this code applies to |
+
+---
+
+## Wallet Adjustment Import
+
+Add or remove account balance credit for customers. Requires the **Account Balances** feature.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Customer ID** | Conditional | Internal customer ID. Required if E-mail address is not provided |
+| **E-mail address** | Conditional | Customer's email address. Required if Customer ID is not provided |
+| **Account balance currency** | Yes | Currency code for the account balance (e.g. `GBP`, `EUR`). Required together with Account balance credit |
+| **Account balance credit** | Yes | Amount to add to the balance. Use a negative value (e.g. `-10.00`) to remove credit |
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Only add account balance credit to zero balances** | When enabled, credit is only added to account balances that currently have a zero balance |
+
+<Warning>
+The system prevents duplicate imports of the same CSV file. If you upload a file that has already been processed, the import will be rejected with the message: **You cannot import a duplicate account balance transaction for this user.**
+</Warning>
+
+<Note>
+When **Only add account balance credit to zero balances** is enabled and a customer's balance is already non-zero, that row is skipped with the message: **You can only import balances to account balances that are zero.**
+</Note>
+
+---
+
+## EPOS Shop Import
+
+Import EPOS shops and assign users. Requires the **EPOS** feature. After importing shops, you can add products via the EPOS Product Import or through **Epos > Shops** in Admin.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **Name** | Yes | Shop name |
+| **External ID** | No | External system identifier |
+| **Send customer purchase emails** | No | Boolean (`0`/`1`). Controls customer purchase email notifications. Defaults to `0` if blank |
+| **Send staff purchase emails** | No | Boolean (`0`/`1`). Controls staff purchase email notifications. Defaults to `0` if blank |
+| **Users** | No | Comma-separated email addresses of existing users to associate with the shop |
+
+Shops with internal questions will also show dynamic fields for each configured question.
+
+---
+
+## EPOS Product Import
+
+Import products into existing EPOS shops. Requires the **EPOS** feature. Shops must already exist and can be referenced by name, internal ID, or external ID.
+
+### Fields
+
+| Field | Values Required | Description |
+|-------|-----------------|-------------|
+| **External ID** | No | External system identifier |
+| **Item name** | Yes | Product name |
+| **Description** | No | Product description |
+| **Stock** | No | Stock level |
+| **Currency** | No | ISO currency code. If blank, your company's default EPOS currency is used (found in EPOS settings) |
+| **Base price** | No | Product base price |
+| **Tax band ID** | No | Tax band ID (found under **Ecommerce > Tax bands**) |
+| **Shop name** | Conditional | Shop name. Required if neither Shop ID nor Shop External ID is provided |
+| **Shop ID** | Conditional | Internal shop ID. Required if neither Shop name nor Shop External ID is provided |
+| **Shop External ID** | Conditional | External shop ID. Required if neither Shop name nor Shop ID is provided |
+| **Categories** | No | Category names separated by semicolons (`;`). New categories are created if they don't already exist |
+
+Shops with internal questions will also show dynamic fields for each configured question.
+
+---
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Data Imports Overview" icon="upload" href="/core-platform/data-imports/overview">
+    How the import workflow works, from upload to results.
+  </Card>
+  <Card title="Roles and Permissions" icon="shield" href="/core-platform/system-access/roles-and-permissions">
+    Configure user permissions including data import access.
+  </Card>
+</CardGroup>

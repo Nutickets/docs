@@ -1,47 +1,101 @@
 ---
 title: "All-In Pricing"
-description: "How display pricing includes fees in customer-visible totals while preserving base pricing and fee accounting."
+description: "Show customers the complete price including all fees and taxes throughout the shop, eliminating surprises at checkout."
 ---
 
 ## Overview
 
-All-in pricing is controlled by the **Display Pricing** feature and company `display_pricing_settings`.
+All-in pricing shows customers the full price of an item — including applicable fees and taxes — everywhere in the shop. Instead of seeing a base price on the listing page and then discovering additional fees at checkout, customers see a single, transparent total from the moment they start browsing.
 
-When enabled, customer-visible prices include selected fee components in the displayed total, while underlying base pricing and fee records remain separate for accounting and reporting.
+This is purely a presentation change. The underlying fee structure, base prices, and tax calculations remain exactly the same. Reporting, settlement, and reconciliation continue to use actual base prices and individual fee amounts. All-in pricing simply changes what number customers see as they shop.
 
-## Configuration
+## Prerequisites
 
-Configured in **Admin > Pricing Settings** (`pricing-settings`):
+Before you can enable all-in pricing, two conditions must be met:
 
-- `include_per_order_fees`
-- `include_fulfilment_fees` (present in settings model; currently not exposed in the active UI flow)
+1. **Feature flag** — The **Display Pricing** feature must be enabled for your account. Contact support if this feature is not available.
+2. **Tax display setting** — Your account must be configured to display prices **including tax**. All-in pricing cannot be used when prices are displayed excluding tax.
 
-Company updates are validated and persisted via `SaveCompanySettings`.
+<Note>
+If you attempt to enable all-in pricing while prices are displayed excluding tax, you will see the message: "You cannot enable the all-in pricing feature when prices are displayed excluding tax." Similarly, if all-in pricing is already enabled, you cannot switch your tax display to exclude tax.
+</Note>
 
-## How Calculation Works
+## What Customers See
 
-Display totals are recalculated through `CalculateDisplayPricing` / `RecalculateManyDisplayPrices`:
+When all-in pricing is enabled, the displayed price throughout the shop reflects the total a customer will pay for the item, rather than just the base price. This applies across:
 
-- Works on pricing records grouped by sale item.
-- Excludes fee sale items themselves from display-price calculation.
-- Builds applicable fee sale items via fee hierarchy lookup.
-- Calculates `display_fees` and `display_total` from base price + relevant fee contributions.
+- **Browse and listing pages** — Items show their all-in price
+- **Item detail pages** — The price shown includes all applicable fees
+- **Basket** — Line items display all-in prices
+- **Checkout** — Pricing remains transparent and consistent with what was shown earlier
 
-The per-order-fee toggle directly changes which corresponding fees are considered in the display-price computation.
+The goal is consistency: the price a customer sees when first browsing an item is the same price they see all the way through to checkout. There are no hidden additions along the way.
 
-## Important Behaviour Notes
+<Note>
+Fee items themselves (such as a booking fee line item in the basket) are not affected by all-in pricing. They continue to display their own individual price. All-in pricing only changes how the main item prices are presented.
+</Note>
 
-- This is a **presentation** layer change, not a raw data overwrite of original fee structure.
-- Existing fee logic still applies for settlement, reconciliation, and reporting.
-- Changing display-pricing settings triggers recalculation work for affected pricing rows.
+## What Is Included in the All-In Price
 
-## Constraints
+The all-in price always includes the item's base price plus any per-item fees. Beyond that, two additional fee types can optionally be folded into the displayed price, controlled by settings in the admin.
 
-Display-pricing enablement is feature-gated (`FEATURE_DISPLAY_PRICING`) and subject to company tax/pricing compatibility validation.
+| Component | Included by default | Configurable |
+|-----------|-------------------|--------------|
+| Base price | Always | No |
+| Per-item fees | Always | No |
+| Per-order fees | No | Yes — via **Include per-order fees** setting |
+| Fulfilment fees | No | Yes — via **Include fulfilment fees** setting |
+
+For resale items, resale fees are included in the all-in price minus any seller contributions.
+
+## Configuring All-In Pricing Settings
+
+To adjust which fees are included in the all-in price:
+
+1. Navigate to **Pricing Settings** in the admin
+2. Under **All-in pricing settings**, you will see the available options
+3. Toggle the settings as needed
+4. Click **Save**
+
+### Include per-order fees
+
+When enabled, fees that are applied once per order are distributed and included within each item's displayed price. This means the price shown on an item accounts for the per-order fee, so the total at checkout closely matches the sum of the displayed item prices.
+
+When disabled (the default), per-order fees appear separately and are not part of the displayed item price.
+
+### Include fulfilment fees
+
+When enabled, the cheapest available fulfilment fee is included within an item's displayed price — but only when there is no download option available. If a free download fulfilment method exists, the fulfilment fee is not included in the all-in price since the customer could choose the free option.
+
+When disabled (the default), fulfilment fees are not factored into the displayed item price.
+
+<Note>
+Changing these settings triggers a background recalculation of display prices for all items across your account. The admin shows this message when saving: "Changing these settings will require the system to recalculate display pricing for all items within your account. This will happen in the background once the settings have been saved. It may take a few minutes to see the changes reflected within the shop."
+</Note>
+
+## Background Recalculation
+
+When you change all-in pricing settings, the system recalculates display prices for all future events in the background. This is automatic — you do not need to take any additional action.
+
+A few things to be aware of:
+
+- **It takes a few minutes** for updated prices to appear in the shop after saving new settings
+- **Only future events** are recalculated. Existing orders are not affected by changes to all-in pricing settings
+- **No recalculation is triggered** if you save the settings without actually changing any values
+
+## Reporting and Settlement
+
+All-in pricing does not affect your financial data. Behind the scenes, the original base prices and individual fee amounts are preserved and used for:
+
+- **Reports** — All financial reports use actual base prices and fee breakdowns
+- **Settlement** — Payouts are calculated from real fee and price data, not display prices
+- **Reconciliation** — Line-item detail remains fully itemised
+
+This means you can enable or adjust all-in pricing settings without concern about impacting your financial records or reporting accuracy.
 
 ## Related
 
-- [Tax: Pricing Display](/core-platform/tax/pricing-display)
-- [Fees: Default System Fees](/core-platform/fees/default-system-fees)
-- [Fees: Custom Fees](/core-platform/fees/custom-fees)
-- [Advanced: Company Settings](/core-platform/advanced/company-settings)
+- [Pricing Display](/core-platform/tax/pricing-display) — Configure whether prices are shown including or excluding tax
+- [Default System Fees](/core-platform/fees/default-system-fees) — Understand the fees that contribute to all-in pricing
+- [Fulfilment Fees](/core-platform/fees/fulfilment-fees) — Configure fulfilment fees that can be included in all-in prices
+- [Company Settings](/core-platform/advanced/company-settings) — Manage account-level settings

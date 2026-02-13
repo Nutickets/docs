@@ -1,14 +1,154 @@
 ---
 title: "Webhooks"
-description: "Documentation for Webhooks"
+description: "Receive real-time HTTP notifications when key events occur on the platform, such as order completions, check-ins, and refunds."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Webhooks** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Webhooks let you receive real-time notifications when specific events occur on the platform. When a configured event happens — such as an order completing or an attendee checking in — the platform sends an HTTP request to a URL you specify, containing details about what happened. This enables you to integrate the platform with external systems without polling for changes.
+
+Common uses include:
+
+- Syncing completed orders to a CRM or fulfilment system
+- Triggering workflows in automation tools when events are created
+- Recording attendee check-ins in an external access control system
+- Tracking refunds and payouts in accounting software
+
+<Note>
+Webhooks are a premium feature. If webhooks are not available in your account, contact your account manager to enable them.
+</Note>
+
+## Webhook Events
+
+The platform supports the following event types:
+
+| Event | When it fires |
+|-------|---------------|
+| **Order completed** | When a new order is completed. |
+| **Reservation Created** | When a new reservation is created. For payment link orders, this fires both when the reservation is first generated and again if the customer chooses a payment method that results in a reservation, such as invoice. |
+| **Order failed** | When an order either expires or there is a payment failure during checkout. |
+| **Order refunded** | When an order is refunded. |
+| **Order refund failed** | When an order refund fails. |
+| **New event** | When a new event is created. |
+| **Attendee check in** | When an attendee checks into a zone or main entry. |
+| **Custom form submission** | Whenever a custom data capture form is submitted. |
+| **Resale Payout** | When resale payouts are distributed to the original seller. |
+| **Resale Payout Failed** | When a resale payout fails. |
+
+## Creating a Webhook
+
+To create a new webhook:
+
+1. Navigate to **Webhooks** in the admin panel.
+2. Click **Create webhook**.
+3. Configure the webhook settings (see [Configuration](#configuration) below).
+4. Save the webhook.
+
+The webhook begins firing immediately for new events matching its type.
+
+## Configuration
+
+Each webhook has the following settings:
+
+### Basic Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Name** | A descriptive name to identify this webhook in the list |
+| **URL** | The endpoint that will receive the webhook requests |
+| **HTTP Request Method** | The HTTP method used for the request (typically POST) |
+| **Type** | The event type that triggers this webhook |
+
+### Secret
+
+Each webhook can have a secret key used to sign requests, allowing your receiving system to verify that requests genuinely come from the platform. **Webhook secrets help secure the connection between our system and your app. Click generate to create a new secret and copy it to your clipboard.**
+
+The platform uses HMAC-SHA256 to sign webhook payloads with this secret. The signature is included in the **Signature** header of each request.
+
+<Note>
+Always verify the signature on your receiving end to ensure requests haven't been tampered with. Compare the signature in the header against your own HMAC-SHA256 hash of the raw request body using the shared secret.
+</Note>
+
+### Payload Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Includes** | Configure which related objects to include in the webhook payload. For order webhooks, this can include ticket details, customer information, billing address, and data capture responses. |
+| **Order type** | For order-related webhooks, specify whether to trigger for all orders, resale orders only, or non-resale orders only. |
+
+## Testing a Webhook
+
+Before relying on a webhook in production, you can send a test request:
+
+1. Navigate to the webhook's detail page.
+2. Click the test option.
+3. Optionally modify the test payload.
+4. Send the test request.
+
+The test sends a sample payload to your configured URL, allowing you to verify that your endpoint receives and processes the data correctly.
+
+## Monitoring Webhook Activity
+
+Each webhook's detail page shows a call history graph displaying successful and failed deliveries over time. This gives you a visual overview of webhook reliability.
+
+To inspect an individual delivery:
+
+1. Open the webhook's detail page.
+2. Browse the call history.
+3. Click on a specific call to view full details.
+
+Each call record shows:
+
+- The request URL, HTTP method, and payload sent
+- The response status code, headers, and body received
+- Whether the delivery was successful
+- The number of attempts made
+- Any error messages if the delivery failed
+
+## Retry Behaviour
+
+If a webhook delivery fails (due to a timeout, network error, or non-success HTTP status code), the platform retries automatically:
+
+- **Maximum attempts**: 3
+- **Backoff strategy**: Exponential — each retry waits longer than the previous one
+- **Timeout**: Requests time out after 3 seconds
+
+<Note>
+If all retry attempts fail, the delivery is marked as permanently failed. The platform does not retry beyond the maximum attempt count. Check the call history regularly to identify persistent failures and verify that your endpoint is reachable.
+</Note>
+
+## Enabling and Disabling Webhooks
+
+Webhooks can be temporarily disabled without deleting them:
+
+- **Disable** a webhook to stop it from firing. The webhook configuration is preserved but no requests are sent.
+- **Enable** a disabled webhook to resume delivery.
+
+Events that occur while a webhook is disabled are not sent retroactively. This is useful when your receiving endpoint is undergoing maintenance or when you need to temporarily pause an integration.
+
+## Managing Webhooks
+
+From the webhooks list, you can:
+
+| Action | Description |
+|--------|-------------|
+| **Edit** | Modify webhook settings, URL, or type |
+| **Delete** | Remove a webhook. Deleted webhooks can be restored. |
+| **Restore** | Recover a previously deleted webhook |
+| **Enable / Disable** | Toggle webhook delivery on or off |
+
+The webhooks list supports filtering by name, URL, HTTP method, type, and creation date.
+
+## Webhook Payloads
+
+Webhook payloads are sent as JSON. The top-level key indicates the event type (e.g. `order_completed`, `new_event`). The content varies by event type, but order-related webhooks typically include:
+
+- **Company** — ID and name
+- **Order** — ID, reference, total, amount paid, and timestamps
+- **Currency** — Symbol and code
+- **Customer** — ID, name, and email
+- **Billing address** — Full address details
+- **Items** — Grouped by type: tickets, season tickets, products, donations, fees, and fulfilment fees
+- **Data capture** — Custom form responses associated with the order
+
+The exact payload structure depends on the event type and your **Includes** configuration. For full payload examples, see the [Webhook Reference](/webhook-reference).

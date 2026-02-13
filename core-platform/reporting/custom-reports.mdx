@@ -1,48 +1,122 @@
 ---
-title: "Custom Reports"
-description: "Create, edit, and maintain reusable report definitions tailored to your operational workflows."
+title: "Custom Reports & Widgets"
+description: "Save tailored report configurations and build visual dashboards with chart widgets."
 ---
 
 ## Overview
 
-Custom reports are saved report definitions built on top of report types. They persist your chosen filters, columns, grouping, interval, conditionals, and mapping settings.
+Custom reports let you save a fully configured report — selected fields, filters, groupings, sort order, and display settings — so you can return to it later without reconfiguring from scratch. They are the foundation for two additional capabilities: **widgets** (visual chart dashboards) and **scheduled reports** (automated delivery).
 
-## Create a Custom Report
+Every custom report is based on one of the default report types. You start with a default report, adjust it to show exactly what you need, and then save it as your own custom report.
 
-1. Open a default or existing report view.
-2. Use **Create** to save a new custom report.
-3. Provide a report name and optional description.
-4. Save settings (headers/filter/grouping/order/interval and related configuration).
+## Creating a Custom Report
+
+1. Open any default report (or an existing custom report you want to base a new one on).
+2. Adjust the report to your needs — select the fields you want, apply filters, set groupings and intervals, configure sort order.
+3. Click **Save as Custom Report** in the action bar.
+4. Enter a **name** for the report and an optional **description**.
+5. Click **Save**.
+
+The report is saved with all of your current settings and appears in the **custom reports** section of the reports listing page.
+
+<Note>
+If you are viewing an existing custom report, you can also use the **Duplicate Custom Report** option from the dropdown menu. This creates a new custom report with all the same settings, which you can then modify independently.
+</Note>
 
 ## What Gets Saved
 
-Custom reports store settings including:
+When you save a custom report, the following settings are captured:
 
-- `headers`
-- `filter`
-- `grouping`
-- `secondary_grouping`
-- `order`
-- `interval`
-- `map`
-- `prefix`
-- conditional settings
+| Setting | What it preserves |
+|---------|-------------------|
+| **Fields** | Which columns are included and their order |
+| **Filters** | All active filter values (date ranges, events, payment methods, etc.) |
+| **Primary grouping** | How results are grouped |
+| **Secondary grouping** | The second level of grouping, if set |
+| **Sort order** | Which columns are sorted and in which direction |
+| **Time interval** | The selected time interval (daily, weekly, etc.) |
+| **Header names** | Any custom column labels you have set |
+| **Column prefixes** | Any prefixes applied to column values |
+| **Conditional rules** | Any conditional display rules on fields |
+| **Data capture preferences** | Favour purchaser / fallback to purchaser settings for data capture fields |
 
-## Editing and Deleting
+<Note>
+Custom reports save filter *values*, not just filter types. If you save a report filtered to a specific event, opening that custom report will always filter to that event. Update the saved filters if you want the report to cover different data next time.
+</Note>
 
-- Use report edit to rename/update description and settings.
-- Deleting removes the custom report definition, not underlying business data.
+## Editing a Custom Report
 
-## Widgets and Dashboards
+To update a custom report's settings:
 
-Custom reports can contain widgets (pie, bar, stacked bar, line, horizontal variants). Widget configuration pulls available grouped headers from the report definition.
+1. Open the custom report.
+2. Make your changes to fields, filters, groupings, or any other settings.
+3. Click **Save Changes** from the dropdown menu.
 
-## Scheduling Compatibility
+To rename a custom report or change its description:
 
-Custom reports can be scheduled. Hourly scheduling availability depends on frequent-scheduled-report feature access for the owning company/reseller.
+1. Open the custom report.
+2. Select **Edit Report** from the dropdown menu.
+3. Update the **name** or **description**.
+4. Click **Save**.
 
-## Related
+<Note>
+After making changes to a custom report's fields, filters, or groupings, the export button is disabled until you save. This prevents exporting stale data that doesn't match what you see on screen. Save your changes first, then export.
+</Note>
 
-- [Fundamentals](/core-platform/reporting/fundamentals)
-- [Scheduled Reports](/core-platform/reporting/scheduled-reports)
-- [Utilities: Sales Dashboards](/core-platform/utilities/sales-dashboards-util)
+## Undoing Changes
+
+If you have modified a custom report but haven't saved yet, select **Undo Changes** from the dropdown menu to revert all unsaved modifications and return to the last saved state.
+
+## Deleting a Custom Report
+
+1. Open the custom report.
+2. Select **Delete** from the dropdown menu.
+3. Confirm the deletion.
+
+Deleting a custom report removes the saved configuration only. No underlying business data (orders, transactions, customers, etc.) is affected. Any scheduled reports based on the deleted custom report will stop running.
+
+## Widgets
+
+Widgets are visual chart components that sit above the data table on a custom report. They turn your report data into at-a-glance dashboards — useful for tracking key metrics, comparing categories, and spotting trends without reading through rows of data.
+
+Widgets are only available on custom reports, not on default reports. You need the **Create widgets** permission to add them.
+
+### Widget Types
+
+| Type | Best for |
+|------|----------|
+| **Pie/Doughnut chart** | Showing proportions and shares of a total (e.g. revenue split by item type) |
+| **Standard bar chart** | Comparing values across categories (e.g. sales per event) |
+| **Stacked bar chart** | Comparing totals with sub-category breakdowns |
+| **Line chart** | Showing trends over time (works well with time intervals) |
+| **Horizontal bar chart** | Comparing values when category labels are long |
+| **Stacked horizontal bar chart** | Horizontal bars with sub-category breakdowns |
+
+### Creating a Widget
+
+1. Open a custom report that has a **grouping** applied. Widgets need grouped data to visualise.
+2. Click **Add Widget** in the top bar.
+3. Select the **widget type** (pie, bar, line, etc.).
+4. Set the **width** — widgets can span 1, 2, or 3 columns in the widget grid. A preview shows how much space the widget will occupy.
+5. Select the **fields** to display in the chart. The available fields are drawn from the report's current field list, excluding any fields that match the grouping (since those become the axis labels).
+6. Click **Save**.
+
+The widget appears above the data table and updates automatically when the report data changes.
+
+### Managing Widgets
+
+- **Reorder** — Drag widgets to rearrange them in the grid.
+- **Edit** — Hover over a widget and click the edit icon to change its type, width, or fields.
+- **Delete** — Hover over a widget and click the delete icon to remove it.
+
+The widget grid uses a three-column layout. A widget set to width 1 takes up one third of the row, width 2 takes two thirds, and width 3 spans the full row.
+
+<Note>
+Widgets visualise the report's grouped data. If you remove the grouping from the report, widgets may not display meaningful data. For best results, keep a consistent grouping on reports that have widgets.
+</Note>
+
+## Finding Custom Reports
+
+Custom reports appear alongside default reports on the reports listing page. Use the **search bar** to filter custom reports by name. Custom reports are listed separately from default reports and can be identified by their custom names.
+
+The reports listing is paginated — if you have many custom reports, use the search to find a specific one quickly.

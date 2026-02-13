@@ -1,23 +1,193 @@
 ---
-title: "SEO"
-description: "Manage meta titles, descriptions, and images across listings, events, articles, and company pages."
+title: "SEO & Sharing"
+description: "Control how your events, articles, and pages appear in search results and when shared on social media."
 ---
 
 ## Overview
 
-- SEO controls are available on core content entities (events, listings, articles, and company-level settings).
-- Metadata drives search result snippets and social share previews.
-- Shop-level indexability options can be controlled through settings where enabled.
+The platform gives you control over how your content appears in two key places:
 
-## Common Fields
+- **Search engine results** — the title, description, and image shown when someone finds your event or page on Google
+- **Social media previews** — the card that appears when someone shares a link to your event on Facebook, Twitter/X, LinkedIn, or other platforms
 
-| Field | Purpose |
-|---|---|
-| Meta title | Search/share headline |
-| Meta description | Search/share summary |
-| Meta image | Social preview image |
+These are managed through **sharing settings** available on events, articles, listing pages, and at the company level. You can also control which parts of your site are indexed by search engines, and the platform automatically generates sitemaps and structured data to improve discoverability.
+
+## Sharing Settings
+
+Sharing settings control the metadata that search engines and social platforms use to display your content. Each entity that supports sharing settings has three fields:
+
+| Field | Purpose | Recommended length |
+|-------|---------|-------------------|
+| **Meta title** | The headline shown in search results and social previews | Up to 60 characters |
+| **Meta description** | The summary text shown below the title | Up to 160 characters |
+| **Meta image** | The image shown in social media preview cards | 600×300px minimum, 1200×630px recommended, 2:1 aspect ratio |
+
+### Where Sharing Settings Are Available
+
+| Entity | How to access |
+|--------|--------------|
+| **Events** | Event dashboard → **Sharing settings** |
+| **Articles** | Article dashboard → **Sharing settings** |
+| **Listing pages** | Page editor → sharing settings section |
+| **Company-wide defaults** | Company settings → SEO/sharing configuration |
+
+### Editing Sharing Settings
+
+1. Navigate to the entity (e.g., an event dashboard)
+2. Find the **Sharing settings** section
+3. Click to edit
+
+The editor shows a live preview of how your content will appear when shared, updating as you type. Each field has a character counter showing how many characters you've used relative to the recommended limit.
+
+**For the meta image**, you can:
+- **Upload** a new image
+- **View** the full-size image
+- **Crop** the image to fit the 2:1 aspect ratio
+- **Delete** the image to revert to the default
+
+### Multi-Language Support
+
+All sharing settings support [translations](/core-platform/core/translations). Use the language switcher on each field to enter different titles, descriptions, and images for each of your configured languages. The platform serves the version matching the customer's current language.
+
+### Fallback Behaviour
+
+If you don't set sharing settings on a specific entity, the platform uses fallbacks:
+
+1. **Entity name** — if no meta title is set, the entity's name is used (e.g., the event name)
+2. **Company defaults** — if the entity has no sharing settings at all and your company has default sharing settings configured, those are used instead
+3. **Default sharing image** — if no meta image is set, the company's default sharing image is used. If that's also not set, a platform placeholder image is used
+
+<Note>
+If you upload a card thumbnail for an event and don't set a separate meta image, the sharing settings preview shows that the image is **inherited from event thumbnail**. You can override this by uploading a dedicated sharing image.
+</Note>
+
+## What Gets Generated
+
+The platform automatically generates the following metadata in the HTML of your public pages:
+
+### Open Graph Tags (Facebook, LinkedIn)
+
+| Tag | Source |
+|-----|--------|
+| `og:type` | Always set to `website` |
+| `og:title` | Meta title (or entity name) |
+| `og:description` | Meta description (or entity name) |
+| `og:image` | Meta image (with fallback chain) |
+
+### Twitter/X Card Tags
+
+| Tag | Source |
+|-----|--------|
+| `twitter:card` | Always set to `summary_large_image` |
+| `twitter:title` | Meta title (or entity name) |
+| `twitter:description` | Meta description (or entity name) |
+| `twitter:image` | Meta image (with fallback chain) |
+
+### Canonical URLs and Language Alternates
+
+The platform generates:
+
+- A **canonical URL** pointing to the primary version of each page (using your company's fallback language)
+- **Alternate language links** (`hreflang`) for each of your configured languages, so search engines know about all language versions of a page
+
+If you use language-specific domains (e.g., `fr.example.com` for French), the alternate links point to those domains. Otherwise, they use a `?language=` parameter.
+
+## Search Engine Indexing Controls
+
+You can control which parts of your ticket shop search engines are allowed to index.
+
+### Noindex Options
+
+Navigate to your company's SEO settings to find the indexing controls. You can choose to exclude specific types of content from search engine indexing:
+
+| Option | Effect |
+|--------|--------|
+| **Noindex whole site** | Tells search engines not to index any page on your ticket shop |
+| **Events** | Excludes all event pages from indexing |
+| **Articles** | Excludes all article pages from indexing |
+| **Pages** | Excludes all listing pages from indexing |
+| **Individual article types** | Exclude specific article types (e.g., only hide blog posts but keep news indexed) |
+| **Individual listing pages** | Exclude specific pages while keeping others indexed |
+
+When a noindex option is enabled, the platform adds a `<meta name="robots" content="noindex">` tag to the affected pages and updates the `robots.txt` file to disallow crawling of those paths.
+
+### Custom Robots.txt Entries
+
+For more advanced control, you can add custom entries to your `robots.txt` file. This is found below the noindex options in your SEO settings.
+
+<Warning>
+Custom robots.txt entries are an advanced feature. Invalid entries could inadvertently block search engines from crawling important pages, negatively impacting your search rankings. Only modify this if you understand robots.txt syntax.
+</Warning>
+
+## Sitemaps
+
+The platform automatically generates an XML sitemap for your ticket shop, helping search engines discover and index your content efficiently.
+
+### What's Included
+
+The sitemap includes:
+
+| Content type | Priority | Included when |
+|-------------|----------|---------------|
+| **Events** | High | Published, visible, and upcoming |
+| **Event schedules** | High | Has upcoming published events |
+| **Listing pages** | Medium | Always included |
+| **Articles** | Standard | Published and visible |
+| **Charity donations page** | High | If charity donations are enabled |
+| **Gift vouchers page** | High | If gift vouchers are enabled |
+
+Past events, unpublished events, hidden events, and unpublished articles are excluded.
+
+### Multi-Language Sitemaps
+
+Each URL in the sitemap includes alternate language links for all your configured languages. This helps search engines understand that the same content exists in multiple languages and serve the right version to users in different regions.
+
+### Sitemap Access
+
+Your sitemap is available at `/sitemap.xml` on your ticket shop domain. A reference to it is automatically included in your `robots.txt` file so search engines can find it.
+
+The sitemap regenerates automatically and is cached for 24 hours.
+
+## Structured Data
+
+The platform generates structured data (JSON-LD format, following Schema.org standards) for events and articles. This helps search engines understand your content and can enable rich search results.
+
+### Event Structured Data
+
+Event pages include structured data with:
+
+- Event name, start date, and end date
+- Venue name and address (if a venue is assigned)
+- Organiser name (your company)
+
+This can enable Google to show your events in event-specific search features, including the events carousel and Knowledge Panel.
+
+### Article Structured Data
+
+Article pages include structured data with:
+
+- Article headline and header image
+- Publication date and last modified date
+- Author name
+
+### Search Action
+
+Your shop includes a `WebSite` schema with a `SearchAction`, which can enable a sitelinks search box in Google results — allowing users to search your events directly from the search results page.
+
+<Note>
+Structured data generation can be disabled at the company level if needed, though it is enabled by default and recommended for optimal search visibility.
+</Note>
 
 ## Related
 
-- [CMS Pages](/core-platform/cms/pages)
-- [Event Management Introduction](/core-platform/event-management/introduction)
+<CardGroup cols={2}>
+  <Card title="Translations" icon="language" href="/core-platform/core/translations">
+    Multi-language support for sharing settings and content
+  </Card>
+  <Card title="Articles" icon="newspaper" href="/core-platform/cms/articles">
+    Create and manage articles with SEO settings
+  </Card>
+  <Card title="Pages" icon="file" href="/core-platform/cms/pages">
+    Build listing pages with custom sharing settings
+  </Card>
+</CardGroup>

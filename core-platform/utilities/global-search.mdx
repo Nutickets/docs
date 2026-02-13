@@ -1,37 +1,95 @@
 ---
 title: "Global Search"
-description: "Use entity-aware global search to quickly locate events, orders, schedules, customers, media, and more."
+description: "Quickly find events, orders, customers, and other records from anywhere in the admin using keyboard-driven global search."
 ---
 
 ## Overview
 
-Global search is an AJAX-powered cross-entity search endpoint used throughout admin experiences.
+Global search provides a fast way to locate records across the platform without navigating to each section individually. Press a keyboard shortcut from any admin page, type your search term, and jump directly to the record you need.
 
-## Supported Entity Types
+This is especially useful when you need to quickly pull up a specific order by reference, find a customer by email, or locate an event by name — without leaving your current page.
 
-Examples include:
+## Opening Global Search
 
-- events
-- sale items / inventory items
-- schedules
-- orders / reservations
-- customers
-- event media
-- listings and articles
-- customer groups
+Open global search using the keyboard shortcut:
 
-## Search Behavior
+| Platform | Shortcut |
+|----------|----------|
+| **Mac** | <kbd>Cmd</kbd> + <kbd>K</kbd> |
+| **Windows / Linux** | <kbd>Ctrl</kbd> + <kbd>K</kbd> |
 
-- Entity-specific filters are applied (for example date ranges, company, status).
-- Permission checks run before returning entity results.
-- Response payloads include admin route hints for quick navigation.
+You can also click the **search icon** in the admin navigation bar.
 
-## Operational Tips
+## Choosing What to Search
 
-- Use filters instead of broad text when searching large datasets.
-- For events and orders, add date/status constraints to reduce noise.
+When global search opens, a dropdown in the search bar lets you choose which type of record to search. The platform remembers your last selection so you can search the same type again without re-selecting.
 
-## Related
+The available search types are:
 
-- [Order Management Core Concepts](/core-platform/order-management/core-concepts)
-- [Event Management Introduction](/core-platform/event-management/introduction)
+| Search Type | What It Searches | Result Details |
+|-------------|-----------------|----------------|
+| **Events** | Event name or ID | Event name, date, venue |
+| **Orders** | Order reference, customer name, or email | Reference, customer, completion date, total |
+| **Reservations** | Reservation reference, customer name, or email | Reference, customer, creation date, status |
+| **Customers** | Customer name or email | Name, email, phone |
+| **Schedules** | Schedule name, ID, or related event names | Name, date range, event count |
+| **Sale Items** | Sale item name | Name, inventory source, timeslot |
+| **Items** | Item name or ID | Name, company, inventory types |
+| **Price Bands** | Price band name | Name and related event |
+| **Event Media** | Media asset name | Name, type, preview |
+| **Articles** | Article name | Name, article type |
+| **Listings** | Listing page name | Name, subheading |
+| **Customer Groups** | Group name | Name, type |
+
+## Searching by ID
+
+For events, items, orders, and schedules, you can search by numeric ID directly. Type the number (with or without a `#` prefix) and global search will match it against record IDs first, falling back to name-based search if no ID match is found.
+
+For orders, typing an order reference (e.g. `ORD-12345`) searches by reference rather than name.
+
+## Quick Actions on Results
+
+Some search result types include action buttons that let you take immediate action without opening the record first:
+
+### Customer Results
+
+| Action | Description |
+|--------|-------------|
+| **Email** | Opens your email client with the customer's address |
+| **Phone** | Opens your phone dialler with the customer's number (if available) |
+| **Sell to Customer** | Opens box office mode with the customer pre-selected |
+| **Begin Box Office** | Starts a new box office session for the customer |
+
+### Event Results
+
+| Action | Description |
+|--------|-------------|
+| **Sell in Box Office Mode** | Opens box office for this event |
+| **Attendance List** | Opens the event's attendance list |
+| **Seating Plan** | Opens the event's seating plan (only available if the event has a seating plan configured) |
+
+## Search Behaviour
+
+- **Partial matching** — search terms match anywhere in the record name or field, not just the start
+- **Debounced** — search waits briefly after you stop typing before sending the query, so you can type your full search term without triggering multiple requests
+- **Results limit** — up to 6 results are shown per search to keep results fast and focused
+- **Permission-aware** — results only include records you have permission to view
+
+<Note>
+If no results are found, the search panel displays a suggestion to try changing your search category from the dropdown. It's possible the record exists under a different entity type than the one currently selected.
+</Note>
+
+<Note>
+Global search is also available in box office mode, using the same keyboard shortcut and search types. This allows staff to quickly look up customers, events, and orders while processing sales.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Event Management" icon="calendar" href="/core-platform/event-management/introduction">
+    Managing events across the platform
+  </Card>
+  <Card title="Order Management" icon="receipt" href="/core-platform/order-management/core-concepts">
+    Working with orders and reservations
+  </Card>
+</CardGroup>

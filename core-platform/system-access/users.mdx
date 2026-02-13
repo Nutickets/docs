@@ -1,40 +1,170 @@
 ---
 title: "Users"
-description: "Manage admin users, assignments, suspensions, impersonation, and access-scoped visibility."
+description: "Add, manage, and control access for users who work in your company's admin area."
 ---
 
 ## Overview
 
-User management controls who can access admin tools and what they can do. Access is shaped by roles, abilities, and visibility groups.
+Users are the people who access your company's admin area to manage events, process orders, run box office, and perform other operational tasks. Each user has their own login credentials and is assigned [roles](/core-platform/system-access/roles-and-permissions) that determine what they can do, and optionally [visibility groups](/core-platform/system-access/visibility-groups) that control what data they can see.
 
-## User Lifecycle
+User management covers the full lifecycle — adding users to your company, configuring their access, and suspending them when they no longer need access.
 
-1. Create user and assign initial roles.
-2. Optionally assign visibility groups and event assignments.
-3. Optionally assign seating holds and shop access.
-4. Update profile/security settings as needed.
-5. Suspend/restore company membership when required.
+## Adding a User
 
-## Key Controls
+To add a new user to your company:
 
-| Control | Purpose |
-|---|---|
-| **Roles** | Defines broad permission sets. |
-| **Direct abilities** | Fine-grained capability overrides. |
-| **Visibility groups** | Restricts which records the user can see. |
-| **Event assignments** | Narrows operational scope where configured. |
-| **Two-factor state** | Indicates whether MFA is enabled for the user. |
+1. Navigate to **Users**
+2. Click **Create user**
+3. Complete the user details:
 
-## Suspension vs Deletion
+| Field | Description |
+|-------|-------------|
+| **Name** | The user's full name |
+| **Email** | Must be unique across the platform. Used for sign-in |
+| **Password** | Sets the user's initial password |
+| **Phone** | Optional contact number with country code |
 
-Users are typically suspended from a company rather than hard-deleted, preserving audit and operational history.
+4. Assign one or more [roles](/core-platform/system-access/roles-and-permissions) to control what the user can do
+5. Optionally assign [visibility groups](/core-platform/system-access/visibility-groups) to control what data the user can see
+6. Click **Submit**
 
-## Access/Impersonation
+The user can now sign in with their email and password.
 
-Authorized admins can generate secure access/impersonation flows for troubleshooting or support workflows.
+<Note>
+If the email address is already associated with an existing account on the platform, that user is added to your company rather than creating a duplicate account. A single user can belong to multiple companies.
+</Note>
 
-## Related
+<Note>
+The very first user added to a company is automatically assigned the **Super user** role. Subsequent users receive the default role configured in your reseller settings, if one has been set. You can change the assigned roles after creation.
+</Note>
 
-- [Roles And Permissions](/core-platform/system-access/roles-and-permissions)
-- [Visibility Groups](/core-platform/system-access/visibility-groups)
-- [MFA](/core-platform/system-access/mfa)
+## Viewing User Details
+
+Select a user from the user list to view their profile. The user detail page shows:
+
+- **Name** and **email** with avatar
+- **Phone number** with country code
+- **Roles** currently assigned
+- **Visibility groups** the user belongs to
+- **Last login** date and time
+- **Two-factor authentication** status
+- **Terms and privacy** acceptance timestamps
+
+From this page you can edit the user's details, manage their roles and access, send a password reset, or perform actions like suspension.
+
+## Editing a User
+
+Click **Edit** on a user's detail page to update their information. You can change:
+
+- Name, email, password, and phone number
+- Assigned roles
+- Visibility groups
+- Event assignments (if the user belongs to a visibility group)
+
+<Note>
+Changing a user's email updates their sign-in credentials. The user will need to use the new email address to sign in. Password changes take effect immediately — share updated credentials separately as no notification is sent.
+</Note>
+
+### Self-Editing Restrictions
+
+You cannot edit certain aspects of your own account:
+
+| Restriction | Message shown |
+|-------------|---------------|
+| Roles | **Editing roles of own user is not permitted.** |
+| Visibility groups | **Editing visibility groups of own user is not permitted.** |
+| Permissions | **Editing permissions of own user is not permitted.** |
+
+These restrictions prevent users from accidentally locking themselves out or escalating their own privileges. Another user with appropriate permissions must make these changes.
+
+## Assigning Events to Users
+
+When a user belongs to one or more [visibility groups](/core-platform/system-access/visibility-groups), you can assign specific events directly to them. This gives the user access to selected events beyond what their visibility groups already provide — useful for granting temporary access to a particular event without restructuring group membership.
+
+To assign events:
+
+1. Open the user's detail page and click **Edit**
+2. Scroll to the events section
+3. Search for and select the events to assign
+4. Click **Submit**
+
+<Note>
+Event assignment is only available when the user belongs to at least one visibility group. Users without visibility groups already have access to all data. See [Visibility Groups](/core-platform/system-access/visibility-groups) for more on how data access works.
+</Note>
+
+## Sending a Password Reset
+
+To send a password reset email to a user:
+
+1. Open the user's detail page
+2. Click **Send Password Reset**
+
+The user receives an email with a link to set a new password.
+
+## Suspending and Restoring Users
+
+When a user should no longer access your company's admin area, suspend them rather than deleting them. Suspension preserves the user's history and audit trail while immediately revoking their access.
+
+### Suspending a User
+
+1. Open the user's detail page
+2. Click **Suspend**
+3. Confirm when prompted: **Are you sure you want to suspend ":name"?**
+
+The user is immediately prevented from accessing the admin area for your company. If the user belongs to other companies, their access to those companies is unaffected.
+
+### Restoring a Suspended User
+
+1. Filter the user list to show suspended users using the status filter
+2. Open the suspended user's detail page
+3. Click **Unsuspend**
+4. Confirm when prompted: **Are you sure you want to unsuspend ":name"?**
+
+The user's access is restored with their previous roles and settings intact.
+
+<Note>
+Suspension removes the user from your company only. Their account, order history, and associations with other companies remain unchanged.
+</Note>
+
+## Accessing a User's Account
+
+Authorised users can access another user's account to see the admin area from their perspective. This is useful for troubleshooting — you see exactly what the user sees, including their role restrictions and visibility group filters.
+
+To access a user's account:
+
+1. Open the user's detail page
+2. Click **Access**
+
+You are signed in as that user. To return to your own account, click **Stop impersonation** in the navigation.
+
+<Warning>
+You can only access accounts of users with equal or lesser permissions than your own. You cannot access a user's account while you are already accessing another user's account.
+</Warning>
+
+## Filtering and Searching Users
+
+The user list supports several filters to find specific users:
+
+| Filter | Description |
+|--------|-------------|
+| **Name** | Search by partial name match |
+| **Email** | Search by partial email match |
+| **Roles** | Filter by one or more assigned roles |
+| **Shops** | Filter by shop assignment |
+| **Visibility groups** | Filter by visibility group membership |
+| **Two-factor enabled** | Show users with two-factor authentication enabled, disabled, or both |
+| **Status** | Show active users, suspended users, or both |
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Roles & Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+    Configure what users can do by creating and assigning roles
+  </Card>
+  <Card title="Visibility Groups" icon="eye" href="/core-platform/system-access/visibility-groups">
+    Control which events, venues, and other data users can see
+  </Card>
+  <Card title="Two-Factor Authentication" icon="lock" href="/core-platform/system-access/mfa">
+    Add a second verification step to user sign-in
+  </Card>
+</CardGroup>

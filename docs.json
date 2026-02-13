@@ -268,8 +268,8 @@
               {
                 "group": "Data Imports",
                 "pages": [
-                  "core-platform/data-imports/introduction",
-                  "core-platform/data-imports/reference"
+                  "core-platform/data-imports/overview",
+                  "core-platform/data-imports/import-types"
                 ]
               }
             ]

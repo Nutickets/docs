@@ -1,25 +1,156 @@
 ---
 title: "Audit Logs"
-description: "Track change history and operational activity across admin and hub entities."
+description: "Track who changed what and when across the platform, with filterable logs available in both the admin and hub areas."
 ---
 
 ## Overview
 
-- Audit logs capture entity and user activity for traceability.
-- Logs are available in both admin and hub areas where authorized.
-- Deleted audit records can be restored when permitted.
+Audit logs record a detailed history of every change made across the platform. Whenever a record is created, updated, deleted, or restored — whether through the admin area, hub, API, box office, or kiosk — the platform captures who made the change, what changed, and when.
 
-## Typical Uses
+This gives you full traceability for:
 
-- Investigate who changed key configuration
-- Review timeline around operational incidents
-- Support internal compliance and accountability checks
+- **Investigating changes** — find out who modified an event's pricing, updated a customer's details, or changed a setting
+- **Compliance and accountability** — maintain a clear record of administrative actions across your organisation
+- **Troubleshooting** — review the timeline of changes around an incident or unexpected behaviour
 
-## Access
+Audit logging is always active and cannot be disabled. Every entity in the platform — events, orders, sale items, users, settings, and more — is automatically tracked.
 
-Access is permission-controlled and scoped by user visibility/role.
+## Viewing Audit Logs
+
+Audit logs are available in both the **admin area** and the **hub**. Navigate to **Audit logs** in the sidebar to access the full audit log list.
+
+<Note>
+Viewing audit logs requires the appropriate permission. If you don't see **Audit logs** in the sidebar, contact your administrator about your role's permissions.
+</Note>
+
+### The Audit Log List
+
+The list displays all audit entries visible to you, sorted with the most recent entries first. Each row shows:
+
+| Column | Description |
+|--------|-------------|
+| **ID** | Unique identifier for the audit entry |
+| **Description** | The type of change: **created**, **updated**, **deleted**, or **restored** |
+| **Subject type** | The type of record that was changed (e.g., events, users, sale items) |
+| **Subject ID** | The ID of the specific record that was changed |
+| **Causer** | The user who made the change |
+| **Context** | Where the change was made: Admin, Hub, API, Box Office, or Kiosk |
+| **Created at** | When the change occurred (displayed in UTC) |
+
+All columns are sortable — click a column header to sort ascending or descending.
+
+### Filtering Audit Logs
+
+Use the filters at the top of the list to narrow down results. You can combine multiple filters:
+
+| Filter | What it does |
+|--------|-------------|
+| **ID** | Find a specific audit entry by its ID |
+| **Subject ID** | Find all changes to a specific record (e.g., event ID 456) |
+| **Subject type** | Show only changes to a particular type of record (e.g., only events, only users) |
+| **Event** | Filter by the type of change: Created, Updated, Deleted, or Restored |
+| **User** | Show only changes made by a specific user |
+| **Context** | Filter by where the change originated (Admin, Hub, API, Box Office, Kiosk) |
+| **Created at** | Filter by date range, with preset options for common time periods |
+| **Company** | Filter by company (available in the hub when managing multiple companies) |
+| **Show only deleted** | Toggle to show only soft-deleted audit entries |
+
+### Viewing from an Entity Page
+
+Many entity pages include a **View audit history** link that takes you directly to the audit log filtered for that specific record. For example, from a user's profile page you can click **View audit history** to see all changes made to that user.
+
+## Viewing Audit Details
+
+Click any audit entry in the list to view its full details. The detail view shows:
+
+- **All columns** from the list view (ID, description, subject, causer, context, timestamp)
+- **Properties** — a detailed breakdown of exactly what changed
+
+### Understanding the Properties
+
+The properties section shows the change data in two parts:
+
+| Section | What it contains |
+|---------|-----------------|
+| **attributes** | The new values after the change |
+| **old** | The previous values before the change (only for updates) |
+
+For **created** events, you'll see all the initial values under **attributes** with no **old** section. For **updated** events, both sections appear so you can compare before and after. For **deleted** events, the previous values are captured under **old**.
+
+<Note>
+Sensitive fields such as passwords, API keys, and encrypted data are masked with **\*\*\*\*\*** in audit logs. This prevents sensitive information from being exposed in the audit trail.
+</Note>
+
+## Deleting and Restoring Audit Entries
+
+Audit entries can be soft-deleted if you have the appropriate permission. A deleted entry is hidden from the default list view but is not permanently removed.
+
+### Deleting an Entry
+
+Click the delete button on an audit entry in the list. The entry is soft-deleted and hidden from the standard view.
+
+### Restoring a Deleted Entry
+
+1. Enable the **Show only deleted** filter to see soft-deleted entries
+2. Click the restore button on the entry you want to recover
+
+<Note>
+Deleting an audit entry removes it from the default list view — it does not undo the original change. Audit deletion is itself an administrative action for managing the audit log, not a way to revert changes.
+</Note>
+
+## What Is Tracked
+
+The platform automatically tracks changes to all core entities, including but not limited to:
+
+| Category | Entities tracked |
+|----------|-----------------|
+| **Events & venues** | Events, event settings, event blocks, timeslots, zones, venues, event media |
+| **Sales & pricing** | Sale items, sale item groups, pricing, price bands, discount codes, tax bands |
+| **Orders & transactions** | Orders, order items, item transfers, transactions, wallet transactions |
+| **Users & access** | Users, roles, permissions |
+| **Content** | Articles, article blocks, event content blocks, listings, tags, forms |
+| **Customers** | Customer records, customer groups, merged customers |
+| **Configuration** | Company settings, webhooks, custom URLs, language overrides |
+| **Seating** | Seating plans, revisions, areas, seats, blocks, rows, tables |
+| **Financial** | Invoices, invoice line items, settlements, fees, wallets |
+| **Resale** | Resale listings, contracts, settings |
+
+### Change Contexts
+
+Each audit entry records the context in which the change was made:
+
+| Context | Description |
+|---------|-------------|
+| **Admin** | Changes made through the admin area |
+| **Hub** | Changes made through the hub |
+| **API** | Changes made via the public API |
+| **Box Office** | Changes made through the box office interface |
+| **Kiosk** | Changes made through a kiosk |
+
+<Note>
+Changes made in the customer-facing ticket shop (e.g., a customer placing an order) are recorded but are not displayed in the audit log interface. The audit log focuses on administrative and operational changes.
+</Note>
+
+## Impersonation
+
+When an administrator impersonates another user and makes changes while impersonated, the audit log attributes those changes to the **original administrator** — not the user being impersonated. This ensures accountability is maintained even when using impersonation for support or debugging purposes.
+
+## Permissions
+
+Access to audit logs is controlled through four permissions:
+
+| Permission | What it allows |
+|------------|---------------|
+| **View** | View the audit log list and individual entries |
+| **Delete** | Soft-delete audit entries |
+| **Restore** | Restore soft-deleted audit entries |
+
+Audit logs are also scoped by company. Admin users see audit entries for their company and any child companies. Hub users see entries relevant to their managed companies.
 
 ## Related
 
-- [Users](/core-platform/system-access/users)
-- [Roles And Permissions](/core-platform/system-access/roles-and-permissions)
+<CardGroup cols={2}>
+  <Card title="Roles and Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+    Configure which users can access audit logs
+  </Card>
+</CardGroup>

@@ -1,21 +1,129 @@
 ---
 title: "Timezones"
-description: "Understand how event, sale, and display times are interpreted using company and event timezone settings."
+description: "Understand how the platform handles timezones for events, timeslots, sale periods, and customer-facing displays."
 ---
 
 ## Overview
 
-- Timezone handling is first-class across events, timeslots, sale periods, and validity windows.
-- Event-linked entities inherit or resolve timezone context from their parent event/company.
-- Timezone-aware casts are used for persisted datetime fields.
+The platform stores all times internally in UTC and converts them to the appropriate timezone for display. This means you always enter and see times in the timezone that makes sense for your event, while the system handles conversions behind the scenes.
+
+Timezones are configured at two levels:
+
+- **Company timezone** — the default timezone for your organisation, applied to all events unless overridden
+- **Event timezone** — an optional per-event override for events in a different timezone to your company default
+
+When you enter a time — such as an event start time, a timeslot window, or a sale period — the platform interprets it in the event's timezone (or the company timezone if no event override is set) and stores it in UTC. When you or your customers view that time, it's converted back to the event's timezone for display.
+
+## Setting Your Company Timezone
+
+The company timezone is set in your company configuration:
+
+1. Navigate to your company settings
+2. Find the **Default timezone** field
+3. Select your timezone from the dropdown
+
+The dropdown is filtered by your company's assigned countries, showing the most relevant timezones first. **UTC** and **Europe/London** are always available regardless of country selection.
+
+<Note>
+Set your company timezone before creating events and configuring timeslots. While you can change it later, doing so before you start avoids any need for time adjustments.
+</Note>
+
+## Setting an Event Timezone
+
+Individual events can override the company timezone. This is useful when you manage events across different regions — for example, a London-based company running an event in New York.
+
+To set an event-specific timezone:
+
+1. Navigate to the event's settings
+2. Find the timezone field
+3. Select the event's local timezone
+
+If no event timezone is set, the event uses the company timezone.
+
+### Timezone Fallback Order
+
+When the platform needs to determine which timezone applies, it checks in this order:
+
+1. **Event timezone** (if set in the event's settings)
+2. **Company timezone** (if set in company settings)
+3. **UTC** (system default)
+
+## What Times Are Affected
+
+The timezone setting affects all time-related fields associated with an event:
+
+| Entity | Time fields |
+|--------|------------|
+| **Events** | Start date/time, end date/time |
+| **Timeslots** | Start time, end time, on-sale-from, on-sale-until |
+| **Sale items** | Valid from, valid until, on-sale-from, on-sale-until |
+| **Zones** | Opening date/time, closing date/time |
+
+All of these fields are entered and displayed in the event's timezone. The platform handles the UTC conversion automatically.
+
+## What Happens When You Change an Event's Timezone
+
+If you change an event's timezone after times have already been configured, the platform automatically adjusts all related times so they represent the **same local time** in the new timezone.
+
+For example, if you have an event starting at **12:00 noon** in **UTC** and you change the timezone to **America/New_York** (UTC-4 during summer):
+
+- The event still shows **12:00 noon** to you and your customers
+- Behind the scenes, the stored UTC value changes from `12:00 UTC` to `16:00 UTC` (because noon in New York is 4pm UTC)
+
+This adjustment cascades to all related timeslots, sale items, and zones for that event. Other events are not affected.
+
+<Warning>
+Changing an event's timezone recalculates all associated times. Verify your timeslots, sale periods, and zone schedules after making a timezone change to ensure everything looks correct.
+</Warning>
+
+## How Customers See Times
+
+Customers always see times in the **event's timezone** — not their own local timezone. If an event is set to America/New_York, a customer browsing from London still sees times displayed in Eastern time.
+
+### Showing Timezone Information
+
+By default, times are displayed without a timezone indicator. You can enable timezone labels so customers see which timezone the displayed times refer to:
+
+1. Navigate to **Settings** in the admin area
+2. Find **Show timezone information**
+3. Enable the setting
+
+When enabled, a timezone abbreviation (e.g., **GMT+01:00**, **Eastern**, **Pacific**) appears alongside times in the ticket shop, baskets, and order confirmations. This is particularly useful for events that attract international audiences, where customers may not be in the same timezone as the event.
+
+<Note>
+Common US timezones are displayed with their familiar names — Eastern, Central, Mountain, Pacific, Alaska, and Hawaii — rather than city-based names like America/New_York.
+</Note>
+
+## Daylight Saving Time
+
+The platform handles daylight saving time (DST) transitions automatically. When an event falls during a DST period, the correct offset is applied based on the event's date:
+
+- A winter event in Europe/London displays times as **GMT** (UTC+0)
+- A summer event in Europe/London displays times as **BST** (UTC+1)
+
+You don't need to account for DST manually — the platform determines the correct offset based on the event's date and timezone.
 
 ## Practical Guidance
 
-- Set company default timezone carefully before high-volume configuration work.
-- Confirm event timezone before creating timeslots, sales periods, and validity windows.
-- Review timezone display options where customer-facing timezone text is enabled.
+<Accordion title="Running events across multiple timezones">
+Each event has a single timezone. If you're running events in multiple regions — for example, a concert series with dates in London, New York, and Sydney — create separate events for each location and set the appropriate timezone on each. Each event's times will display correctly for its location.
+</Accordion>
+
+<Accordion title="Setting sale periods for international audiences">
+Sale periods (on-sale-from, on-sale-until) use the event's timezone. If your event is in New York and you want tickets to go on sale at 9am Eastern, set the on-sale time to 9:00 — the platform interprets that as 9:00 America/New_York. Customers in other timezones see the converted time if timezone information display is enabled.
+</Accordion>
+
+<Accordion title="API and integrations">
+The API includes the event's timezone in event responses (`settings.timezone`). External integrations can use this to correctly interpret and display times. All datetime values in API responses follow the timezone context of the event they belong to.
+</Accordion>
 
 ## Related
 
-- [Event Management Introduction](/core-platform/event-management/introduction)
-- [Timeslots](/core-platform/event-management/timeslots)
+<CardGroup cols={2}>
+  <Card title="Timeslots" icon="clock" href="/core-platform/event-management/timeslots">
+    Configure entry windows and session times for events
+  </Card>
+  <Card title="Sales Periods" icon="calendar" href="/core-platform/event-management/sales-periods">
+    Control when items go on and off sale
+  </Card>
+</CardGroup>

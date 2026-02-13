@@ -1,52 +1,159 @@
 ---
-title: "Tracking And Analytics"
-description: "Configure GTM and event-level tracking pixels for supported ad/analytics platforms."
+title: "Tracking and Analytics"
+description: "Set up Google Tag Manager at company level and configure per-event tracking pixels for Meta, Spotify, TikTok, and X to measure conversions across the checkout funnel."
 ---
 
 ## Overview
 
-Tracking is configured at two layers:
+Tracking and analytics let you measure how customers interact with your ticket shop and attribute conversions to your advertising campaigns. The platform supports two layers of tracking:
 
-- **Company-level GTM/tag settings** (for shop/admin shell injection).
-- **Event-level tracking settings** for supported pixel/event platforms.
+- **Company-level Google Tag Manager** -- a single GTM container that fires across your entire shop, configured once in Marketing Settings.
+- **Event-level tracking pixels** -- platform-specific pixels (Meta, Spotify, TikTok, X) configured individually per event, so each event fires only its own tracking codes.
 
-Event-level tracking is feature-gated by `event_level_tracking_pixels`.
+These two layers can work together. GTM provides broad, site-wide analytics while event-level pixels give you granular, per-event conversion data tied to specific ad campaigns.
 
-## Company-Level Tracking
+## Setting Up Google Tag Manager
 
-Company settings can store Google Tag Manager codes used by shop/admin middleware/layout rendering.
+Google Tag Manager is configured at the company level and applies across your entire ticket shop.
 
-This creates a shared baseline tracking layer across the storefront.
+1. Navigate to **Marketing Settings**
+2. Enter your GTM container ID in the **Google Tag Manager code** field (format: `GTM-XXXXXXX`, up to 20 characters)
+3. Save the settings
 
-## Event-Level Tracking
+Once configured, the GTM container loads on every page of your shop. To remove it, clear the field and save.
 
-Event tracking settings allow enabling platform-specific tracking codes and event mappings per event.
+<Note>
+There is a separate **Admin Google Tag Manager code** field for tracking activity within the admin panel itself. This is independent of the shop-facing GTM container.
+</Note>
 
-Supported platform configuration in the event tracking UI includes providers such as:
+### How GTM Interacts with Event-Level Tracking
 
-- X (Twitter)
-- TikTok
-- Spotify
-- Meta
+If you also use event-level tracking pixels (described below), the GTM container ID is shown as a read-only field on each event's tracking panel with a link back to **Marketing Settings**. This is because GTM is always a company-wide setting -- it cannot be overridden per event.
 
-Per platform, admins can configure:
+## Enabling Event-Level Tracking Pixels
 
-- Pixel/code ID
-- Fallback/default event handling
-- Event-type mappings with parameter hints
+Event-level tracking pixels let you assign platform-specific pixel IDs to individual events. This means that when a customer views or purchases tickets for a particular event, only the tracking codes associated with that event fire -- giving you precise attribution for each campaign.
 
-## Behaviour Notes
+This feature requires the **Event-level tracking pixels** feature flag to be enabled for your account.
 
-- If no platform is configured for an event, event tracking panel reports none enabled.
-- Company GTM code can still exist even when event-level platform tracking is empty.
-- Some checkout-level behaviours (for example global basket options) are constrained when event-level tracking features are active.
+<Note>
+Enabling event-level tracking pixels requires the global basket to be disabled. The global basket allows customers to add items from multiple events into a single checkout, which conflicts with event-specific tracking because the platform would not know which event's pixel should fire. If you need event-level tracking, each checkout must be scoped to a single event.
+</Note>
 
-## Embedded Shop Tracking
+## Configuring Tracking Pixels for an Event
 
-The embed flow can inject optional iframe tracking support scripts alongside the embed script when enabled in embed setup.
+Once event-level tracking is enabled, you configure pixels from each event's dashboard.
+
+1. Open the event dashboard
+2. Navigate to the **Tracking pixels** section
+
+If no pixels have been configured yet, you will see **No tracking pixels configured**.
+
+### Supported Platforms
+
+| Platform | Setup URL |
+|----------|-----------|
+| **Meta** (Facebook) | business.facebook.com |
+| **Spotify** | adanalytics.spotify.com |
+| **TikTok** | ads.tiktok.com |
+| **X** (Twitter) | ads.x.com |
+
+Each platform description in the UI includes a direct link to the relevant ad platform where you can find your pixel ID.
+
+### Adding a Tracking Pixel
+
+For each platform you want to track:
+
+1. Toggle the platform to enabled
+2. Enter your **Pixel ID** (required when the platform is enabled)
+3. Optionally configure the fallback event type and fallback event ID
+4. Map specific checkout events to custom event IDs
+
+### Fallback Event Settings
+
+Each platform has a **fallback event type** that determines what kind of event is sent to the ad platform by default:
+
+| Platform | Default Fallback Event Type |
+|----------|-----------------------------|
+| Meta | Custom |
+| Spotify | Lead |
+| TikTok | Custom |
+| X | Lead |
+
+The **fallback event ID** is an optional custom conversion ID that is sent when a checkout event does not have its own specific mapping. This lets you capture unmapped events under a single conversion in your ad platform.
+
+### Mapping Checkout Events
+
+The event mapping section lets you associate specific checkout actions with custom event IDs in each ad platform. This gives you granular control over which conversions are reported and how they appear in your ad platform's reporting.
+
+The platform tracks 21 checkout events that you can map:
+
+| Event | Description |
+|-------|-------------|
+| Visit | Customer lands on the event page |
+| Product impression | A product is displayed to the customer |
+| View item list | Customer views a list of available items |
+| Product detail impression | Customer views product details |
+| Product click | Customer clicks on a product |
+| External login or register | Customer authenticates via an external provider |
+| Login | Customer logs in |
+| Register | Customer creates an account |
+| Logout | Customer logs out |
+| Add to basket | Item added to the basket |
+| Remove from basket | Item removed from the basket |
+| Checkout | Customer begins the checkout process |
+| Checkout option | Customer selects a checkout option |
+| Purchase | Order is completed |
+| Checkout error | An error occurs during checkout |
+| Add shipping info | Customer enters shipping details |
+| Refund order | An order is refunded |
+| Select promotion | Customer applies a promotional code |
+| Share event | Customer shares the event |
+| View cart | Customer views their basket |
+| Customer feedback | Customer submits feedback |
+
+For each event, you can enter a custom event ID that corresponds to a conversion event in your ad platform. The UI displays the hint: **Configure your events first, then enter the event ID here.**
+
+<Note>
+You do not need to map every event. Unmapped events will use the fallback event type and fallback event ID if configured. If no fallback is set either, those events are still tracked but without a custom conversion mapping.
+</Note>
+
+## Cookie Consent and Privacy
+
+### Shop Tracking
+
+All shop-side tracking -- both GTM and event-level pixels -- respects the customer's cookie consent settings. Tracking scripts only fire when the customer has accepted **all** cookies.
+
+If a customer has not yet given consent, tracking events are saved to the browser's local storage. Once the customer accepts cookies, the stored events are sent to the relevant platforms so no conversion data is lost.
+
+### Admin Tracking
+
+The admin-side GTM container (configured via **Admin Google Tag Manager code**) does not require cookie consent and always fires. This is because admin users are staff members, not public customers.
+
+### PII Protection
+
+Email addresses and phone numbers are SHA-256 hashed before being sent to any tracking platform. No personally identifiable information is transmitted in plain text.
+
+## Cross-Site Tracking for Embedded Events
+
+If your events are embedded on external websites using an iframe, tracking still works. The platform uses cross-site messaging to relay tracking events from the embedded shop to the parent page.
+
+This is labelled **Cross-site tracking pixels & tag manager** in the UI. When enabled, the embedded shop sends tracking events via `postMessage` to the parent page, allowing the external site to capture conversion data without needing to add tracking codes to their own shop configuration.
+
+This is particularly useful when partners or promoters embed your events on their own websites and want to track conversions using their own analytics setup.
+
+For more details on embedding, see [Iframe Embeds](/core-platform/technical/iframe-embeds).
+
+## Content Security Policy
+
+If your shop uses a Content Security Policy, tracking script domains need to be explicitly allowed. Optional CSP URLs can be configured for each tracking platform's script domain so that tracking requests are not blocked by the browser.
+
+<Note>
+Child companies inherit the parent company's CSP configuration unless they define their own. If you manage multiple brands or sub-companies, you only need to configure CSP once at the parent level unless a child company has different tracking requirements.
+</Note>
 
 ## Related
 
-- [Ticket Shop: Checkout](/core-platform/ticket-shop/checkout)
-- [Technical: Iframe Embeds](/core-platform/technical/iframe-embeds)
-- [Advanced: Company Settings](/core-platform/advanced/company-settings)
+- [Iframe Embeds](/core-platform/technical/iframe-embeds)
+- [Checkout](/core-platform/ticket-shop/checkout)
+- [Basket](/core-platform/ticket-shop/basket)

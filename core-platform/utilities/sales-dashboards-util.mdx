@@ -1,32 +1,108 @@
 ---
-title: "Sales Dashboards Util"
-description: "Operational guidance for opening and using sales dashboard views tied to events and schedules."
+title: "Sales Dashboards"
+description: "Monitor live sales performance across your company, individual events, and schedules with real-time widget-driven dashboards."
 ---
 
 ## Overview
 
-Sales dashboards provide a fast operational view of sales performance for selected entities (for example event schedules and event-level contexts where available).
+Sales dashboards give you a real-time operational view of how sales are performing. Rather than running reports and waiting for exports, dashboards show live metrics — orders coming in, revenue accumulating, capacity filling up — updated as activity happens.
 
-## Where It Appears
+There are three dashboard levels, each providing a different perspective:
 
-- Event and schedule flows expose sales dashboard routes when enabled and permitted.
-- Dashboard availability can depend on feature access and user permissions.
+| Dashboard | What It Shows | When to Use |
+|-----------|--------------|-------------|
+| **Company** | Sales across all your events | Monitoring overall business activity |
+| **Event** | Sales for a single event | Checking capacity, revenue, and demand for a specific event |
+| **Schedule** | Aggregated sales across a schedule's events | Comparing performance across dates in a recurring series |
 
-## What To Use It For
+## Accessing Sales Dashboards
 
-- Quick health check of current sales trends.
-- Comparing related dates/events in a schedule.
-- Identifying unusual drops/spikes before deeper report analysis.
+### Company Dashboard
 
-## When To Use Reporting Instead
+Navigate to **Sales dashboard** from the main admin dashboard. This shows an overview of sales activity across all your events.
 
-Use [Reporting](/core-platform/reporting/fundamentals) when you need:
+### Event Dashboard
 
-- saved, repeatable filter logic
-- scheduled distribution
-- exports and publication workflows
+Open an event and click **Sales dashboard** from the event view. This focuses on metrics for that specific event — capacity breakdown, revenue by currency, and item sales.
 
-## Related
+### Schedule Dashboard
 
-- [Advanced: Sales Dashboards](/core-platform/advanced/sales-dashboards)
-- [Reporting Fundamentals](/core-platform/reporting/fundamentals)
+Open a schedule and click **Sales dashboard**. This aggregates sales data across all events in the schedule, letting you compare how different dates or performances are selling.
+
+## Dashboard Widgets
+
+Dashboards are built from widgets — self-contained panels that each show a specific metric. The available widgets are:
+
+| Widget | What It Shows |
+|--------|--------------|
+| **Waiting Room Status** | Number of active shoppers currently browsing and customers queuing in the waiting room |
+| **Order Counts** | Active reservations, completed orders, and abandoned baskets |
+| **Order Throughput** | Median time to complete an order and ticket sales per minute, with adjustable duration windows (1, 5, or 15 minutes) |
+| **Event Revenue** | Total revenue generated, filterable by item type and currency |
+| **Item Sales** | Number of items sold, filterable by item type |
+| **Seat Selection Mode** | Breakdown of best available vs manual seat selection, shown as numbers or percentages |
+| **Customer Sentiment** | Positive, neutral, and negative checkout feedback breakdown (when feedback is enabled) |
+
+### Customising the Display
+
+Widgets can be rearranged and your layout preferences are saved. Each widget includes filter options (where applicable) to focus on specific item types, currencies, or time windows.
+
+## Live Monitoring
+
+Dashboards are designed for live operational use:
+
+- **Auto-refresh** — when an event is currently on sale, dashboards automatically refresh their data at regular intervals
+- **Focus-aware** — data loading pauses when you switch to another browser tab, avoiding unnecessary background requests
+- **Real-time indicators** — widgets update independently, so you see the latest data for each metric as it refreshes
+
+## Event Dashboard Details
+
+The event-level dashboard provides the most detailed view, including:
+
+### Capacity Breakdown
+
+A visual breakdown of capacity across price bands showing:
+
+| Status | Meaning |
+|--------|---------|
+| **Sold** | Items purchased in completed orders |
+| **Reserved** | Items held in active reservations |
+| **Complimentary** | Items issued at no charge |
+| **Held** | Seats or items held back from sale (if seating plan holds are enabled) |
+| **Remaining** | Available capacity |
+
+### Sale Items and Revenue
+
+A detailed listing of each sale item with revenue broken down by currency. This shows exactly which items are generating revenue and how they compare.
+
+## Schedule Dashboard Details
+
+The schedule dashboard aggregates data across all events in a schedule:
+
+- **Events table** — each event in the schedule with its ticket and season ticket distribution
+- **Inventory items table** — item-level breakdown with multi-currency revenue columns
+- Both tables support pagination for schedules with many events or items
+
+## Dashboards vs Reporting
+
+Sales dashboards and reports serve different purposes:
+
+| | Dashboards | Reports |
+|---|-----------|---------|
+| **Speed** | Real-time, instant refresh | Generated on demand |
+| **Purpose** | Live monitoring, quick health checks | Deep analysis, data export |
+| **Filters** | Widget-level toggles | Saved, repeatable filter logic |
+| **Output** | On-screen only | Exportable, schedulable, publishable |
+
+Use dashboards when you need to monitor activity as it happens — during an on-sale, on event day, or when checking current performance. Use [Reporting](/core-platform/reporting/fundamentals) when you need exportable data, saved filter configurations, or scheduled distribution.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Reporting Fundamentals" icon="chart-bar" href="/core-platform/reporting/fundamentals">
+    In-depth reporting with exports and scheduling
+  </Card>
+  <Card title="Event Management" icon="calendar" href="/core-platform/event-management/introduction">
+    Managing events across the platform
+  </Card>
+</CardGroup>

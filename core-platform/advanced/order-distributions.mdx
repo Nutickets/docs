@@ -1,50 +1,167 @@
 ---
 title: "Order Distributions"
-description: "Share selected quantities from an order so recipients can claim their own items using a distribution link/code."
+description: "Share selected quantities from an order so recipients can claim their own items using a distribution link, code, or QR code."
 ---
 
 ## Overview
 
-Order distributions let an order owner allocate selected items for others to claim.
+Order distributions let a customer who has purchased tickets for a group share selected items from their order so that each recipient can claim their own. Rather than forwarding PDFs or manually handing out tickets, the order owner creates a distribution with configurable limits, then shares a link, passcode, or QR code. Recipients visit the claim page, select the items they want, and receive their own tickets.
 
-This is commonly used for group purchases where one payer buys all items and distributes entitlements afterward.
+This is designed for scenarios like:
+- A company buying conference tickets for its team
+- A parent purchasing tickets for a group outing
+- An organiser distributing season tickets across club members
 
-## Eligibility
+Order distributions are entirely customer-facing -- there is no admin interface for viewing or managing them. The feature is controlled by a feature flag that must be enabled before customers can access it.
 
-Distribution creation is blocked unless all checks pass (`SaveOrderDistribution`):
+## How It Works
 
-- Feature `order_distributions` is enabled.
-- Source order is complete and not frozen.
-- Actor owns the order.
-- Selected items are distributable and have sufficient unclaimed quantity.
+The distribution workflow involves two roles: the **order owner** who creates and manages the distribution, and the **recipients** who claim items from it.
 
-## Creation Rules
+```
+1. Owner completes an order
+   └── Order contains shareable items
 
-When creating/updating a distribution:
+2. Owner creates a distribution
+   └── Selects items, sets claim limits
+   └── Receives a unique link, passcode, and QR code
 
-- Each distributed item group can have per-person claim limits.
-- Claim limits cannot exceed total distributable quantity.
-- Claimed groups cannot be removed in a way that invalidates existing claims.
-- A distribution code is generated for claim journeys.
+3. Owner shares the distribution
+   └── Via passcode, direct URL, or QR code
 
-## Claim Rules
+4. Recipients claim items
+   └── Open the link or enter the code
+   └── Select items and quantities
+   └── Log in or create an account
+   └── Receive their own tickets
 
-Claiming (`ClaimOrderDistributionItems`) enforces:
+5. Distribution completes
+   └── Automatically disables when all items are fully claimed
+```
 
-- Distribution must be active.
-- Claimer must be authenticated and not the original owner.
-- Feature access must still be valid.
-- Claim quantity must respect per-person and remaining-quantity limits.
+## Enabling Order Distributions
 
-Claimed items are transferred to the claiming user. Distribution auto-disables when fully claimed.
+Order distributions require the **Order distributions** feature flag to be enabled. When enabled, customers can create and manage distributions from their account.
 
-## User Experience
+<Note>
+Without this feature flag, the distribution options do not appear in customer accounts. All distribution and claim operations are blocked if the flag is disabled, even for distributions that were previously created.
+</Note>
 
-- Owners manage distributions from account/order distribution forms.
-- Recipients use claim links/pages and complete authenticated claim flow.
+## Creating a Distribution
+
+To create a distribution, the order owner navigates to their account, opens a completed order, and selects the option to create a distribution.
+
+1. Go to **My Account** and open the order
+2. Select the option to create a distribution
+3. Choose which items to include -- only shareable items appear in the list
+4. For each item, configure two limits:
+   - **Total claimable items** -- how many of this item are available for recipients to claim overall
+   - **Individual claim limit** -- the maximum number a single person can claim
+5. Submit the form
+
+On success, the message **The distribution has been successfully created.** appears, and the owner receives a unique distribution link, passcode, and QR code.
+
+<Note>
+A help message is displayed on the creation form: "Use this form to distribute an order with a large group of attendees. After submitting the form, you'll receive a unique distribution link and a QR code. Share this link or QR code with attendees, who can claim their tickets within the specified limits."
+</Note>
+
+### What Can Be Distributed
+
+Not all order items can be included in a distribution. Items must meet all of these conditions:
+
+- The item type supports sharing after purchase (tickets and season tickets with sharing enabled)
+- The item is not a fee
+- The item is not pending transfer to another user
+- The item has not already been transferred and claimed by someone else
+
+### Claim Limit Validation
+
+The two limits work together to control how items are distributed:
+
+- **Individual claim limit** cannot be higher than **Total claimable items** -- the validation message is: "Individual limit may not be higher than the total claimable items."
+- **Total claimable items** cannot exceed the quantity available on the order -- the validation message is: "Total claimable items may not be higher than the total available items on this order."
+- There is also an option to **Limit each user account to only one claim.**
+
+## Sharing a Distribution
+
+Once created, the owner has three ways to share the distribution with recipients:
+
+| Method | How it works |
+|--------|-------------|
+| **Share via passcode** | Share the claim page URL and a separate 6-10 character alphanumeric code. Recipients enter the code on the claim page. |
+| **Share via URL** | Share a single direct URL that has the code embedded. Recipients click the link and go straight to the available items. |
+| **Share via QR code** | Download a QR code image that points to the claim URL. Recipients scan the code with their device. |
+
+The passcode method is useful when sharing through channels where a direct link is impractical (such as announcing a code in a meeting), while the URL and QR code methods are more convenient for digital sharing.
+
+## Managing a Distribution
+
+After creating a distribution, the owner can return to it at any time to make changes.
+
+### Enabling and Disabling
+
+The owner can toggle the distribution between **Active** and **Disabled** status at any time. When a distribution is disabled, the warning message is displayed: "This distribution is disabled. Users will not be able to claim tickets until this is enabled."
+
+No new claims are accepted while a distribution is disabled, but existing claims are not affected.
+
+### Editing Configuration
+
+The owner can update the distribution after creation -- adjusting limits, adding items, or removing items. On success, the message **The distribution has been successfully updated.** is displayed.
+
+There are restrictions on what can be changed:
+
+- Items that have already been claimed **cannot be removed** from the distribution
+- The **Total claimable items** value cannot be reduced below the number already claimed
+
+These restrictions ensure that items already claimed by recipients are never invalidated by changes the owner makes.
+
+### Automatic Completion
+
+When every item in the distribution has been fully claimed (all total claimable quantities are reached), the distribution automatically disables itself. No further action is needed from the owner.
+
+## Claiming Items
+
+Recipients use the shared link, QR code, or passcode to access the distribution and claim their items.
+
+1. Open the claim link, or navigate to the claim page and enter the code. The prompt reads: **Enter your claim code to view the available items.**
+2. View the available items and select quantities
+3. Log in or create an account -- authentication is required to complete a claim
+4. Submit the claim
+5. After claiming, the recipient is redirected to their downloads page to access their tickets
+
+### Claim Restrictions
+
+Several validation rules protect against invalid or excessive claims:
+
+| Scenario | Message |
+|----------|---------|
+| Distribution is disabled | Claim page is not accessible |
+| Recipient is the order owner | Cannot claim from your own order |
+| Quantity exceeds individual limit | "Unable to claim :quantity items, as this exceeds the individual claim limit for this item." |
+| Quantity exceeds remaining availability | "Unable to claim :quantity items, this quantity is no longer available to claim." |
+| Invalid or expired code | "There are no claimable items associated with this code." |
+| Simultaneous claim collision | "Temporarily unable to claim items, please try again." |
+
+<Note>
+The platform uses a short lock (approximately 5 seconds) to prevent race conditions when multiple recipients attempt to claim the last available items at the same time. If a recipient sees the "Temporarily unable to claim items, please try again" message, they should wait a moment and retry.
+</Note>
+
+## Distribution Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Active** | The distribution is live and recipients can claim items |
+| **Disabled** | No new claims are accepted. The owner can re-enable the distribution at any time, or it may have been automatically disabled after all items were claimed. |
+
+## When Distributions Are Blocked
+
+Certain order states prevent distribution operations entirely:
+
+- **Order not completed** -- Distributions can only be created for completed orders, not orders that are still in progress.
+- **Order is frozen** -- If the order is currently frozen (for example, during an [order modification](/core-platform/order-management/order-modifications)), all distribution operations are blocked until the order is unfrozen. This applies to creating, editing, enabling, disabling, and claiming.
 
 ## Related
 
 - [Order Management: Core Concepts](/core-platform/order-management/core-concepts)
-- [Event Management: Item Transfers](/core-platform/event-management/item-transfers)
-- [Ticket Shop: Customer Accounts](/core-platform/ticket-shop/customer-accounts)
+- [Transfers and Sharing](/core-platform/order-management/transfers-and-sharing)
+- [Customer Accounts](/core-platform/ticket-shop/customer-accounts)

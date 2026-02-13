@@ -1,21 +1,207 @@
 ---
 title: "Translations"
-description: "Use translatable fields and language-line overrides for multilingual admin and shop experiences."
+description: "Deliver a fully localised experience by translating content fields, customising platform text, and managing language-specific images."
 ---
 
 ## Overview
 
-- Many core entities support translated fields (for example names, descriptions, and metadata).
-- Language-line overrides can be managed through website text workflows.
-- Translation publishing workflows also exist in hub tooling.
+The platform supports multi-language experiences across the ticket shop, admin area, and all customer-facing communications. Translations work at two levels:
 
-## Where Translations Apply
+- **Content translations** — fields like event names, descriptions, and sale item labels can be entered in each of your supported languages. When a customer browses in Spanish, they see the Spanish version of your event name; in English, they see the English version.
+- **Website text overrides** — the platform's built-in interface text (button labels, email templates, legal pages, and shop copy) can be customised per company. You can change the default wording, translate it into additional languages, or tailor it for specific events, schedules, or customer groups.
 
-- Event and sale-item labels/content
-- Listing/article content fields
-- Website text overrides for shop strings
+Both levels combine so that customers receive a consistent experience in their chosen language — from the event listing through to checkout and email confirmations.
+
+## Setting Up Languages
+
+Before translating content, configure which languages your company supports.
+
+### Adding Languages
+
+Languages are managed at the company level. Navigate to your company settings and add the languages you want to support. The platform supports over 30 languages, including right-to-left languages such as Arabic and Hebrew.
+
+### Fallback Language
+
+One of your configured languages is designated as the **fallback language**. This is the primary language used when:
+
+- A translation is not available in the customer's chosen language
+- A new field is created and only one language version is entered
+- The system needs a default value to display
+
+To change the fallback language, update the setting in your company configuration.
+
+<Note>
+The fallback language is separate from the default display language. It determines which translation is used as a last resort when content hasn't been translated into the customer's current language.
+</Note>
+
+## How Customers Choose Their Language
+
+Customers can switch languages on the ticket shop, and the platform remembers their preference across visits. The language is determined in this order:
+
+1. **Language selector** — if the customer explicitly switches language using the shop's language picker or a `?language=` URL parameter
+2. **Saved preference** — returning customers see the language they last selected (stored via cookie for guests, or saved to their account for logged-in customers)
+3. **Domain-based language** — if you use language-specific domains (e.g., `fr.example.com` for French), the domain determines the language automatically
+4. **Browser language** — the platform checks the customer's browser language and uses it if it matches one of your supported languages
+5. **Fallback language** — your company's configured fallback language
+
+Once a customer selects a language, it persists for one year via a browser cookie. Logged-in customers have their preference saved to their account, so it follows them across devices.
+
+<Note>
+Admin users and hub users also have independent language preferences, saved to their respective accounts. Changing language in the admin area does not affect the shop, and vice versa.
+</Note>
+
+## Translating Content Fields
+
+Many entities across the platform support translated fields. When editing these entities, you'll see a language switcher that lets you enter content in each of your configured languages.
+
+### What Can Be Translated
+
+| Entity | Translatable fields |
+|--------|-------------------|
+| **Events** | Name, description |
+| **Sale items** | Name, description, and other label fields |
+| **Timeslots** | Name |
+| **Venues** | Name, address, postcode, region |
+| **Categories** | Name |
+| **Tags** | Name |
+| **Articles** | Name, URL slug, subheading, meta title, meta description |
+| **Article content blocks** | Title, content |
+| **Event content blocks** | Title, content |
+| **Event blocks** | Name, description |
+| **Listings/pages** | Name, subheading, body, meta title, meta description |
+| **Discount codes** | Description |
+| **Data capture questions** | Question text, description |
+| **Data capture question options** | Value, description |
+| **Fee groups** | Name |
+| **Seating plan tags** | Name, description |
+| **Schedule groups** | Name |
+
+### How Translated Fields Work
+
+When you edit a translatable field:
+
+1. Select the language from the language switcher on the field
+2. Enter the content for that language
+3. Repeat for each language you want to support
+
+If a field doesn't have a translation for the customer's current language, the platform falls back to the fallback language. If that's also empty, it falls back to English.
+
+<Note>
+You don't need to translate every field into every language. The fallback chain ensures content always displays — untranslated fields show the fallback language version. Focus on translating the most customer-facing content first: event names, descriptions, and sale item labels.
+</Note>
+
+## Translatable Images
+
+Images can also vary by language. Entities that support translatable images include:
+
+| Entity | Translatable images |
+|--------|-------------------|
+| **Events** | Page header, card thumbnail, meta/sharing image |
+| **Articles** | Meta/sharing image |
+| **Listings/pages** | Header, meta/sharing image |
+| **Company settings** | Logo (dark and light), meta/sharing image, default event header, default event thumbnail, default sharing image, default schedule header, default item image |
+
+When uploading an image, use the language switcher to upload a different version for each language. If no language-specific image is uploaded, the default (fallback language) image is used.
+
+## Customising Website Text
+
+The **Website Text** editor lets you override the platform's built-in text — button labels, email content, legal pages, shop copy, and more — without changing the underlying system. You can customise text company-wide, or tailor it for specific events, schedules, or customer groups.
+
+### Accessing Website Text
+
+1. Navigate to **Settings** in the admin area
+2. Select **Website Text**
+
+<Note>
+Editing website text requires the appropriate permission. If you don't see this option, contact your administrator about your role's permissions.
+</Note>
+
+### Choosing a Category
+
+The editor organises text into categories. Select a **Category** to load the text entries for that area:
+
+| Category group | Categories |
+|----------------|-----------|
+| **Legal pages** | Cookies Policy, Gift Aid Declaration, Deposit Terms |
+| **Pages** | Order Success Page, Order Download Page |
+| **Emails** | Order Confirmation, Password Reset, Email Verification, Event Reminder, Deferred Tickets, Deposit Received, Payment Failure, Tax Receipt, Payment Link, Claim Items, Refund Confirmation, Cancellation Confirmation, Complete Account, Item Approved, Item Rejected, Reservation Rejected, Reservation Confirmed, Reservation Approved, Purchase Notification, Event Approval Notification, Global Email, Added to Customer Group |
+| **Other** | Payment Methods, Shop Text, Shop Buttons, Shop Authentication, Waiting Room, Resale |
+
+### Editing Text
+
+Once you select a category, the editor displays each text entry with two columns:
+
+- **Left column** — the default text (read-only), showing the platform's original wording
+- **Right column** — your custom text (editable), where you enter your override
+
+Use the language switcher on each field to enter overrides for different languages. If you leave a field unchanged, the default text is used.
+
+Some fields support **rich text editing** (for HTML content like emails), while others are plain text inputs. Fields that accept dynamic values show the available **placeholders** below the input — these are values like `:customer_name` or `:event_name` that are replaced with actual data when the text is displayed.
+
+<Warning>
+When using placeholders, keep them exactly as shown (including the colon prefix). Removing or misspelling a placeholder means the dynamic value won't be inserted.
+</Warning>
+
+### Restoring Default Text
+
+To revert a field to the platform's default wording, click **Restore default** below the field. This removes your custom override and the original text will be used again.
+
+### Context-Specific Overrides
+
+Website text can be customised at different levels to create targeted experiences:
+
+| Context | When to use | Example |
+|---------|------------|---------|
+| **Company-wide** | Default overrides that apply everywhere | Changing "Add to basket" to "Add to cart" across all events |
+| **Event-specific** | Text that only applies to a single event | A charity event using "Donate" instead of "Purchase" on its checkout |
+| **Schedule-specific** | Text for all events in a schedule | A festival series using branded confirmation emails |
+| **Customer group-specific** | Text for customers in a particular group | VIP customers seeing different welcome text |
+
+To apply context-specific text:
+
+1. Select the **Category**
+2. Choose the context from the **Event**, **Event Schedule**, or **Customer Group** dropdown (these appear when the selected category supports contextual overrides)
+3. Edit the text entries
+4. Click **Submit**
+
+<Note>
+Context-specific text takes priority over company-wide text. If you set an override for a specific event, that event's customers see the event-specific version, while all other customers see the company-wide version (or the platform default if no company-wide override exists).
+</Note>
+
+### Override Priority
+
+When the platform displays text, it checks for overrides in this order (most specific wins):
+
+1. **Customer group** override (if the customer belongs to a group with custom text)
+2. **Event** override (if viewing or purchasing for a specific event)
+3. **Schedule** override (if the event belongs to a schedule with custom text)
+4. **Company-wide** override
+5. **Platform default** (the built-in text from the language files)
+
+## Company Settings Translations
+
+Several company-level settings also support translations:
+
+| Setting | Description |
+|---------|------------|
+| **Business name** | Your company's display name |
+| **Business website** | Your company's website URL |
+| **Marketing preferences header** | Header text on marketing email opt-in |
+| **Marketing preferences body** | Body text on marketing email opt-in |
+| **Footer imprint** | Legal imprint text in the shop footer |
+| **Manual payment invoice title** | Title on manual payment invoices |
+| **Manual payment receipt title** | Title on manual payment receipts |
+| **Manual payment instructions** | Instructions shown for manual payments |
+
+These fields use the same language switcher as content fields, allowing you to provide localised versions for each of your supported languages.
 
 ## Related
 
-- [Website Text](/core-platform/cms/website-text)
-- [Supported Languages](/core-platform/information/supported-languages)
+<CardGroup cols={2}>
+  <Card title="Supported Languages" icon="globe" href="/core-platform/information/supported-languages">
+    Full list of available languages
+  </Card>
+  <Card title="SEO & Sharing" icon="share-nodes" href="/core-platform/core/seo">
+    Per-language meta titles, descriptions, and sharing images
+  </Card>
+</CardGroup>

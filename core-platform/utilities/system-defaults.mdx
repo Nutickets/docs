@@ -1,23 +1,110 @@
 ---
 title: "System Defaults"
-description: "Create reusable default configuration objects to speed up consistent setup across teams."
+description: "Create reusable default configurations for sale items to speed up setup and enforce consistency across your team."
 ---
 
 ## Overview
 
-System defaults are reusable templates for supported configuration types. They reduce repetitive setup and improve consistency.
+System defaults are reusable templates that pre-populate fields when creating new sale items. Instead of manually configuring the same settings every time you create a ticket, product, or other sale item, you define a template once and apply it automatically or on demand.
 
-## Capabilities
+This is particularly useful when:
+- Your team creates sale items with consistent settings (e.g. all tickets share the same stock rules or scanning grace period)
+- You want to enforce standard configuration without relying on each user to remember every setting
+- Different item types need different defaults (e.g. tickets vs products vs guest lists)
 
-- Create, edit, delete, and restore defaults.
-- Filter by type, name, created date, and trash state.
-- Scope results by user visibility rules.
+## How It Works
 
-## Typical Use Cases
+Each system default stores a named set of sale item settings as a template. When a user creates a new sale item, the system default pre-fills the form with those saved settings. The user can then adjust any field before saving.
 
-- Predefined content/schema defaults.
-- Standardized setup for recurring event or configuration patterns.
+System defaults support all sale item types:
 
-## Related
+| Item Type | Description |
+|-----------|-------------|
+| **Ticket** | Standard admission items |
+| **Product** | Merchandise, food, add-ons |
+| **Guest List** | Complimentary guest entries |
+| **Charity Donation** | Donation items |
+| **Season Ticket** | Multi-event passes |
+| **Bundle** | Grouped item packages |
 
-- [Bulk Editing](/core-platform/utilities/bulk-editing)
+### Applied by Default
+
+Each system default has an **Applied by default** toggle. When enabled, the template is automatically applied to new sale items of that type without the user needing to select it. Only one system default per item type can be set as the default at any time.
+
+<Note>
+If you enable **Applied by default** on a system default when another default already exists for the same item type, the previous default is automatically unset. A confirmation prompt appears before this change is made.
+</Note>
+
+## Creating a System Default
+
+1. Navigate to **Settings > System Defaults**
+2. Click **Add new system default**
+3. Enter a **Name** for the template (e.g. "Standard Ticket Settings")
+4. Select the **Type** — currently **Sale Item** is the available type
+5. Choose the **Item type** (Ticket, Product, Bundle, etc.)
+6. Configure the default settings across the available sections
+7. Optionally enable **Applied by default** to auto-apply this template
+8. Click **Save**
+
+### Configurable Settings
+
+The system default form mirrors the sale item creation form, organised into sections:
+
+| Section | Settings |
+|---------|----------|
+| **Basic Information** | Whether the item requires approval before purchase |
+| **Purchase Settings** | Stock (unlimited or fixed quantity), minimum and maximum order quantities, force minimum quantity, per-customer purchase limits, sharing options (before and after purchase), whether the item attracts discounts |
+| **Prerequisites** | Require customers to have purchased specific items first, with the option to require all or any prerequisites |
+| **Sale Period** | On-sale and off-sale dates |
+| **Display Settings** | Hide when off sale, hide when out of stock, show validity period in shop |
+| **Scanning & Validity** | Scanning grace period, valid from and valid to dates, check-in time |
+| **Tax** | Tax band assignment |
+| **Print & Download** | Whether the item can be downloaded, additional information text |
+
+## Using System Defaults When Creating Sale Items
+
+When you create a new sale item (ticket, product, guest list, etc.), the system default is applied in one of two ways:
+
+- **Automatically** — if a system default is marked as **Applied by default** for that item type, the form fields are pre-populated without any action from you
+- **Manually** — if system defaults exist but none is set as the default, you can select which template to apply from the available options
+
+In either case, the pre-filled values are starting points. You can modify any field before saving the sale item.
+
+## Editing a System Default
+
+1. Navigate to **Settings > System Defaults**
+2. Click on the system default you want to edit
+3. Update any settings
+4. Click **Save**
+
+<Note>
+Editing a system default only affects future sale items that use the template. Existing sale items that were created from the template are not retroactively updated.
+</Note>
+
+## Deleting and Restoring
+
+System defaults can be deleted when no longer needed. Deleted defaults are soft-deleted and can be restored later.
+
+To find deleted defaults, use the **Trashed** filter on the system defaults list, then click **Restore** on the item you want to recover.
+
+## Filtering the List
+
+The system defaults list supports filtering by:
+
+| Filter | Description |
+|--------|-------------|
+| **Name** | Search by template name |
+| **Type** | Filter by system default type |
+| **Created date** | Filter by when the default was created |
+| **Trashed** | Show or hide soft-deleted defaults |
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Timeslots" icon="clock" href="/core-platform/event-management/timeslots">
+    Configure event timeslots where sale items are sold
+  </Card>
+  <Card title="Bulk Editing" icon="pen-to-square" href="/core-platform/utilities/bulk-editing">
+    Apply changes across many records at once
+  </Card>
+</CardGroup>

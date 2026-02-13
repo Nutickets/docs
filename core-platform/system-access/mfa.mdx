@@ -1,40 +1,118 @@
 ---
-title: "Multi-factor Authentication"
-description: "Enable and enforce two-factor authentication for admin and hub accounts."
+title: "Two-Factor Authentication"
+description: "Add a second verification step to user sign-in with an authenticator app for stronger account security."
 ---
 
 ## Overview
 
-Multi-factor authentication (MFA) is implemented using Fortify two-factor routes for both Admin and Hub guards.
+Two-factor authentication (2FA) adds a second verification step when signing in. After entering their password, users must also provide a time-based code from an authenticator app on their phone. This protects accounts even if a password is compromised.
 
-## User Flow
+Two-factor authentication is voluntary — users enable it individually through their account settings. Once enabled, the additional verification step is required every time they sign in.
 
-1. User enables two-factor authentication in account security.
-2. User confirms setup and stores recovery codes.
-3. Login requires two-factor challenge when enabled.
+## Enabling Two-Factor Authentication
 
-## Supported Endpoints
+To enable two-factor authentication on your account:
 
-For authenticated users (after password confirmation):
+1. Navigate to your account settings
+2. Find the **Two-factor authentication** section
+3. Click **Enable**
 
-- Enable 2FA
-- Confirm 2FA setup
-- Disable 2FA
-- Retrieve QR code
-- Retrieve secret key
-- List/regenerate recovery codes
+The setup process begins — you need to connect an authenticator app before two-factor authentication becomes active.
 
-For guests during login:
+### Connecting Your Authenticator App
 
-- Two-factor challenge page
-- Two-factor challenge submission (throttled)
+After clicking **Enable**, a QR code and secret key are displayed:
 
-## Operational Guidance
+1. Open your authenticator app (such as Google Authenticator, Authy, or 1Password)
+2. Scan the QR code displayed on screen, or manually enter the secret key shown below it
+3. The app begins generating 6-digit codes that refresh every 30 seconds
 
-- Encourage admins to store recovery codes securely.
-- Require password confirmation before changing 2FA settings.
-- Monitor account lockout/support process for lost authenticators.
+<Note>
+The QR code label shows your company or reseller name, making it easy to identify the account in your authenticator app.
+</Note>
 
-## Related
+### Confirming Setup
 
-- [Users](/core-platform/system-access/users)
+To verify your authenticator app is connected correctly:
+
+1. Enter the current 6-digit code from your authenticator app into the confirmation field
+2. Click **Confirm setup**
+
+Once confirmed, two-factor authentication is active on your account. You are shown a set of recovery codes — store these securely (see [Recovery Codes](#recovery-codes)).
+
+<Note>
+Until you confirm setup by entering a valid code, two-factor authentication is not active. If you navigate away before confirming, you will need to start the setup process again.
+</Note>
+
+## Signing In with Two-Factor Authentication
+
+When two-factor authentication is enabled, the sign-in process has an additional step:
+
+1. Enter your email and password as usual
+2. You are redirected to the **Two-factor authentication** challenge page
+3. Enter the current 6-digit code from your authenticator app
+4. Click **Submit**
+
+If you cannot access your authenticator app, you can switch to entering a recovery code instead (see [Using a Recovery Code to Sign In](#using-a-recovery-code-to-sign-in)).
+
+## Recovery Codes
+
+When you enable two-factor authentication, you receive **8 recovery codes**. These are single-use backup codes that let you sign in if you lose access to your authenticator app — for example, if your phone is lost, damaged, or reset.
+
+### Storing Recovery Codes
+
+After confirming your two-factor authentication setup, recovery codes are displayed. Store them in a secure location separate from your authenticator app, such as a password manager or printed copy kept in a safe place.
+
+You can view your recovery codes at any time from the **Two-factor authentication** section of your account settings by clicking **Show recovery codes**.
+
+### Using a Recovery Code to Sign In
+
+If you cannot access your authenticator app during sign-in:
+
+1. On the two-factor challenge screen, select the option to use a recovery code
+2. Enter one of your unused recovery codes
+3. Click **Submit**
+
+Each recovery code can only be used once. After use, a replacement code is generated automatically, maintaining your total of 8 available codes.
+
+### Regenerating Recovery Codes
+
+If you suspect your recovery codes have been compromised or you have used several of them, you can generate a fresh set:
+
+1. Navigate to your account settings
+2. Find the **Two-factor authentication** section
+3. Click **Regenerate recovery codes**
+
+This replaces all existing recovery codes with 8 new ones. Any previously issued codes become invalid immediately.
+
+<Warning>
+After regenerating, store the new codes securely. The previous codes will no longer work.
+</Warning>
+
+## Disabling Two-Factor Authentication
+
+To remove two-factor authentication from your account:
+
+1. Navigate to your account settings
+2. Find the **Two-factor authentication** section
+3. Click **Disable**
+
+Two-factor authentication is removed immediately. You will no longer be prompted for a code when signing in.
+
+## Monitoring Two-Factor Status
+
+Users with permission to manage other users can see and filter by two-factor authentication status:
+
+- The user list includes a **Two-factor enabled** filter with options for both enabled and disabled
+- Individual user detail pages show whether two-factor authentication is active
+- The last login indicator shows whether the sign-in required two-factor verification
+
+This helps administrators identify which users have enabled two-factor authentication and follow up with users who have not yet adopted it.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Users" icon="users" href="/core-platform/system-access/users">
+    Manage user accounts and view their two-factor authentication status
+  </Card>
+</CardGroup>

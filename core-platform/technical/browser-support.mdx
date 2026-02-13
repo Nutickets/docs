@@ -1,14 +1,44 @@
 ---
 title: "Browser Support"
-description: "Documentation for Browser Support"
+description: "Which browsers are supported, what happens with unsupported browsers, and browser-specific considerations."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Browser Support** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform is built on modern web technologies and works best with current versions of major browsers. An automatic compatibility check runs when users visit the site — those on unsupported browsers are redirected to a guidance page before they encounter errors.
+
+## Supported Browsers
+
+The platform supports the latest versions of:
+
+- **Google Chrome**
+- **Mozilla Firefox**
+- **Microsoft Edge**
+
+**Safari** is supported for general use, but has known limitations with certain features (see [Browser-Specific Considerations](#browser-specific-considerations) below).
+
+<Note>
+The platform requires JavaScript to be enabled. Users with JavaScript disabled see a banner prompting them to enable it or use another device.
+</Note>
+
+## Unsupported Browser Detection
+
+When a user visits the platform, an automatic compatibility check runs in the background. If the browser lacks support for essential JavaScript features, the user is redirected to an **Unsupported browser** page.
+
+This page displays:
+
+- The message: **It looks like you are using a browser version that we don't support. Try upgrading your browser to get the full experience.**
+- Download links for Chrome, Firefox, and Edge
+
+The check targets very old browsers (such as Internet Explorer) that cannot run the platform's JavaScript framework. Modern versions of Chrome, Firefox, Edge, and Safari all pass this check.
+
+## Browser-Specific Considerations
+
+| Browser | Consideration |
+|---------|---------------|
+| **Safari** | Can experience issues with images in certain features. When uploading seating plan images, the platform displays: **Safari can experience issues with images. We recommend using an alternative browser, e.g. Chrome, Firefox, Edge.** |
+| **Older browsers** | Browsers that don't support WebP image format will see a recommendation when saving images: **Your current browser doesn't support webP. We highly recommend that you upload your images in a different browser, like Chrome or Firefox.** |
+
+## Mobile Devices
+
+The platform is fully responsive and adapts to all screen sizes, from small phones to tablets and desktops. No separate mobile app or URL is needed — users access the same platform URL from any device.

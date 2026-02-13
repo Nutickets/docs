@@ -1,28 +1,106 @@
 ---
-title: "Custom Urls"
-description: "Configure custom domains and aliases safely, including collision rules and platform constraints."
+title: "Custom URLs"
+description: "Serve your ticket shop from a branded domain with support for language-specific URLs and automatic redirects."
 ---
 
 ## Overview
 
-Custom URLs let a company serve shop pages from branded domains/subdomains.
+Custom URLs let you replace the standard platform-assigned shop address with your own branded domain. Instead of customers visiting the default platform URL, they can visit `tickets.yourbrand.com` or any domain you own.
+
+This is useful when:
+- You want a branded, professional storefront URL
+- You need different domains for different languages (e.g. `tickets.example.com` for English, `billets.example.com` for French)
+- You want all traffic to route through a single branded domain rather than the default platform URL
+
+## Configuring Custom URLs
+
+Custom URLs are managed in **General Settings**.
+
+1. Navigate to your admin **General Settings**
+2. Enable **Custom URLs** if not already enabled
+3. Click **Add new URL**
+4. Fill in the required fields:
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| **Full URL** | The complete URL including any subdomains. Do not include `http://` or `https://` | `tickets.example.com` |
+| **Domain Segment** | The root domain portion of your URL. If no subdomain is used, this is the same as the full URL | `example.com` |
+| **Default Language** | Optional — assigns a language to this URL for automatic language-based routing | English, French, etc. |
+
+5. Click **Save**
+
+<Note>
+Custom URLs require DNS configuration to point your domain to the platform. Contact support for the DNS records you need to set up before your custom URL will work.
+</Note>
+
+## Setting a Primary URL
+
+One custom URL can be designated as the **primary URL**. The primary URL is used as the canonical address for your shop and can optionally redirect all default domain traffic to it.
+
+To set a primary URL, click the **Make Primary** icon next to the URL you want to make primary. Only one URL can be primary at a time — setting a new primary automatically unsets the previous one.
+
+<Note>
+Primary URLs cannot have a language assigned. They serve as the default destination for all languages that don't have a language-specific URL configured.
+</Note>
+
+## Redirecting Default Domain Traffic
+
+When you have a primary custom URL configured, you can enable **Redirect to primary URL** in General Settings. When enabled, any visitor who arrives via the standard platform domain is automatically redirected to your primary custom URL.
+
+This ensures all customers reach your branded domain regardless of which URL they originally used.
+
+<Note>
+This setting only works when a primary custom URL is configured. If no primary URL is set, enabling the redirect has no effect.
+</Note>
+
+## Language-Specific URLs
+
+If your shop supports multiple languages, you can assign a language to each non-primary custom URL. When a visitor's language preference matches a URL's assigned language, they are automatically redirected to that URL.
+
+**Example setup:**
+
+| URL | Language | Role |
+|-----|----------|------|
+| `tickets.example.com` | — | Primary (default for all languages) |
+| `billets.example.com` | French | French visitors redirected here |
+| `entradas.example.com` | Spanish | Spanish visitors redirected here |
+
+<Note>
+Language-based redirects only take effect when visitors access the shop via a custom URL. Visitors browsing via the standard platform URL are not redirected based on language. For this reason, it's recommended to also enable **Redirect to primary URL** when using language-specific URLs.
+</Note>
 
 ## Validation and Collision Rules
 
-When saving custom URLs, the platform checks for conflicts with:
+When saving custom URLs, the platform validates each URL to prevent conflicts:
 
-- existing custom URLs used by other companies
-- system domain patterns that would clash with reseller/company alias routing
+| Check | What Happens |
+|-------|-------------|
+| **Duplicate custom URL** | Rejected if another company already uses the same custom URL |
+| **System domain conflict** | Rejected if the URL matches an existing company alias and reseller domain combination |
 
-Conflicting URLs are rejected.
+If a URL fails validation, an error message explains the conflict so you can choose an alternative.
 
-## Operational Guidance
+## Managing Multiple URLs
 
-- Plan DNS changes before enabling custom URLs.
-- Avoid alias/domain combinations that mirror existing reseller domain + company alias patterns.
-- Re-test critical flows (checkout, account, links) after domain cutover.
+You can configure multiple custom URLs for your shop. Each URL in the list shows:
+- The full URL
+- The domain segment
+- The assigned language (if any)
+- Whether it's the primary URL
 
-## Related
+To remove a custom URL, click the delete button next to it and save your settings.
 
-- [Ticket Shop: Homepage](/core-platform/ticket-shop/homepage)
-- [Technical: Sessions](/core-platform/technical/sessions)
+<Warning>
+After adding or changing custom URLs, test your critical flows — checkout, account login, shared links — to confirm everything works correctly with the new domain. Existing links using the old domain will continue to work only if you keep the previous URL configured or set up a redirect.
+</Warning>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Ticket Shop Homepage" icon="store" href="/core-platform/ticket-shop/homepage">
+    Configuring your shop's homepage and branding
+  </Card>
+  <Card title="Supported Languages" icon="language" href="/core-platform/information/supported-languages">
+    Managing language support across your shop
+  </Card>
+</CardGroup>

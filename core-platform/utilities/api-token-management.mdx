@@ -1,26 +1,90 @@
 ---
 title: "API Token Management"
-description: "Create and revoke personal access tokens used for API authentication."
+description: "Create and manage personal access tokens for authenticating third-party integrations with the platform API."
 ---
 
 ## Overview
 
-API token management allows authorized users to create personal access tokens and revoke them when no longer needed.
+API tokens allow third-party services and integrations to authenticate with the platform API on your behalf. Each token is a personal access credential tied to your user account — it carries your permissions and visibility groups, so API requests made with your token can access the same data you can.
 
-## Core Flow
+Token management is available in both the admin panel (under **Settings > API Tokens**) and the partner hub.
 
-1. Open API Tokens.
-2. Create token with a name.
-3. Copy plaintext token at creation time.
-4. Revoke token when access should end.
+## Creating a Token
 
-## Important Notes
+1. Navigate to **Settings > API Tokens** (or **API Tokens** in the partner hub)
+2. Click **Generate token**
+3. Enter a **Name** for the token — this is an internal identifier to help you remember what the token is used for (e.g. "Production Integration", "Reporting Script")
+4. Click **Generate token** to create it
 
-- Plaintext token is shown only at creation.
-- Users can only revoke tokens they own.
-- Use descriptive naming so audit/revocation is easy.
+The new token is displayed in a preview modal immediately after creation.
 
-## Related
+<Warning>
+The full token is only shown once, at the moment of creation. Copy it immediately and store it securely. If you lose the token, you cannot retrieve it — you will need to generate a new one.
+</Warning>
 
-- [API Device Management](/core-platform/utilities/api-device-management)
-- [API Reference Introduction](/api-reference/introduction)
+The preview modal includes a **Copy** button for easy clipboard access.
+
+## How Tokens Work
+
+Tokens authenticate API requests using the `Authorization` header:
+
+```
+Authorization: Bearer {your-token}
+```
+
+Each token inherits the permissions and visibility groups of the user who created it. This means:
+- The token can access the same data you can see in the admin panel
+- The token is subject to the same permission restrictions as your account
+- If your permissions change, the token's access changes accordingly
+
+<Note>
+If you need to restrict API access to a subset of data or specific endpoints, create a separate user account with limited roles and generate a token for that user instead. This is recommended for production integrations where you want to follow the principle of least privilege.
+</Note>
+
+## Managing Tokens
+
+The token management page lists all your tokens with:
+
+| Column | Description |
+|--------|-------------|
+| **Name** | The identifier you provided when creating the token |
+| **Token** | A partially masked version of the token (ID only, hash hidden) |
+| **Created** | When the token was created |
+| **Last used** | When the token was last used for an API request (e.g. "5 days ago" or "never") |
+
+### Filtering Tokens
+
+Use the name filter to search for specific tokens by their identifier. Tokens are listed with the most recently created first.
+
+### Revoking a Token
+
+To revoke a token:
+
+1. Find the token in the list
+2. Click the **delete** action
+3. Confirm the revocation
+
+Revocation is immediate and permanent. Any integration using the revoked token will immediately lose API access and receive authentication errors.
+
+<Note>
+You can only manage tokens you created. You cannot view or revoke tokens belonging to other users.
+</Note>
+
+## When to Revoke Tokens
+
+Revoke a token when:
+- The integration it was created for is no longer in use
+- You suspect the token may have been exposed or compromised
+- You're rotating tokens as part of a security practice
+- The integration's access requirements have changed and you need to issue a new token with different permissions (by creating it under a different user account)
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="API Device Management" icon="mobile" href="/core-platform/utilities/api-device-management">
+    View and control registered API devices
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Platform API documentation
+  </Card>
+</CardGroup>
