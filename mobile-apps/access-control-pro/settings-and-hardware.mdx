@@ -5,7 +5,7 @@ description: "App settings, NFC pairing, badge printing, and hardware scanner su
 
 ## Overview
 
-Access Control Pro settings control how the app scans, admits, and processes tickets. Settings are accessed from the menu on the home screen by tapping **Settings**. This page also covers the hardware integrations the app supports — NFC readers, label printers, and laser barcode scanners.
+Settings control how the app scans, admits, and processes tickets. Access them from the menu on the home screen by tapping **Settings**.
 
 ## Scanning Settings
 
@@ -120,20 +120,3 @@ For **Code 39** barcodes, also enable **Full ASCII** (sometimes called **Extende
 |---------|---------|-------------|
 | **Age verification** | Off | When enabled, prompts the operator to verify the attendee's age and date of birth after each valid scan. If no date of birth is on file, the operator can enter one. |
 
-## All Settings Reference
-
-| Setting | Key | Default | Description |
-|---------|-----|---------|-------------|
-| Auto close after admitting | `pref_auto_close_valid_scan` | On | Auto-close the result screen on valid scans |
-| Auto admit | `pref_auto_admit_enabled` | Off | Automatically admit valid tickets |
-| Ability to admit all | `pref_admit_order_enabled` | On | Show the admit-order button |
-| Multi event scanning | `pref_all_event_scanning` | Off | Scan across all active events |
-| NFC pairing | `pref_nfc_pairing_enabled` | Off | Enable NFC tag pairing mode |
-| Check in when pairing | `pref_nfc_admit_after_pairing` | On | Also admit when pairing NFC |
-| Age verification | `pref_age_verification` | Off | Require age verification on valid scans |
-| External NFC reader | `pref_external_nfc_enabled` | Off | Use a Bluetooth NFC reader |
-| Printer | `pref_printer` | None | Selected network printer |
-| Label printing mode | `pref_ticket_printing_option` | Sticky label | Paper format for Sunmi printing |
-| Label height | `pref_sticky_label_height` | 100mm | Sticky label height |
-| Print first data capture | `print_first_dc_on_label` | On | Include first DC answer on label |
-| Print second data capture | `print_second_dc_on_label` | On | Include second DC answer on label |
