@@ -8,9 +8,19 @@
 
 ## How it works
 
-- Documentation lives in the `mintlify/` directory with configuration in `docs.json`.
-- Pages are MDX files organised by system: `core-platform/`, `mobile-apps/`, `partner-hub/`.
+- Documentation for this repo lives in `mintlify/` with configuration in `mintlify/docs.json`.
+- The full multi-repo layout (including `mintlify-hub/` and `mobile-apps/*`) is defined in `mintlify/README.md` and must be treated as the source of truth.
+- Pages in this repo are MDX files organised by system (for example `core-platform/` and `mobile-apps/`).
 - Other tabs (API Reference, Partner API Reference, Webhook Reference, Releases) are auto-generated and not part of this workflow but may be referenced/linked to.
+
+### Mandatory First Step — Read Repository Structure
+
+Before selecting a page or researching features, you must read `mintlify/README.md` in full.
+
+- This is mandatory for every documentation session.
+- Use it to confirm the complete repo and sub-repo structure under `newtickets/`.
+- Use it to identify where related documentation repos live (for example `mintlify-hub/`) and how generated docs flow between repos.
+- If the local structure does not match `mintlify/README.md`, stop and correct the setup before writing documentation.
 
 ---
 
@@ -407,6 +417,7 @@ to enable [workflow]. Configuration is managed through [location].
 
 ### Selection Phase
 
+- [ ] Read `mintlify/README.md` and confirm the full repo/sub-repo structure.
 - [ ] Select the documentation system (core-platform, mobile-apps, partner-hub).
 - [ ] Select the specific page to work on.
 - [ ] Select the task type (initial draft, flesh out, refinement, gap analysis).
