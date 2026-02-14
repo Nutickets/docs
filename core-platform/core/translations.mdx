@@ -20,6 +20,48 @@ Before translating content, configure which languages your company supports.
 
 Languages are managed at the company level. Navigate to your company settings and add the languages you want to support. The platform supports over 30 languages, including right-to-left languages such as Arabic and Hebrew.
 
+<Accordion title="Available languages">
+| Language | Locale |
+|----------|--------|
+| English | en |
+| English (US) | en_US |
+| Spanish | es |
+| Spanish (Mexico) | es_MX |
+| French | fr |
+| French (Canada) | fr_CA |
+| German | de |
+| Italian | it |
+| Portuguese | pt |
+| Dutch | nl |
+| Danish | da |
+| Norwegian | no |
+| Swedish | sv |
+| Finnish | fi |
+| Faroese | fo |
+| Hungarian | hu |
+| Greek | el |
+| Slovenian | sl |
+| Croatian | hr |
+| Turkish | tr |
+| Polish | pl |
+| Czech | cs |
+| Latvian | lv |
+| Estonian | et |
+| Arabic | ar |
+| Hebrew | he |
+| Hindi | hi |
+| Chinese (Simplified) | zh |
+| Chinese (Traditional) | zh_tw |
+| Japanese | ja |
+| Korean | ko |
+| Khmer | km |
+| Malay | ms |
+| Tagalog | tl |
+| Welsh | cy |
+
+Arabic and Hebrew are right-to-left (RTL) languages. The platform automatically adjusts the layout direction when these languages are active.
+</Accordion>
+
 ### Fallback Language
 
 One of your configured languages is designated as the **fallback language**. This is the primary language used when:
@@ -46,9 +88,15 @@ Customers can switch languages on the ticket shop, and the platform remembers th
 
 Once a customer selects a language, it persists for one year via a browser cookie. Logged-in customers have their preference saved to their account, so it follows them across devices.
 
-<Note>
-Admin users and hub users also have independent language preferences, saved to their respective accounts. Changing language in the admin area does not affect the shop, and vice versa.
-</Note>
+### Language-Specific Domains
+
+You can assign different custom domains to different languages. When a customer visits a language-specific domain, the shop is automatically displayed in that language. This is useful for running country-specific storefronts (e.g. a `.de` domain for German, a `.fr` domain for French) or for SEO optimisation for different language markets. If a language does not have its own domain, it uses the company's primary domain.
+
+### Admin and Email Languages
+
+Admin users can independently select their preferred language for the admin panel. This is stored per user per company, so you can use a different language when working in different companies. Changing language in the admin area does not affect the shop, and vice versa.
+
+Email communications are sent in the language configured for the relevant context — the customer's selected language for customer-facing emails, or the admin user's language for internal notifications.
 
 ## Translating Content Fields
 
@@ -198,8 +246,8 @@ These fields use the same language switcher as content fields, allowing you to p
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Supported Languages" icon="globe" href="/core-platform/information/supported-languages">
-    Full list of available languages
+  <Card title="Website Text" icon="font" href="/core-platform/cms/website-text">
+    Scoped text overrides for events, schedules, and customer groups
   </Card>
   <Card title="SEO & Sharing" icon="share-nodes" href="/core-platform/core/seo">
     Per-language meta titles, descriptions, and sharing images

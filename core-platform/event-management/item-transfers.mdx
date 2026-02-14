@@ -18,7 +18,7 @@ description: "How customers and admins can transfer purchased items between user
 </Accordion>
 
 <Accordion title="Corporate ticket distribution">
-  A company purchases a block of tickets and uses [order distributions](/core-platform/advanced/order-distributions) to share them with employees via a passcode-protected link or QR code. Each employee claims their own tickets without the purchaser needing to enter individual details.
+  A company purchases a block of tickets and uses [order distributions](/core-platform/order-management/transfers-and-sharing#distributing-items) to share them with employees via a passcode-protected link or QR code. Each employee claims their own tickets without the purchaser needing to enter individual details.
 </Accordion>
 
 <Accordion title="Gift purchases">
@@ -154,25 +154,9 @@ Items that are currently listed for [resale](/core-platform/resale/configuration
 
 ## Company-Level Settings
 
-These settings apply across all events and are configured at the company level.
+Company-level settings that control transfer behaviour — including instant transfers, barcode preservation, transfer corrections, and restricting transfers to purchasers only — are documented on the [Transfers & Sharing](/core-platform/order-management/transfers-and-sharing#settings) page.
 
-| Setting | Description |
-|---------|-------------|
-| **Enable instant transfers** | Transferred items on completed orders are automatically claimed without the recipient needing to take action. Recipients still receive the claim notification but do not need to act on it. |
-| **Preserve barcodes on instant transfer** | When instant transfers are enabled, the original barcode is kept instead of generating a new one. Only available when instant transfers are enabled. |
-| **Allow transfer corrections** | Allows the purchaser to modify or cancel transfers even after completing checkout, regardless of the current sharing restriction settings. |
-| **Only purchaser can transfer items** | Only the original order purchaser can initiate transfers. Recipients cannot re-transfer items they have received. |
+## Related
 
-<Warning>
-Preserving barcodes on transfer means the original holder's barcode remains valid. If the original holder scans in before the recipient, the recipient's entry may be blocked.
-</Warning>
-
-## Cancelling Transfers
-
-Pending transfers (not yet claimed) can be cancelled by:
-- The **customer** who initiated the transfer, from their account.
-- An **admin** from the order's transfer management section.
-
-Cancelling a transfer keeps the item in the original holder's account. Any associated wallet transfers (e.g. for gift vouchers) are also cancelled.
-
-Claimed transfers cannot be cancelled or reversed.
+- [Transfers & Sharing](/core-platform/order-management/transfers-and-sharing) — Post-purchase transfer workflows, claiming, cancelling, and distributions
+- [Sale Items: Core Concepts](/core-platform/sale-items/core-concepts) — Purchase limits that trigger compulsory transfers

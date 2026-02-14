@@ -47,19 +47,39 @@ The following events are pushed to the data layer:
 | `purchase_error` | Checkout error occurred |
 | `refund` | Self-serve refund processed |
 | `share` | Event shared via social media |
+| `expire` | Basket expires due to inactivity |
 
 Customer data — email address and phone number — is **SHA-256 hashed** before being pushed to the data layer, so no personally identifiable information is sent to GTM in plain text.
+
+### Iframe Considerations
+
+If your shop is embedded in an iframe on an external site, GTM and tracking pixels may not fire all events or may fail to initialise. This is due to browser cross-site tracking restrictions. For full tracking reliability, host your shop on its own domain rather than embedding it in an iframe.
 
 ### Cookie Consent
 
 The shop container respects the platform's cookie consent settings:
 
-- On page load, GTM consent mode defaults to **denied** for all consent types
-- When a customer accepts analytics cookies, consent is updated to **granted**
-- If a customer has not accepted cookies, GTM scripts are not loaded on the page
-- Tracking events that occur before consent are stored locally and replayed once consent is granted
+| Region | Behaviour |
+|--------|-----------|
+| **GDPR countries** | GTM loads only after the customer explicitly opts in to analytics cookies |
+| **Other regions** | GTM loads unless the customer explicitly opts out |
 
-This ensures GDPR compliance — no tracking occurs until the customer explicitly opts in.
+On page load, GTM consent mode defaults to **denied** for all consent types. When a customer accepts analytics cookies, consent is updated to **granted**. Tracking events that occur before consent are stored locally and replayed once consent is granted.
+
+### Advanced Consent Mode
+
+If your company has **GTM Advanced Consent Mode** enabled, GTM is loaded on your site regardless of the customer's cookie consent status. This allows Google's consent mode to handle consent signals directly within GTM rather than blocking the script entirely.
+
+When Advanced Consent Mode is active, the platform sends consent signals to GTM:
+
+- **Granted** — when the customer has opted in to analytics cookies
+- **Denied** — when the customer has not opted in
+
+This allows GTM to operate in a limited, cookieless mode when consent is denied, while enabling full tracking when consent is granted.
+
+<Note>
+Advanced Consent Mode is a feature that must be enabled for your company. When enabled, a note appears in your settings: **Your company has Advanced Consent Mode enabled**.
+</Note>
 
 ## Admin Container
 

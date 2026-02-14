@@ -1,13 +1,13 @@
 ---
 title: "Homepage"
-description: "Configure the landing page customers see when they visit your ticket shop, using headers, event blocks, article blocks, and custom content."
+description: "Configure the landing page customers see when they visit your ticket shop, using headers, content blocks, and custom content."
 ---
 
 ## Overview
 
-The homepage is the first thing customers see when they visit your ticket shop URL. It is a fully configurable landing page built using the CMS page system -- you control the header style, the content blocks that appear, and how events and articles are displayed.
+The homepage is the first thing customers see when they visit your ticket shop URL. It is a fully configurable landing page built using the [CMS page system](/core-platform/cms/pages) — you control the header style, the content blocks that appear, and how events and articles are displayed.
 
-Behind the scenes, the homepage is a **listing page** with its URL set to `/` (the root of your shop). You compose it by adding and arranging content blocks in the admin page editor, choosing from event blocks, article blocks, and template blocks. Each block type has its own layout options, data sources, and configuration, so you can build anything from a simple event grid to a rich, magazine-style landing page with carousels, maps, and editorial content.
+Behind the scenes, the homepage is a **listing page** with its URL set to `/` (the root of your shop). You compose it by adding and arranging [content blocks](/core-platform/cms/blocks) in the admin page editor, choosing from event blocks, article blocks, and template blocks.
 
 <Note>
 If no listing page exists for the root URL (`/`), customers are automatically redirected to the events browse page instead. You do not need a homepage to run your shop, but having one gives you full control over the first impression.
@@ -15,142 +15,13 @@ If no listing page exists for the root URL (`/`), customers are automatically re
 
 ## Creating Your Homepage
 
-The homepage is created and managed through the CMS section of the admin panel:
-
-1. Navigate to **Pages** in the CMS section
+1. Navigate to **CMS > Pages**
 2. Create a new listing page (or edit an existing one)
 3. Set the **URL** to `/` to make it the homepage
-4. Configure the page header, SEO metadata, and content blocks
+4. Choose a [header style](/core-platform/cms/pages#header-styles) to set the visual presentation
+5. Add [content blocks](/core-platform/cms/blocks) to populate the page with events, articles, or custom content
 
-Each page has these core fields:
-
-| Field | Purpose |
-|-------|---------|
-| **Name** | Admin-facing label for the page |
-| **URL** | The public URL slug -- set to `/` for the homepage |
-| **Meta title** | SEO page title shown in browser tabs and search results |
-| **Meta description** | SEO description used by search engines |
-| **Header style** | Controls the visual presentation of the page header |
-| **Subheading** | Custom text displayed below the page title in the header |
-| **Body** | Custom body content for the header area (WYSIWYG editor) |
-
-## Choosing a Header Style
-
-The page header is the first visual element customers see. You can choose from six header styles to set the tone:
-
-| Style | What it shows |
-|-------|---------------|
-| **Hidden** | No header at all -- content blocks start immediately |
-| **Simple header** | Text-only header with the page title |
-| **Header with image** | Page title and text overlaid on a background image |
-| **Full-width image header** | A full-width background image with text overlay |
-| **Image without text** | A standalone image with no text overlay |
-| **Full-width image without text** | A full-width standalone image with no text overlay |
-
-For styles that include an image, you upload the image in the page editor. For styles that include text, the page title, **Subheading**, and **Body** content are displayed.
-
-<Note>
-If you are building a visually rich homepage, the **Full-width image header** style works well as a hero banner. Pair it with a subheading and body content to create a strong first impression before customers scroll into your content blocks.
-</Note>
-
-## Adding Content Blocks
-
-Content blocks are the building blocks of your homepage. You add them in the admin page editor, and they appear on the page in the order you arrange them. There are three block types, each serving a different purpose:
-
-| Block type | Purpose | Best for |
-|------------|---------|----------|
-| **Event block** | Displays a curated or dynamic selection of events | Showcasing upcoming events, featured events, or events by category |
-| **Article block** | Displays articles or blog posts | Editorial content, news, announcements |
-| **Template block** | Custom HTML content | Free-form content like banners, sponsor logos, or custom messaging |
-
-You can add as many blocks as you need, mix block types freely, and reorder them by dragging in the editor. The following sections explain each block type in detail.
-
-### Configuring Event Blocks
-
-Event blocks are the most common block type on a homepage. Each event block pulls in a set of events and displays them in a layout you choose.
-
-#### Layout Options
-
-| Layout | Description |
-|--------|-------------|
-| **Standard list** | Default grid layout |
-| **Featured style** | Prominent, highlighted display for key events |
-| **Two-column** | Events arranged in two columns |
-| **Three-column** | Events arranged in three columns |
-| **Slider** | Horizontal scrolling carousel -- useful for fitting many events in limited space |
-| **Grouped** | Events grouped by city, tag, venue, or company |
-| **Interactive map** | Map-based display where customers browse events geographically |
-| **Calendar** | Calendar view for date-oriented browsing |
-
-#### Choosing an Event Source
-
-Each event block needs a data source -- where the events come from. You select one of the following:
-
-| Source | How it works |
-|--------|--------------|
-| **Handpicked events** | You manually select specific events to display |
-| **Events with specific tags** | Automatically shows events matching one or more tags |
-| **Recently added events** | Shows the newest events added to your shop |
-| **Recently viewed events** | Personalised -- shows events the customer has recently viewed |
-| **Recently liked events** | Personalised -- shows events the customer has liked |
-
-<Note>
-The **Recently viewed** and **Recently liked** sources are personalised per customer. If the customer has no viewing or liking history, these blocks will appear empty for them. Consider pairing a personalised block with a non-personalised one (like **Recently added**) so the homepage always has content for new visitors.
-</Note>
-
-#### Block Settings
-
-Beyond layout and source, each event block has additional settings:
-
-| Setting | Description |
-|---------|-------------|
-| **Event limit** | Maximum number of events to display (up to 50) |
-| **Ordering** | Sort events by start date, tag, liked date, viewed date, or event ordering |
-| **Show past events** | Toggle to include or exclude events that have already occurred |
-| **Pagination** | Enable pagination to let customers browse beyond the initial set |
-| **Grouping** | Group results by city, tag, venue, or company (when using the Grouped layout) |
-| **Search** | Show a search bar on the block so customers can filter the displayed events |
-
-<Note>
-Event block results are cached with a 15-minute TTL. After you publish a new event or change event details, it may take up to 15 minutes for those changes to appear in event blocks on the homepage.
-</Note>
-
-### Configuring Article Blocks
-
-Article blocks display your published articles or blog posts. They work similarly to event blocks, with their own layouts and sources.
-
-#### Layout Options
-
-| Layout | Description |
-|--------|-------------|
-| **Standard list** | Default grid layout |
-| **Featured style** | Highlighted display for key articles |
-| **Two-column** | Articles in two columns |
-| **Three-column** | Articles in three columns |
-| **Mixed grid** | A combination layout mixing different article card sizes |
-| **Slider** | Horizontal scrolling carousel |
-
-#### Choosing an Article Source
-
-| Source | How it works |
-|--------|--------------|
-| **Handpicked articles** | You manually select specific articles to display |
-| **Articles with specific tags** | Automatically shows articles matching one or more tags |
-| **Recently published articles** | Shows the most recently published articles |
-
-Article blocks also support a configurable **limit** (up to 50) and **pagination**.
-
-### Using Template Blocks
-
-Template blocks let you insert custom HTML content anywhere on the homepage. Unlike event and article blocks, they do not pull in dynamic data -- they display exactly what you write.
-
-Use template blocks for:
-- Promotional banners or announcements
-- Sponsor or partner logos
-- Custom calls to action
-- Any free-form content that does not fit the event or article block model
-
-## How the Homepage Fits Together
+## Building an Effective Homepage
 
 A well-built homepage typically combines several block types to create a layered experience. For example:
 
@@ -161,12 +32,15 @@ A well-built homepage typically combines several block types to create a layered
 5. An **article block** with recently published news or blog posts
 6. A **slider event block** with recently added events for customers to browse
 
-There is no fixed formula -- the block system is flexible enough to suit everything from a single-event page to a content-rich magazine-style homepage.
+There is no fixed formula — the block system is flexible enough to suit everything from a single-event page to a content-rich magazine-style landing page with carousels, maps, and editorial content.
 
-## Related Pages
+<Note>
+Event block results are cached with a 15-minute TTL. After you publish a new event or change event details, it may take up to 15 minutes for those changes to appear in event blocks on the homepage.
+</Note>
 
-- [CMS: Pages](/core-platform/cms/pages) -- Creating and managing listing pages
-- [CMS: Blocks](/core-platform/cms/blocks) -- Block types and configuration reference
-- [CMS: Theme & Branding](/core-platform/cms/theme-and-branding) -- Visual customisation of the shop
-- [CMS: Menus](/core-platform/cms/menus) -- Navigation menu configuration
-- [Browsing & Search](/core-platform/ticket-shop/browsing-and-search) -- The event browse page and search functionality
+## Related
+
+- [CMS: Pages](/core-platform/cms/pages) — Page creation, header styles, SEO, and settings
+- [CMS: Blocks](/core-platform/cms/blocks) — Block types, layouts, sources, and styling
+- [CMS: Theme & Branding](/core-platform/cms/theme-and-branding) — Visual customisation of the shop
+- [Browsing & Search](/core-platform/ticket-shop/browsing-and-search) — The event browse page and search functionality

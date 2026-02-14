@@ -27,7 +27,11 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": ["core-platform/get-started/introduction"]
+            "pages": [
+              "core-platform/get-started/introduction",
+              "core-platform/get-started/going-live",
+              "core-platform/get-started/trial-periods"
+            ]
           },
           {
             "group": "Events",
@@ -68,6 +72,9 @@
                 "pages": [
                   "core-platform/event-management/access-control",
                   "core-platform/event-management/item-transfers",
+                  "core-platform/event-management/secure-barcodes",
+                  "core-platform/event-management/nfc-pairing",
+                  "core-platform/event-management/lead-capture",
                   "core-platform/event-management/copying-events",
                   "core-platform/event-management/event-approvals",
                   "core-platform/event-management/event-cancellations"
@@ -109,7 +116,8 @@
                 "pages": [
                   "core-platform/fees/default-system-fees",
                   "core-platform/fees/sale-item-fees",
-                  "core-platform/fees/fulfilment-fees"
+                  "core-platform/fees/fulfilment-fees",
+                  "core-platform/fees/all-in-pricing"
                 ]
               },
               {
@@ -137,7 +145,8 @@
                   "core-platform/payments/payment-processors",
                   "core-platform/payments/split-payments",
                   "core-platform/payments/deposit-payments",
-                  "core-platform/payments/invoice-payments"
+                  "core-platform/payments/invoice-payments",
+                  "core-platform/payments/instant-access-orders"
                 ]
               },
               {
@@ -177,7 +186,8 @@
                   "core-platform/ticket-shop/basket",
                   "core-platform/ticket-shop/checkout",
                   "core-platform/ticket-shop/customer-accounts",
-                  "core-platform/ticket-shop/shop-settings"
+                  "core-platform/ticket-shop/shop-settings",
+                  "core-platform/ticket-shop/waiting-rooms"
                 ]
               },
               {
@@ -283,18 +293,21 @@
                   "core-platform/system-access/users",
                   "core-platform/system-access/roles-and-permissions",
                   "core-platform/system-access/visibility-groups",
-                  "core-platform/system-access/mfa"
+                  "core-platform/system-access/mfa",
+                  "core-platform/system-access/sso"
                 ]
               },
               {
                 "group": "Utilities",
                 "pages": [
                   "core-platform/utilities/system-defaults",
+                  "core-platform/utilities/company-settings",
                   "core-platform/utilities/bulk-editing",
                   "core-platform/utilities/global-search",
-                  "core-platform/utilities/sales-dashboards-util",
+                  "core-platform/utilities/sales-dashboards",
                   "core-platform/utilities/custom-urls",
                   "core-platform/utilities/date-formatting",
+                  "core-platform/utilities/wysiwyg",
                   "core-platform/utilities/api-token-management",
                   "core-platform/utilities/api-device-management"
                 ]
@@ -314,52 +327,32 @@
                 "group": "Core",
                 "pages": [
                   "core-platform/core/translations",
+                  "core-platform/core/supported-currencies",
                   "core-platform/core/audit-logs",
                   "core-platform/core/timezones",
                   "core-platform/core/seo"
                 ]
               },
               {
-                "group": "Advanced",
-                "pages": [
-                  "core-platform/advanced/company-settings",
-                  "core-platform/advanced/all-in-pricing",
-                  "core-platform/advanced/sales-dashboards",
-                  "core-platform/advanced/tracking-and-analytics",
-                  "core-platform/advanced/secure-barcodes",
-                  "core-platform/advanced/lead-capture",
-                  "core-platform/advanced/order-distributions",
-                  "core-platform/advanced/sso",
-                  "core-platform/advanced/instant-access-orders",
-                  "core-platform/advanced/nfc-pairing"
-                ]
-              },
-              {
                 "group": "Integrations",
                 "pages": [
+                  "core-platform/integrations/tracking-and-analytics",
+                  "core-platform/integrations/google-tag-manager",
                   "core-platform/integrations/xe-exchange-rates",
                   "core-platform/integrations/vatstack",
                   "core-platform/integrations/szamlazz",
                   "core-platform/integrations/dtcm",
-                  "core-platform/integrations/justgiving",
-                  "core-platform/integrations/google-tag-manager"
+                  "core-platform/integrations/justgiving"
                 ]
               }
             ]
           },
           {
-            "group": "Other Information",
+            "group": "Reference",
             "pages": [
-              "core-platform/information/going-live",
               "core-platform/information/sales-channels",
-              "core-platform/information/trial-periods",
               "core-platform/information/paying-invoices",
-              "core-platform/information/waiting-rooms",
-              "core-platform/information/company-switching",
-              "core-platform/information/wysiwyg",
-              "core-platform/information/google-tag-manager",
-              "core-platform/information/supported-languages",
-              "core-platform/information/supported-currencies"
+              "core-platform/information/company-switching"
             ]
           }
         ]

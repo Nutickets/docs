@@ -1,0 +1,71 @@
+---
+title: "All-In Pricing"
+description: "Show customers the full price of an item — including applicable fees and taxes — everywhere in the shop, from browsing through to checkout."
+---
+
+## Overview
+
+All-in pricing shows customers the full price of an item — including applicable fees and taxes — everywhere in the shop. Instead of seeing a base price on the listing page and then discovering additional fees at checkout, customers see a single, transparent total from the moment they start browsing.
+
+This is purely a presentation change. The underlying fee structure, base prices, and tax calculations remain exactly the same. Reporting, settlement, and reconciliation continue to use actual base prices and individual fee amounts.
+
+<Note>
+All-in pricing is a feature-flagged capability. Contact your account manager to enable it for your company. Your account must also be configured to display prices **including tax** — all-in pricing cannot be used when prices are displayed excluding tax.
+</Note>
+
+## What Customers See
+
+When all-in pricing is enabled, the displayed price throughout the shop reflects the total a customer will pay for the item:
+
+- **Browse and listing pages** — Items show their all-in price
+- **Item detail pages** — The price shown includes all applicable fees
+- **Basket** — Line items display all-in prices
+- **Checkout** — Pricing remains consistent with what was shown earlier
+
+The goal is consistency: the price a customer sees when first browsing an item is the same price they see all the way through to checkout.
+
+<Note>
+Fee items themselves (such as a booking fee line item in the basket) are not affected by all-in pricing. They continue to display their own individual price. All-in pricing only changes how the main item prices are presented.
+</Note>
+
+## What Is Included in the All-In Price
+
+The all-in price always includes the item's base price plus any per-item fees. Beyond that, two additional fee types can optionally be folded in:
+
+| Component | Included by default | Configurable |
+|-----------|-------------------|--------------|
+| Base price | Always | No |
+| Per-item fees | Always | No |
+| Per-order fees | No | Yes — via **Include per-order fees** setting |
+| Fulfilment fees | No | Yes — via **Include fulfilment fees** setting |
+
+For resale items, resale fees are included in the all-in price minus any seller contributions.
+
+## Configuration
+
+All-in pricing settings are found under **Settings > Pricing settings** in the **All-in pricing settings** section:
+
+| Setting | Effect |
+|---------|--------|
+| **Include per-order fees** | When enabled, fees applied once per order are distributed and included within each item's displayed price, so the total at checkout closely matches the sum of displayed item prices. When disabled (the default), per-order fees appear separately. |
+| **Include fulfilment fees** | When enabled, the cheapest available fulfilment fee is included within an item's displayed price — but only when there is no free download option available. When disabled (the default), fulfilment fees are not factored into the displayed item price. |
+
+<Note>
+Changing these settings triggers a background recalculation of display prices for all items across your account. It may take a few minutes to see the changes reflected in the shop. Only future events are recalculated — existing orders are not affected.
+</Note>
+
+## Reporting and Settlement
+
+All-in pricing does not affect your financial data. The original base prices and individual fee amounts are preserved and used for reports, settlement payouts, and line-item reconciliation.
+
+## Limitations
+
+- All-in pricing **cannot be enabled alongside [conditional tax bands](/core-platform/tax/conditional-tax-bands)**. These features are mutually exclusive.
+- All-in pricing **requires prices to be displayed including taxes**. If your company displays prices excluding tax, you cannot enable all-in pricing. See [Pricing Display](/core-platform/tax/pricing-display).
+
+## Related
+
+- [Default System Fees](/core-platform/fees/default-system-fees) — Processing and platform fees included in all-in prices
+- [Sale Item Fees](/core-platform/fees/sale-item-fees) — Custom fees that contribute to the all-in price
+- [Fulfilment Fees](/core-platform/fees/fulfilment-fees) — Delivery fees optionally included in all-in prices
+- [Pricing Display](/core-platform/tax/pricing-display) — Tax-inclusive vs tax-exclusive display settings

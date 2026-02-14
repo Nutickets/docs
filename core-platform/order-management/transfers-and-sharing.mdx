@@ -108,60 +108,92 @@ Only the item holder or the original purchaser can initiate a transfer. If an it
 
 ## Distributing Items
 
-Distributions let a purchaser share items from their order with multiple people using a single shareable code. This is designed for group organisers — for example, a company buying 50 tickets and needing each attendee to claim their own.
+Distributions let a purchaser share items from their order with multiple people using a single shareable code. This is designed for group organisers — for example, a company buying 50 conference tickets and needing each attendee to claim their own.
+
+<Note>
+Distributions require the **Order distributions** feature flag to be enabled. Without it, distribution options do not appear in customer accounts.
+</Note>
 
 ### How Distributions Work
 
 1. The purchaser creates a distribution, selecting which items to share and how many each person can claim.
-2. The system generates a unique code (e.g. "ABC123EFG") and a QR code.
-3. The purchaser shares the code or QR code with their group.
+2. The system generates a unique code, a direct URL, and a QR code.
+3. The purchaser shares these with their group via any channel.
 4. Each recipient visits the claim page, enters the code, and claims their items.
 5. Claimed items are transferred to the recipient's account with new barcodes.
+6. The distribution automatically disables when all items are fully claimed.
+
+### What Can Be Distributed
+
+Not all order items can be included. Items must meet all of these conditions:
+
+- The item type supports sharing after purchase (tickets and season tickets with sharing enabled)
+- The item is not a fee
+- The item is not pending transfer to another user
+- The item has not already been transferred and claimed by someone else
 
 ### Creating a Distribution
 
 1. Open the order in **My Account > Orders**.
 2. Click **Distribute items** (or **Distribute more items** if a distribution already exists).
 3. For each eligible item type, configure:
-   - **Total distributable items** — How many of this item can be claimed in total
+   - **Total claimable items** — How many of this item can be claimed in total
    - **Individual claim limit** — Maximum number each person can claim
-4. Save the distribution.
-
-The system generates a unique code and QR code. Share these with your group using any method you prefer — email, messaging apps, printed materials, etc.
-
-### Claim Limits
-
-Distributions support two levels of control:
-
-- **Total distributable items** — The overall pool of items available for claiming. Once this number is reached, no more claims are accepted.
-- **Individual claim limit** — The maximum number of items a single person can claim. This prevents one person from claiming all the items.
+4. Optionally enable **Limit each user account to only one claim**
+5. Save the distribution.
 
 For example, if you distribute 20 tickets with an individual limit of 2, up to 10 people can claim 2 tickets each.
+
+### Sharing a Distribution
+
+Once created, the owner has three ways to share with recipients:
+
+| Method | How it works |
+|--------|-------------|
+| **Passcode** | Share the claim page URL and a separate alphanumeric code. Recipients enter the code on the claim page. |
+| **Direct URL** | Share a single URL with the code embedded. Recipients click the link and go straight to available items. |
+| **QR code** | Download a QR code image that points to the claim URL. Recipients scan with their device. |
 
 ### Claiming Distributed Items
 
 Recipients claim items by:
 
-1. Visiting the claim page (via a shared link or QR code).
-2. Entering the distribution code.
-3. Selecting which items and quantities they want to claim.
-4. Confirming the claim.
+1. Opening the claim link, or navigating to the claim page and entering the code.
+2. Viewing available items and selecting quantities.
+3. Logging in or creating an account (required to complete a claim).
+4. Submitting the claim.
 
-A recipient does not need an existing account — one is created during the claim process if needed. Each claimed item is transferred to the recipient with a new barcode.
+After claiming, the recipient is redirected to their downloads page to access their tickets. A recipient does not need an existing account — one is created during the claim process if needed.
 
 <Note>
 A purchaser cannot claim items from their own distribution. The system prevents self-claiming.
 </Note>
 
+#### Claim Restrictions
+
+| Scenario | Message |
+|----------|---------|
+| Distribution is disabled | Claim page is not accessible |
+| Recipient is the order owner | Cannot claim from your own order |
+| Quantity exceeds individual limit | "Unable to claim :quantity items, as this exceeds the individual claim limit for this item." |
+| Quantity exceeds remaining availability | "Unable to claim :quantity items, this quantity is no longer available to claim." |
+| Invalid or expired code | "There are no claimable items associated with this code." |
+| Simultaneous claim collision | "Temporarily unable to claim items, please try again." |
+
 ### Managing a Distribution
 
 After creating a distribution, you can:
 
-- **Edit** — Change the total distributable items or individual claim limits (but you cannot reduce below the number already claimed)
-- **Disable** — Temporarily pause claiming. The code remains valid but claims are blocked until you re-enable.
-- **View claim status** — See how many items have been claimed and how many remain
+- **Toggle active/disabled** — When disabled, no new claims are accepted but existing claims are not affected. The owner can re-enable at any time.
+- **Edit** — Adjust limits or add/remove items. Items already claimed cannot be removed, and totals cannot be reduced below the number already claimed.
+- **View claim status** — See how many items have been claimed and how many remain.
 
-Distributions are automatically disabled when all distributable items have been claimed.
+Distributions are automatically disabled when all claimable items have been fully claimed.
+
+### When Distributions Are Blocked
+
+- **Order not completed** — Distributions can only be created for completed orders.
+- **Order is frozen** — If the order is currently frozen (e.g. during an [order modification](/core-platform/order-management/order-modifications)), all distribution operations are blocked until the order is unfrozen.
 
 ### Distribution vs Transfer
 
@@ -183,13 +215,15 @@ The following settings control transfer and distribution behaviour:
 | **Instant transfers** | When enabled, transfers are automatically claimed as soon as the order completes. Recipients don't need to manually claim. |
 | **Preserve barcodes on instant transfer** | When enabled, barcodes are kept the same during instant transfers. When disabled, new barcodes are generated on claim. |
 | **Allow transfer corrections** | When enabled, the original purchaser can re-transfer items that have already been claimed to someone else. |
+| **Only purchaser can transfer items** | Only the original order purchaser can initiate transfers. Recipients cannot re-transfer items they have received. |
 
-<Note>
-Distributions require the **Order distributions** feature to be enabled for your account. If you don't see the **Distribute items** option, contact your administrator.
-</Note>
+<Warning>
+Preserving barcodes on transfer means the original holder's barcode remains valid. If the original holder scans in before the recipient, the recipient's entry may be blocked.
+</Warning>
 
 ## Related
 
+- [Item Transfers (Event Configuration)](/core-platform/event-management/item-transfers) — Sharing restrictions, compulsory transfers, and named holders
 - [Core Concepts](/core-platform/order-management/core-concepts)
 - [Refunds & Cancellations](/core-platform/order-management/refunds-and-cancellations)
 - [Order Modifications](/core-platform/order-management/order-modifications)
