@@ -1,49 +1,13 @@
 ---
 title: "Payment Processors"
-description: "Connect and configure payment gateways to process card payments and other online payment methods."
+description: "Connect and configure payment gateways to process card payments and other online payment methods across your ticket shop and box office."
 ---
 
 ## Overview
 
 A payment processor (or gateway) is the external service that authorises and captures electronic payments on your behalf. Before you can accept online payments, you need to connect at least one payment gateway and configure it for the channels where you want to accept payments.
 
-The platform supports over 25 payment gateways. Each gateway is connected using credentials from your gateway account, and can be enabled separately for the ticket shop and box office.
-
-## Supported Gateways
-
-The following payment gateways are available:
-
-| Gateway | Notable capabilities |
-|---------|---------------------|
-| **Stripe** | Terminal support, MOTO payments |
-| **PayPal** | — |
-| **Adyen** | MOTO payments |
-| **SumUp** | — |
-| **QuickPay** | — |
-| **PayTabs** | Requires billing address |
-| **Authorize.NET** | — |
-| **Barclays ePDQ** | — |
-| **SimplePay** | — |
-| **Tap** | — |
-| **Pay Retailers** | Requires billing address |
-| **DPO Pay** | — |
-| **Onvo** | — |
-| **Netpay** | Requires billing address and phone number |
-| **Transbank** | — |
-| **PowerTranz** | — |
-| **Bloomin** | Requires billing address |
-| **M-Pesa** | — |
-| **Ryft** | — |
-| **Hyperpay** | — |
-| **Banorte** | Requires billing address |
-| **Curlec** | — |
-| **Nuvei** | Requires billing address |
-| **Worldpay** | — |
-| **Revolut** | — |
-
-<Note>
-Some gateways require the customer's billing address or phone number at checkout. When you enable one of these gateways, the relevant fields are automatically added to the checkout flow.
-</Note>
+The platform supports over 25 payment gateways. Each gateway connects using credentials from your gateway account, and can be enabled separately for the ticket shop and box office. The gateway you choose affects which payment methods are available to your customers — some gateways offer only standard card payments, while others support local payment methods, in-person terminals, or mobile wallets.
 
 ## Connecting a Gateway
 
@@ -55,7 +19,7 @@ To connect a payment gateway:
 4. Enter your gateway credentials (API keys, merchant IDs, or other details specific to the gateway)
 5. Click **Save** — credentials are validated before being stored
 
-Each gateway has its own credential requirements. Refer to your gateway provider's documentation for the specific keys and identifiers you need.
+Most gateways require separate credentials for test (demo) and live modes, entered on different tabs within the settings modal. A few gateways — Stripe, PayPal, and SumUp — use an OAuth connection flow instead, where you click a connect button and authorise the platform to access your gateway account.
 
 <Note>
 Gateway credentials are encrypted before being stored. If you need to disconnect a gateway, you can revoke its credentials from the same settings panel.
@@ -87,7 +51,7 @@ To set a primary gateway, click **Set primary gateway** on the gateway you want 
 A gateway must be enabled for a channel before it can be set as the primary for that channel.
 </Note>
 
-## Payment Mode (Live vs Test)
+## Payment Mode (Live vs Demo)
 
 Each company has a payment mode that controls whether transactions use live or test credentials:
 
@@ -96,33 +60,522 @@ Each company has a payment mode that controls whether transactions use live or t
 | **Live** | Real payments are processed. Money is exchanged. |
 | **Demo** | No money is exchanged. Use test card numbers from your gateway's documentation. |
 
-The payment mode toggle is found at the top of **Settings > Payment**. Switching between modes is only available when your reseller allows self-management of payment mode.
+The payment mode toggle is found at the top of **Settings > Payment**. Switching between modes is only available when your account manager allows self-management of payment mode.
 
 <Warning>
 Switching from demo to live mode means all subsequent transactions will process real payments. Verify your live credentials are correct before switching.
 </Warning>
 
+## How Gateways Process Payments
+
+Not all gateways work the same way. The platform handles four distinct integration patterns, each providing a different checkout experience:
+
+<Tabs>
+  <Tab title="Embedded form">
+    The payment form appears directly within your checkout page. The customer enters their card details without leaving your site. The form is rendered by the gateway's JavaScript SDK, so card details are transmitted securely to the gateway without touching your servers.
+
+    **Gateways using this approach:** Stripe, Adyen, Nuvei, Onvo
+
+    This is the smoothest customer experience — no redirects, no page changes. Stripe's Payment Element also supports wallets (Apple Pay, Google Pay) and local payment methods within the same embedded form.
+  </Tab>
+  <Tab title="Redirect">
+    The customer is redirected to the gateway's hosted payment page to enter their card details. After payment, they're redirected back to your site.
+
+    **Gateways using this approach:** QuickPay, PayTabs, Worldpay, DPO Pay, SimplePay, Revolut
+
+    The customer briefly leaves your site, but this approach can be simpler for gateways that don't provide an embeddable SDK.
+  </Tab>
+  <Tab title="Form POST">
+    The platform generates a hidden form with encrypted payment data and submits it directly to the gateway's endpoint. The gateway processes the payment and redirects the customer back.
+
+    **Gateways using this approach:** Barclays ePDQ, Pay Retailers, Bloomin, Banorte, Transbank
+
+    Similar to redirect from the customer's perspective, but the technical mechanism differs — the form is submitted from your site rather than navigating to a gateway URL.
+  </Tab>
+  <Tab title="Server-side API">
+    Card details are tokenised client-side (if needed) and the payment is processed entirely via server-to-server API calls. The customer stays on your checkout page throughout.
+
+    **Gateways using this approach:** Authorize.NET, Tap, PowerTranz, Netpay, Curlec, M-Pesa, Hyperpay, SumUp
+
+    For most of these gateways, the customer experience is seamless — they enter card details and the payment processes in the background.
+  </Tab>
+</Tabs>
+
+## Supported Gateways
+
+The following sections detail each supported gateway, grouped by connection method. Each entry covers the credentials required, any special capabilities, and where the gateway operates.
+
+### OAuth-Connected Gateways
+
+These gateways connect via an authorisation flow — you click a connect button and sign in to your gateway account rather than manually entering API keys.
+
+<Accordion title="Stripe">
+  Stripe is the most feature-rich gateway integration on the platform. It uses Stripe's Payment Element for an embedded checkout experience and supports the widest range of payment capabilities.
+
+  **Connection:** Click **Connect with Stripe** to authorise via Stripe Connect. Your Stripe account ID and publishable key are stored automatically.
+
+  **Capabilities:**
+
+  | Feature | Details |
+  |---------|---------|
+  | **Card payments** | Embedded payment form (Stripe Payment Element) |
+  | **Apple Pay & Google Pay** | Supported automatically when your domain is registered — the wallet buttons appear within the payment form |
+  | **MOTO payments** | Enable the **MOTO** toggle in gateway settings. Allows box office staff to manually enter card details provided over the phone or by mail. Requires MOTO to be enabled on your Stripe account. |
+  | **Terminal payments** | Enable the **Terminal** toggle. Supports physical card readers (e.g. BBPOS WisePOS E) for in-person tap/insert payments. Staff can register, connect, and manage card readers from the box office. |
+  | **Saved cards** | Customers can save their card for future checkouts. Saved cards are stored securely by Stripe and shown to returning customers at checkout. |
+  | **Local payment methods** | Additional payment methods can be enabled per gateway — for example, **OXXO** (Mexico, MXN only). OXXO generates a voucher the customer pays at a convenience store, with a configurable expiry of 1–7 days. |
+  | **Stripe Link** | Stripe's quick-checkout feature that auto-fills saved payment details for returning customers |
+  | **Installments** | Supports Mexican card installments (meses sin intereses) where available |
+  | **Interac** | Canadian Interac payments supported on terminals when the **Interac** toggle is enabled |
+  | **Webhooks** | Payment confirmation is received via webhooks. Webhooks are configured automatically at the platform level. |
+
+  **Additional payment methods available via Stripe:**
+
+  Stripe supports a growing list of local and alternative payment methods that can be enabled from the gateway settings. These include Klarna, Afterpay/Clearpay, Affirm, iDEAL, Bancontact, EPS, Przelewy24 (P24), GrabPay, FPX, Alipay, WeChat Pay, Cash App, and Swish. Each method is currency-restricted — the platform automatically shows only the methods that match the customer's order currency.
+
+  <Note>
+  Apple Pay and Google Pay require your shop domain to be registered with Stripe. The platform handles this automatically on first payment, but custom domains may need the Apple Pay domain verification file to be accessible at `/.well-known/apple-developer-merchantid-domain-association`.
+  </Note>
+</Accordion>
+
+<Accordion title="PayPal">
+  PayPal connects via OAuth and provides a PayPal checkout button that customers click to pay through their PayPal account or enter card details on PayPal's hosted pages.
+
+  **Connection:** Click the **Authorize** button to connect your PayPal account. Your merchant email and account details are stored automatically.
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **Button colour** | Choose the PayPal button colour: gold, blue, black, silver, or white |
+  | **Button shape** | Choose the button shape: rectangular or pill |
+  | **Advanced integration** | Toggle between basic and advanced PayPal integration modes |
+
+  <Note>
+  PayPal supports two product types: Express Checkout and PayPal Commerce Platform (PPCP). The product type is determined during the OAuth connection and affects which features are available.
+  </Note>
+</Accordion>
+
+<Accordion title="SumUp">
+  SumUp connects via OAuth and provides online card payment processing. It's a straightforward gateway suitable for simple card payment needs.
+
+  **Connection:** Click the authorise button to connect your SumUp account.
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **Show zipcode** | Whether to collect the customer's postal code during checkout |
+</Accordion>
+
+### Manually Configured Gateways
+
+These gateways require you to enter API credentials directly. Most provide separate fields for test and live credentials.
+
+<Accordion title="Adyen">
+  Adyen uses an embedded checkout form (Drop-in component) and requires webhook configuration for payment confirmation.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **API key** | Your Adyen API key from the Adyen dashboard |
+  | **Merchant account** | Your Adyen merchant account name |
+  | **Client key** | Domain-specific client key for front-end validation |
+  | **HMAC key** | Used for webhook signature verification |
+  | **Order reference prefix** | Optional prefix added to payment references for reconciliation |
+  | **Live URL prefix** | (Live only) Your live endpoint prefix from Adyen |
+
+  **Capabilities:**
+  - MOTO payments (enable the **MOTO** toggle)
+  - Webhook-based payment confirmation — the gateway settings display the webhook URL you need to configure in your Adyen dashboard
+
+  <Note>
+  Adyen requires you to manually configure webhooks in your Adyen dashboard. The webhook URL is displayed in the gateway settings modal — copy this URL and add it as a Standard webhook in Adyen.
+  </Note>
+</Accordion>
+
+<Accordion title="Revolut">
+  Revolut uses a redirect-based payment flow — customers are redirected to Revolut's hosted payment page to complete their payment.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Public key** | Your Revolut public API key |
+  | **Secret key** | Your Revolut secret API key |
+
+  **Capabilities:**
+  - Webhook-based payment confirmation
+  - Webhook management directly from the gateway settings (view, delete, and restore registered webhooks)
+</Accordion>
+
+<Accordion title="Worldpay">
+  Worldpay redirects customers to a hosted payment page. It supports separate credential sets for standard (ecommerce) and MOTO transactions.
+
+  **Credentials (test and live, for both ECOM and MOTO):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Username** | Your Worldpay API username |
+  | **Password** | Your Worldpay API password |
+  | **Installation ID** | Your Worldpay installation identifier |
+  | **Merchant code** | Your Worldpay merchant code |
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **MOTO enabled** | Enables mail order / telephone order payments with separate MOTO credentials |
+  | **Proceed when authorised** | Controls payment authorisation handling behaviour |
+</Accordion>
+
+<Accordion title="Nuvei">
+  Nuvei uses an embedded checkout form and supports Google Pay. It requires minimal configuration.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Merchant site ID** | Your Nuvei merchant site identifier |
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **Statement descriptor** | Text that appears on cardholder statements (max 25 characters) |
+
+  **Capabilities:**
+  - Google Pay support
+  - Webhook-based payment confirmation
+  - MOTO payments (enabled automatically)
+</Accordion>
+
+<Accordion title="Authorize.NET">
+  Authorize.NET processes payments via server-side API calls using the Accept.js SDK for secure card tokenisation.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **API Login ID** | Your Authorize.NET API login identifier |
+  | **Transaction Key** | Your Authorize.NET transaction key |
+</Accordion>
+
+<Accordion title="QuickPay">
+  QuickPay redirects customers to a hosted payment page for card entry.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **API key** | Your QuickPay API key |
+</Accordion>
+
+<Accordion title="Tap">
+  Tap processes payments via server-side API calls and is commonly used in the Middle East.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Secret API key** | Your Tap secret API key |
+  | **Publishable API key** | Your Tap publishable API key |
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **Transaction mode** | Choose between **Charge** (immediate capture) or **Authorize** (capture later) |
+  | **Allow currency conversion** | Whether Tap should convert currencies automatically |
+</Accordion>
+
+<Accordion title="SimplePay">
+  SimplePay is a Hungarian payment gateway that redirects customers to a hosted payment page. It supports multiple currencies with separate credentials per currency.
+
+  **Credentials (per currency — HUF, EUR, USD, and SZEP):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Merchant ID** | Your SimplePay merchant identifier for this currency |
+  | **Secret key** | Your SimplePay secret key for this currency |
+
+  **Capabilities:**
+  - SZEP card support (Hungarian employee benefit cards) — only available for HUF currency transactions
+
+  <Note>
+  Each currency requires its own merchant ID and secret key pair. If you only accept payments in one currency, you only need to configure credentials for that currency.
+  </Note>
+</Accordion>
+
+<Accordion title="Ryft">
+  Ryft connects via an email-based account linking flow and uses webhooks for payment confirmation.
+
+  **Configuration:**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Email** | The email address associated with your Ryft account. The platform links your sub-account automatically. |
+
+  **Settings:**
+
+  | Setting | Description |
+  |---------|-------------|
+  | **Billing address collection** | Choose from: none, minimum, or full billing address collection |
+</Accordion>
+
+<Accordion title="Curlec">
+  Curlec (powered by Razorpay) processes payments via server-side API calls with support for platform/marketplace payment models.
+
+  **Configuration (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Funds held by** | Choose whether funds are held by the **Platform** or the **Merchant** |
+  | **Account ID** | (If Merchant selected) Your Curlec/Razorpay account identifier |
+</Accordion>
+
+<Accordion title="Hyperpay">
+  Hyperpay supports multiple currencies with per-currency entity configurations. It's commonly used in the Middle East and North Africa.
+
+  **Configuration (per currency):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Access token** | Your Hyperpay access token for this currency |
+  | **Entities** | One or more payment entities, each with an entity ID, label, and card brand channels (Visa, Mastercard, Apple Pay, Google Pay) |
+
+  **Capabilities:**
+  - Apple Pay and Google Pay (configurable per entity)
+  - Multiple entities per currency for routing payments to different merchant accounts
+
+  <Note>
+  Hyperpay requires separate configuration for each currency you accept. Within each currency, you can configure multiple entities to support different card brands or payment channels.
+  </Note>
+</Accordion>
+
+<Accordion title="M-Pesa">
+  M-Pesa is a mobile money payment method used primarily in East Africa (Kenya). Customers receive a push notification on their phone to authorise the payment.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Service provider code** | Your M-Pesa service provider code |
+  | **Public key** | Your M-Pesa public key |
+  | **API key** | Your M-Pesa API key |
+  | **Security credential** | Your M-Pesa security credential |
+  | **Initiator credential** | Your M-Pesa initiator credential |
+
+  The customer enters their M-Pesa phone number at checkout and receives a push notification to confirm the payment on their device.
+</Accordion>
+
+<Accordion title="DPO Pay">
+  DPO Pay (formerly 3G Direct Pay) redirects customers to a hosted payment page. It's used across Africa and the Middle East.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Company token** | Your DPO Pay company token |
+  | **Service type** | Your DPO Pay service type identifier |
+  | **Base URL** | The DPO Pay API base URL |
+  | **Pay endpoint** | The DPO Pay payment endpoint URL |
+</Accordion>
+
+<Accordion title="Onvo">
+  Onvo uses an embedded payment form via its JavaScript SDK.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Base URL** | The Onvo API base URL (e.g. `https://api.onvopay.com`) |
+  | **SDK URL** | The Onvo SDK URL (e.g. `https://sdk.onvopay.com/sdk.js`) |
+  | **Public key** | Your Onvo public key |
+  | **Secret key** | Your Onvo secret key |
+</Accordion>
+
+<Accordion title="Barclays ePDQ">
+  Barclays ePDQ uses a form POST approach — an encrypted form is submitted to the Barclays payment endpoint.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **PSPID** | Your Barclays ePDQ payment service provider ID |
+  | **SHA-IN passphrase** | Used to sign outgoing payment requests |
+  | **SHA-OUT passphrase** | Used to verify incoming payment responses |
+  | **User ID** | Your Barclays ePDQ user ID |
+  | **Password** | Your Barclays ePDQ password |
+</Accordion>
+
+<Accordion title="PayTabs">
+  PayTabs redirects customers to a hosted payment page. It requires the customer's billing address at checkout.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Profile ID** | Your PayTabs profile identifier |
+  | **Server key** | Your PayTabs server key |
+  | **Client key** | Your PayTabs client key |
+</Accordion>
+
+<Accordion title="Pay Retailers">
+  Pay Retailers uses a form POST approach and supports a variety of local payment methods across Latin America, including cash payments, online bank transfers, and credit cards. It requires the customer's billing address at checkout.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Commerce ID** | Your Pay Retailers commerce identifier |
+  | **API key** | Your Pay Retailers API key |
+</Accordion>
+
+<Accordion title="Netpay">
+  Netpay processes payments via server-side API calls with 3D Secure support. It is a Mexico-based gateway and requires the customer's billing address and phone number at checkout.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **API key** | Your Netpay API key |
+  | **Secret key** | Your Netpay secret key |
+  | **Store ID** | Your Netpay store identifier |
+</Accordion>
+
+<Accordion title="Transbank">
+  Transbank (Webpay Plus) is a Chile-specific gateway that uses a form POST approach via the Webpay SDK.
+
+  **Credentials:**
+  - **Test mode:** Test credentials are automatically configured — no manual entry needed
+  - **Live mode:** Enter your **Commerce code** and **API key**
+</Accordion>
+
+<Accordion title="PowerTranz">
+  PowerTranz (First Atlantic Commerce) processes payments via server-side API calls with 3D Secure 2.0 support. It is commonly used in the Caribbean.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Merchant ID** | Your PowerTranz merchant identifier |
+  | **Processing password** | Your PowerTranz processing password |
+  | **Gateway key** | (Optional) Additional security key |
+</Accordion>
+
+<Accordion title="Bloomin">
+  Bloomin uses a form POST approach with optional 3D Secure support. It requires the customer's billing address at checkout.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Merchant ID** | Your Bloomin merchant identifier |
+  | **Terminal ID** | Your Bloomin terminal identifier |
+  | **Secret key** | Your Bloomin secret key |
+</Accordion>
+
+<Accordion title="Banorte">
+  Banorte uses a form POST approach and is a Mexico-based gateway. It requires the customer's billing address at checkout.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Merchant ID** | Your Banorte merchant identifier |
+  | **Terminal ID** | Your Banorte terminal identifier |
+  | **User** | Your Banorte API username |
+  | **Password** | Your Banorte API password |
+</Accordion>
+
+## Billing Address and Phone Requirements
+
+Some gateways require customer billing information at checkout. When you enable one of these gateways, the relevant fields are automatically added to the checkout flow.
+
+| Requirement | Gateways |
+|-------------|----------|
+| **Billing address required** | PayTabs, Pay Retailers, Bloomin, Banorte, Nuvei |
+| **Billing address and phone number required** | Netpay |
+
+<Note>
+Ryft also supports billing address collection but makes it configurable — you can choose none, minimum, or full address collection from the gateway settings.
+</Note>
+
 ## Special Gateway Capabilities
 
 ### MOTO Payments
 
-**Mail Order / Telephone Order (MOTO)** payments allow box office staff to process card payments by manually entering card details provided over the phone or by mail. This is supported by **Stripe** and **Adyen**.
+**Mail Order / Telephone Order (MOTO)** payments allow box office staff to process card payments by manually entering card details provided over the phone or by mail. Staff enter the card number, expiry date, and CVV directly into the box office checkout.
 
-MOTO capability may need to be enabled on your gateway account — contact your payment gateway account manager to confirm MOTO is available.
+MOTO is supported by:
+- **Stripe** — enable the **MOTO** toggle in gateway settings
+- **Adyen** — enable the **MOTO** toggle in gateway settings
+- **Worldpay** — requires separate MOTO credentials (username, password, installation ID, and merchant code)
+- **Nuvei** — MOTO is enabled automatically
+
+<Note>
+MOTO capability may need to be enabled on your gateway account before it can be used. Contact your payment gateway provider to confirm MOTO is available on your account.
+</Note>
 
 ### Terminal Payments
 
-**Stripe** supports physical card terminal integration, allowing customers to tap or insert their card at a connected terminal device for in-person payments.
+Physical card terminal integration allows customers to tap or insert their card at a connected terminal device for in-person payments. Currently, only **Stripe** supports terminal payments through Stripe Terminal.
 
-## Reseller-Managed Gateways
+To set up terminal payments:
 
-In some configurations, your reseller may manage gateway credentials on your behalf. When this is the case:
+1. Enable the **Terminal** toggle in your Stripe gateway settings
+2. From the box office, select or register your card reader device
+3. Wait for the reader to connect and any firmware updates to apply
+4. Process payments by selecting the terminal payment method at checkout
 
-- The reseller connects the gateway at the platform level
-- Your company uses the reseller's credentials for processing
+The terminal supports tap (contactless), chip insert, and swipe payments. In Canada, **Interac** debit payments can also be accepted on the terminal when the Interac toggle is enabled.
+
+<Note>
+In demo mode, you can use a simulated card reader for testing. Enter a Stripe Terminal test card number to simulate different payment outcomes.
+</Note>
+
+### Apple Pay and Google Pay
+
+Apple Pay and Google Pay are supported through **Stripe** and appear as wallet payment options within the embedded payment form when available. Customers using a supported device and browser see the wallet buttons alongside the standard card entry fields.
+
+**Hyperpay** also supports Apple Pay and Google Pay, configured per entity within the gateway settings.
+
+Your shop domain must be registered for wallet payments to work. The platform handles Stripe domain registration automatically. For Apple Pay specifically, the domain verification file must be accessible at `/.well-known/apple-developer-merchantid-domain-association` — this is served automatically for standard setups, but custom domains may need additional configuration. You can upload a custom Apple Pay verification certificate from **Settings > Payment** under **Apple Pay domains**.
+
+### Local Payment Methods
+
+Several gateways support region-specific payment methods beyond standard cards:
+
+| Gateway | Local methods | Region |
+|---------|--------------|--------|
+| **Stripe** | OXXO, Klarna, Afterpay/Clearpay, Affirm, iDEAL, Bancontact, EPS, P24, GrabPay, FPX, Alipay, WeChat Pay, Cash App, Swish | Global (currency-dependent) |
+| **Pay Retailers** | Cash payments, online bank transfers | Latin America |
+| **M-Pesa** | Mobile money transfer | East Africa |
+| **SimplePay** | SZEP cards (employee benefit) | Hungary |
+
+Local payment methods on Stripe are enabled from the gateway settings under **Payment method types**. Each method is currency-restricted — for example, OXXO only appears for MXN transactions, iDEAL only for EUR. The platform automatically filters which methods are shown at checkout based on the order currency.
+
+<Note>
+OXXO payments are asynchronous — the customer receives a voucher to pay at a convenience store. The order moves to **Awaiting local payment** status until the payment is confirmed via webhook. The voucher expiry can be configured from 1 to 7 days (default: 3 days).
+</Note>
+
+### Saved Cards
+
+**Stripe** is currently the only gateway that supports saved cards. When a customer checks the **Save this card for future checkouts** option during payment, their card details are securely stored by Stripe. On subsequent checkouts, the customer sees their saved cards and can select one rather than re-entering card details.
+
+Saved cards are stored per customer. The platform creates a Stripe Customer object for each customer who saves a card, linking their saved payment methods to their account.
+
+## Platform-Managed Gateways
+
+In some configurations, your account manager may manage gateway credentials on your behalf. When this is the case:
+
+- The account manager connects the gateway at the platform level
+- Your company uses the platform credentials for processing
 - You may not see credential fields or payment mode toggles in your settings
 
-Gateways that support reseller-level management include Stripe, SumUp, PayPal, Ryft, Curlec, and Nuvei.
+Gateways that support platform-level management include **Stripe**, **SumUp**, **PayPal**, **Ryft**, **Curlec**, and **Nuvei**.
 
 ## Troubleshooting
 
@@ -134,9 +587,14 @@ Common issues when configuring gateways:
 | Gateway enabled but payments fail | Payment mode mismatch — live credentials in demo mode (or vice versa). |
 | Gateway not appearing in checkout | Gateway is connected but not enabled for the relevant channel (shop or box office). |
 | Billing address errors at checkout | A gateway that requires billing address is enabled but the checkout form is not collecting it. This is handled automatically, but custom checkout implementations may need updating. |
+| Wallet payments (Apple/Google Pay) not appearing | Domain not registered — this usually resolves automatically on first payment attempt. Check that the Apple Pay verification file is accessible for custom domains. |
+| MOTO option not available in box office | MOTO toggle not enabled in gateway settings, or MOTO not enabled on your gateway account. |
+| Terminal reader not connecting | Ensure the reader is powered on, connected to the internet, and up to date with firmware. Try reconnecting from the box office. |
 
 ## Related
 
 - [Introduction](/core-platform/payments/introduction)
 - [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
 - [Split Payments](/core-platform/payments/split-payments)
+- [Deposit Payments](/core-platform/payments/deposit-payments)
+- [Invoice Payments](/core-platform/payments/invoice-payments)
