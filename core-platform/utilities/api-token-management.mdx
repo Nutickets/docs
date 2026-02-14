@@ -32,6 +32,8 @@ Tokens authenticate API requests using the `Authorization` header:
 Authorization: Bearer {your-token}
 ```
 
+For programmatic authentication, use the [Retrieve API Token](/api-reference/authentication/retrieve-api-token) endpoint to obtain a token, and the [Retrieve Authenticated User](/api-reference/authentication/retrieve-authenticated-user) endpoint to verify your identity.
+
 Each token inherits the permissions and visibility groups of the user who created it. This means:
 - The token can access the same data you can see in the admin panel
 - The token is subject to the same permission restrictions as your account

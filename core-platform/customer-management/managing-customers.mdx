@@ -5,7 +5,7 @@ description: "Find, view, and edit customer profiles from the admin area — inc
 
 ## Overview
 
-Every person who creates an account or is added through box office, data imports, or the API has a customer record in the admin area. The customer management section gives admins a central view of each customer's profile, purchase history, account balances, and connected data — along with tools to edit details, add notes, and take actions like creating orders or merging duplicates.
+Every person who creates an account or is added through box office, data imports, or the [API](/api-reference/customers/create-customer) has a customer record in the admin area. The customer management section gives admins a central view of each customer's profile, purchase history, account balances, and connected data — along with tools to edit details, add notes, and take actions like creating orders or merging duplicates.
 
 Navigate to the customer list from the main admin navigation. If [customer groups](/core-platform/customer-management/customer-groups) are enabled, the page includes tabs to switch between **Customers** and **Customer Groups**.
 
@@ -168,6 +168,8 @@ Click **Submit** to save. The form validates all fields before submitting. If va
 <Note>
 Editing a customer's name or email updates their user account — this affects how they log in and how their name appears on all existing orders and purchases.
 </Note>
+
+For programmatic customer management, use the [Customers](/api-reference/customers/retrieve-customers) API to create, retrieve, update, and delete customer records.
 
 ## Related Pages
 

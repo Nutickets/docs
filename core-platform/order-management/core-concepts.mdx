@@ -108,6 +108,8 @@ You can also search by order reference, customer name, or email using the search
 
 Customers view their orders under **My Account > Orders**. This shows completed orders with their reference, completion date, and status. Customers can open any order to view details, access their tickets, or take actions like modifying, refunding, or transferring items.
 
+For programmatic access, use the API to [retrieve orders](/api-reference/orders/retrieve-orders), [retrieve a specific order](/api-reference/orders/retrieve-order), or [list individual order items](/api-reference/orders/retrieve-order-items).
+
 ## The Order Detail Page
 
 Opening an order in admin shows a comprehensive view of the purchase.
@@ -207,6 +209,8 @@ Find orders awaiting approval under **Sales > Reservations**, or filter the main
 <Note>
 If some items are approved and others rejected, only the approved items proceed. The customer receives an email explaining which items were approved and which were rejected (with reasons).
 </Note>
+
+Order items can also be approved or rejected via the [Approve/Reject Order Items](/api-reference/orders/approve-reject-order-items) API endpoint.
 
 ### Rejecting a Reservation
 
