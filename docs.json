@@ -358,30 +358,6 @@
         ]
       },
       {
-        "tab": "Partner Hub",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": ["partner-hub/get-started/introduction"]
-          },
-          {
-            "group": "Topics",
-            "pages": [
-              "partner-hub/get-started/feature-flags",
-              "partner-hub/get-started/waiting-rooms",
-              "partner-hub/get-started/api-access",
-              "partner-hub/get-started/reseller-fees",
-              "partner-hub/get-started/company-invoices",
-              "partner-hub/get-started/parent-child-companies",
-              "partner-hub/get-started/self-service-registration",
-              "partner-hub/get-started/plans-and-packages",
-              "partner-hub/get-started/gateway-settings",
-              "partner-hub/get-started/integration-settings"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Mobile Apps",
         "groups": [
           {
@@ -430,22 +406,6 @@
           {
             "group": "About",
             "pages": ["api-reference/introduction", "api-reference/changelog"]
-          }
-        ]
-      },
-      {
-        "tab": "Partner API Reference",
-        "openapi": {
-          "source": "/partner-api-reference/openapi.json",
-          "directory": "/partner-api-reference"
-        },
-        "groups": [
-          {
-            "group": "About",
-            "pages": [
-              "partner-api-reference/introduction",
-              "partner-api-reference/changelog"
-            ]
           }
         ]
       },
@@ -500,8 +460,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Login",
+      "href": "https://admin.nuwebgroup.com/login"
     }
   },
   "contextual": {

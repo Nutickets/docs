@@ -17,7 +17,7 @@ const APIS = [
   {
     name: 'Partner API',
     source: 'https://api.nuwebgroup.com:8443/v1/partner/api-docs.json',
-    output: 'partner-api-reference/openapi.json'
+    output: '../mintlify-hub/partner-api-reference/openapi.json'
   }
 ];
 
@@ -65,7 +65,7 @@ async function main() {
       console.error(`❌ Failed to process ${api.name}: ${error.message}`);
     }
   }
-  
+
   console.log('\n✨ Sync & Build complete.');
 }
 
@@ -97,8 +97,11 @@ function processSpec(spec, outputDir) {
   const title = spec.info?.title || 'API Reference';
   const fullDescription = spec.info?.description || '';
 
+  // Strip the repo prefix for link generation (links are relative to each site root)
+  const siteRelativeDir = outputDir.replace(/^\.\.\/mintlify-hub\//, '');
+
   // 1. Build Map
-  const endpointMap = buildEndpointMap(spec, outputDir);
+  const endpointMap = buildEndpointMap(spec, siteRelativeDir);
 
   // 2. Split Description
   const splitRegex = /##\s?Changelog/i;
@@ -137,8 +140,8 @@ function buildEndpointMap(spec, outputDir) {
     Object.keys(methods).forEach(method => {
       const operation = methods[method];
       const methodUpper = method.toUpperCase();
-      const lookupKey = `${methodUpper} ${pathKey}`; 
-      
+      const lookupKey = `${methodUpper} ${pathKey}`;
+
       // 1. Determine Tag (Subfolder)
       let tagSlug = '';
       if (operation.tags && operation.tags.length > 0) {
@@ -147,7 +150,7 @@ function buildEndpointMap(spec, outputDir) {
 
       // 2. Determine Slug (SUMMARY ONLY)
       let opSlug = '';
-      
+
       if (operation.summary) {
         // Priority 1: Use Summary (e.g. "Retrieve Wallet Transactions" -> "retrieve-wallet-transactions")
         opSlug = toKebabCase(operation.summary);
@@ -165,7 +168,7 @@ function buildEndpointMap(spec, outputDir) {
       map.set(lookupKey, link);
     });
   });
-  
+
   return map;
 }
 
@@ -184,7 +187,7 @@ function generateChangelogMdx(rawText, endpointMap) {
       if (endpointMap.has(`${method} ${path}`)) {
         link = endpointMap.get(`${method} ${path}`);
       }
-      
+
       // ATTEMPT 2: Strip Version Prefix
       if (!link && path.startsWith('/v')) {
         const cleanPath = path.replace(/^\/v\d+/, '');
