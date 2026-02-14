@@ -1,14 +1,125 @@
 ---
 title: "Supported Currencies"
-description: "Documentation for Supported Currencies"
+description: "The currencies available on the platform and how multi-currency support works for pricing, checkout, and reporting."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Supported Currencies** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The platform supports a wide range of currencies, enabling you to sell in the currency your customers expect. Each company selects which currencies to enable and designates one as the primary. Customers can switch currencies when browsing your shop, and each item can have independent pricing per currency.
+
+## Available Currencies
+
+The platform supports the following currencies (among others):
+
+| Currency | Code |
+|----------|------|
+| British Pound | GBP |
+| Euro | EUR |
+| US Dollar | USD |
+| Canadian Dollar | CAD |
+| Australian Dollar | AUD |
+| New Zealand Dollar | NZD |
+| Swiss Franc | CHF |
+| Danish Krone | DKK |
+| Norwegian Krone | NOK |
+| Swedish Krona | SEK |
+| Hungarian Forint | HUF |
+| Czech Koruna | CZK |
+| Polish Zloty | PLN |
+| Japanese Yen | JPY |
+| Chinese Yuan | CNY |
+| Hong Kong Dollar | HKD |
+| Singapore Dollar | SGD |
+| Malaysian Ringgit | MYR |
+| Mexican Peso | MXN |
+| Brazilian Real | BRL |
+| Argentine Peso | ARS |
+| Colombian Peso | COP |
+| Chilean Peso | CLP |
+| Peruvian Sol | PEN |
+| Costa Rican Colon | CRC |
+| Guatemalan Quetzal | GTQ |
+| Jamaican Dollar | JMD |
+| Barbadian Dollar | BBD |
+| UAE Dirham | AED |
+| Saudi Riyal | SAR |
+| Omani Rial | OMR |
+| Jordanian Dinar | JOD |
+| Ghanaian Cedi | GHS |
+| Turkish Lira | TRY |
+
+<Note>
+Some currencies display prices without decimal places (e.g. Japanese Yen, Hungarian Forint). The platform handles decimal precision automatically based on each currency's conventions.
+</Note>
+
+## Enabling Currencies for Your Company
+
+To configure which currencies your company uses:
+
+1. Navigate to company settings
+2. In the currencies section, select the currencies you want to enable
+3. Designate one currency as your **Primary currency**
+4. Save your changes
+
+### Primary Currency
+
+The primary currency is the default currency presented to customers before they customise their preferences. It is also used as the base currency in the admin panel for reporting and management.
+
+When you have multiple currencies enabled, prices for each item must be set in every enabled currency — either manually or via automatic conversion.
+
+## How Customers Switch Currencies
+
+Customers can select their preferred currency from the currency selector on your event shop. The platform determines which currency to use in this order:
+
+1. **Customer preference** — if the customer has previously selected a currency, it is remembered across visits
+2. **Session selection** — for guest customers, the most recent selection in the current session
+3. **Primary currency** — if no preference exists, the company's primary currency is used
+
+The customer's choice is saved so they see the same currency on future visits.
+
+<Warning>
+Changing currency empties the customer's basket, because items may have different prices or availability in the new currency. A notice explains: **You can shop in your preferred currency however some products may only be available in certain currencies. Changing your currency will empty your basket.**
+</Warning>
+
+## Multi-Currency Pricing
+
+When your company has multiple currencies enabled, each sale item needs pricing set for every currency. Items without pricing in a particular currency are hidden from customers shopping in that currency, with a message:
+
+> Not available in your selected currency
+
+Customers can click to switch to a currency where the item is available.
+
+### Automatic Currency Conversion (XE Integration)
+
+If the [XE integration](/core-platform/integrations/xe-exchange-rates) is enabled, secondary currency pricing is automatically calculated by converting your primary currency prices using current exchange rates. This removes the need to manually set prices in each currency.
+
+To use automatic conversion:
+
+- You must have at least two currencies enabled
+- Pricing can be regenerated at any time using **Regenerate secondary currency pricing** to reflect the latest exchange rates
+
+<Note>
+Automatically converted prices are based on the exchange rate at the time of conversion. They do not update continuously — you need to regenerate them to reflect rate changes.
+</Note>
+
+## Custom Currencies
+
+Companies with the custom currencies feature enabled can create non-standard currencies for specialised use cases such as tokens, credits, or points.
+
+Custom currencies:
+
+- Have a three-letter code you define (e.g. `TKN`)
+- Display without decimal places
+- Are specific to your company — they do not appear for other companies
+
+## Currency and Discount Codes
+
+Discount codes can be restricted to specific currencies. When a discount code is currency-restricted, it only applies when a customer is shopping in the matching currency. A minimum spend threshold can also be set per currency.
+
+If a customer applies a discount code while shopping in a different currency, they see:
+
+> This discount code is not valid for this currency.
+
+## EPOS Currencies
+
+For companies using EPOS (Electronic Point of Sale), specific currencies can be designated as EPOS currencies. This controls which currencies are available for transactions processed through the EPOS system, independently of which currencies are available in the online shop.

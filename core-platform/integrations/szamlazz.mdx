@@ -1,14 +1,173 @@
 ---
-title: "Szamlazz"
-description: "Documentation for Szamlazz"
+title: "Számlázz.hu"
+description: "Generate tax-compliant invoices and receipts for Hungarian transactions through the Számlázz.hu invoicing service."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Szamlazz** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The Számlázz.hu integration automates the generation of tax-compliant invoices and receipts required by Hungarian tax law. When enabled, the system creates invoices or receipts in Számlázz.hu for completed orders, handles payment confirmations, sends receipts by email, and generates corrective documents for refunds and cancellations.
+
+This integration is designed for companies operating in Hungary that need to issue legally compliant tax documents for their transactions.
+
+## Document Types
+
+The integration works with several types of tax documents:
+
+| Document | When it's created | Purpose |
+|----------|-------------------|---------|
+| **Invoice** | On order completion | Tax document with full buyer details, typically for B2B transactions or when a customer requests an invoice |
+| **Receipt** | On order completion | Simplified tax document for standard transactions |
+| **Corrective invoice** | On partial refund or cancellation | Adjusts a previously issued invoice with negative line items for the refunded amounts |
+| **Reverse invoice** | On full cancellation | Cancels an entire previously issued invoice |
+| **Reverse receipt** | On full cancellation | Cancels an entire previously issued receipt |
+
+## Configuration
+
+Configure the integration from **Settings > Számlázz Settings** in the admin area.
+
+### Credentials
+
+Choose one of two authentication methods:
+
+| Method | Fields |
+|--------|--------|
+| **API key** | A single API key from your Számlázz.hu account |
+| **Username and password** | Your Számlázz.hu account credentials |
+
+### Document Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Invoice number prefix** | Optional prefix for invoice numbers (max 5 characters, alphanumeric). Prepended to all generated invoice numbers. |
+| **Receipt number prefix** | Required prefix for receipt numbers (max 5 characters, alphanumeric). Prepended to all generated receipt numbers. |
+| **Invoice comment** | Custom text included on every generated invoice |
+| **Receipt email subject** | Subject line for receipt emails sent to customers via Számlázz.hu |
+| **Receipt email content** | Body text for receipt emails sent to customers via Számlázz.hu |
+
+### VAT Number Collection
+
+The **Collect VAT number** setting controls whether customers are prompted to enter a VAT number during checkout. When enabled, the checkout includes a step where customers can provide their company's tax information and choose their preferred document type.
+
+<Note>
+When the integration is enabled, customer **name** and **address** are automatically set to required in data capture settings. This ensures the information needed for tax documents is always collected during checkout.
+</Note>
+
+## Generation Modes
+
+Each order can use one of three document generation modes, controlling when (or whether) a tax document is created:
+
+| Mode | Behaviour |
+|------|-----------|
+| **Generate immediately** | The document is created automatically when the order is completed. Tax information must be provided during checkout. |
+| **Generate later** | Tax information is collected during checkout, but the document is not created immediately. It can be triggered later. |
+| **Do not generate** | No tax information is collected and no document is generated for this order. |
+
+Which modes are available depends on the customer's permissions — not all options may be visible to every customer.
+
+## Customer Checkout Experience
+
+When Számlázz.hu is enabled with VAT number collection, the checkout includes a tax information step where customers choose their document type and provide tax details.
+
+### Choosing a Document Type
+
+Customers choose between receiving an **invoice** or a **receipt** for their order. Invoices require a validated VAT number and an associated tax profile, while receipts do not.
+
+### Tax Profiles
+
+Tax profiles store a customer's business tax information for invoice generation. Each customer can maintain multiple tax profiles for different business entities.
+
+**Creating a tax profile:**
+
+1. Enter a VAT number
+2. The system looks up the company details via the Hungarian tax authority
+3. If the lookup succeeds, the company name and address are populated automatically
+4. Review and confirm the details
+
+**Hungarian VAT numbers** follow the format `XXXXXXXX-X-XX` (eight digits, a VAT code, and a two-digit county code). The system parses this format automatically.
+
+**Non-Hungarian VAT numbers** — such as `SI 71025456` — are also supported. These start with a country prefix and are handled separately from the Hungarian tax authority lookup.
+
+<Note>
+Group VAT codes (VAT code 5) are not accepted. If a VAT number has a group code, the profile is rejected with an explanation that group tax codes cannot be used.
+</Note>
+
+<Note>
+If the tax authority lookup fails (e.g. due to a service outage), the customer can enter the company address manually instead. The profile is saved with a note that it was not verified via the tax authority.
+</Note>
+
+### Selecting a Profile for an Order
+
+When requesting an invoice, customers select which of their saved tax profiles to use for the order. They can also create new profiles directly during checkout. Address details on a selected profile can be updated with a confirmation before the order is finalised.
+
+## Document Processing
+
+### Automatic Generation
+
+For orders set to **Generate immediately**, the system queues document creation after order completion. Documents are processed in the background:
+
+1. The invoice or receipt is created in Számlázz.hu with the order's line items and tax information
+2. **For invoices** — a payment confirmation is sent to Számlázz.hu recording the payment method used (bank card, cash, or SZÉP card)
+3. **For receipts** — an email is sent to the customer via Számlázz.hu using the configured email subject and content
+
+Each line item includes the correct tax rate mapped from the order's tax bands. Discounts are applied as separate negative line items on the document.
+
+### Processing Sequence
+
+Documents go through a defined sequence of operations:
+
+| Document type | Step 1 | Step 2 |
+|---------------|--------|--------|
+| **Invoice** | Create invoice in Számlázz.hu | Confirm payment in Számlázz.hu |
+| **Receipt** | Create receipt in Számlázz.hu | Send receipt email via Számlázz.hu |
+
+Each step must complete successfully before the next one begins.
+
+### Retry Handling
+
+The system automatically retries failed operations with exponential backoff, up to **5 attempts** per operation type. Orders that exceed the retry limit are marked as failed and require manual intervention.
+
+## Handling Refunds and Cancellations
+
+When an order with a Számlázz.hu document is refunded or cancelled, the system generates the appropriate corrective document:
+
+| Scenario | Document action |
+|----------|----------------|
+| **Partial refund** (invoice) | A **corrective invoice** is issued with negative line items for the refunded amounts |
+| **Full cancellation** (invoice) | A **reverse invoice** is issued, cancelling the original |
+| **Full cancellation** (receipt) | A **reverse receipt** is issued, cancelling the original |
+
+<Note>
+Corrective invoices are only generated for invoices, not receipts. Partial refunds on orders with receipts do not trigger a corrective document.
+</Note>
+
+## Managing Failed Requests
+
+If document creation or processing fails (e.g. due to a Számlázz.hu service outage or data issue), administrators can retry failed operations from the order management area in the admin.
+
+Retryable operations:
+- Creating invoices
+- Confirming invoice payments
+- Creating receipts
+- Sending receipt emails
+
+Each failed request is logged with its error details for troubleshooting.
+
+## Permissions
+
+| Permission | What it controls |
+|------------|------------------|
+| **Can issue invoices** | Whether the customer can request an invoice during checkout |
+| **Can issue receipts** | Whether the customer can request a receipt during checkout |
+| **Can opt out** | Whether the customer can choose not to generate any document |
+
+These permissions determine which generation modes and document types are available to each customer during checkout.
+
+## Restrictions
+
+- When the integration is enabled, customer **name** and **address** are forced to required in data capture settings — this cannot be overridden
+- The integration requires either a valid **API key** or **username and password** for Számlázz.hu
+- **Receipt number prefix** is required when the integration is enabled
+- Documents are processed in the background — there may be a delay between order completion and document availability in Számlázz.hu
+- Failed documents retry up to **5 times** with exponential backoff before being marked as failed
+- Számlázz.hu credentials may be locked after initial configuration if a restriction is in place, preventing further changes
+- The integration disables global basket mode (multi-event baskets) when active

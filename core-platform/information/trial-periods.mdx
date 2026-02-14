@@ -1,14 +1,63 @@
 ---
 title: "Trial Periods"
-description: "Documentation for Trial Periods"
+description: "How trial accounts work, what happens when they expire, and how to get your account activated."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Trial Periods** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Trial periods give companies time-limited access to the platform. A reseller creates a trial account with an expiration date, and users can access all features normally until that date passes. When a trial expires, access is restricted until the reseller activates the account.
+
+## While the Trial Is Active
+
+During an active trial, the platform works normally with no restrictions on features. As the expiration approaches, a banner appears at the top of the admin panel:
+
+> Your **trial period** will expire in **[time remaining]**. Please contact **[reseller name]** to activate your account, or to extend the trial period.
+
+The remaining time is displayed in the most appropriate unit — days, hours, or minutes — depending on how close the expiration is.
+
+## What Happens When a Trial Expires
+
+When a trial period ends, access is restricted across the platform:
+
+### Admin Panel
+
+Users are blocked from accessing the admin panel for the expired company. What happens next depends on whether the user has access to other companies:
+
+| Situation | Behaviour |
+|-----------|-----------|
+| User has access to other active companies | Automatically redirected to another company with a notification: "The trial period for company '[expired company]' has expired. You have automatically been redirected to company '[available company]'." |
+| User has no other companies | Shown an error page: "Your trial account has expired. Please contact [reseller name] to activate your account." |
+
+### API Access
+
+API requests to an expired trial company are blocked with a 403 Forbidden response. Any integrations relying on the API will stop working until the account is activated.
+
+### Company Switching
+
+Users cannot [switch](/core-platform/information/company-switching) to a company with an expired trial. Attempting to do so displays:
+
+> You cannot switch to company "[company name]", because its trial has expired.
+
+The expired company remains visible in the company list but cannot be selected.
+
+## Trial Company Resources
+
+Companies created as trials start with a limited set of resources:
+
+- A single currency
+- A single language
+- A single country
+- The reseller's available payment gateways
+
+These restrictions keep the setup simple for evaluation purposes. Once the trial is activated, additional currencies, languages, and countries can be enabled.
+
+## Extending or Activating a Trial
+
+Trial periods are managed by your reseller. To continue using the platform after a trial expires, contact your reseller to either:
+
+- **Extend the trial** — the expiration date is pushed forward, restoring access
+- **Activate the account** — the expiration is removed entirely, converting the trial into a full account with no time limit
+
+<Note>
+Activating an account does not change any data, settings, or content created during the trial period. Everything you set up during the trial is preserved.
+</Note>

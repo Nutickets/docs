@@ -82,7 +82,14 @@ You must investigate **all** of the following:
    - Match documentation terminology to what users actually see
    - Check for help text that explains features
 
-4. **Related features**
+4. **Mobile apps (`mobile-apps/`)**
+   - The platform has three mobile apps: **Access Control** (entry), **Box Office** (mbo), and **EPOS** (formerly cashless), located in `mobile-apps/{android|ios}/`.
+   - **Android is the primary platform.** Documentation should centre around Android app capabilities. Two of the apps are available on iOS but those builds are heavily outdated — document what is missing or differs on iOS rather than treating iOS as a primary source.
+   - Mobile apps communicate with the main codebase via APIs — trace the API endpoints they consume to understand what data flows between the platform and the apps.
+   - When documenting any feature that involves mobile apps (and especially when writing pages under `mobile-apps/`), explore the relevant Android codebase to understand screens, workflows, permissions, and offline behaviour.
+   - Check for feature parity gaps between the Android and iOS implementations and note them in the documentation.
+
+5. **Related features**
    - Features rarely exist in isolation — trace all connections
    - If documenting "timeslots", also understand how they interact with access control, capacity, seating, etc.
    - Follow foreign keys, imports, and service dependencies
@@ -99,6 +106,7 @@ You must investigate **all** of the following:
 - Check for role-based or permission-based variations.
 - Understand what happens in edge cases (empty states, limits, errors).
 - **Read exception classes.** Exception classes often enumerate every distinct way a feature can fail, each mapped to a lang key with the exact user-facing error message. These are a goldmine for documenting eligibility rules, validation errors, and blockers.
+- **Trace mobile app involvement.** If the feature touches any of the three mobile apps (Access Control, Box Office, EPOS), explore the Android codebase in `mobile-apps/android/` to understand the mobile-side implementation. Follow the API endpoints the app calls back to the main codebase to get the full picture. For `mobile-apps/` documentation pages, the Android code is your primary source of truth — iOS should only be referenced to note gaps or differences.
 
 <Note>
 **Never assume, guess, or extrapolate.** If you haven't seen it in the code, don't document it. Don't guess at field names — read the actual form components and lang files. Don't document what logically "should" exist — document what does exist. Don't fill gaps from memory of similar systems — this platform has its own implementation.
@@ -243,6 +251,25 @@ Write from the user's perspective, not from the implementation's perspective. Av
 - **Prefer:** "Groups created across a schedule are automatically linked, so future bulk updates can target all related groups at once"
 
 If an internal concept has no user-facing equivalent, describe the *behaviour* the user experiences rather than the *mechanism* behind it.
+
+### Avoiding "Reseller"
+
+The word **reseller** is an internal term that should generally be avoided in documentation. Some resellers do not want their customers to know they are working with a reseller, so exposing this term can be inappropriate.
+
+Use context-appropriate alternatives instead:
+
+| Context | Use instead of "reseller" |
+|---------|--------------------------|
+| Someone the user contacts for help or account changes | **account manager** — e.g. "contact your account manager to activate your account" |
+| Fees, billing, or platform-level infrastructure | **platform** — e.g. "platform fees", "platform Stripe account" |
+| Settings or features controlled above the company level | **account manager** — e.g. "this setting is managed by your account manager" |
+
+- **Avoid:** "Contact your reseller to extend the trial period."
+- **Prefer:** "Contact your account manager to extend the trial period."
+- **Avoid:** "The reseller's Stripe account is used for processing."
+- **Prefer:** "The platform Stripe account is used for processing."
+
+When reviewing drafts, do a pass to replace any instances of "reseller" with the appropriate alternative.
 
 ### UI Terminology Precedence (Non-Negotiable)
 
@@ -393,6 +420,7 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Read the lang files — extract exact UI labels, tooltips, and help text.
 - [ ] Map relationships — what other features connect to this?
 - [ ] Check for feature flags, role-based behaviour, and permission gates.
+- [ ] If the feature involves mobile apps, explore the Android codebase and note iOS gaps.
 
 ### Writing Phase
 

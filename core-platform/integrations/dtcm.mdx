@@ -1,14 +1,160 @@
 ---
 title: "DTCM"
-description: "Documentation for DTCM"
+description: "Synchronise events, seating plans, and orders with the Dubai Tourism and Commerce Marketing (DTCM) system for regulatory compliance."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Dtcm** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The DTCM integration connects the platform with Dubai's Tourism and Commerce Marketing authority's ticketing system. Events registered with DTCM are synchronised for pricing, seating availability, and order processing. When customers purchase tickets for a DTCM event, the order is submitted to DTCM for official ticket issuance, and barcodes are synchronised back for access control.
+
+This integration is required for events operating under DTCM's regulatory framework in Dubai.
+
+## How It Works
+
+The integration operates across two main workflows:
+
+**Event setup** — Events are linked to DTCM performances. Pricing, stock availability, and seating plans are synchronised from DTCM into the platform.
+
+**Order processing** — When a customer purchases items for a DTCM event, the order is submitted to DTCM. DTCM issues the official tickets and provides barcodes, which are synchronised back to the order items.
+
+## Configuration
+
+Configure the integration from **Settings > DTCM Settings** in the admin area.
+
+| Setting | Description |
+|---------|-------------|
+| **Enabled** | Toggle the DTCM integration on or off |
+| **Mode** | Switch between **Sandbox** (testing) and **Live** (production) environments. Each mode uses a separate DTCM API environment. |
+| **API Key** | API key for authenticating requests |
+| **Token API Key** | Token-based authentication key |
+| **Client ID** | OAuth client identifier (required when enabled) |
+| **Client Secret** | OAuth client secret (required when enabled) |
+| **Seller Code** | Your DTCM seller/merchant code (required when enabled) |
+
+<Note>
+Sandbox and live modes use completely separate API environments. Automatic synchronisation only includes events whose DTCM mode matches the company's current mode setting — a sandbox event is not synced when the company is set to live, and vice versa.
+</Note>
+
+### Required Data Capture
+
+When DTCM is enabled, the following customer data capture fields are automatically set to required:
+
+- Customer name
+- Customer address
+- Customer phone number
+- Customer nationality
+
+This information is needed to create customer records in DTCM when processing orders.
+
+## Linking Events to Performances
+
+Before orders can be processed through DTCM, each event must be linked to a DTCM performance.
+
+1. Mark the event as a DTCM event (this is set during event creation and cannot be changed afterwards)
+2. Open the event dashboard
+3. Open the DTCM synchronisation modal
+4. Enter the **performance code** from DTCM
+5. Click **Link with DTCM**
+
+The system validates the performance code against the DTCM API, then synchronises the event data in the background:
+
+- **Pricing** — sale item groups and sale items are created or updated to match DTCM's price types and categories
+- **Availability** — stock levels for each price category are set from DTCM's availability data
+- **Seating** (for seated events) — seat availability is synchronised block by block from the DTCM performance map
+
+### Seating Plan Validation
+
+For seated events, the platform's seating plan must match the DTCM performance map. When linking, the system compares blocks, rows, seats, and price bands between the two systems.
+
+If mismatches are found, they are recorded and can be reviewed from the event dashboard:
+
+| Mismatch type | Meaning |
+|---------------|---------|
+| **Missing from internal** | A block, row, or seat exists in DTCM but not in the platform's seating plan |
+| **Missing from DTCM** | A block, row, or seat exists in the platform but not in the DTCM performance map |
+
+Price bands in the platform must also correspond to DTCM's price categories. If price bands are missing or don't match, the system flags these separately.
+
+Resolve mismatches by updating the internal seating plan to match the DTCM performance map, then trigger the sync again.
+
+<Note>
+Seating plan mismatches must be resolved before orders can be processed correctly. The system cannot match order items to DTCM seats if the plans don't align.
+</Note>
+
+## Order Processing
+
+When a customer completes an order containing DTCM event items, the order is processed through DTCM automatically.
+
+### Basket Creation
+
+Order items are grouped into **offers** following DTCM's rules:
+
+- Items are grouped by event, sale item, price band, and — for seated events — block and row
+- Adjacent seats in the same row are grouped into seat ranges (e.g. seats 1–3, 5–6)
+- Non-seated items are grouped separately
+
+A basket is created in DTCM and each offer is added to it.
+
+<Note>
+DTCM allows a maximum of **5 offers per basket**. The system groups items to stay within this limit.
+</Note>
+
+### Customer Registration
+
+A customer record is created or retrieved in DTCM using the order's customer data (name, email, phone, nationality, address, and date of birth where available).
+
+### Purchase and Barcode Sync
+
+Once the basket is ready and the customer exists in DTCM:
+
+1. The basket is purchased through the DTCM API, creating an official DTCM order
+2. After a short delay, barcodes are fetched from DTCM and applied to each order item
+3. For seated events, order items are matched to DTCM tickets by price type, price category, and seat location
+
+Barcode synchronisation runs with a short delay after purchase to allow DTCM to generate the barcodes. If some barcodes are not yet available, the system records a partial sync and can be retried.
+
+## Handling Refunds
+
+Refunds for DTCM orders are processed through the DTCM API:
+
+| Scenario | DTCM action |
+|----------|-------------|
+| **Full refund** | A reversal is issued for the entire DTCM order |
+| **Partial refund** | A partial reversal is issued for the specific items being refunded |
+
+If a refund fails in DTCM, the failure is recorded on the order for administrator review.
+
+## Synchronisation Status
+
+DTCM events display their synchronisation status on the event dashboard:
+
+| Status | Meaning |
+|--------|---------|
+| **Synchronising** | A sync is currently in progress |
+| **Synchronised** | The event is fully synced with DTCM — pricing, availability, and seating are up to date |
+| **Failed** | The sync encountered an error. The failure code and message provide details for troubleshooting. |
+
+### Manual Synchronisation
+
+To re-sync an event with DTCM at any time:
+
+1. Open the event dashboard
+2. Open the DTCM synchronisation modal
+3. Click **Sync with DTCM**
+
+This refreshes pricing, availability, and (for seated events) seat availability from DTCM.
+
+### Automatic Synchronisation
+
+A scheduled task runs periodically to sync all published DTCM events with future dates. This keeps pricing and availability up to date without manual intervention. Events are processed in batches to manage load.
+
+## Restrictions
+
+- The **DTCM event** flag is set during event creation and cannot be changed afterwards
+- **Discount codes** cannot be applied to DTCM items
+- **Fulfilment fees** are not supported for DTCM orders
+- Customer data capture for **name**, **address**, **phone**, and **nationality** is required and cannot be disabled when DTCM is active
+- Seated events require the internal seating plan to exactly match the DTCM performance map before orders can be processed
+- Orders are processed asynchronously — barcode synchronisation may take a few moments after purchase
+- The DTCM basket supports a maximum of **5 offers** — orders with more groupings than this cannot be processed
+- Automatic synchronisation only processes events whose DTCM mode (sandbox/live) matches the company's current mode setting

@@ -341,7 +341,8 @@
                   "core-platform/integrations/vatstack",
                   "core-platform/integrations/szamlazz",
                   "core-platform/integrations/dtcm",
-                  "core-platform/integrations/justgiving"
+                  "core-platform/integrations/justgiving",
+                  "core-platform/integrations/google-tag-manager"
                 ]
               }
             ]
@@ -356,6 +357,7 @@
               "core-platform/information/waiting-rooms",
               "core-platform/information/company-switching",
               "core-platform/information/wysiwyg",
+              "core-platform/information/google-tag-manager",
               "core-platform/information/supported-languages",
               "core-platform/information/supported-currencies"
             ]

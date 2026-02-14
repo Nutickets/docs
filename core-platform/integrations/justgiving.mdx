@@ -1,14 +1,128 @@
 ---
 title: "JustGiving"
-description: "Documentation for Justgiving"
+description: "Enable event attendees to create fundraising pages on JustGiving directly from their order."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Justgiving** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The JustGiving integration allows customers who purchase tickets to a fundraising event to create a personal JustGiving fundraising page directly from their order. Administrators configure fundraising settings per event — linking it to a JustGiving charity and optionally a campaign — and customers are then guided through creating and sharing their fundraising page after checkout.
+
+This is designed for:
+- Charity events where attendees raise money for a cause
+- Events linked to specific JustGiving charities or campaigns
+- Organisations that want to streamline the fundraising page creation process for their attendees
+
+## How It Works
+
+The integration connects two workflows:
+
+1. **Admin setup** — An administrator enables fundraising for an event, selects the charity, and configures fundraising details
+2. **Customer experience** — After purchasing tickets, the customer authenticates with JustGiving and creates a personal fundraising page linked to the event
+
+```
+Admin enables fundraising for event
+   └── Links to JustGiving charity + event/campaign
+
+Customer purchases tickets
+   └── Creates fundraising page from order
+       ├── Logs in or registers with JustGiving
+       ├── Chooses a personal page URL
+       └── Page created on JustGiving (background)
+           └── Customer shares their fundraising page
+```
+
+## Setting Up Fundraising
+
+To enable fundraising for an event:
+
+1. Navigate to the event in the admin area
+2. Go to **Fundraising Settings**
+3. Enable fundraising and select **Just Giving** as the provider
+4. Configure the fundraising details (see below)
+5. Save
+
+### Fundraising Details
+
+| Setting | Description |
+|---------|-------------|
+| **Charity ID** | The JustGiving charity ID. Validated against JustGiving when saved — the charity's logo is fetched and stored automatically. |
+| **Campaign ID** | Optional. Links fundraising pages to a specific JustGiving campaign. |
+| **Event on JustGiving** | Either provide an existing JustGiving event ID, or have the system create one for you. |
+| **Event type** | The category of event on JustGiving. Options: Running marathons, Treks, Walks, Cycling, Swimming, Triathlons, Parachuting / Skydives, Other sporting events. |
+| **Target amount** | The default fundraising target for each page, in the event's currency. |
+| **Gift Aid** | Whether fundraising pages can attract Gift Aid (UK tax relief on charitable donations). |
+| **Custom codes** | Up to 6 JustGiving custom codes for tracking and reporting purposes. |
+
+### Event on JustGiving
+
+You can either provide an existing **JustGiving event ID** to link to, or have the system create the event on JustGiving for you during setup. If you already have an event set up on JustGiving, use the existing ID to link fundraising pages to it.
+
+### Fundraising Images
+
+| Image type | Purpose |
+|------------|---------|
+| **Default image** | Header image displayed on customer-generated fundraising pages |
+| **Additional images** | Gallery images included on fundraising pages |
+
+Both image types support translations for multi-language events.
+
+<Note>
+When fundraising is enabled for an event, customer **name**, **title**, and **address** are automatically set to required in data capture settings. This information is needed to create JustGiving accounts for customers who don't already have one.
+</Note>
+
+## Customer Experience
+
+After purchasing tickets to a fundraising event, customers can create their fundraising page from the order details.
+
+### Authenticating with JustGiving
+
+Customers first need to sign in to or create a JustGiving account:
+
+1. **Enter email** — the system checks whether a JustGiving account exists for this email address
+2. **Existing users** — enter their JustGiving password to sign in
+3. **New users** — create a JustGiving account by setting a password and agreeing to JustGiving's terms of service and privacy policy
+
+<Note>
+JustGiving credentials are stored temporarily in the session for the duration of the fundraising page setup. They are cleared automatically once the page is successfully created.
+</Note>
+
+### Creating a Fundraising Page
+
+After authentication:
+
+1. Enter a **Page URL** — the slug for the personal fundraising page (e.g. `john-smith`)
+2. Optionally enter a **Team Page URL** — for team fundraising
+3. Click **Create JustGiving fundraising page**
+
+The page URL is validated in real time against JustGiving to check availability. If the URL is already taken, the customer is prompted to choose a different one.
+
+### After Creation
+
+The fundraising page is created in the background. The customer sees a status page that updates automatically:
+
+- While processing: *"Your fundraising page is being processed..."* (the page refreshes automatically every 15 seconds)
+- Once active: *"Success! Your fundraising page has been created."*
+
+The success page provides:
+- A link to open the fundraising page on JustGiving
+- A **copy link** button to copy the URL to clipboard
+- Social sharing buttons for Facebook, Twitter, LinkedIn, and WhatsApp
+
+## Fundraising Page Status
+
+Each fundraising page goes through these statuses:
+
+| Status | Meaning |
+|--------|---------|
+| **Processing** | The page is being created on JustGiving. The status page refreshes automatically until creation completes. |
+| **Active** | The page was created successfully and is live on JustGiving. |
+| **Failed** | Page creation failed. The error message is displayed and the customer can retry with different details. |
+
+## Restrictions
+
+- Fundraising is configured **per event** — each event can be linked to one charity and optionally one campaign
+- Customers must authenticate with JustGiving (existing account or new registration) before creating a page
+- Fundraising page URLs must be unique on JustGiving — the system validates availability before creation
+- Page creation happens asynchronously — there is a short delay between submission and the page going live on JustGiving
+- The integration currently supports **JustGiving** as the only fundraising provider
+- Customer **name**, **title**, and **address** data capture is forced to required when fundraising is enabled for an event

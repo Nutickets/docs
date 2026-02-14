@@ -1,14 +1,106 @@
 ---
 title: "Waiting Rooms"
-description: "Documentation for Waiting Rooms"
+description: "A virtual queuing system that manages high traffic during popular on-sales by giving every customer a fair place in line."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Waiting Rooms** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The waiting room is a virtual queuing system that activates automatically during high-traffic periods. When the number of simultaneous shoppers exceeds your configured limit, new visitors are placed in a queue and shown their position in line. Once space becomes available, they are automatically moved into the shop in the order they arrived.
+
+This ensures a fair experience during popular on-sales by preventing site overload and giving every customer an equal chance to purchase.
+
+## How It Works
+
+1. A customer visits your event shop
+2. If the number of active shoppers is below the configured limit, they enter the shop normally
+3. If the shop is at capacity, they are placed in the waiting room and shown their position
+4. As existing shoppers leave or become inactive, queued customers are moved in automatically
+5. When a customer reaches the front of the queue, the page redirects them into the shop
+
+The entire process is automatic — customers do not need to do anything except wait.
+
+## Configuration
+
+Waiting room settings are found in your company settings. Four options control how the queue behaves:
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Enable virtual waiting room** | Turns the waiting room on or off | Enabled |
+| **Maximum number of simultaneous shoppers** | How many customers can browse the shop at once before the queue activates | 200 |
+| **Maximum inactivity time in minutes** | How long an inactive customer keeps their spot before being removed from the shop | 5 minutes |
+| **Maximum position hold time in minutes** | The longest a customer can hold their queue position, even if active | 60 minutes |
+
+<Note>
+The waiting room is enabled by default for all companies. If you do not expect high-traffic events, you can disable it in your company settings. When disabled, all visitors access the shop directly regardless of traffic levels.
+</Note>
+
+## What Customers Experience
+
+When a customer enters the waiting room, they see a full-page queue interface with your company's branding and theme colours. The page displays:
+
+### Position in Line
+
+The customer's current position is shown prominently and updates in real time. The default message reads:
+
+> Due to high levels of interest, you are currently in position **[number]**. Hold tight, you'll automatically be returned to the site when a spot becomes available.
+
+The polling frequency adapts based on queue position — customers near the front receive more frequent updates than those further back.
+
+### Countdown Timer
+
+A countdown timer shows how long the customer can hold their current position. When the timer expires, the position is not lost immediately — it resets, allowing the customer to continue waiting. This mechanism prevents customers from holding a position indefinitely without engaging with the shop once they eventually enter.
+
+If a customer is unsure about the timer, they can click for an explanation:
+
+> The timer is part of our smart queueing system designed to give everyone a fair chance.
+
+### Browser Notifications
+
+Customers can click **Receive a notification** to enable desktop notifications. When their turn arrives, a browser notification appears:
+
+> You are next in line — Click here to make your purchase.
+
+This allows customers to switch to other tabs or applications while waiting without missing their turn.
+
+### Screen Wake Lock
+
+The waiting room automatically requests a screen wake lock to prevent the customer's device from sleeping while they wait, so they do not miss their turn.
+
+### Leaving the Queue
+
+Customers can voluntarily leave the queue by clicking the **give up your spot** link. This frees their position for the next person in line.
+
+## Customising the Waiting Room Text
+
+You can customise the text displayed on the waiting room page:
+
+1. Navigate to your event's page editor
+2. Find the **Waiting room options** section
+3. Edit the two customisable text blocks using the rich text editor
+4. Preview your changes
+
+The waiting room automatically inherits your company's theme colours, fonts, and branding — the text blocks are the primary way to add event-specific messaging or instructions.
+
+## Queue Management
+
+The waiting room actively manages its queue to keep things moving:
+
+### Inactivity Removal
+
+Customers who stop interacting with the shop are removed after the configured inactivity period, freeing up space for waiting customers. However, customers with items in their basket are protected — they are not removed even if they appear inactive, to prevent losing in-progress orders.
+
+### Position Hold Limit
+
+The maximum hold time prevents any single customer from occupying a spot indefinitely. After the configured period, their position is adjusted regardless of activity. This ensures fair access during extended on-sale periods.
+
+### Session Preservation on Login
+
+If a customer logs in while in the waiting room, their queue position is preserved. The system transfers their position to the new session so they do not lose their place in line.
+
+## Box Office Bypass
+
+Staff using the box office interface bypass the waiting room entirely. The queue only applies to customers accessing the public-facing event shop — box office operators always have direct access.
+
+## Bot Detection
+
+The system maintains separate queues for regular visitors and automated traffic (bots and crawlers). Bots are identified automatically and placed in their own queue, preventing them from occupying positions meant for real customers.

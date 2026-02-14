@@ -1,14 +1,92 @@
 ---
 title: "XE Exchange Rates"
-description: "Documentation for XE Exchange Rates"
+description: "Automatically synchronise secondary currency pricing using live exchange rates from XE."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **XE Exchange Rates** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+XE exchange rate integration automates multi-currency pricing for events. When a company operates in multiple currencies, pricing for sale items (tickets, bundles, season tickets) needs to exist in each currency. Rather than manually setting prices in every currency, XE fetches live exchange rates and calculates secondary currency pricing automatically from the primary currency.
+
+This is useful when:
+- Events are sold in multiple currencies and prices need to stay aligned with market rates
+- Manually managing pricing across many currencies is impractical
+- Consistent, exchange-rate-based pricing is preferred over individually set prices per currency
+
+## How It Works
+
+Each company has a **primary currency** — the currency in which prices are set manually. All other currencies configured for the company are **secondary currencies**. When XE is enabled:
+
+1. Exchange rates are fetched daily from the XE API for all configured currency pairs
+2. Sale item pricing in secondary currencies is calculated automatically from the primary currency price
+3. Updates run in the background — pricing changes are applied asynchronously
+
+### What Gets Converted
+
+| Pricing field | Behaviour |
+|---------------|-----------|
+| **Base price** | Converted using exchange rate |
+| **Processing fee** (fixed amount) | Converted using exchange rate |
+| **Variable price min/max** | Converted using exchange rate |
+| **Processing fee** (percentage) | Preserved — the same percentage applies across all currencies |
+| **Total price** | Recalculated after conversion |
+
+The system handles subunit differences between currencies automatically (e.g. currencies with different decimal precision).
+
+<Note>
+When you create or update a sale item with XE enabled, a confirmation message appears: the item is saved immediately, but secondary currency pricing updates in the background and may take a few moments to appear.
+</Note>
+
+## Enabling XE
+
+XE is a feature that must be activated for your company. Once activated, three requirements must be met:
+
+1. **Valid API credentials** — XE API access must be configured at the platform level
+2. **At least two currencies** — your company must have two or more currencies selected
+3. **Supported currencies only** — certain legacy currency codes are not compatible with the XE API and prevent the feature from being enabled:
+   - Latvian Lats (LVL)
+   - Lithuanian Litas (LTL)
+   - Belarusian Ruble (BYR)
+   - Ghanaian Cedi (GHC)
+   - Turkish Lira (TRL)
+
+If any of these currencies are selected for your company, XE cannot be enabled until they are removed.
+
+## Pricing Sale Items with XE Enabled
+
+When XE is active, sale item pricing works differently from the standard multi-currency setup:
+
+- **You can only set fixed pricing in the primary currency.** The pricing form restricts input to the primary currency — secondary currency fields are not available for manual editing.
+- **Secondary currency pricing is generated automatically** from the primary currency price using the current exchange rate.
+- If the event has a default currency set, pricing must be entered in that currency.
+
+All price changes should be made in the primary currency. Secondary prices update to reflect those changes after the next exchange rate sync.
+
+## Syncing Exchange Rates
+
+### Automatic Sync
+
+Exchange rates sync automatically on a daily schedule for companies with XE enabled and active events. The system conserves API credits — if rates for today already exist, the automatic sync is skipped.
+
+Only events with an end date in the future are included. Past events are not updated.
+
+### Manual Sync
+
+To trigger an immediate sync for all active events:
+
+1. Navigate to **Settings > XE Settings**
+2. Click **Sync**
+3. Confirm the action
+
+This regenerates all secondary currency pricing for sale items associated with active events using the current exchange rate. The sync runs in the background and processes events in batches, so it may take several minutes for companies with many events and sale items.
+
+<Note>
+Manual sync forces a fresh exchange rate fetch from the XE API regardless of whether rates for today already exist.
+</Note>
+
+## Restrictions
+
+- Sale items can only have fixed pricing manually set in the **primary currency** when XE is enabled — secondary currency pricing is always auto-generated
+- At least **two currencies** must be configured to enable XE
+- Exchange rate syncs only apply to **active events** (events with future end dates)
+- Background pricing updates are processed asynchronously — there may be a short delay before secondary currency prices appear after creating or editing a sale item
+- The five legacy currency codes listed above are not supported by the XE API and cannot be used alongside this integration

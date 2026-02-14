@@ -1,0 +1,118 @@
+---
+title: "Google Tag Manager"
+description: "Track analytics and e-commerce events across the shop and admin using Google Tag Manager containers."
+---
+
+## Overview
+
+Google Tag Manager (GTM) integration allows you to add GTM containers to both the customer-facing shop and the admin area. The shop container tracks a comprehensive set of e-commerce events — page views, add-to-cart actions, purchases, and more — while the admin container can be used for internal usage tracking.
+
+The shop GTM container is integrated with the platform's cookie consent system. Tracking scripts only load after customers accept analytics cookies, and consent mode signals are sent to GTM for GDPR compliance.
+
+## Shop Container
+
+The shop GTM container loads on all customer-facing pages and provides e-commerce event tracking through the data layer.
+
+### Configuring the Shop Container
+
+1. Navigate to **Marketing Settings** in the admin area
+2. Enter your **Google Tag Manager code** (e.g. `GTM-XXXXXXX`, max 20 characters)
+3. Save
+
+<Note>
+Tag triggers must be set to **initialisation** during setup in Google Tag Manager for the container to work correctly with the platform's consent management.
+</Note>
+
+### E-commerce Events
+
+The following events are pushed to the data layer:
+
+| Event | When it fires |
+|-------|---------------|
+| `page_view` | Each page navigation |
+| `login` | Customer logs in |
+| `sign_up` | Customer creates an account |
+| `logout` | Customer logs out or session expires |
+| `product_impression` | Event listings are displayed |
+| `product_click` | Customer clicks on an event |
+| `product_detail` | Customer views an event detail page |
+| `view_item_list` | Items modal is opened |
+| `add_to_cart` | Item added to basket |
+| `remove_from_cart` | Item removed from basket |
+| `view_cart` | Basket panel is opened |
+| `begin_checkout` | Customer starts checkout |
+| `add_shipping_info` | Shipping or delivery information submitted |
+| `select_promotion` | Discount code applied |
+| `purchase` | Order completed successfully |
+| `purchase_error` | Checkout error occurred |
+| `refund` | Self-serve refund processed |
+| `share` | Event shared via social media |
+
+Customer data — email address and phone number — is **SHA-256 hashed** before being pushed to the data layer, so no personally identifiable information is sent to GTM in plain text.
+
+### Cookie Consent
+
+The shop container respects the platform's cookie consent settings:
+
+- On page load, GTM consent mode defaults to **denied** for all consent types
+- When a customer accepts analytics cookies, consent is updated to **granted**
+- If a customer has not accepted cookies, GTM scripts are not loaded on the page
+- Tracking events that occur before consent are stored locally and replayed once consent is granted
+
+This ensures GDPR compliance — no tracking occurs until the customer explicitly opts in.
+
+## Admin Container
+
+A separate GTM container can be configured for the admin area, used for internal tracking of admin user activity.
+
+### Configuration Hierarchy
+
+Admin GTM codes follow a two-level inheritance model:
+
+| Level | Where to configure | Purpose |
+|-------|-------------------|---------|
+| **Reseller** | Reseller settings | Sets the default GTM code for all companies under this reseller |
+| **Company** | Company settings | Override or disable GTM for a specific company |
+
+### Company-Level Options
+
+Each company has three choices for admin GTM:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Inherit from reseller** | Uses the GTM code set at the reseller level. This is the default. |
+| **Set custom code** | Uses a company-specific GTM code, overriding the reseller's. |
+| **Disable** | Google Tag Manager is not loaded in the admin area for this company. |
+
+This inheritance model means resellers can set a single GTM code that applies to all their companies, while individual companies can override it or opt out entirely.
+
+<Note>
+Admin GTM tracking does not require cookie consent — it loads automatically for all authenticated admin users when configured.
+</Note>
+
+## Content Security Policy
+
+When using GTM to load third-party scripts (tracking pixels, analytics services, advertising tags, etc.), you may need to whitelist their domains in the Content Security Policy (CSP) settings so browsers allow the scripts to execute.
+
+To configure CSP URLs:
+
+1. Navigate to the cookies and tracking settings in the admin area
+2. Add the domains that your GTM tags need to load scripts from
+3. Save
+
+CSP URLs support:
+- Standard HTTPS domains (e.g. `https://cdn.example.com`)
+- Wildcard subdomains (e.g. `https://*.analytics.com`)
+- WebSocket protocols for real-time tracking (e.g. `wss://tracking.example.com`)
+
+<Note>
+If a parent company configures CSP URLs, child companies inherit them by default. However, if a child company defines its own CSP URLs, they **replace** the parent's list entirely — the lists are not merged.
+</Note>
+
+## Restrictions
+
+- Shop GTM codes have a maximum length of **20 characters**
+- Admin GTM codes have a maximum length of **16 characters** and must contain only alphanumeric characters, hyphens, and underscores
+- Shop GTM tracking requires customer **cookie consent** — scripts do not load until analytics cookies are accepted
+- GTM consent mode defaults to **denied** on page load and only updates to **granted** after explicit customer consent
+- Child company CSP URL lists replace (not extend) parent company lists when defined

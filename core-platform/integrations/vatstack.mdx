@@ -1,14 +1,90 @@
 ---
 title: "Vatstack"
-description: "Documentation for Vatstack"
+description: "Validate customer VAT numbers during checkout to support reverse charge for B2B transactions."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Vatstack** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Vatstack integration enables real-time VAT number validation during checkout, supporting the reverse charge mechanism for B2B transactions. When a customer provides a valid VAT number, the system verifies it against the Vatstack API and records the validated number and associated country on their customer record.
+
+This is relevant for businesses that:
+- Sell to other businesses across VAT jurisdictions
+- Need to apply reverse charge procedures for eligible B2B orders
+- Want automated validation of VAT numbers rather than manual verification
+
+## How It Works
+
+During checkout, customers can optionally enter their company's VAT number. The system validates it in real time through the Vatstack API:
+
+1. Customer enters a VAT number (e.g. `IE6388047V`)
+2. The system sends the number to Vatstack for validation
+3. Vatstack checks the format, queries the relevant tax authority, and returns the result including the country code
+4. If valid, the VAT number and country are stored on the customer's record
+5. The validated VAT number can then be used to determine whether reverse charge applies to the order
+
+### Validation Outcomes
+
+| Outcome | What the customer sees |
+|---------|------------------------|
+| **Valid** | VAT number and country are saved. The customer proceeds with the order. |
+| **Invalid format** | *"VAT number lookup failed. Please confirm the details given are correct and try again."* |
+| **Service unavailable** | *"An error was encountered whilst attempting to validate your VAT number. Please try again."* |
+
+The customer can retry after a failed validation or continue without a VAT number.
+
+## Configuration
+
+Vatstack is configured at the **reseller** level — all companies under a reseller share the same Vatstack credentials.
+
+To set up the integration:
+
+1. Navigate to the reseller settings
+2. Enter the Vatstack **Secret Key**
+3. Save
+
+Once a valid secret key is configured, the VAT number input appears automatically during checkout for customers of companies under that reseller.
+
+<Note>
+The secret key is stored encrypted in the database. If no key is configured, the VAT number field is not shown during checkout and customers see: *"VAT number lookup is currently unavailable, so reverse charge procedure will not apply."*
+</Note>
+
+## Customer Checkout Experience
+
+When Vatstack is configured, the checkout includes a tax settings step with two parts:
+
+### Entering a VAT Number
+
+Customers see a VAT number field with help text: *"Please provide your company's VAT ID if the reverse charge mechanism should apply to your order."*
+
+The VAT number is validated immediately when submitted. If validation succeeds, the customer's country is determined from the VAT number and stored alongside it.
+
+### Providing Address Details
+
+After the VAT number step, customers enter address details:
+- Address line 1 and 2
+- City
+- Region
+- Postcode
+
+### What's Stored on the Customer Record
+
+After successful validation, the following is saved to the customer's profile:
+
+| Field | Description |
+|-------|-------------|
+| **VAT number** | The validated VAT number |
+| **Country** | Country determined from the VAT number |
+| **Verification status** | Whether the VAT number was verified via Vatstack |
+| **Address details** | Address, city, and postcode provided by the customer |
+
+These details persist across future orders — returning customers don't need to re-enter their VAT information.
+
+<Note>
+Some items may require the VAT number to be verified for reverse charges to apply. If the Vatstack service is temporarily unavailable during checkout, customers see: *"Some items may require your VAT number to be verified in order for reverse charges to apply."*
+</Note>
+
+## Restrictions
+
+- Vatstack configuration is per-**reseller**, not per-company — all companies under a reseller share the same credentials
+- VAT number validation requires a live connection to the Vatstack API — if the service is unavailable, validation cannot complete but the order can still proceed without a validated VAT number
+- The VAT number field only appears during checkout when valid Vatstack credentials are configured for the reseller

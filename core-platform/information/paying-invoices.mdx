@@ -1,14 +1,73 @@
 ---
 title: "Paying Invoices"
-description: "Documentation for Paying Invoices"
+description: "How to view and pay outstanding platform invoices from the admin panel."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Paying Invoices** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Invoices are issued for platform fees and services. Outstanding invoices can be viewed and paid directly from the admin panel — either individually or in bulk. Keeping invoices up to date is important, as overdue invoices may lead to restricted account access.
+
+## Invoice Types
+
+There are three types of invoice:
+
+| Type | Description | Payable |
+|------|-------------|---------|
+| **Invoice** | A standard invoice for services or fees | Yes |
+| **Proforma Invoice** | A preliminary invoice or estimate issued before final billing | Yes |
+| **Credit note** | A deduction applied against previous charges | No |
+
+Credit notes cannot be paid — they represent reductions to your balance and are applied automatically.
+
+## Viewing Invoices
+
+Navigate to the invoices section in the admin panel to see all invoices for your company. The list displays:
+
+- **Reference** — the unique invoice number
+- **Date issued** and **Due date**
+- **Net**, **VAT**, and **Gross** amounts
+- **Status** — whether the invoice has been paid
+- **Type** — Invoice, Proforma, or Credit note
+
+### Urgency Indicators
+
+Invoices are colour-coded to help you identify urgency at a glance:
+
+| Colour | Meaning |
+|--------|---------|
+| **Red** | Overdue — the due date has passed |
+| **Amber** | Approaching due date — payment is due soon |
+| No highlight | Not yet due |
+
+## Paying Invoices
+
+To pay outstanding invoices:
+
+1. Select the invoices you want to pay using the checkboxes next to each one
+2. A **Pay** button appears at the top of the page showing the total amount
+3. Click **Pay** to proceed to the payment form
+4. Complete the payment
+
+Once payment is successful, the selected invoices are marked as paid.
+
+<Note>
+Only invoices and proforma invoices can be selected for payment. Credit notes and already-paid invoices have their checkboxes disabled.
+</Note>
+
+### Paying Multiple Invoices
+
+You can select multiple invoices to pay them together in a single transaction. The pay button shows the combined total of all selected invoices.
+
+If you have invoices in multiple currencies, totals are grouped by currency and shown separately — you can only pay invoices in the same currency together.
+
+### Proforma Invoice Settlement
+
+When a proforma invoice is paid, it is automatically converted to a standard invoice with a new reference number. If the invoice PDF was automatically generated, a new PDF is created to reflect the updated type and reference.
+
+## Downloading Invoices
+
+If an invoice has an attached PDF document, a download button appears in the invoice list. Click it to download the invoice file.
+
+## If You Have Questions
+
+If you have questions about a specific invoice or need to dispute a charge, contact your reseller. Invoice details — including the reference number, amounts, and line items — are visible on the invoice detail page.

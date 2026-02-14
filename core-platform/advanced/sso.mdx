@@ -79,23 +79,23 @@ When SSO is enabled, the shop login page changes significantly. The standard ema
 
 In place of the login form, customers see a single button:
 
-**"Sign in with {SSO Name}"**
+**"Sign in with \{SSO Name\}"**
 
 The button label uses the **SSO Name** configured in Partner Hub. If no SSO Name is set, the company name is used as a fallback.
 
 On the registration page, customers see:
 
-**"Register with {SSO Name}"**
+**"Register with \{SSO Name\}"**
 
 ### The Authentication Flow
 
-1. The customer clicks **Sign in with {SSO Name}** on the shop login page
+1. The customer clicks **Sign in with \{SSO Name\}** on the shop login page
 2. They are redirected to the external identity provider
 3. They authenticate with the provider (entering credentials, completing MFA, etc.)
 4. After successful authentication, the provider redirects the customer back to the shop
 5. The platform logs the customer in automatically
 
-The same flow applies to registration -- the customer clicks **Register with {SSO Name}** and is routed through the external provider. The platform creates a local account linked to the external identity after successful authentication.
+The same flow applies to registration -- the customer clicks **Register with \{SSO Name\}** and is routed through the external provider. The platform creates a local account linked to the external identity after successful authentication.
 
 <Note>
 Social login buttons (Google, Facebook, etc.) can still appear alongside the SSO button if social logins are configured for the company. SSO replaces only the email/password form, not other authentication methods.
@@ -107,8 +107,8 @@ Enabling SSO affects several parts of the shop experience beyond the login page:
 
 | Area | Behaviour with SSO Enabled |
 |------|---------------------------|
-| **Login** | Email/password form replaced with **Sign in with {SSO Name}** button |
-| **Registration** | Standard registration replaced with **Register with {SSO Name}** button |
+| **Login** | Email/password form replaced with **Sign in with \{SSO Name\}** button |
+| **Registration** | Standard registration replaced with **Register with \{SSO Name\}** button |
 | **Email changes** | If **SSO Change Email URL** is set, email change links redirect to the external URL |
 | **Password changes** | If **SSO Change Password URL** is set, password change links redirect to the external URL |
 | **Logout** | If **SSO Logout URL** is set, customers are redirected to the external URL after logging out |

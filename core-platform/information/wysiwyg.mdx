@@ -1,14 +1,147 @@
 ---
 title: "WYSIWYG Editor"
-description: "Documentation for the WYSIWYG Editor"
+description: "A rich text editor used throughout the platform for formatting content with text styles, images, videos, tables, and more."
 ---
-
-<Warning>
-  **Work in Progress**
-
-  This page is currently a placeholder. The content for **Wysiwyg** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+The WYSIWYG (What You See Is What You Get) editor appears throughout the platform wherever rich text content is supported — event descriptions, content blocks, articles, and more. It provides a toolbar of formatting options that let you create styled content without writing HTML.
+
+## Text Formatting
+
+The editor supports standard text formatting options:
+
+| Tool | Description |
+|------|-------------|
+| **Bold** | Make text bold |
+| **Italic** | Italicise text |
+| **Strike-through** | Add a line through text |
+| **Underline** | Underline text |
+| **Heading 1 / 2 / 3** | Apply heading styles for section hierarchy |
+| **List** | Create a bulleted list |
+| **Ordered list** | Create a numbered list |
+| **Quote** | Format text as a blockquote |
+| **Code** | Apply inline code formatting |
+| **Code block** | Create a block of preformatted code |
+| **Horizontal line** | Insert a horizontal divider |
+
+## Text Alignment
+
+Text can be aligned using the alignment tool:
+
+- **Left** (default)
+- **Centre**
+- **Right**
+- **Justify**
+
+Click the alignment button to cycle through options. The current alignment is indicated by the button state.
+
+## Links
+
+### Adding a Link
+
+1. Select the text you want to link
+2. Click **Add link** in the toolbar
+3. Enter the URL
+4. Choose whether to open in the same tab or a new tab
+5. Confirm
+
+All external links are automatically given security attributes to protect your users.
+
+### Internal Links
+
+Some editors support linking to internal platform resources such as events, pages, and articles. When available, the link dialog shows options to search for and select internal content instead of entering a URL manually.
+
+### Updating or Removing a Link
+
+Click on an existing link to open the link editor. From there you can update the URL, change the target, or remove the link entirely.
+
+## Images
+
+### Uploading an Image
+
+1. Click **Image** in the toolbar
+2. Choose to upload a file or enter an image URL
+3. Add **alt text** describing the image (for accessibility)
+4. The image is inserted into the content
+
+**Upload requirements:**
+
+- Accepted formats: PNG, JPG
+- Maximum file size: 2 MB
+- Maximum dimensions: 2100 x 2100 pixels
+
+Uploaded images are automatically optimised and stored in the platform's media library.
+
+### Resizing Images
+
+After inserting an image, you can resize it using the width slider that appears when the image is selected. The slider allows widths between 120 and 1,200 pixels.
+
+## Video Embeds
+
+To embed a video:
+
+1. Click **Embed** in the toolbar
+2. Paste the video URL
+
+The editor automatically recognises YouTube and Vimeo URLs and converts them to embedded players. You can also paste a direct iframe URL for other video services.
+
+To remove an embed, click the delete button that appears when hovering over it.
+
+## Tables
+
+### Creating a Table
+
+Click **Add table** in the toolbar to insert a table with default rows and columns.
+
+### Table Operations
+
+Once a table exists, additional toolbar buttons appear for managing it:
+
+| Action | Description |
+|--------|-------------|
+| **Add column before / after** | Insert a new column to the left or right |
+| **Delete column** | Remove the selected column |
+| **Add row before / after** | Insert a new row above or below |
+| **Delete row** | Remove the selected row |
+| **Combine cells** | Merge selected cells together |
+| **Delete table** | Remove the entire table |
+
+## Paste Tool
+
+When pasting content from external sources (such as Word documents or web pages), formatting can carry over in unexpected ways. The **Paste tool** provides a cleanup interface:
+
+1. Click **Paste tool** in the toolbar
+2. Paste your content into the text area
+3. Configure cleanup settings:
+   - **Discard list styles** — removes list formatting
+   - **Remove &lt;style&gt; tags** — strips embedded CSS
+   - **Attributes to be removed** — specify HTML attributes to strip
+4. Preview the cleaned result
+5. Click **Insert text** to add the cleaned content to your editor
+
+## Source Editing
+
+Click **Edit source** to switch to the raw HTML view. This allows you to directly edit the underlying HTML code. Click the button again to return to the visual editor.
+
+<Note>
+Source editing is intended for advanced users. Invalid HTML may cause display issues in the visual editor.
+</Note>
+
+## Undo and Redo
+
+Use **Undo** and **Redo** in the toolbar to step through your editing history.
+
+## Character Limits
+
+Content fields have a character limit (typically 65,000 characters). The editor displays a character count indicator that changes colour as you approach the limit:
+
+- **Grey** — under 90% of the limit
+- **Yellow** — between 90% and 100%
+- **Red** — over the limit
+
+The character count excludes HTML tags and accounts for image storage, so the actual limit for visible text content may vary.
+
+<Note>
+Not all toolbar actions are available on every page. Some editors disable or hide certain tools depending on context. A tooltip explains when an action is unavailable: **This action is not available on this page**.
+</Note>

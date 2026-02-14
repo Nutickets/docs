@@ -1,4 +1,81 @@
 ---
-title: 'Sales Channels'
+title: "Sales Channels"
+description: "Control where your items are available for purchase — on the web, at the box office, or via kiosk."
 ---
 
+## Overview
+
+Sales channels determine where each item is available for purchase. By default, items are available on all enabled channels. You can restrict individual items to specific channels — for example, making a VIP upgrade available only at the box office, or offering an online-exclusive early bird ticket.
+
+## Available Channels
+
+The platform supports three sales channels:
+
+| Channel | Description |
+|---------|-------------|
+| **Web** | Your online ticket shop, accessible to customers via the event URL |
+| **Box office** | The point-of-sale interface used by staff for in-person sales |
+| **App** | Self-service kiosk devices where customers can purchase directly |
+
+<Note>
+The **App** (kiosk) channel is only available if your company has the kiosk feature enabled. Without it, only **Web** and **Box office** are shown as options.
+</Note>
+
+## Configuring Sales Channels
+
+Sales channels are configured per item from the item's pricing settings. Each available channel is shown as a toggle.
+
+To change which channels an item is available on:
+
+1. Open the item's settings
+2. In the pricing section, find the sales channel toggles
+3. Toggle each channel on or off
+4. Save your changes
+
+A help message confirms the effect of your selection:
+
+> This item will only be available for purchase on the sales channels selected above.
+
+<Warning>
+If all sales channels are disabled, the item cannot be purchased anywhere. A warning appears: **This item will not be available for purchase until at least one sales channel is enabled.**
+</Warning>
+
+## Which Item Types Support Sales Channels
+
+Sales channels can be configured on the following item types:
+
+- Tickets
+- Season tickets
+- Bundles
+- Charity donations
+- Resale fees
+- Fulfilment fees
+
+Other item types are available across all channels and do not have individual channel controls.
+
+## How Sales Channels Filter Items
+
+When a customer or staff member accesses an event, they only see items enabled for their current channel:
+
+| Context | Channel applied |
+|---------|----------------|
+| Customer browsing the online shop | **Web** |
+| Staff using the box office | **Box office** |
+| Customer at a kiosk | **App** |
+
+Items hidden from a channel are completely invisible in that context — they do not appear as sold out or unavailable, they simply do not show.
+
+## Bulk Updates
+
+When editing multiple items at once, sales channel changes can be included in the bulk update. Changes apply only to the channels you explicitly modify — channels you do not touch retain their existing settings across all selected items.
+
+## Resale Sales Channels
+
+Resale items have a separate, simplified sales channel setting that controls where resale listings appear. Rather than per-item toggles, this is a single setting that applies to all resale activity:
+
+| Option | Behaviour |
+|--------|-----------|
+| **Shop only** | Resale items are only available in the online shop |
+| **Shop and box office** | Resale items are available in both the online shop and at the box office |
+
+This is configured in your resale settings rather than on individual items.

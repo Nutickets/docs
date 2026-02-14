@@ -1,14 +1,61 @@
 ---
 title: "Company Switching"
-description: "Documentation for Company Switching"
+description: "How to switch between companies you have access to in the admin panel."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Company Switching** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+If you have access to more than one company, you can switch between them without logging out. This is useful for users who manage multiple events or organisations on the platform.
+
+## Switching Companies
+
+To switch to a different company:
+
+1. Open the profile menu (your name in the top navigation)
+2. Click **Change company**
+3. A panel opens showing all companies you have access to
+4. Search or scroll to find the company you want
+5. Click the company name to switch
+
+You are redirected to the home page of the selected company. Your session continues — you do not need to log in again.
+
+<Note>
+The **Change company** option only appears if you have access to more than one company. Users with access to a single company will not see this option.
+</Note>
+
+### Searching for a Company
+
+When you have access to many companies, use the search field at the top of the company panel to filter by name. The list updates as you type, showing only companies that match your search.
+
+## Restrictions
+
+Not all company switches are permitted:
+
+| Scenario | Behaviour |
+|----------|-----------|
+| Target company's trial has expired | Switch is blocked: "You cannot switch to company '[name]', because its trial has expired." |
+| Your access was revoked | The company does not appear in your available companies |
+
+## Automatic Company Switching
+
+In certain situations, the platform automatically switches you to a different company to maintain access:
+
+### When a Trial Expires
+
+If the company you are currently using has its [trial period](/core-platform/information/trial-periods) expire, the system automatically redirects you to another company you have access to. You see a notification:
+
+> The trial period for company "[expired company]" has expired. You have automatically been redirected to company "[available company]".
+
+If you have no other accessible companies, you are shown an error page and must contact your reseller to activate the account.
+
+### When Your Access Is Revoked
+
+If an administrator removes your access to the company you are currently using, you are automatically switched to another available company with a notification:
+
+> Your access to '[removed company]' has been revoked. You have been switched to [new company].
+
+If you have no other companies, you are shown a 403 error.
+
+## Cross-Reseller Switching
+
+If your companies belong to different resellers — particularly those on different domains — switching between them involves a secure redirect to the correct domain. This happens automatically — you are signed in on the new domain without needing to re-enter your credentials.

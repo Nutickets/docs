@@ -1,14 +1,116 @@
 ---
 title: "Going Live"
-description: "Documentation for Going Live"
+description: "Switch your account from demo mode to live mode to start accepting real payments and receiving revenue."
 ---
-
-<Warning>
-**Work in Progress**
-
-This page is currently a placeholder. The content for **Going Live** has not been written yet.
-</Warning>
 
 ## Overview
 
-Coming soon.
+Every company starts in **Demo** mode, which lets you test the full purchase experience — including checkout — without exchanging real money. When you are ready to accept real payments, you switch to **Live** mode. This connects your payment gateway's live credentials so that transactions are processed for real and revenue flows to your bank account.
+
+| Mode | Description |
+|------|-------------|
+| **Demo** | Test the whole purchase experience without using real payment information. No money is exchanged during checkout. |
+| **Live** | Receive your revenues straight into your bank account. Payments are processed through your live payment provider. |
+
+## Switching to Live Mode
+
+To switch from demo to live mode:
+
+1. Navigate to **Payment settings** in the admin panel
+2. Toggle the **Live** switch on
+3. Save your changes
+
+Before switching, ensure your payment gateway's live credentials are configured. Each gateway requires both test credentials (for demo mode) and live credentials (for live mode) — see [Setting Up Credentials](#setting-up-credentials) below.
+
+<Note>
+The ability to toggle between demo and live mode may be managed by your reseller. If you cannot see the toggle, or if the toggle is disabled, contact your reseller to request the change. A message will explain: the payment mode can only be changed by your reseller.
+</Note>
+
+## Setting Up Credentials
+
+Payment gateways require separate credentials for each mode:
+
+| Mode | Credentials used | Source |
+|------|-----------------|--------|
+| **Demo** | Test/sandbox keys from your payment provider | Usually available from your provider's sandbox or test environment |
+| **Live** | Production keys from your payment provider | Obtained from your provider's live dashboard |
+
+When you configure a gateway, you will see clearly labelled fields for test and live credentials. The platform uses the appropriate set based on your current mode.
+
+> These credentials will be used whilst your account is in demo mode. Refer to the relevant gateway documentation to obtain test cards in order to test your shop without exchanging any real money.
+
+<Warning>
+If live credentials are not configured when you switch to live mode, payments will fail. Always verify your live credentials are correctly entered before switching.
+</Warning>
+
+## What Customers See in Demo Mode
+
+While your account is in demo mode, customers see visual indicators that the shop is not processing real payments:
+
+### Demo Badge
+
+A yellow **Demo** badge appears in the shop header. Hovering over it explains:
+
+> No money will be exchanged during checkout, refer to the relevant payment gateway documentation for test card information.
+
+### Test Payment Fields
+
+Some payment gateways display additional fields during checkout in demo mode to help you test different scenarios (e.g. selecting whether a test payment should succeed or be declined). These fields are labelled:
+
+> This field is only visible whilst your account is in demo mode, to assist with testing payment flows.
+
+These indicators and fields disappear automatically when you switch to live mode.
+
+## Stock Is Shared Between Modes
+
+<Warning>
+Demo mode and live mode share the same inventory. Orders placed in demo mode consume real stock — tickets are issued, capacities are reduced, and items are allocated just as they would be in live mode.
+</Warning>
+
+This means:
+
+- If you sell 50 tickets in demo mode, your available stock decreases by 50
+- Switching to live mode does **not** restore stock consumed by demo orders
+- Demo orders are real orders in every sense except the payment — they hold real ticket allocations
+
+If you have been testing extensively in demo mode, you may need to cancel or refund demo orders before going live to free up stock. Alternatively, consider adjusting your item capacities after switching to account for any stock consumed during testing.
+
+## Transaction Tracking
+
+Every transaction records which mode it was created in. This allows you to distinguish between test and real payments throughout the platform:
+
+| Payment mode | Indicator colour | Meaning |
+|--------------|-----------------|---------|
+| **Demo** | Yellow | Transaction was processed through test/sandbox credentials |
+| **Live** | Green | Transaction was processed through live credentials |
+| **Free** | Indigo | No payment was required (free or complimentary order) |
+
+The payment mode is visible on individual orders and in reports. Once a transaction is created, its mode cannot change — even if you later switch the company between demo and live.
+
+## Filtering Reports by Mode
+
+Reports can be filtered by payment mode to separate demo activity from live activity:
+
+| Filter option | Behaviour |
+|---------------|-----------|
+| **Honour company setting** | Shows transactions matching the company's current mode |
+| **Only live mode** | Shows only live transactions |
+| **Only demo mode** | Shows only demo transactions |
+
+This is particularly useful after going live, when you want to see only real revenue and exclude test transactions from your reporting.
+
+## Switching Back to Demo Mode
+
+You can switch back to demo mode at any time by toggling the **Demo** switch on in payment settings. This is useful if you need to test a new payment gateway configuration or troubleshoot checkout issues without processing real payments.
+
+<Note>
+If your company has already processed live sales, switching back to demo mode triggers an internal alert. While the switch is still permitted, take care — any new orders will be processed as demo transactions until you switch back to live mode.
+</Note>
+
+## Recommended Steps Before Going Live
+
+1. **Test thoroughly in demo mode** — run through the complete purchase flow, including checkout, confirmation emails, and refunds
+2. **Configure live credentials** — enter your payment provider's production keys
+3. **Review demo orders** — cancel any test orders if they consumed stock you need for real sales
+4. **Switch to live mode** — toggle the payment mode in payment settings
+5. **Place a test purchase** — make a small real purchase to verify the live payment flow works end-to-end
