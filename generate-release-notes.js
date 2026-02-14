@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const crypto = require('crypto'); 
+const crypto = require('crypto');
 const sharp = require('sharp'); // <--- New Dependency for compression
 
 // --- CONFIGURATION ---
@@ -9,17 +9,17 @@ const SHARE_ID = '5450e24b-d6cd-48c9-a315-a9037dba31f1';
 const API_BASE_URL = 'https://wiki.nutickets.com/api';
 
 // File Paths
-const DOCS_JSON_PATH = 'docs.json'; 
-const OUTPUT_DIR = 'releases'; 
-const MDX_PREFIX = 'releases'; 
-const IMAGES_DIR = 'images/releases'; 
+const DOCS_JSON_PATH = 'docs.json';
+const OUTPUT_DIR = 'releases';
+const MDX_PREFIX = 'releases';
+const IMAGES_DIR = 'images/releases';
 
 async function main() {
   console.log('🚀 Starting Smart Release Notes Generation (Compressed)...');
 
   try {
     // 1. Fetch Data
-    const headers = { 
+    const headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Content-Type': 'application/json'
     };
@@ -34,13 +34,13 @@ async function main() {
 
     // 2. Iterate and Parse
     for (const doc of releases) {
-        process.stdout.write(`.`); 
+        process.stdout.write(`.`);
         try {
             const contentRes = await axios.post(`${API_BASE_URL}/documents.info`, {
                 id: doc.id,
                 shareId: SHARE_ID
             }, { headers });
-            
+
             const docData = contentRes.data.data;
             allUpdates = [...allUpdates, ...parseReleaseDocument(doc.title, docData.text)];
         } catch (err) {
@@ -54,7 +54,7 @@ async function main() {
 
     // 4. Split Data
     const currentYear = new Date().getFullYear();
-    const cutoffYear = currentYear - 1; 
+    const cutoffYear = currentYear - 1;
 
     const mainUpdates = [];
     const archiveUpdatesByYear = {};
@@ -76,23 +76,23 @@ async function main() {
     if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
 
     // 6. Generate Files
-    
+
     // A. Main Page (Index)
     await generateMdxFile(
-        mainUpdates, 
-        path.join(OUTPUT_DIR, 'index.mdx'), 
-        "Release Notes", 
-        `Latest updates from ${cutoffYear} - ${currentYear}`
+        mainUpdates,
+        path.join(OUTPUT_DIR, 'index.mdx'),
+        "Release Notes",
+        `Latest product updates from ${cutoffYear}/${currentYear}`
     );
 
     // B. Archives
-    const archiveYears = Object.keys(archiveUpdatesByYear).sort((a, b) => b - a); 
+    const archiveYears = Object.keys(archiveUpdatesByYear).sort((a, b) => b - a);
 
     for (const year of archiveYears) {
         await generateMdxFile(
-            archiveUpdatesByYear[year], 
-            path.join(OUTPUT_DIR, `${year}.mdx`), 
-            `${year} Archive`, 
+            archiveUpdatesByYear[year],
+            path.join(OUTPUT_DIR, `${year}.mdx`),
+            `${year} Archive`,
             `Release history for ${year}`
         );
     }
@@ -110,16 +110,16 @@ async function main() {
 async function downloadImage(url) {
     try {
         const urlObj = new URL(url);
-        
+
         // Hash ONLY the pathname to allow permanent caching (ignores query params/signatures)
         const hash = crypto.createHash('md5').update(urlObj.pathname).digest('hex');
-        
+
         let ext = path.extname(urlObj.pathname).toLowerCase();
         if (!ext || ext.length > 5) ext = '.png';
-        
+
         const filename = `${hash}${ext}`;
         const localPath = path.join(IMAGES_DIR, filename);
-        const publicPath = `/${IMAGES_DIR}/${filename}`; 
+        const publicPath = `/${IMAGES_DIR}/${filename}`;
 
         // CACHE CHECK: If file exists, skip download
         if (fs.existsSync(localPath)) {
@@ -140,15 +140,15 @@ async function downloadImage(url) {
         if (metadata.format === 'jpeg' || metadata.format === 'jpg') {
             // MozJPEG provides excellent compression with virtually no visual loss
             await imagePipeline
-                .jpeg({ mozjpeg: true, quality: 90 }) 
+                .jpeg({ mozjpeg: true, quality: 90 })
                 .toFile(localPath);
-        } 
+        }
         else if (metadata.format === 'png') {
             // Maximum compression level (9) + adaptive filtering for lossless optimization
             await imagePipeline
-                .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false }) 
+                .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false })
                 .toFile(localPath);
-        } 
+        }
         else {
             // Fallback for GIFs/WebP: just save the buffer directly
             fs.writeFileSync(localPath, response.data);
@@ -158,7 +158,7 @@ async function downloadImage(url) {
 
     } catch (e) {
         console.warn(`⚠️ Failed to download/compress image: ${url}. Keeping remote link.`);
-        return url; 
+        return url;
     }
 }
 
@@ -174,9 +174,9 @@ function updateDocsJson(archiveYears) {
 
     // Construct Page Structure
     const archivePages = archiveYears.map(year => `${MDX_PREFIX}/${year}`);
-    
+
     const newPagesStructure = [
-        `${MDX_PREFIX}/index` 
+        `${MDX_PREFIX}/index`
     ];
 
     if (archivePages.length > 0) {
@@ -189,7 +189,7 @@ function updateDocsJson(archiveYears) {
     console.log('🔄 Updating docs.json navigation...');
 
     let found = false;
-    
+
     function scanAndReplace(items) {
         if (!items || !Array.isArray(items)) return;
 
@@ -215,12 +215,12 @@ function updateDocsJson(archiveYears) {
 
     if (!found) {
         console.log('➕ "Product Updates" group not found. Creating a new Tab...');
-        
+
         const newTab = {
             tab: "Releases",
             groups: [
                 {
-                    group: "Product Updates", 
+                    group: "Product Updates",
                     pages: newPagesStructure
                 }
             ]
@@ -271,14 +271,14 @@ function parseReleaseDocument(title, markdown) {
     }
 
     if (patchContent) {
-        const patchSections = patchContent.split(/(?=###\s)/); 
+        const patchSections = patchContent.split(/(?=###\s)/);
         patchSections.forEach(section => {
             const cleanSection = section.trim();
             if (!cleanSection.startsWith('###')) return;
-            
+
             const headerEndIndex = cleanSection.indexOf('\n');
             if (headerEndIndex === -1) return;
-            
+
             const header = cleanSection.substring(0, headerEndIndex).replace(/^###\s*/, '').trim();
             const body = cleanSection.substring(headerEndIndex).trim();
             const patchMatch = header.match(/(R\w+)\s*-\s*(.*)/);
@@ -336,17 +336,17 @@ description: "${description}"
 
             // 1. TRANSFORM HEADERS
             text = text
-                .replace(/^#\s+(.*$)/gm, '\n#### $1')   
-                .replace(/^##\s+(.*$)/gm, '\n#### $1')  
-                .replace(/^###\s+(.*$)/gm, '\n**$1**'); 
+                .replace(/^#\s+(.*$)/gm, '\n#### $1')
+                .replace(/^##\s+(.*$)/gm, '\n#### $1')
+                .replace(/^###\s+(.*$)/gm, '\n**$1**');
 
             // 2. ESCAPE SPECIAL CHARS
             text = text.replace(/([^\\])([{}])/g, '$1\\$2');
-            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br))/g, '\\<'); 
+            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br))/g, '\\<');
 
             // 3. CONVERT OUTLINE CALLOUTS
             text = text.replace(/:::(\w+)\s+([\s\S]*?):::/g, (match, type, content) => {
-                let component = 'Note'; 
+                let component = 'Note';
                 const cleanText = content.trim();
                 switch(type.toLowerCase()) {
                     case 'tip': case 'success': component = 'Tip'; break;
@@ -365,10 +365,10 @@ description: "${description}"
 
             // 5. FORMAT IMAGES (Use Local Paths)
             text = text.replace(/!\[(.*?)\]\(([^)\s"]+)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
-                const safeUrl = urlMap[url] || url; 
-                
+                const safeUrl = urlMap[url] || url;
+
                 let candidateCaption = title || '';
-                if (candidateCaption.trim().startsWith('=')) candidateCaption = ''; 
+                if (candidateCaption.trim().startsWith('=')) candidateCaption = '';
                 if (!candidateCaption && alt) candidateCaption = alt;
 
                 const safeAlt = alt ? alt.replace(/"/g, '&quot;') : '';
