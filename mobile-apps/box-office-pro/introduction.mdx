@@ -1,0 +1,92 @@
+---
+title: "Introduction"
+description: "On-the-door ticket sales and reservation management from an Android device."
+---
+
+## Overview
+
+Box Office Pro is the mobile ticket-selling app for on-site and walk-up sales. Staff use it to browse events, select tickets, process payments, and issue orders — all from a handheld Android device. It brings the same box office capabilities that exist in the [web-based box office mode](/core-platform/box-office/introduction) to a portable form factor designed for venue entrances, pop-up counters, and roaming staff.
+
+The app supports cash, card, and Stripe Terminal payments (including split payments across multiple methods), seating plan selection, discount codes, NFC ticket pairing, receipt printing, and a kiosk mode for unattended self-service.
+
+## Getting Started
+
+### Signing In
+
+Open the app and sign in with the same email and password you use for the admin dashboard. Tap **Log in** to authenticate.
+
+<Note>
+If you forget your password, tap **Forgot password?** to request a reset email. Enter your admin email address and tap **Reset password** — you'll receive an email with a reset link. If the email isn't recognised, the app displays: *"There is no matching email in our system."*
+</Note>
+
+After signing in, the app fetches your user configuration — including permissions, branding, available currencies, and feature flags. This data determines which features and payment methods you can access.
+
+### Version Checks
+
+Each time the app opens, it checks whether the installed version is still supported:
+
+- **Optional update available** — a message prompts you to update, but you can dismiss it and continue using the app.
+- **Required update** — the app cannot be used until you update to the latest version.
+- **App retired** — the app is permanently blocked and displays *"App can no longer be used."*
+
+## Browsing Events
+
+After signing in, the event listing screen shows all on-sale events. Each event card displays the event name, venue, dates, and a thumbnail image.
+
+### Searching and Filtering
+
+A search bar at the top filters events by name, venue name, address, city, or postcode. Three filter options narrow the list further:
+
+| Filter | How it works |
+|--------|-------------|
+| **Venue** | Opens a list of all venues with event counts. Select one or more venues to filter by location. |
+| **Date** | Opens a date picker. Shows only events that overlap with the selected date — multi-day events appear if any part falls on that date. |
+| **Clear all** | Resets all active filters. |
+
+Filters combine with AND logic — events must match the search text, selected venues, and selected date simultaneously.
+
+### Selecting a Currency
+
+If your company operates in multiple currencies, a currency selector appears on the event listing screen. Tap it to choose from the available currencies — ticket prices and basket totals update accordingly. The selector is hidden when only one currency is available.
+
+<Note>
+Some tickets may not have pricing in every currency. When a ticket doesn't support your selected currency, its quantity controls are hidden and it cannot be added to the basket.
+</Note>
+
+## The Menu
+
+The top menu provides access to:
+
+- **Orders** — view order history, details, and process refunds
+- **Settings** — configure payment methods, hardware, and app preferences
+- **Log out** — sign out of the app (confirms with *"Are you sure you want to log out?"*)
+
+The menu also displays your company name and your full name for reference.
+
+## Second Screen Support
+
+On devices with a secondary display (such as dual-screen Sunmi devices), Box Office Pro shows a customer-facing screen that updates in real time as staff work through a sale:
+
+| Stage | Customer sees |
+|-------|--------------|
+| **Event selection** | Company name |
+| **Ticket selection** | Event name and selected items |
+| **Basket** | Event name, basket items, and total price |
+| **Payment** | Total amount to pay, with a contactless icon (for card) or cash icon |
+
+The second screen activates automatically when a secondary display is detected — no configuration is required.
+
+## White-Label Branding
+
+The app supports white-label branding. When configured, the login splash screen, toolbar logo, button colours, and gradient backgrounds reflect your company's branding. The support URL in the help section also updates to point to your branded help resources.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Box Office Mode (Web)" icon="desktop" href="/core-platform/box-office/introduction">
+    The web-based box office built into the admin panel's ticket shop.
+  </Card>
+  <Card title="Settings and Hardware" icon="gear" href="/mobile-apps/box-office-pro/settings-and-hardware">
+    Payment settings, Stripe readers, kiosk mode, and printing configuration.
+  </Card>
+</CardGroup>

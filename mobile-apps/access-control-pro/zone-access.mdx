@@ -1,0 +1,131 @@
+---
+title: "Zone Access"
+description: "Managing zone-level entry, in/out scanning, and zone statistics."
+---
+
+## Overview
+
+Zones represent distinct areas within an event venue — entry gates, VIP sections, stages, product collection points, and more. Each zone has its own scanning rules, capacity limits, and eligible items, all configured from the admin panel. The **Zones** tab in Access Control Pro is where operators manage zone-level scanning.
+
+For zone configuration details (scan modes, capacity, eligible items, age restrictions), see [access control](/core-platform/event-management/access-control#zones) in the core platform documentation.
+
+## Navigating Zones
+
+### The Zones List
+
+The **Zones** tab shows all zones on the event that you have permission to access. Each zone card displays:
+
+- Zone name
+- Current status (open or closed)
+
+Use the search bar at the top to filter zones by name. Tap a zone to enter it and begin scanning.
+
+<Note>
+If the event only has one zone you can access, the app skips the zones list and takes you directly into that zone.
+</Note>
+
+### Inside a Zone
+
+Once you open a zone, the screen has three tabs:
+
+| Tab | Purpose |
+|-----|---------|
+| **Info** | Zone statistics and the attendee list for this zone |
+| **Scan** | The scanning interface for this zone |
+| **Attendees** | Searchable list of attendees who have been scanned into this zone |
+
+## Scanning in a Zone
+
+### Scan In / Scan Out
+
+For zones using **In/Out Manual** mode, a toggle at the top of the scan screen switches between **Scan in** and **Scan out**. Select the direction before scanning.
+
+For zones using **In/Out Automatic** mode, the system determines the direction automatically based on the attendee's current status — if they are currently "in", the next scan records them as "out", and vice versa.
+
+For zones using **In Only** mode, every scan records an entry. There is no scan-out option.
+
+### Zone Scan Results
+
+Zone scan results have their own set of statuses:
+
+| Status | Colour | Meaning |
+|--------|--------|---------|
+| **Scanned in** | Green | Attendee has been scanned into the zone |
+| **Scanned out** | Green | Attendee has been scanned out of the zone |
+| **Valid** | Green | Ticket is valid for this zone (displayed when checking without admitting) |
+| **Already scanned in** | Yellow | Attendee is already recorded as being inside the zone |
+| **Already scanned out** | Yellow | Attendee is already recorded as being outside the zone |
+| **Access denied - Ticket invalid** | Red | No matching ticket found, or the ticket does not have access to this zone |
+| **Access denied - Disabled** | Red | The ticket type has been disabled on this device |
+| **Zone is full** | Red | The zone has reached its capacity limit |
+| **Scans in exceeded** | Red | The attendee has reached the maximum number of allowed entries |
+| **Single access only - Already entered** | Red | The zone allows single access and this ticket has already been used |
+| **Zone closed** | Red | The zone's open/close window has ended |
+| **Age over limit** | Red | The attendee exceeds the zone's maximum age restriction |
+| **Age under limit** | Red | The attendee is below the zone's minimum age restriction |
+| **Age unknown** | Yellow | No date of birth on record — the operator must decide whether to admit |
+| **Not paired** | Red | NFC tag is not paired for this event |
+
+### Scan In Override
+
+When a scan is denied due to age restrictions or capacity limits, the app asks **"Do you want to scan in anyway?"** (or "scan out anyway" for exits). This allows operators to override the restriction when appropriate, such as when age has been verified manually.
+
+### Multiple Eligible Items
+
+If a scanned ticket has multiple items that grant access to a zone (for example, a ticket and a product both eligible for the same zone), the app shows: *"This customer purchased multiple items that grant access to this Zone. Please select the item(s) you'd like to use to validate the customer's access."*
+
+## Zone Statistics
+
+The **Info** tab within a zone displays live statistics:
+
+- **Total in** — total number of scan-in events
+- **Currently in** — people currently inside the zone (total in minus total out)
+- **Total out** — total number of scan-out events
+- **Unique visitors** — distinct attendees who have entered the zone
+- **Average time** — average duration attendees spend in the zone
+- **Capacity** — current occupancy relative to the zone limit (if set)
+
+### Attendee Details in Zones
+
+The zone attendee list shows each person's:
+
+- Customer name and email
+- Current status (in or out)
+- Last scanned in / last scanned out timestamps
+- Age (if date of birth is available)
+- Number of times scanned in
+
+You can search the attendee list and filter by scan direction (in, out, or all).
+
+## Data Capture in Zones
+
+If [data capture](/core-platform/data-capture/introduction) fields have been configured for a zone, they are presented to the operator during scanning. The operator answers the data capture questions and the responses are saved alongside the scan record. Data capture responses are uploaded to the server separately from scan results.
+
+## Closed Zones
+
+When a zone's configured date range has ended, it enters a **closed** state. The app displays: *"This zone is now closed. You can view the data available, but will not be able to scan in."*
+
+You can still browse zone statistics and the attendee list, but the scan interface is disabled.
+
+## Offline Mode
+
+Zone scanning normally requires a server connection because scans are evaluated server-side (unlike entry scanning, which evaluates entirely offline). For situations where connectivity is unreliable, a **Zones offline mode** can be enabled per event.
+
+### Enabling Offline Mode
+
+1. Open the event
+2. Navigate to the **Zones** tab
+3. Enable **Zones offline mode** from the zone settings
+
+### How Offline Mode Works
+
+When offline mode is enabled:
+
+- Scans are evaluated against locally cached ticket data instead of the server
+- Every zone is treated as **In Only** with **unlimited** scan limits — the app cannot track in/out status or enforce capacity without server state
+- Data capture fields are not shown during offline zone scans
+- Scan results are stored locally and uploaded when the connection returns
+
+<Warning>
+Offline zone mode trades accuracy for availability. Capacity limits, in/out tracking, and data capture are not enforced. Use it only when scanning must continue despite connectivity loss.
+</Warning>

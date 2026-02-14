@@ -1,0 +1,139 @@
+---
+title: "Settings and Hardware"
+description: "App settings, NFC pairing, badge printing, and hardware scanner support."
+---
+
+## Overview
+
+Access Control Pro settings control how the app scans, admits, and processes tickets. Settings are accessed from the menu on the home screen by tapping **Settings**. This page also covers the hardware integrations the app supports — NFC readers, label printers, and laser barcode scanners.
+
+## Scanning Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Auto admit** | Off | Automatically admits valid tickets after scanning, without requiring the operator to tap a button. Designed for high-throughput entry points. |
+| **Auto close after admitting** | On | Closes the scan result screen automatically after a successful admission, returning to the camera for the next scan. |
+| **Ability to admit all** | On | Shows the **Admit order** button on scan results, allowing the operator to admit all items in an order at once. Disabled automatically when auto-admit is turned on. |
+| **Multi event scanning** | Off | Enables scanning tickets from any active event without selecting a specific event first. Adds an **All active events** option to the home screen. |
+
+<Note>
+When **Auto admit** is enabled, the **Ability to admit all** option is forced off and cannot be changed. Disable auto-admit to re-enable it.
+</Note>
+
+## NFC Pairing
+
+NFC pairing links physical NFC tags to tickets, enabling tap-based entry and (optionally) cashless functionality. The app acts as both the pairing tool and the scanner.
+
+### NFC Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **NFC pairing** | Off | Enables NFC tag pairing mode. When enabled, the scan tab switches from admission mode to pairing mode. |
+| **Check in when pairing** | On | When enabled, pairing an NFC tag to a ticket also admits the attendee in a single step (**Pair & Admit**). When disabled, pairing only links the tag without recording admission (**Pair only**). |
+
+### How Pairing Works
+
+1. Enable **NFC pairing** in settings
+2. Open an event — the **Scan** tab title changes to **Pair** (or **Pair & Admit** if check-in-when-pairing is enabled)
+3. Scan the ticket's QR code or barcode to identify it
+4. Hold the NFC tag against the device — the tag is written with the ticket data
+5. If **Check in when pairing** is on, the attendee is also admitted
+
+<Note>
+If a ticket is already paired with the same NFC tag, the app asks for confirmation before re-pairing. If the NFC tag is already linked to a different customer with credits, the app warns you and asks to confirm before overriding the previous link.
+</Note>
+
+### Supported NFC Tag Types
+
+The app supports two NFC tag types:
+
+- **Mifare Classic** (default) — standard NFC tags
+- **Non-original Mifare Classic** — for third-party compatible tags (configurable under **Additional supported NFC tag type** in settings)
+
+### External NFC Reader
+
+For devices without a built-in NFC reader, the app supports external Bluetooth NFC readers:
+
+1. Enable **External NFC reader** in settings
+2. Tap the setting to open the device scanner
+3. Pair with the external reader via Bluetooth
+
+## Printing
+
+Access Control Pro supports badge and label printing on two types of printers.
+
+### Sunmi Built-In Printer
+
+Sunmi Android POS devices have a built-in thermal printer. The app prints labels with:
+
+- QR code (centred)
+- Customer name
+- First and second data capture answers (if enabled)
+
+The label format is configurable:
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Label printing mode** | Sticky label, Regular paper, Regular paper double sided | Controls the paper format. Sticky labels require the device to be in Label Mode (see below). |
+| **Label height** | 40–260mm | Height of sticky labels in millimetres. Only applies to sticky label mode. |
+| **Print first data capture** | On/Off | Whether to print the first data capture answer on the label. |
+| **Print second data capture** | On/Off | Whether to print the second data capture answer on the label. |
+
+<Note>
+To use sticky label mode on a Sunmi device, you must first configure the device: go to **Device Settings > System > Advanced > SunmiPrinter > Inner Printer**, select **Printer Mode > Label Mode**, then select **Label Study > Automatic Study**.
+</Note>
+
+### Zebra Network Printers
+
+The app discovers Zebra printers on the local network automatically. To connect:
+
+1. Open **Settings**
+2. Tap **Printer**
+3. The app searches for printers — select the one you want to use
+
+The app supports four predefined print formats and automatically selects the best match based on the connected printer's label size:
+
+- HC100 wristband (254mm x 25mm)
+- GX420 wristband (254mm x 25mm)
+- GX420 badge small (76mm x 51mm)
+- GX420 badge large (102mm x 76mm)
+
+Each format prints the ticket QR code, event name, date, customer name, and ticket type. Wristband formats additionally include customer ID and identification details.
+
+## Laser Scanner
+
+Devices with built-in hardware barcode scanners (such as Sunmi terminals) are supported natively. The scanner emulates keyboard input — it sends characters followed by an Enter key press, which the app interprets as a completed barcode scan.
+
+### Configuration
+
+Ensure your device's scanner settings are configured correctly:
+
+1. Open **Device Settings > System > Scanner Setting**
+2. Select **Virtual Keyboard** (or **Keystroke**) mode
+3. Enable **Enter** (or **carriage return**) as the scan suffix
+
+For **Code 39** barcodes, also enable **Full ASCII** (sometimes called **Extended**) under decode parameters to correctly handle lowercase and special characters.
+
+## Age Verification
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Age verification** | Off | When enabled, prompts the operator to verify the attendee's age and date of birth after each valid scan. If no date of birth is on file, the operator can enter one. |
+
+## All Settings Reference
+
+| Setting | Key | Default | Description |
+|---------|-----|---------|-------------|
+| Auto close after admitting | `pref_auto_close_valid_scan` | On | Auto-close the result screen on valid scans |
+| Auto admit | `pref_auto_admit_enabled` | Off | Automatically admit valid tickets |
+| Ability to admit all | `pref_admit_order_enabled` | On | Show the admit-order button |
+| Multi event scanning | `pref_all_event_scanning` | Off | Scan across all active events |
+| NFC pairing | `pref_nfc_pairing_enabled` | Off | Enable NFC tag pairing mode |
+| Check in when pairing | `pref_nfc_admit_after_pairing` | On | Also admit when pairing NFC |
+| Age verification | `pref_age_verification` | Off | Require age verification on valid scans |
+| External NFC reader | `pref_external_nfc_enabled` | Off | Use a Bluetooth NFC reader |
+| Printer | `pref_printer` | None | Selected network printer |
+| Label printing mode | `pref_ticket_printing_option` | Sticky label | Paper format for Sunmi printing |
+| Label height | `pref_sticky_label_height` | 100mm | Sticky label height |
+| Print first data capture | `print_first_dc_on_label` | On | Include first DC answer on label |
+| Print second data capture | `print_second_dc_on_label` | On | Include second DC answer on label |

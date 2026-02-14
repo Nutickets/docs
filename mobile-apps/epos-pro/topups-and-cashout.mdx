@@ -1,0 +1,105 @@
+---
+title: "Top-Ups and Cash Out"
+description: "Add credit to customer accounts via top-ups and process balance withdrawals via cash-out."
+---
+
+## Overview
+
+EPOS Pro supports two balance management operations: **top-ups** (adding credit to a customer's account) and **cash-outs** (withdrawing remaining credit back to cash). Both are accessed from the home screen and require identifying the customer before proceeding.
+
+Top-ups are commonly used at festivals and events where customers preload credit onto a wristband or card and spend it at vendor stalls. Cash-outs let customers recover their unspent balance at the end of an event.
+
+## Top-Ups
+
+Tap **Top Up** from the home screen to begin. This tile is visible when you have the `walletTopup` permission.
+
+### Identifying the Customer
+
+The first step is identifying the customer whose balance will be topped up. The method depends on the active authentication mode:
+
+- **QR mode** — scan the customer's barcode or QR code
+- **NFC mode** — tap the customer's NFC media (wristband, card, badge) against the device
+
+The customer's name and current balance are displayed once identified.
+
+### Selecting a Top-Up Amount
+
+How the amount is selected depends on your EPOS currency configuration:
+
+**Standard currency (e.g. GBP, USD)** — the app displays a list of predefined voucher items. Each voucher shows its name, the credit value it adds, and the cash price. You can select multiple vouchers and adjust quantities with +/- buttons. Special vouchers (flagged in the admin panel) auto-proceed to checkout when tapped.
+
+**Custom currency (e.g. Tokens)** — the app displays a grid of predefined top-up items, each showing the token amount and price. Tap one to select it.
+
+### Choosing a Payment Method
+
+After selecting the top-up amount, the basket screen shows two payment options:
+
+- **Cash** — the staff member collects the cash amount shown
+- **Card** — processes via the connected Stripe terminal reader (if connected) or online card payment
+
+A confirmation dialog appears showing the payment method, price, and the number of credits being added. Tap **OK** to confirm.
+
+### NFC Tag Update
+
+In NFC mode, after the payment is confirmed, the app prompts the staff member to tap the customer's NFC tag to update the stored balance. The tag is written with the new credit total.
+
+In NFC Offline mode, this is a two-step process: the first tap verifies the customer, and the second tap writes the updated balance to the tag.
+
+### Completion
+
+After a successful top-up, the success screen shows the customer's name, the credits added, and their new balance. Receipt printing is available if a Sunmi printer is connected.
+
+<Note>
+Top-ups are recorded as voucher transactions and sync to the server along with regular product sales. In the **Orders upload status** section of the sales report, pending top-ups are shown separately from sales and cash-outs.
+</Note>
+
+## Cash Out
+
+Tap **Cash Out** from the home screen to begin. This tile is visible when you have the `walletCashout` permission.
+
+### Identifying the Customer
+
+Scan or tap the customer's QR code or NFC media to identify them. The app retrieves the customer's name and current credit balance.
+
+### Balance Check
+
+If the customer has no remaining credit, the app displays: *"There is nothing to cash out from the account belonging to [name]."* and returns to the scanning screen.
+
+### Confirming the Cash-Out
+
+If the customer has credit, a confirmation dialog shows:
+
+- The cash-out amount (equal to the full remaining balance)
+- The customer's name
+- A prompt: *"Are you sure you want to cash out?"*
+
+In **QR mode**, tap **OK** to process immediately. In **NFC mode**, the next tap of the customer's NFC tag triggers the cash-out.
+
+### Processing
+
+The app sends the cash-out request to the server. On success:
+
+- The customer's balance is set to zero
+- In NFC mode, the NFC tag is cleared of credit data
+- The success screen displays: *"Cash out successful"* with the amount cashed out
+
+The staff member then hands the equivalent cash to the customer.
+
+<Note>
+Cash-out is not available when EPOS is configured with a custom currency. The app displays: *"Cash out is not possible with custom currencies."*
+</Note>
+
+### Failure Handling
+
+If the cash-out fails due to a connection error, the app displays *"Transaction failed, make sure you have internet connection"* with a **Try Again** button. The transaction can be retried without re-scanning the customer.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Selling Products" icon="basket-shopping" href="/mobile-apps/epos-pro/selling-products">
+    Select products, manage the basket, and process payments.
+  </Card>
+  <Card title="Custom Currencies" icon="coins" href="/core-platform/epos/custom-currencies">
+    Create token-based currencies for cashless event payments.
+  </Card>
+</CardGroup>

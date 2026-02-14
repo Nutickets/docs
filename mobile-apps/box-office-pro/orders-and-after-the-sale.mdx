@@ -1,0 +1,175 @@
+---
+title: "Orders and After the Sale"
+description: "View order history, process refunds, check in tickets, pair NFC wristbands, and print receipts."
+---
+
+## Overview
+
+After completing a sale, Box Office Pro provides tools for managing orders, issuing refunds, checking in attendees, pairing tickets to NFC wristbands, and printing receipts. The **Orders** screen is accessed from the main menu.
+
+## Order History
+
+Tap **Orders** from the menu to view all orders. The list shows each order's reference number, customer name, total amount, date, and status badge (**Completed** or **Refunded**).
+
+### Searching Orders
+
+The search bar at the top filters orders by reference number or customer name. Pull down on the list to refresh with the latest data from the server.
+
+<Note>
+If there are no orders to display, the screen shows *"There are no orders."* If the device has no connection, it shows *"Make sure you have internet connection."*
+</Note>
+
+## Order Details
+
+Tap an order to view its full details:
+
+| Field | Description |
+|-------|-------------|
+| **Order reference** | The unique order identifier |
+| **Net** | Order total excluding tax |
+| **Tax** | Tax amount |
+| **Total** | Full order total |
+| **Completed on** | Date and time the order was placed |
+| **Customer** | Customer name (if assigned) |
+| **Payment method** | Payment method(s) used, shown as a comma-separated list |
+
+### Order Items
+
+Below the summary, the **Order items** section lists each item in the order:
+
+- Event name and ticket type (or product name)
+- Barcode identifier
+- Price
+- **REFUNDED** label (displayed above the price if the item has been refunded, with the row dimmed)
+
+## Refunding an Order
+
+The **Refund order** button at the bottom of the order details screen processes a full refund of the entire order. Partial refunds (refunding individual items) are not available in the app — use the admin panel for item-level refunds.
+
+When you tap **Refund order**:
+
+1. The app sends the refund request to the server
+2. On success, the button is disabled and a confirmation appears: *"Refund succeeded"*
+3. The customer is notified by email automatically
+4. Inventory is restocked
+
+If the order has already been refunded, the button is disabled. Attempting to refund an already-refunded order from another session shows: *"This order is already refunded."*
+
+<Note>
+Refunds require internet connectivity. If the request fails, the app displays *"Refund failed"* — check your connection and try again.
+</Note>
+
+## Resending Confirmation Emails
+
+Tap **Resend confirmation email** on the order details screen to send the order confirmation email again. On success, the app confirms: *"Confirmation email sent."*
+
+## Printing from Order Details
+
+The **Print** button on the order details screen reprints the full order — tickets with QR barcodes and a receipt (if receipt printing is enabled). This uses the same Sunmi printer output as the post-purchase print.
+
+## Check-In After Purchase
+
+When configured in [settings](/mobile-apps/box-office-pro/settings-and-hardware#check-in-after-purchase), staff can check in all tickets on an order immediately after completing a sale. This is useful at venues where ticket purchase and entry happen at the same point.
+
+The check-in setting has three modes:
+
+| Mode | Behaviour |
+|------|-----------|
+| **Disabled** | No check-in option shown after purchase |
+| **Admit button** | An **Admit** button appears on the confirmation screen. Tapping it shows a confirmation: *"Do you want to proceed checking in all the tickets purchased?"* |
+| **Auto admit** | All tickets are checked in automatically as soon as the order completes — no button press required |
+
+On success, the button is disabled and a confirmation appears: *"Tickets checked in."* If check-in fails (e.g., no connection), the app shows: *"Checking in failed, please make sure you have internet connection and try again."*
+
+## NFC Ticket Pairing
+
+When NFC pairing is enabled in settings and the order contains tickets configured for NFC, the app enters a pairing flow after payment. This pairs each ticket to a physical NFC tag (wristband, card, or badge) so the customer can use it for entry and cashless payments.
+
+### How Pairing Works
+
+Tickets are presented one at a time, showing the event name, dates, and ticket type. For each ticket:
+
+1. The app prompts you to tap the customer's NFC tag against the device
+2. The tag is read, and the ticket is paired via the server
+3. A success message confirms: *"Pairing ticket succeeded"*
+4. The app advances to the next ticket (or returns to the confirmation screen if all tickets are paired)
+
+You can skip individual tickets by tapping **Next ticket**, or cancel the entire process with **Cancel pairing**. A confirmation dialog asks: *"Are you sure you wish to proceed without pairing tickets to the wristbands?"*
+
+### Pairing with Credits
+
+When tickets are configured for NFC pairing with credits, the process is more involved:
+
+1. The NFC tag is personalised (prepared for data storage)
+2. If the tag is already linked to a **different customer** who has credits, the app asks for confirmation: *"This tag is linked to [name] which have [amount] credits. Please confirm that you want to cash out the credits and link this tag to [name]"*
+3. The ticket is paired on the server
+4. The customer's online wallet balance is downloaded and written to the NFC tag
+5. The tag is updated with the new customer data, credits, and ticket information
+
+<Note>
+During NFC tag writing, a progress message appears: *"Pairing in progress... Please do not remove the TAG until it is completed."* If the tag is removed too early or cannot be read, the app prompts you to tap again.
+</Note>
+
+### Re-Pairing
+
+If a ticket has already been paired to an NFC tag, the app asks for confirmation before overwriting:
+
+- *"This ticket has been already paired, please confirm that you want to re-pair this ticket with this tag"*
+- For tags already paired to the same ticket: *"This ticket is already paired with this tag. Please confirm that you want to pair again"*
+
+### Tag Conflicts
+
+Several conflict scenarios are handled:
+
+| Situation | Message |
+|-----------|---------|
+| Tag already paired to another ticket for the same customer and event | *"This NFC tag is already paired with another ticket for this event, that belongs to the same customer"* |
+| Tag already used for this event (with credits mode) | *"Tag already used for this event"* |
+| Tag from a different company | *"Tap again with NFC tag and do not remove it until operation is completed. Make sure that this NFC tag is not used by different company."* |
+
+## Receipt Printing
+
+Box Office Pro prints tickets and receipts on **Sunmi** devices with a built-in thermal printer. Printing happens automatically after a sale (when configured) and can also be triggered from the order details screen.
+
+### Ticket Printout
+
+Each ticket prints on its own section of paper:
+
+- Event name (large, bold)
+- Venue name
+- Event date and time
+- Ticket type and price
+- Seat location (for seated events)
+- Customer name (unless guest checkout)
+- QR barcode (scannable for entry)
+
+### Receipt Printout
+
+The receipt prints after all tickets and includes:
+
+- Order reference and date
+- Itemised list with event names, ticket names, prices, and barcodes
+- Net, tax, and total amounts
+- Company name, address, and VAT number
+- Payment method(s) used
+
+### Paper Cutting
+
+On Sunmi devices, paper cutting can be configured in [settings](/mobile-apps/box-office-pro/settings-and-hardware#receipt-printing):
+
+| Option | Behaviour |
+|--------|-----------|
+| **Disabled** | No automatic paper cutting |
+| **After each ticket** | Cuts after every individual ticket prints |
+| **After printing order** | Cuts once after all tickets and the receipt have printed |
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Payments" icon="credit-card" href="/mobile-apps/box-office-pro/payments">
+    Payment methods, split payments, and the post-payment confirmation screen.
+  </Card>
+  <Card title="Access Control" icon="qrcode" href="/core-platform/event-management/access-control">
+    Configure access control settings for events in the admin panel.
+  </Card>
+</CardGroup>

@@ -1,0 +1,145 @@
+---
+title: "Selecting Tickets"
+description: "Browse timeslots, choose seats from a seating plan, add items to the basket, apply discount codes, and assign customer details."
+---
+
+## Overview
+
+After selecting an event from the listing screen, you move into the ticket selection flow. This involves choosing a timeslot (if the event has them), selecting ticket types and quantities, optionally picking seats from a seating plan, and building a basket. The app also supports add-ons, discount codes, and customer assignment before checkout.
+
+## Choosing a Timeslot
+
+If the event uses timeslots, a filter at the top of the ticket screen lets you choose which timeslot to shop:
+
+- **Whole event** — shows tickets available across the entire event
+- **Individual timeslots** — shows tickets specific to a particular time window
+
+Timeslots that are off sale or out of stock are hidden from the list. The display shows either the timeslot's custom name or its start and end times.
+
+Tickets are grouped into two sections:
+
+- **Available for the whole event** — tickets that are not tied to any specific timeslot
+- **Timeslot-specific sections** — tickets assigned to individual timeslots
+
+## Selecting Tickets
+
+Each ticket type in the list displays:
+
+- **Name** and **price** (in the selected currency)
+- **Stock** count (when stock is limited)
+- **Status badges** where applicable:
+
+| Badge | Meaning |
+|-------|---------|
+| **Bundle** | Ticket is part of a bundle package |
+| **Season ticket** | A season pass rather than a single-event ticket |
+| **Product** | A physical product rather than a ticket |
+| **Has add-ons** | Optional add-on items are available for this ticket |
+| **Out of stock** | No inventory remaining — quantity controls hidden |
+| **Off sale** | Outside the sale window — quantity controls hidden |
+
+Use the **+** and **-** buttons to adjust quantities. The app enforces any configured quantity rules:
+
+- **Minimum order quantity** — you cannot add fewer than the minimum (reducing below it removes the item entirely)
+- **Maximum order quantity** — the quantity caps at the configured maximum
+- **Multiples of** — quantities snap to the required increment (e.g., multiples of 2)
+
+<Note>
+A maximum of 50 items can be added to a single order.
+</Note>
+
+### Add-Ons
+
+When you add a ticket that has optional add-ons, a dialog appears showing the available add-on items. Adjust the quantity of each add-on using **+** and **-** buttons in the dialog. Add-ons appear indented under their parent ticket in the basket and are removed automatically if the parent ticket is removed.
+
+## Seating Plans
+
+For seated events, the ticket selection screen can switch between two views:
+
+- **List** — the standard ticket list described above
+- **Seating plan** — an interactive map of the venue
+
+### Selecting Seats
+
+The seating plan loads as an interactive map where you can tap individual seats. When you tap a seat:
+
+1. If only one ticket type matches the seat's price band, it is added to the basket immediately
+2. If multiple ticket types are available for that seat, a **Select ticket** dialog asks you to choose which type
+
+Selected seats are highlighted on the plan. To remove a seat, tap it again or delete it from the basket.
+
+An area filter dropdown at the top lets you narrow the seating plan to a specific section of the venue.
+
+### Table Bookings
+
+For venues with table seating where individual seat selection is not allowed, the system waits until all seats at a table are selected before adding the tickets to the basket.
+
+### Best Available Seats
+
+When adding tickets for a seated event via the list view (rather than picking specific seats on the plan), the app requests the best available seats automatically. The server assigns optimal seats based on availability.
+
+## The Basket
+
+The basket screen shows everything you've selected so far. A countdown timer at the top tracks the basket's expiry — when it reaches zero, items are released back on sale and you're returned to the event listing.
+
+### Basket Contents
+
+Each line in the basket shows the item name, price, and quantity. Additional details appear where relevant:
+
+- **Seated tickets** show the seat location (e.g., *"Section A, Row 12, Seat 5"*) with a **Delete** button for individual removal
+- **Add-ons** appear indented under their parent ticket with a visual connector
+- **Fees** appear as separate line items (display only, no quantity controls)
+
+The basket footer shows:
+
+- **Discount** amount (if a code has been applied)
+- **Total** order value
+
+### Adjusting Quantities
+
+For non-seated tickets, the same **+** / **-** controls from the ticket selection screen appear in the basket. Changes sync with the server to validate stock availability. A progress indicator appears during sync, and buttons are temporarily disabled until the update completes.
+
+### Discount Codes
+
+Tap **Add code** to apply a discount code. A dialog asks for the code — enter it and tap **Apply**. On success, the basket total updates and a confirmation appears: *"Discount code applied successfully."*
+
+<Note>
+You must have items in the basket before applying a discount code. Attempting to add a code to an empty basket shows: *"Add items to basket before adding discount code."*
+</Note>
+
+If the code is invalid, the app displays: *"Discount code is invalid."* If there's no connection, you'll see: *"Discount code not applied, please make sure you have internet connection."*
+
+### Customer Details
+
+Two optional fields let you assign the order to a customer:
+
+- **Customer name** — free text
+- **Customer email** — validated email address
+
+Both fields are optional. Leaving them blank creates a guest order. If you provide one, you must provide the other:
+
+- Name without email → *"Please enter an email address or remove the name to checkout as a guest"*
+- Email without name → *"Please enter a name or remove the email address to checkout as a guest"*
+
+A QR scanner button lets you scan a customer's barcode to auto-fill their name and email from the system.
+
+### Basket Expiry
+
+The countdown timer at the top of the basket tracks the expiry time set by the server. When the timer reaches zero, the basket expires and a message appears: *"Your basket has timed out. Items are released back on sale after expiry."* You are returned to the event listing to start a new order.
+
+### Proceeding to Checkout
+
+Tap **Checkout** to move to the payment screen. If the basket is empty, the app shows *"Basket is empty"* and returns to the previous screen.
+
+If the order total is zero (e.g., all complimentary items), the app skips the payment screen and completes the order directly.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Payments" icon="credit-card" href="/mobile-apps/box-office-pro/payments">
+    Cash, card, Stripe Terminal, and split payment processing.
+  </Card>
+  <Card title="Seating Plans" icon="chair" href="/core-platform/seating-plans/introduction">
+    Creating and managing venue seating plans in the admin panel.
+  </Card>
+</CardGroup>

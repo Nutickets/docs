@@ -1,0 +1,132 @@
+---
+title: "Payments"
+description: "Process orders using cash, card, Stripe Terminal, or split payments across multiple methods."
+---
+
+## Overview
+
+Box Office Pro supports multiple payment methods that can be used individually or combined through split payments. After building a basket and tapping **Checkout**, the payment screen shows the total cost and the available payment methods. Each method can be enabled or disabled in [settings](/mobile-apps/box-office-pro/settings-and-hardware).
+
+## Payment Methods
+
+| Method | Description |
+|--------|-------------|
+| **Cash** | Staff collects cash from the customer. Optionally calculates change. |
+| **Card reader** | Processes a card payment via a connected Stripe Bluetooth reader. |
+| **Tap to pay** | Processes a contactless card payment using the device's built-in NFC. No external reader required. |
+| **Card (online)** | Processes an online card payment (card not present) via the Stripe payment sheet on the device. |
+| **Card (offline)** | Records a card-present payment processed outside the app. |
+
+<Note>
+**Card reader** and **Tap to pay** both use Stripe Terminal but connect differently — one via an external Bluetooth reader, the other via the device's own NFC hardware. Both require a Stripe reader to be [connected in settings](/mobile-apps/box-office-pro/settings-and-hardware#stripe-card-reader).
+</Note>
+
+## Paying with Cash
+
+1. Select **Cash** from the payment method list
+2. Enter the cash amount received using the numeric input (the field shows *"Enter amount"*)
+3. The screen calculates and displays either:
+   - **Change due** — when the cash covers the total. The **Pay** button becomes active.
+   - **Remaining cost** — when the cash is less than the total. The **Pay** button remains disabled (unless split payments are enabled).
+4. Tap **Pay** to complete the cash payment
+
+If the **Cash input and change** setting is disabled, cash payments complete immediately without the amount entry step.
+
+An **Open cash drawer** button appears during cash payments if you have the required permission and a Sunmi cash drawer is connected.
+
+## Paying with Card Reader or Tap to Pay
+
+1. Select **Card reader** or **Tap to pay**
+2. The app creates a payment intent with the server and connects to the Stripe reader
+3. The screen shows live status updates from the reader:
+   - *"Preparing payment"* → *"Insert card"* or *"Ready"* → *"Processing"*
+4. The customer presents their card (insert, tap, or swipe depending on the reader)
+5. On success, the screen shows *"Payment Successful!"* and the order completes automatically
+
+If the reader is not connected, the screen displays *"Terminal is not connected"* with an **Open terminal settings** button to configure the reader.
+
+### Interac Support
+
+For Canadian operations, Interac debit payments can be enabled alongside Stripe Terminal. When enabled, the terminal automatically handles Interac transactions without additional steps from the staff member.
+
+## Paying with Card (Online)
+
+1. Select **Card (online)**
+2. The Stripe payment sheet opens automatically, displaying card entry fields
+3. The customer (or staff member) enters card details
+4. On success, the screen shows *"Payment Successful!"*
+
+If the payment is cancelled or fails, the app returns to the payment method selection so you can try again.
+
+## Split Payments
+
+When split payments are enabled, staff can collect payment across multiple methods for a single order. This is useful when a customer wants to pay part in cash and part by card.
+
+### How Split Payments Work
+
+1. Select a payment method and enter an amount that is **less** than the total
+2. The partial payment is recorded and the screen resets to payment method selection
+3. The **Remaining cost** updates to show what's still owed
+4. Select another payment method for the remainder
+5. Repeat until the full amount is collected
+
+The **Previous payments** section tracks each split. When fewer than three splits have been recorded, each one is listed individually showing the method and amount. With three or more, they collapse into a summary row showing the combined total — tap it to expand the full list.
+
+<Note>
+If a payment fails during a split (e.g., a card is declined), the failed split is automatically removed so you can retry with the same or different method.
+</Note>
+
+## After Payment
+
+When the final payment is collected, the order is created on the server and a confirmation screen appears showing:
+
+- **Payment completed** heading
+- **Confirmation number** for the order
+- Customer name and email (if provided)
+- **Total paid** amount
+- **Change** amount (for cash payments)
+
+From the confirmation screen, several actions are available:
+
+| Action | Description |
+|--------|-------------|
+| **Cash drawer** | Opens the cash drawer (requires permission and connected hardware) |
+| **Admit** | Checks in all tickets on the order immediately (if check-in is configured — see [settings](/mobile-apps/box-office-pro/settings-and-hardware#check-in-after-purchase)) |
+| **Print** | Prints tickets with QR barcodes on a connected Sunmi printer |
+| **Print receipt** | Prints a financial receipt |
+| **Buy more** | Starts a new order for the same customer (keeps name and email) |
+| **New customer** | Clears the basket and customer data to start a fresh order |
+
+<Note>
+**Buy more** only appears when a customer name was entered. If the order was a guest checkout, only **New customer** is shown.
+</Note>
+
+### NFC Ticket Pairing
+
+If NFC pairing is enabled in settings and the order contains tickets configured for NFC, the app enters a pairing flow after payment. Each ticket is presented one at a time — tap the customer's NFC tag to pair it with the ticket. You can skip individual tickets or cancel the entire pairing process.
+
+For details on how NFC pairing works, including tag types and credit transfers, see [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#nfc-ticket-pairing).
+
+## Payment Errors
+
+| Error | Meaning |
+|-------|---------|
+| *"Terminal is not connected"* | No Stripe reader paired — open terminal settings to connect |
+| *"Payment failed"* | Card declined or reader error — retry or use a different method |
+| *"Processing payment failed"* | Payment confirmation failed after card was read |
+| *"Capturing payment failed"* | Server could not capture the authorised payment |
+| *"Creating payment failed. Please make sure you have internet connection."* | No network connectivity for online payment |
+| *"Do you want to cancel payment?"* | Shown when pressing back during an active payment |
+
+All error states include a **Retry** button to attempt the payment again.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Selecting Tickets" icon="ticket" href="/mobile-apps/box-office-pro/selecting-tickets">
+    Ticket selection, seating plans, basket management, and discount codes.
+  </Card>
+  <Card title="Settings and Hardware" icon="gear" href="/mobile-apps/box-office-pro/settings-and-hardware">
+    Enable or disable payment methods, connect Stripe readers, and configure cash input.
+  </Card>
+</CardGroup>

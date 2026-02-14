@@ -396,12 +396,33 @@
             "pages": ["mobile-apps/get-started/introduction"]
           },
           {
-            "group": "Apps",
+            "group": "Access Control Pro",
             "pages": [
-              "mobile-apps/access-control-pro",
-              "mobile-apps/epos-pro",
-              "mobile-apps/box-office-pro",
-              "mobile-apps/hardware"
+              "mobile-apps/access-control-pro/introduction",
+              "mobile-apps/access-control-pro/scanning-and-admission",
+              "mobile-apps/access-control-pro/event-information",
+              "mobile-apps/access-control-pro/zone-access",
+              "mobile-apps/access-control-pro/settings-and-hardware"
+            ]
+          },
+          {
+            "group": "EPOS Pro",
+            "pages": [
+              "mobile-apps/epos-pro/introduction",
+              "mobile-apps/epos-pro/selling-products",
+              "mobile-apps/epos-pro/topups-and-cashout",
+              "mobile-apps/epos-pro/transactions-and-reports",
+              "mobile-apps/epos-pro/settings-and-hardware"
+            ]
+          },
+          {
+            "group": "Box Office Pro",
+            "pages": [
+              "mobile-apps/box-office-pro/introduction",
+              "mobile-apps/box-office-pro/selecting-tickets",
+              "mobile-apps/box-office-pro/payments",
+              "mobile-apps/box-office-pro/orders-and-after-the-sale",
+              "mobile-apps/box-office-pro/settings-and-hardware"
             ]
           }
         ]

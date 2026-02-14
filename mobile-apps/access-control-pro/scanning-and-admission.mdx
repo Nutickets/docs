@@ -1,0 +1,155 @@
+---
+title: "Scanning and Admission"
+description: "How to scan tickets, understand scan results, and admit attendees."
+---
+
+## Overview
+
+The **Scan** tab is where operators spend most of their time. It supports four input methods — camera, laser scanner, manual entry, and NFC — and evaluates every scan instantly against locally cached ticket data. This page covers how scanning works, what the different results mean, and the options available for admitting attendees.
+
+## Scan Input Methods
+
+### Camera QR Scanning
+
+The default scan method. The app uses the device camera with ML Kit barcode detection to read QR codes in real time.
+
+- Point the camera at the QR code on a ticket or customer's screen
+- The app detects and processes QR codes automatically
+- Tap the torch icon to toggle the flashlight in low-light conditions
+- Scanning is rate-limited to one scan every 200 milliseconds to prevent duplicate reads
+
+### Hardware Laser Scanner
+
+For devices with a built-in laser scanner (such as Sunmi or other ruggedised Android terminals):
+
+1. Tap the laser icon on the scan screen
+2. A dialog appears prompting you to press the device's hardware scan button
+3. Press the laser scan trigger — the scanned barcode is processed automatically
+
+<Note>
+Make sure the device's scanner settings are configured to output via virtual keyboard with Enter (or carriage return) enabled. For Code 39 barcodes with lowercase or special characters, enable **Full ASCII** (also called **Extended**) in the device's decode parameters.
+</Note>
+
+### Manual Entry
+
+For situations where a barcode cannot be scanned (damaged ticket, screen glare, etc.):
+
+1. Tap the keyboard icon on the scan screen
+2. Enter the barcode number in the text field
+3. Tap **Validate**
+
+Manual entry also accepts input from external keyboard-style barcode scanners — if the input contains a newline character (from the scanner pressing Enter), the barcode is submitted automatically.
+
+### NFC Scanning
+
+When the event's [scanning mode](/core-platform/event-management/access-control#scanning-mode) is set to **NFC** or the device is configured for NFC pairing:
+
+- Hold the NFC tag against the device's NFC reader
+- The app reads the tag and validates the associated ticket
+
+NFC scanning supports both the device's built-in NFC reader and external Bluetooth NFC readers. See [settings and hardware](/mobile-apps/access-control-pro/settings-and-hardware#nfc-pairing) for NFC configuration details.
+
+## Scan Results
+
+After a scan, a full-screen result appears showing the ticket status, customer details, and available actions. The top bar colour and icon immediately communicate the outcome.
+
+### Result Statuses
+
+| Status | Top bar | Meaning |
+|--------|---------|---------|
+| **Valid** | Green with check icon | Ticket is valid and ready to be admitted. Plays a confirmation sound with a short vibration. |
+| **Already scanned** | Yellow with warning icon | Ticket has already been admitted. Shows who scanned it and when. |
+| **Not yet valid** | Yellow with warning icon | The current time is before the ticket's valid-from date. |
+| **No longer valid** | Yellow with warning icon | The current time is after the ticket's valid-until date. |
+| **Invalid** | Red | No matching ticket found for this barcode. |
+| **Barcode has changed** | Red | The barcode was found in historic records but has since been replaced with a new one. The customer should check their order for the latest barcode. |
+
+<Note>
+If a valid ticket is blocked because the device has its ticket type or gate disabled (see [filtering scans](#filtering-scans-by-ticket-type-and-gate) below), the scan result shows as red even though the ticket itself is valid. The message **This device is not enabled to admit this ticket** explains why.
+</Note>
+
+### Ticket Details Shown
+
+The scan result screen displays:
+
+- **Customer details** — name, email, and optionally customer ID, passport number, or national ID
+- **Ticket details** — ticket type, event name, timeslot (if applicable), seat information (stand, stairs, seat), barcode, and order reference
+- **Admission status** — how many tickets in the order have been admitted out of the total (e.g. "3 / 5")
+- **Scan history** — who last scanned the ticket and when
+- **Data capture answers** — any data capture responses linked to the ticket
+- **Validity dates** — the valid-from and valid-until window
+- **Add-ons** — any add-on items sold with the ticket
+
+### Season Tickets
+
+When scanning a season ticket barcode that matches tickets across multiple events, the app prompts you to select which event you want to scan the ticket into.
+
+## Admitting a Ticket
+
+When a scan result is **Valid** and the ticket type and gate are both active on the device, the **Admit ticket** button appears (or **Collect** for product-type items).
+
+Tap **Admit ticket** to record the admission. The scan is stored locally and synced to the server in the background.
+
+### Admitting an Entire Order
+
+If the scanned ticket is part of a larger order with multiple items, an **Admit order** button appears alongside the individual admit button. Tapping it shows a confirmation with two options:
+
+- **Admit valid** — admits only the items that are currently within their validity window
+- **Admit all** — admits all items in the order, including those outside their validity window
+
+<Note>
+If the order contains items that are currently outside their validity period, the confirmation shows how many are currently valid out of the total. For example: *"There are only 3 currently valid items, from a total of 5 in the order."*
+</Note>
+
+The ability to admit entire orders can be disabled in [settings](/mobile-apps/access-control-pro/settings-and-hardware).
+
+### Auto-Admit
+
+When **Auto admit** is enabled in settings, valid tickets are admitted automatically after scanning — no tap required. This is designed for high-throughput entry points where speed is critical.
+
+After the auto-admit completes, the result screen closes automatically if **Auto close after admitting** is also enabled. In laser scan mode, the screen always stays open briefly to allow the operator to see the result.
+
+<Note>
+Enabling auto-admit automatically disables the **Ability to admit all** setting, since automatic admission operates on individual tickets only.
+</Note>
+
+### Age Verification
+
+When **Age verification** is enabled in settings, the app prompts the operator to verify the customer's age after a valid scan. The screen shows:
+
+- The customer's date of birth (if available)
+- Their age on the event date
+- A prompt to check the customer's ID
+
+If no date of birth is on record, the operator is prompted to enter one. The entered date of birth is saved to the customer's profile.
+
+## Filtering Scans by Ticket Type and Gate
+
+The app allows operators to restrict which ticket types and gates the device will accept. This is useful for directing different ticket types to different entry points.
+
+### Ticket Type Filtering
+
+From the **Info** tab, each ticket type shows a coloured indicator:
+
+- **Green** — active on this device (scans accepted)
+- **Red** — disabled on this device (scans rejected)
+
+Tap a ticket type to toggle it. A confirmation dialog asks whether you want to enable or disable scanning for that type. When a ticket type is disabled, scanning a ticket of that type shows a rejection even though the ticket itself is valid.
+
+### Gate Filtering
+
+Gates work the same way — each gate in the Info tab can be toggled on or off per device. When a gate is disabled, tickets assigned to that gate are rejected on this device.
+
+<Note>
+Tickets that have no gate assignment are always accepted regardless of gate filter settings.
+</Note>
+
+## Recent Scans
+
+Tap the clock icon on the scan screen to view a list of the most recent scans. The app stores up to 20 recent scans per event (or per zone), showing the barcode, customer name, email, and scan time for each entry.
+
+## Secure QR Codes
+
+When the event's scanning mode is set to **Secure QR Only**, the app validates time-based dynamic QR codes that rotate periodically. This prevents ticket fraud via screenshot sharing.
+
+The app decodes and validates the secure barcode locally before processing the admission. See [secure barcodes](/core-platform/advanced/secure-barcodes) for how this feature is configured.

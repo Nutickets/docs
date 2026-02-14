@@ -1,0 +1,113 @@
+---
+title: "Introduction"
+description: "High-speed ticket validation and entry management for live events."
+---
+
+## Overview
+
+Access Control Pro is the entry scanning app for live events. Staff use it to validate tickets, admit attendees, manage guest lists, and control access to zones — all from an Android device. The app works offline by downloading ticket data to the device and syncing scan results back to the server when a connection is available.
+
+The app supports four scan input methods — camera QR scanning, hardware laser scanners, manual barcode entry, and NFC tag reading — so it adapts to anything from a phone at a small venue to a ruggedised device at a festival gate.
+
+## Getting Started
+
+### Signing In
+
+Open the app and sign in with the same email and password you use for the admin dashboard.
+
+<Note>
+If you manage multiple companies, the app asks you to choose which company to sign into. You can switch companies later from the home screen menu.
+</Note>
+
+If you forget your password, tap **Forgot password?** to receive a reset email. The app also supports offline sign-in — if you have previously signed in on the device, you can sign in again without an internet connection using the same credentials.
+
+### First-Time Setup
+
+On first launch, a short welcome walkthrough introduces the app. After completing (or skipping) it, you're asked whether the device will be used for a cashless event. Answering **Yes** enables NFC pairing in the app settings automatically. You can change this later in [settings](/mobile-apps/access-control-pro/settings-and-hardware).
+
+### The Home Screen
+
+After signing in, the home screen shows two tabs:
+
+- **Active events** — events that are currently running and ready for scanning. Each event card shows its name, date, venue, and a progress indicator while ticket data downloads to the device.
+- **Upcoming events** — future events that have not been activated yet. You can search by name or filter by date, and activate an event by tapping it and confirming.
+
+<Note>
+The app periodically refreshes the event list in the background. Pull down on the active events list to force an immediate refresh.
+</Note>
+
+### Multi-Event Scanning
+
+When **Multi event scanning** is enabled in [settings](/mobile-apps/access-control-pro/settings-and-hardware) and multiple events are active, an **All active events** option appears at the top of the event list. Selecting it lets you scan tickets from any active event without switching between them — useful when running concurrent events at the same venue.
+
+### Opening an Event
+
+Tap an active event to open it. What you see depends on your permissions and the event's access mode:
+
+- If you have **entry scan** permissions, the app opens the full event view with tabs for scanning, event information, attendees, guest lists, and zones.
+- If you only have **zone scan** permissions, the app takes you directly to the zones list (or straight into a zone if the event only has one).
+
+## Navigating an Event
+
+The event screen organises features into tabs along the bottom of the screen. Which tabs appear depends on your permissions and the event configuration:
+
+| Tab | Shown when | Purpose |
+|-----|------------|---------|
+| **Info** | You have entry scan permission | Event dashboard with attendance stats, ticket types, gates, and timeslots |
+| **Scan** | You have entry scan permission | The main scanning interface for admitting attendees |
+| **Attendees** | You have entry scan permission | Searchable list of all ticket holders for the event |
+| **Guest lists** | You have guest list permission | View and manage guest list attendance |
+| **Zones** | The event uses zones and you have zone scan permission | Zone-level access control scanning |
+
+The toolbar at the top shows the device battery level and connectivity status, so you can monitor device health at a glance.
+
+<Note>
+If your permissions change while the app is open (for example, an admin updates your role), the app automatically returns you to the home screen and notifies you.
+</Note>
+
+## Connectivity and Offline Mode
+
+Access Control Pro is designed to work reliably with intermittent or no internet connection.
+
+**How data flows:**
+1. When you open an event, the app downloads all ticket data to the device's local database.
+2. Every scan is evaluated locally — there is no round-trip to the server at scan time, so scanning is fast regardless of connection quality.
+3. Scan results are stored locally and uploaded to the server in the background every 30 seconds.
+4. The ticket list refreshes from the server periodically (every 5 minutes) to pick up new purchases and changes.
+
+If the device loses connectivity, scanning continues uninterrupted. Pending scan results queue locally and upload automatically when the connection returns.
+
+<Note>
+Zone scanning has an additional **Zones offline mode** that can be enabled per event. See [zone access](/mobile-apps/access-control-pro/zone-access#offline-mode) for details.
+</Note>
+
+## Company Switching
+
+If your account has access to multiple companies, you can switch between them without logging out:
+
+1. Tap the menu icon on the home screen
+2. Tap the company name at the top
+3. Select the company you want to switch to
+
+The app reloads the event list for the new company.
+
+## Screen Orientation
+
+The app supports both portrait and landscape orientations on devices with screens large enough (600dp or wider on the shortest edge). Toggle the orientation from the login screen or from within the app settings.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Scanning and Admission" icon="qrcode" href="/mobile-apps/access-control-pro/scanning-and-admission">
+    How to scan tickets, understand scan results, and admit attendees.
+  </Card>
+  <Card title="Event Information" icon="circle-info" href="/mobile-apps/access-control-pro/event-information">
+    The event dashboard, attendee lists, and guest list management.
+  </Card>
+  <Card title="Zone Access" icon="door-open" href="/mobile-apps/access-control-pro/zone-access">
+    Managing zone-level entry, in/out scanning, and zone statistics.
+  </Card>
+  <Card title="Settings and Hardware" icon="gear" href="/mobile-apps/access-control-pro/settings-and-hardware">
+    App settings, NFC pairing, printing, and hardware scanner support.
+  </Card>
+</CardGroup>

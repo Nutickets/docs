@@ -1,24 +1,40 @@
 ---
 title: "Introduction"
-description: "Overview of the mobile application suite."
+description: "Overview of the mobile application suite for on-site event operations."
 ---
 
-<Danger>This is currently a proof-of-concept, please refer to other documentation in the meantime.</Danger>
+## Overview
 
-The mobile application suite extends the platform's capabilities from the back office to the event floor. These tools are designed for operational staff to manage entry, processing, and sales in physical venue environments.
+The mobile app suite brings the platform's capabilities from the back office to the event floor. Three Android apps cover the key on-site operations — entry scanning, ticket sales, and point-of-sale — each designed for staff working in physical venue environments with handheld devices.
 
-## The Application Suite
+All three apps share a common foundation: they authenticate with the same admin credentials used for the web dashboard, support Sunmi hardware (printers, cash drawers, NFC readers), and integrate with Stripe Terminal for card payments. Each app is purpose-built for a specific operational role.
 
-The ecosystem consists of three specialized applications, each serving a distinct operational role:
+## The Apps
 
 <CardGroup cols={3}>
-  <Card title="Access Control Pro" icon="qrcode" href="/mobile-apps/access-control-pro">
-    High-speed ticket validation and entry management. Supports multi-point scanning and real-time attendance tracking.
+  <Card title="Access Control Pro" icon="qrcode" href="/mobile-apps/access-control-pro/introduction">
+    Ticket validation and entry management. Scan QR codes, NFC wristbands, or barcodes to admit attendees, track capacity, and control zone access — online or offline.
   </Card>
-  <Card title="Box Office Pro" icon="ticket" href="/mobile-apps/box-office-pro">
-    On-the-door ticket sales and reservation management. Allows staff to sell inventory and issue tickets instantly via connected hardware.
+  <Card title="Box Office Pro" icon="ticket" href="/mobile-apps/box-office-pro/introduction">
+    On-the-door ticket sales. Browse events, select seats, process payments (including split payments), and issue tickets with printed receipts or NFC pairing.
   </Card>
-  <Card title="EPOS Pro" icon="cash-register" href="/mobile-apps/epos-pro">
-    Point-of-sale system for retail, food, and beverage. Handles product stock, complex orders, and card terminal integrations.
+  <Card title="EPOS Pro" icon="cash-register" href="/mobile-apps/epos-pro/introduction">
+    Point-of-sale for food, beverage, and retail. Sell products, manage stock, process top-ups and cash-outs, and operate with NFC-based cashless payments.
   </Card>
 </CardGroup>
+
+## Shared Capabilities
+
+| Capability | Description |
+|------------|-------------|
+| **Admin login** | All apps use the same email and password as the admin dashboard. Permissions control what each staff member can access. |
+| **Stripe Terminal** | Card payments via Bluetooth readers or Tap to Pay (device NFC). Reader setup works the same way across all apps. |
+| **Sunmi hardware** | Receipt printing, cash drawers, and built-in NFC on supported Sunmi devices. |
+| **NFC support** | Read and write NFC tags (MIFARE Classic, DESFire, NTag) for cashless payments, ticket pairing, and customer identification. |
+| **Second screen** | On dual-screen devices, a customer-facing display shows basket contents, totals, and payment prompts. |
+| **White-label branding** | Logos, colours, and gradients can be customised per company. |
+| **Offline operation** | Access Control Pro and EPOS Pro support full offline mode. Box Office Pro requires a connection for basket and payment operations. |
+
+## Configuration
+
+Each app has its own settings screen for toggling payment methods, connecting hardware, and enabling optional features. The admin panel also controls what's available to the apps — for example, EPOS shops and products are configured in the [EPOS settings](/core-platform/epos/overview), while event access zones are set up in [access control configuration](/core-platform/event-management/access-control).

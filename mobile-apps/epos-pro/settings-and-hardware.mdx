@@ -1,0 +1,141 @@
+---
+title: "Settings and Hardware"
+description: "Configure payment methods, connect card readers and NFC devices, set up receipt printing, and manage app preferences."
+---
+
+## Overview
+
+EPOS Pro settings control how the app processes payments, identifies customers, and integrates with hardware. Settings are accessed from the menu on the home screen. This page also covers the hardware integrations the app supports — Stripe card readers, NFC readers, Sunmi receipt printers, and cash drawers.
+
+## Payment Settings
+
+Payment methods can be enabled or disabled both in the admin panel (EPOS settings) and in the app. The app-level settings reflect the configuration pushed from the server.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Cash payments** | On | Allow staff to accept cash. Hidden when EPOS uses a custom currency. |
+| **Card payments** | Off | Allow online card payments (card not present). |
+| **Terminal card payments** | Off | Allow card payments via a connected Stripe reader. |
+| **Complimentary payments** | Off | Allow staff to process orders at no charge. |
+
+<Note>
+Each staff member also needs the corresponding permission in their role to use a payment method. Enabling a method in settings makes it available in the app, but the button only appears for staff who have the right permission.
+</Note>
+
+### Cash Input and Change
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Cash input and change** | On | When enabled, a numeric keypad prompts staff to enter the cash received during cash payments. The app calculates and displays the change. When disabled, cash payments complete immediately without change calculation. |
+
+## Stripe Card Reader
+
+EPOS Pro integrates with Stripe Terminal for contactless and chip card payments. Two reader types are supported:
+
+| Reader Type | Description |
+|-------------|-------------|
+| **Bluetooth** | An external Stripe reader connected via Bluetooth. Requires the reader to be powered on and within range. |
+| **Local** | Tap to Pay on the device itself, using the device's built-in NFC for contactless card acceptance. No external reader required. |
+
+### Connecting a Reader
+
+1. Open **Settings**
+2. Tap **Stripe reader**
+3. Select the reader type (**Bluetooth** or **Local**)
+4. For Bluetooth readers:
+   - Ensure Bluetooth is enabled on the device
+   - Tap **Search for readers** — the app scans for nearby readers
+   - Select the reader from the list
+   - Choose the reader's location (configured in your Stripe Dashboard)
+5. Wait for the connection to complete
+
+Once connected, the settings screen shows the reader name, battery level, and software version. A **Disconnect** button allows you to unpair.
+
+<Note>
+Stripe Terminal requires Bluetooth to be enabled on the device. If Bluetooth is off, the app displays: *"Turn on bluetooth on this mobile device (required to use stripe reader)."* Reader locations must be configured in Stripe Dashboard under **Payments > Readers > Locations** before they appear in the app.
+</Note>
+
+### Reader Updates
+
+When a firmware update is available for the connected reader, the app shows an **Update** button. Updates require the reader to be fully charged. If the update fails, the app displays: *"Installing update failed, make sure the reader's battery is fully charged."*
+
+## NFC Configuration
+
+NFC settings control how the app reads and writes customer NFC media (wristbands, cards, badges).
+
+| Setting | Description |
+|---------|-------------|
+| **Additional supported NFC tag type** | Select a secondary NFC tag type to support alongside the default MIFARE Classic. Options: **Non original Mifare Classic** or **Barbados ID**. |
+| **External NFC reader** | Enable and configure an external Bluetooth NFC reader for devices without built-in NFC. Tap to scan for and pair with the reader. |
+
+The app supports four NFC tag types:
+
+| Tag Type | Capabilities |
+|----------|-------------|
+| **MIFARE Classic / Classic EV1** | Full read/write. Used for balance storage with sector-based encryption. |
+| **DESFire EV1** | Full read/write with enhanced security. Encrypted communication using company-specific keys. |
+| **NTag 213** | Read-only (UID only). |
+| **JavaCard (ISO-DEP)** | Read-only. Reads serial and batch number via APDU commands. |
+
+<Note>
+NFC tags are encrypted with your company's key. Tags from a different company cannot be read by the app. If a tag cannot be scanned, the app displays: *"This NFC tag cannot be scanned, because it's not paired with a customer or tag was removed too quickly."*
+</Note>
+
+## Receipt Printing
+
+EPOS Pro supports receipt printing on **Sunmi** devices with a built-in thermal printer. Two receipt types are available:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Print customer receipt** | Off | Automatically prints a customer-facing receipt after each transaction. Can also be triggered manually from the success screen. |
+| **Print product receipt** | Off | Automatically prints a kitchen/product receipt after each transaction. Only available for product sales (not top-ups or cash-outs). |
+
+### Customer Receipt Content
+
+- Customer name and NFC/QR media identifier
+- Payment method
+- Transaction ID and device ID
+- Staff member name
+- Date and time
+- Itemised list of products with quantities and prices
+- Total payment amount
+- Current balance (for top-ups and cash-outs)
+
+### Product Receipt Content
+
+- Itemised list of products with quantities and prices
+- Printed in a larger format suitable for kitchen display
+
+After printing, the Sunmi printer automatically cuts the paper.
+
+## Cash Drawer
+
+Sunmi devices with a connected cash drawer can be opened from the app. The **Cash Drawer** button appears in two places:
+
+- On the **cash input** screen during cash payments
+- On the **transaction success** screen after completing a sale
+
+Opening the cash drawer requires the `cashDrawerNoSale` or `cashDrawerCardSale` permission.
+
+## Product Display Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Auto sale** | Off | Enables auto-sale mode, where a pre-selected product is sold automatically each time a customer is scanned. See [auto-sale](/mobile-apps/epos-pro/selling-products#auto-sale-mode). |
+| **Product categories** | Off | Groups products by category in the product selection grid. When disabled, all products are shown in a single flat list. |
+| **Cash out clears NFC tag** | Off | When enabled, a cash-out operation also wipes all data from the NFC tag. |
+
+## Screen Orientation
+
+The app supports both portrait and landscape modes on compatible devices. A toggle button on the login screen (and in settings) allows switching between orientations. Landscape mode is only available on devices with screens of at least 600dp on the shortest side.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="EPOS Overview" icon="cash-register" href="/core-platform/epos/overview">
+    Configure EPOS settings, payment methods, and balance spending in the admin panel.
+  </Card>
+  <Card title="Selling Products" icon="basket-shopping" href="/mobile-apps/epos-pro/selling-products">
+    Product selection, basket management, and payment processing.
+  </Card>
+</CardGroup>

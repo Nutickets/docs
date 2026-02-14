@@ -1,0 +1,112 @@
+---
+title: "Event Information"
+description: "The event dashboard, attendee lists, and guest list management."
+---
+
+## Overview
+
+Beyond scanning, Access Control Pro gives operators visibility into the event's attendance data, ticket breakdowns, and guest lists — all accessible from the event screen tabs. This information helps staff monitor progress, troubleshoot entry issues, and manage guest list check-ins without switching to the admin panel.
+
+## Event Info Tab
+
+The **Info** tab is the event dashboard within the app. It displays a summary of the event alongside detailed breakdowns by ticket type, timeslot, and gate.
+
+### Event Summary
+
+At the top, the event card shows:
+
+- Event name, date, and venue
+- The event's [scanning mode](/core-platform/event-management/access-control#scanning-mode) (QR Only, Secure QR Only, or NFC)
+- Event thumbnail image
+- **Ticket attendance** — how many tickets have been scanned out of the total, with a percentage (e.g. "150 / 500")
+- **Guest attendance** — how many guests have been checked in out of the total
+- A download progress indicator while ticket data is still syncing to the device
+
+### Gates
+
+Below the event summary, each gate configured on the event is listed with:
+
+- Gate name
+- Number of tickets scanned through that gate
+- Active/inactive status on this device (green or red indicator)
+
+Tap a gate to toggle whether this device accepts tickets assigned to that gate. See [filtering scans](/mobile-apps/access-control-pro/scanning-and-admission#filtering-scans-by-ticket-type-and-gate) for details.
+
+### Timeslots
+
+If the event has [timeslots](/core-platform/event-management/timeslots), each timeslot is displayed with its name, date range, and attendance figures. The currently active timeslot (based on the current time) is automatically expanded.
+
+Tap a timeslot to expand or collapse it, revealing the individual ticket types within that timeslot along with their attendance stats and active/inactive status.
+
+### Ticket Types
+
+Ticket types that are not part of any timeslot are listed separately under a **Ticket types** section. Each ticket type shows:
+
+- Type name
+- Attendance text (scanned / total)
+- Percentage scanned
+- Active/inactive indicator
+
+Tap a ticket type to toggle it. A confirmation dialog asks:
+- *"Do you want to disable the scanning/admission of this ticket type on this device?"* — or the reverse to enable it
+
+This is how operators restrict a device to only scan specific ticket types at an entry point.
+
+## Attendees Tab
+
+The **Attendees** tab shows a searchable, scrollable list of every ticket holder for the event. This is useful for looking up a specific attendee, checking who has been admitted, or manually triggering a scan from the list.
+
+### Searching and Filtering
+
+- **Search** — type a customer name to filter the list in real time
+- **Timeslot filter** — if the event has timeslots, a filter button lets you narrow the list to a specific timeslot or view all
+- **Tickets / Products toggle** — switch between viewing ticket-type items and product-type items
+
+### Attendee Information
+
+Each row in the list shows:
+
+- Customer name
+- Customer email
+- Ticket type
+- Timeslot (if applicable)
+- Barcode
+- A check mark icon if the attendee has been admitted
+
+The list supports alphabetical fast-scroll indexing for quick navigation through large attendee lists.
+
+### Scanning from the List
+
+Tap any attendee row to open their scan result — the same screen you would see after scanning their barcode. This is useful for manually checking or admitting someone when their barcode cannot be scanned.
+
+## Guest Lists Tab
+
+The **Guest lists** tab shows all guest lists configured for the event. Guest lists are managed from the admin panel but can be checked in from the app.
+
+### Guest List Overview
+
+Each guest list displays:
+
+- Guest list name
+- Attendance count (checked in / total)
+- A visual doughnut chart showing the percentage checked in
+
+Tap a guest list to open it and see the individual guests.
+
+### Guest Detail
+
+Tapping a guest opens their detail screen showing:
+
+- Full name
+- Guest list name
+- Attended count (how many of their allocated spots have been used)
+- Price per guest
+- Who added the guest (**Added by** field)
+- Notes (if any were added in the admin panel)
+- Last entry timestamp (if they have been checked in at least once)
+
+### Checking In Guests
+
+Use the **+** and **-** buttons on the guest detail screen to increment or decrement the guest's attended count. Each change is saved immediately and synced to the server.
+
+This manual increment/decrement approach suits guest lists where the entry count matters — for example, a guest with 4 spots can have their count increased each time a member of their party arrives.

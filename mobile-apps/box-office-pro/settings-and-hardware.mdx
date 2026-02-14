@@ -1,0 +1,137 @@
+---
+title: "Settings and Hardware"
+description: "Configure payment methods, connect Stripe readers, enable kiosk mode, set up receipt printing, and manage app preferences."
+---
+
+## Overview
+
+Box Office Pro settings control which payment methods are available, how the app interacts with hardware, and optional features like kiosk mode and NFC pairing. Settings are accessed from the menu on the event listing screen.
+
+## Payment Settings
+
+Payment methods can be individually enabled or disabled. At least one payment method must remain active at all times — the app prevents you from disabling the last one.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Cash payments** | On | Accept cash payments. |
+| **Card payments** | Off | Accept online card payments (card not present), processed via Stripe payment sheet on the device. |
+| **Card (offline) payments** | Off | Record card-present payments processed outside the app. |
+| **Terminal card payments** | Off | Accept card payments via a connected Stripe reader. Enabling this opens the Stripe reader settings if no reader is connected. |
+| **Split payments** | Off | Allow staff to combine multiple payment methods for a single order. Only visible if split payments are enabled for your account. |
+| **Interac support** | Off | Accept Interac debit payments (Canada only). Only available when terminal card payments are enabled. |
+
+<Note>
+**Card payments** and **Terminal card payments** cannot both be enabled at the same time. Enabling one automatically disables the other.
+</Note>
+
+### Cash Input and Change
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Cash input and change** | On | When enabled, a numeric input prompts staff to enter the cash received. The app calculates and displays the change. When disabled, cash payments complete immediately. Only available when cash payments are enabled. |
+
+## Stripe Card Reader
+
+Box Office Pro integrates with Stripe Terminal for in-person card payments. Two reader types are supported:
+
+| Reader Type | Description |
+|-------------|-------------|
+| **Bluetooth** | An external Stripe reader connected via Bluetooth. |
+| **Tap to pay** | Uses the device's built-in NFC for contactless card acceptance. No external reader required. Available on devices running Android 10+ (API 30). |
+
+On devices that support both, you can choose **Both** to use either type interchangeably.
+
+### Connecting a Reader
+
+1. Open **Settings**
+2. Tap **Stripe reader** (shows *"Connect to Stripe reader"* when no reader is connected)
+3. Select your reader type (**Bluetooth**, **Tap to pay**, or **Both**)
+4. For Bluetooth readers:
+   - Select the reader's **location** from the list (configured in your Stripe Dashboard)
+   - Tap **Search for readers** — the app scans for nearby readers
+   - Tap the reader's serial number to connect
+5. Wait for the connection to complete
+
+Once connected, the settings screen shows the reader's serial number, battery level, and software version. A **Disconnect** button allows you to unpair.
+
+<Note>
+Stripe Terminal requires Bluetooth and location services to be enabled on the device. Reader locations must be configured in Stripe Dashboard under **Payments > Readers > Locations** before they appear in the app. If no locations are configured, the app displays: *"Reader must be assigned to location, but there are no locations set up in Stripe account."*
+</Note>
+
+## Check-In After Purchase
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Check in all the tickets purchased** | Disabled | Controls whether tickets are checked in (admitted) immediately after purchase. Three options: **Disabled**, **Admit button** (manual), or **Auto admit** (automatic). See [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#check-in-after-purchase). |
+
+## NFC Pairing
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **NFC pairing** | Off | When enabled, the app enters an NFC pairing flow after each purchase, allowing staff to pair tickets to NFC wristbands or cards. See [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#nfc-ticket-pairing). |
+
+## Receipt Printing
+
+Receipt printing is available on **Sunmi** devices with a built-in thermal printer.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Print receipt** | Off | Automatically prints a financial receipt after printing tickets. When disabled, only tickets are printed. |
+| **Cutting paper** | Disabled | Controls paper cutting behaviour. Options: **Disabled**, **After printing order** (single cut after all tickets), or **After each ticket** (cut between each ticket). |
+
+## Strict Ticket Check
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Strict ticket check** | Off | When enabled, the app validates every basket change against the server in real time, checking ticket availability before confirming the addition. When disabled, items are added to a local basket and synced when you navigate to the basket screen. |
+
+## Secure Barcodes
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Disable secure barcodes** | On | When enabled, secure barcode generation is skipped after transactions. This speeds up order completion at the cost of not creating enhanced barcodes. |
+
+## Cash Drawer
+
+On Sunmi devices with a connected cash drawer, the **Cash drawer** button in settings opens the drawer directly. It also appears during cash payments and on the payment completion screen.
+
+Opening the cash drawer requires the appropriate permission assigned to your user role.
+
+## Kiosk Mode
+
+Kiosk mode turns the device into an unattended self-service terminal. Customers can browse events, select tickets, and complete purchases without staff interaction.
+
+### Entering Kiosk Mode
+
+Tap **Enter kiosk mode** in settings. The app switches to a full-screen branded display with a single **Buy Tickets** button. The company logo and brand colours are applied to the kiosk screen.
+
+### Customer Experience
+
+When a customer taps **Buy Tickets**, they are taken through the standard event browsing, ticket selection, and payment flow. After purchase, the app automatically returns to the kiosk screen ready for the next customer.
+
+An inactivity timer monitors for idle periods. If no interaction is detected for 25 seconds, the app resets to the kiosk home screen.
+
+### Exiting Kiosk Mode
+
+Tap the left corner of the screen **three times** to trigger the exit dialog. Enter your admin password and tap **Close kiosk mode**. If the password is incorrect, the app shows *"Wrong password"* and remains in kiosk mode.
+
+<Note>
+The menu, settings, and navigation are all hidden while in kiosk mode. Only the exit gesture (triple-tap on the left corner) provides access to the password dialog.
+</Note>
+
+## Screen Orientation
+
+The app supports both portrait and landscape modes. A toggle on the login screen (and in settings) switches between orientations. Landscape mode is only available on devices with screens of at least 600dp on the shortest side.
+
+On first launch, the app detects the device's current orientation and sets it as the default.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Payments" icon="credit-card" href="/mobile-apps/box-office-pro/payments">
+    Payment methods, split payments, and the post-payment flow.
+  </Card>
+  <Card title="Orders and After the Sale" icon="receipt" href="/mobile-apps/box-office-pro/orders-and-after-the-sale">
+    Order history, refunds, check-in, NFC pairing, and receipt printing.
+  </Card>
+</CardGroup>

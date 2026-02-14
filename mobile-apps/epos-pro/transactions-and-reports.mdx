@@ -1,0 +1,171 @@
+---
+title: "Transactions and Reports"
+description: "View transaction history, process refunds, collect purchased products, and review sales reports."
+---
+
+## Overview
+
+EPOS Pro provides tools for reviewing past transactions, processing full or partial refunds, collecting pre-purchased products, and viewing sales reports — both from the server and from the local device. These features are accessed from the **Transactions**, **Sales Report**, and **Collect Purchases** tiles on the home screen.
+
+## Transaction History
+
+Tap **Transactions** from the home screen to view all transactions for the current shop. This tile requires the `viewListOfOrders` permission.
+
+### Browsing Transactions
+
+Transactions are displayed in a list sorted by date (most recent first). Each entry shows the order reference, customer name, total, and payment method. Pull down to refresh the list.
+
+### Searching
+
+The search bar at the top filters transactions by:
+
+- **Order reference** (partial match)
+- **Customer name** (partial match)
+- **Customer ID** (exact match)
+
+### Transaction Details
+
+Tap a transaction to view its full details:
+
+- **Order reference** and **date**
+- **Customer name**
+- **Payment method** (Cash, Card, Account Balance, Complimentary)
+- **Total payment** amount
+- **Order items** — each product with its quantity and price, plus refund status
+
+In online mode, the app fetches the latest transaction data from the server. In offline mode, it displays data from the local database.
+
+## Refunds
+
+Refunds are processed from the transaction detail screen. The app supports both full and partial refunds — you can refund individual items from an order without affecting the rest.
+
+### Processing a Refund
+
+1. Open the transaction you want to refund
+2. Tap the items you want to refund — selected items are highlighted
+3. Tap **Refund** to proceed to the confirmation screen
+
+Items that have already been refunded are marked and cannot be selected again.
+
+### Confirming the Refund
+
+The confirmation screen shows the selected items and the total refund amount. How confirmation works depends on the authentication mode:
+
+- **QR mode** — tap the **Confirm** button to process
+- **NFC Online mode** — tap the customer's NFC tag to confirm and process
+
+In NFC mode, the app validates that the NFC tag belongs to the same customer who made the original purchase. If the tag belongs to a different customer, the refund is blocked with the message: *"Refund is not possible, as this NFC tag doesn't belong to [name] who made this transaction."*
+
+### After the Refund
+
+On success, the refund amount is added back to the customer's account balance (for balance payments) and a confirmation screen is shown with the refund details. The original transaction is updated to show the refunded items.
+
+Refunded transactions appear in the transaction list with a **Refunded** or **Partially refunded** status.
+
+<Note>
+Refunds require the `refund` permission. If you don't have this permission, the refund button is not visible on the transaction detail screen.
+</Note>
+
+## Product Collection
+
+Product collection allows staff to mark pre-purchased products as physically collected by the customer. This is useful at events where customers buy products online and pick them up at a collection point.
+
+Tap **Collect Purchases** from the home screen to begin.
+
+### Collection Flow
+
+1. Identify the customer by scanning their QR code or tapping their NFC media
+2. The app displays the customer's uncollected purchases, organised by category
+3. Select the items being collected (use **Select All** to check everything, or tap individual items)
+4. Tap **Continue Collection** to review the summary
+5. Confirm the collection
+
+After confirmation, the success screen displays the collected items. Staff can view previously collected items by tapping **View Collected Items** from the collection screen.
+
+### Collection Options
+
+In settings, the **Collection option** controls when products are marked as collected:
+
+- **Collect now** — products are marked as collected immediately during the confirmation step
+- **Collect later** — products are flagged for deferred collection
+
+## Sales Reports
+
+Tap **Sales Report** from the home screen to view sales data. This tile requires the `report` permission. The reports screen offers three views:
+
+### Sales
+
+The sales view shows revenue statistics fetched from the server, with a time filter:
+
+| Filter | Shows |
+|--------|-------|
+| **Today** | Sales from the current day |
+| **This Week** | Sales from the current week |
+| **All Time** | All recorded sales |
+
+The report breaks down totals by payment method:
+
+| Metric | Description |
+|--------|-------------|
+| **Cash sales** | Revenue from cash payments |
+| **Card sales** | Revenue from card payments |
+| **eWallet online sales** | Revenue from online account balance payments |
+| **eWallet offline sales** | Revenue from offline NFC balance payments |
+| **Online refunds** | Refunds processed online |
+| **Offline refunds** | Refunds processed offline |
+| **Total NET** | Net revenue after refunds |
+
+### Products (Catalog)
+
+The products view shows the full product catalogue for the current shop. Each product displays:
+
+- Product name, image, and category
+- Price and price type (**fixed** or **variable** for custom-priced items)
+- Stock levels: **Sold Today**, total stock, and **Remaining** (or unlimited)
+- On-sale / off-sale status
+
+Use the search bar to filter by product name.
+
+### Transactions
+
+Opens the transaction history view described above.
+
+## Local Device Report
+
+In **NFC Offline** mode, an additional **Sales report from this device** section appears in the reports view. This report is generated from transactions stored in the local database — useful when the device has been operating offline and transactions have not yet synced.
+
+| Metric | Description |
+|--------|-------------|
+| **Total sales (excluding refunds)** | Revenue from locally recorded sales |
+| **Total refunds** | Value of locally recorded refunds |
+| **Number of sold items (excluding refunded)** | Count of items sold |
+| **Number of refunded items** | Count of items refunded |
+
+The local report can be filtered by:
+- **Shop scope** — current shop only or all shops
+- **Date** — filter to transactions since a specific date
+
+## Orders Upload Status
+
+In offline mode, the reports screen also shows an **Orders upload status** section that tracks the sync state of locally stored transactions:
+
+- **Pending uploads** — the number of unsynced sales, top-ups, and cash-outs
+- **Most recent upload** — the timestamp and result of the last sync attempt (success, failure, or no connection)
+- **Device identifier** — the unique ID of this device
+
+If uploads are failing, a **Retry orders upload** option is available. This requeues all local transactions for upload.
+
+<Note>
+The retry button is intentionally hidden by default. Tap the **Orders upload status** area five times to reveal it. This prevents accidental retries that could duplicate data if a sync is already in progress.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Selling Products" icon="basket-shopping" href="/mobile-apps/epos-pro/selling-products">
+    Product selection, basket management, and payment processing.
+  </Card>
+  <Card title="Settings & Hardware" icon="gear" href="/mobile-apps/epos-pro/settings-and-hardware">
+    Configure payment methods, printers, card readers, and NFC devices.
+  </Card>
+</CardGroup>

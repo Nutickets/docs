@@ -1,0 +1,111 @@
+---
+title: "Introduction"
+description: "A mobile point-of-sale app for selling products, processing payments, managing top-ups, and handling cash-outs at events and venues."
+---
+
+## Overview
+
+EPOS Pro is the platform's mobile point-of-sale app, used by staff at events and venues to sell physical products — food, drinks, merchandise — and process payments directly from a phone or tablet. The app connects to shops and products configured in the admin panel and supports card, cash, account balance, and complimentary payments.
+
+Staff sign in with their credentials, select a shop, and begin selling. Transactions sync to the platform in real time when connected, and are stored locally for upload when working offline. The app also handles credit top-ups, cash-outs, product collection, refunds, and on-device sales reporting.
+
+EPOS Pro is available on Android. The app is listed in the Play Store as part of the platform's mobile suite.
+
+## Getting Started
+
+### Signing In
+
+1. Open the app and enter your email and password
+2. Tap **Log in**
+
+The app authenticates against the platform and loads your user configuration, including permissions, shops, and EPOS settings.
+
+<Note>
+If your login fails, the app displays one of three messages depending on the situation: incorrect credentials (online), incorrect credentials (offline — try again with a connection if your details have changed recently), or no internet connection (required for first-time login). After your first successful login, the app can authenticate offline using cached credentials.
+</Note>
+
+### First-Time Setup
+
+On first launch, the app shows a short onboarding walkthrough. You can swipe through the slides or tap **Skip** to go straight to the login screen. The walkthrough only appears once.
+
+### Selecting a Shop
+
+After signing in, the app loads your assigned shops. If you are assigned to a single shop, it is selected automatically. If you have access to multiple shops, a dialog prompts you to choose one.
+
+The selected shop name appears in the toolbar throughout the app. All sales, reports, and product catalogues are scoped to the active shop.
+
+<Note>
+Only shops you are assigned to appear in the selection list. Super users can access all shops regardless of assignment. If no shops are available, the app displays an error — check that EPOS is enabled and at least one shop has been created in the admin panel.
+</Note>
+
+## Home Screen
+
+The home screen displays a grid of operations available to you. Which tiles appear depends on your permissions and the EPOS configuration:
+
+| Tile | Description | Requires |
+|------|-------------|----------|
+| **Sell Products** | Start a new product sale | At least one payment method enabled |
+| **Top Up** | Add credit to a customer's account balance | `walletTopup` permission |
+| **Cash Out** | Withdraw a customer's remaining balance to cash | `walletCashout` permission |
+| **Capture Data** | Scan a customer to capture information | — |
+| **Collect Purchases** | Mark purchased products as collected | — |
+| **Sales Report** | View sales statistics for the shop | `report` permission |
+| **Catalog** | Browse the full product catalogue with stock levels | — |
+| **Transactions** | View transaction history and process refunds | `viewListOfOrders` permission |
+
+<Note>
+The **Sell Products** tile only appears if at least one payment method (card, cash, terminal, or complimentary) is enabled in the EPOS settings, or if balance spending is enabled.
+</Note>
+
+## Customer Identification
+
+Many operations require identifying a customer before proceeding. The app supports three methods, determined by the **authentication mode** configured in your EPOS settings:
+
+| Mode | How It Works |
+|------|-------------|
+| **QR** | Staff scan the customer's QR code using the device camera or enter a barcode manually |
+| **NFC Online** | Staff tap the customer's NFC media (wristband, card, badge) against the device. The app looks up the customer via the server. |
+| **NFC Offline** | Staff tap the customer's NFC media. Customer data and balance are read directly from the tag without a server call. |
+
+The active mode is shown in the toolbar as **QR**, **NFC Online**, or **NFC Offline**.
+
+### Guest Orders
+
+When **Allow guest orders** is enabled in the EPOS settings, staff can process sales without identifying a customer first. This is the default and is typical for food and drink stalls where speed matters more than tracking individual purchases.
+
+When guest orders are disabled, every sale requires a customer to be identified first. The app displays *"Guest orders are disabled"* if staff attempt to check out without a customer.
+
+## Connectivity and Offline Mode
+
+The app is designed to work with intermittent connectivity. The toolbar displays a connectivity icon showing the current connection status.
+
+**When online**, transactions are submitted to the server immediately after payment. Products, top-up items, and transaction history sync periodically in the background.
+
+**When offline**, transactions are stored in the local database and queued for upload. The app continues to function using cached product data and locally stored customer information. When connectivity returns, queued transactions are uploaded automatically in batches.
+
+Data sync intervals:
+
+| Data | Sync Frequency |
+|------|---------------|
+| Products and top-ups | Every 30 minutes |
+| Transaction uploads | Every 20 seconds (batches of 32) |
+| Transaction downloads | Adaptive: 5 seconds to 10 minutes depending on volume |
+
+<Note>
+In NFC Offline mode, the app reads customer balances directly from the NFC tag rather than the server. This allows sales to continue even without any connectivity, but means the balance on the tag may not reflect recent server-side changes until the next sync.
+</Note>
+
+## Second Screen Support
+
+On devices with an external display (such as Sunmi dual-screen terminals), the app shows customer-facing content on the second screen. This includes the shop name, basket contents during a sale, payment status, and a thank-you message after completion.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Selling Products" icon="basket-shopping" href="/mobile-apps/epos-pro/selling-products">
+    Select products, manage the basket, and process payments.
+  </Card>
+  <Card title="EPOS Overview" icon="cash-register" href="/core-platform/epos/overview">
+    Enable EPOS and configure payment methods, currency, and balance spending in the admin panel.
+  </Card>
+</CardGroup>

@@ -1,0 +1,142 @@
+---
+title: "Selling Products"
+description: "Select products, build a basket, choose a payment method, and complete sales using the EPOS Pro app."
+---
+
+## Overview
+
+The core workflow in EPOS Pro is selling products. Staff select items from the shop's product catalogue, review the basket, choose a payment method, and complete the transaction. The app supports five payment methods, product categories, custom pricing, age verification, and an auto-sale mode for high-volume single-product selling.
+
+## Selecting Products
+
+Tap **Sell Products** from the home screen to open the product selection view. Products are displayed in a grid showing each item's image, name, and price.
+
+### Browsing and Searching
+
+- **Search** — type in the search bar to filter products by name in real time
+- **Categories** — if **Product categories** is enabled in settings, products are grouped by category. Tap a category to view its products, or tap **All Types** to return to the category list
+
+### Adding Products to the Basket
+
+- **Tap a product** to add one unit to the basket
+- **Tap again** to increment the quantity
+- **Long-press** a product (or tap the quantity area) to open a dialog where you can set the exact quantity using +/- buttons
+
+The basket summary updates in real time as you add or remove items.
+
+### Custom Pricing
+
+For products with **custom price** enabled, tap the product's price label to open the price input screen. Enter the custom amount using the numeric keypad, then tap **Add Another** to return to selection or **Basket** to proceed to checkout.
+
+Custom prices apply only to the current transaction and are cleared after checkout.
+
+### Stock and Availability
+
+Products that are **out of stock** show an *"Out of Stock"* label and cannot be added to the basket. Products that are **off sale** (outside their sale dates) display an *"Off Sale"* badge. If **Hide when off sale** or **Hide when out of stock** is configured on the product, it is removed from the grid entirely rather than shown as unavailable.
+
+<Note>
+Stock levels are based on cached data that syncs every 30 minutes. In high-volume environments, a product may show as available in the app but be out of stock on the server. If this happens during checkout, the app removes the product from the basket and displays the item name so staff can inform the customer.
+</Note>
+
+## The Basket
+
+Tap **Continue** from the product selection screen to open the basket. The basket displays:
+
+- Each selected product with its name, quantity, and price
+- Quantity adjustment buttons (+/-) for each item
+- A summary row with the total cost
+- Customer details and balance (if a customer has been identified)
+
+### Adjusting the Basket
+
+- **Increment/decrement** — tap the +/- buttons on any item
+- **Remove** — swipe an item to the left to delete it, or decrement below 1 and confirm removal
+- If the basket becomes empty, the app shows an alert and returns to product selection
+
+## Payment Methods
+
+The basket screen displays payment buttons based on your EPOS configuration and permissions. Each method can be independently enabled or disabled in the admin panel, and individual staff members need the corresponding permission to use each one.
+
+| Method | Button | How It Works |
+|--------|--------|-------------|
+| **Account Balance** | Visible when balance spending is enabled and a customer is identified | Deducts the total from the customer's preloaded balance. The customer's updated balance is shown on the success screen. |
+| **Cash** | Visible when cash payments are enabled (hidden for custom currencies) | If **Cash input and change** is enabled in settings, a numeric keypad opens for the staff member to enter the amount received. The app calculates and displays the change. |
+| **Card (Terminal)** | Visible when terminal payments are enabled and a Stripe reader is connected | Processes a chip or contactless payment through the connected Stripe card reader. |
+| **Card (Online)** | Visible when card payments are enabled but no terminal is connected | Processes the card payment through the backend payment gateway. |
+| **Complimentary** | Visible when complimentary payments are enabled | Records the transaction at no charge. Typically used for staff meals or promotional items. |
+
+<Note>
+When paying by **Account Balance**, the app checks the customer's balance against the basket total. If the balance is insufficient, the app shows a failure screen displaying the customer's name, current balance, and the required amount. From there, staff can return to the basket or navigate directly to the top-up flow (if they have the `walletTopup` permission).
+</Note>
+
+### Cash Payments with Change Calculation
+
+When **Cash input and change** is enabled in settings and the staff member selects cash payment:
+
+1. A numeric keypad appears showing the basket total
+2. The staff member enters the amount of cash received
+3. The app calculates and displays the change in real time
+4. The **Confirm** button is disabled until the entered amount covers the total
+5. After confirmation, the change amount is displayed prominently on the success screen
+
+### Card Terminal Payments
+
+When the staff member selects card payment with a Stripe terminal reader connected:
+
+1. The app creates a payment intent on the server
+2. The status display shows *"Preparing payment"*
+3. The reader prompts the customer: *"Insert card"*
+4. The status updates to *"Processing"* while the payment is authorised
+5. The app captures the payment and completes the order
+
+If the card reader is disconnected when the staff member taps the card button, the app prompts them to connect a reader first.
+
+## Transaction Success
+
+After a successful payment, the success screen displays:
+
+- **Transaction successful** confirmation (with change amount for cash payments)
+- Transaction date, customer name (if identified), order reference, payment method, and total
+- An itemised list of products with quantities and prices
+- Action buttons:
+
+| Button | Description |
+|--------|-------------|
+| **Confirmation** | Returns to the home screen to start a new sale |
+| **Open Transaction** | Opens the full transaction detail (if you have the `viewOrders` permission) |
+| **Print Product Receipt** | Prints a kitchen/product receipt on the Sunmi printer (hidden for refunds and top-ups) |
+| **Print Customer Receipt** | Prints a customer-facing receipt with balance information |
+| **Cash Drawer** | Opens the cash drawer (if you have the `cashDrawerNoSale` or `cashDrawerCardSale` permission) |
+
+## Auto-Sale Mode
+
+Auto-sale is a streamlined mode for high-volume single-product selling — for example, a drinks stall selling one item repeatedly. Instead of selecting a product and going through the basket each time, staff pre-select a product and then scan customers for instant checkout.
+
+### Setting Up Auto-Sale
+
+1. Navigate to **Catalog** from the home screen
+2. Tap a product to set it as the auto-sale item
+3. Return to **Sell Products** — the app enters auto-sale mode
+
+In auto-sale mode, each customer scan or NFC tap immediately creates a one-item transaction for the pre-selected product. The scan method depends on the active authentication mode (QR, NFC Online, or NFC Offline).
+
+To exit auto-sale mode, clear the auto-sale product from the catalogue or settings.
+
+<Note>
+Auto-sale is enabled via the **Auto sale** setting and works across all scan modes. The auto-sale product selection persists between sessions until explicitly changed.
+</Note>
+
+## Age Verification
+
+Products can have age restrictions configured in the admin panel. When a customer selects an age-restricted product and their date of birth is not on file, the app prompts staff to verify the customer's age and enter their date of birth. The DOB is saved to the customer's profile for future purchases.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Top-Ups & Cash Out" icon="wallet" href="/mobile-apps/epos-pro/topups-and-cashout">
+    Add credit to customer accounts and process balance withdrawals.
+  </Card>
+  <Card title="Shops & Products" icon="store" href="/core-platform/epos/shops-products-users">
+    Create shops, add products, and assign staff in the admin panel.
+  </Card>
+</CardGroup>
