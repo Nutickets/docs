@@ -2,6 +2,31 @@
 
 These docs are powered by Mintlify. We've added a few automations on top which are detailed below. To get started, make sure you run `npm install`.
 
+## Repository Structure
+
+Before starting any documentation workflows, you need to get your `newtickets` repo set up as below:
+
+```
+newtickets/
+├── mintlify/                  # Core platform docs (docs.nuwebgroup.com)
+│   ├── generate-api-docs.js   # Generates API docs for both mintlify + mintlify-hub
+│   ├── generate-release-notes.js
+│   ├── docs.json
+│   └── ...
+├── mintlify-hub/              # Partner Hub docs (partner-docs.nuwebgroup.com)
+│   ├── docs.json
+│   └── ...
+└── mobile-apps/
+    ├── ios/
+    │   └── access-control/    # Access Control Pro (iOS)
+    └── android/
+        ├── box-office/        # Box Office Pro (Android)
+        ├── cashless/          # Cashless (Android)
+        └── entry/             # Entry (Android)
+```
+
+All generation scripts (`npm run gen`) should be run from the `mintlify/` directory. The API docs generator writes to both `mintlify/` (Admin API, Webhooks API) and `mintlify-hub/` (Partner API).
+
 1. Import release notes: `node generate-release-notes.js`
 
 This will pull down all of our release notes from the public wiki document, parse and process them into MDX and update the mintlify `docs.json` file to set up the navigation. Release notes older than the previous full year will be added to an archive, grouped by year.
