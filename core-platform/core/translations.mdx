@@ -153,78 +153,9 @@ When uploading an image, use the language switcher to upload a different version
 
 ## Customising Website Text
 
-The **Website Text** editor lets you override the platform's built-in text — button labels, email content, legal pages, shop copy, and more — without changing the underlying system. You can customise text company-wide, or tailor it for specific events, schedules, or customer groups.
+Beyond translations, you can override specific text throughout the shop — button labels, email content, legal pages, and more — using the **Website Text** editor. Overrides can be applied globally or scoped to specific events, schedules, or customer groups, with a priority system that ensures the most specific override wins.
 
-### Accessing Website Text
-
-1. Navigate to **Settings** in the admin area
-2. Select **Website Text**
-
-<Note>
-Editing website text requires the appropriate permission. If you don't see this option, contact your administrator about your role's permissions.
-</Note>
-
-### Choosing a Category
-
-The editor organises text into categories. Select a **Category** to load the text entries for that area:
-
-| Category group | Categories |
-|----------------|-----------|
-| **Legal pages** | Cookies Policy, Gift Aid Declaration, Deposit Terms |
-| **Pages** | Order Success Page, Order Download Page |
-| **Emails** | Order Confirmation, Password Reset, Email Verification, Event Reminder, Deferred Tickets, Deposit Received, Payment Failure, Tax Receipt, Payment Link, Claim Items, Refund Confirmation, Cancellation Confirmation, Complete Account, Item Approved, Item Rejected, Reservation Rejected, Reservation Confirmed, Reservation Approved, Purchase Notification, Event Approval Notification, Global Email, Added to Customer Group |
-| **Other** | Payment Methods, Shop Text, Shop Buttons, Shop Authentication, Waiting Room, Resale |
-
-### Editing Text
-
-Once you select a category, the editor displays each text entry with two columns:
-
-- **Left column** — the default text (read-only), showing the platform's original wording
-- **Right column** — your custom text (editable), where you enter your override
-
-Use the language switcher on each field to enter overrides for different languages. If you leave a field unchanged, the default text is used.
-
-Some fields support **rich text editing** (for HTML content like emails), while others are plain text inputs. Fields that accept dynamic values show the available **placeholders** below the input — these are values like `:customer_name` or `:event_name` that are replaced with actual data when the text is displayed.
-
-<Warning>
-When using placeholders, keep them exactly as shown (including the colon prefix). Removing or misspelling a placeholder means the dynamic value won't be inserted.
-</Warning>
-
-### Restoring Default Text
-
-To revert a field to the platform's default wording, click **Restore default** below the field. This removes your custom override and the original text will be used again.
-
-### Context-Specific Overrides
-
-Website text can be customised at different levels to create targeted experiences:
-
-| Context | When to use | Example |
-|---------|------------|---------|
-| **Company-wide** | Default overrides that apply everywhere | Changing "Add to basket" to "Add to cart" across all events |
-| **Event-specific** | Text that only applies to a single event | A charity event using "Donate" instead of "Purchase" on its checkout |
-| **Schedule-specific** | Text for all events in a schedule | A festival series using branded confirmation emails |
-| **Customer group-specific** | Text for customers in a particular group | VIP customers seeing different welcome text |
-
-To apply context-specific text:
-
-1. Select the **Category**
-2. Choose the context from the **Event**, **Event Schedule**, or **Customer Group** dropdown (these appear when the selected category supports contextual overrides)
-3. Edit the text entries
-4. Click **Submit**
-
-<Note>
-Context-specific text takes priority over company-wide text. If you set an override for a specific event, that event's customers see the event-specific version, while all other customers see the company-wide version (or the platform default if no company-wide override exists).
-</Note>
-
-### Override Priority
-
-When the platform displays text, it checks for overrides in this order (most specific wins):
-
-1. **Customer group** override (if the customer belongs to a group with custom text)
-2. **Event** override (if viewing or purchasing for a specific event)
-3. **Schedule** override (if the event belongs to a schedule with custom text)
-4. **Company-wide** override
-5. **Platform default** (the built-in text from the language files)
+For full details on creating overrides, scoping them, and understanding priority resolution, see [Website Text](/core-platform/cms/website-text).
 
 ## Company Settings Translations
 

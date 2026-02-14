@@ -11,60 +11,9 @@ Most of these settings live in **General Settings** under your admin panel, whil
 
 ## Virtual Waiting Room
 
-The virtual waiting room is a queue system that manages traffic during high-demand on-sale periods. When your shop reaches its capacity limit, incoming customers are placed in a queue and admitted automatically as space becomes available. This prevents your shop from becoming overloaded and ensures customers already browsing can complete their purchases without degraded performance.
+The virtual waiting room is a queue system that manages traffic during high-demand on-sale periods. When your shop reaches its capacity limit, incoming customers are placed in a queue and admitted automatically as space becomes available.
 
-### Enabling and Configuring the Waiting Room
-
-Configure the waiting room in the admin theme editor under **Waiting room settings**:
-
-| Setting | Description | Default |
-|---------|-------------|---------|
-| **Enable virtual waiting room** | Turns the waiting room on or off | Enabled |
-| **Maximum number of simultaneous shoppers** | How many customers can browse the shop at once before queuing begins | 200 |
-| **Maximum inactivity time in minutes** | How long an inactive customer holds their spot before being removed from the shop | 5 minutes |
-| **Maximum position hold time in minutes** | The longest any customer can hold their spot, even if they remain active | 60 minutes |
-
-<Note>
-The maximum queue size is **5,000 users**. Users beyond this limit will not be able to join the queue. If you expect demand to exceed this, consider staggering your on-sale times across multiple events.
-</Note>
-
-### How Capacity Is Tracked
-
-Each active shopper is tracked by their browser session. When a customer closes their browser or becomes inactive for longer than the configured inactivity timeout, their spot is released and the next person in the queue is admitted.
-
-The **maximum position hold time** acts as an upper bound -- even an active customer who has been browsing for longer than this limit will have their spot released. This prevents a single session from occupying capacity indefinitely during extended browsing.
-
-### What Customers See in the Queue
-
-When a customer arrives and the shop is at capacity, they are placed in the queue and see a waiting room page with:
-
-- Their current position in the queue (e.g. "You are currently in position 42")
-- A message explaining the situation: "Due to high levels of interest in these events, we've had to place you in a queue"
-- Guidance to keep the page open: "Hold tight, you'll automatically be returned to the ticket shop once the people ahead of you have finished what they are doing. We recommend keeping this page open to secure your spot."
-
-The page automatically checks for updates and redirects the customer into the shop as soon as a spot opens. Customers do not need to refresh manually.
-
-### Queue Polling Intervals
-
-The waiting room page checks for updates at different frequencies depending on the customer's position in the queue. Customers closer to the front receive more frequent updates:
-
-| Queue Position | Check Frequency |
-|----------------|-----------------|
-| 1 -- 50 | Every 15 seconds |
-| 51 -- 200 | Every 20 seconds |
-| 201 -- 1,000 | Every 30 seconds |
-| 1,001 -- 2,000 | Every 60 seconds |
-| Beyond 2,000 | Every 90 seconds |
-
-A small amount of random variance (jitter) is added to each interval to prevent synchronised request waves, where thousands of browsers all check at the exact same moment.
-
-### Customising Waiting Room Text
-
-All text displayed on the waiting room page -- headings, queue messages, and guidance text -- can be customised through the CMS text editor. This lets you match the tone and branding of your shop, or add event-specific messaging during a major on-sale.
-
-<Note>
-If you are running a high-demand on-sale, consider lowering the **maximum inactivity time** to free up spots faster from customers who have navigated away, and review your **maximum simultaneous shoppers** limit based on your expected traffic.
-</Note>
+For full details on configuration, capacity tracking, queue behaviour, and polling intervals, see [Waiting Rooms](/core-platform/ticket-shop/waiting-rooms).
 
 ## Cookie Banner and Policy
 
@@ -165,19 +114,7 @@ Google Tag Manager respects the cookie banner. If you have the cookie banner ena
 
 ## Date and Time Display
 
-These settings control how dates and times appear to customers throughout the shop -- on event pages, in the basket, on tickets, and anywhere else a date or time is shown.
-
-Configure these in **General Settings**:
-
-| Setting | Purpose |
-|---------|---------|
-| **Date display setting** | Controls the date format used across the shop (e.g. DD/MM/YYYY, MM/DD/YYYY, or other regional formats) |
-| **Time display setting** | Controls the time format (e.g. 12-hour with AM/PM or 24-hour) |
-| **Show timezone information** | When enabled, displays timezone information alongside dates and times in the ticket shop |
-
-<Note>
-Enabling **Show timezone information** is recommended if you sell tickets for events across multiple timezones, so customers can clearly see which timezone an event time refers to.
-</Note>
+Date format, time format, and timezone display settings affect how dates and times appear to customers throughout the shop. These are configured at the company level — see [Company Settings: Localization](/core-platform/utilities/company-settings#localization) for the full list of options.
 
 ## Related Pages
 

@@ -192,13 +192,7 @@ The basket page shows customers everything they need before checking out:
 When the basket is empty, customers see **"Your basket is empty."** with an empty basket icon.
 
 <Accordion title="Basket during order modification">
-When a customer is modifying an existing order, the basket page adapts:
-
-- **Title** changes to "Edit your order #REF" (where REF is the order reference)
-- **Checkout button** changes to "Check out changes"
-- An informational message is displayed: "Your previous order is still active, and won't be cancelled until you check out your current changes. If your basket times out no changes will be made."
-
-The original order remains untouched until the customer completes checkout with the modified items. If the basket expires during modification, no changes are applied to the original order.
+When a customer is modifying an existing order, the basket title, checkout button, and messaging adapt to reflect that this is a change rather than a new purchase. See [Order Modification Checkout](/core-platform/ticket-shop/checkout#order-modification-checkout) for details.
 </Accordion>
 
 ## Basket Links (API)
