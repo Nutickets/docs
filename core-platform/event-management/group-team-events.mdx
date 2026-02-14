@@ -85,6 +85,15 @@ When a customer adds items for a team-enabled event, a **Team Settings** step ap
 
 If the customer already has a team for this event (from a previous purchase), they are informed that additional tickets will be added to their existing team rather than being prompted to choose again.
 
+### Validation During Checkout
+
+| Scenario | When checked | Error |
+|----------|-------------|-------|
+| Team is full (maximum size reached) | When adding items to basket | "The team size has been exceeded" |
+| Team is below minimum size | When completing the order | "The team size has not been met" |
+| Team name already exists (uniqueness enabled) | When creating or renaming a team | "The team name must be unique" |
+| Invalid team code | When joining a team | "The team code is invalid" |
+
 ## Team Roles
 
 Each team member has one of two roles:

@@ -71,11 +71,21 @@ A payment link email is sent to the customer with a link to complete payment onl
     └── Confirmation email sent           └── Items released
 ```
 
-Payment links have a configurable expiry period (default: 72 hours). When generating a payment link from the box office, staff can optionally allow the customer to modify their basket before paying.
+Payment links have a configurable expiry period. The default duration is set in **Settings > Payment** under **Payment link default length** (typically 72 hours). When generating a payment link from the box office, staff can:
+
+- Set a **custom expiry date** for the specific link
+- Mark the link as **editable**, allowing the customer to modify their basket before paying
+- Include **additional information** in the payment link email
+
+When the customer clicks the payment link, they are automatically signed in and taken to the checkout to complete payment. If the customer doesn't have an account, a password reset email is sent so they can finalise their registration.
 
 <Note>
 If the customer modifies their basket on an editable payment link, the expiry resets to the default basket timeout. This could cause items to be released sooner than the original payment link expiry.
 </Note>
+
+#### Resending Payment Links
+
+Admins can resend payment link reminder emails individually from the order detail page, or in bulk from the mass emails section for all orders currently awaiting payment link completion.
 
 ### Invoice (Manual Payment)
 

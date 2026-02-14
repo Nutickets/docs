@@ -88,21 +88,53 @@ For schedules that offer [season tickets](/core-platform/season-tickets/overview
 
 ## Schedule Groups
 
-Schedule groups (also called sub-schedules) allow you to organise and subdivide larger schedules. This is useful when you want to apply bulk changes to a subset of events rather than the entire schedule.
+Schedule groups (also called sub-schedules) allow you to organise and subdivide larger schedules into logical sections. Each group appears as a tab on the schedule dashboard, making it easy to manage subsets of events independently.
 
-- Each group has a name for identification
-- An event can belong to only one group at a time, but can be moved between groups freely
-- By default, events are "ungrouped" and reside at the root of the schedule
-- When bulk editing events in a schedule, you can choose to apply changes to:
-  - All events in the schedule
-  - Only events in a specific sub-group
-  - Only ungrouped events
+This is particularly useful for schedules with many events where certain events share characteristics — for example, grouping weekend performances separately from weekday ones, or organising a festival schedule by stage or genre.
+
+### How Groups Work
+
+- Each group has a **name** that appears as a tab on the schedule dashboard
+- An event can belong to **only one group** at a time, but can be moved between groups freely
+- Events not assigned to any group appear under the **Ungrouped** tab, which is always the first tab
+- Group names support [translations](/core-platform/core/translations), so they can be localised for multi-language shops
+
+### Creating a Schedule Group
+
+1. Navigate to any event in the schedule and open the **schedule dashboard**
+2. Select **Create sub schedule tab** from the tab actions
+3. Enter a **name** for the group
+4. Select the **events** you want to include — only upcoming events from the current schedule that are not already in another group are available
+5. Save the group
+
+The new group appears as a tab on the schedule dashboard immediately.
+
+### Editing a Schedule Group
+
+1. On the schedule dashboard, navigate to the tab for the group you want to edit
+2. Select **Edit sub schedule tab** from the tab actions
+3. Update the group **name** or change which **events** belong to the group
+4. Save your changes
 
 <Note>
-  Schedule groups are managed from the schedule dashboard. Navigate to an event
-  in the schedule, then access the schedule dashboard to create, edit, or delete
-  groups.
+  When you deselect events during editing, they return to the **Ungrouped** tab — they are not deleted.
 </Note>
+
+### Deleting a Schedule Group
+
+1. On the schedule dashboard, navigate to the tab for the group you want to remove
+2. Select the delete action and confirm
+3. All events in the group return to the **Ungrouped** tab
+
+### Bulk Editing with Groups
+
+When [bulk editing](/core-platform/utilities/bulk-editing) events in a schedule, you can scope changes to:
+
+- **All events** in the schedule
+- Only events in a **specific sub-group**
+- Only **ungrouped** events
+
+This lets you make targeted changes — for example, adjusting ticket prices for all weekend events without affecting weekday events.
 
 ## Creating Repeating Events
 

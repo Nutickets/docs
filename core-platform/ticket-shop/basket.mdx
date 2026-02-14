@@ -201,6 +201,21 @@ When a customer is modifying an existing order, the basket page adapts:
 The original order remains untouched until the customer completes checkout with the modified items. If the basket expires during modification, no changes are applied to the original order.
 </Accordion>
 
+## Basket Links (API)
+
+Basket links allow external systems to create a pre-populated basket via the [API](/api-reference/introduction) and generate a URL that takes the customer directly into checkout.
+
+When a basket is created through the API with `generateBasketUrl` set to `true`, the response includes a `startBasketUrl` — a signed link that the customer can click to enter the shop with their items already in the basket. The customer then proceeds through the standard checkout flow.
+
+This is useful for:
+- Third-party integrations that build baskets on behalf of customers
+- External booking flows that hand off to the ticket shop for payment
+- Marketing campaigns with pre-configured item selections
+
+<Note>
+Basket links require the **Basket links** feature to be enabled for your company. The link is a time-limited signed URL — if it expires, the customer sees a message that the basket is no longer available.
+</Note>
+
 ## Settings Reference
 
 A summary of all company settings that affect basket behaviour:

@@ -75,11 +75,25 @@ This means a single NFC tag can be paired to tickets across different events wit
 
 ## NFC Tags in the Customer Account
 
-If the **EPOS** feature is enabled, customers can manage their paired NFC tags through their account wallet:
+If the **EPOS** feature is enabled, customers can manage their paired NFC tags through their account wallet. Tags are displayed in a carousel grouped by media type (wristbands, cards, badges, lanyards, or tags — configured in your [EPOS settings](/core-platform/epos/overview)).
 
-- **View** their paired NFC tags
-- **Name** a tag (e.g. "My Wristband" or "VIP Band") for easy identification
-- **Freeze / Unfreeze** a tag to temporarily disable or re-enable it
+### Tag Management Actions
+
+| Action | Description |
+|--------|-------------|
+| **Name a tag** | Assign a custom label (e.g. "My VIP Wristband") for easy identification |
+| **Freeze** | Temporarily disable the tag for cashless spending. A frozen tag cannot be used for wallet transactions but remains paired for access control. |
+| **Unfreeze** | Re-enable a frozen tag for cashless spending |
+
+Freezing is useful if a tag is lost or temporarily lent to someone else — it prevents unauthorised spending without requiring re-pairing.
+
+<Note>
+A frozen NFC tag is blocked from wallet transactions only. It can still be used for event access control scanning. To fully disable a tag, it must be unpaired by event staff.
+</Note>
+
+### Admin View
+
+Admins can view a customer's NFC tags from the customer's wallet section in the admin panel. This shows all paired tags with their current status (active or frozen).
 
 <Note>
 Customer-facing NFC management requires the EPOS feature to be enabled for the company. Without it, NFC pairing is purely an operational feature managed by staff through the access control app.

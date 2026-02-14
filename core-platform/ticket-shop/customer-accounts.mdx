@@ -39,6 +39,21 @@ Returning customers sign in from the shop header using the profile icon or the *
 
 New visitors see a "Need an account?" prompt that links directly to the registration page.
 
+## Checkout Login
+
+When a customer reaches the checkout without being signed in, the shop presents a unified login experience that adapts based on whether the email address is recognised.
+
+1. The customer enters their **email address**
+2. The system checks whether the email belongs to an existing account:
+   - **Existing customer** — a password field is revealed so they can sign in and continue. If they previously signed in with a social provider, that provider is highlighted to remind them.
+   - **New customer** — they are offered the option to **Continue as guest** (if [guest checkout](/core-platform/ticket-shop/checkout#guest-checkout) is enabled) or to create an account
+
+This reduces friction by letting new customers proceed quickly without requiring upfront registration, while returning customers are guided to sign in so their order history, profile, and balance are available.
+
+<Note>
+The unified checkout login replaces the traditional sign-in page during checkout only. The standard sign-in page accessible from the shop header remains unchanged.
+</Note>
+
 ## Authentication Methods
 
 Your shop supports multiple ways for customers to authenticate. Standard email and password login is always available; social login and SSO are optional and configured at the company level.

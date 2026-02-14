@@ -192,6 +192,31 @@ Some payments require asynchronous processing -- for example, 3D Secure card ver
 
 If a payment fails, the customer sees an error message and can return to the basket to try again or select a different payment method. The basket contents are preserved so the customer does not need to start over.
 
+## Customer Feedback
+
+After completing a purchase, customers may be shown a feedback widget on the order confirmation page. This collects a quick satisfaction rating about their checkout experience.
+
+### How It Works
+
+1. The customer rates their experience on a **1–5 scale** using emoji icons (from "Very bad" to "Very good")
+2. Based on their rating, they are shown relevant **feedback categories**:
+   - **Positive (4–5):** Fast & efficient, Clear instructions, Good choice & availability
+   - **Negative (1–2):** Slow loading, Confusing instructions, Lack of availability, Too many steps
+3. Optionally, the customer can leave a **comment** — shown for negative ratings or when "Other" is selected
+4. The feedback is saved against their order
+
+### Viewing Feedback Data
+
+Feedback responses are available through the **Order success customer feedback** report template, which provides:
+
+- Individual responses with rating, category, comments, and linked order/customer
+- Aggregated sentiment breakdowns (positive, neutral, negative)
+- Average satisfaction ratings across time periods
+
+### Availability
+
+The feedback widget requires the feature to be enabled at the reseller level. Companies can opt out by enabling the **Disable customer effort scores** limitation. The widget only appears on shop orders — box office orders do not show the feedback prompt.
+
 ## Order Modification Checkout
 
 When customers modify an existing order (adding or changing items), the checkout flow adapts to reflect that this is a change rather than a new purchase.
