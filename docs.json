@@ -435,16 +435,16 @@
           {
             "group": "Product Updates",
             "pages": [
-              "releases/index",
-              {
-                "group": "Archive",
-                "pages": [
-                  "releases/2024",
-                  "releases/2023",
-                  "releases/2022",
-                  "releases/2021"
-                ]
-              }
+              "releases/index"
+            ]
+          },
+          {
+            "group": "Archive",
+            "pages": [
+              "releases/2024",
+              "releases/2023",
+              "releases/2022",
+              "releases/2021"
             ]
           }
         ]

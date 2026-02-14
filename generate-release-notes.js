@@ -92,7 +92,7 @@ async function main() {
         await generateMdxFile(
             archiveUpdatesByYear[year],
             path.join(OUTPUT_DIR, `${year}.mdx`),
-            `${year} Archive`,
+            `${year} Updates`,
             `Release history for ${year}`
         );
     }
@@ -171,68 +171,46 @@ function updateDocsJson(archiveYears) {
     }
 
     const docsConfig = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
-
-    // Construct Page Structure
     const archivePages = archiveYears.map(year => `${MDX_PREFIX}/${year}`);
 
-    const newPagesStructure = [
-        `${MDX_PREFIX}/index`
+    const newGroups = [
+        {
+            group: "Product Updates",
+            pages: [`${MDX_PREFIX}/index`]
+        }
     ];
 
     if (archivePages.length > 0) {
-        newPagesStructure.push({
-            group: 'Archive',
+        newGroups.push({
+            group: "Archive",
             pages: archivePages
         });
     }
 
     console.log('🔄 Updating docs.json navigation...');
 
+    const nav = docsConfig.navigation;
     let found = false;
 
-    function scanAndReplace(items) {
-        if (!items || !Array.isArray(items)) return;
-
-        items.forEach(item => {
-            if (item.groups) {
-                scanAndReplace(item.groups);
-            }
-            else if (item.group === 'Product Updates') {
-                item.pages = newPagesStructure;
-                found = true;
-                console.log('✅ Found existing "Product Updates" group and updated it.');
-            }
-            else if (item.pages && Array.isArray(item.pages)) {
-                const hasSubGroups = item.pages.some(p => typeof p === 'object');
-                if (hasSubGroups) scanAndReplace(item.pages);
-            }
-        });
+    if (nav.tabs) {
+        const releasesTab = nav.tabs.find(tab => tab.tab === 'Releases');
+        if (releasesTab) {
+            releasesTab.groups = newGroups;
+            found = true;
+            console.log('✅ Found existing "Releases" tab and updated it.');
+        }
     }
 
-    const nav = docsConfig.navigation;
-    if (nav.tabs) scanAndReplace(nav.tabs);
-    else if (Array.isArray(nav)) scanAndReplace(nav);
-
     if (!found) {
-        console.log('➕ "Product Updates" group not found. Creating a new Tab...');
+        console.log('➕ "Releases" tab not found. Creating it...');
 
         const newTab = {
             tab: "Releases",
-            groups: [
-                {
-                    group: "Product Updates",
-                    pages: newPagesStructure
-                }
-            ]
+            groups: newGroups
         };
 
         if (nav.tabs) {
             nav.tabs.push(newTab);
-        } else if (Array.isArray(nav)) {
-            nav.push({
-                group: "Product Updates",
-                pages: newPagesStructure
-            });
         }
     }
 
