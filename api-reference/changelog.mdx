@@ -6,6 +6,30 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="27th January 2026" description="">
+
+- `GET /resale-listings` and `GET /resale-listing`:
+  - Added new filtering options: `eventId`, `customerId`, `createdAfter`, `createdBefore`, `status`, and `withTrashed`.
+  - Added new attributes to resale listing responses: `eventId`, `orderId`, `createdAt`, `closedAt`, `onSaleFrom`, and `onSaleUntil`.
+  - Added new attributes to resale contract responses: `currencyId`, `price`, `totalPrice`, `displayTotal`, and `soldAt`.
+  - Added ability to include `events`, `orders`, `resaleContracts.replacingOrderItem`, and `resaleContracts.payoutTransaction`.
+- `GET /resale-listings` and `GET /resale-listing`: Added ability to include `resaleContracts.payoutWalletTransaction` to retrieve wallet transaction details for sold resale contracts.
+- Added `bundledItems` (id + quantity) to [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) and [GET /sale-item](/api-reference/sale-items/retrieve-sale-item) when bundle data is present.
+
+</Update>
+
+<Update label="20th January 2026" description="">
+
+- Added support for all item types in the [GET /order-items](/api-reference/orders/retrieve-order-items) `type` filter parameter. Previously only `ticket`, `product`, and `guestList` were accepted. Now accepts all 14 item types including `season_ticket`, `fee`, `bundle`, `gift_voucher`, and more. Refer to the endpoint documentation for the full list.
+
+</Update>
+
+<Update label="6th January 2026" description="">
+
+- **Breaking:** [GET /wallets](/api-reference/wallets/retrieve-wallets) and [GET /wallet](/api-reference/wallets/retrieve-a-wallet) endpoints now return `customerId` instead of `userId` in the response attributes. This is consistent with all other API endpoints that provide customerIds instead of userIds.
+
+</Update>
+
 <Update label="22nd December 2025" description="">
 
 - Updated `DELETE /resale-listings` to properly cancel resale listings with validation. Response now includes `contractsCancelled`, `contractsSold`, and `contractsFrozen` counts. Sold and frozen contracts are preserved; only unsold, unfrozen contracts are cancelled.

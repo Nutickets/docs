@@ -362,7 +362,9 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": ["mobile-apps/get-started/introduction"]
+            "pages": [
+              "mobile-apps/get-started/introduction"
+            ]
           },
           {
             "group": "Access Control Pro",
@@ -405,7 +407,10 @@
         "groups": [
           {
             "group": "About",
-            "pages": ["api-reference/introduction", "api-reference/changelog"]
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/changelog"
+            ]
           }
         ]
       },
