@@ -156,6 +156,30 @@ Additional rules:
 - If the basket expires or times out, no modification is applied.
 - In both cases, the original order is unfrozen and remains the active purchase — nothing changes.
 
+## Refunding a Modified Order
+
+Once a modification is complete, the replacement order is the active order and can be [refunded](/core-platform/order-management/refunds-and-cancellations) like any other completed order. The original order is cancelled — refund actions are only available on the replacement order.
+
+### How the Balance from Previous Order is Treated
+
+The replacement order's payment history includes a **Previous order balance carried forward** transaction alongside any additional payment the customer made (e.g. a card payment for an uplift). When you refund the replacement order, these two components are handled separately:
+
+| Refund method | Additional payment (e.g. card uplift) | Previous order balance carried forward |
+|---|---|---|
+| **Online** | Refunded automatically to the original payment method | Recorded as an offline refund — the balance is not returned automatically and must be handled manually |
+| **Offline** | Recorded in the system; you handle the return manually | Recorded in the system; you handle the return manually |
+| **Account balance** | Credited to the customer's account balance | Credited to the customer's account balance |
+
+If the replacement order was paid entirely from the previous order balance (no additional payment was needed), an online refund is not available — use an **account balance** refund to credit the customer's wallet, or an **offline** refund if you intend to return the money manually.
+
+<Note>
+For replacement orders paid with a combination of previous order balance and an additional payment, the refund amount is distributed proportionately across both payment components — the same way [split payment](/core-platform/payments/split-payments) refunds are allocated.
+</Note>
+
+### While a Modification is in Progress
+
+Refunds are blocked on the original order while it is frozen (under modification). If you need to refund before the modification completes, the customer or staff member must first cancel the modification — click **Cancel modifying order** in the basket — which unfreezes the original order and makes it eligible for refund again.
+
 ## Related
 
 - [Payment Lifecycle](/core-platform/payments/payment-lifecycle)
