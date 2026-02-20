@@ -151,7 +151,7 @@ If a sale item has no customer group restriction, it is available to all custome
 5. Optionally set a **Removal date** — the date when this customer will be automatically removed from the group. You can enter a specific date, or specify a number of days or weeks from now. If the group has a default lifetime configured, this is pre-filled.
 6. Click **Submit** to add the customer.
 
-For bulk operations, use the API to [add](/api-reference/customer-groups/add-customers-to-group) or [remove](/api-reference/customer-groups/remove-customers-from-group) multiple customers at once, or use the [customer data import](/core-platform/data-imports/introduction) to set group membership via CSV.
+For bulk operations, use the API to [add](/api-reference/customer-groups/add-customers-to-group) or [remove](/api-reference/customer-groups/remove-customers-from-group) multiple customers at once, or use the [customer data import](/core-platform/data-imports/overview) to set group membership via CSV.
 
 <Warning>
 The data import **replaces** a customer's entire group membership with the groups specified in the CSV. Leaving the customer groups field empty removes the customer from all groups. Groups must already exist before importing.
@@ -250,7 +250,7 @@ When a group passes its expiry date:
   <Card title="Sales Periods" icon="clock" href="/core-platform/event-management/sales-periods">
     Control when items go on sale — combine with customer groups for presale access.
   </Card>
-  <Card title="Data Imports" icon="file-import" href="/core-platform/data-imports/introduction">
+  <Card title="Data Imports" icon="file-import" href="/core-platform/data-imports/overview">
     Import customer data and group memberships via CSV.
   </Card>
   <Card title="Managing Customers" icon="user" href="/core-platform/customer-management/managing-customers">
