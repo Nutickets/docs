@@ -57,22 +57,45 @@ async function main() {
     // 3. Sort by Date
     allUpdates.sort((a, b) => b.dateObj - a.dateObj);
 
-    // 4. Split Data
+    // 4. Split into web/mobile and current/archive
     const currentYear = new Date().getFullYear();
     const cutoffYear = currentYear - 1;
 
-    const mainUpdates = [];
-    const archiveUpdatesByYear = {};
+    const webMain = [];
+    const mobileMain = [];
+    const webArchiveByYear = {};
+    const mobileArchiveByYear = {};
 
     allUpdates.forEach(update => {
         const updateYear = update.dateObj.getFullYear();
         if (isNaN(updateYear)) return;
 
-        if (updateYear >= cutoffYear) {
-            mainUpdates.push(update);
-        } else {
-            if (!archiveUpdatesByYear[updateYear]) archiveUpdatesByYear[updateYear] = [];
-            archiveUpdatesByYear[updateYear].push(update);
+        const isCurrent = updateYear >= cutoffYear;
+
+        // Web content (always present)
+        if (update.content) {
+            if (isCurrent) {
+                webMain.push(update);
+            } else {
+                if (!webArchiveByYear[updateYear]) webArchiveByYear[updateYear] = [];
+                webArchiveByYear[updateYear].push(update);
+            }
+        }
+
+        // Mobile content (only for releases that have it)
+        if (update.mobileContent) {
+            const mobileUpdate = {
+                label: update.label,
+                description: update.description,
+                content: update.mobileContent,
+                dateObj: update.dateObj
+            };
+            if (isCurrent) {
+                mobileMain.push(mobileUpdate);
+            } else {
+                if (!mobileArchiveByYear[updateYear]) mobileArchiveByYear[updateYear] = [];
+                mobileArchiveByYear[updateYear].push(mobileUpdate);
+            }
         }
     });
 
@@ -82,28 +105,48 @@ async function main() {
 
     // 6. Generate Files
 
-    // A. Main Page (Index)
+    // A. Web Release Notes (Index)
     await generateMdxFile(
-        mainUpdates,
+        webMain,
         path.join(OUTPUT_DIR, 'index.mdx'),
         "Release Notes",
         `Latest product updates from ${cutoffYear}/${currentYear}`
     );
 
-    // B. Archives
-    const archiveYears = Object.keys(archiveUpdatesByYear).sort((a, b) => b - a);
+    // B. Mobile App Updates
+    await generateMdxFile(
+        mobileMain,
+        path.join(OUTPUT_DIR, 'mobile.mdx'),
+        "Mobile App Updates",
+        `Latest mobile app updates from ${cutoffYear}/${currentYear}`
+    );
 
-    for (const year of archiveYears) {
+    // C. Web Archives
+    const webArchiveYears = Object.keys(webArchiveByYear).sort((a, b) => b - a);
+
+    for (const year of webArchiveYears) {
         await generateMdxFile(
-            archiveUpdatesByYear[year],
+            webArchiveByYear[year],
             path.join(OUTPUT_DIR, `${year}.mdx`),
             `${year} Updates`,
             `Release history for ${year}`
         );
     }
 
+    // D. Mobile Archives
+    const mobileArchiveYears = Object.keys(mobileArchiveByYear).sort((a, b) => b - a);
+
+    for (const year of mobileArchiveYears) {
+        await generateMdxFile(
+            mobileArchiveByYear[year],
+            path.join(OUTPUT_DIR, `${year}-mobile.mdx`),
+            `${year} Mobile Updates`,
+            `Mobile app release history for ${year}`
+        );
+    }
+
     // 7. Update docs.json
-    updateDocsJson(archiveYears);
+    updateDocsJson(webArchiveYears, mobileArchiveYears);
 
     // 8. TinyPNG compression (bonus - non-blocking)
     await tinypngCompressAll();
@@ -246,26 +289,35 @@ async function tinypngCompressAll() {
 
 // --- CONFIG UPDATER ---
 
-function updateDocsJson(archiveYears) {
+function updateDocsJson(webArchiveYears, mobileArchiveYears) {
     if (!fs.existsSync(DOCS_JSON_PATH)) {
         console.warn(`⚠️ Could not find ${DOCS_JSON_PATH}.`);
         return;
     }
 
     const docsConfig = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
-    const archivePages = archiveYears.map(year => `${MDX_PREFIX}/${year}`);
 
     const newGroups = [
         {
             group: "Product Updates",
-            pages: [`${MDX_PREFIX}/index`]
+            pages: [
+                `${MDX_PREFIX}/index`,
+                `${MDX_PREFIX}/mobile`
+            ]
         }
     ];
 
-    if (archivePages.length > 0) {
+    if (webArchiveYears.length > 0) {
         newGroups.push({
-            group: "Archive",
-            pages: archivePages
+            group: "Web Archive",
+            pages: webArchiveYears.map(year => `${MDX_PREFIX}/${year}`)
+        });
+    }
+
+    if (mobileArchiveYears.length > 0) {
+        newGroups.push({
+            group: "Mobile Archive",
+            pages: mobileArchiveYears.map(year => `${MDX_PREFIX}/${year}-mobile`)
         });
     }
 
@@ -302,6 +354,31 @@ function updateDocsJson(archiveYears) {
 
 // --- HELPER FUNCTIONS ---
 
+// Matches: # 📱 Mobile Apps, ## -📱 Mobile Apps, # 📱Mobile apps, etc.
+const MOBILE_SECTION_REGEX = /^#{1,2}\s*-?\s*📱\s*Mobile Apps?\s*$/im;
+
+function splitMobileContent(content) {
+    const match = MOBILE_SECTION_REGEX.exec(content);
+    if (!match) return { webContent: content, mobileContent: '' };
+
+    const mobileStart = match.index;
+    const afterMobile = content.substring(mobileStart + match[0].length);
+
+    // Find the next same-or-higher-level header (# or ##) to end the mobile section
+    const nextHeaderMatch = afterMobile.match(/^#{1,2}\s+/m);
+    let mobileEnd;
+    if (nextHeaderMatch) {
+        mobileEnd = mobileStart + match[0].length + nextHeaderMatch.index;
+    } else {
+        mobileEnd = content.length;
+    }
+
+    const mobileContent = content.substring(mobileStart + match[0].length, mobileEnd).trim();
+    const webContent = (content.substring(0, mobileStart) + content.substring(mobileEnd)).trim();
+
+    return { webContent, mobileContent };
+}
+
 function parseReleaseDocument(title, markdown) {
     const updates = [];
     const titleRegex = /(R\d+):.*?-\s*(.*)/;
@@ -322,10 +399,13 @@ function parseReleaseDocument(title, markdown) {
     const patchContent = splitParts.length > 1 ? splitParts[1].trim() : '';
 
     if (mainContent) {
+        const { webContent, mobileContent } = splitMobileContent(mainContent);
+
         updates.push({
             label: releaseDateStr,
             description: `Release ${releaseVersion}`,
-            content: mainContent,
+            content: webContent,
+            mobileContent: mobileContent || null,
             dateObj: releaseDateObj
         });
     }
@@ -348,6 +428,7 @@ function parseReleaseDocument(title, markdown) {
                     label: patchMatch[2],
                     description: `Patch ${patchMatch[1]}`,
                     content: body,
+                    mobileContent: null,
                     dateObj: parseDateString(patchMatch[2])
                 });
             }

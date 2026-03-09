@@ -44,29 +44,6 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-
-**Access Control (android)**
-
-* Continuous laser scanning on sunmi devices. Scanning next ticket is possible directly from ticket view without closing it (both in main entry and zones) [[NG-4611](https://linear.app/nuweb-group/issue/NG-4611)]
-* Enhanced ticket scan result view. Added displaying email and order reference to main entry scan, added consistent headers and email to zone scan result. [[NG-4609](https://linear.app/nuweb-group/issue/NG-4609)]
-* Add searching attendance lists by email and order reference (main entry and zones) [[NG-4610](https://linear.app/nuweb-group/issue/NG-4610)]
-
-
-**Box office (android)**
-
-* Added cash input without decimal point button which is more consistent with card terminal [[NG-4603](https://linear.app/nuweb-group/issue/NG-4603)]
-* Hiding off sale and out of stock items when hiding is enabled in settings [[NG-4754](https://linear.app/nuweb-group/issue/NG-4754)]
-* Fix displaying event/company fees [[NG-4601](https://linear.app/nuweb-group/issue/NG-4601)]
-
-
-**All android apps**
-
-* Add Portuguese to the list of supported languages [[NG-4641](https://linear.app/nuweb-group/issue/NG-4641)]
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * Added details of the token topup amounts a customer has received, on the order and order item detail pages [[NG-4516](https://linear.app/nuweb-group/issue/NG-4516)]
@@ -131,15 +108,6 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-* Allow selecting seating plan area when using best available seats (Box Office) [[NG-3590](https://linear.app/nuweb-group/issue/NG-3590)]
-* Enabled language selection + internationalisation in box office [[NG-4386](https://linear.app/nuweb-group/issue/NG-4386)]
-* Enabled language selection + internationalisation in cashless [[NG-4387](https://linear.app/nuweb-group/issue/NG-4387)]
-* Butterfly (double sided after folding) badge printing (Access Control) [[NG-4357](https://linear.app/nuweb-group/issue/NG-4357)]
-* Add permission for refunding in offline mode (Cashless) [[NG-4486](https://linear.app/nuweb-group/issue/NG-4486)]
-* Improvements to error tracking and visibility (Access Control) [[NG-3704](https://linear.app/nuweb-group/issue/NG-3704)]
-
 #### 🎨 User Interface (UI/UX)
 
 * Show ticket holder details on order overview page in admin & updated page UI [[NG-4248](https://linear.app/nuweb-group/issue/NG-4248)]
@@ -149,7 +117,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 <Frame caption="The order overview page received an update that highlights actions and main order details [[NG-4248"><img src="https://linear.app/nuweb-group/issue/NG-4248" alt="The order overview page received an update that highlights actions and main order details [[NG-4248" /></Frame>
 
-] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T165559Z&X-Amz-Expires=3600&X-Amz-Signature=4bbb6c05acd7b045ec279dccea72116b73874510f3daab86db1b230562edde54&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
+] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T171451Z&X-Amz-Expires=3600&X-Amz-Signature=0bd67b28347db269f19ca62c44252fbdb605a0710b8aed46e61d1bd90db621d5&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
 * Ensured testimonial list blocks function when vertical padding is set to zero [[NG-4227](https://linear.app/nuweb-group/issue/NG-4227)]
 * Added pricing previews to Cashless Shop Products, including the appropriate fee and sales channel breakdowns [[NG-2871](https://linear.app/nuweb-group/issue/NG-2871)]
 * Added a new `Has Tickets` filter to the event index page [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
@@ -303,18 +271,6 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-* Upgraded target SDK to version 33 (all 3 Android apps) [[NG-4146](https://linear.app/nuweb-group/issue/NG-4146)]
-* Added support for NFC on Sunmi L2s (by providing separate build for Sunmi store due to conflict with L2s_Pro) [[NG-4098](https://linear.app/nuweb-group/issue/NG-4098)]
-* Added support for languages (**en**, **cy, es, fr, tr**) for Access Control (Android) [[NG-4030](https://linear.app/nuweb-group/issue/NG-4030)]
-* Remove guests from guest list when their `registration status` is `cancelled`  Access Control (Android & iOS)
-* Added cashed out amount to cash-out success screen [[NG-3758](https://linear.app/nuweb-group/issue/NG-3758)]
-* Improved device tracking though request headers (`X-Device-Manufacturer`, `X-Device-Model`) (Android & iOS) [[NG-4097](https://linear.app/nuweb-group/issue/NG-4097)]
-* Added setting to skip inputting cash amount taken to calculate change in Box Office (Android) [[NG-4068](https://linear.app/nuweb-group/issue/NG-4068)]
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * Added warning when assigning Super User role to a new user [[NG-4267](https://linear.app/nuweb-group/issue/NG-4267)]
@@ -415,14 +371,6 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-* Switching company in Access Control Pro Android [[NG-3868](https://linear.app/nuweb-group/issue/NG-3868)]
-* Support for NFC on Sunmi L2s (all 3 android apps) [[NG-4032](https://linear.app/nuweb-group/issue/NG-4032)]
-* Support Stripe Terminal in Cashless Android (online mode) [[NG-3757](https://linear.app/nuweb-group/issue/NG-3757)]
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * Added more customisation options for article block descriptions as well as ability to remove 'View All' link from article and event blocks [[NG-3743](https://linear.app/nuweb-group/issue/NG-3743)]
@@ -517,7 +465,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 <br />
 
-<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T165559Z&X-Amz-Expires=3600&X-Amz-Signature=185ae2e55173685a552bf91e521995b21ad510c92d4951d6e92917492a53bad7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
+<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T171451Z&X-Amz-Expires=3600&X-Amz-Signature=a9c78eeecb6c90a496b2d47f1afe889eec9de2b3c48627694bb7bae7e8f02c7d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
 
 * Added ability to display event times at the event block level (and style them) [[NG-3581](https://linear.app/nuweb-group/issue/NG-3581)]
 
@@ -568,16 +516,6 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 
 * Added ability to use Google Tag Manager on admin to add custom scripts and tracking your users [[NG-3578](https://linear.app/nuweb-group/issue/NG-3578)]
-
-#### 📱 Mobile Apps
-
-
-**Box Office**
-
-* Cash drawer integration
-* Disable refund button on order details view, when there are no products left that can be refunded
-* Display refunded products (on order details view) with clear indicator that they are in fact already refunded 
-* Fix printing tickets from order details view
 
 #### 🎨 User Interface (UI/UX)
 
@@ -690,27 +628,6 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 <Frame caption="First Atlantic Commerce (PowerTranz) Payments"><img src="/images/releases/62917cf031b29ded57dea5869f1ca980.png" alt="First Atlantic Commerce (PowerTranz) Payments" /></Frame>
 
 
-
-
-
-#### 📱 Mobile Apps
-
-
-**Access Control**
-
-* Added support for NFC on Sunmi L2s Pro
-* Added the ability to input notes when scanning for an exhibitor [[NG-3249](https://linear.app/nuweb-group/issue/NG-3249)]
-
-
-**Cashless**
-
-* Added support for NFC on Sunmi L2s Pro
-* Improved error reporting on sale failure
-
-
-**Box Office**
-
-* Added support for NFC on Sunmi L2s Pro
 
 
 
@@ -855,75 +772,6 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-
-**Box office**
-
-* Added auto cutter functionality. After printing tickets and receipt paper can be automatically cut after each ticket or after the whole order (depending on the selected setting in the app) [[NG-3217](https://linear.app/nuweb-group/issue/NG-3217)]
-*Available on devices that have paper cutter (tested on* `D2 mini`*; should also work on* `K2`*,* `K2 mini`*).*
-* Auto printing of tickets in kiosk mode [[NG-3213](https://linear.app/nuweb-group/issue/NG-3213)]
-*Available on* `Sunmi` *devices equipped with printer*
-* Globally added header to requests indicating whether app is operating in kiosk mode, so that all endpoints can return data relevant for kiosk or normal mode [[NG-3252](https://linear.app/nuweb-group/issue/NG-3252)]
-* Events that only have seated tickets are not shown in app [[NG-3211](https://linear.app/nuweb-group/issue/NG-3211)]
-* Added company logo to kiosk welcome screen [[NG-3212](https://linear.app/nuweb-group/issue/NG-3212)]
-* Added option to sell season tickets [[NG-3215](https://linear.app/nuweb-group/issue/NG-3215)]
-* Fix for app making too many requests when cashless was half configured in admin panel (e.g. cashless was enabled but no shop was created) [[NG-2855](https://linear.app/nuweb-group/issue/NG-2855)]
-
-
-**Cashless**
-
-* Fix to handle correctly product categories with undefined name (categories with undefined name can be created when importing sale items from csv file)
-
-
-* Homepage with improved navigation [[NG-2626](https://linear.app/nuweb-group/issue/NG-2626)] 
-
-
-<Frame caption="More options available on the homepage. "><img src="/images/releases/d9871ede0d21ebefde275b620cd653d8.png" alt="More options available on the homepage. " /></Frame>
-
-
-* Product listings [[NG-2617](https://linear.app/nuweb-group/issue/NG-2617)]
-
-
-<Frame caption="Wallet balance is now shown on the products index page"><img src="/images/releases/71320f214c12f15816c8255185b2e735.png" alt="Wallet balance is now shown on the products index page" /></Frame>
-
-
-
-
-* Transaction success page [[NG-2618](https://linear.app/nuweb-group/issue/NG-2618)]
-
- 
-
-<Frame caption="Order success page now shows much more information"><img src="/images/releases/cc1daf23c578973054d3ca994a1fdf73.png" alt="Order success page now shows much more information" /></Frame>
-
-
-
-* Catalog of products [[NG-2773](https://linear.app/nuweb-group/issue/NG-2773)]
-
-
-<Frame caption="Added more information to the products index page. "><img src="/images/releases/0552fd2980241deb326f5a6b8de68cc1.png" alt="Added more information to the products index page. " /></Frame>
-
-
-
-
-* Token top ups [[NG-2621](https://linear.app/nuweb-group/issue/NG-2621)]
-
- 
-
-<Frame caption="Added Top-up images within the app."><img src="/images/releases/5dd7113ca7d0d7b6540490ad9a9ca96d.png" alt="Added Top-up images within the app." /></Frame>
-
-
-
-
-* Improved tapping NFC tag to verify customer and balance. Available in transactions view for quick filtering and homepage for operator's convenience [[NG-2619](https://linear.app/nuweb-group/issue/NG-2619)]
-
-
-<Frame caption="Transactions page uses colour and padding to make information easier to digest."><img src="/images/releases/766981a8da1dfe502bbdc83de8f06a57.png" alt="Transactions page uses colour and padding to make information easier to digest." /></Frame>
-
-
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * The menu received a UI and UX uplift. Now you can collapse the menu any time, and when collapsing the menu will shrink to an icon only view. Some menu items have been moved under different pages [[NG-3290](https://linear.app/nuweb-group/issue/NG-3290)]
@@ -1056,21 +904,6 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 * New List Highlights template block [[NG-2732](https://linear.app/nuweb-group/issue/NG-2732)]
 * New List of Tabs template block [[NG-2734](https://linear.app/nuweb-group/issue/NG-2734)]
 * New Filtered List Block template block [[NG-2730](https://linear.app/nuweb-group/issue/NG-2730)]
-
-
-
-#### 📱 Mobile Apps
-
-* Added QR scanning mode in Cashless app
-* Changes in Cashless including improvements of UI and adding more information for better UX in areas of the app:
-  * Homepage with improved navigation
-  * Product categories
-  * Sales report
-  * Catalog of products
-  * Token top ups
-  * Product listings
-  * Transactions (list and details)
-* Improved tapping NFC tag to verify customer and balance. Available in transactions view for quick filtering and homepage for operator's convenience
 
 
 
@@ -1219,18 +1052,6 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-* Added to all apps debug headers and device-id header to allow device tracking
-* Optimised requests from cashless app in order to generate less workload for servers
-* Added custom product prices to cashless products
-* Minor UI/UX enhancements to android cashless mobile app
-* Cashless app can be safely used with hub users (company change does not affect app)
-* Added tracking who and when refunded item in cashless
-* Camera preview on Sunmi V2s PLUS fixed to be in correct orientation
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * Bundled children show sold out/off sale UI to match parent [[NG-2616](https://linear.app/nuweb-group/issue/NG-2616)]
@@ -1364,27 +1185,6 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-#### 📱 Mobile Apps
-
-* Added Sunmi V2S Plus label printing support to the access control app [[NG-2539](https://linear.app/nuweb-group/issue/NG-2539)]
-
-
- 
-
-<Frame caption="Access control label printing"><img src="/images/releases/cf5700d11b4ad0405e285e7550b02f2f.png" alt="Access control label printing" /></Frame>
-
-
-
-* Added Sunmi D2 Mini (dual screen POS) capabilities to Access control, Cashless & Box office mobile apps
-
-
- 
-
-<Frame caption="Dual screen Sunmi D2 Mini"><img src="/images/releases/c4f1eae55333ef72d7446e31d6dddea5.png" alt="Dual screen Sunmi D2 Mini" /></Frame>
-
-
-
-
 #### 🎨 User Interface (UI/UX)
 
 * Various seating plan related updates [[NG-2571](https://linear.app/nuweb-group/issue/NG-2571)]
@@ -1399,7 +1199,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 <br />
 
-<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T165600Z&X-Amz-Expires=3600&X-Amz-Signature=66fbaab2d77e1cd460192e095dc28784dc2e7402348bd51fe335fc020691f068&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260309%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260309T171451Z&X-Amz-Expires=3600&X-Amz-Signature=268314db9f91b996a8036d725f459f7302a6fcca42cf25f62e98d5a45d6de41e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
 
 
 * In seating plan editor block/row labels in edit can be toggled from now, so they won't get in the way
