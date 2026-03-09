@@ -129,6 +129,17 @@ Individual order items display a protection badge:
 The protection badge colour defaults to green (#005C3D) but can be customised per fee item when configuring the refund protection fee.
 </Note>
 
+### Refund Protection in Reports and APIs
+
+<Tip>New in Release 45</Tip>
+
+The refund protection status (protected, unprotected, claimed) is available:
+
+- On the [orders API](/api-reference/orders/retrieve-orders) and [order items API](/api-reference/orders/retrieve-order-items) responses, so integrations can programmatically check protection status
+- In [attendance reports](/core-platform/reporting/default-reports#attendance-reports), with the ability to filter by protection status (protected, unprotected, claimed)
+
+This makes it possible to track protection uptake and claim rates across events without manual review.
+
 ## Refunds and Cancellations
 
 When items on a protected order are cancelled or refunded through the admin:

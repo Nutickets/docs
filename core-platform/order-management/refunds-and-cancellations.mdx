@@ -151,15 +151,25 @@ For situations where you need to refund multiple orders at once — such as canc
 1. Navigate to **Sales > Orders** and click **Bulk refund**.
 2. Select the event(s) whose orders you want to refund.
 3. The system displays all eligible orders with refundable items from those events.
-4. Configure the refund settings:
-   - **Online / Offline** — Whether to process refunds through the gateway or record them manually
+4. Optionally, filter the order list to narrow which orders are included:
+
+<Tip>New in Release 45</Tip>
+
+| Filter | Description |
+|--------|-------------|
+| **Payment method** | Only show orders paid with a specific payment method |
+| **Sales channel** | Only show orders from a specific channel (online, box office, import, API, invoice, kiosk) |
+
+5. Configure the refund settings:
+   - **Refund type** — **Online** (refund to original payment method via gateway), **Balance** (refund to customer account balance), **Offline** (manual refund recorded without gateway processing), or **Cancel** (cancel items without issuing a monetary refund)
+   - **Cancellation fee** — An optional fee deducted from each refund, distributed proportionally across items based on their refundable amounts. Requires the [cancellation fees](#cancellation-fees) feature and the **Apply cancellation fees** permission.
    - **Restock items** — Whether to release capacity
    - **Refund processing fees** — Include or exclude
    - **Refund reseller fees** — Include or exclude
    - **Notify customers** — Send refund confirmation emails
    - **Additional email text** — Custom message to include in the notification
    - **Reason** — Refund reason for records
-5. Submit the bulk refund.
+6. Submit the bulk refund.
 
 Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue. After all orders are processed, you receive a **Bulk refund summary email** showing which orders were successfully refunded and which failed.
 

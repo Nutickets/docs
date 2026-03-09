@@ -1,16 +1,20 @@
 ---
 title: "Mobile Wallets"
-description: "Let customers add tickets to Apple Wallet on their iPhone, with customisable pass designs, colours, and images."
+description: "Create mobile wallet designs and digital passes so customers can access their tickets from Apple Wallet or a web-based digital pass."
 ---
 
 ## Overview
 
-Mobile wallet passes let your customers save their tickets directly to **Apple Wallet** on their iPhone. Instead of downloading a PDF and keeping track of a file, customers tap a button and the ticket appears in their Wallet app — ready to present at entry by showing the QR code on their phone screen.
+Mobile wallet designs let you create branded digital passes for your customers' tickets. Customers can save their tickets directly to **Apple Wallet** on their iPhone, or — for events with [secure barcodes](/core-platform/event-management/secure-barcodes) — view them as a **digital pass** in their account.
 
 Wallet passes are an alternative to [PDF tickets](/core-platform/event-management/event-media/custom-pdfs), not a replacement. Both can be available simultaneously, giving customers the choice of how they want to access their tickets.
 
+<Tip>New in Release 45</Tip>
+
+The mobile wallet designer has been updated with a redesigned interface that shows a 1:1 preview of your customer's digital pass as you configure it. The previous **Apple Passes** menu under Event Media has been rebranded to **Mobile Wallet Designs** to reflect support for the new web-based digital passes alongside Apple Wallet.
+
 <Note>
-Mobile wallet passes currently support **Apple Wallet only**. There is no Google Wallet integration at this time.
+Apple Wallet integration remains **Apple Wallet only** — there is no Google Wallet integration at this time. However, the new digital pass (available for events with secure barcodes) works on any device via the customer's account.
 </Note>
 
 ## Enabling Mobile Wallet Passes
@@ -75,13 +79,13 @@ Some pass types offer **variants** that change how images and content are arrang
 
 ## Customising a Pass Design
 
-### Creating an Apple Pass Template
+### Creating a Mobile Wallet Design
 
 1. Navigate to **Event Media**
-2. Select the **Apple Passes** tab
+2. Select the **Mobile Wallet Designs** tab
 3. Click **Create**
 4. Choose the **Event Pass** template as a starting point
-5. Configure the pass type, colours, and images
+5. Configure the pass type, colours, and images — the designer shows a live preview of how the pass will appear to customers
 6. Click **Save**, enter a name, and confirm
 
 ### Colours
@@ -149,11 +153,21 @@ Apple Pass templates follow the same [assignment hierarchy](/core-platform/event
 
 Configure defaults in **Event Media > Settings** under the Apple Pass sections. Override per event or sale item in their respective settings.
 
+## Digital Passes
+
+<Tip>New in Release 45</Tip>
+
+For events with [secure barcodes](/core-platform/event-management/secure-barcodes) enabled, the platform provides a **digital pass** — a web-based ticket view that customers access from their account. This replaces the traditional download page with a pass-style interface showing the rotating QR code, event details, and seat information.
+
+When an order contains items with secure barcodes, the **Display Barcode** link in the customer's account is replaced with a **Display Pass** link. Tapping this opens the digital pass view, which presents each ticket as a swipeable card styled according to the assigned mobile wallet design.
+
+Digital passes work on any device and browser — they are not limited to Apple devices like wallet passes.
+
 ## Secure Barcodes
 
 Unlike [PDF downloads](/core-platform/event-management/event-media/custom-pdfs#secure-barcodes-and-pdf-downloads), Apple Wallet passes **fully support secure barcodes**. Because the pass is a live digital document on the customer's phone, the barcode can refresh dynamically. There is no need to convert to static barcodes when using wallet passes.
 
-This makes wallet passes the preferred download method for events using secure barcodes, as they maintain the anti-fraud protection that secure barcodes provide.
+This makes wallet passes and digital passes the preferred access methods for events using secure barcodes, as they maintain the anti-fraud protection that secure barcodes provide.
 
 ## Limitations
 

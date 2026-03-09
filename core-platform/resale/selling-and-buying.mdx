@@ -28,7 +28,15 @@ The setup flow walks the seller through selecting items:
 1. **Choose an event** — If the order spans multiple events, the seller first selects which event's items to list. All items in a single listing must belong to the same event.
 2. **Select items** — The seller selects which items to list. Each item shows its name, seat or space information (if applicable), original order reference, and holder name (if assigned).
 
-Items that cannot be listed are shown as disabled with an explanation, such as the item already being listed for resale or not being eligible.
+Items that cannot be listed are shown as disabled with an explanation, such as the item already being listed for resale or not being eligible. A **Select all** option allows choosing all eligible items at once.
+
+<Tip>New in Release 45</Tip>
+
+When listing items from a seated event, the following grouping restrictions apply:
+- Allocated seats and general admission items **cannot** be grouped together in the same listing
+- Items from **different seating plan areas** cannot be grouped together
+
+These restrictions ensure that grouped listings make sense to buyers — all items in a group will be in the same area and of the same type.
 
 ### Setting the Price
 
@@ -187,6 +195,10 @@ The full payout is deposited into the seller's pending account balance. The fund
 ### Finding Resale Items
 
 When resale items are available for an event, buyers see a **Verified resale tickets available** indicator on the event page. Clicking it reveals the **Available resale tickets from verified sellers** section.
+
+<Tip>New in Release 45</Tip>
+
+For seated events, resale seats and general admission spaces now appear directly on the seating plan alongside primary inventory. Buyers can select a resale seat from the plan and see any related grouped items. The seating plan filter UI includes a **resale** option to help buyers find available resale items. In the admin, the seating plan view also shows whether a booked ticket is available for resale.
 
 Each available listing shows:
 

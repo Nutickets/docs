@@ -1288,6 +1288,56 @@ Events, companies. Date filter. Text filters for old barcode, current barcode, o
 
 ---
 
+## Event Schedules Report
+
+<Tip>New in Release 45</Tip>
+
+Provides a high-level overview of configured [schedules](/core-platform/event-management/schedules), including their settings and aggregate event counts.
+
+### Fields
+
+<Accordion title="Schedule fields">
+
+| Field | Description |
+|-------|-------------|
+| **Schedule ID** / **Schedule name** | Schedule identification |
+| **Company name** / **Reseller name** | Owning company and reseller |
+| **Schedule type** | The type of schedule (e.g. repeating, series) |
+| **Header style** / **Default list style** | Display configuration |
+| **Created at** / **Updated at** | Record timestamps |
+
+</Accordion>
+
+<Accordion title="Schedule settings">
+
+| Field | Description |
+|-------|-------------|
+| **Enable schedule listing** | Whether the schedule has a listing page |
+| **Enable listing dates** | Whether dates are shown on the listing |
+| **Allow staff rebooking** | Whether staff can rebook customers to other events in the schedule |
+| **Allow customer rebooking** | Whether customers can rebook themselves |
+
+</Accordion>
+
+<Accordion title="Schedule aggregates">
+
+| Field | Description |
+|-------|-------------|
+| **Total groups** | Number of groups in the schedule |
+| **Total events** | Total number of events |
+| **Total published events** | Number of published events |
+| **Total upcoming events** | Number of future events |
+| **Total upcoming published events** | Number of future published events |
+| **Total past events** | Number of events that have ended |
+
+</Accordion>
+
+### Key Filters
+
+Schedule type, has upcoming events (boolean). Reseller and company filters available for hub users.
+
+---
+
 ## Event Report
 
 Provides an overview of all past and upcoming events with their configuration details.

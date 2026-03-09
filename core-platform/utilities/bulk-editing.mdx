@@ -113,11 +113,14 @@ Bulk refunds let you refund multiple orders at once, typically when cancelling a
 
 1. Navigate to **Orders > Bulk refund**
 2. Filter orders by **event** to narrow the scope
-3. Review the refundable orders (up to 500 per batch)
-4. Configure refund options:
+3. Optionally, filter further by **payment method** or **sales channel** to target specific subsets of orders
+4. Review the refundable orders (up to 500 per batch)
+5. Configure refund options:
 
 | Option | Description |
 |--------|-------------|
+| **Refund type** | Online (via gateway), Balance (to account), Offline (manual), or Cancel (no monetary refund) |
+| **Cancellation fee** | Optional fee deducted from each refund, distributed proportionally across items |
 | **Restock** | Return items to available stock |
 | **Refund processing fee** | Include the processing fee in the refund |
 | **Refund reseller fee** | Include the reseller fee in the refund |
@@ -125,7 +128,7 @@ Bulk refunds let you refund multiple orders at once, typically when cancelling a
 | **Notify customer** | Send the customer a refund notification email |
 | **Additional email text** | Custom text to include in the notification |
 
-5. Submit the bulk refund
+6. Submit the bulk refund
 
 A summary email is sent to you when the batch completes.
 

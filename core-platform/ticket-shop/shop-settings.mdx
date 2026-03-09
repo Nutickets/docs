@@ -116,6 +116,40 @@ Google Tag Manager respects the cookie banner. If you have the cookie banner ena
 
 Date format, time format, and timezone display settings affect how dates and times appear to customers throughout the shop. These are configured at the company level — see [Company Settings: Localization](/core-platform/utilities/company-settings#localization) for the full list of options.
 
+## Early Access Features
+
+<Tip>New in Release 45</Tip>
+
+The platform periodically introduces new shop experiences as **early access features** — optional upgrades that you can enable before they become the default. Early access features are managed in **Site > Theme settings** under the **Early access features** section.
+
+Each feature has a testing period during which it is optional. Once that period ends, the feature becomes the default behaviour for all shops. The admin UI shows the date when the testing period closes for each feature.
+
+### Timeslot and Schedule Selection
+
+When enabled, the traditional calendar-based [timeslot](/core-platform/event-management/timeslots) picker is replaced with a streamlined list-based interface that is more accessible and mobile-friendly.
+
+The new experience works in two steps:
+
+1. **Select a date** — available dates are shown in a scrollable list. If the schedule spans multiple months, a month picker appears first. Each date shows the time range and number of available slots.
+2. **Select a time** — once a date is chosen, available times are listed. When there are many timeslots (more than ten), they are grouped into **Morning**, **Afternoon**, and **Evening** sections to help customers find a convenient time quickly.
+
+Each timeslot in the list shows:
+- The time window
+- The lowest available price (prefixed with "from")
+- Stock availability (e.g. "only 3 left", "sold out", "off sale")
+
+The same interface is used for selecting timeslots from other dates or selecting other events in a [repeat schedule](/core-platform/event-management/schedules). Recently viewed timeslots are tracked so customers can quickly return to options they were considering.
+
+### Item Selection
+
+When enabled, the traditional quantity selector (starting at zero with increment/decrement controls) is replaced with a **Select** call-to-action button. This provides a clearer purchasing flow:
+
+- **Before selection** — items display a **Select** button instead of a quantity input set to zero.
+- **After selection** — the button changes to **Selected × 1** (or the relevant quantity) with a checkmark. If the item supports multiple quantities, the standard quantity controls appear so the customer can adjust.
+- **Removing** — hovering over a selected item reveals a **Remove** option.
+
+This change applies on both [seated](/core-platform/event-management/seated-events) and non-seated events.
+
 ## Related Pages
 
 - [CMS: Theme & Branding](/core-platform/cms/theme-and-branding) -- Visual customisation of the shop
