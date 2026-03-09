@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
@@ -5,6 +6,7 @@ const crypto = require('crypto');
 const sharp = require('sharp'); // <--- New Dependency for compression
 
 // --- CONFIGURATION ---
+const TINYPNG_API_KEY = process.env.TINYPNG_API_KEY;
 const SHARE_ID = '5450e24b-d6cd-48c9-a315-a9037dba31f1';
 const API_BASE_URL = 'https://wiki.nutickets.com/api';
 
@@ -13,6 +15,9 @@ const DOCS_JSON_PATH = 'docs.json';
 const OUTPUT_DIR = 'releases';
 const MDX_PREFIX = 'releases';
 const IMAGES_DIR = 'images/releases';
+
+// Track newly downloaded images this run (for TinyPNG pass)
+const newlyDownloadedImages = new Set();
 
 async function main() {
   console.log('🚀 Starting Smart Release Notes Generation (Compressed)...');
@@ -100,6 +105,9 @@ async function main() {
     // 7. Update docs.json
     updateDocsJson(archiveYears);
 
+    // 8. TinyPNG compression (bonus - non-blocking)
+    await tinypngCompressAll();
+
   } catch (error) {
     console.error('❌ Error:', error.message);
   }
@@ -154,11 +162,85 @@ async function downloadImage(url) {
             fs.writeFileSync(localPath, response.data);
         }
 
+        newlyDownloadedImages.add(localPath);
         return publicPath;
 
     } catch (e) {
         console.warn(`⚠️ Failed to download/compress image: ${url}. Keeping remote link.`);
         return url;
+    }
+}
+
+// --- TINYPNG COMPRESSION (BONUS LAYER) ---
+
+async function tinypngCompressAll() {
+    if (!TINYPNG_API_KEY) {
+        console.log('⏭️  TinyPNG: No API key found (TINYPNG_API_KEY). Skipping.');
+        return;
+    }
+
+    if (newlyDownloadedImages.size === 0) {
+        console.log('⏭️  TinyPNG: No new images to compress. Skipping.');
+        return;
+    }
+
+    const files = [...newlyDownloadedImages];
+    console.log(`\n🐼 TinyPNG: Compressing ${files.length} new image(s)...`);
+
+    const failed = [];
+    let compressed = 0;
+    let totalSaved = 0;
+
+    for (const filePath of files) {
+        const file = path.basename(filePath);
+        try {
+            const originalBuffer = fs.readFileSync(filePath);
+            const originalSize = originalBuffer.length;
+
+            // Upload to TinyPNG
+            const shrinkRes = await axios.post('https://api.tinify.com/shrink', originalBuffer, {
+                auth: { username: 'api', password: TINYPNG_API_KEY },
+                headers: { 'Content-Type': 'application/octet-stream' },
+                maxBodyLength: Infinity
+            });
+
+            const outputUrl = shrinkRes.data.output.url;
+            const compressedSize = shrinkRes.data.output.size;
+
+            // Only download if TinyPNG actually reduced the size
+            if (compressedSize < originalSize) {
+                const downloadRes = await axios.get(outputUrl, {
+                    responseType: 'arraybuffer',
+                    auth: { username: 'api', password: TINYPNG_API_KEY }
+                });
+                fs.writeFileSync(filePath, downloadRes.data);
+                const saved = originalSize - compressedSize;
+                totalSaved += saved;
+                compressed++;
+                process.stdout.write('.');
+            } else {
+                process.stdout.write('=');
+            }
+        } catch (e) {
+            const reason = e.response?.data ? Buffer.from(e.response.data).toString() : e.message;
+            failed.push({ file, reason });
+            process.stdout.write('x');
+        }
+    }
+
+    console.log('');
+
+    if (compressed > 0) {
+        console.log(`✅ TinyPNG: Compressed ${compressed}/${files.length} image(s), saved ${(totalSaved / 1024).toFixed(1)} KB total.`);
+    } else {
+        console.log(`ℹ️  TinyPNG: No images were further reduced.`);
+    }
+
+    if (failed.length > 0) {
+        console.warn(`⚠️  TinyPNG: ${failed.length} image(s) failed:`);
+        failed.forEach(({ file, reason }) => {
+            console.warn(`   - ${file}: ${reason}`);
+        });
     }
 }
 

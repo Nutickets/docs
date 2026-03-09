@@ -31,6 +31,12 @@ All generation scripts (`npm run gen`) should be run from the `mintlify/` direct
 
 This will pull down all of our release notes from the public wiki document, parse and process them into MDX and update the mintlify `docs.json` file to set up the navigation. Release notes older than the previous full year will be added to an archive, grouped by year.
 
+#### Image Compression
+
+Images are compressed in two stages:
+1. **Sharp** (local, always runs) — lossless/near-lossless optimisation as images are downloaded.
+2. **TinyPNG** (optional, API-based) — an additional lossy pass via the [TinyPNG API](https://tinify.com/developers/reference/http) for newly downloaded images only. Requires a `TINYPNG_API_KEY` in your `.env` file (see `.env.example`). If the key is missing or the API quota is exceeded, the script will log which images were skipped and continue without interruption.
+
 2. Import API documentation: `node generate-api-docs.js`
 
 This will pull down our OpenAPI JSON files from all of our API docs (admin API, partner API, webhooks API - URLs are defined inside the `generate-api-docs.js` file), extract out the changelogs from the main body and publish to separate mintlify mdx files, and point the OpenAPI URLs to api.nuwebgroup.com (with the relevant path depending on which API it is).

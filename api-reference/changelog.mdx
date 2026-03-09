@@ -6,6 +6,23 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="25th February 2026" description="">
+
+- Added `statusDetail` and `status` to [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets); failed scans are now persisted for reporting.
+- Updated [POST /orders/complete](/api-reference/orders/complete-order) to support an optional `capture` flag, removing the need for an intermediary call to the now deprecated [POST /checkout/capture-payment-intent](/api-reference/payments/deprecated-capture-payment-intent) endpoint.
+- Added `protectionStatus` parameter to [GET /orders](/api-reference/orders/retrieve-orders) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order](/api-reference/orders/retrieve-order) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order-items](/api-reference/orders/retrieve-order-items) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) to indicate the protection status of the order items.
+
+</Update>
+
+<Update label="25th February 2026" description="">
+
+- Added `secure` parameter to [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets) to indicate whether a ticket was scanned using a secure (dynamic) barcode. The `secure` flag is recorded against the scan and included in scanning reports.
+
+</Update>
+
 <Update label="27th January 2026" description="">
 
 - `GET /resale-listings` and `GET /resale-listing`:
