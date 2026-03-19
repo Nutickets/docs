@@ -378,52 +378,34 @@ function parseExistingMdx(filePath) {
 
 function extractDocLinks(content) {
     const links = [];
-    // Match markdown links to internal doc pages (paths starting with /)
     const linkRegex = /\[([^\]]+?)\]\((\/[^)]+?)\)/g;
     let match;
     while ((match = linkRegex.exec(content)) !== null) {
         const text = match[1];
         const url = match[2];
-        // Only collect internal doc links, not image paths or external URLs
         if (url.startsWith('/core-platform/') || url.startsWith('/mobile-apps/')) {
-            links.push({ text, url, full: match[0] });
+            // Capture surrounding context to identify the correct position later.
+            // Strip links from context so it matches plain-text regenerated content.
+            const ctxSize = 40;
+            const before = content.substring(Math.max(0, match.index - ctxSize), match.index)
+                .replace(/\[([^\]]*?)\]\([^)]*?\)/g, '$1');
+            const after = content.substring(match.index + match[0].length, match.index + match[0].length + ctxSize)
+                .replace(/\[([^\]]*?)\]\([^)]*?\)/g, '$1');
+            links.push({ text, url, full: match[0], before, after });
         }
     }
     return links;
 }
 
-function replaceOutsideLinks(content, searchText, replacement) {
-    // Split content into segments: markdown links and everything else
-    // Only replace in non-link segments to avoid nested links
-    const linkPattern = /\[[^\]]*?\]\([^)]*?\)/g;
-    const segments = [];
-    let lastIndex = 0;
+function isInsideProtected(content, pos, textLen) {
+    // Check if position falls inside an existing markdown link or HTML attribute
+    const protectedPattern = /\[[^\]]*?\]\([^)]*?\)|(?:caption|alt|src|href)="[^"]*?"/g;
     let match;
-
-    while ((match = linkPattern.exec(content)) !== null) {
-        if (match.index > lastIndex) {
-            segments.push({ text: content.substring(lastIndex, match.index), isLink: false });
-        }
-        segments.push({ text: match[0], isLink: true });
-        lastIndex = match.index + match[0].length;
+    while ((match = protectedPattern.exec(content)) !== null) {
+        if (pos >= match.index && pos + textLen <= match.index + match[0].length) return true;
+        if (match.index > pos) break;
     }
-    if (lastIndex < content.length) {
-        segments.push({ text: content.substring(lastIndex), isLink: false });
-    }
-
-    // Replace in non-link segments only, and only the first occurrence total
-    let replaced = false;
-    const result = segments.map(seg => {
-        if (seg.isLink || replaced) return seg.text;
-        const idx = seg.text.indexOf(searchText);
-        if (idx !== -1) {
-            replaced = true;
-            return seg.text.substring(0, idx) + replacement + seg.text.substring(idx + searchText.length);
-        }
-        return seg.text;
-    }).join('');
-
-    return { result, replaced };
+    return false;
 }
 
 function transplantLinks(newContent, existingContent) {
@@ -433,24 +415,57 @@ function transplantLinks(newContent, existingContent) {
     // Sort by text length descending so "Charity donations" is processed before "donations"
     docLinks.sort((a, b) => b.text.length - a.text.length);
 
-    // Deduplicate by URL — keep the longest text for each URL
-    const seenUrls = new Set();
-    const uniqueLinks = docLinks.filter(link => {
-        if (seenUrls.has(link.url)) return false;
-        seenUrls.add(link.url);
-        return true;
-    });
-
     let result = newContent;
     let transplanted = 0;
 
-    for (const link of uniqueLinks) {
-        // Skip if this exact link already exists in the new content
-        if (result.includes(link.full)) continue;
+    for (const link of docLinks) {
+        // Skip if this exact link already exists at the right spot
+        if (result.includes(link.full)) {
+            // Check context to see if it's actually the same usage
+            const idx = result.indexOf(link.full);
+            const nearbyBefore = result.substring(Math.max(0, idx - 40), idx);
+            if (link.before.length > 5 && nearbyBefore.includes(link.before.substring(link.before.length - 10))) {
+                continue;
+            }
+        }
 
-        const { result: newResult, replaced } = replaceOutsideLinks(result, link.text, link.full);
-        if (replaced) {
-            result = newResult;
+        // Find the anchor text in the new content by matching surrounding context
+        let bestPos = -1;
+        let bestScore = 0;
+        let searchFrom = 0;
+
+        while (searchFrom < result.length) {
+            const pos = result.indexOf(link.text, searchFrom);
+            if (pos === -1) break;
+            searchFrom = pos + 1;
+
+            // Skip if inside a protected zone (existing link or HTML attribute)
+            if (isInsideProtected(result, pos, link.text.length)) continue;
+
+            // Score based on how much surrounding context matches
+            const beforeSnippet = result.substring(Math.max(0, pos - 40), pos);
+            const afterSnippet = result.substring(pos + link.text.length, pos + link.text.length + 40);
+
+            let score = 0;
+            // Check how many trailing chars of "before" context match
+            for (let i = 1; i <= Math.min(link.before.length, beforeSnippet.length); i++) {
+                if (link.before[link.before.length - i] === beforeSnippet[beforeSnippet.length - i]) score++;
+                else break;
+            }
+            // Check how many leading chars of "after" context match
+            for (let i = 0; i < Math.min(link.after.length, afterSnippet.length); i++) {
+                if (link.after[i] === afterSnippet[i]) score++;
+                else break;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestPos = pos;
+            }
+        }
+
+        if (bestPos !== -1) {
+            result = result.substring(0, bestPos) + link.full + result.substring(bestPos + link.text.length);
             transplanted++;
         }
     }
