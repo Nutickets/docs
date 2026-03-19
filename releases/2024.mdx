@@ -27,7 +27,7 @@ description: "Release history for 2024"
 * [[NG-8199](https://linear.app/nuweb-group/issue/NG-8199)] Multi-event orders with data capture now show 'next' and 'previous' buttons when viewed in the admin UI
 * [[NG-8258](https://linear.app/nuweb-group/issue/NG-8258)] Ensured that when completing an already expired order from the reservations UI, stock is correctly deducted again  
 * [[NG-8370](https://linear.app/nuweb-group/issue/NG-8370)] Updated the API /order-items endpoint to return refunded and cancelled items, rather than just valid ones 
-* [[NG-8441](https://linear.app/nuweb-group/issue/NG-8441)] [Venues](/core-platform/event-management/venues), [seating plans](/core-platform/seating-plans/introduction), and inventory items are now ordered by name
+* [[NG-8441](https://linear.app/nuweb-group/issue/NG-8441)] [Venues](/core-platform/event-management/venues), [seating plans](/core-platform/seating-plans/introduction), and inventory items are now ordered by name  
 * [[NG-8453](https://linear.app/nuweb-group/issue/NG-8453)] Default new event [schedules](/core-platform/event-management/schedules) to permit staff [rebooking](/core-platform/order-management/rebooking)/move dates  
 * [[NG-8454](https://linear.app/nuweb-group/issue/NG-8454)] Updated the wording on event copy form to standardise the use of 'copy' instead of 'duplicate' across all languages  
 * [[NG-8462](https://linear.app/nuweb-group/issue/NG-8462)] Restored the warning about absorbed fees on the refund UI, when any fees have been hidden/absorbed during the original transaction.
@@ -802,7 +802,7 @@ Below you will find the summary notes for the 35th release of the Nuweb core pla
 
 **EPOS & E-Wallets**
 
-* Epos has entered general availability, with a new app, fresh UI, and better management of feature flags for epos + account balance users [[NG-6568](https://linear.app/nuweb-group/issue/NG-6568)]
+* Epos has entered general availability, with a new app, fresh UI, and better management of feature flags for epos + [account balance](/core-platform/account-balances/top-ups) users [[NG-6568](https://linear.app/nuweb-group/issue/NG-6568)]
   * It's now possible to configure account to use account balances/ewallets **without** also enabling epos (formerly cashless)
 
     
@@ -892,7 +892,7 @@ Below you will find the summary notes for the 35th release of the Nuweb core pla
 * Ensure the totals row on the order and transaction report works correctly when use negatives for refunds is enabled [[NG-6777](https://linear.app/nuweb-group/issue/NG-6777)]
 * It's now possible to group zone reports by the minutes, hours, or quarter hours that the scans occurred within, allowing for useful reporting on access control hot spots [[NG-7012](https://linear.app/nuweb-group/issue/NG-7012)]
 * Display event capacities on the event list page on mobile view [[NG-6741](https://linear.app/nuweb-group/issue/NG-6741)]
-* Allow refund to [account balance](/core-platform/account-balances/top-ups) and cancellation of orders/order items via the API [[NG-7009](https://linear.app/nuweb-group/issue/NG-7009)]
+* Allow refund to balance and cancellation of orders/order items via the API [[NG-7009](https://linear.app/nuweb-group/issue/NG-7009)]
 * Allow a limit to be set on how long topups can be cashed out for [[NG-6994](https://linear.app/nuweb-group/issue/NG-6994)]
 * Added a new 'show active reservations' filter to the reservations index [[NG-6034](https://linear.app/nuweb-group/issue/NG-6034)]
 * Added a new 'has events' filter to the venues index [[NG-6374](https://linear.app/nuweb-group/issue/NG-6374)]
@@ -929,7 +929,7 @@ Below you will find the summary notes for the 35th release of the Nuweb core pla
 
 #### 🧹 Housekeeping
 
-* Improve performance of [self-service refunds](/core-platform/account-balances/self-service-refunds) page [[NG-6264](https://linear.app/nuweb-group/issue/NG-6264)]
+* Improve performance of self serve refunds page [[NG-6264](https://linear.app/nuweb-group/issue/NG-6264)]
 * Adjusted the wording of "reserve to pay on site" to read "reserve to pay later" to better reflect the usage of this feature [[NG-7004](https://linear.app/nuweb-group/issue/NG-7004)]
 * Sale item name suffixes are now visible when viewing an item's inventory page [[NG-6954](https://linear.app/nuweb-group/issue/NG-6954)]
 * It is no longer possible to 'refund' free orders [[NG-6885](https://linear.app/nuweb-group/issue/NG-6885)]
@@ -947,7 +947,7 @@ Below you will find the summary notes for the 35th release of the Nuweb core pla
 * Users can now only see all GA holds in box office if they are a super user for the *current* company, rather than a super user for *any* company [[NG-6952](https://linear.app/nuweb-group/issue/NG-6952)]
 * Improved usage of blended gateway fees with epos products [[NG-7324](https://linear.app/nuweb-group/issue/NG-7324)]
 * Resolved [deposit payments](/core-platform/payments/deposit-payments) stuck in 'processing' state [[NG-7076](https://linear.app/nuweb-group/issue/NG-7076)]
-* Prevent approving/rejecting cancelled events ([event approvals](/core-platform/event-management/event-approvals)) to avoid confusion [[NG-6657](https://linear.app/nuweb-group/issue/NG-6657)]
+* Prevent approving/rejecting cancelled events to avoid confusion [[NG-6657](https://linear.app/nuweb-group/issue/NG-6657)]
 * Resolve errors when paying off the remaining balance of a deposit payment reservation, where fulfilment fees are involved \[NG7283\]
 * Global search now accepts numerical inputs as valid search criteria for event names, and not just event IDs [[NG-6776](https://linear.app/nuweb-group/issue/NG-6776)]
 * When switching between time slots on manage seating plan page, sometimes the seat statuses loaded from a previously loaded time slot, this now has been resolved [[NG-7070](https://linear.app/nuweb-group/issue/NG-7070)]
@@ -1076,7 +1076,7 @@ Below you will find the summary notes for the 34th release of the Nuweb core pla
   * The attendance report that can be viewed from this page honours this setting
 * Add a new `net_base_price` field to sales reports, along with the ability to group results by this value [[NG-6735](https://linear.app/nuweb-group/issue/NG-6735)]
 * When viewing the attendance page (/order-items) it's now possible to search for items using the holder's name, as well as the customer's [[NG-6915](https://linear.app/nuweb-group/issue/NG-6915)].
-* [Apple Passes](/core-platform/event-management/event-media/mobile-wallets) can now be toggled on or off per account, venue, event and/or sale item [[NG-6730](https://linear.app/nuweb-group/issue/NG-6730)]
+* Apple passes can now be toggled on or off per account, venue, event and/or sale item [[NG-6730](https://linear.app/nuweb-group/issue/NG-6730)]
 * When creating repeating events using the event creation wizard, internal question answers are now applied to all events in the schedule [[NG-6862](https://linear.app/nuweb-group/issue/NG-6862)]
 * The event dashboard statistics now handle cancelled and refunded tickets slightly differently [[NG-6509](https://linear.app/nuweb-group/issue/NG-6509)]
   * Cancelled tickets remain present in total income, but are removed from total ticket numbers
@@ -1253,7 +1253,7 @@ Below you will find the summary notes for the 33rd release of the Nuweb core pla
 
 #### ✨ Enhancements
 
-* Seating plan tooltips are now customisable through the [seating plan editor's](/core-platform/seating-plans/editor) advanced label settings modal [[NG-6385](https://linear.app/nuweb-group/issue/NG-6385)]
+* Seating plan tooltips are now customisable through the seating plan editors advanced label settings modal [[NG-6385](https://linear.app/nuweb-group/issue/NG-6385)]
 
   
 
@@ -1472,7 +1472,7 @@ Below you will find the summary notes for the 32nd release of the Nuweb core pla
 * The amount will then be refunded to the customer's account balance, for them to spend in the shop.
 
 
-**[Self-service refunds](/core-platform/account-balances/self-service-refunds) \[NG-5935, NG-5985\]**
+**Self serve refunds \[NG-5935, NG-5985\]**
 
 * This feature expands the balance refunds feature, and allows the customer to initiate a refund for ticket items only in the account section of the shop.
 * A range of settings have been added to enabled/disable self serve refunds, as well as configure the cutoff for refunds, and settings around fee refunds.
@@ -1830,7 +1830,7 @@ Below you will find the summary notes for the 31st release of the Nuweb core pla
 
 **New report scheduling customisation**
 
-* [Scheduled reports](/core-platform/reporting/scheduled-reports) now have far greater flexibility in when the reports can be generated, and at what intervals [[NG-5658](https://linear.app/nuweb-group/issue/NG-5658)]
+* Report schedules now have far greater flexibility in when the reports can be generated, and at what intervals [[NG-5658](https://linear.app/nuweb-group/issue/NG-5658)]
 * For business and enterprise customers, we can facilitate high frequency reporting allowing reports to be provided every hour [[NG-5622](https://linear.app/nuweb-group/issue/NG-5622)]
 
 <Frame caption="Scheduled reports can now be set to send every hour."><img src="/images/releases/38fe1d2ba272b7b18890165d419de62f.png" alt="Scheduled reports can now be set to send every hour." /></Frame>
@@ -1962,7 +1962,7 @@ Below you will find the summary notes for the 31st release of the Nuweb core pla
 * Fix some issues around the event description locale [[NG-5113](https://linear.app/nuweb-group/issue/NG-5113)]
 * Improved reliability of large (30k+ rows) report exports [[NG-5718](https://linear.app/nuweb-group/issue/NG-5718)]
 * Fixed a validation issue when using the 'Quick sell same items' option in Box Office, on orders with a total item count > ½ the basket limit [[NG-5833](https://linear.app/nuweb-group/issue/NG-5833)]
-* Updated [Apple Passes](/core-platform/event-management/event-media/mobile-wallets) to always show the event date based on the event local timezone, regardless of the users device's timezone [[NG-5812](https://linear.app/nuweb-group/issue/NG-5812)]
+* Updated Apple passes to always show the event date based on the event local timezone, regardless of the users device's timezone [[NG-5812](https://linear.app/nuweb-group/issue/NG-5812)]
 * Fix issue with incorrectly tooltip being displayed on hub roles [[NG-5823](https://linear.app/nuweb-group/issue/NG-5823)]
 * Provide help texts in edge cases where no timeslots are available (due to the times being in the past) but the event is still in progress [[NG-4898](https://linear.app/nuweb-group/issue/NG-4898)]
 * Fixed default country order in data capture settings not ordering correctly on account details page and whilst checking out in a company that does not have an extended countries list for address fields [[NG-5689](https://linear.app/nuweb-group/issue/NG-5689)]
@@ -2073,7 +2073,7 @@ Our plans for 2024 include functionality that offers new payment methodology to 
 
 **Global reseller roles**
 
-* Added the ability to add reseller level [roles and permissions](/core-platform/system-access/roles-and-permissions) that apply to all companies of a reseller [[NG-5257](https://linear.app/nuweb-group/issue/NG-5257)]
+* Added the ability to add reseller level roles that apply to all companies of a reseller [[NG-5257](https://linear.app/nuweb-group/issue/NG-5257)]
 * Allow a default company role to be set per reseller that will apply to any new company users created for that reseller via the hub self-registration or the partner API
 
   

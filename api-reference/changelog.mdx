@@ -6,6 +6,14 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="18th March 2026" description="">
+
+- [POST /v1/basket-items](/api-reference/baskets/add-to-basket) now accepts `items.*.preventBasketModification`.
+- Any basket item created with `preventBasketModification: true` cannot be reduced or removed via [POST /v1/basket-items/update](/api-reference/baskets/update-basket-item) or `DELETE /v1/basket-items/destroy`.
+- This applies to both primary and resale items. Increasing quantity remains supported.
+
+</Update>
+
 <Update label="25th February 2026" description="">
 
 - Added `statusDetail` and `status` to [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets); failed scans are now persisted for reporting.
