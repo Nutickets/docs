@@ -352,6 +352,112 @@ function updateDocsJson(webArchiveYears, mobileArchiveYears) {
     console.log(`✅ ${DOCS_JSON_PATH} updated successfully.`);
 }
 
+// --- LINK PRESERVATION ---
+
+function normalizeLabel(label) {
+    // Strip stray formatting characters (e.g. "20th January 2026**" → "20th January 2026")
+    return label.replace(/[*]+$/g, '').trim();
+}
+
+function parseExistingMdx(filePath) {
+    if (!fs.existsSync(filePath)) return {};
+
+    const content = fs.readFileSync(filePath, 'utf8');
+    const blocks = {};
+
+    const updateRegex = /<Update\s+label="([^"]*?)"\s+description="([^"]*?)">\s*([\s\S]*?)\s*<\/Update>/g;
+    let match;
+
+    while ((match = updateRegex.exec(content)) !== null) {
+        const key = `${normalizeLabel(match[1])}|${match[2]}`;
+        blocks[key] = match[3].trim();
+    }
+
+    return blocks;
+}
+
+function extractDocLinks(content) {
+    const links = [];
+    // Match markdown links to internal doc pages (paths starting with /)
+    const linkRegex = /\[([^\]]+?)\]\((\/[^)]+?)\)/g;
+    let match;
+    while ((match = linkRegex.exec(content)) !== null) {
+        const text = match[1];
+        const url = match[2];
+        // Only collect internal doc links, not image paths or external URLs
+        if (url.startsWith('/core-platform/') || url.startsWith('/mobile-apps/')) {
+            links.push({ text, url, full: match[0] });
+        }
+    }
+    return links;
+}
+
+function replaceOutsideLinks(content, searchText, replacement) {
+    // Split content into segments: markdown links and everything else
+    // Only replace in non-link segments to avoid nested links
+    const linkPattern = /\[[^\]]*?\]\([^)]*?\)/g;
+    const segments = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = linkPattern.exec(content)) !== null) {
+        if (match.index > lastIndex) {
+            segments.push({ text: content.substring(lastIndex, match.index), isLink: false });
+        }
+        segments.push({ text: match[0], isLink: true });
+        lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < content.length) {
+        segments.push({ text: content.substring(lastIndex), isLink: false });
+    }
+
+    // Replace in non-link segments only, and only the first occurrence total
+    let replaced = false;
+    const result = segments.map(seg => {
+        if (seg.isLink || replaced) return seg.text;
+        const idx = seg.text.indexOf(searchText);
+        if (idx !== -1) {
+            replaced = true;
+            return seg.text.substring(0, idx) + replacement + seg.text.substring(idx + searchText.length);
+        }
+        return seg.text;
+    }).join('');
+
+    return { result, replaced };
+}
+
+function transplantLinks(newContent, existingContent) {
+    const docLinks = extractDocLinks(existingContent);
+    if (docLinks.length === 0) return { content: newContent, count: 0 };
+
+    // Sort by text length descending so "Charity donations" is processed before "donations"
+    docLinks.sort((a, b) => b.text.length - a.text.length);
+
+    // Deduplicate by URL — keep the longest text for each URL
+    const seenUrls = new Set();
+    const uniqueLinks = docLinks.filter(link => {
+        if (seenUrls.has(link.url)) return false;
+        seenUrls.add(link.url);
+        return true;
+    });
+
+    let result = newContent;
+    let transplanted = 0;
+
+    for (const link of uniqueLinks) {
+        // Skip if this exact link already exists in the new content
+        if (result.includes(link.full)) continue;
+
+        const { result: newResult, replaced } = replaceOutsideLinks(result, link.text, link.full);
+        if (replaced) {
+            result = newResult;
+            transplanted++;
+        }
+    }
+
+    return { content: result, count: transplanted };
+}
+
 // --- HELPER FUNCTIONS ---
 
 // Matches: # 📱 Mobile Apps, ## -📱 Mobile Apps, # 📱Mobile apps, etc.
@@ -443,6 +549,10 @@ function parseDateString(dateStr) {
 }
 
 async function generateMdxFile(updates, filePath, title, description) {
+    // Parse existing file to preserve manually-added links
+    const existingBlocks = parseExistingMdx(filePath);
+    let preservedCount = 0;
+
     let mdxContent = `---
 title: "${title}"
 description: "${description}"
@@ -531,6 +641,19 @@ description: "${description}"
             return text;
         }).join('');
 
+        // Check if existing block has manually-added links worth preserving
+        const key = `${normalizeLabel(update.label)}|${update.description}`;
+        const existingContent = existingBlocks[key];
+
+        if (existingContent) {
+            // Transplant any manually-added doc links from the existing content into the new content
+            const { content: linkedContent, count } = transplantLinks(processedContent, existingContent);
+            processedContent = linkedContent;
+            if (count > 0) {
+                preservedCount += count;
+            }
+        }
+
         mdxContent += `
 <Update label="${update.label}" description="${update.description}">
 
@@ -541,7 +664,11 @@ ${processedContent}
     }
 
     fs.writeFileSync(filePath, mdxContent);
-    console.log(`✅ Generated: ${filePath}`);
+    if (preservedCount > 0) {
+        console.log(`✅ Generated: ${filePath} (${preservedCount} link(s) preserved)`);
+    } else {
+        console.log(`✅ Generated: ${filePath}`);
+    }
 }
 
 main();
