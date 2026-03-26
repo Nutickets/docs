@@ -1,0 +1,74 @@
+---
+title: "Basket Links"
+description: "Let external systems create pre-populated baskets via the API and generate secure links for customers to complete checkout."
+---
+
+## Overview
+
+Basket links allow external systems to build a shopping basket through the [API](/api-reference/introduction) and generate a secure URL that takes a customer directly into the ticket shop with items already reserved. When the customer clicks the link, the basket is loaded into their session and they can proceed straight to checkout.
+
+This is useful for:
+- Third-party booking platforms that handle event selection but need to hand off to the ticket shop for payment
+- Marketing campaigns with pre-configured item selections
+- Custom integrations that build baskets programmatically
+
+Basket links requires a feature flag to be activated for your company. Contact your account manager to request access.
+
+## How It Works
+
+### 1. Create a Basket via the API
+
+An external system calls the API to add items to a basket, including the `generateBasketUrl` parameter set to `true`. The API response includes a `startBasketUrl` field — a cryptographically signed URL pointing to the ticket shop.
+
+The API request can also include optional redirect URLs:
+- **Success redirect URL** — where the customer is sent after completing checkout (receives `order_id` and `customer_id` as query parameters)
+- **Failure redirect URL** — where the customer is sent if payment fails (receives `basket_id` and `customer_id` as query parameters)
+
+### 2. Customer Clicks the Link
+
+When a customer clicks the basket link:
+
+1. The system validates the signed URL and checks the basket is still active and not expired
+2. If the basket belongs to a registered customer, they are automatically logged in
+3. Any other active baskets the customer has are expired
+4. The pre-built basket is loaded into the customer's session
+5. The customer is redirected to the basket page with all items ready
+
+### 3. Customer Completes Checkout
+
+From this point, the experience is identical to a normal purchase. The customer can:
+- Review the items in their basket
+- Apply [discount codes](/core-platform/basket-codes/discount-codes) or [access codes](/core-platform/basket-codes/access-codes)
+- Add or remove items (unless the API request flagged items as non-modifiable)
+- Proceed through [checkout](/core-platform/ticket-shop/checkout) and payment
+
+After payment, the customer is redirected to either the success page in the ticket shop or the external success redirect URL if one was configured.
+
+## Security
+
+Basket links use Laravel's signed URL mechanism:
+- Each link contains a cryptographic signature that prevents tampering
+- Links are validated before any basket data is accessed
+- If a logged-in user tries to access a basket belonging to a different user, they are redirected with an error
+- The internal confirmation step uses a 1-minute time-limited signature for additional security
+
+## Restrictions
+
+- **One purchase per link** — once a basket is activated and the order completes, the link cannot be reused
+- **Expiry** — if the basket expires (based on the configured basket timeout), the link becomes invalid
+- **Event cancellations** — if any items in the basket are for a cancelled event, the link returns an error
+- **Customer context only** — basket links are for customer use; they cannot be activated in [box office](/core-platform/box-office/introduction) mode
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Create baskets programmatically using the API.
+  </Card>
+  <Card title="Checkout" icon="credit-card" href="/core-platform/ticket-shop/checkout">
+    The checkout flow customers complete after clicking a basket link.
+  </Card>
+  <Card title="Basket" icon="basket-shopping" href="/core-platform/ticket-shop/basket">
+    How the basket works, including timeouts and item management.
+  </Card>
+</CardGroup>

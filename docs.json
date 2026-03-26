@@ -78,7 +78,8 @@
                   "core-platform/event-management/copying-events",
                   "core-platform/event-management/event-approvals",
                   "core-platform/event-management/event-cancellations",
-                  "core-platform/event-management/deferred-downloads"
+                  "core-platform/event-management/deferred-downloads",
+                  "core-platform/event-management/named-ticket-holders"
                 ]
               },
               {
@@ -108,7 +109,8 @@
                 "pages": [
                   "core-platform/sale-items/gift-vouchers",
                   "core-platform/sale-items/donations",
-                  "core-platform/sale-items/season-tickets"
+                  "core-platform/sale-items/season-tickets",
+                  "core-platform/sale-items/guest-lists"
                 ]
               },
               "core-platform/sale-items/item-approvals",
@@ -273,7 +275,8 @@
                   "core-platform/reporting/using-reports",
                   "core-platform/reporting/custom-reports",
                   "core-platform/reporting/scheduled-reports",
-                  "core-platform/reporting/default-reports"
+                  "core-platform/reporting/default-reports",
+                  "core-platform/reporting/data-endpoints"
                 ]
               },
               {
@@ -320,7 +323,8 @@
                   "core-platform/technical/sessions",
                   "core-platform/technical/iframe-embeds",
                   "core-platform/technical/webhooks",
-                  "core-platform/technical/caching"
+                  "core-platform/technical/caching",
+                  "core-platform/technical/basket-links"
                 ]
               },
               {

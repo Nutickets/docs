@@ -1,0 +1,81 @@
+---
+title: "Data Endpoints"
+description: "Automatically deliver scheduled reports to external storage locations like Amazon S3."
+---
+
+## Overview
+
+Data endpoints let you configure external storage locations where [scheduled reports](/core-platform/reporting/scheduled-reports) are automatically delivered when they run. Instead of receiving reports only by email, you can have them uploaded directly to your own cloud storage — ideal for automating data workflows, archiving report history, or feeding data into other systems.
+
+Data endpoints requires the **Report publishing** feature to be enabled for your company. Contact your account manager to request access.
+
+## Creating a Data Endpoint
+
+1. Navigate to **Data Endpoints** in the admin panel
+2. Click **Create data endpoint**
+3. Enter a **Name** for the endpoint (e.g. "Production Reports Bucket")
+4. Select the **Destination** type
+5. Enter the required credentials
+6. Optionally set a **Directory** path within the storage location
+7. Click **Save**
+
+### Amazon S3 Configuration
+
+Currently, Amazon S3 is the supported destination type. The following credentials are required:
+
+| Field | Description |
+|-------|-------------|
+| **Key** | Your AWS Access Key ID |
+| **Secret** | Your AWS Secret Access Key |
+| **Region** | The AWS region where your bucket is hosted (e.g. `eu-west-1`) |
+| **Bucket** | The name of your S3 bucket |
+| **Directory** | Optional path within the bucket where files should be uploaded |
+
+<Note>
+Ensure that write access is enabled on the S3 bucket for the credentials you provide. The system needs permission to upload files to the specified location.
+</Note>
+
+Credentials are stored securely using encryption and are never exposed in the admin interface after creation.
+
+## Using Data Endpoints with Scheduled Reports
+
+Once you've created a data endpoint, you can assign it to any [scheduled report](/core-platform/reporting/scheduled-reports):
+
+1. Create or edit a scheduled report
+2. In the **Destination** section, choose where the report should be delivered:
+   - **Email** — sent to the configured recipients only
+   - **Data Endpoint** — uploaded to the selected endpoint only
+   - **Both** — emailed to recipients and uploaded to the endpoint
+3. If using a data endpoint, select the endpoint from the dropdown
+4. Save the scheduled report
+
+When the report runs on its schedule, the generated file is automatically uploaded to the configured endpoint in the selected format (CSV, PDF, XLSX, etc.).
+
+<Note>
+After setting up a new endpoint, you can dispatch a report immediately using the **Dispatch to endpoint now** button to verify the connection is working before relying on it for scheduled deliveries.
+</Note>
+
+## Managing Endpoints
+
+The data endpoints list shows all configured endpoints with their status:
+
+- **Active** — the endpoint is being used by at least one scheduled report
+- **Inactive** — the endpoint exists but no scheduled reports are currently using it
+
+You can edit credentials and settings for existing endpoints at any time. Deleting an endpoint is only possible if no upcoming scheduled reports are using it — reassign those reports to a different endpoint or switch them to email-only delivery first.
+
+Deleted endpoints can be restored if needed.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Scheduled Reports" icon="clock" href="/core-platform/reporting/scheduled-reports">
+    Set up reports to run automatically on a schedule.
+  </Card>
+  <Card title="Custom Reports" icon="chart-bar" href="/core-platform/reporting/custom-reports">
+    Build the reports you want to publish to data endpoints.
+  </Card>
+  <Card title="Reporting Fundamentals" icon="magnifying-glass-chart" href="/core-platform/reporting/fundamentals">
+    Understand the reporting system and available report types.
+  </Card>
+</CardGroup>

@@ -1,0 +1,114 @@
+---
+title: "Named Ticket Holders"
+description: "Attach attendee names to tickets without transferring ownership, for identity verification and access control."
+---
+
+## Overview
+
+Named ticket holders let event organisers attach an attendee's name to a ticket without changing who owns it. This is different from [item transfers](/core-platform/event-management/item-transfers), which reassign the ticket entirely — named holders simply record who will be attending.
+
+This is useful when:
+- One person buys tickets for a group and needs to name each attendee
+- Events require identity verification at the door
+- Organisers need to know who is attending, not just who purchased
+- Compliance or security requirements mandate named entry
+
+The feature is configured per event with separate controls for the ticket shop and [box office](/core-platform/box-office/introduction).
+
+## Enabling Named Ticket Holders
+
+Named ticket holders requires a feature flag to be activated for your company. Contact your account manager to request access.
+
+Once the feature is enabled, configure it for each event:
+
+1. Open the event dashboard
+2. Navigate to the sharing restrictions settings
+3. Configure **Shop Ticket Renaming** and **Box Office Ticket Renaming** separately
+
+### Configuration Options
+
+Each channel (shop and box office) can be set independently:
+
+| Setting | Behaviour |
+|---------|-----------|
+| **Disabled** | Customers cannot set attendee names |
+| **Enabled** | Customers can optionally add attendee names |
+| **Mandatory** | Customers must name every ticket before completing checkout |
+
+An additional toggle controls post-purchase changes:
+
+- **Allow renaming after checkout** — when enabled, customers can update attendee names from their account after the order is complete. When disabled, names can only be set during checkout.
+
+## The Customer Experience
+
+### During Checkout
+
+When ticket renaming is enabled for the event, an additional step appears during checkout where customers can name their tickets.
+
+**If naming is optional:**
+- A toggle appears: **Add attendee's name**
+- When toggled on, a text input appears for each ticket asking for the attendee's full name
+- Customers can leave some or all tickets unnamed
+
+**If naming is mandatory:**
+- The name input appears automatically for every ticket
+- Customers must fill in a name for each ticket to proceed
+
+### After Purchase
+
+Attendee names are displayed alongside tickets in the customer's account and ticket wallet view. If **Allow renaming after checkout** is enabled, customers can update names through the item sharing section of their order.
+
+<Note>
+If a ticket with a named holder is later [transferred](/core-platform/event-management/item-transfers) to another person, the named holder is automatically cleared. The new owner can then set a new name if the feature is enabled.
+</Note>
+
+## Admin View
+
+In the admin order items view, each ticket shows its attendee name:
+
+- **Attendee: [name]** — displayed next to the item when a name is set
+- **No attendee set** — shown in italics when no name has been assigned
+
+Admins can edit attendee names directly from the order if the renaming settings allow it.
+
+## Access Control Integration
+
+Named holders integrate with [access control](/core-platform/event-management/access-control) scanning. When a ticket is scanned at entry, the system displays the attendee name — allowing door staff to verify the person presenting the ticket matches the named holder.
+
+The name resolution follows a priority order:
+1. The explicitly set **named holder** (if present)
+2. The order's **reserver name** (the person who placed the order)
+3. The **account holder's name** (the registered user)
+
+This means even tickets without an explicit named holder will show relevant identifying information at the gate.
+
+Attendance [reports](/core-platform/reporting/fundamentals) also include the named holder, making it straightforward to audit who attended versus who was expected.
+
+## Named Holders vs Item Transfers
+
+| | Named Holders | Item Transfers |
+|---|---|---|
+| **Ticket ownership** | Stays with the purchaser | Moves to the recipient |
+| **Who can download** | The original purchaser | The new owner |
+| **Barcode** | Stays the same | A new barcode is generated |
+| **Purpose** | Record who will attend | Give the ticket to someone else |
+| **When it happens** | During or after checkout | After checkout |
+
+**Example:** Alice buys 4 tickets and names them for herself, Bob, Carol, and Dave. Alice owns all 4 tickets and can download them all. The names are there for identity verification at the door. If Carol can no longer attend, Alice can either rename that ticket to someone else or transfer it entirely — in which case the named holder is cleared.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Item Transfers" icon="arrow-right-arrow-left" href="/core-platform/event-management/item-transfers">
+    Transfer ticket ownership to another person entirely.
+  </Card>
+  <Card title="Access Control" icon="qrcode" href="/core-platform/event-management/access-control">
+    Verify attendee identity at the door using scanned ticket data.
+  </Card>
+  <Card title="Data Capture" icon="rectangle-list" href="/core-platform/data-capture/introduction">
+    Collect additional attendee information beyond just their name.
+  </Card>
+  <Card title="Checkout" icon="credit-card" href="/core-platform/ticket-shop/checkout">
+    Where customers name their tickets during the purchase flow.
+  </Card>
+</CardGroup>

@@ -77,6 +77,24 @@ Box office behaviour is configured through company settings. These are the key s
 Box office mode can be disabled entirely for a company using the **Disallow box office mode** limitation. When active, staff cannot access box office mode.
 </Note>
 
+### Kiosk Mode
+
+When the **Box Office Kiosk** feature is enabled, kiosk becomes available as a separate sales channel alongside the ticket shop and box office. This allows you to configure different item visibility and pricing for self-service kiosk terminals compared to staff-operated box office stations.
+
+Key differences from standard box office:
+
+| Area | Box Office | Kiosk |
+|------|-----------|-------|
+| **Item visibility** | Controlled by the **hide from box office** flag on each sale item | Controlled by a separate **hide from kiosk** flag |
+| **Pricing** | Uses box office fees and pricing | Has its own independent fee and pricing structure |
+| **Tracking** | Orders recorded as box office sales | Orders recorded as kiosk sales (separate channel in reports) |
+
+To configure which items appear in kiosk mode, edit each sale item and select or deselect **Kiosk** from the sales channels list. Kiosk-specific pricing is configured alongside box office and shop pricing in the sale item pricing section.
+
+<Note>
+Kiosk mode is typically accessed through API integrations that pass the appropriate kiosk headers. Contact your account manager to enable the kiosk feature and discuss integration options.
+</Note>
+
 ### Immersive Mode
 
 When a staff member has limited admin menu access (typically kiosk or till operators), box office automatically enters **immersive mode**. The navigation sidebar is hidden by default, creating a distraction-free point-of-sale interface focused entirely on the selling workflow. Staff can still access the sidebar by hovering over the left edge of the screen on desktop devices.

@@ -1,0 +1,119 @@
+---
+title: "Guest Lists"
+description: "Create signup-based items where customers register for entry and payment is deferred until after approval."
+---
+
+## Overview
+
+Guest lists are a special type of sale item designed for events where attendees sign up rather than purchase tickets outright. Unlike regular tickets, guest list items use **deferred payment** — customers register during checkout but are not charged until an admin approves their signup.
+
+This makes guest lists well suited for:
+- Invite-only events where attendance needs to be reviewed before confirming
+- Free events that still need to track and approve attendees
+- VIP or media guest lists where approval is required before entry is granted
+- Events where capacity needs to be managed through an approval workflow
+
+## How Guest Lists Differ from Tickets
+
+| | Regular Tickets | Guest Lists |
+|---|---|---|
+| **Payment timing** | Charged at checkout | Charged after admin approval |
+| **Approval** | Not required (unless [item approvals](/core-platform/sale-items/item-approvals) are enabled) | Always requires approval |
+| **Stock** | Configurable limits | Unlimited by default |
+| **Purchases per customer** | Configurable | One signup per guest list |
+| **Order line grouping** | Each item is a separate line | Multiple guests bundle into a single order line |
+
+## Creating a Guest List
+
+Guest lists require the **Guest list sales** feature to be enabled for your company. Contact your account manager to request access.
+
+To create a guest list:
+
+1. Open the event you want to add a guest list to
+2. Navigate to **Guest Lists**
+3. Click **Add guest list**
+4. Configure the item settings (see below)
+5. Click **Save**
+
+### Configuration Options
+
+Guest list items share many of the same settings as regular sale items:
+
+- **Name and description** — what customers see when signing up
+- **Pricing** — set the price per guest (can be free)
+- **Purchase settings** — minimum and maximum number of guests per signup
+- **Prerequisites** — require customers to hold another item before they can sign up (e.g., must have a ticket before joining the VIP guest list)
+- **Display settings** — control visibility across [sales channels](/core-platform/information/sales-channels)
+- **Scanning settings** — configure barcode validity windows and grace periods for [access control](/core-platform/event-management/access-control)
+- **Print and wallet settings** — control whether guest list entries generate printable tickets or [mobile wallet](/core-platform/event-management/event-media/mobile-wallets) passes
+
+<Note>
+Guest lists always have unlimited stock. The stock setting cannot be changed — capacity is managed through the approval process rather than a fixed limit.
+</Note>
+
+## The Customer Experience
+
+### Signing Up
+
+Customers add guest list items to their basket like any other item, selecting the number of guests they want to register. During [checkout](/core-platform/ticket-shop/checkout), they complete any required [data capture](/core-platform/data-capture/introduction) questions.
+
+Because guest lists use deferred payment, the customer is **not charged at checkout**. Their order is created with a pending status while the signup awaits review.
+
+### After Signup
+
+Once an admin reviews and approves the guest list signup:
+- Payment is collected from the customer
+- The order is confirmed
+- Tickets or passes become available for download (subject to any [deferred download](/core-platform/event-management/deferred-downloads) settings)
+
+If the signup is rejected, the customer is notified and no payment is taken.
+
+## Managing Guest List Signups
+
+### Filtering Orders
+
+Use the guest list registration filter on the orders list to find guest list signups:
+
+- **Hide guest list only** — excludes orders that contain only guest list items
+- **Guest list only** — shows only orders that contain exclusively guest list items
+
+This helps separate guest list administration from regular order management.
+
+### Approving and Rejecting
+
+Guest list signups appear as orders awaiting approval. Admins can approve or reject individual signups, triggering the appropriate payment collection or cancellation.
+
+## Attendance Tracking
+
+Guest list items integrate with the [access control](/core-platform/event-management/access-control) system. When attendees are scanned at the event, the system records:
+- The number of guests who attended
+- When attendance was recorded
+
+This data is available in guest list reports for post-event analysis.
+
+## Reporting
+
+Three dedicated reports are available for guest list data:
+
+| Report | What it shows |
+|--------|---------------|
+| **Guest list sales** | Revenue metrics — gross sales, discounts, refunds, and net revenue per guest list item |
+| **Guest list signups** | Individual signup details — barcode, holder name, purchaser, approval status, and attendance |
+| **Guest list scanning** | Scanning activity by zone and date |
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Item Approvals" icon="clipboard-check" href="/core-platform/sale-items/item-approvals">
+    How the approval workflow operates for items that require review before payment.
+  </Card>
+  <Card title="Access Control" icon="qrcode" href="/core-platform/event-management/access-control">
+    Scanning attendees at event entry, including guest list holders.
+  </Card>
+  <Card title="Data Capture" icon="rectangle-list" href="/core-platform/data-capture/introduction">
+    Collect attendee information during the signup process.
+  </Card>
+  <Card title="Invoice Payments" icon="file-invoice" href="/core-platform/payments/invoice-payments">
+    Another deferred payment flow where payment is collected after the order is created.
+  </Card>
+</CardGroup>

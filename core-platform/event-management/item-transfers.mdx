@@ -50,7 +50,7 @@ Individual sale items can override the event-level sharing restriction. The same
 | **Sharing is compulsory** | Every unit of this item must be transferred to someone else — the purchaser cannot keep any for themselves. |
 
 <Note>
-[Gift vouchers](/core-platform/sale-items/gift-vouchers) are always shareable during checkout regardless of sharing restriction settings. [Guest list](/core-platform/sale-items/core-concepts) items cannot be shared.
+[Gift vouchers](/core-platform/sale-items/gift-vouchers) are always shareable during checkout regardless of sharing restriction settings. [Guest list](/core-platform/sale-items/guest-lists) items cannot be shared.
 </Note>
 
 ## Transfer Flow
@@ -69,24 +69,7 @@ Shared items trigger a "claim your items" email to the recipient on the specifie
 
 ### After Purchase
 
-When sharing is enabled after purchase, customers can transfer items from their account via **My Account**.
-
-- Only items marked as shareable after purchase can be transferred.
-- Items that have already been scanned for [access control](/core-platform/event-management/access-control) cannot be transferred.
-- If the **Only purchaser can transfer items** company setting is enabled, only the original order purchaser can initiate transfers — recipients cannot re-transfer items.
-
-### Claiming Transfers
-
-When a transfer is initiated, the recipient receives a "claim your items" email containing:
-- The sender's name
-- The items being transferred
-- A **Claim now** button linking to the shop
-
-The recipient must create an account (or log in) to claim their items. Once claimed, the items appear in the recipient's account and are removed from the sender's.
-
-<Warning>
-Once an item is claimed, the transfer cannot be undone. The only way to return an item is for the recipient to initiate a new transfer back to the original purchaser.
-</Warning>
+When sharing is enabled after purchase, customers can transfer items from their account. For full details on post-purchase transfers — including transfer methods, claiming, cancelling, scheduled transfers, instant transfers, and distributions — see [Transfers & Sharing](/core-platform/order-management/transfers-and-sharing).
 
 ## Compulsory Transfers
 
@@ -106,26 +89,9 @@ Compulsory transfer items appear pre-assigned to "someone else" in the sharing s
 
 ## Ticket Renaming (Named Holders)
 
-Ticket renaming allows a name to be assigned to a ticket **without** transferring it. The ticket remains in the purchaser's account, but displays the named holder's details.
+Ticket renaming allows a name to be assigned to a ticket **without** transferring it. The ticket remains in the purchaser's account, but displays the named holder's details — useful for identity verification at access control.
 
-This is configured on the event dashboard under **Sharing Restrictions** and requires the **Named Holders** feature to be enabled for the company.
-
-<Tabs>
-  <Tab title="Shop">
-    Controls ticket renaming behaviour during online checkout:
-    - **Disabled** — No renaming allowed.
-    - **Enabled** — Customers can optionally assign names during checkout.
-    - **Mandatory** — Customers must assign a name to every ticket before completing checkout.
-
-    When enabled or mandatory, an **Allow ticket renaming after checkout** toggle controls whether customers can change the name from their account after purchase.
-  </Tab>
-  <Tab title="Box Office">
-    Controls ticket renaming behaviour in [box office mode](/core-platform/box-office/introduction):
-    - **Disabled** — No renaming allowed.
-    - **Enabled** — Box office users can optionally assign names.
-    - **Mandatory** — Box office users must assign a name to every ticket.
-  </Tab>
-</Tabs>
+This is configured on the event dashboard under **Sharing Restrictions** with separate settings for the shop and box office. See [named ticket holders](/core-platform/event-management/named-ticket-holders) for full configuration details and the customer experience.
 
 ## Admin Transfer Management
 

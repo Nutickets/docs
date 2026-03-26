@@ -86,31 +86,9 @@ Data endpoint delivery requires the **Report publishing** feature to be enabled.
 
 ### Configuring Data Endpoints
 
-Data endpoints are configured from the **Data Endpoints** section in admin. Each endpoint represents an external storage location where report files are automatically delivered.
-
-Currently, the platform supports **Amazon S3** endpoints. To create a data endpoint:
-
-1. Navigate to **Data Endpoints**
-2. Click **Create data endpoint**
-3. Enter a **Name** to identify the endpoint
-4. Select **Amazon S3** as the type
-5. Enter your AWS credentials:
-
-| Field | Description |
-|-------|-------------|
-| **Key** | Your AWS access key ID |
-| **Secret** | Your AWS secret access key |
-| **Region** | The AWS region where your bucket is located |
-| **Bucket** | The S3 bucket name — ensure write access is enabled on the bucket |
-| **Directory** | Optional path within the bucket where files should be placed |
-
-6. Click **Save**
+[Data endpoints](/core-platform/reporting/data-endpoints) are configured from the **Data Endpoints** section in admin. See that page for setup instructions, including how to configure Amazon S3 credentials and manage your endpoints.
 
 Once created, the endpoint appears in the delivery destination dropdown when creating or editing scheduled reports.
-
-<Note>
-A data endpoint cannot be deleted if it is associated with an upcoming scheduled report. Remove the endpoint from all active schedules before deleting it.
-</Note>
 
 ## Managing Scheduled Reports
 
