@@ -77,7 +77,8 @@
                   "core-platform/event-management/lead-capture",
                   "core-platform/event-management/copying-events",
                   "core-platform/event-management/event-approvals",
-                  "core-platform/event-management/event-cancellations"
+                  "core-platform/event-management/event-cancellations",
+                  "core-platform/event-management/deferred-downloads"
                 ]
               },
               {

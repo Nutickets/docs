@@ -1,0 +1,102 @@
+---
+title: "Deferred Ticket Downloads"
+description: "Control when customers can download their tickets by withholding downloads until a set time before the event starts."
+---
+
+## Overview
+
+Deferred ticket downloads let you prevent customers from downloading their tickets immediately after purchase. Instead, tickets are withheld until a configured time window before the event starts — for example, 3 days before the event.
+
+This is useful when you want to:
+- Reduce the risk of tickets being shared or resold before the event
+- Control the timing of ticket distribution for operational reasons
+- Ensure customers have up-to-date ticket information closer to the event date
+
+The feature applies company-wide to all events. Each event's download availability is calculated individually based on its start date.
+
+## Enabling Deferred Downloads
+
+Deferred downloads requires a feature flag to be activated for your account. Contact your account manager to request access.
+
+Once the feature flag is active, configure the settings in your admin panel:
+
+1. Navigate to **General Settings**
+2. Find the **Enable delayed access of tickets** toggle and set it to **enabled**
+3. Set the **Time before event** value — this controls how long before the event start time tickets become available for download
+4. Click **Save**
+
+The time can be configured in **hours**, **days**, or **weeks** (minimum 12 hours). For example, setting 3 days means customers can download their tickets starting 72 hours before the event begins.
+
+<Note>
+The setting applies to all events under your company. You cannot configure different time windows for individual events. However, because the availability date is calculated from each event's start date, events at different times will naturally have different download dates.
+</Note>
+
+## What Happens When Downloads Are Deferred
+
+### At Checkout
+
+When a customer completes their order, the [order confirmation email](/core-platform/notifications/email-types#order-confirmation) adjusts its download message. Instead of the usual download prompt, it says:
+
+> View details of when you can download your tickets, and download them when they become available.
+
+This links the customer to their download page where they can see when their tickets will be ready.
+
+### On the Download Page
+
+When a customer visits their download page before tickets are available, items are separated into two groups:
+
+- **Available items** — any items that can be downloaded immediately (non-event products, or tickets for events that have already entered the download window)
+- **Tickets not yet available to download** — event tickets that are still in the deferred period
+
+Each deferred item shows **Download from [date]** with the specific date and time the ticket will become available. The download button is disabled and cannot be clicked.
+
+If the order contains a mix of available and deferred items, the download button changes to **Download available items** to make clear that only the available items will be included in the download.
+
+<Note>
+[Mobile wallet](/core-platform/event-management/event-media/mobile-wallets) passes and QR code downloads are also withheld during the deferred period — not just PDF tickets.
+</Note>
+
+### When the Download Window Opens
+
+A scheduled process checks every 30 minutes for events that have entered the download window. When an event's deferred date arrives, the system automatically sends a [deferred tickets email](/core-platform/notifications/email-types#deferred-tickets) to every customer with tickets for that event.
+
+The email contains:
+- The event name
+- A message confirming tickets are now available: *Your tickets are now available to download, please use the links below to download your tickets*
+- A **Download** button for each event's tickets
+- A link to the customer's account (for registered customers)
+
+After receiving this email — or simply by revisiting the download page after the deferred date — customers can download their tickets normally.
+
+<Note>
+Each event only triggers one batch of notification emails. If a customer purchases tickets after the notification has already been sent (but before the event), their tickets are available for immediate download since the event is already within the download window.
+</Note>
+
+## Which Items Are Affected
+
+Deferred downloads only applies to items that are:
+- **Tied to an event** — regular tickets and [season tickets](/core-platform/sale-items/season-tickets) linked to events
+- **Downloadable** — items that would normally generate a PDF or wallet pass
+
+Non-event products, [gift vouchers](/core-platform/sale-items/gift-vouchers), and other items without an event association are not affected and remain available for immediate download.
+
+## Admin Downloads
+
+Admins can still download deferred tickets through the admin panel regardless of the deferred period. This allows staff to print and post tickets or handle customer service requests without waiting for the download window to open.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Event Media Overview" icon="photo-film" href="/core-platform/event-management/event-media/overview">
+    Configure ticket PDFs, cover sheets, and other downloadable media for your events.
+  </Card>
+  <Card title="Email Types" icon="envelope" href="/core-platform/notifications/email-types">
+    See all automatic emails including the deferred tickets notification.
+  </Card>
+  <Card title="Company Settings" icon="gear" href="/core-platform/utilities/company-settings">
+    Manage general settings including deferred download configuration.
+  </Card>
+  <Card title="Custom PDFs" icon="file-pdf" href="/core-platform/event-management/event-media/custom-pdfs">
+    Design the ticket PDFs that customers download.
+  </Card>
+</CardGroup>
