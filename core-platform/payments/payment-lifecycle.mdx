@@ -9,7 +9,9 @@ An order passes through multiple statuses between checkout and completion. The p
 
 ## Order Statuses
 
-Every order has a status that reflects where it is in the payment lifecycle:
+Every order has a status that reflects where it is in the payment lifecycle. The most common statuses you'll encounter are **Active** (in basket), **Processing** (payment in progress), **Complete** (fully paid), and the various **Awaiting** statuses for deferred payment flows. Not every "awaiting" status means something has gone wrong — payment link, invoice, on-site, and local payment statuses are all intentional flows where payment is expected later.
+
+<Accordion title="Complete status reference">
 
 | Status | What it means |
 |--------|---------------|
@@ -30,9 +32,7 @@ Every order has a status that reflects where it is in the payment lifecycle:
 | **Partially refunded** | A partial refund has been issued. The order remains active for the remaining items. |
 | **Unknown** | The system was unable to automatically detect the payment status. Manual investigation via the payment gateway is required. |
 
-<Note>
-Not every "awaiting" status means something has gone wrong. Payment link, invoice, on-site, and local payment statuses are all intentional deferred flows where payment is expected to arrive later.
-</Note>
+</Accordion>
 
 ## Immediate Payment Flow
 

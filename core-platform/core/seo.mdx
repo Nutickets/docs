@@ -150,33 +150,17 @@ The sitemap regenerates automatically and is cached for 24 hours.
 
 ## Structured Data
 
-The platform generates structured data (JSON-LD format, following Schema.org standards) for events and articles. This helps search engines understand your content and can enable rich search results.
+The platform automatically generates structured data (JSON-LD, Schema.org) for events and articles, helping search engines understand your content and enabling rich search results like the Google events carousel. This is enabled by default and can be disabled at the company level if needed.
 
-### Event Structured Data
+<Accordion title="What structured data is generated">
 
-Event pages include structured data with:
+**Event pages** include: event name, start/end dates, venue name and address (if assigned), and organiser name. This can enable Google to show your events in event-specific search features, including the events carousel and Knowledge Panel.
 
-- Event name, start date, and end date
-- Venue name and address (if a venue is assigned)
-- Organiser name (your company)
+**Article pages** include: headline, header image, publication date, last modified date, and author name.
 
-This can enable Google to show your events in event-specific search features, including the events carousel and Knowledge Panel.
+**Site-level** includes a `WebSite` schema with a `SearchAction`, which can enable a sitelinks search box in Google results — allowing users to search your events directly from the search results page.
 
-### Article Structured Data
-
-Article pages include structured data with:
-
-- Article headline and header image
-- Publication date and last modified date
-- Author name
-
-### Search Action
-
-Your shop includes a `WebSite` schema with a `SearchAction`, which can enable a sitelinks search box in Google results — allowing users to search your events directly from the search results page.
-
-<Note>
-Structured data generation can be disabled at the company level if needed, though it is enabled by default and recommended for optimal search visibility.
-</Note>
+</Accordion>
 
 ## Related
 

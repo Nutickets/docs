@@ -25,7 +25,9 @@ Tag triggers must be set to **initialisation** during setup in Google Tag Manage
 
 ### E-commerce Events
 
-The following events are pushed to the data layer:
+The platform pushes events to the data layer for the full customer journey — from browsing and login through to purchase, refund, and basket expiry. Customer data (email and phone) is **SHA-256 hashed** before being pushed, so no personally identifiable information is sent to GTM in plain text.
+
+<Accordion title="Complete event reference">
 
 | Event | When it fires |
 |-------|---------------|
@@ -49,7 +51,7 @@ The following events are pushed to the data layer:
 | `share` | Event shared via social media |
 | `expire` | Basket expires due to inactivity |
 
-Customer data — email address and phone number — is **SHA-256 hashed** before being pushed to the data layer, so no personally identifiable information is sent to GTM in plain text.
+</Accordion>
 
 ### Iframe Considerations
 

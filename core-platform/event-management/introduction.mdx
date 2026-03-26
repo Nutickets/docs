@@ -81,14 +81,16 @@ Events can also be [created](/api-reference/events/create-event) and [updated](/
 
 Capacity is managed at multiple levels — event, timeslot, sale item group, sale item, inventory, and seating plan. See [capacity controls](/core-platform/event-management/capacity-controls) for how these layers interact.
 
-### Purchase Settings
+<Accordion title="Purchase Settings">
 
 | Field                              | Description                                                                                                                                                        |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Maximum tickets per customer**   | Limits how many tickets a single customer can purchase. Customers must share or transfer tickets beyond this limit. Lower limits can be set on individual tickets. |
 | **Show number of items remaining** | Displays a badge on each sale item showing "X Remaining" for items with limited availability.                                                                      |
 
-### Visibility & Discovery
+</Accordion>
+
+<Accordion title="Visibility & Discovery">
 
 | Field                         | Description                                                                                                                           |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -97,7 +99,9 @@ Capacity is managed at multiple levels — event, timeslot, sale item group, sal
 | **Tags**                      | [Event tags](/core-platform/event-management/event-tags) used for filtering in search and automatically including events in listings. |
 | **Visibility groups**         | Controls which [admin users](/core-platform/system-access/visibility-groups) can see and interact with the event.                     |
 
-### Tracking & Analytics
+</Accordion>
+
+<Accordion title="Tracking & Analytics">
 
 | Field                     | Description                                                                                        |
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -107,7 +111,9 @@ Capacity is managed at multiple levels — event, timeslot, sale item group, sal
 | **X Pixel ID**            | X (Twitter) conversion tracking.                                                                   |
 | **Google Tag Manager ID** | GTM container ID. Note: If GTM is configured at the site level, it cannot be overridden per event. |
 
-### Other Settings
+</Accordion>
+
+<Accordion title="Other Settings">
 
 | Field                           | Description                                                                                                                                                                                                                                                                               |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -116,6 +122,8 @@ Capacity is managed at multiple levels — event, timeslot, sale item group, sal
 | **External ID**                 | Optional identifier for third-party integrations. Exposed in the events API.                                                                                                                                                                                                              |
 | **Send purchase summary email** | Send an email to specified recipients for every purchase made for this event. Useful for staff to receive real-time sales notifications.                                                                                                                                                  |
 | **Refund protection**           | Configure [refund protection](/core-platform/refund-protection/protect-group) for this event.                                                                                                                                                                                             |
+
+</Accordion>
 
 ### Additional Event Settings
 

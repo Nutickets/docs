@@ -98,24 +98,15 @@ The modal offers two choices:
 | **Finish current order** | Returns to the existing basket |
 | **Start a new order** | Clears the basket and starts fresh with the new event |
 
-<Warning>
-Global basket **cannot** be enabled when event-level tracking pixels are configured. The toggle is disabled with the message: "Global basket cannot be turned on when tracking pixels are enabled." Remove event-level tracking pixels before enabling global basket.
-</Warning>
+<Note>
+Global basket cannot be used with forced checkout (they are mutually exclusive) or with event-level tracking pixels. See [Setting Conflicts](/core-platform/utilities/company-settings#setting-conflicts-and-guardrails) for the full list.
+</Note>
 
 ## Forced Checkout
 
-Forced checkout prevents customers from navigating away from the checkout flow once they have items in their basket, reducing abandoned carts.
+Forced checkout prevents customers from navigating away from the checkout flow once they have items in their basket, reducing abandoned carts. It is only available when global basket is **disabled** and applies to the ticket shop only (not box office).
 
 Configure this in **Company Settings** under **Enable forced checkout**.
-
-| Requirement | Detail |
-|-------------|--------|
-| **Availability** | Only when global basket is **disabled** |
-| **Scope** | Ticket shop only -- does not apply in box office |
-
-<Note>
-Forced checkout and global basket are mutually exclusive. You cannot enable both at the same time. If global basket is enabled, the forced checkout toggle is disabled with the message: "Forced checkout is only available when global basket is disabled."
-</Note>
 
 ### How It Works
 

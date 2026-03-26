@@ -7,7 +7,23 @@ description: "Configure how customers discover events on the browse page — sea
 
 The browse page is the main event discovery interface for your ticket shop. Customers land here to search for events, narrow results with filters, and switch between different display views — list, calendar, or map. It is accessed at `/browse` and serves as the central hub where customers find events before selecting tickets.
 
-As an admin, you control nearly every aspect of this experience: which filters are available and which are prominently featured, what sort options customers can use, how many columns the grid displays, and whether calendar or map views are enabled. These settings are configured separately for the public shop and the box office, so each channel can have its own tailored experience.
+As an admin, you control nearly every aspect of this experience: which filters are available and which are prominently featured, what sort options customers can use, how many columns the grid displays, and whether calendar or map views are enabled. These settings are configured separately for the public shop and the [box office](/core-platform/box-office/introduction), so each channel can have its own tailored experience.
+
+<Accordion title="Shop vs Box Office differences">
+
+The shop and box office share the same browse page foundation, but several features are restricted or defaulted differently for the box office.
+
+| Feature | Shop | Box Office |
+|---------|------|-----------|
+| Calendar view | Configurable | Not available |
+| Map view | Configurable | Not available |
+| List view | Configurable | Always available |
+| Pinned filters (default) | Venues, Tags | Date range |
+| Sort options | All six options | Upcoming, Alphabetical, Most Relevant |
+| Price ranges | Configurable | Not available |
+| Nearest sort | Configurable | Not available |
+
+</Accordion>
 
 ## Configuring the Browse Page
 
@@ -171,20 +187,6 @@ When a customer navigates to a specific schedule (a recurring event series), the
 - The calendar view shows dates specific to the schedule
 
 This gives recurring events a dedicated discovery experience while reusing the same filtering and sorting tools from the main browse page.
-
-## Shop vs Box Office Differences
-
-The shop and box office share the same browse page foundation, but several features are restricted or defaulted differently for the box office.
-
-| Feature | Shop | Box Office |
-|---------|------|-----------|
-| Calendar view | Configurable | Not available |
-| Map view | Configurable | Not available |
-| List view | Configurable | Always available |
-| Pinned filters (default) | Venues, Tags | Date range |
-| Sort options | All six options | Upcoming, Alphabetical, Most Relevant |
-| Price ranges | Configurable | Not available |
-| Nearest sort | Configurable | Not available |
 
 ## Related Pages
 
