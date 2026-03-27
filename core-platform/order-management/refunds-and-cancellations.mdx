@@ -31,13 +31,15 @@ Both actions restock the cancelled items (releasing capacity back to general sal
 
 1. Open the order in admin and click **Refund order**.
 2. Select which items to refund using the checkboxes.
-3. For each item, optionally set a **cancellation fee** (the portion of the item price retained — the customer receives the remainder).
+3. Optionally set a [cancellation fee](#cancellation-fees) for the items being refunded.
 4. Choose the refund method:
    - **Online** — Refund is processed through the payment gateway back to the customer's original payment method
    - **Offline** — Refund is recorded but you handle the actual money transfer manually
    - **Account balance** — Refund amount is credited to the customer's account balance
 5. Optionally add a reason and choose whether to notify the customer by email.
 6. Submit the refund.
+
+For orders with more than a few items, the refund form offers a **Bulk** toggle that simplifies the process — see [Cancellation Fees](#cancellation-fees) for how the fee applies in each mode.
 
 ### What Happens After a Refund
 
@@ -64,6 +66,18 @@ When refunding an item, you can apply a **cancellation fee** — a portion of th
 For example, if a ticket costs £50 and you set a £10 cancellation fee, the customer receives a £40 refund.
 
 The maximum cancellation fee for each item is calculated based on the item's available refund amount (total minus any processing or reseller fees that are configured as non-refundable).
+
+#### How the Fee Applies
+
+The cancellation fee behaves differently depending on how you refund:
+
+| Refund mode | How the cancellation fee works | Example (£5 fee, 5 items) |
+|---|---|---|
+| **Item-by-item** (default) | You set a separate cancellation fee for each item individually. Each item can have a different fee amount. | You could set £5 on one item and £2 on another — total depends on what you enter per item. |
+| **Bulk toggle** (single order with many items) | You enter one cancellation fee amount, and that **same fee is applied to every selected item**. | Each of the 5 items is charged £5, so the total cancellation fee is **£25**. |
+| **[Bulk refund](#bulk-refunds)** (multiple orders) | You enter one cancellation fee amount, and it is **distributed proportionally** across items in each order based on their refundable amounts. | The £5 is split across the 5 items in proportion to their prices — the total cancellation fee per order is **£5**. |
+
+The bulk toggle appears automatically on the refund page when an order has more than a few items. When active, all selected items share the same refund settings (restock, fee handling, and cancellation fee).
 
 <Note>
 Cancellation fees require the **Cancellation fees** feature to be enabled, and the staff member must have the **Apply cancellation fees** permission.
