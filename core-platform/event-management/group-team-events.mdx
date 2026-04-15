@@ -152,6 +152,28 @@ Team data is available in [order reports](/core-platform/reporting/fundamentals)
 | **Team name** | The team's display name.              |
 | **Team role** | The member's role (Leader or Member). |
 
+## Data Capture
+
+[Data capture](/core-platform/data-capture/introduction) for team events uses the same question types and [assignment levels](/core-platform/data-capture/assigning-questions) as standard events, but the checkout flow adjusts which questions are shown based on the customer's team role.
+
+### Visibility by Role
+
+During checkout, **event-level** data capture questions are only presented to the **team leader** — the customer who created the team. Team members who join via code do not see event-level questions during their checkout.
+
+**Item-level** questions (assigned to specific sale items or per ticket) are shown to all customers regardless of team role, since each customer is purchasing their own items.
+
+| Question Level | Team Leader | Team Member |
+|---------------|-------------|-------------|
+| Event-level | Shown during checkout | Hidden during checkout |
+| Item-level | Shown during checkout | Shown during checkout |
+| Per-ticket | Shown during checkout | Shown during checkout |
+
+If the only data capture questions configured for an event are at the event level, team members skip the data capture step entirely.
+
+### Team Details Page
+
+The team details page in **My Account > Teams** displays the team leader's event-level data capture responses alongside the team name, code, and member list. This gives all team members visibility of the leader's answers.
+
 ## Differences from Standard Events
 
 Team-enabled events behave the same as standard events in most respects — they support [sale items](/core-platform/sale-items/core-concepts), [timeslots](/core-platform/event-management/timeslots), [capacity controls](/core-platform/event-management/capacity-controls), [seating plans](/core-platform/event-management/seated-events), and all other event features. The key differences are:

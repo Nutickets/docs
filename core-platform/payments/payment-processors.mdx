@@ -309,7 +309,7 @@ These gateways require you to enter API credentials directly. Most provide separ
 </Accordion>
 
 <Accordion title="Ryft">
-  Ryft connects via an email-based account linking flow and uses webhooks for payment confirmation.
+  Ryft connects via an email-based account linking flow and uses webhooks for payment confirmation. It supports automatic platform fee collection — your account manager's fees are deducted at the point of payment, so funds arrive in your Ryft account with fees already settled.
 
   **Configuration:**
 
@@ -322,6 +322,15 @@ These gateways require you to enter API credentials directly. Most provide separ
   | Setting | Description |
   |---------|-------------|
   | **Billing address collection** | Choose from: none, minimum, or full billing address collection |
+
+  **Capabilities:**
+  - Automatic platform fee collection — fees are split at the point of payment
+  - MOTO payments (mail order / telephone order)
+  - Webhook-based payment confirmation
+
+  <Note>
+  When a partial refund is issued, the platform fee collected on the original payment is retained — it is not reversed proportionally. On a full refund, the platform fee is automatically reversed.
+  </Note>
 </Accordion>
 
 <Accordion title="Curlec">
@@ -577,6 +586,26 @@ In some configurations, your account manager may manage gateway credentials on y
 
 Gateways that support platform-level management include **Stripe**, **SumUp**, **PayPal**, **Ryft**, **Curlec**, and **Nuvei**.
 
+### Automatic Fee Collection
+
+When your account manager manages the gateway, certain gateways can collect platform fees automatically at the point of payment. Instead of fees being settled separately after the fact, the gateway deducts the platform fee before funds reach your account.
+
+How this works depends on the gateway:
+
+| Gateway | How fees are collected |
+|---------|----------------------|
+| **Stripe** | Each payment is split at the point of sale — the platform fee is collected as an application fee via Stripe Connect, and the remainder is deposited to your connected Stripe account |
+| **Ryft** | Each payment is split at the point of sale — the platform fee is deducted as a platform fee on the payment session, and the remainder is deposited to your Ryft sub-account |
+| **PayPal** | Each payment is split at the point of sale — the platform fee is collected via PayPal Commerce Platform |
+| **Curlec** | The full payment is collected by the platform, then the company's portion (total minus platform fee) is transferred to your linked account |
+| **Nuvei** | The platform's merchant credentials are used with a per-company merchant site ID — fee collection is handled outside of the individual transaction |
+
+For gateways that do not support automatic fee collection (such as Adyen, QuickPay, and Worldpay), platform fees are tracked separately and settled through [invoicing](/core-platform/information/paying-invoices).
+
+<Note>
+Whether automatic fee collection is active depends on how your account manager has configured your gateway. If you are unsure how fees are being collected, contact your account manager.
+</Note>
+
 ## Troubleshooting
 
 Common issues when configuring gateways:
@@ -598,3 +627,4 @@ Common issues when configuring gateways:
 - [Split Payments](/core-platform/payments/split-payments)
 - [Deposit Payments](/core-platform/payments/deposit-payments)
 - [Invoice Payments](/core-platform/payments/invoice-payments)
+- [Default System Fees](/core-platform/fees/default-system-fees)
