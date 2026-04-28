@@ -113,6 +113,7 @@
                   "core-platform/sale-items/guest-lists"
                 ]
               },
+              "core-platform/sale-items/pricing-history",
               "core-platform/sale-items/item-approvals",
               {
                 "group": "Fees",
@@ -346,7 +347,9 @@
                   "core-platform/integrations/vatstack",
                   "core-platform/integrations/szamlazz",
                   "core-platform/integrations/dtcm",
-                  "core-platform/integrations/justgiving"
+                  "core-platform/integrations/justgiving",
+                  "core-platform/integrations/stay22",
+                  "core-platform/integrations/dynamic-pricing"
                 ]
               }
             ]

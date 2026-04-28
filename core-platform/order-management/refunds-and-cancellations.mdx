@@ -191,6 +191,25 @@ Each order is processed individually. If any individual order fails to refund (e
 Bulk refunds cannot be undone. Review the list of affected orders carefully before submitting.
 </Warning>
 
+### Tracking In-Flight Refunds
+
+<Tip>New in Release 46</Tip>
+
+Some payment gateways — including Revolut and Nuvei, as well as certain Stripe card types — return a **pending** status when a refund is submitted. The actual outcome arrives later via a webhook from the gateway. Bulk refunds now track these delayed refunds end-to-end so you have full visibility on what's still in progress and what's been confirmed.
+
+| Email | When it sends | What it contains |
+|-------|---------------|------------------|
+| **Bulk refund summary** | Immediately after the bulk refund finishes queueing | A list of orders that refunded instantly (success or failure) and a separate **pending** section for orders awaiting confirmation from the payment gateway. |
+| **Bulk refund update** | Once the last pending refund in the batch resolves | A final breakdown showing which pending orders ultimately succeeded and which failed, with gateway transaction IDs to support reconciliation. |
+
+The summary email also notes: *"Some payment gateways do not provide instant feedback. You will receive a follow-up email once they have all been confirmed by the payment provider."*
+
+#### Why You'd See a Pending Section
+
+Pending entries are normal for any bulk refund involving an asynchronous gateway. While a refund is pending, the platform won't allow another refund on the same order — protecting against duplicate refunds. If you try to include an order with an in-flight bulk refund in another bulk refund, the system blocks it with the message: *"The following orders already have a refund in progress and cannot be included."*
+
+The follow-up **bulk refund update** email is the source of truth for the final outcome of pending refunds. Until you receive it, treat any orders in the pending section as still in progress — even if the customer reports something different.
+
 ## Refund Eligibility
 
 Not all items or orders can be refunded. The following conditions prevent a refund:
@@ -233,7 +252,8 @@ The system can send emails at each stage:
 |---|---|---|
 | **Refund processed** | Customer | Confirmation with refund amount and affected items |
 | **Cancellation processed** | Customer | Notification that items have been cancelled |
-| **Bulk refund complete** | Admin user who initiated | Summary of successful and failed refunds |
+| **Bulk refund summary** | Admin user who initiated | Initial breakdown of confirmed refunds plus any pending refunds awaiting gateway confirmation |
+| **Bulk refund update** | Admin user who initiated | Follow-up sent once all pending refunds in a batch resolve, showing the final outcome of each |
 
 Customer notifications are optional — you can choose whether to send them when processing each refund.
 

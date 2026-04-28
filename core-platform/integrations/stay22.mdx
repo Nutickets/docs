@@ -1,0 +1,88 @@
+---
+title: "Stay22"
+description: "Help customers find nearby accommodation by embedding a Stay22 hotel map on event pages, the order success page, and confirmation emails."
+---
+
+<Tip>New in Release 46</Tip>
+
+## Overview
+
+Stay22 is a hotel concierge widget that shows accommodation options near an event venue. When the integration is enabled, an interactive hotel map can replace the standard map block on event pages, sit alongside the order summary on the checkout success page, and appear in customer confirmation emails. Customers can browse and book hotels directly from the map without leaving your shop.
+
+The integration uses Nuweb's affiliate relationship with Stay22, so no external account or partner ID is needed — turning the feature on is enough to start displaying hotel options.
+
+## Enabling Stay22
+
+Stay22 is gated by a company feature flag. If the feature isn't visible in your settings, contact your account manager to enable it for your company.
+
+Once available, the integration is configured in two places:
+
+1. **Company Settings → Feature Settings** — turn the **Stay22** feature on or off for the company. The help text reads: *"When enabled, the Stay22 hotel concierge widget can be displayed alongside events to offer nearby accommodation to customers."*
+2. **Theme settings → Hotel map settings** — choose where the map appears and how the default search is configured.
+
+## Where the Map Appears
+
+The map can be shown in three places, each controlled by its own toggle under **Hotel map settings**:
+
+| Setting | Where the map appears |
+|---------|-----------------------|
+| **Show hotel map on event listing page** | The hotel map replaces the default Google map block on event pages, showing accommodation options around the venue. |
+| **Show hotel map on checkout success page** | After a successful checkout, the map is shown beside the order summary. On desktop the success page splits 50/50 between the order summary and the map. |
+| **Show hotel map in confirmation email** | A static snapshot of the hotel map is embedded in the order confirmation email so customers can find a hotel after they've left the shop. |
+
+Toggles can be enabled independently — for example, you can show the map on event pages without including it in confirmation emails.
+
+<Note>
+Box office mode does not show the Stay22 map, even when the toggles are enabled. Hotel suggestions are only relevant to customers buying for themselves through the shop.
+</Note>
+
+## Default Search Settings
+
+Two settings control the default check-in date and length of stay used when the map first loads. Customers can change these from within the map widget, but the defaults set the starting point so the suggestions are immediately relevant to the event.
+
+| Setting | Description |
+|---------|-------------|
+| **Default check-in days before event** | How many days before the event start date the search should default to. For a single-evening event, 0 means same-day check-in; 1 means check-in the day before. |
+| **Default hotel length of stay** | How many nights the default search should cover. |
+
+The map automatically uses the [venue](/core-platform/event-management/venues) address from the event to centre the search, so customers see accommodation around the actual venue location.
+
+## Event Page Behaviour
+
+On event pages, the hotel map replaces the standard Google map block when the **Show hotel map on event listing page** setting is enabled. In the event editor, the map block now shows a placeholder with the message: *"Stay22 hotel finder will be loaded only on your shop's event page."* This is because the live widget is only rendered to customers on the public shop, not in the editor.
+
+The Stay22 map only renders on the shop when a single event matches — for example, on an event page or after filtering a listing down to one event. On listings that show multiple events, the standard map continues to be used.
+
+## Confirmation Email
+
+When the email toggle is enabled, the [order confirmation email](/core-platform/notifications/email-types) includes a static image snapshot of the map centred on the venue. Customers can click the image to open the full Stay22 widget in their browser and continue their hotel search there.
+
+## Reference
+
+### What customers can do from the map
+
+- Search for hotels around the venue with the configured check-in date and length of stay
+- Adjust dates, length of stay, and the search radius
+- Filter by hotel rating and price
+- Open hotel details and complete the booking through Stay22
+
+The booking itself happens on Stay22's site — the platform doesn't process or hold any payment for the hotel reservation.
+
+### When the map doesn't appear
+
+The map is hidden in the following situations, even if the toggles are enabled:
+
+- The customer is using box office mode
+- The order success page contains items spanning multiple events
+- The company-level **Stay22** feature flag is turned off
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Theme & Branding" icon="palette" href="/core-platform/cms/theme-and-branding">
+    Configure the theme settings where the hotel map options live.
+  </Card>
+  <Card title="Customising Emails" icon="envelope" href="/core-platform/notifications/customising-emails">
+    Adjust order confirmation emails alongside the hotel map block.
+  </Card>
+</CardGroup>

@@ -98,6 +98,7 @@ This is particularly useful for schedules with many events where certain events 
 - An event can belong to **only one group** at a time, but can be moved between groups freely
 - Events not assigned to any group appear under the **Ungrouped** tab, which is always the first tab
 - Group names support [translations](/core-platform/core/translations), so they can be localised for multi-language shops
+- Groups can optionally be made visible to customers in the shop — see [Showing Groups in the Shop](#showing-groups-in-the-shop)
 
 ### Creating a Schedule Group
 
@@ -105,9 +106,22 @@ This is particularly useful for schedules with many events where certain events 
 2. Select **Create sub schedule tab** from the tab actions
 3. Enter a **name** for the group
 4. Select the **events** you want to include — only upcoming events from the current schedule that are not already in another group are available
-5. Save the group
+5. Optionally enable **Group is visible to customers** to display the group name during date selection in the shop
+6. Save the group
 
 The new group appears as a tab on the schedule dashboard immediately.
+
+### Showing Groups in the Shop
+
+<Tip>New in Release 46</Tip>
+
+By default, schedule groups are an admin-only organisation tool — customers don't see which group an event belongs to. You can change this per group with the **Group is visible to customers** toggle in the group's settings.
+
+The toggle's help text reads: *"When enabled the name of the schedule group will be displayed to the customer during date selection."*
+
+When enabled, the group name appears alongside each scheduled event in the shop's date and event selection UI. This is useful for communicating context that helps customers pick the right date — for example, labelling shows as **Matinee**, **Evening**, or **VIP** so customers can see at a glance which type of performance each date corresponds to.
+
+Each group's visibility is independent: you can keep some groups internal while exposing others, and toggling visibility doesn't affect which events belong to which group.
 
 ### Editing a Schedule Group
 

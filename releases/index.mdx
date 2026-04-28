@@ -4,6 +4,434 @@ description: "Latest product updates from 2025/2026"
 ---
 
 
+<Update label="27th April 2026" description="Release R46">
+
+Below you will find the summary notes for the 46th release of the Nuweb core platform.
+
+
+#### 🚀 New Features
+
+
+**[Dynamic Pricing](/core-platform/integrations/dynamic-pricing)**
+
+Automatically adjusts prices in real time based on demand, removing the need for manual price updates, increasing prices during high demand and reducing them during lower demand to optimise revenue and sales performance.
+
+
+ 
+
+<Frame caption="Enable dynamic pricing at event level to manage pricing per event."><img src="/images/releases/9a9a0bab4d78780b296d4679300adf18.png" alt="Enable dynamic pricing at event level to manage pricing per event." /></Frame>
+
+<br />
+
+<Frame caption="Different pricing models are available to support a range of business goals, applying pre-configured strategies that control how prices are calculated over time."><img src="/images/releases/6297e7bf6f92edfbd722fefafc5d77e5.png" alt="Different pricing models are available to support a range of business goals, applying pre-configured strategies that control how prices are calculated over time." /></Frame>
+
+<br />
+
+<Frame caption="Easily toggle exactly which ticket types are dynamically priced, while retaining manual control over selected ticket types. Minimum and maximum prices can be set to define pricing boundaries, providing confidence that prices stay within set limits."><img src="/images/releases/41541fd9884361d2d0603160eb645a4b.png" alt="Easily toggle exactly which ticket types are dynamically priced, while retaining manual control over selected ticket types. Minimum and maximum prices can be set to define pricing boundaries, providing confidence that prices stay within set limits." /></Frame>
+
+<br />
+
+<Frame caption="When viewing orders in the admin, a badge indicates whether the order item was purchased at a dynamically calculated price."><img src="/images/releases/fa32f2d7781985d137f9a286c10c42fa.png" alt="When viewing orders in the admin, a badge indicates whether the order item was purchased at a dynamically calculated price." /></Frame>
+
+
+
+
+
+**[Pricing History](/core-platform/sale-items/pricing-history)**
+
+View the history of price changes, including whether they were made manually by a user or by [dynamic pricing](/core-platform/integrations/dynamic-pricing).
+
+ 
+
+<Frame><img src="/images/releases/90cb5147623742c1931df12c024a247b.png" alt="" /></Frame>
+
+
+
+
+
+**[Resale Notifications](/core-platform/resale/configuration#notifications)**
+
+Additional [resale](/core-platform/resale/introduction) notifications are now available for customers selling their tickets. When enabled, the customer will be notified both when their listing goes live, and when their items sell. These are sent in addition to existing order related emails.
+
+ 
+
+<Frame caption="Resale notifications configuration at the company level."><img src="/images/releases/be875097087b065ce296f5570d5a7c9a.png" alt="Resale notifications configuration at the company level." /></Frame>
+
+
+
+
+Resale notifications can also be configured within the event level resale settings
+
+ 
+
+<Frame caption="Resale notifications configuration at the event level."><img src="/images/releases/b2dbbf08ad9c528a6bf8d813114f13b7.png" alt="Resale notifications configuration at the event level." /></Frame>
+
+<br />
+
+<Frame caption="Example emails sent to seller when items are listed, and sold."><img src="/images/releases/9126573a9bfca51532c3e95e13e699e0.png" alt="Example emails sent to seller when items are listed, and sold." /></Frame>
+
+
+
+
+All email wording can be managed via the [text manager](/core-platform/cms/website-text) in admin, by selecting the *Resale emails* category*.*
+
+ 
+
+<Frame caption="Resale email wording can be managed via admin text manager."><img src="/images/releases/af82a3005b9f73ca6bfe3f32289a54f8.png" alt="Resale email wording can be managed via admin text manager." /></Frame>
+
+
+
+
+
+**[Samsung Wallet](/core-platform/event-management/event-media/mobile-wallets#samsung-wallet-on-galaxy-devices)**
+
+* Added Samsung Wallet integration that use our [Mobile Wallet Designs](/core-platform/event-management/event-media/mobile-wallets), that allows customers add their tickets to their Galaxy devices.
+
+
+<Frame caption="The downloaded pass will reflect the colours and images you set up in your Mobile Wallet Designs."><img src="/images/releases/3209f9a186bd372b57e44d4c102f91f2.jpg" alt="The downloaded pass will reflect the colours and images you set up in your Mobile Wallet Designs." /></Frame>
+
+* We've improved the download options to help customers choose what suits them when there are multiple options to choose from.
+
+ 
+
+<Frame caption="The Download button has been renamed to Save to device, and when selected, a list of options will appear to the customer when applicable."><img src="/images/releases/f289283f770a2edcee2efcc7d6afe5ca.png" alt="The Download button has been renamed to Save to device, and when selected, a list of options will appear to the customer when applicable." /></Frame>
+
+
+
+
+
+**[Stay22 Integration](/core-platform/integrations/stay22)**
+
+* Added a [Stay22](/core-platform/integrations/stay22) integration to allow customers to shop for hotel accommodation directly in-platform. 
+
+ 
+
+<Frame caption="Stay22 hotel map replaces the default google maps block, when enabled."><img src="/images/releases/aa4c46f216aa3338ebd0acbd08d2c654.png" alt="Stay22 hotel map replaces the default google maps block, when enabled." /></Frame>
+
+<br />
+
+<Frame caption="Customers now see a Stay22 hotel map on the order success page, alongside the order summary."><img src="/images/releases/5254dfb1ebdf3d1db071dd4a31bafd93.png" alt="Customers now see a Stay22 hotel map on the order success page, alongside the order summary." /></Frame>
+
+#### ✨ Enhancements
+
+* [[NG-11730](https://linear.app/nuweb-group/issue/NG-11730)] [[NG-11479](https://linear.app/nuweb-group/issue/NG-11479)] [[NG-11548](https://linear.app/nuweb-group/issue/NG-11548)] Improved the user experience of [bulk refunds](/core-platform/order-management/refunds-and-cancellations#bulk-refunds):
+  * Delayed (non-instant) refunds are no longer incorrectly flagged as failing in the summary email
+  * In-flight refunds are now [tracked from start-to-finish](/core-platform/order-management/refunds-and-cancellations#tracking-in-flight-refunds), providing better visibility on bulk refund progress, including a final "bulk refund update" email that's issued once all refunds have finished processing.
+
+ 
+
+<Frame caption="Full refund lifecycle tracking for event cancellations"><img src="/images/releases/9d1b78dc0211fabaed077efd3d0abe25.png" alt="Full refund lifecycle tracking for event cancellations" /></Frame>
+
+
+
+* [[NG-101333](https://linear.app/nuweb-group/issue/NG-101333)] Added support for tracking failed scans (ticket & other item type admissions as well as any unrecognised barcode/QR code) via the API — with accompanying mobile [access control](/core-platform/event-management/access-control) functionality to follow.
+* [[NG-10378](https://linear.app/nuweb-group/issue/NG-10378)] Future [access codes](/core-platform/basket-codes/access-codes) are no longer filtered out of the index page in admin by default.
+
+
+
+#### 🎨 User Interface (UI/UX)
+
+* [[NG-11552](https://linear.app/nuweb-group/issue/NG-11552)] [Schedule sub groups](/core-platform/event-management/schedules#showing-groups-in-the-shop) can now be made visible to customers in the ticket shop
+
+<Frame caption="Schedule sub groups can be displayed alongside each scheduled event to better communicate to customers. "><img src="/images/releases/1b22df03611fc66b535ec89d1fc3ccbb.png" alt="Schedule sub groups can be displayed alongside each scheduled event to better communicate to customers. " /></Frame>
+
+* [[NG-10516](https://linear.app/nuweb-group/issue/NG-10516)] Per-item [fees](/core-platform/fees/sale-item-fees) now present the related sale item in basket
+
+
+<Frame caption="Each item fee now shows a clear relationship with other sale items in the basket, making it easier for customers to understand why fees are applied. "><img src="/images/releases/e71bdddd17ed8e756fae6baa9a492c16.png" alt="Each item fee now shows a clear relationship with other sale items in the basket, making it easier for customers to understand why fees are applied. " /></Frame>
+
+* [[NG-11696](https://linear.app/nuweb-group/issue/NG-11696)] Event and [schedule](/core-platform/event-management/schedules) descriptions are now shown in the items modal.
+
+  
+
+<Frame caption="Schedule event selection UI will show the schedule description, if available, and fall back to the event description."><img src="/images/releases/582a1463fed14d9005cc48df93a802ee.png" alt="Schedule event selection UI will show the schedule description, if available, and fall back to the event description." /></Frame>
+
+* [[NG-10783](https://linear.app/nuweb-group/issue/NG-10783)] Reordering has received updates throughout the system.
+
+ 
+
+<Frame caption="When reordering all other features will be disabled, so no accidental clicks will occur. Also save only happens by clicking save, instead of right after dragging."><img src="/images/releases/0209abc6494ee8afe611684efaeb2feb.png" alt="When reordering all other features will be disabled, so no accidental clicks will occur. Also save only happens by clicking save, instead of right after dragging." /></Frame>
+
+
+
+
+* [[NG-11429](https://linear.app/nuweb-group/issue/NG-11429)] [Seating plan](/core-platform/seating-plans/editor) labelling has now been made more intuitive with a new UI.
+
+ 
+
+<Frame caption="The first seat label field will automatically change between numeric and alphabetical options, and correctly sets values even when skipping is enabled."><img src="/images/releases/79bb7f05f6f470af0cbb1950f28cd0c3.png" alt="The first seat label field will automatically change between numeric and alphabetical options, and correctly sets values even when skipping is enabled." /></Frame>
+
+
+
+
+* [[NG-11712](https://linear.app/nuweb-group/issue/NG-11712)] Added a visible cursor to the price-input 
+* [[NG-11743](https://linear.app/nuweb-group/issue/NG-11743)] Added infinite scroll to the [Gift Vouchers](/core-platform/sale-items/gift-vouchers) index page in Admin.
+* [[NG-11553](https://linear.app/nuweb-group/issue/NG-11553)] Moved all settings controls to a designated report settings section in the [reporting](/core-platform/reporting/fundamentals) UI
+* [[NG-11404](https://linear.app/nuweb-group/issue/NG-11404)] Made order dashboard display customer record and named orders more consistently.
+* [[NG-11298](https://linear.app/nuweb-group/issue/NG-11298)] Improved user feedback on bulk time slot update modal to ensure correct time slots are updated.
+* [[NG-11530](https://linear.app/nuweb-group/issue/NG-11530)] Updated screen reader only labels on accordions to show the correct call to action.
+* [[NG-11544](https://linear.app/nuweb-group/issue/NG-11544)] Fixed alignment of quantity selector on square event blocks.
+* [[NG-11493](https://linear.app/nuweb-group/issue/NG-11493)] Improved look of selected items on seating plans, including resale items
+* [[NG-11404](https://linear.app/nuweb-group/issue/NG-11404)] Named customer labelled has been made more consistent on the Order show page.
+* [[NG-10468](https://linear.app/nuweb-group/issue/NG-10468)] Improved visibility of selected seats when heatmap is enabled
+* [[NG-11697](https://linear.app/nuweb-group/issue/NG-11697)] Automatically select a single remaining [timeslot](/core-platform/event-management/timeslots) or scheduled event when customers are browsing in shop. 
+* [[NG-11553](https://linear.app/nuweb-group/issue/NG-11553)] Moved all report settings into a dedicated settings area, rather than being combined with filters. 
+* [[NG-8074](https://linear.app/nuweb-group/issue/NG-8074)] Included event dashboard in breadcrumbs, when editing an event's seating plan layout.
+* [[NG-8655](https://linear.app/nuweb-group/issue/NG-8655)] The order of price bands in the seating plan filters and and in the best available selection will reflect what is set in event settings.
+
+
+
+#### 🧹 Housekeeping
+
+* [[NG-11638](https://linear.app/nuweb-group/issue/NG-11638)] Improved the mass update checks when editing a sale item
+* [[NG-11522](https://linear.app/nuweb-group/issue/NG-11522)] Fixed an issue where some resale listing warning messages didn't appear in the right conditions
+* [[NG-8476](https://linear.app/nuweb-group/issue/NG-8476)] Price band settings will now reflect correctly when selecting seats and general admissions in the editor
+* [[NG-7905](https://linear.app/nuweb-group/issue/NG-7905)] Initial seating plan availability now includes updates from the last 5 minutes.
+* [[NG-8558](https://linear.app/nuweb-group/issue/NG-8558)] You can add more children to [discount codes](/core-platform/basket-codes/discount-codes) and access codes, even if they've been used.
+* [[NG-9564](https://linear.app/nuweb-group/issue/NG-9564)] Timeslot modification in repeating schedules will now correctly apply changed fields only.
+* [[NG-10146](https://linear.app/nuweb-group/issue/NG-10146)] Fixed an issue where if an event has all time slots sold out, event passes and other items not in timeslots weren't listed in shop.
+* [[NG-11119](https://linear.app/nuweb-group/issue/NG-11119)] View in seating plan links now correctly select seats in areas in admin
+* [[NG-11495](https://linear.app/nuweb-group/issue/NG-11495)] If customer has a pending balance, it will now display correctly in their wallet and on their customer profile in admin.
+* [[NG-11788](https://linear.app/nuweb-group/issue/NG-11788)] Order reference is now attached to Revolut refunds for improved reconciliation
+* [[NG-11562](https://linear.app/nuweb-group/issue/NG-11562)] Ensure failure to generate Szamlazz invoices doesn't impact resale proceeds configured to return to via the original payment method.
+
+
+
+#### 🔌 Gateways
+
+* [[NG-11252](https://linear.app/nuweb-group/issue/NG-11252)] Integrated with [Barclays Smartpay Fuse](https://www.barclaycard.co.uk/business/accepting-payments/payment-gateways)
+* [[NG-11255](https://linear.app/nuweb-group/issue/NG-11255)] Integrated with [Montonio Payment Gateway](https://www.montonio.com/)
+
+
+
+#### 💻 Technical
+
+* [[NG-11414](https://linear.app/nuweb-group/issue/NG-11414)] Improved the performance of downloading [Apple Wallet passes](/core-platform/event-management/event-media/mobile-wallets).
+* [[NG-11887](https://linear.app/nuweb-group/issue/NG-11887)] Added internal inbound/outbound webhook inspector to the hub & revamped the API inspector.
+
+
+
+#### 🧑‍💻 API
+
+Changes to the API have been documented in the changelog on the API documentation homepage.
+
+</Update>
+
+<Update label="25th April 2026" description="Patch R45O">
+
+**🟡 Quality** (2)
+
+* **🟡** [[NG-11858](https://linear.app/nuweb-group/issue/NG-11858)] Resolved an isolated 403 error on a specific custom report.
+* **🟡** [[NG-11896](https://linear.app/nuweb-group/issue/NG-11896)] Resolved an issue where some data capture fields weren't showing on exported/scheduled reports.
+
+</Update>
+
+<Update label="15th April 2026" description="Patch R45N">
+
+**🟡 Quality** (5)
+
+* 🟡 [[NG-11402](https://linear.app/nuweb-group/issue/NG-11402)] Improvements to reseller invoice generation.
+* 🟡 [[NG-11713](https://linear.app/nuweb-group/issue/NG-11713)] Improvements to date pickers within the event dates panel to prevent multiple overlapping.
+* 🟡 [[NG-11724](https://linear.app/nuweb-group/issue/NG-11724)] Improvements to date of birth field validation in the shop.
+* 🟡 [[NG-11739](https://linear.app/nuweb-group/issue/NG-11739)] Performance improvements to the timeslot selector for events that contain a large number of scheduled events with timeslots.
+* 🟡 [[NG-11774](https://linear.app/nuweb-group/issue/NG-11774)] When handpicking events for an event block in admin, the selector now defaults to show only upcoming events.
+
+</Update>
+
+<Update label="13th April 2026" description="Patch R45M">
+
+🟢 **Feature** (1)   🟡 **Quality** (9)   🟣 **Bug fix** (4)
+
+* 🟣 [[NG-11351](https://linear.app/nuweb-group/issue/NG-11351)] Resolved an issue preventing users with the *manage template blocks* permission from deleting or restoring template blocks in the CMS.
+* 🟣 [[NG-11386](https://linear.app/nuweb-group/issue/NG-11386)] Resolved an issue which was forcing users to complete data capture questions against gift vouchers.
+* 🟡 [[NG-11402](https://linear.app/nuweb-group/issue/NG-11402)] Improvements to the invoice generation service to allow us to manually retrospectively generate invoices for a particular date.
+* 🟡 [[NG-11499](https://linear.app/nuweb-group/issue/NG-11499)] Improved the customer account settings page so that currency and language fields are shown / hidden correctly when no other options exist.
+* 🟡 [[NG-11597](https://linear.app/nuweb-group/issue/NG-11597)] Updated the SimplePay SZEP order reference separator to use `TX000` instead of the `-` special character.
+* 🟡 [[NG-11680](https://linear.app/nuweb-group/issue/NG-11680)] Fixed an intermittent 500 error when creating discount codes with inventory items selected.
+* 🟣 [[NG-11702](https://linear.app/nuweb-group/issue/NG-11702)] Fixed an error when attempting to modify an order that contains a TICKET belonging to an event in a schedule that *also* has season tickets available.
+* 🟡 [[NG-11712](https://linear.app/nuweb-group/issue/NG-11712)] Improved visual feedback within price inputs when the field is in focus and being edited.
+* 🟡 [[NG-11755](https://linear.app/nuweb-group/issue/NG-11755)] Order item API endpoints now correctly return `customerId`'s for order items in child companies when queried by parent with global login disabled.
+* 🟡 [[NG-11775](https://linear.app/nuweb-group/issue/NG-11775)] Fixed a seating plan reallocation issue where multiple seats were selected in the background.
+* 🟣 [[NG-11779](https://linear.app/nuweb-group/issue/NG-11779)] Fixed an intermittent error when sending attendee checkin webhooks when processing bulk offline scans.
+* 🟢 [[NG-11798](https://linear.app/nuweb-group/issue/NG-11798)] Added a new *listing status* filter to the resale contracts report.
+* 🟡 [[NG-11800](https://linear.app/nuweb-group/issue/NG-11800)] Improved efficiency of report exports to reduce runtime and memory usage.
+* 🟡 [[NG-11808](https://linear.app/nuweb-group/issue/NG-11808)] Removed duplicate padding on 'bubble' style template blocks.
+
+
+</Update>
+
+<Update label="2nd April 2026" description="Patch R45L">
+
+🟡 **Quality** (7)   🟣 **Bug fix** (4)
+
+* 🟣 [[NG-11273](https://linear.app/nuweb-group/issue/NG-11273)] Resolved a discrepancy between event sales report and event capacity bars when resale sales have occurred.
+* 🟣 [[NG-11402](https://linear.app/nuweb-group/issue/NG-11402)] Resolved an issue preventing some reseller fee invoices from generating.
+* 🟡 [[NG-11440](https://linear.app/nuweb-group/issue/NG-11440)] Updated Szamlazz corrective invoice generation to preserve the same completion date as the original invoice.
+* 🟣 [[NG-11443](https://linear.app/nuweb-group/issue/NG-11443)] Resolved an issue where country names were intermittently being presented in the wrong language. This was due to an overly aggressive cache.
+* 🟡 [[NG-11639](https://linear.app/nuweb-group/issue/NG-11639)] Fee items are now hidden from complimentary order confirmation emails.
+* 🟡 [[NG-11642](https://linear.app/nuweb-group/issue/NG-11642)] Internal refactoring of phone number formatting on CSV report exports.
+* 🟡 [[NG-11691](https://linear.app/nuweb-group/issue/NG-11691)] GA space quantity selector in shop is now capped based on the spaces availability.
+* 🟡 [[NG-11749](https://linear.app/nuweb-group/issue/NG-11749)] Improved reporting of resale contract data when multiple resale fees were applied to a resale order.
+* 🟣 [[NG-11759](https://linear.app/nuweb-group/issue/NG-11759)] The date filter on the resale contracts report is now applied correctly based on the sale date.
+* 🟡 [[NG-11765](https://linear.app/nuweb-group/issue/NG-11765)] Child company resale contracts are now included in the resale contracts report when viewing via the parent company.
+* 🟡 [[NG-11778](https://linear.app/nuweb-group/issue/NG-11778)] [[NG-11844](https://linear.app/nuweb-group/issue/NG-11844)] Fixed a number of very isolated 500 errors when loading data capture.
+
+</Update>
+
+<Update label="31st March 2026" description="Patch R45K">
+
+🟡 **Quality** (11)   🟣 **Bug fix** (12)
+
+* 🟣 [[NG-6494](https://linear.app/nuweb-group/issue/NG-6494)] Fixed Apple Wallet pass generation failures where users spam clicked the Apple Pass button.
+* 🟣 [[NG-10531](https://linear.app/nuweb-group/issue/NG-10531)] Removed an empty order total row from the order success page.
+* 🟣 [[NG-11359](https://linear.app/nuweb-group/issue/NG-11359)] Fixed an issue preventing images from being deleted from image blocks in the event page editor.
+* 🟣 [[NG-11457](https://linear.app/nuweb-group/issue/NG-11457)] Restored missing padding in searchable select dropdowns, including billing country and box office hold selectors.
+* 🟡 [[NG-11639](https://linear.app/nuweb-group/issue/NG-11639)] Complimentary order confirmation emails no longer show a full fee breakdown.
+* 🟣 [[NG-11690](https://linear.app/nuweb-group/issue/NG-11690)] Fixed GA areas on seating plans becoming unavailable after a selected ticket was removed.
+* 🟡 [[NG-11705](https://linear.app/nuweb-group/issue/NG-11705)] Ensure redirected domains can be used in box office mode
+* 🟣 [[NG-11713](https://linear.app/nuweb-group/issue/NG-11713)] Improved admin on-sale date editing so time selection is more reliable and events correctly move live when past on-sale dates are set.
+* 🟣 [[NG-11718](https://linear.app/nuweb-group/issue/NG-11718)] Fixed seating plan editor issues after duplicating or flipping areas, including errors caused by incorrect backend area IDs.
+* 🟣 [[NG-11725](https://linear.app/nuweb-group/issue/NG-11725)] Corrected hover styling and padding in the phone number country code selector.
+* 🟣 [[NG-11726](https://linear.app/nuweb-group/issue/NG-11726)] Fixed the data capture progress card so the progress bar respects the card border radius.
+* 🟣 [[NG-11728](https://linear.app/nuweb-group/issue/NG-11728)] Fixed feature flag prerequisite display so *unavailable* "any of" prerequisites no longer show.
+* 🟡 [[NG-11729](https://linear.app/nuweb-group/issue/NG-11729)] Increased top padding in the items modal for improved spacing.
+* 🟣 [[NG-11734](https://linear.app/nuweb-group/issue/NG-11734)] Fixed the mobile wallet editor so selecting a brand colour  updates the background colour.
+* 🟡 [[NG-11756](https://linear.app/nuweb-group/issue/NG-11756)] Clarified bulk refund cancellation fee help text to show the fee is applied per item.
+* 🟡 [[NG-11757](https://linear.app/nuweb-group/issue/NG-11757)] Extended the deadline for switching to the new timeslot UI.
+* 🟣 [[NG-11758](https://linear.app/nuweb-group/issue/NG-11758)] Fixed API resale listing removal for child-company scoped listings.
+* 🟡 [[NG-10795](https://linear.app/nuweb-group/issue/NG-10795)] [[NG-11080](https://linear.app/nuweb-group/issue/NG-11080)] [[NG-11531](https://linear.app/nuweb-group/issue/NG-11531)] [[NG-11673](https://linear.app/nuweb-group/issue/NG-11673)] [[NG-11701](https://linear.app/nuweb-group/issue/NG-11701)] [[NG-11767](https://linear.app/nuweb-group/issue/NG-11767)] Various performance improvements & error fixes.
+
+</Update>
+
+<Update label="27th March 2026" description="Patch R45J">
+
+🟡 **Quality** (2)   🟣 **Bug fix** (2)
+
+* 🟡 [[NG-11539](https://linear.app/nuweb-group/issue/NG-11539)] Added new *total base net* field to sales reports.
+* 🟡 [[NG-11710](https://linear.app/nuweb-group/issue/NG-11710)] Updated API docs to surface much more comprehensive details.
+  * Available includes
+  * Globally available request / response headers
+  * Casing consistency improvements
+  * Type hint improvements
+* 🟣 [[NG-11744](https://linear.app/nuweb-group/issue/NG-11744)] Fixed an alignment with the *Buy now* button in shop when no event menu was enabled.
+* 🟣 [[NG-11753](https://linear.app/nuweb-group/issue/NG-11753)] Fixed an error returned by the API when requesting a custom report that includes custom headers.
+
+</Update>
+
+<Update label="26th March 2026" description="Patch R45I">
+
+🟢 **Feature** (2)   🟡 **Quality** (9)   🟣 **Bug fix** (8)
+
+* 🟢 [[NG-9496](https://linear.app/nuweb-group/issue/NG-9496)] Added new resale sales reporting.
+* 🟡 [[NG-10568](https://linear.app/nuweb-group/issue/NG-10568)] Time selector now focuses on todays date when backing out of the timeslot selector.
+* 🟡 \[NG-11236, NG-11708, NG-11709\] Various new text manager additions for resale and account balance labels in shop.
+* 🟢 [[NG-11516](https://linear.app/nuweb-group/issue/NG-11516)] Custom report API endpoint now allows `filter` and `headers` parameters to be applied in addition to report defaults.
+* 🟣 [[NG-11572](https://linear.app/nuweb-group/issue/NG-11572)] Ensure address fields are shown correctly during child company checkout parent integrations mandate them.
+* 🟡 [[NG-11584](https://linear.app/nuweb-group/issue/NG-11584)] Improved format of error response returned when attempting to modify an expired order's items via the API.
+* 🟣 [[NG-11617](https://linear.app/nuweb-group/issue/NG-11617)] Ensure scheduled reports run as expected on the last day of the selected run period.
+* 🟣 [[NG-11636](https://linear.app/nuweb-group/issue/NG-11636)] External discount codes now apply correctly when the same code has previously been used across multiple categories.
+* 🟣 [[NG-11645](https://linear.app/nuweb-group/issue/NG-11645)] Resolved an issue where the customer was not being preset in box office when creating an order directly from a customer record.
+* 🟡 [[NG-11662](https://linear.app/nuweb-group/issue/NG-11662)] Event tags now add only the selected tag, rather than the selected tag and the current search value.
+* 🟡 [[NG-11672](https://linear.app/nuweb-group/issue/NG-11672)] *Buy now* button no longer overflows the page container when the shop is rendered in an iframe on mobile.
+* 🟡 [[NG-11678](https://linear.app/nuweb-group/issue/NG-11678)] Admin global search now gracefully handles malformed search parameters rather than erroring.
+* 🟣 [[NG-11686](https://linear.app/nuweb-group/issue/NG-11686)] Filtering events by the same start & end date in the shop now correctly filters matching single day events.
+* 🟡 [[NG-11706](https://linear.app/nuweb-group/issue/NG-11706)] Gracefully handle Banorte payment meta data.
+* 🟣 [[NG-11722](https://linear.app/nuweb-group/issue/NG-11722)] Resolved an error preventing the 'once' scheduling frequency from being selected when setting up a scheduled report in hub.
+* 🟣 [[NG-11727](https://linear.app/nuweb-group/issue/NG-11727)] Improved accuracy of 'next run' time on scheduled reports when the report schedule ends *today*.
+* 🟣 [[NG-11736](https://linear.app/nuweb-group/issue/NG-11736)] Fixed events filter on resale contracts report.
+
+</Update>
+
+<Update label="20th March 2026" description="Patch R45H">
+
+🟢 **Feature** (2)   🟡 **Quality** (9)   🟣 **Bug fix** (3)
+
+* 🟢 [[NG-11098](https://linear.app/nuweb-group/issue/NG-11098)] Basket items added via the API can now be locked so customers cannot accidentally change or remove them. This helps keep resale checkouts consistent and avoids unwanted ticket changes.
+* 🟢 [[NG-11371](https://linear.app/nuweb-group/issue/NG-11371)] Introduced new resale payout settlement endpoints and reporting. For more information see API changelog.
+* 🟣 [[NG-11411](https://linear.app/nuweb-group/issue/NG-11411)] Row labels now appear correctly when new rows are added in the seating plan editor.
+* 🟡 [[NG-11468](https://linear.app/nuweb-group/issue/NG-11468)] Card network logos are now fully visible when using offline card payment methods.
+* 🟣 [[NG-11507](https://linear.app/nuweb-group/issue/NG-11507)] Seats now properly deselect in the seating plan management view when you unselect them.
+* 🟡 [[NG-11602](https://linear.app/nuweb-group/issue/NG-11602)] Bulk updates for the "Show access code input" setting now apply correctly to the selected event dates, removing the need for manual fixes across mixed schedules.
+* 🟡 [[NG-11612](https://linear.app/nuweb-group/issue/NG-11612)] Ticket descriptions now display correctly for eligible general admission tickets during ticket selection in shop.
+* 🟡 [[NG-11615](https://linear.app/nuweb-group/issue/NG-11615)] Old timeslot UI now correctly navigates to seating plan in box office.
+* 🟡 [[NG-11633](https://linear.app/nuweb-group/issue/NG-11633)] Revolut payment emails now link customers directly to their order page instead of a generic site page.
+* 🟡 [[NG-11642](https://linear.app/nuweb-group/issue/NG-11642)] Excel report exports no longer display phone numbers with incorrect formatting.
+* 🟡 [[NG-11647](https://linear.app/nuweb-group/issue/NG-11647)] Seating plan image exports now generate with improved layout and less unnecessary whitespace. Hold information is also shown correctly again in the export legend.
+* 🟡 [[NG-11663](https://linear.app/nuweb-group/issue/NG-11663)] Improved seating plan editor stability has removed flickering seen by some users during use.
+* 🟡 [[NG-11671](https://linear.app/nuweb-group/issue/NG-11671)] Resale payouts now process correctly even when parent company resale settings differ from the child company. This prevents resale orders from getting stuck in an incomplete state.
+* 🟣 [[NG-11685](https://linear.app/nuweb-group/issue/NG-11685)] Resolved an error preventing reservations from being completed in box office when refund protect is enabled.
+
+</Update>
+
+<Update label="15th March 2026" description="Patch R45G">
+
+🟣 **Bug fix** (2)
+
+* 🟣 [[NG-11589](https://linear.app/nuweb-group/issue/NG-11589)] [[NG-11622](https://linear.app/nuweb-group/issue/NG-11622)] Internal error fixes
+
+</Update>
+
+<Update label="12th March 2026" description="Patch R45F">
+
+🟡 **Quality** (2) 
+
+* 🟡 [[NG-11623](https://linear.app/nuweb-group/issue/NG-11623)] Ensure order fees that get removed during order modification are no longer shown in the basket summary.
+* 🟡 [[NG-11644](https://linear.app/nuweb-group/issue/NG-11644)] Fixed an issue preventing large seating plan images from being exported in admin.
+
+</Update>
+
+<Update label="10th March 2026" description="Patch R45E">
+
+🟡 **Quality** (10)   🟣 **Bug fix** (2)
+
+* 🟡 [[NG-11449](https://linear.app/nuweb-group/issue/NG-11449)] Ensure the external website URL field can be reset in Admin for charity donations.
+* 🟡 [[NG-11496](https://linear.app/nuweb-group/issue/NG-11496)] Fix an inconsistency with the "Buy Now" button not appearing on desktop for access code/sales period restricted events that had no event page menus enabled.
+* 🟡 [[NG-11508](https://linear.app/nuweb-group/issue/NG-11508)] Resolved a minor formatting issue in event reminder emails with customised content
+* 🟣 [[NG-11512](https://linear.app/nuweb-group/issue/NG-11512)] Resolve a 500 error preventing customers part of a customer group from modifying orders.
+* 🟡 [[NG-11518](https://linear.app/nuweb-group/issue/NG-11518)] Improved special character handling on event searches in the shop.
+* 🟡 [[NG-11520](https://linear.app/nuweb-group/issue/NG-11520)] Hide the refund protection step when clearing the remaining balance of a deposit reservation.
+* 🟣 [[NG-11545](https://linear.app/nuweb-group/issue/NG-11545)] Fix a display bug on the event dashboard where assigned visibility group names weren't showing.
+* 🟡 [[NG-11574](https://linear.app/nuweb-group/issue/NG-11574)] Various seating plan editor performance improvements & optimisations for larger plans.
+* 🟡 [[NG-11596](https://linear.app/nuweb-group/issue/NG-11596)] Improved scrolling of new timeslots UI on mobile devices.
+* 🟡 [[NG-11605](https://linear.app/nuweb-group/issue/NG-11605)] Ensure seats don't show as unavailable if reserved in the current basket, from a different event.
+* 🟡 [[NG-11579](https://linear.app/nuweb-group/issue/NG-11579)] Resolve edge case internal error with Stripe WisePOS payments on web box office for reservations containing deferred payment items (i.e. guest list signups)
+* 🟡 [[NG-11364](https://linear.app/nuweb-group/issue/NG-11364)] The About menu item no longer shows unless the description block is explicitly added to an event.
+
+</Update>
+
+<Update label="6th March 2026" description="Patch R45D">
+
+🟡 **Quality** (5)   🟣 **Bug fix** (1)
+
+* 🟡 [[NG-11501](https://linear.app/nuweb-group/issue/NG-11501)] Allow child order items to be listed for resale via the parent company.
+* 🟡 [[NG-11434](https://linear.app/nuweb-group/issue/NG-11434)] Resolve internal errors triggered by the Nuvei payment widget relating to stored payment methods.
+* 🟣 [[NG-11564](https://linear.app/nuweb-group/issue/NG-11564)] [[NG-11565](https://linear.app/nuweb-group/issue/NG-11565)] Misc internal error fixes
+* 🟡 [[NG-11491](https://linear.app/nuweb-group/issue/NG-11491)] Prevent Excel treating "Gateway reference" as a numeric field when exporting transaction reports.
+* 🟡 [[NG-11593](https://linear.app/nuweb-group/issue/NG-11593)] Fix rendering issue with Code 39 barcodes on event media containing PNGs with transparency.
+* 🟡 [[NG-11594](https://linear.app/nuweb-group/issue/NG-11594)] Improved box office seating plan actions and 'Apply to all' features
+
+</Update>
+
+<Update label="4th March 2026" description="Patch R45C">
+
+🟣 **Bug fix** (1)
+
+* 🟣 [[NG-11573](https://linear.app/nuweb-group/issue/NG-11573)] Resolved a payment routing error with Stripe Terminal payments processed through MBO, exclusively where the primary box office gateway was set to anything other than Stripe.
+
+</Update>
+
+<Update label="3rd March 2026" description="Patch R45B">
+
+🟡 **Quality** (3)   🟣 **Bug fix** (3)
+
+* 🟡 [[NG-11075](https://linear.app/nuweb-group/issue/NG-11075)] Ensure the "select donation amount" placeholder doesn't show after selecting a donation amount.
+* 🟣 [[NG-11459](https://linear.app/nuweb-group/issue/NG-11459)] Fix an issue where CMS menu items extended off the page rather than being scrollable to.
+* 🟡 [[NG-11064](https://linear.app/nuweb-group/issue/NG-11064)] The "Please complete your account" form is now better aligned centrally on the page.
+* 🟡 [[NG-11547](https://linear.app/nuweb-group/issue/NG-11547)] Ensure Protect Group status badges display correctly on the attendance index page in Admin.
+* 🟣 [[NG-11542](https://linear.app/nuweb-group/issue/NG-11542)] [[NG-11543](https://linear.app/nuweb-group/issue/NG-11543)] Fix attendance reports not generating when the "item status" header is selected.
+
+</Update>
+
 <Update label="3rd March 2026" description="Release R45">
 
 Below you will find the summary notes for the 45th release of the Nuweb core platform.

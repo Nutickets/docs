@@ -1,0 +1,67 @@
+---
+title: "Pricing History"
+description: "View a timeline of every price change for a ticket type, including who or what changed it and which sales channel and currency the change applied to."
+---
+
+<Tip>New in Release 46</Tip>
+
+## Overview
+
+Every price change made to a sale item is recorded in the pricing history panel. Whether a price was edited manually by a staff member or adjusted automatically by [dynamic pricing](/core-platform/integrations/dynamic-pricing), the change is logged with a timestamp, the new price, the affected sales channel and currency, and an attribution showing the source.
+
+Pricing history exists for all ticket types — it isn't limited to events using dynamic pricing. For events under manual control, the panel shows the audit trail of every staff edit. For events under dynamic pricing, it interleaves manual edits and automated adjustments on the same timeline.
+
+The panel is also the link between historic prices and orders: each order item is associated with the pricing history record that applied at the time of purchase, so you can always see the exact price a customer paid even if the price has changed since.
+
+## Opening the Pricing History
+
+There are two ways to open the panel:
+
+- From the **ticket type settings**, click **Pricing history**.
+- From an **order item**, click the **Dynamic** badge — this opens the panel filtered to the relevant ticket type and currency, with the matching record highlighted. The badge only appears on items purchased at a dynamically calculated price.
+
+## What the Panel Shows
+
+The panel groups records by date, with the newest changes at the top. Each row in the timeline contains:
+
+| Column | Detail |
+|--------|--------|
+| **Date and time** | When the price change took effect. |
+| **Sales channel** | Which channel the price applies to — **Online**, **Box office**, or **Resale**. Each channel has its own independent history. |
+| **Price** | The new price after the change, in the currently selected currency. |
+| **Direction** | An up or down arrow indicating whether the price increased or decreased compared to the previous record on the same channel. |
+| **Source** | Either the user who made the change (with name and email) or **Dynamic price change** if the platform applied the change automatically. |
+
+For ticket types sold in multiple currencies, a **currency selector** at the top of the panel lets you switch between currencies. Each currency tracks its own independent history — switching currencies replaces the timeline, it does not merge them.
+
+The **Latest update** marker highlights the most recent change so you can quickly identify the current effective price.
+
+<Note>
+Pricing history is only available from April 2026 onwards. Changes made before this date are not recorded retrospectively — for older ticket types, the timeline starts from the first change after the feature launched.
+</Note>
+
+## Manual vs Automated Changes
+
+The **Source** column makes it easy to distinguish between the two ways a price can change:
+
+- **Manual changes** show the user who made the edit, with their name and email.
+- **Automated changes** show **Dynamic price change**. These only appear for ticket types using [dynamic pricing](/core-platform/integrations/dynamic-pricing).
+
+Both types are recorded on the same timeline, so on a dynamically priced ticket you'll see the automated adjustments interspersed with any manual interventions a user made.
+
+## Linking Orders to Historical Prices
+
+Every order item is linked to the pricing history record that applied when it was placed. This means even if you change the price of a ticket type after sales have started, the order's record always reflects the price the customer actually paid.
+
+This link is what enables the **Dynamic** badge on order items to navigate directly to the relevant entry in the pricing history. It also supports reporting and reconciliation — if a customer queries why they paid a specific amount, the pricing history shows exactly what was active at that moment.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Sale Item Concepts" icon="ticket" href="/core-platform/sale-items/core-concepts">
+    Pricing fields, currencies, and channel-specific prices.
+  </Card>
+  <Card title="Dynamic Pricing" icon="arrow-up-right-dots" href="/core-platform/integrations/dynamic-pricing">
+    Automatically adjust prices based on demand using configurable models.
+  </Card>
+</CardGroup>

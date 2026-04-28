@@ -1,11 +1,11 @@
 ---
 title: "Mobile Wallets"
-description: "Create mobile wallet designs and digital passes so customers can access their tickets from Apple Wallet or a web-based digital pass."
+description: "Create mobile wallet designs and digital passes so customers can access their tickets from Apple Wallet, Samsung Wallet, or a web-based digital pass."
 ---
 
 ## Overview
 
-Mobile wallet designs let you create branded digital passes for your customers' tickets. Customers can save their tickets directly to **Apple Wallet** on their iPhone, or — for events with [secure barcodes](/core-platform/event-management/secure-barcodes) — view them as a **digital pass** in their account.
+Mobile wallet designs let you create branded digital passes for your customers' tickets. Customers can save their tickets directly to **Apple Wallet** on their iPhone, **Samsung Wallet** on their Galaxy device, or — for events with [secure barcodes](/core-platform/event-management/secure-barcodes) — view them as a **digital pass** in their account.
 
 Wallet passes are an alternative to [PDF tickets](/core-platform/event-management/event-media/custom-pdfs), not a replacement. Both can be available simultaneously, giving customers the choice of how they want to access their tickets.
 
@@ -13,9 +13,9 @@ Wallet passes are an alternative to [PDF tickets](/core-platform/event-managemen
 
 The mobile wallet designer has been updated with a redesigned interface that shows a 1:1 preview of your customer's digital pass as you configure it. The previous **Apple Passes** menu under Event Media has been rebranded to **Mobile Wallet Designs** to reflect support for the new web-based digital passes alongside Apple Wallet.
 
-<Note>
-Apple Wallet integration remains **Apple Wallet only** — there is no Google Wallet integration at this time. However, the new digital pass (available for events with secure barcodes) works on any device via the customer's account.
-</Note>
+<Tip>New in Release 46</Tip>
+
+Samsung Wallet is now supported in addition to Apple Wallet. Galaxy phone and Galaxy watch owners can add tickets directly to Samsung Wallet using the same Mobile Wallet Designs you've already configured — no separate template is needed. The download options have also been reworked: the **Download** button has been renamed to **Save to device**, and customers with multiple eligible options (Apple, Samsung, or PDF) now choose from a list rather than seeing a single fixed button.
 
 ## Enabling Mobile Wallet Passes
 
@@ -43,15 +43,28 @@ Mobile wallet passes are available for **tickets**, **products**, and **season t
 
 ## What Customers See
 
-When mobile wallet passes are enabled, customers see an **Add to Apple Wallet** button on their ticket download page alongside the PDF download option.
+When mobile wallet passes are enabled, customers see a **Save to device** button on their ticket download page. What happens next depends on how many options are available for that order:
 
-### On iPhone (iOS / Safari)
+- **One option** — The button performs the action directly (for example, downloading the PDF, or opening the Apple Wallet pass).
+- **Multiple options** — A list opens titled **Select from one of the options**, letting the customer choose between Apple Wallet, Samsung Wallet, and PDF download as appropriate.
 
-Tapping the **Add to Apple Wallet** button downloads the pass directly. The customer's iPhone prompts them to add it to their Wallet app, where it appears alongside boarding passes, loyalty cards, and other passes.
+The button label and option list adapt automatically based on what's enabled for the customer's order and the device they're using.
 
-### On Other Devices
+### Apple Wallet on iPhone (iOS / Safari)
 
-For customers using Android or desktop browsers, tapping the button opens a modal with a **QR code**. The customer scans this QR code with an iPhone to add the pass to their Apple Wallet. The modal displays the message **Scan code with iPhone to add to your Apple Wallet**.
+Selecting **Add to Apple Wallet** downloads the pass directly. The customer's iPhone prompts them to add it to their Wallet app, where it appears alongside boarding passes, loyalty cards, and other passes.
+
+### Samsung Wallet on Galaxy Devices
+
+<Tip>New in Release 46</Tip>
+
+Customers on a Galaxy phone see **Add to Samsung Wallet** as an option. Selecting it adds the pass to Samsung Wallet, where it can also be accessed from a paired Galaxy watch. The option description reads: *"Save your item to your Samsung Wallet so you can access it on your Galaxy watch or Galaxy phone."*
+
+The platform detects Galaxy devices automatically. On other Android devices and desktop browsers, the Samsung Wallet option offers a **QR code** the customer can scan with a Galaxy phone — the modal title reads **Scan code with Samsung phone to add to Samsung Wallet**.
+
+### Adding from a Different Device
+
+For customers using a non-iPhone, non-Galaxy device, opening an Apple or Samsung Wallet option presents a QR code. The customer scans the code with the relevant device to add the pass.
 
 <Note>
 The QR code option is only available for orders with 20 or fewer items, to ensure reliable performance.
@@ -171,10 +184,11 @@ This makes wallet passes and digital passes the preferred access methods for eve
 
 ## Limitations
 
-- **Apple Wallet only** — No Google Wallet integration. Android users can still view the QR code to scan with an iPhone
-- **No gift vouchers** — Gift vouchers cannot be added to Apple Wallet
+- **No Google Wallet** — Google Wallet is not currently supported. Android users not on a Galaxy device can still scan a QR code to add the pass to Apple Wallet on an iPhone
+- **No gift vouchers** — Gift vouchers cannot be added to Apple Wallet or Samsung Wallet
 - **Single item per pass** — Each ticket generates its own individual pass
-- **QR code limit** — The QR code download option (for non-iOS users) is only available for orders with 20 or fewer items
+- **QR code limit** — The QR code option (for customers on a different device than the wallet platform) is only available for orders with 20 or fewer items
+- **Samsung Wallet requires Galaxy** — Samsung Wallet passes can only be added on a Galaxy phone or watch. Customers on other Samsung devices fall back to the QR code option
 
 ## Related Pages
 
