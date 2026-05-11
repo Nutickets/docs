@@ -32,30 +32,58 @@ Payment methods can be individually enabled or disabled. At least one payment me
 
 ## Stripe Card Reader
 
-Box Office Pro integrates with Stripe Terminal for in-person card payments. Two reader types are supported:
+Box Office Pro integrates with [Stripe](/core-platform/payments/payment-processors) Terminal for in-person card payments. Three reader types are supported:
 
 | Reader Type | Description |
 |-------------|-------------|
 | **Bluetooth** | An external Stripe reader connected via Bluetooth. |
+| **USB** | An external Stripe reader connected via a USB cable to the device. Useful for stationary point-of-sale setups where wired connectivity is more reliable than Bluetooth. <Tip>New in Release 46</Tip> |
 | **Tap to pay** | Uses the device's built-in NFC for contactless card acceptance. No external reader required. Available on devices running Android 10+ (API 30). |
 
-On devices that support both, you can choose **Both** to use either type interchangeably.
+On devices that support multiple methods, you can combine Bluetooth or USB with Tap to Pay to allow either type to be used interchangeably.
 
 ### Connecting a Reader
 
-1. Open **Settings**
-2. Tap **Stripe reader** (shows *"Connect to Stripe reader"* when no reader is connected)
-3. Select your reader type (**Bluetooth**, **Tap to pay**, or **Both**)
-4. For Bluetooth readers:
-   - Select the reader's **location** from the list (configured in your Stripe Dashboard)
-   - Tap **Search for readers** — the app scans for nearby readers
-   - Tap the reader's serial number to connect
-5. Wait for the connection to complete
+The Stripe reader controls are reached from the toolbar menu on the event listing screen. Open the menu and choose one of:
 
-Once connected, the settings screen shows the reader's serial number, battery level, and software version. A **Disconnect** button allows you to unpair.
+| Option | Connects |
+|--------|----------|
+| **Connect: Bluetooth** | A single Bluetooth reader |
+| **Connect: USB** | A single USB reader |
+| **Connect: Tap to pay** | The device's built-in NFC reader |
+| **Connect: BT + TTP** | A Bluetooth reader plus the device's Tap to pay |
+| **Connect: USB + TTP** | A USB reader plus the device's Tap to pay |
+| **Disconnect** | Removes the current reader (asks for confirmation: *"Are you sure?"*) |
+
+The first time you connect, you'll be prompted to choose a **location** — these are configured in your Stripe Dashboard under **Payments > Readers > Locations**. Once a location is set, the app discovers readers nearby and displays them in a list — tap a reader to connect.
+
+While discovering, the screen shows *"Discovering"*. Once readers are found it switches to *"Discovered readers"* with each reader's serial number. While connecting, the screen shows *"Connecting reader..."*. If the reader requires a software update, the progress is shown on screen and you must keep the device connected until it completes.
 
 <Note>
-Stripe Terminal requires Bluetooth and location services to be enabled on the device. Reader locations must be configured in Stripe Dashboard under **Payments > Readers > Locations** before they appear in the app. If no locations are configured, the app displays: *"Reader must be assigned to location, but there are no locations set up in Stripe account."*
+If no locations are configured in your Stripe Dashboard, the app displays: *"Please select a location"*. Add at least one location in Stripe Dashboard under **Payments > Readers > Locations** before continuing.
+</Note>
+
+### Automatic Reconnection
+
+<Tip>New in Release 46</Tip>
+
+The **Enable automatic reader reconnection** setting (on by default) keeps the reader connected across app restarts and brief disconnections. When enabled, the app attempts to re-establish the connection to the last-used reader automatically. Disable it if you frequently swap between readers and don't want the app to reconnect to the previous one.
+
+## Receipt Printer Selection
+
+<Tip>Masung support added in Release 46</Tip>
+
+Box Office Pro can print on two printer brands:
+
+| Printer | Connection | Devices |
+|---------|------------|---------|
+| **Sunmi** | Built-in thermal printer | Sunmi devices with integrated printer hardware |
+| **Masung** | USB | Standalone Masung USB thermal printers attached to a USB-host device |
+
+Open settings and tap **Printer** to switch between Sunmi and Masung. The app uses the selected printer for both ticket and receipt printing — see [Receipt Printing](#receipt-printing) for the relevant printing settings, and [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#receipt-printing) for what each printout contains.
+
+<Note>
+Masung is detected via USB on connect. If the printer isn't recognised, check that the USB cable is firmly plugged in and that the device has granted USB permission to the app.
 </Note>
 
 ## Check-In After Purchase
@@ -72,7 +100,7 @@ Stripe Terminal requires Bluetooth and location services to be enabled on the de
 
 ## Receipt Printing
 
-Receipt printing is available on **Sunmi** devices with a built-in thermal printer.
+Receipt printing is available on **Sunmi** devices with a built-in thermal printer, and on connected **Masung** USB thermal printers (see [Receipt Printer Selection](#receipt-printer-selection)).
 
 | Setting | Default | Description |
 |---------|---------|-------------|

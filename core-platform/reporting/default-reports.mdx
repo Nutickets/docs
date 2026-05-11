@@ -614,7 +614,7 @@ Events, zones, companies. Date filters. When grouped by attendee, text filters f
 
 ## Scanning Reports
 
-Scanning reports provide individual scan event records — each row represents a single scan action (in or out).
+Scanning reports provide individual scan event records — each row represents a single scan action (in, out, or failed).
 
 ### Available Reports
 
@@ -624,6 +624,7 @@ Scanning reports provide individual scan event records — each row represents a
 | **Product scanning report** | Scan data for products |
 | **Guest list scanning report** | Scan data for guest list entries |
 | **Item scanning report** | Scan data for all item types |
+| **Failed scans report** | Failed scan attempts with failure details <Tip>New in Release 46</Tip> |
 
 ### Fields
 
@@ -634,6 +635,8 @@ Scanning reports provide individual scan event records — each row represents a
 | **Scan ID** | Unique scan identifier |
 | **Scan date** | When the scan occurred |
 | **Scan mode** | Direction of scan (in or out) |
+| **Scan status** | Whether the scan succeeded or failed |
+| **Status detail** | For failed scans, the reason the scan was rejected (e.g. *outside of validity period*, *already in*, *denied*) |
 | **Scan latitude** / **Scan longitude** | GPS coordinates of the scan (if available) |
 | **Scanned by ID** / **Scanned by Name** / **Scanned by Email** | Who performed the scan |
 | **Scanned item barcode** / **Scanned item name** / **Scanned item label** | Item details |
@@ -649,9 +652,17 @@ Scanning reports provide individual scan event records — each row represents a
 
 Scanning reports also include seating plan fields, timeslot fields, customer detail fields, and data capture response fields.
 
+### Failed Scans Report
+
+<Tip>New in Release 46</Tip>
+
+The Failed scans report is a pre-filtered view of scanning data limited to rejected scans. Each row represents an individual failed scan attempt — the barcode that was scanned, when and where it happened, and the reason it was rejected. The report is populated from data recorded by [Access Control Pro](/mobile-apps/access-control-pro/scanning-and-admission#failed-scan-logging) — every scan that doesn't result in a successful admission is logged on the device and synced to the platform.
+
+Default columns are zone, scan date, scanned barcode, scan status, status detail, customer email, and event details. All other scanning report fields can be added through [report customisation](/core-platform/reporting/fundamentals).
+
 ### Key Filters
 
-Events, zones, companies, item types. Date filters. Text filters for barcode, customer email and name.
+Events, zones, companies, item types. Date filters. Text filters for barcode, customer email and name. Scan status filter (used by the Failed scans report to restrict to failed scans).
 
 ---
 

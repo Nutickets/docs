@@ -148,6 +148,24 @@ Tickets that have no gate assignment are always accepted regardless of gate filt
 
 Tap the clock icon on the scan screen to view a list of the most recent scans. The app stores up to 20 recent scans per event (or per zone), showing the barcode, customer name, email, and scan time for each entry.
 
+## Failed Scan Logging
+
+<Tip>New in Release 46</Tip>
+
+Every scan that does not result in a successful admission is recorded locally on the device and synced to the platform. This gives event managers a record of every rejected scan attempt — useful for spotting access issues, evaluating venue flow, and reconciling attendance figures.
+
+Failed scans are captured for all rejection reasons, including:
+
+| Reason | When it applies |
+|--------|-----------------|
+| **Outside of validity period** | The scan was attempted before the ticket's valid-from date or after its valid-until date |
+| **Already in** | The ticket had already been admitted |
+| **Denied** | The barcode didn't match any ticket on the device, or was rejected for other reasons |
+
+Failed scans queue with the same background sync as successful scans, so they upload automatically when the device has connectivity.
+
+Once synced to the platform, failed scans appear in the [Failed scans report](/core-platform/reporting/default-reports#scanning-reports) in admin, with the barcode, scan time, zone, device user, and the reason the scan was rejected.
+
 ## Secure QR Codes
 
 When the event's scanning mode is set to **Secure QR Only**, the app validates time-based dynamic QR codes that rotate periodically. This prevents ticket fraud via screenshot sharing.

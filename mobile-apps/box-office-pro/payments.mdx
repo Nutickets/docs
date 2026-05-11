@@ -12,13 +12,13 @@ After building a basket and tapping **Checkout**, the payment screen shows the t
 | Method | Description |
 |--------|-------------|
 | **Cash** | Staff collects cash from the customer. Optionally calculates change. |
-| **Card reader** | Processes a card payment via a connected Stripe Bluetooth reader. |
+| **Card reader** | Processes a card payment via a connected Stripe reader (Bluetooth or USB). |
 | **Tap to pay** | Processes a contactless card payment using the device's built-in NFC. No external reader required. |
 | **Card (online)** | Processes an online card payment (card not present) via the Stripe payment sheet on the device. |
 | **Card (offline)** | Records a card-present payment processed outside the app. |
 
 <Note>
-**Card reader** and **Tap to pay** both use Stripe Terminal but connect differently — one via an external Bluetooth reader, the other via the device's own NFC hardware. Both require a Stripe reader to be [connected in settings](/mobile-apps/box-office-pro/settings-and-hardware#stripe-card-reader).
+**Card reader** and **Tap to pay** both use Stripe Terminal but connect differently — Card reader uses an external reader paired via Bluetooth or wired via USB, while Tap to pay uses the device's own NFC hardware. Both require a Stripe reader to be [connected in settings](/mobile-apps/box-office-pro/settings-and-hardware#stripe-card-reader).
 </Note>
 
 ## Paying with Cash

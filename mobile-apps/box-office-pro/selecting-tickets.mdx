@@ -7,9 +7,25 @@ description: "Browse timeslots, choose seats from a seating plan, add items to t
 
 After selecting an event, you choose a timeslot (if the event has them), select ticket types and quantities, optionally pick seats from a seating plan, and build a basket before checkout.
 
+## Filtering and Currency
+
+<Tip>Redesigned in Release 46</Tip>
+
+A filter pill at the top of the ticket selection screen controls what's shown in the list. Tap the dropdown indicator on the left to switch the **item type** filter:
+
+| Option | Shows |
+|--------|-------|
+| **All items** | Every available item |
+| **Tickets** | Standard ticket types only (bundles excluded) |
+| **Products** | Physical products only |
+| **Season tickets** | [Season passes](/core-platform/sale-items/season-tickets) only |
+| **Bundles** | Items that include [bundled contents](/core-platform/sale-items/bundles) |
+
+Options only appear when the event has matching items. To the right of the filter pill, the **Empty cart** button (visible once items are in the basket) clears the current order, and the **currency selector** switches between available currencies when your company operates in more than one.
+
 ## Choosing a Timeslot
 
-If the event uses timeslots, a filter at the top of the ticket screen lets you choose which timeslot to shop:
+If the event uses [timeslots](/core-platform/event-management/timeslots), a header at the top of the ticket list lets you choose which timeslot to shop:
 
 - **Whole event** — shows tickets available across the entire event
 - **Individual timeslots** — shows tickets specific to a particular time window
@@ -23,20 +39,22 @@ Tickets are grouped into two sections:
 
 ## Selecting Tickets
 
-Each ticket type in the list displays:
+The ticket selection screen shows the event details, a filter pill, and the list of items available for sale. Each ticket type displays:
 
 - **Name** and **price** (in the selected currency)
 - **Stock** count (when stock is limited)
-- **Status badges** where applicable:
+- **Status descriptors** where applicable:
 
-| Badge | Meaning |
+| Descriptor | Meaning |
 |-------|---------|
-| **Bundle** | Ticket is part of a bundle package |
-| **Season ticket** | A season pass rather than a single-event ticket |
+| **Bundle** | Ticket includes one or more [bundled items](/core-platform/sale-items/bundles) at a fixed price |
+| **Season ticket** | A [season pass](/core-platform/sale-items/season-tickets) rather than a single-event ticket |
 | **Product** | A physical product rather than a ticket |
-| **Has add-ons** | Optional add-on items are available for this ticket |
+| **Has add-ons** | Optional [add-on](/core-platform/sale-items/add-ons) items are available for this ticket |
 | **Out of stock** | No inventory remaining — quantity controls hidden |
 | **Off sale** | Outside the sale window — quantity controls hidden |
+
+Bundle items show the included items underneath the main row, listed by name and quantity with their individual prices struck through to indicate they're included in the bundle price.
 
 Use the **+** and **-** buttons to adjust quantities. The app enforces any configured quantity rules:
 
@@ -78,6 +96,23 @@ For venues with table seating where individual seat selection is not allowed, th
 
 When adding tickets for a seated event via the list view (rather than picking specific seats on the plan), the app requests the best available seats automatically. The server assigns optimal seats based on availability.
 
+## Add to Basket or Checkout
+
+<Tip>Skip-basket checkout added in Release 46</Tip>
+
+Once items are selected, two actions appear at the bottom of the ticket selection screen:
+
+| Action | Behaviour |
+|--------|-----------|
+| **Add to basket** | Sends the selected items to the server-side basket and opens the basket screen for review, customer details, and discount codes. |
+| **Checkout** | Sends the selected items to the basket and jumps straight to the payment screen, skipping the basket review. |
+
+Use **Checkout** when the order is straightforward and you want to move quickly to payment. Use **Add to basket** when you need to attach customer details, apply a discount code, or review the order first.
+
+<Note>
+If any selected ticket has optional [add-ons](/core-platform/sale-items/add-ons), the **Add to basket** flow shows the add-on selection dialog before the basket opens. The **Checkout** flow skips add-on selection — use **Add to basket** when add-ons need to be chosen.
+</Note>
+
 ## The Basket
 
 The basket screen shows everything you've selected so far. A countdown timer at the top tracks the basket's expiry — when it reaches zero, items are released back on sale and you're returned to the event listing.
@@ -101,13 +136,21 @@ For non-seated tickets, the same **+** / **-** controls from the ticket selectio
 
 ### Discount Codes
 
-Tap **Add code** to apply a discount code. A dialog asks for the code — enter it and tap **Apply**. On success, the basket total updates and a confirmation appears: *"Discount code applied successfully."*
+Tap the **Add code** icon to apply a [discount code](/core-platform/basket-codes/discount-codes). A dialog asks for the code — enter it and tap **Apply**. On success, the basket total updates and a confirmation appears: *"Discount code applied successfully."*
 
 <Note>
 You must have items in the basket before applying a discount code. Attempting to add a code to an empty basket shows: *"Add items to basket before adding discount code."*
 </Note>
 
 If the code is invalid, the app displays: *"Discount code is invalid."* If there's no connection, you'll see: *"Discount code not applied, please make sure you have internet connection."*
+
+#### Removing a Discount Code
+
+<Tip>New in Release 46</Tip>
+
+Once a discount code is applied, a **Remove code** icon appears alongside the **Add code** icon. Tap it to remove the discount and restore the basket to the full price. On failure, the app shows: *"Failed to remove discount code."*
+
+Submitting the **Add code** dialog with an empty field also removes the currently applied code.
 
 ### Customer Details
 
