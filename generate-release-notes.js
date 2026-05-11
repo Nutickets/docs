@@ -82,22 +82,32 @@ async function main() {
             }
         }
 
-        // Mobile content (only for releases that have it)
-        if (update.mobileContent) {
-            const mobileUpdate = {
-                label: update.label,
-                description: update.description,
-                content: update.mobileContent,
-                dateObj: update.dateObj
-            };
-            if (isCurrent) {
-                mobileMain.push(mobileUpdate);
-            } else {
-                if (!mobileArchiveByYear[updateYear]) mobileArchiveByYear[updateYear] = [];
-                mobileArchiveByYear[updateYear].push(mobileUpdate);
+        // Mobile content (only for releases that have it) — one entry per dated chunk
+        if (update.mobileChunks && update.mobileChunks.length > 0) {
+            for (const chunk of update.mobileChunks) {
+                const chunkYear = chunk.dateObj.getFullYear();
+                if (isNaN(chunkYear)) continue;
+
+                const mobileUpdate = {
+                    label: chunk.label,
+                    description: update.description,
+                    content: chunk.content,
+                    dateObj: chunk.dateObj
+                };
+                if (chunkYear >= cutoffYear) {
+                    mobileMain.push(mobileUpdate);
+                } else {
+                    if (!mobileArchiveByYear[chunkYear]) mobileArchiveByYear[chunkYear] = [];
+                    mobileArchiveByYear[chunkYear].push(mobileUpdate);
+                }
             }
         }
     });
+
+    // Mobile chunks can carry their own dates that differ from the release date,
+    // so re-sort each mobile bucket by the chunk's own date.
+    mobileMain.sort((a, b) => b.dateObj - a.dateObj);
+    Object.values(mobileArchiveByYear).forEach(arr => arr.sort((a, b) => b.dateObj - a.dateObj));
 
     // 5. Ensure Directories Exist
     if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -500,6 +510,56 @@ function splitMobileContent(content) {
     return { webContent, mobileContent };
 }
 
+// Matches a trailing " - <date>" suffix on a mobile subsection header,
+// e.g. "Box Office Pro 3.4.2 → 3.5.0 - 16th March 2026"
+const MOBILE_HEADER_DATE_SUFFIX = /\s+-\s+(\d+(?:st|nd|rd|th)?\s+\w+\s+\d{4})\s*$/;
+
+function parseMobileChunks(mobileContent, fallbackLabel, fallbackDateObj) {
+    if (!mobileContent || !mobileContent.trim()) return [];
+
+    // Split on each ### header; preamble (if any) ends up in sections[0].
+    const sections = mobileContent.split(/(?=^###\s)/m);
+
+    const byDate = new Map();
+    const addChunk = (label, dateObj, content) => {
+        if (!byDate.has(label)) {
+            byDate.set(label, { label, dateObj, chunks: [] });
+        }
+        byDate.get(label).chunks.push(content);
+    };
+
+    for (const section of sections) {
+        if (!section.trim()) continue;
+
+        if (section.startsWith('###')) {
+            const lineEnd = section.indexOf('\n');
+            const headerLine = lineEnd === -1 ? section : section.substring(0, lineEnd);
+            const body = lineEnd === -1 ? '' : section.substring(lineEnd);
+            const headerText = headerLine.replace(/^###\s*/, '').trim();
+            const dateMatch = headerText.match(MOBILE_HEADER_DATE_SUFFIX);
+
+            if (dateMatch) {
+                const dateStr = dateMatch[1];
+                const cleanHeader = headerText.replace(MOBILE_HEADER_DATE_SUFFIX, '').trim();
+                addChunk(dateStr, parseDateString(dateStr), `### ${cleanHeader}${body}`);
+            } else {
+                addChunk(fallbackLabel, fallbackDateObj, `### ${headerText}${body}`);
+            }
+        } else {
+            // Preamble (content before the first ### header) — bucket under the release date.
+            addChunk(fallbackLabel, fallbackDateObj, section);
+        }
+    }
+
+    // Sections retain their original trailing whitespace from the lookahead split,
+    // so concatenate with no separator to avoid injecting extra blank lines.
+    return [...byDate.values()].map(({ label, dateObj, chunks }) => ({
+        label,
+        dateObj,
+        content: chunks.join('').trim()
+    }));
+}
+
 function parseReleaseDocument(title, markdown) {
     const updates = [];
     const titleRegex = /(R\d+):.*?-\s*(.*)/;
@@ -521,12 +581,13 @@ function parseReleaseDocument(title, markdown) {
 
     if (mainContent) {
         const { webContent, mobileContent } = splitMobileContent(mainContent);
+        const mobileChunks = parseMobileChunks(mobileContent, releaseDateStr, releaseDateObj);
 
         updates.push({
             label: releaseDateStr,
             description: `Release ${releaseVersion}`,
             content: webContent,
-            mobileContent: mobileContent || null,
+            mobileChunks,
             dateObj: releaseDateObj
         });
     }
@@ -549,7 +610,7 @@ function parseReleaseDocument(title, markdown) {
                     label: patchMatch[2],
                     description: `Patch ${patchMatch[1]}`,
                     content: body,
-                    mobileContent: null,
+                    mobileChunks: [],
                     dateObj: parseDateString(patchMatch[2])
                 });
             }
