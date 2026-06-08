@@ -15,6 +15,7 @@ const DOCS_JSON_PATH = 'docs.json';
 const OUTPUT_DIR = 'releases';
 const MDX_PREFIX = 'releases';
 const IMAGES_DIR = 'images/releases';
+const VIDEOS_DIR = 'videos/releases';
 
 // Track newly downloaded images this run (for TinyPNG pass)
 const newlyDownloadedImages = new Set();
@@ -112,6 +113,7 @@ async function main() {
     // 5. Ensure Directories Exist
     if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
+    if (!fs.existsSync(VIDEOS_DIR)) fs.mkdirSync(VIDEOS_DIR, { recursive: true });
 
     // 6. Generate Files
 
@@ -220,6 +222,48 @@ async function downloadImage(url) {
 
     } catch (e) {
         console.warn(`⚠️ Failed to download/compress image: ${url}. Keeping remote link.`);
+        return url;
+    }
+}
+
+// --- VIDEO DOWNLOADER (RAW, NO COMPRESSION) ---
+
+/**
+ * Mirror a video upload locally. Outline serializes videos as plain links to signed
+ * S3 URLs that expire after ~1 hour, so the file must be downloaded to survive.
+ * Saved as-is — sharp only handles images, and re-encoding video here is unnecessary.
+ * Deliberately not added to `newlyDownloadedImages` (the TinyPNG pass is image-only).
+ */
+async function downloadVideo(url) {
+    try {
+        const urlObj = new URL(url);
+
+        // Hash ONLY the pathname so the cache survives the rotating S3 signature.
+        const hash = crypto.createHash('md5').update(urlObj.pathname).digest('hex');
+
+        let ext = path.extname(urlObj.pathname).toLowerCase();
+        if (!ext || ext.length > 5) ext = '.mp4';
+
+        const filename = `${hash}${ext}`;
+        const localPath = path.join(VIDEOS_DIR, filename);
+        const publicPath = `/${VIDEOS_DIR}/${filename}`;
+
+        // CACHE CHECK: If file exists, skip download
+        if (fs.existsSync(localPath)) {
+            return publicPath;
+        }
+
+        const response = await axios({
+            url,
+            method: 'GET',
+            responseType: 'arraybuffer'
+        });
+
+        fs.writeFileSync(localPath, response.data);
+        return publicPath;
+
+    } catch (e) {
+        console.warn(`⚠️ Failed to download video: ${url}. Keeping remote link.`);
         return url;
     }
 }
@@ -651,6 +695,19 @@ description: "${description}"
             urlMap[url] = await downloadImage(url);
         }
 
+        // --- PRE-PROCESS: DOWNLOAD VIDEOS ---
+        // Outline emits video uploads as plain links — [name.mp4 WxH](signed-url), no leading "!" —
+        // so they bypass the image regex above. Detect by extension and mirror locally.
+        const videoLinkRegex = /(?<!!)\[[^\]]*?\]\((https?:\/\/[^)\s]+?\.(?:mp4|mov|webm|m4v)(?:\?[^)\s]*)?)\)/gi;
+        const videoUrls = new Set();
+        let videoMatch;
+        while ((videoMatch = videoLinkRegex.exec(rawContent)) !== null) {
+            videoUrls.add(videoMatch[1]);
+        }
+        for (const url of videoUrls) {
+            urlMap[url] = await downloadVideo(url);
+        }
+
         // --- STANDARD PROCESSING ---
         const parts = rawContent.split(/(```[\s\S]*?```)/g);
 
@@ -669,7 +726,7 @@ description: "${description}"
 
             // 2. ESCAPE SPECIAL CHARS
             text = text.replace(/([^\\])([{}])/g, '$1\\$2');
-            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br))/g, '\\<');
+            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br|video))/g, '\\<');
 
             // 3. CONVERT OUTLINE CALLOUTS
             text = text.replace(/:::(\w+)\s+([\s\S]*?):::/g, (match, type, content) => {
@@ -705,6 +762,14 @@ description: "${description}"
                     return `\n\n<Frame caption="${safeCaption}"><img src="${safeUrl}" alt="${safeAlt}" /></Frame>\n\n`;
                 }
                 return `\n\n<Frame><img src="${safeUrl}" alt="${safeAlt}" /></Frame>\n\n`;
+            });
+
+            // 5b. FORMAT VIDEOS (embed inline using the local copy)
+            // Mintlify has no Video component; a standard HTML5 <video> tag renders inline.
+            // No aspect-video class — that forces 16:9 and would crop non-widescreen recordings.
+            text = text.replace(/(?<!!)\[[^\]]*?\]\((https?:\/\/[^)\s]+?\.(?:mp4|mov|webm|m4v)(?:\?[^)\s]*)?)\)/gi, (match, url) => {
+                const safeUrl = urlMap[url] || url;
+                return `\n\n<Frame><video controls className="w-full rounded-xl" src="${safeUrl}"></video></Frame>\n\n`;
             });
 
             // 6. FIX BACK-TO-BACK IMAGES
