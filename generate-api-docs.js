@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const { CHANGELOG_LINKS, buildCrossLinkCards } = require('./changelog-nav');
 
 // --- CONFIGURATION ---
 const APIS = [
@@ -12,7 +13,11 @@ const APIS = [
   {
     name: 'Admin API',
     source: 'https://api.nuwebgroup.com:8443/v1/api-docs.json',
-    output: 'api-reference/openapi.json'
+    output: 'api-reference/openapi.json',
+    // Relocate this changelog alongside the release notes under /releases, split it
+    // by year, and leave a placeholder behind in the API Reference tab.
+    primaryChangelog: true,
+    crossLinks: [CHANGELOG_LINKS.releases, CHANGELOG_LINKS.mobile]
   },
   {
     name: 'Partner API',
@@ -23,6 +28,7 @@ const APIS = [
 
 const INTRO_FILENAME = 'introduction.mdx';
 const CHANGELOG_FILENAME = 'changelog.mdx';
+const RELEASES_DIR = 'releases';
 
 async function main() {
   console.log('🚀 Starting API Sync & Build...');
@@ -59,7 +65,7 @@ async function main() {
       console.log(`    💾 Saved spec to: ${api.output}`);
 
       // 4. GENERATE MDX CONTENT
-      processSpec(specObject, outputDir);
+      processSpec(specObject, outputDir, api);
 
     } catch (error) {
       console.error(`❌ Failed to process ${api.name}: ${error.message}`);
@@ -93,7 +99,7 @@ function sanitizeSpec(obj) {
 
 // --- CONTENT GENERATORS ---
 
-function processSpec(spec, outputDir) {
+function processSpec(spec, outputDir, api = {}) {
   const title = spec.info?.title || 'API Reference';
   const fullDescription = spec.info?.description || '';
 
@@ -120,12 +126,19 @@ ${introText || 'Welcome to the API documentation.'}
 `;
   fs.writeFileSync(path.join(outputDir, INTRO_FILENAME), introMdx);
 
-  if (changelogRaw) {
+  if (!changelogRaw) {
+    console.log(`    📝 Generated Intro MDX`);
+    return;
+  }
+
+  if (api.primaryChangelog) {
+    // Relocated, year-split changelog that lives under /releases, leaving a placeholder
+    // page behind in the API Reference tab (outputDir).
+    generatePrimaryChangelog(changelogRaw, endpointMap, outputDir, api.crossLinks);
+  } else {
     const changelogMdx = generateChangelogMdx(changelogRaw, endpointMap);
     fs.writeFileSync(path.join(outputDir, CHANGELOG_FILENAME), changelogMdx);
     console.log(`    📝 Generated Intro & Changelog MDX`);
-  } else {
-    console.log(`    📝 Generated Intro MDX`);
   }
 }
 
@@ -172,76 +185,91 @@ function buildEndpointMap(spec, outputDir) {
   return map;
 }
 
-function generateChangelogMdx(rawText, endpointMap) {
+function linkifyEndpoints(text, endpointMap) {
+  const regex = /(`?)\b(GET|POST|PUT|DELETE|PATCH)\s+(\/[a-zA-Z0-9\/_{}-]+)\1/g;
+
+  return text.replace(regex, (fullMatch, backtick, method, path) => {
+    let link = null;
+
+    // ATTEMPT 1: Exact Match
+    if (endpointMap.has(`${method} ${path}`)) {
+      link = endpointMap.get(`${method} ${path}`);
+    }
+
+    // ATTEMPT 2: Strip Version Prefix
+    if (!link && path.startsWith('/v')) {
+      const cleanPath = path.replace(/^\/v\d+/, '');
+      if (endpointMap.has(`${method} ${cleanPath}`)) {
+         link = endpointMap.get(`${method} ${cleanPath}`);
+      }
+    }
+
+    // ATTEMPT 3: Append Common IDs
+    if (!link) {
+      const potentialIds = ['/{id}', '/{uuid}', '/{orderId}', '/{customerId}'];
+      for (const suffix of potentialIds) {
+         if (endpointMap.has(`${method} ${path}${suffix}`)) {
+            link = endpointMap.get(`${method} ${path}${suffix}`);
+            break;
+         }
+         const cleanPath = path.replace(/^\/v\d+/, '');
+         if (endpointMap.has(`${method} ${cleanPath}${suffix}`)) {
+            link = endpointMap.get(`${method} ${cleanPath}${suffix}`);
+            break;
+         }
+      }
+    }
+
+    if (link) {
+      return `[${method} ${path}](${link})`;
+    }
+    return fullMatch;
+  });
+}
+
+// Split a raw changelog description into its preamble and the dated entries that
+// follow each "#### <date>" heading.
+function parseChangelogEntries(rawText) {
   const sections = rawText.split('#### ');
   const preamble = sections[0].trim();
-  let updatesHtml = '';
-
-  const linkifyEndpoints = (text) => {
-    const regex = /(`?)\b(GET|POST|PUT|DELETE|PATCH)\s+(\/[a-zA-Z0-9\/_{}-]+)\1/g;
-
-    return text.replace(regex, (fullMatch, backtick, method, path) => {
-      let link = null;
-
-      // ATTEMPT 1: Exact Match
-      if (endpointMap.has(`${method} ${path}`)) {
-        link = endpointMap.get(`${method} ${path}`);
-      }
-
-      // ATTEMPT 2: Strip Version Prefix
-      if (!link && path.startsWith('/v')) {
-        const cleanPath = path.replace(/^\/v\d+/, '');
-        if (endpointMap.has(`${method} ${cleanPath}`)) {
-           link = endpointMap.get(`${method} ${cleanPath}`);
-        }
-      }
-
-      // ATTEMPT 3: Append Common IDs
-      if (!link) {
-        const potentialIds = ['/{id}', '/{uuid}', '/{orderId}', '/{customerId}'];
-        for (const suffix of potentialIds) {
-           if (endpointMap.has(`${method} ${path}${suffix}`)) {
-              link = endpointMap.get(`${method} ${path}${suffix}`);
-              break;
-           }
-           const cleanPath = path.replace(/^\/v\d+/, '');
-           if (endpointMap.has(`${method} ${cleanPath}${suffix}`)) {
-              link = endpointMap.get(`${method} ${cleanPath}${suffix}`);
-              break;
-           }
-        }
-      }
-
-      if (link) {
-        return `[${method} ${path}](${link})`;
-      }
-      return fullMatch;
-    });
-  };
+  const entries = [];
 
   for (let i = 1; i < sections.length; i++) {
     const section = sections[i];
     const firstNewLine = section.indexOf('\n');
-    let dateLabel = '';
-    let content = '';
 
     if (firstNewLine === -1) {
-      dateLabel = section.trim();
+      entries.push({ dateLabel: section.trim(), content: '' });
     } else {
-      dateLabel = section.substring(0, firstNewLine).trim();
-      content = section.substring(firstNewLine).trim();
+      entries.push({
+        dateLabel: section.substring(0, firstNewLine).trim(),
+        content: section.substring(firstNewLine).trim()
+      });
     }
+  }
 
-    const linkedContent = linkifyEndpoints(content);
+  return { preamble, entries };
+}
 
-    updatesHtml += `
+function renderChangelogUpdates(entries, endpointMap) {
+  return entries.map(({ dateLabel, content }) => `
 <Update label="${dateLabel}" description="">
 
-${linkedContent}
+${linkifyEndpoints(content, endpointMap)}
 
 </Update>
-`;
-  }
+`).join('');
+}
+
+// Derive the calendar year from a changelog date label (e.g. "27th April 2026").
+// Falls back to the current year so any undated/odd entry stays on the main page.
+function changelogYear(dateLabel, currentYear) {
+  const year = new Date(String(dateLabel).replace(/(\d+)(st|nd|rd|th)/, '$1')).getFullYear();
+  return Number.isNaN(year) ? currentYear : year;
+}
+
+function generateChangelogMdx(rawText, endpointMap) {
+  const { preamble, entries } = parseChangelogEntries(rawText);
 
   return `---
 title: "Changelog"
@@ -250,8 +278,77 @@ description: "Latest updates and changes to the API"
 
 ${preamble}
 
-${updatesHtml}
+${renderChangelogUpdates(entries, endpointMap)}
 `;
+}
+
+// Build the primary (Admin) API changelog the same way as the release notes: the
+// current + previous calendar year on the main page (releases/api.mdx) with everything
+// earlier split into per-year archives (releases/{year}-api.mdx). A placeholder page is
+// left in the API Reference tab so its "Changelog" menu item still resolves.
+function generatePrimaryChangelog(rawText, endpointMap, apiOutputDir, crossLinks) {
+  const { preamble, entries } = parseChangelogEntries(rawText);
+
+  const currentYear = new Date().getFullYear();
+  const cutoffYear = currentYear - 1;
+
+  const mainEntries = [];
+  const archiveByYear = {};
+
+  for (const entry of entries) {
+    const year = changelogYear(entry.dateLabel, currentYear);
+    if (year >= cutoffYear) {
+      mainEntries.push(entry);
+    } else {
+      (archiveByYear[year] = archiveByYear[year] || []).push(entry);
+    }
+  }
+
+  if (!fs.existsSync(RELEASES_DIR)) {
+    fs.mkdirSync(RELEASES_DIR, { recursive: true });
+  }
+
+  // Main page → releases/api.mdx
+  const mainMdx = `---
+title: "API Changelog"
+description: "Latest updates and changes to the API"
+---
+
+${buildCrossLinkCards(crossLinks)}
+
+${preamble}
+
+${renderChangelogUpdates(mainEntries, endpointMap)}
+`;
+  fs.writeFileSync(path.join(RELEASES_DIR, 'api.mdx'), mainMdx);
+
+  // Per-year archives → releases/{year}-api.mdx
+  const archiveYears = Object.keys(archiveByYear).map(Number).sort((a, b) => b - a);
+  for (const year of archiveYears) {
+    const archiveMdx = `---
+title: "${year} API Updates"
+description: "API changelog history for ${year}"
+---
+
+${renderChangelogUpdates(archiveByYear[year], endpointMap)}
+`;
+    fs.writeFileSync(path.join(RELEASES_DIR, `${year}-api.mdx`), archiveMdx);
+  }
+
+  // Placeholder in the API Reference tab → keeps the "Changelog" menu item and points
+  // visitors to all three changelogs in their new shared home.
+  const placeholderMdx = `---
+title: "Changelog"
+description: "Find our changelogs alongside the rest of our release notes"
+---
+
+Our API changelog now lives alongside the rest of our release notes.
+
+${buildCrossLinkCards([CHANGELOG_LINKS.api, CHANGELOG_LINKS.releases, CHANGELOG_LINKS.mobile])}
+`;
+  fs.writeFileSync(path.join(apiOutputDir, CHANGELOG_FILENAME), placeholderMdx);
+
+  console.log(`    📝 Generated API changelog → releases/api.mdx (+${archiveYears.length} archive year(s)) and placeholder in ${apiOutputDir}`);
 }
 
 function toKebabCase(str) {

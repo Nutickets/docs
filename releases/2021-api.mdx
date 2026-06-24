@@ -1,0 +1,17 @@
+---
+title: "2021 API Updates"
+description: "API changelog history for 2021"
+---
+
+
+<Update label="18th November 2021" description="">
+
+- Added an array of Timeslot data to the [GET /activated-events](/api-reference/events/retrieve-activated-events) endpoint
+- Improved order search by adding a `query` parameter to the `[GET /orders](/api-reference/orders/retrieve-orders) endpoint`, meaning you can now search orders by customer email, customer full name, order reference or event name.
+- New endpoint [POST /guestdata](/api-reference/access-control/retrieve-guest-list-attendees) added, which allows you to synchronise all guest list data to your access control device
+- New endpoint [PUT /guestdata](/api-reference/access-control/update-guest-list-attendees) created, which allows you to update the current number of guests that have attended (for a particular guest list order item).
+- Added new `permissions` attribute to the [GET /activated-events](/api-reference/events/retrieve-activated-events) endpoint, containing information on whether the authenticated user can or cannot edit the event.
+- Added a new `hideAttendees` attribute to the [GET /zones/all](/api-reference/zones/retrieve-zones) endpoint, allowing for us to control if the attendees tab in the access control app is or is not visible.
+
+</Update>
+

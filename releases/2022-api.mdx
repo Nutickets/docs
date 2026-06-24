@@ -1,0 +1,496 @@
+---
+title: "2022 API Updates"
+description: "API changelog history for 2022"
+---
+
+
+<Update label="12th December 2022" description="">
+
+- Following the introduction of tax breakdowns in shop orders, the tax breakdown details are now provided via [GET /order-items](/api-reference/orders/retrieve-order-items) and [GET /orders](/api-reference/orders/retrieve-orders).
+- The currency ID of any collected fees is now included in [GET /order-items](/api-reference/orders/retrieve-order-items) for use when any transactions take place in custom currencies.
+- It is now possible to retrieve topup and cashless product purchases via [GET /order-items](/api-reference/orders/retrieve-order-items).
+- When retrieving cashless product purchases via [GET /order-items](/api-reference/orders/retrieve-order-items) it's possible to specify that the shop should be included in the response.
+
+</Update>
+
+<Update label="6th December 2022" description="">
+
+- Removed the `sku` parameter from the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint, in favour of using topup IDs directly (as returned by [GET /sale-items](/api-reference/sale-items/retrieve-sale-items))
+- Added a `currencyId` parameter to the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint to specify the basket currency, rather than relying on the customer's previously selected currency or the company default.
+- Added a global `X-NU-CURRENCY-ID` header that will change the selected currency *for that request only*. This is useful for retrieving sale items with the correct pricing.
+- Added a new `feeCurrencyId` value to any order responses via [GET /orders](/api-reference/orders/retrieve-orders), which represents the currency any fees should be displayed in. This is significant with cashless products as the fees will be in a companies default currency when cashless is setup to use a token currency.
+
+</Update>
+
+<Update label="5th December 2022" description="">
+
+- Added the `bundledWith` array on [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) to return the list of sale item IDs that come bundled with an item.
+- Added the `bundleLeadOrderItemId` to the [GET /orders](/api-reference/orders/retrieve-orders) and `GET /orders/:id` endpoints, to highlight where an order item is being purchased as part of a bundle.
+
+</Update>
+
+<Update label="28th November 2022" description="">
+
+- Added `isCustom` to the currencies returned from [GET /currencies](/api-reference/currencies/retrieve-currencies), to identify which currencies are custom token currencies.
+- Added `topupTokenAmount` to the sale item details returned from [GET /sale-items](/api-reference/sale-items/retrieve-sale-items), and `GET /items` to detail how many tokens a topup will add to a users basket. This value will be null if cashless settings do not use a custom token currenciy.
+
+</Update>
+
+<Update label="4th November 2022" description="">
+
+- Added `subunit` to [GET /currencies](/api-reference/currencies/retrieve-currencies) to complement our new support for non-2DP currencies.
+
+</Update>
+
+<Update label="28th October 2022" description="">
+
+- Added UUID to the `initiate wallet download` endpoint to ensure idempotency between requests.
+
+</Update>
+
+<Update label="19th October 2022" description="">
+
+- Allowed the transaction source to be recorded for cashouts via the `POST /wallets/cashouts` endpoint.
+- Allowed the transaction source to be recorded for topups and cashouts via the [POST /orders/upload](/api-reference/cashless/upload-orders) endpoint.
+
+</Update>
+
+<Update label="22nd September 2022" description="">
+
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>Major Feature</span>  Added `only` and `except` params throughout the API allowing for precise control over which fields are returned in the payload. Applies to the following endpoints:
+    - [GET /company/users](/api-reference/company-users/retrieve-company-users)
+    - [GET /company/user](/api-reference/company-users/retrieve-company-user)
+    - [GET /customers](/api-reference/customers/retrieve-customers)
+    - [GET /customer](/api-reference/customers/retrieve-customer)
+    - [GET /discount-codes](/api-reference/discount-codes/retrieve-discount-codes)
+    - [GET /discount-code](/api-reference/discount-codes/retrieve-discount-code)
+    - [GET /event-tickets](/api-reference/events/retrieve-event-tickets)
+    - [GET /events](/api-reference/events/retrieve-events)
+    - [GET /event](/api-reference/events/retrieve-event)
+    - [GET /inventory-items](/api-reference/inventory-items/retrieve-inventory-items)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+    - [GET /orders](/api-reference/orders/retrieve-orders)
+    - [GET /order](/api-reference/orders/retrieve-order)
+    - [GET /sale-items](/api-reference/sale-items/retrieve-sale-items)
+    - [GET /transactions](/api-reference/transactions/retrieve-transactions)
+    - [GET /countries](/api-reference/countries/retrieve-countries)
+    - [GET /currencies](/api-reference/currencies/retrieve-currencies)
+    - [GET /shops](/api-reference/epos/retrieve-shops)
+    - [GET /shop](/api-reference/epos/retrieve-shop)
+    - [GET /zones/all](/api-reference/zones/retrieve-zones)
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span> The `tagCategory` relationship was renamed to `tagCategories` on the Events API, to match the plural case naming convention of all other resource types.
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span>  The question fields have moved from the `dataCaptureResponses` resource to a new `dataCaptureQuestions` include to reduce overall payload sizes on the Customers API.
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span>  The `currencies` relationship is no longer included by default on [GET /transactions](/api-reference/transactions/retrieve-transactions), you must now explicitly request to include `currencies`.
+- Added `deletedAt` attribute to [GET /customers](/api-reference/customers/retrieve-customers) and [GET /customer](/api-reference/customers/retrieve-customer)
+- Added `lastUpdated` parameter to [GET /transactions](/api-reference/transactions/retrieve-transactions), along with adding `createdAt`, `updatedAt` and `metadata` keys to the `transactionItems` include payload
+- Correctly pull through the `deletedAt` timestamp in the Company Users API
+- Fix: Filter out internal & null questions when retrieving data capture responses via the Customers API
+- Fix: 500 error when `withTrashed` is set to `true` on the Orders API
+- Fix: Allow passing timestamps to [GET /transactions](/api-reference/transactions/retrieve-transactions)
+
+</Update>
+
+<Update label="19th September 2022" description="">
+
+- Added a global response header to all requests: `X-Runtime` which returns the total execution time, in seconds, for any given API in call. This value can be observed to adjust the rate of API calls according to performance degradation over a period of time.
+
+</Update>
+
+<Update label="7th September 2022" description="">
+
+- Added an optional `region` field to [POST /customers](/api-reference/customers/create-customer) and [POST /customers/update](/api-reference/customers/update-customer).
+- Added `isHidden`, `isPublished`, `pageDisplayDate`, `pageDisplayLocation`, `pagePricingDisplay` fields to [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event).
+- Added an optional `notifyCustomer` flag to `/POST /order-item-approve`.
+
+</Update>
+
+<Update label="11th August 2022" description="">
+
+- Added `thumbnailImage`, `pageHeaderImage`, and `metaImage` Media Resources to the following endpoints in our Events API:
+    - [GET /activated-events](/api-reference/events/retrieve-activated-events) - This endpoint does currently have `media.header-image`, `media.list-thumbnail`, and `media.meta-image` attributes, but these are now considered deprecated. For backwards compatibility these attributes will remain in the response.
+    - [GET /events](/api-reference/events/retrieve-events)
+    - [GET /future-events](/api-reference/events/retrieve-future-events) - This endpoint does currently have `media.header-image`, `media.list-thumbnail`, and `media.meta-image` attributes, but these are now considered deprecated. For backwards compatibility these attributes will remain in the response.
+- Added the ability to include event media by passing `images` in the `include` parameter of the [GET /event](/api-reference/events/retrieve-event) endpoint.
+- Added `include` to the `/basket-items` endpoint to allow the inclusion of a user's wallet info, after a cashless transaction has completed automatically.
+- Added [GET /countries](/api-reference/countries/retrieve-countries) for retrieving country IDs and metadata.
+
+</Update>
+
+<Update label="21st July 2022" description="">
+
+- Fixed an issue where events could be created without a timezone. If no timezone is specified, it now falls back to the timezone stored against the current company.
+- Added `itemName` and `itemId` to the `/order` endpoint's order item response data.
+- Added `refundedAmount`, `isValid`, `requiresApproval`, `approvedAt`, `rejectedAt`, and `cancelledAt` to any order item response data inside orders.
+- Added cursor pagination to the `/orders` endpoint, allowing for a streamed pagination approach, based on the `lastUpdated` timestamp provided.
+- Added a `contains` parameter to the `/orders` endpoint, allowing you to filter orders that contain only the specified item types.
+- Added `customerSsoId` parameter to POST `/basket-items` and POST `/orders/complete`
+- Improved feedback & error handling on POST `/order-item/approve`
+- Allow disabling both the order confirmation AND the guest list approved confirmation in POST `/basket-items`
+
+</Update>
+
+<Update label="30th June 2022" description="">
+
+- Added `uuid` parameter to the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint to provide idempotency functionality when auto completing orders.
+- Added the `image` property to all sale items returned via the `/sale-items` endpoint.
+- Added `itemNotes` and `orderNotes` to the [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) endpoint.
+- Added `orderNotes` to the [POST /guestdata](/api-reference/access-control/retrieve-guest-list-attendees) response.
+- Added the ability to `include` order item notes in the [GET /order-items](/api-reference/orders/retrieve-order-items) and [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) endpoints
+- Added `orders.*.notes` and `orders.*.items.*.notes` to the [GET /orders](/api-reference/orders/retrieve-orders) endpoint.
+- Added `notes` and `items.*.notes` to the [GET /order](/api-reference/orders/retrieve-order) endpoint.
+- The Events API now respects the Visibility Groups & Permissions of the API user & applies the correct filtering.
+- Changed `content.const.type` in [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) to be the current item name and added `content.const.typeDuringSale` which contains the item name at point-of-sale.
+- Updated the `/customers/get` endpoint to return the `refundable_balance_online` and `refundable_balance_offline` in any included wallets.
+
+</Update>
+
+<Update label="27th May 2022" description="">
+
+- Added [GET /currencies](/api-reference/currencies/retrieve-currencies) to retrieve all company currencies.
+- Added [GET /shops](/api-reference/epos/retrieve-shops) to retrieve all cashless shops for a company, that this user has access to.
+- Added [GET /shop](/api-reference/epos/retrieve-shop) to retrieve a single cashless shop, if the user has access to it.
+- Added `cashless_product` as a permitted type for [GET /sale-items](/api-reference/sale-items/retrieve-sale-items).
+- Added `shopId` parameter to the [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) endpoint, allowing for the items relating to a specific shop to be retrieved.
+- Updated [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) to return all inventory sale items across events and shops, when no types are explicitly provided.
+- Added `categories` as a new relationship for responses via [GET /sale-items](/api-reference/sale-items/retrieve-sale-items).
+- Added the following new fields to the [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) response:
+- `shopId`
+- `categories`
+- `customPriceEnabled`
+- `customPriceRequired`
+- Added support for retrieving customers using an `nfcId` via [GET /customers](/api-reference/customers/retrieve-customers).
+- Added support for retrieving order items using an `nfcId` via [GET /order-items](/api-reference/orders/retrieve-order-items).
+- As a side effect, the `nfcId` is now surfaced in the order item response.
+- Added `ewallet-online` as a permitted payment method when auto completing a basket via [POST /basket-items](/api-reference/baskets/add-to-basket).
+- Added `nfcId` as a permitted parameter when completing a basket via [POST /basket-items](/api-reference/baskets/add-to-basket) allowing the order to be linked to an NFC tag.
+- Added [POST /wallets/cashout](/api-reference/wallets/create-wallet-cashout) to create a cash-out from a cashless wallet, for a user.
+- Added `POST /wallets/nfc-download` and `POST /wallets/nfc-download/confirm` endpoints to handle the 2-step process of downloading wallet balances to an NFC media item.
+- Added [POST /orders/upload](/api-reference/cashless/upload-orders) endpoint to allow for bulk uploading offline orders for reconciliation.
+- Added support for offline zone entry controls with the following new additions to the API:
+    - Added `includeZones` flag to the [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) endpoint, which returns a new `zoneData` key including zone IDs each item is eligible for entry, as well as any previous scans associated with the order item.
+    - Updated [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets) endpoint to accept `uuid`, `zoneId`, `latitude`, `longitude`, `scan` as optional extra keys per item
+- Added `companies` to [GET /event](/api-reference/events/retrieve-event) and [GET /events](/api-reference/events/retrieve-events) as an optional relationship include.
+- Added `latitude` and `longitude` to [GET /event](/api-reference/events/retrieve-event) and [GET /events](/api-reference/events/retrieve-events) when including the `venues` relationship.
+- Added [GET /basket/data-capture](/api-reference/baskets/data-capture) endpoint for retrieving data capture questions for a given basket.
+- Added the following attributes to `DataCaptureField` JSON:API Resource:
+    - `assignedToEntity`
+    - `assignedToId`
+    - `questionId`
+    - `sourceEntityType`
+    - `sourceEntityId`
+    - `orderColumn`
+    - `createdAt`
+    - `updatedAt`
+    - `deletedAt`
+    These attributes will appear on [GET /event](/api-reference/events/retrieve-event) and `GET/basket/data-capture`
+- Added `customerId`, `customerName` and `customerEmail` to `GET /basket-items` as an optional alternative to `basketId`
+- New endpoint [POST /order-item/approve](/api-reference/orders/approve-reject-order-items) will allow you to approve or reject existing order items
+
+</Update>
+
+<Update label="28th February 2022" description="">
+
+- Added `includeProducts` as an option to [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) to include product barcodes in the valid tickets list.
+- Automatically include valid <strong>addon</strong> tickets in [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets).
+- Accept product/addon product/addon ticket barcodes in [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets).
+- Added the `interacPresent` option to [POST /checkout/create-payment-intent](/api-reference/payments/create-payment-intent) to support Interac payments in Canada.
+- Added a `dataLastSynchronised` attribute to [GET /report](/api-reference/reports/retrieve-custom-report) to signify when the report data was generated.
+- Added a `refresh` query parameter to [GET /report](/api-reference/reports/retrieve-custom-report) to clear any cached report data and regenerate the report.
+- Added a `headers` attribute to [GET /report](/api-reference/reports/retrieve-custom-report)
+- Added `tags` and `tagCategories` to [GET /event](/api-reference/events/retrieve-event) as data that can be included
+- Added `tagCategories` to [GET /events](/api-reference/events/retrieve-events) as data that can be included
+
+</Update>
+
+<Update label="24th January 2022" description="">
+
+- Added `country`, `city`, and `region` to our Customer Resource, meaning this information is available directly via the [GET /customers](/api-reference/customers/retrieve-customers) and [GET /customer](/api-reference/customers/retrieve-customer), and any other endpoint in which customers can be `include` via a resource relationship.
+- Standardised date formats across the entire API. The following dates have been changed:
+    - [GET /activated-events](/api-reference/events/retrieve-activated-events)
+        - `*.start` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.end` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /discount-codes/buy-x-get-y](/api-reference/discount-codes/create-buy-x-get-y-discount)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /discount-codes/buy-x-get-y/update](/api-reference/discount-codes/update-buy-x-get-y-discount-code)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /company/users](/api-reference/company-users/create-company-user)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - [POST /company/users/update](/api-reference/company-users/update-company-user)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - [GET /company/users](/api-reference/company-users/retrieve-company-users)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - [GET /company/user](/api-reference/company-users/retrieve-company-user)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers, visibilityGroups and roles)
+        - `included.*.attributes.acceptedTermsAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedPrivacyAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+        - `included.*.attributes.acceptedEmailOptInAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companyUsers)
+    - [POST /orders/complete](/api-reference/orders/complete-order)
+        - `date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /customers](/api-reference/customers/retrieve-customers)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+    - [POST /customers/update](/api-reference/customers/update-customer)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /customers](/api-reference/customers/create-customer)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /customer](/api-reference/customers/retrieve-customer)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (companies and dataCaptureResponses)
+    - [POST /data-capture-responses](/api-reference/data-capture/capture-response)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /discount-codes](/api-reference/discount-codes/retrieve-discount-codes)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /discount-code](/api-reference/discount-codes/retrieve-discount-code)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets)
+        - `content.*.stable.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.stable.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.variable.scannedOn` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `content.*.variable.scannedOn` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `listEndTime` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /event-tickets](/api-reference/events/retrieve-event-tickets)
+        - `tickets.*.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `tickets.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /events](/api-reference/events/retrieve-events)
+        - `events.*.end` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.start` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.tags.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `events.*.tags.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /event](/api-reference/events/retrieve-event)
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events](/api-reference/events/create-event)
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+    - [POST /events/update](/api-reference/events/update-event)
+        - `data.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (eventSettings, eventStreams, tags, venues)
+    - [POST /discount-codes/fixed](/api-reference/discount-codes/create-fixed-value-discount-code)
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /discount-codes/fixed/update](/api-reference/discount-codes/update-fixed-value-discount-code)
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /inventory-items](/api-reference/inventory-items/retrieve-inventory-items)
+        - `data.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+        - `data.*.attributes.approvedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.rejectedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.cancelledAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.expiresAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+        - `included.*.attributes.completedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - `data.attributes.approvedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.rejectedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.cancelledAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.meta.lastUpdated` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (customers, items, saleItems)
+        - `included.*.attributes.startDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.endDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (events)
+        - `included.*.attributes.expiresAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+        - `included.*.attributes.completedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ (orders)
+    - [GET /orders](/api-reference/orders/retrieve-orders)
+        - `orders.*.date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `orders.*.items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `orders.*.items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /order](/api-reference/orders/retrieve-order)
+        - `date` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventStartDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `items.*.eventEndDate` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /discount-codes/percentage](/api-reference/discount-codes/create-percentage-discount-code)
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /discount-codes/percentage/update](/api-reference/discount-codes/update-percentage-discount-code)
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/charities](/api-reference/sale-items/create-charity)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/charities/update](/api-reference/sale-items/update-charity)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/guest-lists](/api-reference/sale-items/create-guest-list)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/guest-lists/update](/api-reference/sale-items/update-guest-list)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/products](/api-reference/sale-items/create-product)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/products/update](/api-reference/sale-items/update-product)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/tickets](/api-reference/sale-items/create-ticket)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /events/tickets/update](/api-reference/sale-items/update-ticket)
+        - `data.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.attributes.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `included.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /sale-items](/api-reference/sale-items/retrieve-sale-items)
+        - `saleItems.*.validFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.validUntil` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.onSaleFrom` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.onSaleTo` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `saleItems.*.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `timeslots.*.startAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `timeslots.*.endAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /transactions](/api-reference/transactions/retrieve-transactions)
+        - `data.*.attributes.createdAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `data.*.attributes.updatedAt` from YYYY-MM-DD HH:MM:SS to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /zones/all](/api-reference/zones/retrieve-zones)
+        - `*.openingDate` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.closingDate` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.createdAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.updatedAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.deletedAt` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /zones/scan](/api-reference/zones/scan-zone)
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /zones/check](/api-reference/zones/check-zone-item-eligibility)
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [POST /tickets/pair](/api-reference/access-control/pair-nfc-ticket)
+        - `lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `lastScannedOut` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+    - [GET /zones/items](/api-reference/zones/retrieve-zone-items)
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+        - `*.lastScannedIn` from YYYY-MM-DDTHH:mm:ss+HH:mm to YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+- Added a `withTrashed` request parameter along with a `deletedAt` attribute in the body of responses allowing you to retrieve deleted records from the following endpoints:
+    - [GET /zones/items](/api-reference/zones/retrieve-zone-items)
+    - [GET /company/users](/api-reference/company-users/retrieve-company-users)
+    - [GET /company/user](/api-reference/company-users/retrieve-company-user)
+    - [GET /customers](/api-reference/customers/retrieve-customers)
+    - [GET /customer](/api-reference/customers/retrieve-customer)
+    - [GET /discount-codes](/api-reference/discount-codes/retrieve-discount-codes)
+    - [GET /discount-code](/api-reference/discount-codes/retrieve-discount-code)
+    - [GET /event-tickets](/api-reference/events/retrieve-event-tickets)
+    - [GET /events](/api-reference/events/retrieve-events)
+    - [GET /event](/api-reference/events/retrieve-event)
+    - [GET /inventory-items](/api-reference/inventory-items/retrieve-inventory-items)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /orders](/api-reference/orders/retrieve-orders)
+    - [GET /order](/api-reference/orders/retrieve-order)
+    - [GET /sale-items](/api-reference/sale-items/retrieve-sale-items)
+    - [GET /zones/items](/api-reference/zones/retrieve-zone-items)
+    - [GET /zones/all](/api-reference/zones/retrieve-zones)
+- This `withTrashed` parameter acts as a global setting, meaning that all deleted resources will be returned, including any related resources appearing in the `included` attribute in the response.
+
+</Update>
+

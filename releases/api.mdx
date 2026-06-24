@@ -1,0 +1,242 @@
+---
+title: "API Changelog"
+description: "Latest updates and changes to the API"
+---
+
+<CardGroup cols={2}>
+  <Card title="Release Notes" icon="rocket" href="/releases">
+    New features and improvements across the web platform.
+  </Card>
+  <Card title="Mobile App Updates" icon="mobile-screen" href="/releases/mobile">
+    The latest releases across our mobile app suite.
+  </Card>
+</CardGroup>
+
+Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
+
+
+<Update label="22nd June 2026" description="">
+
+- Added [GET /pricing-history](/api-reference/pricing-history/retrieve-pricing-history) endpoint, returning the paginated pricing history for one or more sale items.
+- Added a `priceHistory` include to [GET /sale-items](/api-reference/sale-items/retrieve-sale-items), returning the 100 most recent pricing history entries for each sale item.
+- Added `refundCancelled` parameter to [POST /orders/refund](/api-reference/orders/refund-order) and [POST /order-items/refund](/api-reference/orders/refund-order-items). When `true`, previously-cancelled items that still hold a refundable balance are included in the refund. Defaults to `false`, preserving the existing behaviour of never refunding cancelled items. Items whose value was already returned through a resale payout or an order modification remain excluded regardless.
+- Updated [POST /orders/refund](/api-reference/orders/refund-order) and [POST /order-items/refund](/api-reference/orders/refund-order-items) to no longer silently skip the entire refund when the selection contains an unrefundable (e.g. cancelled or fully-refunded) item — the remaining refundable items are now refunded. [POST /order-items/refund](/api-reference/orders/refund-order-items) now returns an empty `data` array when nothing in the selection is refundable, instead of an error.
+
+</Update>
+
+<Update label="27th April 2026" description="">
+
+- Added `containsResale` filter to [GET /orders](/api-reference/orders/retrieve-orders) endpoint to filter orders based on whether they contain resale items.
+- Added `isResale` filter to [GET /order-items](/api-reference/orders/retrieve-order-items) endpoint to filter order items based on whether they are resale purchases.
+- Added `containsOrderModification` filter to [GET /orders](/api-reference/orders/retrieve-orders) endpoint to filter orders based on whether they contain order modification items.
+- Added `isOrderModification` filter to [GET /order-items](/api-reference/orders/retrieve-order-items) endpoint to filter order items based on whether they are order modification purchases.
+
+</Update>
+
+<Update label="31st March 2026" description="">
+
+- Added [DELETE /basket/discounts](/api-reference/baskets/remove-basket-discount) endpoint, allowing removal of all discount codes from a basket.
+
+</Update>
+
+<Update label="26th March 2026" description="">
+
+- Added `filter` and `headers` parameters to [GET /report](/api-reference/reports/retrieve-custom-report) allowing clients to override filters defined on the custom report, or append additional data fields.
+
+</Update>
+
+<Update label="20th March 2026" description="">
+
+- Added [POST /resale/settlements](/api-reference/resale/settle-resale-proceeds) endpoint, allowing for any pending resale balances to be released to customer account balances.
+- Added the ability to auto-payout account balances that resulted from resale proceeds, via [POST /resale/settlements](/api-reference/resale/settle-resale-proceeds) endpoint.
+- [POST /v1/basket-items](/api-reference/baskets/add-to-basket) now accepts `items.*.preventBasketModification`.
+  - Any basket item created with `preventBasketModification: true` cannot be reduced or removed via [POST /v1/basket-items/update](/api-reference/baskets/update-basket-item) or `DELETE /v1/basket-items/destroy`.
+  - This applies to both primary and resale items. Increasing quantity remains supported.
+
+</Update>
+
+<Update label="25th February 2026" description="">
+
+- Added `statusDetail` and `status` to [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets); failed scans are now persisted for reporting.
+- Updated [POST /orders/complete](/api-reference/orders/complete-order) to support an optional `capture` flag, removing the need for an intermediary call to the now deprecated [POST /checkout/capture-payment-intent](/api-reference/payments/deprecated-capture-payment-intent) endpoint.
+- Added `protectionStatus` parameter to [GET /orders](/api-reference/orders/retrieve-orders) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order](/api-reference/orders/retrieve-order) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order-items](/api-reference/orders/retrieve-order-items) to indicate the protection status of the order items.
+- Added `protectionStatus` parameter to [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) to indicate the protection status of the order items.
+
+</Update>
+
+<Update label="25th February 2026" description="">
+
+- Added `secure` parameter to [POST /entry/tickets](/api-reference/access-control/admit-entry-tickets) to indicate whether a ticket was scanned using a secure (dynamic) barcode. The `secure` flag is recorded against the scan and included in scanning reports.
+
+</Update>
+
+<Update label="27th January 2026" description="">
+
+- `GET /resale-listings` and `GET /resale-listing`:
+  - Added new filtering options: `eventId`, `customerId`, `createdAfter`, `createdBefore`, `status`, and `withTrashed`.
+  - Added new attributes to resale listing responses: `eventId`, `orderId`, `createdAt`, `closedAt`, `onSaleFrom`, and `onSaleUntil`.
+  - Added new attributes to resale contract responses: `currencyId`, `price`, `totalPrice`, `displayTotal`, and `soldAt`.
+  - Added ability to include `events`, `orders`, `resaleContracts.replacingOrderItem`, and `resaleContracts.payoutTransaction`.
+- `GET /resale-listings` and `GET /resale-listing`: Added ability to include `resaleContracts.payoutWalletTransaction` to retrieve wallet transaction details for sold resale contracts.
+- Added `bundledItems` (id + quantity) to [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) and [GET /sale-item](/api-reference/sale-items/retrieve-sale-item) when bundle data is present.
+
+</Update>
+
+<Update label="20th January 2026" description="">
+
+- Added support for all item types in the [GET /order-items](/api-reference/orders/retrieve-order-items) `type` filter parameter. Previously only `ticket`, `product`, and `guestList` were accepted. Now accepts all 14 item types including `season_ticket`, `fee`, `bundle`, `gift_voucher`, and more. Refer to the endpoint documentation for the full list.
+
+</Update>
+
+<Update label="6th January 2026" description="">
+
+- **Breaking:** [GET /wallets](/api-reference/wallets/retrieve-wallets) and [GET /wallet](/api-reference/wallets/retrieve-a-wallet) endpoints now return `customerId` instead of `userId` in the response attributes. This is consistent with all other API endpoints that provide customerIds instead of userIds.
+
+</Update>
+
+<Update label="22nd December 2025" description="">
+
+- Updated `DELETE /resale-listings` to properly cancel resale listings with validation. Response now includes `contractsCancelled`, `contractsSold`, and `contractsFrozen` counts. Sold and frozen contracts are preserved; only unsold, unfrozen contracts are cancelled.
+
+</Update>
+
+<Update label="19th December 2025" description="">
+
+- Added `eventId` as a filter to the [GET /orders](/api-reference/orders/retrieve-orders) endpoint to retrieve only orders that contain items from the given event ID.
+- Added a new `orderItemId` filter to [GET /v1/wallets/transactions](/api-reference/wallets/retrieve-wallet-transactions) endpoint.
+- Added a new `source` attribute to the `WalletTransactions` entity from [GET /v1/wallets/transactions](/api-reference/wallets/retrieve-wallet-transactions) to detail the source of the wallet transaction.
+
+</Update>
+
+<Update label="17th December 2025" description="">
+
+- Added new [GET /wallets](/api-reference/wallets/retrieve-wallets) and [GET /wallet](/api-reference/wallets/retrieve-a-wallet) endpoints to retrieve wallets registered within a company (NB: wallets power our account balance functionality).
+- Added a new [GET /v1/wallets/transactions](/api-reference/wallets/retrieve-wallet-transactions) endpoint to list all recent transactions across wallets (or for a specific wallet)
+- Added [POST /v1/wallets/transactions/confirm](/api-reference/wallets/confirm-a-wallet-transaction) to allow confirmation of pending transactions. Pending transactions are typically used for resale, order modifications, and other internal processes that deposit money into wallets.
+- Added [POST /v1/wallets/payouts/initiate](/api-reference/wallets/initiate-a-payout) to allow initiation of an external payout from a wallet. Unlike cashouts, payouts are not capped at the mount of topups purchased. This endpoint allows for a full payout of the account balance, regardless of source of funds.
+- Added [POST /v1/wallets/payouts/confirm](/api-reference/wallets/confirm-a-payout) to confirm when an initiated payout has been completed. This is an important step where external parties need to also verify that the payout was handled correctly.
+- Removed deprecated endpoints `POST /v1/wallets/nfc-download` and `POST /v1/wallets/nfc-download/confirm` as these are no longer in use or supported.
+- Add [GET /v1/resale/listings](/api-reference/resale/retrieve-resale-listings) index endpoint to return all available resale listings
+- Payload updats to [POST /v1/resale/listings](/api-reference/resale/create-a-new-resale-listing) to support creation of multiple item listings
+- Added a new `authenticationProviders` relationship that can be included on both [GET /customers](/api-reference/customers/retrieve-customers) and [GET /customer](/api-reference/customers/retrieve-customer) to determine the related customer SSO IDs.
+
+</Update>
+
+<Update label="3rd December 2025" description="">
+
+- Added a new `orderColumn` attribute to [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) endpoint, which reflects the sort order defined in admin, and used in the ticket shop.
+
+</Update>
+
+<Update label="20th November 2025" description="">
+
+- Added a new `DELETE /customers` endpoint to support customer data deletion requests & accommodate data retention policies.
+
+</Update>
+
+<Update label="11th November 2025" description="">
+
+- On [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) we now return the `isCancelled` attribute to indicate that an event has been marked as cancelled.
+
+</Update>
+
+<Update label="4th November 2025" description="">
+
+- Added a new `DELETE /customers` endpoint to support customer data deletion requests & accommodate data retention policies.
+- We now return all fees, resale fees, fulfilment fees, and protection fees via the [GET /v1/order-items](/api-reference/orders/retrieve-order-items) endpoint
+- When returning fees via the [GET /v1/order-items](/api-reference/orders/retrieve-order-items) endpoint we also provide access to the `producingOrderItemId` field which allows consumers to reference the order item that generated that specific fee. Where this is `null` the fee applies to the whole basket.
+- Added the ability to retrieve orders from the [GET /v1/order](/api-reference/orders/retrieve-order) endpoint using the reference, rather than the ID.
+
+</Update>
+
+<Update label="16th October 2025" description="">
+
+- Introduced access control scanning / pairing restrictions to items that belong to an order which is currently being modified, or resold.
+- [GET /v1/entry/tickets](/api-reference/access-control/retrieve-entry-tickets) receives a new status (`variable.status`) option `locked`, which indicates that the order is currently being modified. Items with this status should be considered _temporarily_ invalid for scanning. The status of these items could return to `sold` or `refunded` in the future.
+- Added `POST /v1/resale-contracts` to create a resale contract, which allows an order item to be resold
+- Added `GET /v1/resale-contract` to get a resale contract for an order item or by ID
+- Added `POST /v1/resale-contracts/delete` to delete a resale contract for an order item or a resale contract ID
+- Added `replacedOrderItem` to `GET v1/order-items`, `GET v1/order-item` and `GET v1/order` to return the original order item for resold and modified order items.
+
+</Update>
+
+<Update label="2nd October 2025" description="">
+
+- Added a new `cancelExistingBasket` parameter to [POST /v1/basket-items](/api-reference/baskets/add-to-basket) which allows expiring a basket and adding items to a new basket in a single request.
+- Added a new endpoint [DELETE /v1/baskets](/api-reference/baskets/expire-basket) for expiring baskets.
+- Added `parentSaleItemId` to [GET /v1/sale-items](/api-reference/sale-items/retrieve-sale-items) for identifying add-ons.
+- Added a new `unformatted` property to the [GET /v1/event-statistics](/api-reference/events/retrieve-event-statistics) endpoint to prevent humanizing/formatting numerical statistics.
+
+</Update>
+
+<Update label="12th September 2025" description="">
+
+- Adding `billingDetails` object to the [GET /v1/config](/api-reference/app-configuration/retrieve-application-config) endpoint.
+
+</Update>
+
+<Update label="14th August 2025" description="">
+
+- [POST /v1/basket-items](/api-reference/baskets/add-to-basket) now accepts order item ID as well as sale item ID to add a resale item to basket. The `resaleFeeSellerContribution` has also been added and can be pasesed in `pointOfSaleData`
+
+</Update>
+
+<Update label="21st July 2025" description="">
+
+- Updated [POST /tickets/pair](/api-reference/access-control/pair-nfc-ticket) to accept an `event-id` property in order to scope the possible list of matching order items. This is particularly useful for any users that re-use barcodes across events or schedules.
+
+</Update>
+
+<Update label="30th June 2025" description="">
+
+- Replace now unused `applyOncePerOrder` and `oneUsePerCustomer` attributes from discount code endpoints with the new `maxUsesPerOrder` and `maxUsesPerCustomer`
+  - [POST /v1/discount-codes/buy-x-get-y](/api-reference/discount-codes/create-buy-x-get-y-discount)
+  - [POST /v1/discount-codes/buy-x-get-y/update](/api-reference/discount-codes/update-buy-x-get-y-discount-code)
+  - [POST /v1/discount-codes/fixed](/api-reference/discount-codes/create-fixed-value-discount-code)
+  - [POST /v1/discount-codes/fixed/update](/api-reference/discount-codes/update-fixed-value-discount-code)
+  - [POST /v1/discount-codes/percentage](/api-reference/discount-codes/create-percentage-discount-code)
+  - [POST /v1/discount-codes/percentage/update](/api-reference/discount-codes/update-percentage-discount-code)
+
+</Update>
+
+<Update label="5th June 2025" description="">
+
+- Update [POST /basket-items](/api-reference/baskets/add-to-basket) to return a `startBasketUrl` link to enter checkout for the basket, if `generateBasketUrl` is set to true on the request
+
+</Update>
+
+<Update label="2nd June 2025" description="">
+
+- Add `salePeriods` to includes on [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event)
+
+</Update>
+
+<Update label="19th May 2025" description="">
+
+- Updated [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) to include a new seating plan `embedUrl`.
+- Updated [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) to include `eventSchedules.startDate` and `eventSchedules.endDate`.
+
+</Update>
+
+<Update label="14th April 2025" description="">
+
+- Updated [POST /zones/check](/api-reference/zones/check-zone-item-eligibility) and [POST /zones/scan](/api-reference/zones/scan-zone) to return a `statusDetail` field to embelish a `denied` response. Currently this only returns `historicBarcode` in the event a barcode has been scanned that has since been superceded by a new barcode following a transfer.
+- Updated [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) to return a `historicBarcodes` list within the `variable` portion of a ticket, which lists all previous barcodes of the ticket, in order to determine whether the customer is attempting to scan an old (possibly resold) ticket.
+
+</Update>
+
+<Update label="31st January 2025" description="">
+
+- [GET /events](/api-reference/events/retrieve-events), [GET /activated-events](/api-reference/events/retrieve-activated-events), and [GET /future-events](/api-reference/events/retrieve-future-events) now provide the company default header + thumbnail URL if the event does not have any media configured.
+
+</Update>
+
+<Update label="6th January 2025" description="">
+
+- Added [POST /customer-groups/customers](/api-reference/customer-groups/add-customers-to-group) to add customers to a manual customer group
+- Added [POST /customer-groups/customers/delete](/api-reference/customer-groups/remove-customers-from-group) to remove customers from a manual customer group
+
+</Update>
+

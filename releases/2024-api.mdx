@@ -1,0 +1,247 @@
+---
+title: "2024 API Updates"
+description: "API changelog history for 2024"
+---
+
+
+<Update label="18th December 2024" description="">
+
+- [GET /order-items](/api-reference/orders/retrieve-order-items) now correctly returns items from fully cancelled/refunded orders. Previously it would include refunded items if the order was only partially refunded.
+
+</Update>
+
+<Update label="13th December 2024" description="">
+
+- The customer update endpoint will now preserve existing customer address fields as long as no new address data is provided. Prior to this change, customer address fields would be cleared if no address data was provided within the payload.
+
+</Update>
+
+<Update label="3rd October 2024" description="">
+
+- Added `minPrice` and `maxPrice` to [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) as additional opt-in attributes
+- Updated the `lastUpdated` filter on [GET /events](/api-reference/events/retrieve-events) so that it now considers pricing, venue & item updates.
+
+</Update>
+
+<Update label="5th September 2024" description="">
+
+- Added `appleWalletPassUrl` to [GET /orders](/api-reference/orders/retrieve-orders), [GET /order](/api-reference/orders/retrieve-order), [GET /order-items](/api-reference/orders/retrieve-order-items) and [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) for easy access to download an Apple Wallet pkpass file for each order item.
+
+</Update>
+
+<Update label="29th August 2024" description="">
+
+- Added `reserverName` to [GET /orders](/api-reference/orders/retrieve-orders), [GET /order](/api-reference/orders/retrieve-order), and add `namedHolder` to the items within the same endpoints, as well as the [GET /order-items](/api-reference/orders/retrieve-order-items) endpoint
+- Added `phone` and `phoneCode` as fields that can be sent to [POST /customers/update](/api-reference/customers/update-customer) and [POST /customers](/api-reference/customers/create-customer)
+- Added `gatewayReference` to transactions [GET /transactions](/api-reference/transactions/retrieve-transactions), [GET /orders](/api-reference/orders/retrieve-orders) and [GET /order](/api-reference/orders/retrieve-order)
+- Allow balance refunds and cancellations, as well as standard refunds on [POST /order-items/refund](/api-reference/orders/refund-order-items) and [POST /orders/refund](/api-reference/orders/refund-order) using the new `type` attribute in the request
+
+</Update>
+
+<Update label="24th July 2024" description="">
+
+- Added the `scheduleId` to the returned fields on [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) endpoints
+- Added `eventSchedules` as a possible include on [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) endpoints
+- Added a new filter to [GET /events](/api-reference/events/retrieve-events) to allow filtering by `scheduleId`. Providing a null, zero, or empty value will return events that are outside of a schedule.
+- Added a new filter to [GET /events](/api-reference/events/retrieve-events) to allow grouping of events by their respective schedule (`groupScheduledEvents`). Events without a schedule continue to be returned individually.
+
+</Update>
+
+<Update label="19th June 2024" description="">
+
+- Added `historicalBarcodes` to the include parameter for the below endpoints. New barcodes are generated when an order item is transfered or a barcode change is manually performed. This will return all historical barcodes associated with the order item.
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+    - [GET /order](/api-reference/orders/retrieve-order)
+    - [GET /orders](/api-reference/orders/retrieve-orders)
+- Added `variablePriceEnabled`, `variablePriceMin`, and `variablePriceMax` to [GET /sale-item](/api-reference/sale-items/retrieve-sale-item) and [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) endpoints to indicate whether pricing is a customer selection.
+- Added `customPriceEnabled` and `customPriceRequired` to the documentation for [GET /sale-item](/api-reference/sale-items/retrieve-sale-item) and [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) to indicate whether prices can be defined by staff users in mobile applications.
+- Marked the `GET /entry-tickets`, [POST /orders/upload](/api-reference/cashless/upload-orders), `POST /wallets/nfc-download`, and `POST /wallets/nfc-download/confirm` endpoints as deprecated and likely to be removed in a future version of the API. Anyone using these endpoints should review the documentation to understand alternative provisions for the functionality being removed.
+- A display issue with the related space data for order items has been updated to return the seat/space name correctly, rather than the fully formatted string. This is a breaking change for anyone relying on the broken data previously being returned.
+- Resolved an issue with access to tickets that were sold by a parent company for a child company event on [GET /zones/items](/api-reference/zones/retrieve-zone-items), [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) and [GET /order-items](/api-reference/orders/retrieve-order-items).
+
+</Update>
+
+<Update label="20th May 2024" description="">
+
+- Ignore empty data capture responses on the `v1/data-capture-responses` endpoint
+
+</Update>
+
+<Update label="15th May 2024" description="">
+
+- Added `transactions` to the include parameter for the following endpoints:
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+    - [GET /order](/api-reference/orders/retrieve-order)
+    - [GET /orders](/api-reference/orders/retrieve-orders)
+
+- Improved consistency of currency attributes across various endpoints:
+    - Added `currencyId` to:
+        - [POST /orders/complete](/api-reference/orders/complete-order)
+        - [POST /order-items/refund](/api-reference/orders/refund-order-items)
+        - [GET /event-tickets](/api-reference/events/retrieve-event-tickets)
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+        - [POST /orders/refund](/api-reference/orders/refund-order)
+
+    - Added `currencyCode` to:
+        - [GET /basket](/api-reference/baskets/retrieve-basket)
+        - `POST /basket/discount`
+        - [POST /basket-items](/api-reference/baskets/add-to-basket)
+        - [POST /basket-items/destroy](/api-reference/baskets/remove-basket-item)
+        - [POST /basket-items/update](/api-reference/baskets/update-basket-item)
+        - [POST /orders/complete](/api-reference/orders/complete-order)
+        - [POST /orders/refund](/api-reference/orders/refund-order)
+        - [POST /order-items/refund](/api-reference/orders/refund-order-items)
+        - [GET /event-tickets](/api-reference/events/retrieve-event-tickets)
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+        - [GET /order](/api-reference/orders/retrieve-order)
+        - [GET /orders](/api-reference/orders/retrieve-orders)
+        - [GET /sale-item](/api-reference/sale-items/retrieve-sale-item)
+        - [GET /sale-items](/api-reference/sale-items/retrieve-sale-items)
+
+    - Added `currencySymbol` to:
+        - [GET /basket](/api-reference/baskets/retrieve-basket)
+        - `POST /basket/discount`
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+        - [POST /basket-items](/api-reference/baskets/add-to-basket)
+        - [GET /sale-item](/api-reference/sale-items/retrieve-sale-item)
+        - [GET /sale-items](/api-reference/sale-items/retrieve-sale-items)
+
+    - Added `feeCurrencyId` to:
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+
+    - Added `feeCurrencyCode` to:
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+        - [GET /order](/api-reference/orders/retrieve-order)
+        - [GET /orders](/api-reference/orders/retrieve-orders)
+
+    - Added `feeCurrencySymbol` to:
+        - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+        - [GET /order-items](/api-reference/orders/retrieve-order-items)
+
+- <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>New Feature</span> Added support for processing deposit payments:
+    - [POST /v1/checkout/create-payment-intent](/api-reference/payments/create-payment-intent) and [POST /v1/orders/complete](/api-reference/orders/complete-order) both feature a new `paymentPlan` parameter for processing online/offline deposit payments.
+    - The orders API now features a new `paid` field in the response to indicate how much of the overall order total has been paid for. This applies to:
+        - [POST /v1/orders/complete](/api-reference/orders/complete-order)
+        - [GET /v1/orders](/api-reference/orders/retrieve-orders)
+        - [GET /v1/order](/api-reference/orders/retrieve-order)
+        - [GET /v1/order-items](/api-reference/orders/retrieve-order-items)
+- Added `pointOfSale` with `type` and `name` attributes to the endpoints:
+    - [GET /v1/order](/api-reference/orders/retrieve-order)
+    - [GET /v1/orders](/api-reference/orders/retrieve-orders)
+    - [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /v1/order-items](/api-reference/orders/retrieve-order-items)
+
+- Added the `itemType` (slug), `typeName`, and `itemName` for order items when including 'orderItems' and on the endpoints:
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+- Added `discountCodes` and `accessCodes` as optional includes to the endpoints:
+    - [GET /v1/order](/api-reference/orders/retrieve-order)
+    - [GET /v1/orders](/api-reference/orders/retrieve-orders)
+    - [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /v1/order-items](/api-reference/orders/retrieve-order-items)
+ - Added `deliveryAddress` optional include to [GET /v1/order](/api-reference/orders/retrieve-order)
+ - Added `deliveryAddresses` optional include to [GET /v1/orders](/api-reference/orders/retrieve-orders)
+ - Added `priceBand` to [GET /v1/order](/api-reference/orders/retrieve-order) and [GET /v1/orders](/api-reference/orders/retrieve-orders) included order items
+ - Added `priceBands` optional include to [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) and [GET /v1/order-items](/api-reference/orders/retrieve-order-items)
+ - Added `countryIso` and `countryIso3` country codes to customer, venue, billing, and delivery addresses
+ - Added optional include for `spaces`, `spaceAreas`, `spaceBlocks`, `spaceGates`, `spaceRows`, `spaceStairs`, `spaceStands`, `spaceTables` to the [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) and [GET /v1/order-items](/api-reference/orders/retrieve-order-items) endpoints
+ - Added optional include for `spaces` to the [GET /v1/order](/api-reference/orders/retrieve-order) and [GET /v1/orders](/api-reference/orders/retrieve-orders) endpoints
+ - Added `fullSpaceName` attribute to the order items returned by [POST /v1/orders/complete](/api-reference/orders/complete-order)
+
+- Added the `itemType` (slug), `typeName`, and `itemName` for order items when including 'orderItems' and on the endpoints:
+    - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
+    - [GET /order-items](/api-reference/orders/retrieve-order-items)
+
+- The [POST /v1/basket-items](/api-reference/baskets/add-to-basket) endpoint will now force a payment method of `ewallet-online` when using token/custom currencies to complete the order.
+
+</Update>
+
+<Update label="5th April 2024" description="">
+
+The following endpoints now accept a decimal percentage for the discount amount value.
+ - [POST /v1/discount-codes/percentage](/api-reference/discount-codes/create-percentage-discount-code)
+ - [POST /v1/discount-codes/percentage/update](/api-reference/discount-codes/update-percentage-discount-code)
+ - [POST /v1/discount-codes/buy-x-get-y](/api-reference/discount-codes/create-buy-x-get-y-discount)
+ - [POST /v1/discount-codes/buy-x-get-y/update](/api-reference/discount-codes/update-buy-x-get-y-discount-code)
+
+</Update>
+
+<Update label="6th March 2024" description="">
+
+- [GET /v1/activated-events](/api-reference/events/retrieve-activated-events) will no longer return any events that are in draft status
+ - <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>New Feature</span> Added support for processing and refunding split payments:
+    - [POST /v1/basket-items](/api-reference/baskets/add-to-basket) and [POST /v1/orders/complete](/api-reference/orders/complete-order) both feature a new `split` payment method with an accompanying `paymentSplits` parameter for processing offline split payments.
+    - [POST /v1/checkout/create-payment-intent](/api-reference/payments/create-payment-intent) optionally accepts a new `paymentSplits` parameter for processing online payment splits.
+    - [POST /v1/orders/refund](/api-reference/orders/refund-order) can be supplied with a `refundSplits` parameter for manual allocation of refunds to payment methods.
+ - [GET /v1/report](/api-reference/reports/retrieve-custom-report) now allows an increased limit of 1000 when being run asynchronously
+
+- Add new endpoint [GET /v1/sale-item](/api-reference/sale-items/retrieve-sale-item) to retrieve a single sale item
+
+</Update>
+
+<Update label="12th February 2024" description="">
+
+- The [GET /orders](/api-reference/orders/retrieve-orders) endpoint now allows for the retrieval of orders in failed reservation states (cancelled, expired, failed, and rejected), through the use of the `withReservations` query parameter.
+- The [GET /order](/api-reference/orders/retrieve-order) endpoint now allows for the retrieval of orders in failed reservation reservation states as above.
+
+</Update>
+
+<Update label="1st February 2024" description="">
+
+- The [GET /order](/api-reference/orders/retrieve-order) endpoint now allows for the retrieval of orders in reservation state.
+- The [GET /orders](/api-reference/orders/retrieve-orders) endpoint now allows for the retrieval of orders in reservation state, through the use of the `withReservations` query parameter.
+
+</Update>
+
+<Update label="23rd January 2024" description="">
+
+- The [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) and [GET /event-tickets](/api-reference/events/retrieve-event-tickets) endpoints now include the following attributes for `timeslots`:
+  - `hasUnlimitedStock`
+  - `totalStock`
+  - `currentStock`
+  - `hideWhenOffSale`
+  - `hideWhenOutOfStock`
+  - `onSaleFrom`
+  - `onSaleUntil`
+- The Order Item ([GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item)) and Order Items ([GET /v1/order-items](/api-reference/orders/retrieve-order-items)) endpoints now allow for retrieving order items using a specific order ID
+- The Sale Items ([GET /v1/sale-items](/api-reference/sale-items/retrieve-sale-items)) endpoint now allows for retrieving sale items using a specific inventory item ID
+- The Order Item ([GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item)) and Order Items ([GET /v1/order-items](/api-reference/orders/retrieve-order-items)) endpoints now allow for `dataCaptureFields` to be included alonside `dataCaptureResponses`
+
+</Update>
+
+<Update label="22nd January 2024" description="">
+
+- The add to basket (`POST v1/basket-items`) endpoint now accepts the `spaceId` to which a sale item should be associated on a seated event.
+- The add to basket (`POST v1/basket-items`) endpoint now permits you to provide the same sale item ID in multiple basket items, allowing each to utilise different item settings.
+
+</Update>
+
+<Update label="21st January 2024" description="">
+
+- The `v1/zones/scan` and `v1/zones/check` endpoints now return the order reference in the responseg
+- Prices are now returned in all available currencies on the get event tickets (`GET v1/event-tickets`) endpoint
+- The default event currency is now returned on the get events (`v1/events`) endpoint
+
+</Update>
+
+<Update label="8th January 2024" description="">
+
+- The _Add to basket_ endpoint ([POST /v1/basket-items](/api-reference/baskets/add-to-basket)) received an update in error response status code from **403** to **422** when attempting to add a child company sale item to a parent company basket without global transactions enabled.
+
+</Update>
+
+<Update label="3rd January 2024" description="">
+
+- The [GET /v1/order-items](/api-reference/orders/retrieve-order-items) and [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) endpoints now contain additional tax breakdowns, tax rates, and conditional tax fields.
+- The [GET /v1/order-items](/api-reference/orders/retrieve-order-items) and [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) endpoints will return the order status of the associated order when specifying that the order should be included in the response.
+- The [GET /v1/orders](/api-reference/orders/retrieve-orders) and [GET /v1/order](/api-reference/orders/retrieve-order) endpoints now contain additional tax breakdowns, tax rates, and conditional tax fields for any included order items.
+
+</Update>
+

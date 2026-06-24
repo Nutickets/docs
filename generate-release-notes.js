@@ -4,6 +4,7 @@ const path = require('path');
 const axios = require('axios');
 const crypto = require('crypto');
 const sharp = require('sharp'); // <--- New Dependency for compression
+const { CHANGELOG_LINKS, buildCrossLinkCards } = require('./changelog-nav');
 
 // --- CONFIGURATION ---
 const TINYPNG_API_KEY = process.env.TINYPNG_API_KEY;
@@ -122,7 +123,8 @@ async function main() {
         webMain,
         path.join(OUTPUT_DIR, 'index.mdx'),
         "Release Notes",
-        `Latest product updates from ${cutoffYear}/${currentYear}`
+        `Latest product updates from ${cutoffYear}/${currentYear}`,
+        [CHANGELOG_LINKS.mobile, CHANGELOG_LINKS.api]
     );
 
     // B. Mobile App Updates
@@ -130,7 +132,8 @@ async function main() {
         mobileMain,
         path.join(OUTPUT_DIR, 'mobile.mdx'),
         "Mobile App Updates",
-        `Latest mobile app updates from ${cutoffYear}/${currentYear}`
+        `Latest mobile app updates from ${cutoffYear}/${currentYear}`,
+        [CHANGELOG_LINKS.releases, CHANGELOG_LINKS.api]
     );
 
     // C. Web Archives
@@ -351,13 +354,30 @@ function updateDocsJson(webArchiveYears, mobileArchiveYears) {
 
     const docsConfig = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
 
+    // The API changelog is produced by generate-api-docs.js (which runs first) and lives
+    // alongside these files under /releases. Detect its pages so they slot into the same
+    // navigation: the main page joins "Product Updates" and each earlier year gets an
+    // "API Archive" entry, mirroring the web/mobile treatment.
+    const apiMainExists = fs.existsSync(path.join(OUTPUT_DIR, 'api.mdx'));
+    const apiArchiveYears = fs.existsSync(OUTPUT_DIR)
+        ? fs.readdirSync(OUTPUT_DIR)
+            .map(file => (file.match(/^(\d{4})-api\.mdx$/) || [])[1])
+            .filter(Boolean)
+            .sort((a, b) => b - a)
+        : [];
+
+    const productUpdatePages = [
+        `${MDX_PREFIX}/index`,
+        `${MDX_PREFIX}/mobile`
+    ];
+    if (apiMainExists) {
+        productUpdatePages.push(`${MDX_PREFIX}/api`);
+    }
+
     const newGroups = [
         {
             group: "Product Updates",
-            pages: [
-                `${MDX_PREFIX}/index`,
-                `${MDX_PREFIX}/mobile`
-            ]
+            pages: productUpdatePages
         }
     ];
 
@@ -372,6 +392,13 @@ function updateDocsJson(webArchiveYears, mobileArchiveYears) {
         newGroups.push({
             group: "Mobile Archive",
             pages: mobileArchiveYears.map(year => `${MDX_PREFIX}/${year}-mobile`)
+        });
+    }
+
+    if (apiArchiveYears.length > 0) {
+        newGroups.push({
+            group: "API Archive",
+            pages: apiArchiveYears.map(year => `${MDX_PREFIX}/${year}-api`)
         });
     }
 
@@ -554,6 +581,55 @@ function splitMobileContent(content) {
     return { webContent, mobileContent };
 }
 
+// Matches an "API" section heading at any level (with or without a leading emoji),
+// e.g. "## 🧑‍💻 API", "# API Updates", "### API".
+const API_SECTION_HEADING = /^(#{1,6})\s+(.*)$/;
+
+function isApiHeading(headingText) {
+    const cleaned = headingText.replace(/[^a-z ]/gi, '').replace(/\s+/g, ' ').trim().toLowerCase();
+    return cleaned === 'api' || cleaned === 'api updates' || cleaned === 'api changes';
+}
+
+// A placeholder API section merely points readers to the API changelog and carries no
+// real content (no bullet list). These made sense when releases were circulated as
+// standalone documents, but are redundant now the API changelog is its own page.
+// Sections with genuine content (e.g. pre-2022 API changes the changelog defers to)
+// are left untouched.
+function isApiPlaceholderBody(body) {
+    const text = body.trim();
+    const hasBullets = /^\s*[*-]\s+/m.test(text);
+    return !hasBullets && (text === '' || /changelog/i.test(text));
+}
+
+function stripApiPlaceholderSection(content) {
+    const lines = content.split('\n');
+
+    for (let i = 0; i < lines.length; i++) {
+        const heading = lines[i].match(API_SECTION_HEADING);
+        if (!heading || !isApiHeading(heading[2])) continue;
+
+        const level = heading[1].length;
+
+        // The section runs until the next heading of the same or higher level (or EOF).
+        let end = lines.length;
+        for (let j = i + 1; j < lines.length; j++) {
+            const sibling = lines[j].match(/^(#{1,6})\s+/);
+            if (sibling && sibling[1].length <= level) {
+                end = j;
+                break;
+            }
+        }
+
+        if (isApiPlaceholderBody(lines.slice(i + 1, end).join('\n'))) {
+            lines.splice(i, end - i);
+            // Re-scan in case a document contains more than one such section.
+            return stripApiPlaceholderSection(lines.join('\n'));
+        }
+    }
+
+    return content;
+}
+
 // Matches a trailing " - <date>" suffix on a mobile subsection header,
 // e.g. "Box Office Pro 3.4.2 → 3.5.0 - 16th March 2026"
 const MOBILE_HEADER_DATE_SUFFIX = /\s+-\s+(\d+(?:st|nd|rd|th)?\s+\w+\s+\d{4})\s*$/;
@@ -625,12 +701,13 @@ function parseReleaseDocument(title, markdown) {
 
     if (mainContent) {
         const { webContent, mobileContent } = splitMobileContent(mainContent);
+        const cleanedWebContent = stripApiPlaceholderSection(webContent).trim();
         const mobileChunks = parseMobileChunks(mobileContent, releaseDateStr, releaseDateObj);
 
         updates.push({
             label: releaseDateStr,
             description: `Release ${releaseVersion}`,
-            content: webContent,
+            content: cleanedWebContent,
             mobileChunks,
             dateObj: releaseDateObj
         });
@@ -668,7 +745,7 @@ function parseDateString(dateStr) {
     return new Date(dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1'));
 }
 
-async function generateMdxFile(updates, filePath, title, description) {
+async function generateMdxFile(updates, filePath, title, description, crossLinks) {
     // Parse existing file to preserve manually-added links
     const existingBlocks = parseExistingMdx(filePath);
     let preservedCount = 0;
@@ -677,6 +754,12 @@ async function generateMdxFile(updates, filePath, title, description) {
 title: "${title}"
 description: "${description}"
 ---\n\n`;
+
+    // Cross-links to our other changelogs, rendered as cards at the top of the page.
+    const crossLinkCards = buildCrossLinkCards(crossLinks);
+    if (crossLinkCards) {
+        mdxContent += `${crossLinkCards}\n\n`;
+    }
 
     // Process updates sequentially
     for (const update of updates) {

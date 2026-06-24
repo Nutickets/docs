@@ -444,7 +444,8 @@
             "group": "Product Updates",
             "pages": [
               "releases/index",
-              "releases/mobile"
+              "releases/mobile",
+              "releases/api"
             ]
           },
           {
@@ -463,6 +464,15 @@
               "releases/2023-mobile",
               "releases/2022-mobile",
               "releases/2021-mobile"
+            ]
+          },
+          {
+            "group": "API Archive",
+            "pages": [
+              "releases/2024-api",
+              "releases/2023-api",
+              "releases/2022-api",
+              "releases/2021-api"
             ]
           }
         ]
