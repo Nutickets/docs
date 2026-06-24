@@ -154,6 +154,14 @@ These gateways connect via an authorisation flow — you click a connect button 
   <Note>
   PayPal supports two product types: Express Checkout and PayPal Commerce Platform (PPCP). The product type is determined during the OAuth connection and affects which features are available.
   </Note>
+
+  #### Partner Attribution ID (BN Code)
+
+  <Tip>New in Release 47</Tip>
+
+  PayPal can attribute payments processed through PPCP to a specific partner using a **Partner Attribution ID** (also called a **BN Code**). This identifier is sent to PayPal on every transaction so PayPal can recognise which partner facilitated the payment.
+
+  The BN Code is part of the platform-level PayPal configuration managed by your account manager, with separate values for demo (sandbox) and live modes. When no BN Code is set for a mode, the default platform BN Code is used, so existing PayPal integrations are unaffected. Contact your account manager if you need a specific Partner Attribution ID applied to your PayPal payments.
 </Accordion>
 
 <Accordion title="SumUp">

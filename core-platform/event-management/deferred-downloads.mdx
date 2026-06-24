@@ -12,13 +12,13 @@ This is useful when you want to:
 - Control the timing of ticket distribution for operational reasons
 - Ensure customers have up-to-date ticket information closer to the event date
 
-The feature applies company-wide to all events. Each event's download availability is calculated individually based on its start date.
+A company-wide default applies to every event, and individual events can override it to opt in or out and set their own timing. Each event's download availability is calculated individually based on its start date.
 
-## Enabling Deferred Downloads
+## Setting the Company-Wide Default
 
-Deferred downloads requires a feature flag to be activated for your account. Contact your account manager to request access.
+Deferred downloads requires the feature to be activated for your account. Contact your account manager to request access.
 
-Once the feature flag is active, configure the settings in your admin panel:
+Once the feature is active, set your company-wide default in the admin panel:
 
 1. Navigate to **General Settings**
 2. Find the **Enable delayed access of tickets** toggle and set it to **enabled**
@@ -27,8 +27,32 @@ Once the feature flag is active, configure the settings in your admin panel:
 
 The time can be configured in **hours**, **days**, or **weeks** (minimum 12 hours). For example, setting 3 days means customers can download their tickets starting 72 hours before the event begins.
 
+This default applies to every event under your company unless an individual event overrides it. Because the availability date is calculated from each event's start date, events at different times will naturally have different download dates.
+
+## Configuring Per-Event
+
+<Tip>Per-event configuration added in Release 47</Tip>
+
+Individual events can override the company-wide default, so you can defer downloads for specific events while leaving the default unchanged — or release tickets immediately for one event while the rest of your company defers them.
+
+On the [event dashboard](/core-platform/event-management/introduction), in the same settings area as refund protection, the **Delayed ticket access** setting offers three choices:
+
+| Choice      | Effect                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| **Inherit** | Follow the company-wide default. This is the starting point for every event.                |
+| **Enable**  | Defer downloads for this event, even when the company default is off.                        |
+| **Disable** | Release tickets immediately for this event, even when the company default is on.             |
+
+The preview shows the current state at a glance, for example *Delayed ticket access is set to inherit the company's default setting* alongside whether that resolves to enabled or disabled.
+
+When the event is set to **Inherit** or **Enable**, a **Time before event** field appears so you can give the event its own lead time, again in **hours**, **days**, or **weeks** (minimum 12 hours). Leave it blank to inherit the company default — the field notes the inherited value, for example *Leave blank to inherit the company default of 3 days*. A per-event lead time only changes the timing; it does not turn deferral on or off.
+
 <Note>
-The setting applies to all events under your company. You cannot configure different time windows for individual events. However, because the availability date is calculated from each event's start date, events at different times will naturally have different download dates.
+Setting an event to **Enable** without the company-wide default being on still works — the event opts in on its own. Likewise, **Disable** on a single event opts it out even when the company default is on. This makes it possible to handle one-off requirements (for example, an artist who wants delayed delivery for a particular show) without changing your company-wide setting.
+</Note>
+
+<Note>
+If the deferred downloads feature is not active for your company, the **Delayed ticket access** setting does not appear on the event dashboard and no downloads are deferred, regardless of any saved values.
 </Note>
 
 ## What Happens When Downloads Are Deferred
@@ -79,6 +103,14 @@ Deferred downloads only applies to items that are:
 - **Downloadable** — items that would normally generate a PDF or wallet pass
 
 Non-event products, [gift vouchers](/core-platform/sale-items/gift-vouchers), and other items without an event association are not affected and remain available for immediate download.
+
+## Which Configuration Applies
+
+<Tip>Consistent download dates across companies in Release 47</Tip>
+
+The download date for an event's tickets is always taken from the company that owns the event — both its delayed access setting and its time before the event. The company that processed the order no longer affects the result.
+
+This matters when the same event is sold across linked companies (for example, a parent company's event sold through a child company). Every customer with a ticket for that event sees the same download date, no matter which company they bought through. If the company that owns the event has delayed access turned off, tickets download immediately for everyone — even if the company that took the order has it turned on.
 
 ## Admin Downloads
 

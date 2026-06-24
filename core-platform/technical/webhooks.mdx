@@ -31,9 +31,20 @@ The platform supports the following event types:
 | **Order refund failed** | When an order refund fails. |
 | **New event** | When a new event is created. |
 | **Attendee check in** | When an attendee checks into a zone or main entry. |
+| **Attendee check out** | When an attendee checks out of a zone or main exit. |
 | **Custom form submission** | Whenever a custom data capture form is submitted. |
 | **Resale Payout** | When resale payouts are distributed to the original seller. |
 | **Resale Payout Failed** | When a resale payout fails. |
+
+### Attendee Check Out
+
+<Tip>New in Release 47</Tip>
+
+The **Attendee check out** webhook lets integrations react when an attendee is scanned **out** of an event. It fires whenever a scan-out is recorded — whether the attendee leaves a specific zone or the main **Entry** zone — making it the counterpart to **Attendee check in**.
+
+Scan-outs are produced wherever in/out scanning is used: in/out zones, the default [Entry](/core-platform/event-management/access-control#the-default-entry-zone) zone (when set to an in/out [scan mode](/core-platform/event-management/access-control#scan-modes)), [auto scan-out](/core-platform/event-management/access-control#auto-scan-out) times, and out-direction scans sent through the [Admit Entry Tickets](/api-reference/access-control/admit-entry-tickets) API.
+
+Each delivery contains a `scans` array. Every entry identifies the company, event, zone, customer, and item, along with the time the attendee was scanned out (`scannedAt`) and how long they spent in the zone (`visitDuration`, in seconds). See the [Webhook Reference](/webhook-reference) for the full payload.
 
 ## Creating a Webhook
 

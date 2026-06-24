@@ -30,8 +30,6 @@ The setup flow walks the seller through selecting items:
 
 Items that cannot be listed are shown as disabled with an explanation, such as the item already being listed for resale or not being eligible. A **Select all** option allows choosing all eligible items at once.
 
-<Tip>New in Release 45</Tip>
-
 When listing items from a seated event, the following grouping restrictions apply:
 - Allocated seats and general admission items **cannot** be grouped together in the same listing
 - Items from **different seating plan areas** cannot be grouped together
@@ -125,52 +123,116 @@ The confirmation modal includes: **If your tickets do not sell, you get to keep 
 
 Sellers can view all their listings from the account section under **Resale listings**. Each listing shows:
 
-- The event name and date
-- Items sold count (e.g. **2 of 5 items sold**)
-- Listing status
-- The **On sale from** and **On sale until** dates
+- The **event name** and date
+- A bar showing **Items listed** against **Items sold**
+- The relevant date — **On sale from** if the purchase window has not opened yet, **On sale until** while live, or **Closed** once the listing has ended
+- A status badge
 
-If the seller has no listings, the page shows: **You have no resale listings.**
+Listings are ordered so that live listings appear first, then closed listings that made sales, then the rest — newest first within each group. If the seller has no listings, the page shows: **You have no resale listings.**
 
 ### Listing Detail
 
-Clicking a listing shows the full detail page with:
+<Tip>More detail added in Release 47</Tip>
 
-- **Listing status** — The current status badge
+Clicking a listing opens the **Listing Details** page. The top card summarises:
+
+- **Event** — The event name, linked to the event page
+- **Order reference** — A link back to the [order](/core-platform/order-management/core-concepts) the items came from
 - **Created** — When the listing was created
-- **On sale from** / **On sale until** / **Closed** — Relevant date information
-- **Minimum purchase quantity** — If items must be purchased together
+- **On sale from** / **On sale until** / **Closed** — Whichever date applies to the listing's current state
+- **Minimum purchase quantity** — Shown only if items must be purchased together
+
+A **Back to order** button appears at the top when the seller arrived from the order, otherwise a **Resale listings** link returns them to the index. The page header also carries the listing's status badge.
 
 The **Listed Items** section shows each item with:
 
 | Column | Description |
 |--------|-------------|
-| Item name | The ticket or product name, with seat/space information if applicable |
-| **Original price** | The price the seller originally paid (shown with strikethrough if different from listing price) |
+| Item name | The ticket or product name, with seat/space information and barcode if applicable |
+| **Original price** | The price the seller originally paid |
 | **Listing price** | The price set for resale |
 | **Your fees** | The seller's fee contribution (if applicable) |
-| Contract status | **Available**, **Sold**, or **Cancelled** |
+| Contract status | A badge showing whether the individual item is **On sale**, **Unsold**, **Sold**, **Cancelled**, or **Inactive** |
 
-### Listing Statuses
+### Listing Lifecycle and Statuses
+
+<Tip>Statuses surfaced in Release 47</Tip>
+
+Every listing moves through a clear lifecycle, and its current state is shown as a status badge on both the listings index and the listing detail page.
 
 | Status | Meaning |
 |--------|---------|
+| **Inactive** | The listing exists but the [purchase window](/core-platform/resale/configuration#time-windows) has not opened yet, so buyers cannot purchase the items |
 | **Active** | The listing is live and items are available for purchase |
-| **Closed** | All items have been sold or the sale deadline has passed |
-| **Cancelled** | The listing was cancelled by the seller or an admin |
-| **Inactive** | The listing exists but the purchase window has not yet opened |
-
-### Cancelling a Listing
-
-Sellers can cancel an active listing from the listing detail page by clicking **Cancel listing**. A confirmation prompt appears:
-
-**Are you sure you want to end your listing?** — **If you end your listing early, you will keep your unsold tickets.**
-
-After confirming, unsold items return to the seller's order and the listing status changes to **Cancelled**. Items that were already sold remain with their buyers.
+| **Sold** | Every item in the listing has been purchased |
+| **Expired** | The listing reached the end of its sale time without selling out and was closed automatically |
+| **Cancelled** | The listing was closed by the seller or an admin before its sale time ended |
+| **Closed** | A general "ended" state for a listing that is no longer on sale |
 
 <Note>
-A listing cannot be cancelled while any of its items are in a buyer's active basket. The seller sees: **This listing cannot be cancelled while items are in an active basket.**
+The listings index uses the broader **Closed** badge once a listing has ended, while the listing detail page shows the more specific outcome — **Sold** when every item sold, or **Expired** when the sale time ran out. A listing that the seller or an admin closed early shows as **Cancelled** in both places.
 </Note>
+
+<Note>
+Individual items within a listing carry their own badge: **On sale**, **Unsold**, **Sold**, **Inactive**, or **Cancelled**. An item shows **Unsold** once its sale window has passed without a buyer, even while the listing as a whole is still being wrapped up.
+</Note>
+
+### Automatic Expiry
+
+<Tip>Auto-expiry added in Release 47</Tip>
+
+Listings no longer rely on the seller or an admin to take them down. A background task runs regularly and automatically closes any listing whose sale time has ended — that is, when **either** the listing's [on-sale-until time](/core-platform/resale/selling-and-buying#sale-deadline) has passed **or** the event's [purchase window](/core-platform/resale/configuration#time-windows) has closed (and, at the latest, when the event itself starts). When this happens, the listing is marked **Closed** with a closure type of **Expired**, and any unsold items return to the seller's order automatically.
+
+A listing also closes on its own the moment its **last** item sells — in that case it is recorded as **Sold out**.
+
+<Warning>
+Once a listing has ended — whether it expired, sold out, or was closed by the seller or an admin — it **cannot be re-opened**. To offer the items again, the seller must create a new listing from the order (provided the items are still [eligible for resale](/core-platform/resale/introduction#item-eligibility) and the listing window is still open).
+</Warning>
+
+### Closing a Listing Early
+
+<Tip>Close reasons added in Release 47</Tip>
+
+Sellers can close a live listing before its sale time ends from the listing detail page by clicking **Close listing**. The button is only available while the listing is **Active** or **Inactive** — once a listing has ended it can no longer be closed again.
+
+A **Close your listing** prompt appears, explaining: **Closing your listing early will keep your unsold tickets and stop them being resold.** Before confirming, the seller must choose a reason under **Why are you closing this listing?**:
+
+| Reason | When to choose it |
+|--------|-------------------|
+| **I'm now attending the event** | The seller has decided to use the tickets after all |
+| **Listed by mistake** | The listing was created in error |
+| **Sold tickets elsewhere** | The tickets were sold through another channel |
+| **Other** | Any other reason — a **Please specify** box appears for a short free-text explanation |
+
+After confirming, unsold items return to the seller's order and the listing status changes to **Cancelled**. Items that were already sold remain with their buyers. The reason the seller selected is recorded against the listing and is visible to admins.
+
+<Note>
+A listing cannot be closed while any of its items are in a buyer's active basket. The seller sees: **This listing cannot be cancelled while items are in an active basket.**
+</Note>
+
+### Tracking a Listing From the Order
+
+<Tip>Resale detail added to orders in Release 47</Tip>
+
+A seller doesn't have to open the **Resale listings** page to see how a listing is doing — the resale state now appears directly on the [order](/core-platform/order-management/core-concepts) the items came from.
+
+At the top of the order, a badge summarises the order's resale activity:
+
+| Badge | Meaning |
+|-------|---------|
+| **Has items listed for sale** | The order has items currently listed for resale |
+| **Has items sold to another customer** | One or more of the order's items have been bought by a resale buyer |
+
+Each listed item also shows its own status inline, so the seller can see exactly where it is:
+
+| Item status | Message shown |
+|-------------|---------------|
+| **On sale soon** | **Your item will be available from [date]** — the purchase window has not opened yet |
+| **Listed for sale** | **Your item is available to buy until [date]** — the item is live on the marketplace |
+| **Failed to sell** | **Your item didn't sell before [date]** — the sale window passed without a buyer |
+| **Sold to another customer** | The item has been bought by a resale buyer |
+
+From any of these items the seller can click **Listing details** to jump straight to the listing, with a **Back to order** button waiting to bring them back.
 
 ## How Sellers Get Paid
 
@@ -195,8 +257,6 @@ The full payout is deposited into the seller's pending account balance. The fund
 ### Finding Resale Items
 
 When resale items are available for an event, buyers see a **Verified resale tickets available** indicator on the event page. Clicking it reveals the **Available resale tickets from verified sellers** section.
-
-<Tip>New in Release 45</Tip>
 
 For seated events, resale seats and general admission spaces now appear directly on the seating plan alongside primary inventory. Buyers can select a resale seat from the plan and see any related grouped items. The seating plan filter UI includes a **resale** option to help buyers find available resale items. In the admin, the seating plan view also shows whether a booked ticket is available for resale.
 
@@ -244,15 +304,25 @@ Clicking a listing shows the full admin detail view, including:
 
 - Seller information
 - Event and date details
+- The listing's status badge, or — once the listing has ended — a badge showing **how** it closed (**Closed by seller**, **Closed by admin**, **Expired**, or **Sold out**)
+- The **Closed** date and, where one was given, the **Closure reason**
 - A table of all contracts with:
   - Original item name and a link to the original order
   - Original price and listing price
   - Buyer information (if sold)
   - Contract status badge
 
-### Cancelling Listings
+### Closing Listings
 
-Admins can cancel any active listing from the listing detail page. This returns unsold items to the seller's order. Items that were already sold remain with their buyers.
+<Tip>Closure reasons added in Release 47</Tip>
+
+Admins can close any live listing from the listing detail page. This opens a dedicated page that summarises the seller, event, creation date, and number of contracts, and explains: **This will close the listing and release any unsold contracts. Sold contracts are unaffected. Optionally record a reason below.**
+
+The admin can record an optional **Reason for closure** in a free-text box (the help text notes it is *visible in resale reports as the closure reason*) before confirming with **Cancel listing**, or back out with **Keep listing**. Closing the listing returns unsold items to the seller's order; items that were already sold remain with their buyers. Admin closures are recorded with a closure type of **Closed by admin** alongside any reason entered.
+
+<Note>
+A listing that has already ended cannot be closed again — opening the close page for such a listing shows: **This resale listing is already closed.**
+</Note>
 
 Resale listings can also be managed via the API — [create](/api-reference/resale/create-a-new-resale-listing), [retrieve](/api-reference/resale/retrieve-resale-listings), and [delete](/api-reference/resale/delete-a-resale-listing) listings programmatically.
 

@@ -46,8 +46,11 @@ Sales reports provide financial and volume data for items sold across events and
 | **Payment method analysis** | View sales figures by payment method |
 | **Purchase price sales report** | View the number of sales by purchase price |
 | **Refund protect sales** | View sales figures for refund protection fees |
+| **Dynamic pricing uplift** | Per-event dynamic pricing revenue uplift <Tip>New in Release 47</Tip> |
 
 All sales reports share the same underlying engine. The difference between them is which grouping and item type filter is applied by default.
+
+<Tip>**Dynamic pricing uplift** added in Release 47. This preset is only available when [dynamic pricing](/core-platform/integrations/dynamic-pricing) is enabled for your account. It groups by event and defaults to the dynamic pricing revenue columns, pre-filtered to dynamically priced items.</Tip>
 
 ### Fields
 
@@ -119,6 +122,18 @@ These fields appear once per active currency. For example, if you sell in GBP an
 | **Total net (after reseller and gateway fees)** | Revenue after discounts, refunds, gateway fees, and reseller fees. Gateway fees are not supported by all gateways. |
 | **Total base** | Revenue after discounts, processing fees, and reseller fees |
 | **Total retained cancellation revenue** | Revenue kept when orders are cancelled with a cancellation fee |
+| **Total base before dynamic pricing** | What the base total would have been without dynamic pricing <Tip>New in Release 47</Tip> |
+| **Total gross before dynamic pricing** | What the gross total would have been without dynamic pricing |
+| **Total base after dynamic pricing** | What the base total came to with dynamic pricing |
+| **Total gross after dynamic pricing** | What the gross total came to with dynamic pricing |
+| **Total base uplift from dynamic pricing** | How much dynamic pricing moved the base total |
+| **Total gross uplift from dynamic pricing** | How much dynamic pricing moved the gross total |
+| **Base % uplift from dynamic pricing** | How much dynamic pricing moved the base total, as a percentage |
+| **Gross % uplift from dynamic pricing** | How much dynamic pricing moved the gross total, as a percentage |
+
+<Note>
+The eight **dynamic pricing** revenue fields (grouped as **Dynamic pricing uplift fields**) are only available when [dynamic pricing](/core-platform/integrations/dynamic-pricing) is enabled for your account. They compare each item's price before and after dynamic pricing — the "before" figure is derived from the item's [pricing history](/core-platform/sale-items/pricing-history), taken from the last price recorded before the first dynamic price update. The columns count only dynamically priced items, so they are hidden when the **Pricing type** filter is set to **Static**. The **Dynamic pricing uplift** preset report opens with these columns pre-selected.
+</Note>
 
 </Accordion>
 
@@ -184,14 +199,21 @@ These fields appear based on which grouping is selected. When grouped by event, 
 | **Price band** | One row per seating plan price band |
 | **Sales channel** | Secondary grouping — breaks down by sales channel |
 | **Card network** | Secondary grouping — breaks down by card network |
+| **Pricing type** | Splits each row into **Static** and **Dynamic**, so you can contrast sales by pricing method <Tip>New in Release 47</Tip> |
 | **Company** | One row per company |
 | **Reseller** | One row per reseller (at reseller level) |
 
 This report supports **multi-grouping** — you can select multiple groupings simultaneously.
 
+<Note>
+The **Pricing type** grouping is only available when [dynamic pricing](/core-platform/integrations/dynamic-pricing) is enabled for your account.
+</Note>
+
 ### Key Filters
 
 Events, event schedules, venues, companies, item types, sale items, payment methods, payment gateways, card networks, sales channels, currencies, visibility groups, event status, admin users. Date filters for order completion and event start dates. Toggle filters for box office items, addons, timeslot/sale item group/price band presence.
+
+When [dynamic pricing](/core-platform/integrations/dynamic-pricing) is enabled for your account, a **Pricing type** filter is also available. <Tip>New in Release 47</Tip> Set it to **Static** or **Dynamic** to limit the report to items sold at a static price or items that were dynamically priced. Combine it with the **Pricing type** grouping to break the same report down by both methods at once.
 
 ---
 
@@ -388,6 +410,7 @@ Attendance reports provide per-item data covering the full lifecycle from purcha
 | **Transaction ID(s)** / **Transaction total(s)** | Transaction identifiers and amounts |
 | **Transaction status(es)** / **Transaction context(s)** | Transaction states |
 | **Transaction payment method(s)** / **Transaction payment gateway(s)** | Payment details |
+| **Gateway payment method(s)** / **Gateway payment provider(s)** | Method and provider as reported by the gateway (e.g. `paylater` / `atome`) <Tip>New in Release 47</Tip> |
 | **Transaction card network(s)** / **Cheque number(s)** / **Money order number(s)** | Payment instrument details |
 | **Transaction total(s) gross** | Transaction total minus external fees |
 | **Transaction total external fees** | Gateway-charged fees (not all gateways) |
@@ -539,6 +562,8 @@ This allows you to see the financial breakdown per item type within each order.
 | **Transaction payment method(s)** | Cash, card, invoice, etc. |
 | **Transaction payment gateway(s)** | Gateway provider |
 | **Card network(s)** | Visa, Mastercard, etc. |
+| **Gateway payment method(s)** | The payment method as reported by the gateway (e.g. `card`, `wallet`, `paylater`, `netbanking`) <Tip>New in Release 47</Tip> |
+| **Gateway payment provider(s)** | The provider behind that method as reported by the gateway (e.g. a wallet name, a bank, or a buy-now-pay-later provider such as `atome`) |
 | **Cheque number(s)** / **Money order number(s)** | Reference numbers |
 | **Gateway reference** | Reference for reconciliation with the gateway |
 | **Transaction created on** / **Transaction updated on** | Timestamps |
@@ -548,6 +573,10 @@ This allows you to see the financial breakdown per item type within each order.
 | **Split payment methods** / **Split payment totals** | Split payment details |
 
 </Accordion>
+
+<Note>
+**Gateway payment method(s)** and **Gateway payment provider(s)** are populated for gateways that report this detail back to the platform. <Tip>New in Release 47</Tip> For Curlec payments this captures the underlying method and provider — for example `paylater` with `atome`, or `wallet`, `netbanking`, and `card` payments — so buy-now-pay-later and wallet transactions can be reconciled against the gateway without matching orders by hand. Curlec card payments also resolve the **Card network** where the gateway returns it.
+</Note>
 
 The order report also includes purchaser detail fields, event fields, and data capture response fields as described in the Attendance Reports section above.
 
@@ -1064,9 +1093,15 @@ Transfer reports track the movement of items between customers.
 | **Created At** / **Updated At** | Record timestamps |
 | **Notification Sent At** | When the transfer notification was emailed |
 
+<Note>
+[Gift voucher](/core-platform/sale-items/gift-vouchers) transfers now appear in the transfer reports alongside ticket, product, and season ticket transfers. <Tip>New in Release 47</Tip> Because gift vouchers are not tied to an event, the **Event** and **Event status** columns are blank for these rows. To isolate them, set the item type filter to **Gift Voucher**.
+</Note>
+
 ### Key Filters
 
-Events, companies. Date filters for transfer date. Text filters for from/to customer email. Toggle for claimed/unclaimed transfers.
+Events, companies, item types. Date filters for transfer date. Text filters for from/to customer email. Toggle for claimed/unclaimed transfers.
+
+<Tip>**Gift Voucher** item type filter added in Release 47.</Tip> The item type filter now includes a **Gift Voucher** option so you can return only transferred gift vouchers.
 
 ---
 
@@ -1301,8 +1336,6 @@ Events, companies. Date filter. Text filters for old barcode, current barcode, o
 
 ## Event Schedules Report
 
-<Tip>New in Release 45</Tip>
-
 Provides a high-level overview of configured [schedules](/core-platform/event-management/schedules), including their settings and aggregate event counts.
 
 ### Fields
@@ -1454,3 +1487,34 @@ Tracks gift voucher issuance and redemption.
 | **Gift vouchers redemption report** | Order line level overview of gift vouchers and their redemption status |
 
 This report uses the attendance report engine filtered to gift voucher items, with a **Gift voucher redemption status** field showing whether each voucher has been redeemed.
+
+---
+
+## Resale Reports
+
+Resale reports cover the [resale](/core-platform/resale/introduction) marketplace — the listings sellers create, the contracts that result when items resell, and the revenue from resold items. This category is available when resale is enabled for your account.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Resale sales report** | View sales figures for resold items |
+| **Resale listings report** | View all resale listings and their status |
+| **Resale contracts report** | View resale contract data including seller/buyer information, pricing, and proceeds status |
+
+### Resale Listings Report
+
+The resale listings report shows one row per listing, covering who listed the item, the listing's current status, how many contracts it holds, and how many have sold. Default columns include **Resale listing ID**, **Event name**, **Seller name**, **Seller email**, **Listing status**, **Contract count**, **Contract sold count**, and **Listing creation date**.
+
+<Tip>Closure type and reason added in Release 47.</Tip> When a listing is no longer open, two columns explain why it closed:
+
+| Field | Description |
+|-------|-------------|
+| **Closure type** | Why the listing closed — **Closed by seller**, **Closed by admin**, **Expired**, or **Sold out** |
+| **Closure reason** | The free-text reason recorded when the listing was cancelled |
+
+Both columns are included by default. **Closure type** is empty for listings that are still open and for older closed listings recorded before this tracking existed. **Closure reason** is populated when whoever cancelled the listing added a note at cancellation time; system closures (such as a listing expiring or selling out) leave it blank.
+
+### Resale Contracts Report
+
+The resale contracts report shows one row per contract — an item that has actually resold. It covers the seller, the buyer, the price split, and the status of seller proceeds and payouts. Default columns include **Contract ID**, **Order reference**, **Event name**, **Contract sold date**, seller and buyer name and email, **Pending proceeds**, **Paid proceeds**, **Status of proceeds**, **Paid out proceeds**, and **Status of payout**.

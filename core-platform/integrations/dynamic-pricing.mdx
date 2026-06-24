@@ -1,27 +1,31 @@
 ---
 title: "Dynamic Pricing"
-description: "Automatically adjust ticket prices in real time based on demand using configurable pricing models, min/max boundaries, and per-ticket controls."
+description: "Automatically adjust ticket prices in real time based on demand across standard, seated, and timeslot events, with min/max boundaries, per-ticket controls, and customer-facing transparency."
 ---
 
 <Tip>New in Release 46</Tip>
 
 ## Overview
 
-Dynamic pricing lets the platform adjust ticket prices automatically in response to demand. Instead of manually monitoring sales and updating prices yourself, you choose a pricing model that controls how prices move over time, and the platform recalculates prices on a regular schedule — pushing prices up when demand is high and reducing them when demand softens.
+Dynamic pricing lets the platform adjust ticket prices automatically in response to demand. Instead of manually monitoring sales and updating prices yourself, you sync the event with the pricing engine and configure a strategy that controls how prices move over time — pushing prices up when demand is high and easing them when demand softens. Prices are recalculated on a regular schedule rather than on every sale.
 
-Dynamic pricing is configured at three levels:
+Dynamic pricing is configured in three places:
 
-1. **Event** — A toggle enables dynamic pricing for the event and decides which pricing model is used.
-2. **Ticket type** — Each ticket type can be opted in or out individually, and given its own minimum and maximum price.
-3. **Pricing models portal** — A dedicated configuration area where you select and tune the strategies that drive price changes.
+1. **Event** — An **Enable dynamic pricing** toggle on the event dashboard turns the feature on and syncs the event's data with the pricing engine.
+2. **Ticket type** — Each ticket type carries an **Allow dynamic pricing** toggle, so you decide individually which ones respond to demand and which stay under manual control.
+3. **DynamO dashboard** — A dedicated configuration interface, opened with **Configure** from the event, where you choose the pricing strategy and set each ticket type's minimum and maximum price.
 
 Every automated price change is logged in the [pricing history](/core-platform/sale-items/pricing-history) panel alongside any manual edits, so you can always see when a price moved and what triggered it.
+
+<Note>
+The **Dynamic pricing** card only appears for companies on a plan that includes the dynamic pricing feature. If you don't see it, contact your account manager.
+</Note>
 
 ## When to Use Dynamic Pricing
 
 <AccordionGroup>
   <Accordion title="High-demand events with limited inventory">
-    For sell-out shows or popular dates within a schedule, dynamic pricing increases prices automatically as remaining tickets become scarce. You set an upper bound so prices never exceed what your audience will tolerate, then let the platform capture the additional revenue without manual monitoring.
+    For sell-out shows or popular dates within a [schedule](/core-platform/event-management/schedules), dynamic pricing increases prices automatically as remaining tickets become scarce. You set an upper bound so prices never exceed what your audience will tolerate, then let the platform capture the additional revenue without manual monitoring.
   </Accordion>
   <Accordion title="Slow-moving inventory">
     For events that need a sales boost, dynamic pricing can reduce prices in line with demand to encourage purchases. Setting a floor ensures prices stop dropping once they reach a level you're comfortable with.
@@ -29,12 +33,27 @@ Every automated price change is logged in the [pricing history](/core-platform/s
   <Accordion title="Mixed-tier inventory">
     For events with a mix of fast-selling and slow-selling tiers, you can opt in only the ticket types where dynamic pricing makes sense and leave others under manual control. This is useful when premium tiers should respond to demand but accessible tiers should keep stable, predictable pricing.
   </Accordion>
+  <Accordion title="Seated and timeslot events">
+    Dynamic pricing now covers [seated events](/core-platform/event-management/seated-events) and [timeslot](/core-platform/event-management/timeslots) events, so high-demand price bands or popular time slots can respond to demand in the same way as standard tickets.
+  </Accordion>
 </AccordionGroup>
 
-## Supported Event Types
+## Supported Events
+
+<Tip>Seated and timeslot events added in Release 47</Tip>
+
+Dynamic pricing works across the platform's main event shapes. The setup requirements differ by shape, and the dynamic pricing card shows the requirements that apply to your event before you enable it.
+
+| Event shape | What's required |
+|---|---|
+| **General admission** (standard unseated) | Set the event total or total ticket capacity, include at least one ticket, and ensure tickets are not free. |
+| **Seating plan** ([seated events](/core-platform/event-management/seated-events)) | Add a seating plan and assign at least one price band to spaces along with a sale item. |
+| **Timeslots** ([timeslot events](/core-platform/event-management/timeslots)) | Include at least one timeslot, with stock, and at least one ticket. Timeslot events that also use a seating plan are supported as a combination of the two. |
+
+The card spells out each shape under three headings — **General admission**, **Seating plan**, and **Timeslots** — and the one matching your event is the one to satisfy. If a shape doesn't apply yet (for example, the event has no seating plan), the card prompts you to set that up first: *"This event does not currently use a seating plan. If you plan to add one, do that before enabling or syncing dynamic pricing."*
 
 <Warning>
-Dynamic pricing currently supports **standard unseated events** only. Support for seated events, [timeslot](/core-platform/event-management/timeslots) events, and [season tickets](/core-platform/sale-items/season-tickets) is planned and will be added in future releases. The dynamic pricing toggle is unavailable on events that aren't yet supported.
+**Season tickets** and **bundles** are not currently supported, and **event passes** are not currently supported. Dynamic pricing also assumes all on-sale tickets are publicly available — tickets restricted by [access codes](/core-platform/basket-codes/access-codes), [customer groups](/core-platform/customer-management/customer-groups), or similar rules are still counted as available when demand is assessed.
 </Warning>
 
 ## Enabling Dynamic Pricing on an Event
@@ -43,64 +62,94 @@ Dynamic pricing must be enabled at the event level before any of its ticket type
 
 1. Open the event dashboard.
 2. Locate the **Dynamic pricing** card.
-3. Toggle **Enable dynamic pricing**.
-4. Save the event.
+3. Review the setup requirements for your event shape (see [Supported Events](#supported-events)). Get the event structure, seating setup, and timeslots right *before* enabling: *"After dynamic pricing is enabled, avoid changing the event structure, seating setup, or timeslots unless you also plan to review the configuration in DynamO."*
+4. Toggle **Enable dynamic pricing** and save.
 
-The help text on this toggle reads: *"Enable dynamic pricing to allow configured sale items to have pricing changes applied periodically in line with demand. Pricing can also be paused temporarily without losing existing configuration."*
+Enabling the toggle syncs all of the event's data with the pricing engine: *"Enabling dynamic pricing for this event will sync all event and sale item data with DynamO. Once complete you can configure dynamic pricing in the DynamO dashboard."*
 
-Once enabled, the event syncs with the pricing models portal and is eligible for automatic price adjustments.
+Once the sync completes, use **Configure** to finish setup in the DynamO dashboard. Until you do, no price updates are received — *"Use Configure to finish setup in DynamO before price updates can be received."*
 
-<Note>
-The **Dynamic pricing** card only appears for companies on a plan that includes the dynamic pricing feature. If you don't see it, contact your account manager.
-</Note>
+## Configuring in the DynamO Dashboard
 
-## Pricing Models
+Per-ticket configuration — the pricing strategy, and each ticket type's minimum and maximum price — is managed in the **DynamO dashboard**, opened with **Configure** on the event's **Dynamic pricing** card. This is a separate interface to the standard sale item editor.
 
-A pricing model is a pre-configured strategy that controls how a ticket's price changes over time. Each model defines its own logic — for example, increasing prices in line with how full the event is, or reducing prices as the event date approaches if sales are below target.
+In the dashboard you:
 
-You select pricing models from the dynamic pricing portal, which is accessed from the **Dynamic pricing** card on the event dashboard. Each event can use a different model, and the same model can be applied to multiple events.
-
-<Note>
-Pricing model behaviour is managed by the dynamic pricing service, not by Nuweb directly. The list of available models is fetched from the portal and may change over time as new strategies are added.
-</Note>
-
-## Configuring Ticket Types
-
-Per-ticket configuration — which ticket types are dynamically priced, the pricing model that drives them, and their minimum and maximum prices — is managed in the **dynamic pricing portal**, not in the standard sale item form. Open the portal from the **Dynamic pricing** card on the event dashboard once the event-level toggle is on.
-
-The portal is where you:
-
-- Choose which ticket types on the event are dynamically priced and which remain under manual control.
-- Select the **pricing model** the platform should use for each opted-in ticket type.
-- Set a **minimum price** (the floor — the lowest the model can reduce a price to) and a **maximum price** (the ceiling — the highest the model can raise a price to). These boundaries protect your margin on the low end and your customers' willingness to pay on the high end.
-
-Changes saved in the portal sync back to the platform automatically and apply on the next pricing run.
+- Choose the **pricing strategy** that drives price changes. A strategy defines its own logic — for example, increasing prices in line with how full the event is, or reducing prices as the event date approaches if sales are below target.
+- Set a **minimum price** (the floor — the lowest a price can be reduced to) and a **maximum price** (the ceiling — the highest a price can be raised to) for each opted-in ticket type. These boundaries protect your margin on the low end and your customers' willingness to pay on the high end.
 
 <Note>
-The dynamic pricing portal is a separate interface to the standard sale item editor. The ticket type's normal price field in admin remains visible and editable, but while a ticket type is dynamically priced the portal is the source of truth for its price configuration.
+Pricing strategy behaviour is managed by the dynamic pricing engine, not by Nuweb directly. The list of available strategies is fetched from DynamO and may change over time as new strategies are added.
 </Note>
+
+Changes saved in the dashboard apply on the next pricing run. While a ticket type is dynamically priced, the DynamO dashboard is the source of truth for its price configuration, even though the ticket type's normal price field in admin remains visible.
+
+## Keeping the Event in Sync
+
+<Tip>Background sync added in Release 47</Tip>
+
+Event changes are sent to DynamO automatically by a background task that runs **every 10 minutes** — there's no need to push updates manually after each edit.
+
+If you've changed an event's configuration and need those changes reflected sooner than the next automatic run, use **Re-sync** on the **Dynamic pricing** card. A confirmation explains when this is appropriate:
+
+> Only use Re-sync after updating this event's configuration and when you need those changes reflected in DynamO sooner than usual. Dynamic pricing updates are queued automatically every 10 minutes, so in most cases a manual sync is not necessary.
+
+<Note>
+Because syncs are queued and processed in the background, a manual **Re-sync** confirms the changes have been *sent* to DynamO. After a sync finishes you may still need to **Configure** in the DynamO dashboard to apply them: *"DynamO has finished syncing your latest changes. Reconfigure using the DynamO dashboard to update these changes."*
+</Note>
+
+## Seated Events and Holds
+
+<Tip>New in Release 47</Tip>
+
+For [seated events](/core-platform/event-management/seated-events), [holds](/core-platform/seating-plans/holds) are taken into account when the available capacity for each price band is calculated. Seats placed on hold are treated as unavailable, so the demand the engine reacts to reflects only the seats customers can actually buy — held inventory doesn't inflate or distort the picture. Releasing a hold returns those seats to the available capacity at the next sync.
+
+## Controlling Which Ticket Types Respond
+
+Enabling dynamic pricing at the event level does not automatically apply it to every ticket. Each ticket type has an **Allow dynamic pricing** toggle in the sale item editor: *"Allow dynamic pricing changes to be applied to configured sale items periodically in line with demand."* Turn it on for the ticket types that should respond to demand, and leave it off for those that should keep a fixed price.
 
 ### Pausing Dynamic Pricing Temporarily
 
-You can pause dynamic pricing at the event level without losing your portal configuration. Use **Pause dynamic pricing** on the event dashboard when you want to freeze prices at their current value — for example, during a promotion or a flash sale where you've manually set a specific price you don't want overridden. Resuming returns the ticket types to dynamic adjustments using the same models and boundaries you had set before.
+You can pause dynamic pricing at the event level without losing your configuration. Use **Pause dynamic pricing** on the event dashboard — *"Prevent dynamic pricing changes temporarily without losing configurations."* — when you want to freeze prices at their current value, for example during a promotion or flash sale. Resuming returns the ticket types to dynamic adjustments using the same strategy and boundaries as before.
 
 ## Manual Price Edits
 
 Manual price edits are still permitted while dynamic pricing is enabled — for example, if you need to set a specific price for a campaign. When you edit a price manually on a dynamically priced ticket type, the sale item editor shows the message: *"This item's pricing may be controlled by dynamic pricing."*
 
-The next time the pricing model runs, it may adjust the price again based on its strategy. To prevent this, either turn off **Allow dynamic pricing** for that ticket type or pause dynamic pricing for the event.
+The next time the pricing strategy runs, it may adjust the price again. To prevent this, either turn off **Allow dynamic pricing** for that ticket type or **Pause dynamic pricing** for the event.
 
-## Order Display
+## Showing Customers a Demand-Based Badge
 
-When viewing an order that contains items purchased at a dynamically calculated price, a **Dynamic** badge appears next to the order item. The badge identifies which items were sold at a dynamic price rather than a manually set price, helping you reconcile sales reports and explain pricing to customers if queries arise.
+<Tip>New in Release 47</Tip>
+
+When a ticket is dynamically priced, customers see a **Demand based price** badge throughout the shop and checkout, so they understand the price reflects demand and may change. The badge carries a tooltip that adapts to the customer's stage:
+
+| When | Tooltip |
+|---|---|
+| Before purchase | *"This ticket is priced based on demand, so the current price may change."* |
+| After purchase | *"This ticket is priced based on demand. Prices may change over time, but your current price is secured."* |
+
+The badge is controlled by the **Display a dynamic pricing badge** setting under [Theme](/core-platform/cms/theme-and-branding) event and sale options. It is **on by default** for transparency. When **on**, dynamically priced items show the badge across the shop; when **off**, no badge appears and prices update silently. The help text notes: *"Items with dynamic pricing will show a badge throughout checkout in Shop. The badge text and this message can be edited in the text manager."* — so you can reword both the badge and its tooltip in [website text](/core-platform/cms/website-text) if needed.
+
+## Reviewing Dynamically Priced Orders
+
+When viewing an order that contains an item purchased at a dynamically calculated price, a **Dynamic** badge appears next to the order item. The badge identifies which items were sold at a dynamic price rather than a manually set price, helping you reconcile sales and explain pricing to customers if queries arise.
 
 Clicking the badge opens the [pricing history](/core-platform/sale-items/pricing-history) panel scoped to that ticket type and currency, with the price record that applied at the time of purchase highlighted.
+
+## Reporting on Revenue Impact
+
+<Tip>New in Release 47</Tip>
+
+To measure what dynamic pricing is contributing, use the **Dynamic pricing uplift** preset report. It surfaces per-event revenue uplift and adds columns comparing base and gross totals before and after dynamic pricing, along with the resulting change and percentage uplift (derived from [pricing history](/core-platform/sale-items/pricing-history)). A **Pricing type** filter and grouping (Static / Dynamic) lets you separate or contrast sales by pricing method. See [default reports](/core-platform/reporting/default-reports#sales-reports) for the full column and filter reference.
+
+For programmatic access, the [pricing history API](/api-reference/pricing-history/retrieve-pricing-history) returns the price history of one or more sale items, including whether each record was dynamically priced and what triggered the change.
 
 ## Reference
 
 ### Permissions
 
-Dynamic pricing settings are managed under company settings, so users need the **Edit company settings** permission to enable, disable, or pause dynamic pricing. Sale item-level toggles (**Allow dynamic pricing**, minimum and maximum prices) follow the standard sale item edit permissions.
+Dynamic pricing settings are managed under company settings, so users need the **Edit company settings** permission to enable, disable, pause, or re-sync dynamic pricing. Ticket-level toggles (**Allow dynamic pricing**) follow the standard sale item edit permissions.
 
 ### What Doesn't Change Automatically
 
@@ -120,10 +169,10 @@ These remain under manual control regardless of whether dynamic pricing is activ
   <Card title="Pricing History" icon="clock-rotate-left" href="/core-platform/sale-items/pricing-history">
     See every manual and automated price change on a single timeline.
   </Card>
-  <Card title="Sale Item Concepts" icon="ticket" href="/core-platform/sale-items/core-concepts">
-    Pricing fields, currencies, and channel-specific prices.
+  <Card title="Dynamic Pricing Uplift Report" icon="chart-line" href="/core-platform/reporting/default-reports#sales-reports">
+    Measure the revenue impact of dynamic pricing per event.
   </Card>
-  <Card title="Sales Periods" icon="clock" href="/core-platform/event-management/sales-periods">
-    Schedule on-sale windows independently of price changes.
+  <Card title="Seating Plans" icon="chair" href="/core-platform/seating-plans/introduction">
+    How holds and price bands feed into seated dynamic pricing.
   </Card>
 </CardGroup>

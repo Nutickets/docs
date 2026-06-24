@@ -99,7 +99,14 @@ Additional item requirements:
 
 - The item must not already be cancelled
 - The item must be within the cutoff window (not past the event's refund deadline)
+- The item must not be awaiting approval (see below)
 - Bundle items can only be refunded if the lead bundle item is also included in the refund
+
+### Items Awaiting Approval
+
+<Tip>New in Release 47</Tip>
+
+Items that require approval and have not yet been approved are excluded from self service refunds. Until an item is approved its purchase is only a reservation — the customer has not been charged — so offering a refund would be misleading. These items do not appear as refundable on the refund page, and any attempt to refund one is rejected with *"Items pending approval cannot be refunded until they have been approved."* This also applies when a pending-approval item is part of a bundle whose lead item the customer is trying to refund. Once the item is approved, it becomes refundable in the normal way.
 
 ### Order-Level Restrictions
 

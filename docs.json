@@ -298,7 +298,8 @@
                   "core-platform/system-access/users",
                   "core-platform/system-access/roles-and-permissions",
                   "core-platform/system-access/visibility-groups",
-                  "core-platform/system-access/mfa"
+                  "core-platform/system-access/mfa",
+                  "core-platform/system-access/single-sign-on"
                 ]
               },
               {

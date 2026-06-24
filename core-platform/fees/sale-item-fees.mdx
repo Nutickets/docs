@@ -105,14 +105,32 @@ With dynamic pricing enabled, fees can include a **percentage-based** element th
 
 For example, a 2.5% per-item fee on a £100 ticket would charge £2.50, while the same fee on a £50 ticket would charge £1.25.
 
-#### Tiered Pricing
+#### Tiered Fees
 
-Tiered pricing allows you to set different fee amounts based on the value of the item or order the fee applies to. You define price tiers with minimum and maximum bounds, and the appropriate tier is used based on the qualifying amount.
+Tiered fees let you charge a different fee amount based on the value of the item or order the fee applies to. Instead of a single price, you define a series of price tiers, and the tier that matches the qualifying value determines the fee charged.
+
+Each tier has a **Tier minimum** and **Tier maximum** that set the value range it covers, plus the fee amount to charge within that range. Use **Add price tier** to add more tiers. The first tier starts at zero and the final tier is left open-ended, so the full value range is always covered.
 
 For example:
 - Items priced £0–£50: fee of £1.00
 - Items priced £50–£100: fee of £2.00
 - Items priced £100+: fee of £3.00
+
+Tiered fees are controlled by a company-level setting. If you do not see the option to add price tiers, it can be enabled by your account manager.
+
+##### Excluding a Tier with a Zero Price
+
+<Tip>Zero-priced tiers added in Release 47</Tip>
+
+You can set a tier's fee amount to zero so that items or orders falling in that tier are excluded from the fee. When the qualifying value matches a zero-priced tier, no fee line is shown to the customer in their basket, order summary, confirmation email, or account.
+
+This is useful when you only want the fee to apply within a certain value band. For example, you can waive a fee on low-value items while still charging it on higher-value ones:
+- Items priced £0–£10: fee of £0.00 (no fee shown)
+- Items priced £10+: fee of £2.00
+
+<Note>
+At least one tier must have a non-zero price — you cannot set every tier to zero. A warning is shown if you try to save a tiered fee with no priced tiers.
+</Note>
 
 ### Applies to Item Types
 

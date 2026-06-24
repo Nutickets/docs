@@ -36,7 +36,38 @@ Operational event workflows (assigning plans to events, event availability, even
 | **Plan information**        | Opens detailed plan stats and checks          | Validation and pre-save QA (counts, duplicates, preview)           |
 | **Export**                  | Exports the current plan                      | Sharing, backup, or moving plan data between environments          |
 | **Editor performance mode** | Simplifies block rendering detail until hover | Improves editor responsiveness in dense layouts                    |
+| **Display area content**    | Opens the area content visibility modal       | Showing the seats and objects inside areas instead of plain boxes  |
 | **Background settings**     | Opens background color/image options          | Aligning geometry to a venue map and improving editing readability |
+
+<Note>
+  **Display area content** only appears on [large plans](/core-platform/seating-plans/introduction#plan-types), because only large plans use areas.
+</Note>
+
+#### Display Area Content
+
+<Tip>New in Release 47</Tip>
+
+On large plans, areas are normally drawn as plain boundary shapes, and you open an area to see and edit the seats inside it. **Display area content** lets you show the objects inside areas — seats, tables, general admission, shapes, text, and icons — without opening each area, so you can see the whole venue laid out at once.
+
+Open it from **Plan > Display area content**. The modal has three independent toggles, each set to **Enabled** or **Disabled**, that control where area content is shown:
+
+| Toggle     | Controls where area content is shown                              |
+| ---------- | ----------------------------------------------------------------- |
+| **Editor** | The seating plan editor canvas while you build the plan           |
+| **Admin**  | The [event plan dashboard](/core-platform/event-management/seated-events#plan-dashboard) used to manage a seated event |
+| **Shop**   | The customer-facing plan in the ticket shop                       |
+
+When a toggle is **Enabled**, the contents of areas that are not currently open are drawn in place. The content appears as outlines only — seat statuses, seat labels, and row labels are **not** shown for an area that is not open, and the area's own name label is hidden while its contents are visible. Opening an area still shows that area in full detail, with statuses, labels, and colours.
+
+When a toggle is **Disabled**, areas that are not open are drawn as plain boundary shapes with their area name, and you open an area to see what is inside it.
+
+<Note>
+  Defaults differ by plan age. New large plans start with **Editor** and **Admin** enabled and **Shop** disabled. Existing plans have all three toggles disabled until you turn them on.
+</Note>
+
+<Note>
+  Showing area content for large plans is optimised so the whole venue can render smoothly — the contents of closed areas are cached and reused rather than redrawn continuously.
+</Note>
 
 ### Edit
 

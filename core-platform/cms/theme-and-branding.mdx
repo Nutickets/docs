@@ -198,6 +198,51 @@ If your shop displays maps (e.g. in event blocks with the **Interactive Map** la
 | **Green** | Green-tinted map |
 | **Dark** | Dark-themed map |
 
+## Seating Colour Palettes
+
+<Tip>New in Release 47</Tip>
+
+If you use [seating plans](/core-platform/seating-plans/introduction), you can control the colours used to show seat statuses on the plan — both for customers in the shop and for staff managing seating. These colours are configured under **Seating options** in the theme settings.
+
+### The Default Palette
+
+Every shop has a built-in **Default colour palette**. It defines a colour for each seat status and cannot be renamed, recoloured, or deleted. You can use it as-is, or add your own palettes alongside it.
+
+### Adding A Palette
+
+Click **Add colour palette** to create a new palette. Each palette has a **Label** to identify it, and a colour for each seat status. Set each colour with the colour picker. You can add several palettes and delete any palette you have added (the default palette stays).
+
+A palette defines these colours:
+
+| Status               | Where it shows                          |
+| -------------------- | --------------------------------------- |
+| **Available**        | Shop and admin                          |
+| **Unavailable**      | Shop and admin                          |
+| **Accessible spaces**| Shop and admin                          |
+| **Reserved**         | Admin only                              |
+| **Booked**           | Admin only                              |
+| **Restricted**       | Admin only                              |
+| **Season ticket**    | Admin only                              |
+
+<Note>
+  Statuses marked **Admin only** are never shown to customers in the shop — they only colour the [event plan dashboard](/core-platform/event-management/seated-events#plan-dashboard) used to manage seating.
+</Note>
+
+<Note>
+  By default, price band colours are displayed for available seats. This can be switched off per seating plan under price band settings, in which case the palette's **Available** colour is used instead.
+</Note>
+
+### Choosing Which Palette To Use
+
+Two settings decide which palette applies where:
+
+| Setting                                  | Effect                                                                                                                   |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Shop seating colour palette**          | The palette customers see when selecting seats in the shop.                                                              |
+| **Default admin seating colour palette** | The palette staff see by default on the event plan dashboard. Staff can switch to a different palette for their own view. |
+
+A live preview shows how the focused palette looks. Use the **Shop** / **Admin** toggle to preview each context, and **Randomise preview bookings** to see how the colours read across different seat statuses.
+
 ## Announcements
 
 Display a banner message above the navigation on every page of your shop. Announcements are useful for important notices like maintenance windows, special promotions, or general information.

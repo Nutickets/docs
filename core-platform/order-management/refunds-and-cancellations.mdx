@@ -49,6 +49,10 @@ For orders with more than a few items, the refund form offers a **Bulk** toggle 
 - **Customer notification** — If enabled, the customer receives an email confirming the refund with details of the amount returned
 - **Wallet deductions** — If any refunded items were wallet top-ups, the corresponding balance is deducted from the customer's wallet
 
+<Note>
+**Refunds and automatic customer groups.** Refunded and cancelled items no longer count toward an automatic [customer group's](/core-platform/customer-management/customer-groups) purchase criteria. If refunding an item drops a customer below a group's minimum-purchase requirement, they are removed from the group the next time automatic groups re-sync — either on the regular schedule or when you trigger **Re-sync** from the customer or group page.
+</Note>
+
 ### Online vs Offline Refunds
 
 **Online refunds** are processed automatically through the payment gateway. The money is returned to whichever payment method the customer originally used. This is the most common approach for card payments.
@@ -57,6 +61,34 @@ For orders with more than a few items, the refund form offers a **Bulk** toggle 
 
 <Note>
 For orders paid with [split payments](/core-platform/payments/split-payments), the refund is automatically distributed proportionately across the original payment transactions. For example, if a customer paid 60% by card and 40% by wallet, a refund of any item is split 60/40 across those payment methods.
+</Note>
+
+### Refunding Cancelled or Partially Refunded Items
+
+<Tip>New in Release 47</Tip>
+
+A cancelled item is no longer a dead end. If an item still has money attached to it, you can issue a refund against it even after it has been cancelled or after part of its value has already been refunded. This supports several common situations:
+
+- **Delayed reimbursement** — An item was cancelled first (for example, to release the seat) with the refund decision deferred until later. You can return the money once the decision is made.
+- **Correcting a mistaken cancellation** — An item was cancelled without a refund by mistake, and you now want to give the customer their money back.
+- **Refunding fees separately** — You refunded the item value earlier but left the processing or platform fees in place, and now want to return those too.
+
+When you reopen a refund on the order, items that were previously cancelled or refunded remain selectable as long as they still have a refundable balance. Each such item is annotated on the refund page so you know its history:
+
+| Annotation | What it means |
+|---|---|
+| **Cancelled at [date]** | The item was cancelled. If it still has a refundable balance, it can be refunded. |
+| **Refunded on [date]** | The item was previously refunded. The line also shows **Refunded: [amount]** and **Remaining: [amount]**. |
+| **Refunded: [amount], Remaining: [amount]** | How much has already been returned and how much is still available to refund. |
+
+The **Remaining** figure is the item total minus whatever has already been refunded — this is the maximum you can return on this pass.
+
+When your selection includes a cancelled item and you are issuing a refund (not a cancellation), the refund page shows a warning so the action is deliberate:
+
+> Your selection includes one or more cancelled tickets. A refund will still be processed for these items.
+
+<Note>
+Items whose value was already returned by other means cannot be refunded again. An item that was replaced through a [resale](/core-platform/order-management/order-modifications) or an [order modification](/core-platform/order-management/order-modifications#refunding-a-modified-order) has had its value moved elsewhere (resale proceeds or a balance transfer to the replacement order), so it stays blocked. Refund the replacement order instead. Items with no remaining balance are also blocked with **Item already refunded**.
 </Note>
 
 ### Cancellation Fees
@@ -167,8 +199,6 @@ For situations where you need to refund multiple orders at once — such as canc
 3. The system displays all eligible orders with refundable items from those events.
 4. Optionally, filter the order list to narrow which orders are included:
 
-<Tip>New in Release 45</Tip>
-
 | Filter | Description |
 |--------|-------------|
 | **Payment method** | Only show orders paid with a specific payment method |
@@ -185,10 +215,58 @@ For situations where you need to refund multiple orders at once — such as canc
    - **Reason** — Refund reason for records
 6. Submit the bulk refund.
 
-Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue. After all orders are processed, you receive a **Bulk refund summary email** showing which orders were successfully refunded and which failed.
+Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue, so one problem order never blocks the rest of the batch. After all orders are processed, you receive a **Bulk refund summary email** showing which orders were successfully refunded and which failed.
+
+After you submit, the platform takes you straight to the [Bulk Refund Status](#following-a-bulk-refund-in-real-time) page for the batch, where you can watch progress without waiting for the email.
 
 <Warning>
 Bulk refunds cannot be undone. Review the list of affected orders carefully before submitting.
+</Warning>
+
+<Note>
+Orders that are already part of an in-progress bulk refund are held back from the picker until that batch finishes. If you open the Bulk refund page while a batch is still running, a banner reading **You have bulk refunds in progress** lists each in-flight batch with a **View status** link, alongside the note *"Orders included in these batches are excluded from the list below until they finish processing."* This prevents an order being included in two batches at once.
+</Note>
+
+### Following a Bulk Refund in Real Time
+
+<Tip>Real-time status page added in Release 47</Tip>
+
+Every bulk refund has its own **Bulk Refund Status** page, reached automatically after you submit or from the **View status** link on the Bulk refund page. The page refreshes itself while the batch is running, so you can leave it open and watch orders resolve. You can also return to it later using the same link — the URL is tied to the batch.
+
+At the top of the page you see:
+
+- A status banner: *"This bulk refund is still processing. The list will update automatically as orders are resolved."* while in progress, then either *"All orders in this batch were refunded successfully."* or a message naming how many orders could not be refunded.
+- **Batch ID** (copyable, useful when contacting support), **Initiated by**, **Initiated at**, and **Last updated at**.
+- A **Progress** line with a count badge for each state: **Queued**, **Pending**, **Succeeded**, and **Failed**. A progress bar fills as orders resolve.
+
+Below that, the **Orders** table lists every order in the batch with its current **Status**, the **Refund** amount, the **Payment gateway**, when it **Resolved at**, and a **Details** column. Each order moves through these states:
+
+| Status | Meaning |
+|---|---|
+| **Queued** | Waiting to be processed. The details column shows *"Awaiting processing"*. |
+| **Pending** | Submitted to the payment gateway, which has not yet confirmed the outcome. The details column shows *"Awaiting payment gateway confirmation"*. |
+| **Success** | The order was refunded. |
+| **Failed** | The order could not be refunded. The reason is shown in the details column. |
+
+The page stops refreshing once the batch is complete (no orders left **Queued** or **Pending**).
+
+### Processing a Pending Refund Manually
+
+A refund that the gateway has accepted but not yet confirmed sits in a **Pending** state until the gateway's confirmation webhook arrives (see [Tracking In-Flight Refunds](#tracking-in-flight-refunds)). In almost all cases the webhook arrives on its own and you should simply wait.
+
+Occasionally a webhook never arrives — for example in a mis-configured environment — leaving the order stuck on **Pending** indefinitely. For these cases you can resolve the pending refund by hand from the order's payment history:
+
+1. Open the order and find the pending refund transaction in its payment history.
+2. On that transaction, open the **Update status** menu (shown only for a refund still in the **Pending** state).
+3. Choose **Mark as successful** or **Mark as failed**, then confirm.
+
+| Choice | What happens |
+|---|---|
+| **Mark as successful** | Runs the same follow-up as a real successful refund: the refunded items are cancelled (and restocked if restock was selected when the refund was created), the customer is emailed a confirmation if notifications were enabled, the order's refunded total and status update, and any linked integrations (such as accounting or refund protection) run. |
+| **Mark as failed** | Marks the refund as failed in the order's transaction history. The items stay active — nothing is cancelled or restocked — and you can attempt the refund again. |
+
+<Warning>
+Only update a pending refund's status once you have confirmed the actual outcome directly with your payment provider. Marking a refund successful does not move any money — it only records the outcome and runs the follow-up actions. If a pending refund was part of a bulk refund, resolving it here also advances that order on the [Bulk Refund Status](#following-a-bulk-refund-in-real-time) page.
 </Warning>
 
 ### Tracking In-Flight Refunds
@@ -217,7 +295,8 @@ Not all items or orders can be refunded. The following conditions prevent a refu
 | Condition | Reason |
 |---|---|
 | **Order is frozen** | The order is locked during an active [modification](/core-platform/order-management/order-modifications) or resale listing. Cancel the modification or wait for it to complete first. Once a modification completes, refund the replacement order — see [Refunding a Modified Order](/core-platform/order-management/order-modifications#refunding-a-modified-order). |
-| **Item already refunded** | The item has already been cancelled or refunded. |
+| **Item already refunded** | The item has no refundable balance left. A cancelled or partially refunded item that still has a remaining balance can be refunded — see [Refunding Cancelled or Partially Refunded Items](#refunding-cancelled-or-partially-refunded-items). |
+| **Item replaced by resale or modification** | The item's value was already returned elsewhere (resale proceeds or a balance transfer to the replacement order). Refund the replacement order instead. |
 | **Claimed gift voucher** | Gift vouchers that have been redeemed by the recipient cannot be refunded. |
 | **Pending refund in progress** | Another refund is currently being processed for this order (common with asynchronous payment gateways). Wait for it to complete. |
 | **Deposit item** | Deposit payments are non-refundable through the standard refund flow. |

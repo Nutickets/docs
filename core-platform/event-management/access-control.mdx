@@ -7,7 +7,7 @@ description: "Manage event entry by scanning attendees into configurable zones u
 
 Access control handles how attendees are admitted to an event. Attendees are scanned in (and optionally out) of **zones** — configurable areas on an event that define their own scanning rules, capacity limits, and entry restrictions.
 
-Every event automatically gets a default zone called **Entry**, configured with in-only scanning and single access. You can use this zone as-is for simple events, or create additional zones for different areas of your venue — VIP sections, stages, product collection points, and so on. Zones are managed from the event dashboard.
+Every event automatically gets a default zone called **Entry**, configured with **In/Out Manual** scanning and single access. You can use this zone as-is for simple events, or create additional zones for different areas of your venue — VIP sections, stages, product collection points, and so on. Zones are managed from the event dashboard.
 
 Scanning is performed using the [Access Control Pro](/mobile-apps/access-control-pro/introduction) mobile app, the [Box Office Pro](/mobile-apps/box-office-pro/introduction) app, or directly from the admin panel.
 
@@ -54,6 +54,22 @@ Zones are created from the **Zones** tab on the event dashboard. The zone form i
 **Scanning Settings** — the zone's [scan mode](#scan-modes), [scanning accuracy](#scanning-accuracy), [capacity](#capacity), and [scan limit](#scan-limits).
 
 **Advanced Settings** — [age restrictions](#age-restrictions), [auto scan-out](#auto-scan-out), and [ignoring validity dates](#ignoring-validity-dates).
+
+### The Default Entry Zone
+
+<Tip>Editable default entry zone added in Release 47</Tip>
+
+Every event is created with a default zone named **Entry**. This is the zone attendees pass through at the main gate, and it cannot be deleted — it always exists so that every event has somewhere to scan attendees.
+
+New events create the **Entry** zone with **In/Out Manual** scanning and single access, so attendees can be scanned both **in** and **out** of the main entry without any extra setup.
+
+You can now open the **Entry** zone from the **Zones** tab and edit it, but the default zone is intentionally restricted compared to a manually created zone:
+
+- Only the **Scanning mode** can be changed. The other configuration cards (Basic Details, Access Control, Advanced Settings) are hidden, and settings such as scan limit, capacity, eligible items, and age restrictions stay at their defaults.
+- The scanning mode can be set to either **In Only** or **In/Out Manual**. **In/Out Automatic** is not available for the default zone.
+- The zone name is fixed — *"The default entry zone name cannot be changed."*
+
+To track entry and exit on the main gate, leave the **Entry** zone on **In/Out Manual** (the default). To only record arrivals, switch it to **In Only**. For anything more advanced — capacity limits, specific eligible items, age checks — create an additional zone instead.
 
 ### Scan Modes
 
@@ -166,6 +182,10 @@ Bulk scanning is supported — multiple barcodes can be submitted in a single re
 Admin admission requires either permission to edit the event or permission to edit the specific zone.
 
 Admission can also be performed via the API. Use the [Retrieve Entry Tickets](/api-reference/access-control/retrieve-entry-tickets) endpoint to look up ticket details, and [Admit Entry Tickets](/api-reference/access-control/admit-entry-tickets) to process scans programmatically. For guest list management, use the [Retrieve](/api-reference/access-control/retrieve-guest-list-attendees) and [Update](/api-reference/access-control/update-guest-list-attendees) Guest List Attendees endpoints.
+
+<Tip>Scan-out support added in Release 47</Tip>
+
+When admitting tickets through the API, each scan can specify a direction. Omitting the direction records a scan **in**; setting it to **out** records the attendee leaving. This allows the [Entry](#the-default-entry-zone) zone and other in/out zones to be scanned out programmatically, with visit duration calculated from the matching scan-in. A scan **out** of any zone also triggers the [Attendee check out](/core-platform/technical/webhooks#webhook-events) webhook.
 
 ## Zone Statistics
 

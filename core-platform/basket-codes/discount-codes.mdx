@@ -170,9 +170,16 @@ These rules only appear for percentage discount types and control which items re
 
 ### Box Office Visibility
 
-| Rule | Purpose |
+<Tip>New default in Release 47</Tip>
+
+The **Visible in Box Office** setting controls whether a code is available to [box office](/core-platform/box-office/introduction) staff. New discount codes are now **visible in box office by default**, since codes are most often used there. Existing codes are unaffected.
+
+| State | Effect |
 |------|---------|
-| **Visible in box office** | Makes the code available to box office staff. Optionally restrict visibility to a specific box office role. |
+| **Visible in Box Office** enabled | The code appears in the box office discount code dropdown for staff to apply. Toggle **Only show to users with a specific role** to restrict it to a single box office role; leaving the role unset makes it **Visible to all users in box office**. |
+| **Visible in Box Office** disabled | The code is not available in box office. If staff try to apply it, they see *"This discount code is not available in box office."* |
+
+To change the setting, open the discount code detail page and toggle **Visible in Box Office** in the eligibility options. Turning it off also clears any box office role restriction.
 
 ## Auto-Apply Discount Codes
 
@@ -278,7 +285,7 @@ Custom discounts are separate from discount codes and do not require a code stri
 
 ### Box-Office-Only Codes
 
-Discount codes with **Visible in box office** enabled appear in the box office dropdown. You can further restrict visibility to a specific box office role, ensuring only certain staff members see and use particular codes.
+Discount codes with **Visible in Box Office** enabled appear in the box office dropdown. You can further restrict visibility to a specific box office role, ensuring only certain staff members see and use particular codes.
 
 ## Managing Discount Codes
 

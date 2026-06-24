@@ -55,6 +55,14 @@ Every order item is linked to the pricing history record that applied when it wa
 
 This link is what enables the **Dynamic** badge on order items to navigate directly to the relevant entry in the pricing history. It also supports reporting and reconciliation — if a customer queries why they paid a specific amount, the pricing history shows exactly what was active at that moment.
 
+## Accessing Pricing History via the API
+
+<Tip>New in Release 47</Tip>
+
+The [pricing history API](/api-reference/pricing-history/retrieve-pricing-history) lets integrations retrieve the price history of one or more ticket types programmatically — useful for syncing pricing data into external systems or building your own reporting. You pass the sale item IDs you're interested in, and can optionally narrow the results by currency and sales channel.
+
+Each record returned mirrors what the panel shows: the base price and fees, the currency, the sales channel, whether the change was applied by [dynamic pricing](/core-platform/integrations/dynamic-pricing), and what triggered it. Results are paginated, so large histories come back in pages.
+
 ## Related Pages
 
 <CardGroup cols={2}>

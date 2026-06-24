@@ -42,6 +42,19 @@ When a seller lists items, each item becomes a **resale contract** within a **re
 
 When a buyer purchases a resale item, the original seller's item is cancelled and a new item is created for the buyer. The seller receives their payout according to the configured [payout mode](/core-platform/resale/configuration#payout-behaviour), minus any [resale fees](/core-platform/resale/resale-fees) they are responsible for.
 
+### The Listing Lifecycle
+
+<Tip>Lifecycle clarified in Release 47</Tip>
+
+A listing is **Inactive** until its [purchase window](/core-platform/resale/configuration#time-windows) opens, then **Active** while buyers can purchase. From there it ends in one of four ways, each shown clearly as the listing's status:
+
+- **Sold** — every item in the listing was purchased
+- **Expired** — the sale time ended (the seller's deadline or the event's purchase window passed, or the event started) without the items selling, so the platform closed the listing automatically
+- **Cancelled** — the seller, or an admin, closed the listing early and chose a reason
+- **Closed** — a general closed state covering listings that have ended
+
+Once a listing has ended it **cannot be re-opened**. Unsold items are returned to the seller's order, and the seller is free to create a fresh listing if the items are still eligible. The full lifecycle, statuses, and closure reasons are covered in [Selling and Buying](/core-platform/resale/selling-and-buying#listing-lifecycle-and-statuses).
+
 ## Settings Inheritance
 
 Resale settings are configured through a three-level hierarchy:

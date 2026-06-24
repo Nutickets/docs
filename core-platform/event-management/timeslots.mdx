@@ -174,12 +174,29 @@ Timeslots that are sold out or off sale appear greyed-out with a **Sold Out** or
 - **Hide when off-sale** — removes the timeslot from view when it is outside its sale period or after its end time.
 - **Hide when out-of-stock** — removes the timeslot from view when stock is exhausted.
 
-### Customer Filters
+### Selecting a Date and Time
 
-The shop provides a time filter allowing customers to narrow timeslots by time of day (e.g. morning, afternoon, or a specific time).
+<Tip>Redesigned in Release 47</Tip>
+
+When the timeslot selection UI is enabled as an [early access feature](/core-platform/ticket-shop/shop-settings#early-access-features), customers choose a date and time through a simplified, step-by-step flow that also covers [scheduled events](/core-platform/event-management/schedules). The same flow handles both single-day timeslotted events and longer schedules.
+
+**Choosing a date.** Customers first pick a date. Short date ranges are shown as a single list grouped under month headings (**Select date**). When there are many dates spanning several months, a **Select month** step appears first: customers pick a month, then move between months using the **previous** and **next** month arrows or return to the full list with **View other months**. Each entry shows how many dates or slots it contains, or **Sold out** when nothing is available.
+
+**Choosing a time.** After selecting a date, customers choose a timeslot. When a day has many timeslots spread across the day, they are grouped into segments:
+
+| Segment             | Covers        |
+| ------------------- | ------------- |
+| **View all times**  | The whole day |
+| **Morning**         | Until midday  |
+| **Afternoon**       | From midday   |
+| **Evening**         | From 5pm      |
+
+Selecting a segment shows just those times, with **View all timeslots** to see the full day. Customers can step through dates without leaving the time view using the **Previous date** and **Next date** arrows, and use the top-left link to go back — **View day segments** when a segment is open, or **View other dates** to return to the date list. When a day has only a few timeslots, the segments are skipped and the times are listed directly.
+
+**Sold-out indicators.** Timeslots, days, and day segments that are unavailable stay visible but appear greyed out and cannot be selected. They are labelled **Sold out** when stock is exhausted, or **Off sale** when outside their on-sale period.
 
 <Note>
-When the new timeslot selection UI is enabled as an [early access feature](/core-platform/ticket-shop/shop-settings#early-access-features), the time-of-day grouping (morning, afternoon, evening) is built into the selection flow — customers see grouped time options automatically when there are many timeslots.
+If the available dates and times cannot be loaded, customers see the message *We could not load the available dates and times. Please try again.* with a **Try again** action. Months that have already loaded stay available while the failed request is retried.
 </Note>
 
 ### Display Format
@@ -194,6 +211,12 @@ The event setting **Display timeslot** controls how timeslot times are rendered 
 | Hide start & end times        | No time is displayed              |
 
 Each timeslot also shows its lowest price when visible in the shop.
+
+#### Times Alongside Named Timeslots
+
+<Tip>Added in Release 47</Tip>
+
+In the redesigned selector, a timeslot that has a [name](#core-fields) now also shows its start and end time on a second line beneath the name. Previously only the name was shown, which made slots indistinguishable when every timeslot shared the same name (for example, several "Entry timeslot" slots that differ only by time). Timeslots without a name continue to show their start and end time as the main label.
 
 ### Whole Event Option
 

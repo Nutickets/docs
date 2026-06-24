@@ -85,12 +85,35 @@ Customers redeem gift vouchers from their account via the **Redeem gift voucher*
 - **Cancelled or rejected** vouchers cannot be redeemed.
 - Vouchers with **pending transfers** cannot be redeemed until the transfer is resolved.
 
+### Redeeming a Voucher Bought by Someone Else
+
+<Tip>New in Release 47</Tip>
+
+Because a voucher code can be shared, the customer who redeems a voucher is often not the customer who bought it. When a voucher is redeemed by someone other than the purchaser, the voucher moves from the purchaser to the redeeming customer and this is recorded as a transfer.
+
+These transfers are visible in the [transfer reports](/core-platform/reporting/default-reports#transfer-reports) alongside ticket, product, and season ticket transfers, so you can see which vouchers changed hands and between which customers. Set the report's item type filter to **Gift Voucher** to isolate them.
+
 ## Spending the Balance
 
 Redeemed voucher amounts are credited to the customer's [account balance](/core-platform/account-balances/top-ups) (wallet). This balance can then be used as a payment method at checkout:
 
 - The balance can cover the **full order amount** or be used as a **partial payment** alongside another payment method (e.g. card) via [split payments](/core-platform/payments/split-payments).
 - Account balance **cannot** be used to purchase additional gift vouchers or [wallet topups](/core-platform/account-balances/top-ups).
+
+### Tracing a Balance Back to a Voucher
+
+<Tip>New in Release 47</Tip>
+
+When a balance is funded by a redeemed gift voucher, the originating voucher is recorded in the wallet transaction history. The credit entry shows a **Gift voucher** value listing the voucher code that was redeemed, so you can trace a balance back to the specific voucher it came from.
+
+This appears in two places:
+
+- On the customer's own account, in their **Wallet transaction history**.
+- On the customer's record in the admin, in their wallet transactions. Here the voucher code is a link that opens the original voucher order item.
+
+<Note>
+The **Gift voucher** value only appears on transactions created by redeeming a voucher. Other top-up or spend transactions do not show it.
+</Note>
 
 ## Configuration
 
@@ -139,8 +162,6 @@ Gift voucher fees can be configured separately from other item types:
 - Orders containing gift vouchers [cannot be modified](/core-platform/order-management/order-modifications).
 
 ## Admin Management
-
-<Tip>New in Release 45</Tip>
 
 The gift voucher listing page in the admin panel shows **sales counts** and **redemption counts** directly on the index, so you can see at a glance how each voucher is performing without opening individual records.
 

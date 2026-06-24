@@ -103,7 +103,7 @@ The role form presents abilities grouped by entity type (Events, Orders, Venues,
    - **Created by them** — applies only to records the user created
 
 Some entity types have specialised permissions beyond the standard set. For example:
-- **Events** include abilities like **Box office: sell items**, **Publish**, and **Cancel**
+- **Events** include abilities like **Box office: sell items**, **Publish**, **Cancel**, and **Email attendees**
 - **Orders** include **Refund** and **Apply cancellation fees**
 - **Users** include **Access** (for [accessing another user's account](/core-platform/system-access/users#accessing-a-users-account))
 - **Mobile box office** includes separate abilities for selling, applying discounts, issuing refunds, viewing reports, and opening the cash drawer
@@ -118,6 +118,20 @@ Some abilities display additional guidance:
 
 - **Zones**: You do not require zone permissions to scan zones for events you can edit. Zone permissions are only needed to scan zones belonging to events the user cannot otherwise edit.
 - **Seating plans**: To create new seating plans, the user must also have the ability to view at least one venue or create new venues.
+
+### Email Attendees
+
+<Tip>New in Release 47</Tip>
+
+The **Email attendees** ability is an event permission that lets a user send emails to the people booked onto an event — for example to message ticket holders for a specific sale item or price band. It appears among the **Events** abilities when configuring a role, alongside permissions like **Publish** and **Cancel**.
+
+Because it is an event permission, it follows the same visibility model as other event abilities: grant it with **All** to cover every event the user can access, **Selected** to choose specific events, or **Created by them** to limit it to events the user created. A user can only email the attendees of events the granted scope includes.
+
+<Note>
+Email attendees is a distinct permission, separate from editing an event. A user must be granted it explicitly to message attendees, even if they can already edit the event.
+</Note>
+
+When this permission was introduced, existing roles were updated automatically: any role that could already edit events was granted **Email attendees** at the same scope. A role with blanket edit access received blanket email-attendees access, a role limited to specific events received it for those same events, and a role scoped to events the user created kept that same restriction. No action was needed to retain attendee-emailing access for roles that could already manage events.
 
 ## Editing a Role
 

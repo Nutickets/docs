@@ -99,6 +99,28 @@ When multiple tickets are mapped to the same seat, automatic ticket selection pi
 - Seats and areas in price bands without any mapped sale items are not saleable.
 - At least one sale item must be assigned to a price band before the plan dashboard becomes available.
 
+## What Customers See During Seat Selection
+
+When a customer picks a seat in the shop, they choose which ticket to apply to it. Each ticket option carries extra detail to help the customer decide.
+
+### Ticket Information
+
+<Tip>New in Release 47</Tip>
+
+Each ticket in the seat selection list can show:
+
+- **Price breakdown** — when a ticket has fees, the price is shown alongside a breakdown of the base price and fees, for example `(£10.00 + £1.50 Fees)`, so the customer can see what makes up the total.
+- **Custom sale badge** — if a [custom sale badge](/core-platform/sale-items/core-concepts#visibility--display) has been configured for the ticket, it appears next to the ticket as a short label. Where a badge has explanatory tooltip text, an info icon reveals it.
+- **More details** — an expandable area that can show the ticket's description, a note that the seat has a comment, and a notice that the ticket has [add-ons](/core-platform/sale-items/add-ons): **This item has add-ons available to purchase during checkout.** The actual add-ons are then chosen during checkout. The description shows automatically when the ticket is set to display its description; otherwise it sits behind **More details**.
+
+These details also appear once a ticket has been selected for the seat, so the customer can review their choice before adding it to the basket.
+
+### Accessibility Badge
+
+<Tip>New in Release 47</Tip>
+
+Seats marked as accessible in the [seating plan](/core-platform/seating-plans/introduction) show an **Accessible** badge with a wheelchair icon during seat selection, so customers can identify accessible spaces while choosing where to sit. The same **Accessible** badge appears on the customer's digital pass for that seat.
+
 ## Resyncing And Changing Plans
 
 After initial attachment, use **Resync plan** from plan settings to apply updates from the source plan.
@@ -152,6 +174,27 @@ In this platform, that is handled through seat status changes:
 - Use **Unavailable** when a space should be removed from sale but still shown as unavailable.
 
 If you need to remove spaces from the seating plan structure itself (rather than applying an event status), use the [Editor](/core-platform/seating-plans/editor#hidden-vs-delete-seats) tooling and then apply sync/revision updates to events.
+
+### Legend And Colours
+
+<Tip>Redesigned in Release 47</Tip>
+
+A legend beneath the plan explains what the colours on the dashboard mean and lets you control how seats are coloured. It is grouped into four parts:
+
+- **Statuses** — a row of swatches for the seat statuses you may see on the plan: **Reserved**, **Booked**, **Double booked**, **Unavailable**, and **Available**. **Season ticket** appears for events in a [schedule](/core-platform/event-management/schedules), and **Booked in a time slot** appears when the event has [timeslots](/core-platform/event-management/timeslots).
+- **Price bands** — each price band with its colour and shape, and how many sale items are assigned to it.
+- **Holds** — each [hold](/core-platform/seating-plans/holds) used on the plan, with its colour and how much of its seat and general admission capacity is in use.
+- **Restricted to...** — each role that seats are restricted to, shown with the role's colour.
+
+Three toggles control which colours the plan uses. Each switches between an on and off state:
+
+| Toggle                                        | Enabled                                                              | Disabled                                                  |
+| --------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------- |
+| **Show price band colours** / **Hide price band colours** | Available seats are coloured by their assigned price band, and **Available** is removed from the status legend | Available seats use the plain available colour, and **Available** is shown in the status legend |
+| **Show hold colours** / **Hide hold colours** | Seats restricted to a hold are coloured with that hold's colour      | Held seats use their normal status colour                 |
+| **Show role colours** / **Hide role colours** | Seats restricted to a role are coloured with that role's colour      | Role-restricted seats use their normal status colour      |
+
+You can also switch the [seating colour palette](/core-platform/cms/theme-and-branding#seating-colour-palettes) used on the dashboard from the palette selector in the legend. This changes the colours just for your view; the choice is remembered in your browser. The default selection follows the **Default admin seating colour palette** configured for your shop.
 
 ### Other Dashboard Actions
 

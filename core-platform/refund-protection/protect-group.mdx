@@ -131,8 +131,6 @@ The protection badge colour defaults to green (#005C3D) but can be customised pe
 
 ### Refund Protection in Reports and APIs
 
-<Tip>New in Release 45</Tip>
-
 The refund protection status (protected, unprotected, claimed) is available:
 
 - On the [orders API](/api-reference/orders/retrieve-orders) and [order items API](/api-reference/orders/retrieve-order-items) responses, so integrations can programmatically check protection status
@@ -153,6 +151,25 @@ Protection cancellations are coordinated automatically with Protect Group's API 
 
 <Note>
 If a customer's order has active refund protection and they initiate an order modification, the protection policy is cancelled. They may purchase a new policy on the modified order. The checkout displays: **"Your refund protection policy will be cancelled, you may purchase a new policy on your modified order."**
+</Note>
+
+### Retrying a Failed Cancellation
+
+<Tip>Manual retry added in Release 47</Tip>
+
+Occasionally the request to cancel protection with Protect Group can fail — for example, if Protect Group is temporarily unavailable when you refund or cancel a protected item. When this happens, the item is still refunded or cancelled on your side, but Protect Group is not notified. You'll see the message **"Refund processed successfully but there was a problem cancelling the item(s) in Protect Group."**
+
+You can re-send the cancellation without re-processing the refund:
+
+1. Open the affected order and go to the order item.
+2. Click the refund protection badge in the **Refund protection** row to open the **Integration API Requests** page for that item.
+3. Find the failed request (its **DELETE** call is shown with a red badge) and click **Retry**.
+4. Confirm **"Are you sure you want to retry this failed API Request?"**
+
+On success, the cancellation is re-sent to Protect Group and the new request appears at the top of the page: **"The failed API request was retried successfully. The new request is shown at the top of this page."**
+
+<Note>
+If the protection was already cancelled successfully on an earlier attempt, retrying reports **"This Protect Group refund protection has already been cancelled, so there was nothing to retry."** Only failed cancellation requests can be retried — other Protect Group calls (such as creating a policy) do not show a **Retry** button.
 </Note>
 
 ## Box Office Support

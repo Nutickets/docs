@@ -140,6 +140,29 @@ When an order with a Számlázz.hu document is refunded or cancelled, the system
 Corrective invoices are only generated for invoices, not receipts. Partial refunds on orders with receipts do not trigger a corrective document.
 </Note>
 
+### Resale Fees and Seller Contributions
+
+<Tip>New in Release 47</Tip>
+
+When a ticket is resold, the seller can contribute toward the [resale fees](/core-platform/resale/resale-fees) so the buyer pays less. Számlázz.hu documents reflect only the buyer's share of those fees:
+
+- On the **buyer's** invoice, each resale fee line shows the buyer's portion after the seller's contribution is deducted. If the seller covered a fee in full, that fee does not appear on the buyer's invoice at all.
+- On a **corrective invoice**, refunded resale fees are adjusted the same way, so the corrected amount matches what the buyer actually paid rather than the full fee.
+
+### Third-Party Refund Protection Claims
+
+<Tip>New in Release 47</Tip>
+
+When a customer makes a [refund protection](/core-platform/refund-protection/protect-group) claim that is paid out by the third-party provider, the ticket is cancelled but no money is refunded by you — the provider reimburses the customer directly. For these claims, a corrective invoice is still issued so the tax record stays accurate:
+
+- The claimed ticket is added as a negative line for its full amount.
+- A **Refund Protect Payment** line is added for the same amount, so the corrective invoice nets to zero.
+- The invoice comment notes: **"The invoice was corrected due to the use of the Refund Protect service."**
+
+<Note>
+This corrective invoice is only generated for claims on **upcoming events**. Claims on events that have already ended do not produce a corrective invoice.
+</Note>
+
 ## Managing Failed Requests
 
 If document creation or processing fails (e.g. due to a Számlázz.hu service outage or data issue), administrators can retry failed operations from the order management area in the admin.
