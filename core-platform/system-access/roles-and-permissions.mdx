@@ -112,26 +112,11 @@ Some entity types have specialised permissions beyond the standard set. For exam
 You can only assign abilities that you yourself have. This prevents users from creating roles more powerful than their own.
 </Note>
 
-### Help Text for Specific Abilities
+For the full list of specialised permissions — including event abilities like **Email attendees**, box office validation overrides, and per-payment-method controls — along with what each one does and the impact of granting it, see the Permissions Reference.
 
-Some abilities display additional guidance:
-
-- **Zones**: You do not require zone permissions to scan zones for events you can edit. Zone permissions are only needed to scan zones belonging to events the user cannot otherwise edit.
-- **Seating plans**: To create new seating plans, the user must also have the ability to view at least one venue or create new venues.
-
-### Email Attendees
-
-<Tip>New in Release 47</Tip>
-
-The **Email attendees** ability is an event permission that lets a user send emails to the people booked onto an event — for example to message ticket holders for a specific sale item or price band. It appears among the **Events** abilities when configuring a role, alongside permissions like **Publish** and **Cancel**.
-
-Because it is an event permission, it follows the same visibility model as other event abilities: grant it with **All** to cover every event the user can access, **Selected** to choose specific events, or **Created by them** to limit it to events the user created. A user can only email the attendees of events the granted scope includes.
-
-<Note>
-Email attendees is a distinct permission, separate from editing an event. A user must be granted it explicitly to message attendees, even if they can already edit the event.
-</Note>
-
-When this permission was introduced, existing roles were updated automatically: any role that could already edit events was granted **Email attendees** at the same scope. A role with blanket edit access received blanket email-attendees access, a role limited to specific events received it for those same events, and a role scoped to events the user created kept that same restriction. No action was needed to retain attendee-emailing access for roles that could already manage events.
+<Card title="Permissions Reference" icon="list-check" href="/core-platform/system-access/permissions-reference">
+  Every permission, grouped by area, with what it controls and the impact of turning it on.
+</Card>
 
 ## Editing a Role
 
@@ -184,6 +169,9 @@ Direct abilities follow the same rules as role abilities: you can only assign ab
 ## Related Pages
 
 <CardGroup cols={2}>
+  <Card title="Permissions Reference" icon="list-check" href="/core-platform/system-access/permissions-reference">
+    Every permission, grouped by area, with what each one controls
+  </Card>
   <Card title="Users" icon="users" href="/core-platform/system-access/users">
     Add users and assign them roles
   </Card>

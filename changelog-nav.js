@@ -9,13 +9,13 @@ const CHANGELOG_LINKS = {
     title: 'Release Notes',
     icon: 'rocket',
     href: '/releases',
-    body: 'New features and improvements across the web platform.',
+    body: 'New features across the web platform.',
   },
   mobile: {
     title: 'Mobile App Updates',
     icon: 'mobile-screen',
     href: '/releases/mobile',
-    body: 'The latest releases across our mobile app suite.',
+    body: 'The latest from our mobile app suite.',
   },
   api: {
     title: 'API Changelog',

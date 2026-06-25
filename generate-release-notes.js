@@ -125,7 +125,8 @@ async function main() {
         "Release Notes",
         `Latest product updates from ${cutoffYear}/${currentYear}`,
         [CHANGELOG_LINKS.mobile, CHANGELOG_LINKS.api],
-        true
+        true,
+        true // markMajorReleases — tag major releases in the right-hand date list
     );
 
     // B. Mobile App Updates
@@ -147,7 +148,8 @@ async function main() {
             `${year} Updates`,
             `Release history for ${year}`,
             undefined,
-            true
+            true,
+            true // markMajorReleases — tag major releases in the right-hand date list
         );
     }
 
@@ -439,8 +441,24 @@ function updateDocsJson(webArchiveYears, mobileArchiveYears) {
 // --- LINK PRESERVATION ---
 
 function normalizeLabel(label) {
-    // Strip stray formatting characters (e.g. "20th January 2026**" → "20th January 2026")
-    return label.replace(/[*]+$/g, '').trim();
+    // Strip the leading major-release marker ("◆ 24th June 2026" → "24th June 2026"), any legacy
+    // version suffix ("24th June 2026 · R47" → "24th June 2026"), and stray trailing formatting
+    // characters ("20th January 2026**" → "20th January 2026"). Keeps link-preservation keys stable
+    // regardless of whether/how a label is decorated, across regenerations.
+    return label
+        .replace(/^◆\s*/, '')
+        .replace(/\s*·\s*R\d\w*\s*$/, '')
+        .replace(/[*]+$/g, '')
+        .trim();
+}
+
+// Prefix major-release labels with a small "◆" marker (e.g. "◆ 24th June 2026") so they stand out
+// among the date-only patch entries in the left date badge and the right-hand "on this page" list,
+// without widening the badge enough to wrap. The marker is stripped again by normalizeLabel(), so
+// link-preservation keys stay stable across regenerations.
+function formatUpdateLabel(update) {
+    const isMajor = /^Release\s+R\d/.test(update.description);
+    return isMajor ? `◆ ${update.label}` : update.label;
 }
 
 function parseExistingMdx(filePath) {
@@ -856,7 +874,7 @@ function groupHeadingsIntoAccordions(content) {
     return out.join('\n');
 }
 
-async function generateMdxFile(updates, filePath, title, description, crossLinks, enableAccordions = false) {
+async function generateMdxFile(updates, filePath, title, description, crossLinks, enableAccordions = false, markMajorReleases = false) {
     // Parse existing file to preserve manually-added links
     const existingBlocks = parseExistingMdx(filePath);
     let preservedCount = 0;
@@ -1003,8 +1021,10 @@ description: "${description}"
             processedContent = groupHeadingsIntoAccordions(processedContent);
         }
 
+        const updateLabel = markMajorReleases ? formatUpdateLabel(update) : update.label;
+
         mdxContent += `
-<Update label="${update.label}" description="${update.description}">
+<Update label="${updateLabel}" description="${update.description}">
 
 ${processedContent}
 

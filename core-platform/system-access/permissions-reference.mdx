@@ -1,0 +1,307 @@
+---
+title: "Permissions Reference"
+description: "A complete reference of every permission you can grant in a role — grouped by area, with what each one controls and the impact of turning it on."
+---
+
+## Overview
+
+This page lists every permission available when building a role in the admin area, organised by the area of the platform it applies to. Use it to answer two questions: *what does this permission actually let someone do?* and *what's the impact of granting it?*
+
+It's a companion to [Roles & Permissions](/core-platform/system-access/roles-and-permissions), which explains how roles work and how to build one. Read that page first for the concepts; come here to look up an individual permission.
+
+<Note>
+The groups and permissions you see when building a role depend on which features are enabled for your company and on your own permissions — you can only grant abilities you hold yourself. If a group described here isn't visible to you, the relevant feature may not be enabled, or you may not have that ability.
+</Note>
+
+## How to Read This Reference
+
+In the role builder, permissions are organised into **groups** by the type of data they apply to (Events, Orders, Venues, and so on). Within each group you choose two things: which **actions** to allow, and which **records** those actions apply to.
+
+### Standard Actions
+
+Most groups share the same standard set of actions. The label you see combines the action with the group name — for example **Edit** in the Events group reads as *"Edit Events"*.
+
+| Action | What it allows |
+|--------|----------------|
+| **Manage** | A shorthand that grants **View**, **Edit**, **Delete**, and **Restore** for records in scope. It does **not** include Create or View list of. |
+| **Create** | Create new records of this type. Must be granted explicitly. |
+| **View list of** | See the full list/index of this record type. Must be granted explicitly. |
+| **View** | Open and view an individual record. |
+| **Edit** | Modify an individual record. |
+| **Delete** | Delete a record (most records are soft-deleted and can be restored). |
+| **Restore** | Restore a previously deleted record. |
+| **Access** | A special action available on a few groups (such as Users) — see the relevant section below. |
+
+<Warning>
+**Manage is not "everything".** A user with **Manage Events** can view, edit, delete, and restore the events in their scope, but cannot create new events or open the full events list unless **Create** and **View list of** are also granted. Plan roles with this in mind.
+</Warning>
+
+### Which Records a Permission Applies To
+
+For actions like View, Edit, Manage, and Delete, you also choose a visibility level that controls *which* records the permission covers:
+
+| Visibility | Effect |
+|------------|--------|
+| **All** | Every record of that type. |
+| **Selected** | Only the specific records you pick. |
+| **Created by them** | Only records the user created themselves. |
+
+See [Ability Visibility](/core-platform/system-access/roles-and-permissions#ability-visibility) for a fuller explanation, and [Visibility Groups](/core-platform/system-access/visibility-groups) for a separate, complementary way to limit what data a user can see.
+
+<Note>
+Many groups only offer the standard actions above. The sections that follow focus on **specialised permissions** — the ones that go beyond standard create/edit/delete and carry their own behaviour. Where a group is listed without specialised permissions, assume it offers the standard set.
+</Note>
+
+## Events & Ticketing
+
+The **Events** group is the largest in the platform. Alongside the standard actions, it carries several specialised permissions that control event lifecycle and on-site selling.
+
+| Permission | What it controls |
+|------------|------------------|
+| **Publish** | Take a draft event live. Without it, a user can build an event but not publish it — useful for an approval workflow where one team prepares events and another signs them off. See [Event Approvals](/core-platform/event-management/event-approvals). |
+| **Cancel** | Cancel an entire event. See [Event Cancellations](/core-platform/event-management/event-cancellations). |
+| **Edit sale data (items, seating, etc) for events** | Edit an event's sale structure — items, ticket types, products, seating plans, zones, timeslots, and similar — without necessarily being able to edit the event's core details. It is accepted in place of **Edit** wherever sale data is changed, so you can let someone build out tickets and seating while another role owns the event settings. |
+| **If can't publish, can only edit stock after publishing** | A **restricting** permission. When a user holds it but cannot publish, then once an event is published they may only adjust stock/quantities — other event details become read-only. Use it to let staff top up availability on live events without changing anything else. |
+| **Box office: sell items for** | Access box office mode and sell for the event. Covered in [Box Office and On-Site Sales](#box-office-and-on-site-sales). |
+| **Email attendees** | Email the people booked onto an event. Covered in [Email Attendees](#email-attendees). |
+| **Ignore box office validation: …** | Ten override permissions that let a box office operator bypass specific purchase rules. Covered in [Box Office Validation Overrides](#box-office-validation-overrides). |
+
+<Note>
+**Edit sale data vs Edit.** Pages that change an event's tickets, products, seating, or zones accept *either* **Edit** or **Edit sale data (items, seating, etc) for events**. Granting only the sale-data permission keeps a user out of the event's general settings while still letting them manage what's on sale.
+</Note>
+
+### Email Attendees
+
+The **Email attendees** permission lets a user send emails to the people booked onto an event — for example to message ticket holders for a specific sale item or price band. It sits among the **Events** permissions when configuring a role, alongside **Publish** and **Cancel**.
+
+Because it's an event permission, it follows the same visibility model as other event abilities: grant it with **All** to cover every event the user can access, **Selected** for specific events, or **Created by them** for events the user created. A user can only email attendees of events within the granted scope. See [Sending Emails](/core-platform/notifications/sending-emails).
+
+<Note>
+Email attendees is separate from editing an event. A user must be granted it explicitly to message attendees, even if they can already edit the event.
+</Note>
+
+### Other Event-Related Groups
+
+These groups govern the building blocks that make up an event. Most offer the standard actions; specialised permissions are noted.
+
+| Group | What it controls | Specialised permissions |
+|-------|------------------|-------------------------|
+| **Event listings** | Event page templates / listings. | — |
+| **Event blocks** | Content blocks shown on event/listing pages. | — |
+| **Items** / **Item categories** | Sale items and the categories that organise them. | — |
+| **Access codes** | [Access codes](/core-platform/basket-codes/access-codes) that unlock restricted items. | — |
+| **Discount codes** | [Discount codes](/core-platform/basket-codes/discount-codes). | **Overuse Discounts** — apply a discount code even when it has reached its usage or redemption limit. |
+| **Seating plans** | [Seating plans](/core-platform/seating-plans/introduction). | See the help note below. |
+| **Seating plan holds** | [Seating plan holds](/core-platform/seating-plans/holds). | **Sell from any seating plan hold** — sell seats from any hold, not just the user's own. |
+| **Zones** | [Access control](/core-platform/event-management/access-control) zones. | See the help note below. |
+| **Timeslots** | [Timeslots](/core-platform/event-management/timeslots) on events. | — |
+| **Sale item groups** | [Sale item groups](/core-platform/event-management/sale-item-groups). | — |
+| **Event media** | [Event media](/core-platform/event-management/event-media/overview) such as custom PDFs and cover sheets. | **Configure** — configure the media options for an event. |
+| **Internal questions (event codes)** | Internal-only questions/codes attached to events. | — |
+| **Data capture questions** / **Data capture categories** | [Data capture](/core-platform/data-capture/introduction) questions and their categories. | — |
+| **Gift vouchers** | [Gift vouchers](/core-platform/sale-items/gift-vouchers). | — |
+| **Charity donations** | [Donation](/core-platform/sale-items/donations) sale items. | — |
+| **Customer groups** | [Customer groups](/core-platform/customer-management/customer-groups). | — |
+| **Forms** | [Forms](/core-platform/cms/forms) built in the CMS. | — |
+| **Tags** / **Tag categories** | [Event tags](/core-platform/event-management/event-tags) and their categories. | — |
+
+<Note>
+**Zones help text shown in the role builder:** *You do not require any zone permissions in order to scan zones for events that you can edit. You can allow a user to scan a zone belonging to an event they cannot edit by enabling the manage/view/edit permission levels for "Selected zones".*
+</Note>
+
+<Note>
+**Seating plans help text shown in the role builder:** *In order to create new seating plans, the user must have the ability to view at least 1 venue or be allowed to create new venues.*
+</Note>
+
+## Sale Items, Pricing & Codes
+
+| Group | What it controls | Specialised permissions |
+|-------|------------------|-------------------------|
+| **Venues** | [Venues](/core-platform/event-management/venues). | — |
+| **Tax bands** | [Tax bands](/core-platform/tax/tax-bands). | — |
+| **Country classifications** | Country groupings used by [conditional tax bands](/core-platform/tax/conditional-tax-bands). | — |
+| **Order fees** | Fee sale items applied to orders. See [Fees](/core-platform/fees/default-system-fees). | — |
+| **Fulfilment fees** | [Fulfilment fees](/core-platform/fees/fulfilment-fees). | — |
+| **Resale fees** | Fees applied to [resale](/core-platform/resale/introduction) transactions. | — |
+| **System defaults** | [System default](/core-platform/utilities/system-defaults) values applied to new events and items. | — |
+
+## Orders, Refunds & Customers
+
+The **Orders** group controls what a user can do with existing orders. Note it does not offer **Create** — orders are created through checkout, not the orders screen.
+
+| Group | What it controls | Specialised permissions |
+|-------|------------------|-------------------------|
+| **Orders** | View and manage placed orders. | **Refund**, **Cancel**, **Apply cancellation fees to** — see below. |
+| **Order items** | Individual line items within orders. | — |
+| **Resale listings** | Tickets listed for [resale](/core-platform/resale/introduction). | **Cancel** — cancel a resale listing. |
+| **Customers** | [Customer](/core-platform/customer-management/managing-customers) records. | — |
+| **Wallets** | Customer [account balances](/core-platform/account-balances/top-ups). | **Cashout** — pay a customer's wallet balance back out. |
+| **Wallet transactions** | Individual balance transactions. | **Cancel** — cancel a wallet transaction. |
+
+<Note>
+**Refund vs Cancel.** **Refund** returns money against an order; **Cancel** cancels the order (and can apply cancellation fees). They're separate permissions — a role can be allowed to refund but not cancel, or vice versa. See [Refunds & Cancellations](/core-platform/order-management/refunds-and-cancellations).
+</Note>
+
+<Warning>
+**Apply cancellation fees to** changes the *money* a customer gets back. If a user cancels an order **without** this permission, any cancellation fee configured on the items is forced to zero — the customer is refunded in full. Only grant it to staff who should be able to retain cancellation fees on a customer's behalf.
+</Warning>
+
+<Warning>
+**Wallets → Cashout** moves real money out of a customer's balance. Treat it as a financial permission and restrict it to trusted staff. See [Cash-outs](/core-platform/account-balances/cash-outs).
+</Warning>
+
+## Box Office and On-Site Sales
+
+These permissions govern selling in person through [box office mode](/core-platform/box-office/introduction) and the [EPOS](/core-platform/epos/overview) point of sale.
+
+### Selling for an Event
+
+The **Box office: sell items for** permission (in the **Events** group) controls whether a user can enter box office mode and sell for an event.
+
+<Note>
+When granted with **All**, this permission effectively means *"can access box office mode"* rather than *"can sell for literally every event"* — it's the switch that turns box office on for the user. Users can always sell for events they created themselves. Visibility (**Selected** / **Created by them**) then narrows which events they can sell for.
+</Note>
+
+### Box Office Validation Overrides
+
+The checkout normally enforces the same purchase rules at the box office as online — stock limits, on-sale dates, quantity rules, and so on. The ten **Ignore box office validation** permissions (in the **Events** group) let a trusted operator override a specific rule when selling in person.
+
+| Permission | What it lets the operator do |
+|------------|------------------------------|
+| **Ignore box office validation: Oversell** | Sell beyond remaining stock and event, ticket-type, and item capacity limits. |
+| **Ignore box office validation: Data capture** | Complete a sale without answering mandatory data capture questions. |
+| **Ignore box office validation: On-sale dates** | Sell items that are outside their on-sale window. |
+| **Ignore box office validation: Min & max order quantity** | Sell quantities above or below the per-order minimum/maximum. |
+| **Ignore box office validation: Forced minimum order quantity** | Skip a forced minimum order quantity. |
+| **Ignore box office validation: Must purchase in multiples of** | Sell quantities that aren't the required multiple. |
+| **Ignore box office validation: Limit item purchases (per customer)** | Exceed per-customer purchase limits and single-purchase-only restrictions. |
+| **Ignore box office validation: Must be purchased with other items** | Sell items that normally require accompanying items. |
+| **Ignore box office validation: Must book entire table, not individual seats** | Sell individual seats from a table that must otherwise be booked whole. |
+| **Ignore box office validation: Min/Max event team size** | Book [group/team events](/core-platform/event-management/group-team-events) outside their team-size limits. |
+
+<Warning>
+These overrides let staff bypass rules that protect stock, capacity, and data quality. Grant them only to senior box office staff, and scope them to the events that need them.
+</Warning>
+
+### Box Office Capabilities & Payment Methods
+
+The **Box office** group controls what tools an operator can reach during a sale, independent of any one event.
+
+| Permission | What it controls |
+|------------|------------------|
+| **Box office: Can apply external vouchers** | Apply [external vouchers](/core-platform/basket-codes/external-vouchers) during a box office sale. |
+| **Box office: Can apply custom discounts** | Create and apply ad-hoc custom discounts during a box office sale. See [Discounts & Overrides](/core-platform/box-office/discounts-and-overrides). |
+| **A permission per payment method** | One toggle for each box office [payment method](/core-platform/box-office/payment-methods) — for example Cash, Card present, Card not present, Bank transfer, Complimentary, Invoice, Gift card, Cheque, Money order, Payment link, Reserve to pay onsite, and Split payment. Enabling a method's permission lets the operator take payment that way; leaving it off hides it at checkout. |
+
+<Note>
+Payment-method permissions are enforced at the point of sale: only the methods an operator has been granted appear as options when taking payment. This lets you, for example, allow a cashier to take Cash and Card but not write off sales as Complimentary.
+</Note>
+
+### EPOS
+
+The **EPOS shops** group governs the [EPOS](/core-platform/epos/overview) point of sale, with three specialised permissions on top of the standard actions:
+
+| Permission | What it controls |
+|------------|------------------|
+| **Box office: sell items for** | Sell products at the EPOS till. |
+| **Refund** | Refund EPOS transactions. |
+| **Amend price** | Manually adjust an item's price at the till. |
+
+The **EPOS products** group controls who can create and manage the products sold through EPOS.
+
+## Mobile Apps
+
+These permissions enable capabilities in the [mobile apps](/mobile-apps/get-started/introduction). They appear in the **System** area of the role builder.
+
+| Permission | App | What it controls |
+|------------|-----|------------------|
+| **Access control: scan zones** | [Access Control Pro](/mobile-apps/access-control-pro/introduction) | Scan tickets and admit attendees at event zones. |
+| **Access control: admit guest lists** | [Access Control Pro](/mobile-apps/access-control-pro/scanning-and-admission) | Admit guest-list entries at the door. |
+| **Mobile box office: sell items** | [Box Office Pro](/mobile-apps/box-office-pro/introduction) | Sell tickets and items from the mobile box office. |
+| **Mobile box office: apply discounts** | [Box Office Pro](/mobile-apps/box-office-pro/selecting-tickets) | Apply discounts during a mobile sale. |
+| **Mobile box office: give complimentary** | [Box Office Pro](/mobile-apps/box-office-pro/payments) | Issue complimentary (free) tickets. |
+| **Mobile box office: issue refund** | [Box Office Pro](/mobile-apps/box-office-pro/orders-and-after-the-sale) | Refund a sale from the app. |
+| **Mobile box office: view reports** | [Box Office Pro](/mobile-apps/box-office-pro/orders-and-after-the-sale) | View sales reports in the app. |
+| **Mobile box office: Open cash drawer (no sale)** | [Box Office Pro](/mobile-apps/box-office-pro/settings-and-hardware) | Open the connected cash drawer without recording a sale. |
+| **Mobile box office: Open cash drawer (card sale)** | [Box Office Pro](/mobile-apps/box-office-pro/settings-and-hardware) | Open the cash drawer on a card sale. |
+| **Mobile Epos: Issue Top-up** | [EPOS Pro](/mobile-apps/epos-pro/topups-and-cashout) | Top up a customer's account balance. |
+| **Mobile Epos: Cash-out** | [EPOS Pro](/mobile-apps/epos-pro/topups-and-cashout) | Pay a customer's account balance back out. |
+
+## Reporting & Data
+
+| Group / permission | What it controls |
+|--------------------|------------------|
+| **View default reports** | Access the platform's built-in [default reports](/core-platform/reporting/default-reports). A user needs this to use the standard reporting suite. |
+| **Custom reports** | Build and manage [custom reports](/core-platform/reporting/custom-reports). |
+| **Scheduled reports** | Manage [scheduled reports](/core-platform/reporting/scheduled-reports). |
+| **Widgets** | Dashboard widgets used to surface report data. |
+| **Data endpoints** | [Data endpoints](/core-platform/reporting/data-endpoints) for publishing report data. |
+| **Data imports** | [Data imports](/core-platform/data-imports/overview). |
+| **Queued job log** | View the log of queued background jobs (View list of only). |
+
+## Content & Communications
+
+| Group / permission | What it controls |
+|--------------------|------------------|
+| **Menu items** | CMS [navigation menus](/core-platform/cms/menus). |
+| **Articles** / **Article types** / **Article blocks** | CMS [articles](/core-platform/cms/articles) and their building blocks. |
+| **Template blocks** | Reusable content [blocks](/core-platform/cms/blocks). |
+| **Website text** | Edit the customer-facing [website text](/core-platform/cms/website-text) for your shop (Edit only). |
+| **Email logs** | View [sent emails](/core-platform/notifications/email-logs). Includes **View email media** — view the media/attachments on a logged email. |
+| **Webhooks** | Manage [webhooks](/core-platform/technical/webhooks). |
+
+## Finance & Integrations
+
+| Group / permission | What it controls |
+|--------------------|------------------|
+| **Invoices** | View [invoices](/core-platform/information/paying-invoices) raised to your company (View / View list of). |
+| **Invoice settlements** | Create invoice settlements (Create only). |
+| **Issue Szamlazz receipts** | Issue receipts through the [Szamlazz](/core-platform/integrations/szamlazz) integration. |
+| **Issue Szamlazz invoices** | Issue invoices through Szamlazz. |
+| **Allow opt out of Szamlazz document generation** | Opt an order out of automatic Szamlazz document generation. |
+
+## System & Administration
+
+| Group / permission | What it controls |
+|--------------------|------------------|
+| **Users** | Manage [user](/core-platform/system-access/users) accounts. Includes the **Access** permission — see below. |
+| **Roles** | Create and manage [roles](/core-platform/system-access/roles-and-permissions). |
+| **Company settings** | Edit [company settings](/core-platform/utilities/company-settings) (Edit only). |
+| **Manage global data capture questions** | Manage the shared [data capture](/core-platform/data-capture/managing-questions) question library used across events. |
+| **Audit** | View the [audit log](/core-platform/core/audit-logs) of activity. Manage adds the ability to delete and restore entries. |
+| **API tokens** | Create, delete, and view [API tokens](/core-platform/utilities/api-token-management). |
+| **Access translations** | Access the [translation](/core-platform/core/translations) tools for editing system text. |
+| **Access upcoming events** | View the upcoming-events overview. |
+
+<Warning>
+**Users → Access** lets a user sign in *as* another user to see exactly what they see. It's invaluable for troubleshooting, but it grants that user the other account's view of the system — restrict it to administrators and support staff. See [Accessing a User's Account](/core-platform/system-access/users#accessing-a-users-account).
+</Warning>
+
+<Note>
+**Manage roles is a powerful permission.** Because a user can grant any ability they hold themselves, anyone who can manage roles can extend their own reach through the roles they build. The platform prevents a user from granting abilities they don't already have, but a broadly-permissioned user with role management can still create powerful roles. Grant it deliberately.
+</Note>
+
+<Note>
+**Dev tools** are reserved for Super Users and are never offered as a normal role permission.
+</Note>
+
+## The Super User Role
+
+The **Super user** role bypasses every permission check on this page — a super user can do anything in the admin area, including actions that can't normally be granted. Assigning it shows a confirmation warning. Use it only for users who genuinely need unrestricted access. See [Super User](/core-platform/system-access/roles-and-permissions#super-user).
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Roles & Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+    How roles work and how to build one
+  </Card>
+  <Card title="Users" icon="users" href="/core-platform/system-access/users">
+    Add users and assign them roles
+  </Card>
+  <Card title="Visibility Groups" icon="eye" href="/core-platform/system-access/visibility-groups">
+    Limit which data users can see, separate from permissions
+  </Card>
+  <Card title="Box Office Payment Methods" icon="cash-register" href="/core-platform/box-office/payment-methods">
+    The payment methods controlled by box office permissions
+  </Card>
+</CardGroup>
