@@ -21,11 +21,13 @@ Below you will find the summary notes for the 47th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-****[Dynamic pricing](/core-platform/integrations/dynamic-pricing)****
+<AccordionGroup>
 
-**Event shapes**
+<Accordion title="Dynamic pricing" defaultOpen>
 
-* [[NG-11927](https://linear.app/nuweb-group/issue/NG-11927) & [NG-11929](https://linear.app/nuweb-group/issue/NG-11929)] Added dynamic pricing support for events using [time slots](/core-platform/event-management/timeslots) and/or [seating plans](/core-platform/seating-plans/introduction).
+**Additional event support**
+
+* [[NG-11927](https://linear.app/nuweb-group/issue/NG-11927) & [NG-11929](https://linear.app/nuweb-group/issue/NG-11929)] Added [dynamic pricing](/core-platform/integrations/dynamic-pricing) support for events using [time slots](/core-platform/event-management/timeslots) and/or [seating plans](/core-platform/seating-plans/introduction).
 * [[NG-12134](https://linear.app/nuweb-group/issue/NG-12134)] Refined the dynamic pricing setup experience, expanding the guidance to reflect the specific requirements and limitations of each event shape.
 
 
@@ -83,31 +85,31 @@ Below you will find the summary notes for the 47th release of the Nuweb core pla
 
 <Frame caption="right-50 =300x309"><img src="/images/releases/dc18c0185ddd74e2ff70ff1cdde03849.png" alt="" /></Frame>
 
-****[Pricing history](/core-platform/sale-items/pricing-history)****
+</Accordion>
 
-* [[NG-11941](https://linear.app/nuweb-group/issue/NG-11941)] Added a new pricing history API endpoint, allowing integrations to retrieve the price history of one or more sale items.
+<Accordion title="Pricing history" defaultOpen>
 
+* [[NG-11941](https://linear.app/nuweb-group/issue/NG-11941)] Added a new [pricing history API endpoint](/api-reference/pricing-history/retrieve-pricing-history), allowing integrations to retrieve the [price history](/core-platform/sale-items/pricing-history) of one or more sale items.
 
+</Accordion>
 
-**Zero-priced tiers**
+<Accordion title="Zero-priced tiers" defaultOpen>
 
 * [[NG-11924](https://linear.app/nuweb-group/issue/NG-11924)] Added support for zero-priced tiers within [tiered fees](/core-platform/fees/sale-item-fees#tiered-fees), allowing individual tiers to be excluded from the fee.
 
 
 <Frame><img src="/images/releases/ffc8091d4223648c57276c76a0e91876.png" alt="" /></Frame>
 
+</Accordion>
 
+<Accordion title="Seating plan area content display" defaultOpen>
 
-
-
-**[Seating plan area content display](/core-platform/seating-plans/editor)**
-
-* [[NG-11554](https://linear.app/nuweb-group/issue/NG-11554) & [NG-11764](https://linear.app/nuweb-group/issue/NG-11764)] Added a new settings to seating plans: Display area content.
+* [[NG-11554](https://linear.app/nuweb-group/issue/NG-11554) & [NG-11764](https://linear.app/nuweb-group/issue/NG-11764)] Added a new setting to seating plans: Display area content.
 When enabled the following objects will be visible inside areas: seats, tables, shapes, text, icons. Seat statuses, seat labels, row labels will not be visible in this mode if their area is not open.
 * Performance improvements have been done on large seating plans.
 
 
-* Area layout rendering settings in the editor that can be found under: Plan > Display area content. These settings are off for existing plans, and for new large plans it's enabled for admin and editor by default.
+* Area layout rendering settings in [the editor](/core-platform/seating-plans/editor) that can be found under: Plan > Display area content. These settings are off for existing plans, and for new large plans it's enabled for admin and editor by default.
 
 
  
@@ -118,26 +120,22 @@ When enabled the following objects will be visible inside areas: seats, tables, 
 
 <Frame><img src="/images/releases/6e8fae889cc8305426cbec81a165d4f0.png" alt="" /></Frame>
 
+</Accordion>
 
+<Accordion title="Custom seating plan colour palettes" defaultOpen>
 
-
-
-**[Custom seating plan colour palettes](/core-platform/cms/theme-and-branding)**
-
-* [[NG-8798](https://linear.app/nuweb-group/issue/NG-8798) & [NG-8100](https://linear.app/nuweb-group/issue/NG-8100)] Added configurable seating colour palettes in Site settings > Theme > Seating options, where new colour palettes can be added and used for admin and shop.
+* [[NG-8798](https://linear.app/nuweb-group/issue/NG-8798) & [NG-8100](https://linear.app/nuweb-group/issue/NG-8100)] Added configurable [seating colour palettes](/core-platform/cms/theme-and-branding) in Site settings > Theme > Seating options, where new colour palettes can be added and used for admin and shop.
 * Refactored the manage seating plan legend/sidebar UI to improve clarity for statuses, price bands, holds, and roles, with explicit toggles for showing/hiding price-band, hold (new), and role colours (new).
 
 
 
 <Frame><img src="/images/releases/8f96df236c15aaea69aebe7fe0c9af21.png" alt="" /></Frame>
 
+</Accordion>
 
+<Accordion title="Event level deferred ticket downloads" defaultOpen>
 
-
-
-**[Event level deferred ticket downloads](/core-platform/event-management/deferred-downloads)**
-
-* [[NG-11939](https://linear.app/nuweb-group/issue/NG-11939)] The ability to delay ticket delivery/downloads until a certain period before an event, is now available per-event — previously, this was only configurable company-wide across all events:
+* [[NG-11939](https://linear.app/nuweb-group/issue/NG-11939)] The ability to delay [ticket delivery/downloads](/core-platform/event-management/deferred-downloads) until a certain period before an event, is now available per-event — previously, this was only configurable company-wide across all events:
 
  
 
@@ -147,7 +145,9 @@ When enabled the following objects will be visible inside areas: seats, tables, 
 
 * [[NG-9258](https://linear.app/nuweb-group/issue/NG-9258)] The deferred download date for an order item is now derived from the event's owning company instead of the company that processed the order. The same event yields the same download date for every customer, regardless of which company the order was originally placed in.
 
+</Accordion>
 
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -414,7 +414,9 @@ Below you will find the summary notes for the 46th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**[Dynamic Pricing](/core-platform/integrations/dynamic-pricing)**
+<AccordionGroup>
+
+<Accordion title="Dynamic Pricing" defaultOpen>
 
 Automatically adjusts prices in real time based on demand, removing the need for manual price updates, increasing prices during high demand and reducing them during lower demand to optimise revenue and sales performance.
 
@@ -435,11 +437,9 @@ Automatically adjusts prices in real time based on demand, removing the need for
 
 <Frame caption="When viewing orders in the admin, a badge indicates whether the order item was purchased at a dynamically calculated price."><img src="/images/releases/fa32f2d7781985d137f9a286c10c42fa.png" alt="When viewing orders in the admin, a badge indicates whether the order item was purchased at a dynamically calculated price." /></Frame>
 
+</Accordion>
 
-
-
-
-**[Pricing History](/core-platform/sale-items/pricing-history)**
+<Accordion title="Pricing History" defaultOpen>
 
 View the history of price changes, including whether they were made manually by a user or by [dynamic pricing](/core-platform/integrations/dynamic-pricing).
 
@@ -447,11 +447,9 @@ View the history of price changes, including whether they were made manually by 
 
 <Frame><img src="/images/releases/90cb5147623742c1931df12c024a247b.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Resale Notifications](/core-platform/resale/configuration#notifications)**
+<Accordion title="Resale Notifications" defaultOpen>
 
 Additional [resale](/core-platform/resale/introduction) notifications are now available for customers selling their tickets. When enabled, the customer will be notified both when their listing goes live, and when their items sell. These are sent in addition to existing order related emails.
 
@@ -481,11 +479,9 @@ All email wording can be managed via the [text manager](/core-platform/cms/websi
 
 <Frame caption="Resale email wording can be managed via admin text manager."><img src="/images/releases/af82a3005b9f73ca6bfe3f32289a54f8.png" alt="Resale email wording can be managed via admin text manager." /></Frame>
 
+</Accordion>
 
-
-
-
-**[Samsung Wallet](/core-platform/event-management/event-media/mobile-wallets#samsung-wallet-on-galaxy-devices)**
+<Accordion title="Samsung Wallet" defaultOpen>
 
 * Added Samsung Wallet integration that use our [Mobile Wallet Designs](/core-platform/event-management/event-media/mobile-wallets), that allows customers add their tickets to their Galaxy devices.
 
@@ -498,11 +494,9 @@ All email wording can be managed via the [text manager](/core-platform/cms/websi
 
 <Frame caption="The Download button has been renamed to Save to device, and when selected, a list of options will appear to the customer when applicable."><img src="/images/releases/f289283f770a2edcee2efcc7d6afe5ca.png" alt="The Download button has been renamed to Save to device, and when selected, a list of options will appear to the customer when applicable." /></Frame>
 
+</Accordion>
 
-
-
-
-**[Stay22 Integration](/core-platform/integrations/stay22)**
+<Accordion title="Stay22 Integration" defaultOpen>
 
 * Added a [Stay22](/core-platform/integrations/stay22) integration to allow customers to shop for hotel accommodation directly in-platform. 
 
@@ -513,6 +507,10 @@ All email wording can be managed via the [text manager](/core-platform/cms/websi
 <br />
 
 <Frame caption="Customers now see a Stay22 hotel map on the order success page, alongside the order summary."><img src="/images/releases/5254dfb1ebdf3d1db071dd4a31bafd93.png" alt="Customers now see a Stay22 hotel map on the order success page, alongside the order summary." /></Frame>
+
+</Accordion>
+
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -808,7 +806,9 @@ Below you will find the summary notes for the 45th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**[Timeslot](/core-platform/event-management/timeslots) / [Schedule](/core-platform/event-management/schedules) selection UI**
+<AccordionGroup>
+
+<Accordion title="Timeslot / Schedule selection UI" defaultOpen>
 
 * A new simplified timeslot and schedule selection UI has been added to the shop:
 
@@ -832,7 +832,9 @@ This UI is enabled in the new "Early access features" section of theme settings 
 
 </Tip>
 
-**[Bulk refund](/core-platform/order-management/refunds-and-cancellations) improvements**
+</Accordion>
+
+<Accordion title="Bulk refund improvements" defaultOpen>
 
 * Filters can now be applied to the list of orders shown when bulk refunding an event
 
@@ -849,11 +851,11 @@ This UI is enabled in the new "Early access features" section of theme settings 
 
 <Frame><img src="/images/releases/8a0933930a3b7a4a70b6a0dba0935e54.png" alt="" /></Frame>
 
+</Accordion>
 
+<Accordion title="Secure QR Codes & Digital Passes" defaultOpen>
 
-
-
-**[[NG-10650](https://linear.app/nuweb-group/issue/NG-10650)] [Secure QR Codes](/core-platform/event-management/secure-barcodes) & Digital Passes**
+[[NG-10650](https://linear.app/nuweb-group/issue/NG-10650)]
 
 * Under [Event Media](/core-platform/event-management/event-media/overview), rebranded the previous Apple Passes menu to [Mobile Wallet Designs](/core-platform/event-management/event-media/mobile-wallets)
 * The mobile wallet designer page has been updated to create more stylish passes for your your customers for multiple platforms at the same time.
@@ -877,9 +879,11 @@ This UI is enabled in the new "Early access features" section of theme settings 
 
 * [[NG-11195](https://linear.app/nuweb-group/issue/NG-11195)] Items with secure barcodes won't show their barcodes anymore, instead they will display a Secure Barcode badge. In admin under the order and attendance, the secure barcode can be turned off by clicking on this badge, or downloading the item.
 
+</Accordion>
 
+<Accordion title="Updated seating plan experience in shop + resale updates" defaultOpen>
 
-**[[NG-10322](https://linear.app/nuweb-group/issue/NG-10322)] Updated [seating plan](/core-platform/seating-plans/introduction) experience in shop + [resale](/core-platform/resale/introduction) updates**
+[[NG-10322](https://linear.app/nuweb-group/issue/NG-10322)]
 
 * We've reviewed our current seating plan purchase experience in shop to match other parts of our system and to unify the resale selling on the seating plan itself.
 * When a customer selects a seat or a general admission on the plan, the space will appear in the top of their selected list, so they can take action if they need to right away (like selecting a ticket or a resale listing).
@@ -912,9 +916,9 @@ This UI is enabled in the new "Early access features" section of theme settings 
 
 <Frame caption="When the new item selection is enabled, not selected items will present with a Select call to action button."><img src="/images/releases/0e798bee5b88d1a1f675f2d8cfd4298f.png" alt="When the new item selection is enabled, not selected items will present with a Select call to action button." /></Frame>
 
+</Accordion>
 
-
-
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -1247,7 +1251,9 @@ Below you will find the summary notes for the 44th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**[Two factor authentication](/core-platform/system-access/mfa)**
+<AccordionGroup>
+
+<Accordion title="Two factor authentication" defaultOpen>
 
 * [[NG-5058](https://linear.app/nuweb-group/issue/NG-5058)] Two-factor authentication (App-based 2FA) is now generally available in hub & admin:
 
@@ -1255,11 +1261,9 @@ Below you will find the summary notes for the 44th release of the Nuweb core pla
 
 <Frame caption="2FA settings are available in &quot;Your Profile&quot;"><img src="/images/releases/abd60780906c53aea354218370bc84e9.png" alt="2FA settings are available in &quot;Your Profile&quot;" /></Frame>
 
+</Accordion>
 
-
-
-
-**Unified shop login**
+<Accordion title="Unified shop login" defaultOpen>
 
 After much customer feedback, the login/registration step during checkout has received an upgrade to provide a *unified login experience*. This de-emphasises the need for customers to register just to place their order. The new experience reveals the appropriate actions for the user based on the email address entered:
 
@@ -1283,11 +1287,9 @@ After much customer feedback, the login/registration step during checkout has re
 
 <Frame caption="Last social login provider is highlighted as a reminder to the customer"><img src="/images/releases/6e0de2d7bbf9ce5032d7474ffd4c0136.png" alt="Last social login provider is highlighted as a reminder to the customer" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Resale](/core-platform/resale/introduction)**
+<Accordion title="Resale" defaultOpen>
 
 This release we introduce version 1 of our resale product which sits alongside primary ticket sales to allow customers to purchase verified resale tickets with confidence.
 
@@ -1355,9 +1357,9 @@ Once items have been sold, there are a number of payout mechanisms available whi
 
 <Frame caption="Seller payout transactions"><img src="/images/releases/671da044ac38f9bc36ac6ae3a87bb867.png" alt="Seller payout transactions" /></Frame>
 
+</Accordion>
 
-
-
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -1536,7 +1538,9 @@ Below you will find the summary notes for the 43rd release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**[Order modifications](/core-platform/order-management/order-modifications)**
+<AccordionGroup>
+
+<Accordion title="Order modifications" defaultOpen>
 
 The new modify order capability allows customers to make changes to completed, paid orders. This is a self-serve feature which can be accessed by the customer when viewing an eligible order via their account.
 
@@ -1584,11 +1588,9 @@ All of this behaviour is also available to admin users, who can now make changes
 
 <Frame caption="Order modifications also available via Box Office"><img src="/images/releases/22c60c2a78f3fbac7fcd56c0459af2f6.png" alt="Order modifications also available via Box Office" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Merge customers](/core-platform/customer-management/merging-customers)**
+<Accordion title="Merge customers" defaultOpen>
 
 *  [[NG-8929](https://linear.app/nuweb-group/issue/NG-8929)] Customer records can now be merged together, with all data, orders and items carried across to the remaining customer record. 
   * Conflicts can be resolved easily by selecting either the current customer or the merged customers data
@@ -1598,11 +1600,9 @@ All of this behaviour is also available to admin users, who can now make changes
 
 <Frame><img src="/images/releases/9c5a04746186cde42d1f4045516e2bf0.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Manual Refund Protection](/core-platform/refund-protection/alternative-providers)**
+<Accordion title="Manual Refund Protection" defaultOpen>
 
 * [[NG-9880](https://linear.app/nuweb-group/issue/NG-9880)] Added the ability to define custom refund protection fees to support integrations with both first and third-party event refund protection providers
   * Protection pricing can be fixed and/or percentage based, as well as supporting tier-based pricing where rates change depending on the ticket price.
@@ -1617,11 +1617,9 @@ All of this behaviour is also available to admin users, who can now make changes
 
 <Frame caption="Customisable refund protect checkout widget"><img src="/images/releases/b9925a329ac0ba1759bd0f52759bc6d4.png" alt="Customisable refund protect checkout widget" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Resale](/core-platform/resale/introduction)**
+<Accordion title="Resale" defaultOpen>
 
 * [[NG-10324](https://linear.app/nuweb-group/issue/NG-10324)] [Resale fees](/core-platform/resale/resale-fees) can now be configured and applied to resale baskets
 * Add resale contracts to API, which allow an item to be marked as available for resale
@@ -1629,6 +1627,10 @@ All of this behaviour is also available to admin users, who can now make changes
   * Further details can be seen over in the API docs:
 
 <Frame caption="NEW Resale Contracts API"><img src="/images/releases/6e14f61d36fe57d6364d406b01515a9c.png" alt="NEW Resale Contracts API" /></Frame>
+
+</Accordion>
+
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -1817,26 +1819,26 @@ Below you will find the summary notes for the 42nd release of the Nuweb core pla
 #### 🚀 New Features
 
 
-****Introducing Data Endpoints for [scheduled report](/core-platform/reporting/scheduled-reports) publishing****
+<AccordionGroup>
 
-* [[NG-9807](https://linear.app/nuweb-group/issue/NG-9807)] [[NG-9940](https://linear.app/nuweb-group/issue/NG-9940)] Added the ability to publish scheduled reports to S3 buckets via the new "Data Endpoints" feature.
+<Accordion title="Report Publishing via Data Endpoints" defaultOpen>
+
+* [[NG-9807](https://linear.app/nuweb-group/issue/NG-9807)] [[NG-9940](https://linear.app/nuweb-group/issue/NG-9940)] Added the ability to publish [scheduled report](/core-platform/reporting/scheduled-reports)s to S3 buckets via the new "Data Endpoints" feature.
 
  
 
 <Frame caption="Wire up scheduled reports to data publishing endpoints"><img src="/images/releases/67de43c81ded328010ca9e26ad1beee6.png" alt="Wire up scheduled reports to data publishing endpoints" /></Frame>
 
+</Accordion>
 
-
-
-
-**[Text manager](/core-platform/cms/website-text) enhancements**
+<Accordion title="Text manager enhancements" defaultOpen>
 
 * [[NG-9318](https://linear.app/nuweb-group/issue/NG-9318)] Order confirmation emails can now be customised at the event schedule level (via admin text manager). This allows custom text to be set across the whole schedule rather than having to be manually applied to each event within the schedule.
 * [[NG-9925](https://linear.app/nuweb-group/issue/NG-9925)] Added new *text manager* permission group to admin user role management
 
+</Accordion>
 
-
-**Ticket [resale](/core-platform/resale/introduction) via the API (closed preview)**
+<Accordion title="Ticket resale via the API (closed preview)" defaultOpen>
 
 * [[NG-9311](https://linear.app/nuweb-group/issue/NG-9311)] Implemented first-party ticket resale support via the Basket API, with the ability to configure resale settings at the company, event and sale item level.
 
@@ -1846,17 +1848,21 @@ Below you will find the summary notes for the 42nd release of the Nuweb core pla
 
 <Frame><img src="/images/releases/dc9c42943aa237b8abbfe6171849dbc6.png" alt="" /></Frame>
 
-**[Order modifications](/core-platform/order-management/order-modifications) (internal preview)**
+</Accordion>
+
+<Accordion title="Order modifications (internal preview)" defaultOpen>
 
 * [[NG-10118](https://linear.app/nuweb-group/issue/NG-10118)] Foundational changes to the core orders and basket services to allow us to support order modification and resale in future releases.
 
+</Accordion>
 
-
-**3D Digital Venue integration (internal preview)**
+<Accordion title="3D Digital Venue integration (internal preview)" defaultOpen>
 
 * [[NG-9869](https://linear.app/nuweb-group/issue/NG-9869)] Our 3D Digital Venue integration allows you to map your seats view with their system, so your customers can see their view when purchasing their seats.
 
+</Accordion>
 
+</AccordionGroup>
 
 #### 🔌 Integrations
 
@@ -2202,7 +2208,9 @@ Release 41 included a large number of performance improvements for the ticket sh
 #### 🎨 User Interface (UI/UX)
 
 
-**Image uploads [[NG-8617](https://linear.app/nuweb-group/issue/NG-8617)]**
+<AccordionGroup>
+
+<Accordion title="Image uploads" defaultOpen>
 
 * Event creation now requires only one image
 
@@ -2215,18 +2223,18 @@ Release 41 included a large number of performance improvements for the ticket sh
 
 <Frame caption="Image uploader now shows the 'bleed area' where important information should be positioned."><img src="/images/releases/6ae0c471e90e26786926644f0319978a.png" alt="Image uploader now shows the 'bleed area' where important information should be positioned." /></Frame>
 
-**[Basket code](/core-platform/basket-codes/discount-codes) index pages [[NG-7239](https://linear.app/nuweb-group/issue/NG-7239) & [NG-7244](https://linear.app/nuweb-group/issue/NG-7244)]**
+</Accordion>
+
+<Accordion title="Basket code index pages [NG-7239 & NG-7244]" defaultOpen>
 
 * All basket code index pages have received a UI update, moving all filters to collapsable column and displaying current filters as removable pills. 
 
 
 <Frame><img src="/images/releases/38a64d5c8f135c40c7f9d6d3eb660f60.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-
-**Best available seating plan updates [[NG-9118](https://linear.app/nuweb-group/issue/NG-9118)]**
+<Accordion title="Best available seating plan updates" defaultOpen>
 
 * Updated tab selection design
 * When using the Best Available & General admissions tab, the seating plan has been made interactive to allow selection of areas and general admissions
@@ -2235,9 +2243,9 @@ Release 41 included a large number of performance improvements for the ticket sh
 
 <Frame><img src="/images/releases/464eb91f09b92559d832535ec63f2462.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
+</AccordionGroup>
 
 #### 🧹 Housekeeping
 
@@ -2507,7 +2515,9 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**Customer wallet management in Admin**
+<AccordionGroup>
+
+<Accordion title="Customer wallet management in Admin" defaultOpen>
 
 * Update the customer page to show the customer's balance, and add a [topup](/core-platform/account-balances/top-ups) link if the customer doesn't currently have any wallet transactions
 
@@ -2537,8 +2547,9 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 
 * Added the ability to issue a cashout of a wallet in admin
 
+</Accordion>
 
-**[Bundle](/core-platform/sale-items/bundles) sale item**
+<Accordion title="Bundle sale item" defaultOpen>
 
 * Allow bundle items to be added to an event, which don't count towards capacities themselves, but can have included items that do count towards capacities
 
@@ -2567,10 +2578,9 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/9690c33862eaf5c219c5b0baee9124f5.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-**Allow event [sale periods](/core-platform/event-management/sales-periods) to be configured for events**
+<Accordion title="Allow event sale periods to be configured for events" defaultOpen>
 
 * Allow pre-sale and general sale periods to be configured for an event in admin
 
@@ -2585,10 +2595,9 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/0a94a7ae8011e8278e0991b357f862ed.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-**[Event media](/core-platform/event-management/event-media/overview) [cover sheets](/core-platform/event-management/event-media/cover-sheets)**
+<Accordion title="Event media cover sheets" defaultOpen>
 
 * Introduced "cover sheets" as a new event media type allowing you to define *order level* printables for use when printing address labels, fulfilment sheets, or venue related information in admin.
 
@@ -2596,10 +2605,9 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/b9dfa9127205fdfd03d20e5e17334765.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-**Allow ticket downloads to be deferred until a set time before the event**
+<Accordion title="Allow ticket downloads to be deferred until a set time before the event" defaultOpen>
 
 * Allow deferred tickets downloads to be enabled at the company level in general settings, and the time before event to be set
 
@@ -2626,16 +2634,16 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/9c4d2aad71c0f705073558249205207c.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
-**[All-in pricing](/core-platform/fees/all-in-pricing)**
+<Accordion title="All-in pricing" defaultOpen>
 
 * A new 'all-in pricing' feature has been added. Enabling this feature will mean that pricing within the shop is fully inclusive of all fees that will be applied to an item if it is added to the basket.
 * This feature ensures further legislative compliance around pricing transparencyacross a range of territories.
 
+</Accordion>
 
-**Preview a customer basket**
+<Accordion title="Preview a customer basket" defaultOpen>
 
 * Previewing a customer basket can now be done from the event dashboard
 
@@ -2645,6 +2653,10 @@ Below you will find the summary notes for the 40th release of the Nuweb core pla
 <br />
 
 <Frame caption="Any combination of items available at this event can be selected to preview the order summary including all item fees."><img src="/images/releases/2bfb44d0d91b363789425ab266eeb539.png" alt="Any combination of items available at this event can be selected to preview the order summary including all item fees." /></Frame>
+
+</Accordion>
+
+</AccordionGroup>
 
 #### ✨ Enhancements
 
@@ -2887,7 +2899,9 @@ Below you will find the summary notes for the 39th release of the Nuweb core pla
 #### 🚀 New Features
 
 
-**Improved [sale item fees](/core-platform/fees/sale-item-fees)**
+<AccordionGroup>
+
+<Accordion title="Improved sale item fees" defaultOpen>
 
 * Configure fee sale items to apply a variable, percentage based fee to orders as well as (or instead of) a fixed amount. The per item / once per order selection will determine how these variable fees are calculated.
 
@@ -2912,11 +2926,9 @@ Below you will find the summary notes for the 39th release of the Nuweb core pla
 
 <Frame caption="Configuration options for fee hierarchy and item type restrictions"><img src="/images/releases/1034737299459d2955d8a692103c48ae.png" alt="Configuration options for fee hierarchy and item type restrictions" /></Frame>
 
+</Accordion>
 
-
-
-
-**Event reminder emails [[NG-8535](https://linear.app/nuweb-group/issue/NG-8535)]**
+<Accordion title="Event reminder emails" defaultOpen>
 
 * Add new feature flag to enable the event reminder emails feature
 * Allow event reminder emails to be configured at the company level within general settings, to dispatch for all events
@@ -2951,6 +2963,10 @@ Below you will find the summary notes for the 39th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/84fcc53596422ddb1cdb42b9a2e0bc3d.png" alt="" /></Frame>
 
+</Accordion>
+
+</AccordionGroup>
+
 #### 🔌 Integrations
 
 * [[NG-8682](https://linear.app/nuweb-group/issue/NG-8682)] Upgraded Stripe Connect & Stripe Elements to the [latest API versions](https://docs.stripe.com/upgrades?locale=en-GB#2024-09-30.acacia).
@@ -2963,7 +2979,9 @@ Below you will find the summary notes for the 39th release of the Nuweb core pla
 
 
 
-**Event tracking pixels [[NG-8531](https://linear.app/nuweb-group/issue/NG-8531)]**
+<AccordionGroup>
+
+<Accordion title="Event tracking pixels" defaultOpen>
 
 * New feature flag allows users to enable event level tracking pixels
 * By enabling this feature, users are able to configure event tracking pixels using any the following providers: Meta, Spotify, TikTok and X
@@ -2973,9 +2991,9 @@ Below you will find the summary notes for the 39th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/a02da6736e7aea6b04ccaa7be722adf2.png" alt="" /></Frame>
 
+</Accordion>
 
-
-
+</AccordionGroup>
 
 #### ✨ Enhancements
 

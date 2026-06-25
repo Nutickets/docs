@@ -87,7 +87,9 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * Performance issues with pairing and scanning tickets have been resolved.
 
 
-**API**
+<AccordionGroup>
+
+<Accordion title="API" defaultOpen>
 
 * Added an array of Timeslot data to the `GET /activated-events` endpoint
 * Improved order search by adding a `query` parameter to the `GET /orders endpoint`, meaning you can now search orders by customer email, customer full name, order reference or event name.
@@ -95,6 +97,11 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * New endpoint `PUT /guestdata` created, which allows you to update the current number of guests that have attended (for a particular guest list order item).
 * Added new `permissions` attribute to the `GET /activated-events` endpoint, containing information on whether the authenticated user can or cannot edit the event.
 * Added a new `hideAttendees` attribute to the `GET /zones/all` endpoint, allowing for us to control if the attendees tab in the access control app is or is not visible.
+
+</Accordion>
+
+</AccordionGroup>
+
 
 </Update>
 
