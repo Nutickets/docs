@@ -6,6 +6,30 @@ description: "Latest updates and changes to the API"
 Changes to the webhook payloads will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates.
 
 
+<Update label="20th May 2026" description="">
+
+- Added the `Attendee Check Out` webhook, fired when an attendee is checked out of a zone. The payload mirrors the attendee check in webhook and adds a `visitDuration` (in seconds) for the completed visit.
+
+</Update>
+
+<Update label="13th December 2025" description="">
+
+- Added the `Resale Payout` and `Resale Payout Failed` webhooks, fired when the proceeds of a resold ticket are paid out, or fail to pay out. The payload includes a `resale` object detailing the `original_order_item_id`, `resale_order_id`, `resale_order_item_id` and `resale_order_item_base_price`, plus the `transaction_id` and `transaction_total` on a successful payout.
+
+</Update>
+
+<Update label="28th October 2025" description="">
+
+- Added the `Order Refunded` and `Order Refund Failed` webhooks, fired when an order refund succeeds or fails. Both payloads mirror the order completed webhook.
+
+</Update>
+
+<Update label="18th July 2025" description="">
+
+- Added the `Order Failed` webhook, fired when an order does not complete, for example when it expires. The payload mirrors the order completed webhook and adds the order `status`.
+
+</Update>
+
 <Update label="29th August 2024" description="">
 
 - Updated order related webhooks to include new item types `fees`, `fulfilmentFees`, `giftVouchers`.

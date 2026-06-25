@@ -770,111 +770,19 @@ function parseDateString(dateStr) {
     return new Date(dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1'));
 }
 
-// --- ACCORDION GROUPING (web release notes) ---
-
-// An H3 line (### …) but not an H4+ (#### …). H3s mark feature subsections.
-const H3_LINE = /^###(?!#)\s+(.*)$/;
-// Any markdown heading — used to detect where an H3 section's body ends.
-const ANY_HEADING_LINE = /^#{1,6}\s+/;
-// A fenced code block delimiter.
-const CODE_FENCE = /^\s*```/;
-
-/**
- * Reduce a processed H3 line to its plain display title. By this stage the heading may
- * carry bold markers from the source (e.g. "### **Pricing history**") and/or transplanted
- * doc links (e.g. "### [Dynamic pricing](/core-platform/...)"); both are stripped because
- * a Mintlify accordion title is plain text. Any docs link a feature name carried is
- * intentionally dropped here — in-bullet links in the body are untouched.
- */
-function headingTitle(line) {
-    return line
-        .replace(H3_LINE, '$1')
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links → their text
-        .replace(/\[([A-Z]{2,}-\d+)\]/g, '')      // bare ticket references
-        .replace(/[*_`]/g, '')                     // emphasis / code marks
-        .replace(/\\([{}<>])/g, '$1')              // undo escaping
-        .replace(/\s+/g, ' ')
+// Strip Outline layout/sizing metadata that leaks into image alt/title text for side-by-side
+// or resized images (e.g. "left-50 =428x330", "right-50", "=250x"). We can't reproduce that
+// positioning in Mintlify, and it must never surface as a caption.
+function stripImageLayoutMeta(text) {
+    if (!text) return '';
+    return text
+        .replace(/\b(?:left|right|cent(?:er|re))-\d+\b/gi, '') // column position-width: "left-50" (needs -N)
+        .replace(/=\s*\d+x\d*|=\s*x\d+/gi, '')                 // dimensions: "=428x330", "=250x", "=x300" (needs x)
+        .replace(/\s{2,}/g, ' ')
         .trim();
 }
 
-/**
- * Render one run of feature subsections as a Mintlify <AccordionGroup>. Accordions are
- * open by default so the changelog stays readable while gaining clear per-feature grouping.
- *
- * @param {Array<{ title: string, body: string }>} accordions
- */
-function renderAccordionGroup(accordions) {
-    const blocks = accordions.map(({ title, body }) => {
-        const safeTitle = title.replace(/"/g, '&quot;');
-        return `<Accordion title="${safeTitle}" defaultOpen>\n\n${body}\n\n</Accordion>`;
-    });
-    return `\n<AccordionGroup>\n\n${blocks.join('\n\n')}\n\n</AccordionGroup>\n`;
-}
-
-/**
- * Wrap each run of consecutive H3 feature subsections into a collapsible <AccordionGroup>.
- * Top-level section headings (already #### by this point) and flat bullet lists are left
- * untouched. Code fences are skipped so a "###" inside a code sample is never mistaken for
- * a heading.
- */
-function groupHeadingsIntoAccordions(content) {
-    const lines = content.split('\n');
-    const out = [];
-    let inFence = false;
-    let i = 0;
-
-    while (i < lines.length) {
-        const line = lines[i];
-
-        if (CODE_FENCE.test(line)) {
-            inFence = !inFence;
-            out.push(line);
-            i++;
-            continue;
-        }
-
-        if (!inFence && H3_LINE.test(line)) {
-            const accordions = [];
-
-            // Collect every consecutive H3 section into one group.
-            while (i < lines.length && H3_LINE.test(lines[i])) {
-                const title = headingTitle(lines[i]);
-                i++;
-
-                // The body runs until the next heading (H3 → next accordion, anything
-                // else → end of group) or EOF, staying code-fence aware throughout.
-                const bodyLines = [];
-                let bodyFence = false;
-                while (i < lines.length) {
-                    const bodyLine = lines[i];
-                    if (CODE_FENCE.test(bodyLine)) {
-                        bodyFence = !bodyFence;
-                        bodyLines.push(bodyLine);
-                        i++;
-                        continue;
-                    }
-                    if (!bodyFence && ANY_HEADING_LINE.test(bodyLine)) {
-                        break;
-                    }
-                    bodyLines.push(bodyLine);
-                    i++;
-                }
-
-                accordions.push({ title, body: bodyLines.join('\n').trim() });
-            }
-
-            out.push(renderAccordionGroup(accordions));
-            continue;
-        }
-
-        out.push(line);
-        i++;
-    }
-
-    return out.join('\n');
-}
-
-async function generateMdxFile(updates, filePath, title, description, crossLinks, enableAccordions = false, markMajorReleases = false) {
+async function generateMdxFile(updates, filePath, title, description, crossLinks, enableFeatureHeadings = false, markMajorReleases = false) {
     // Parse existing file to preserve manually-added links
     const existingBlocks = parseExistingMdx(filePath);
     let preservedCount = 0;
@@ -931,20 +839,26 @@ description: "${description}"
             let text = part;
 
             // 1. TRANSFORM HEADERS
-            // Top-level sections (# / ##) collapse to H4. H3 feature subsections are
-            // left intact here when accordions are enabled (the web changelog) so
-            // groupHeadingsIntoAccordions() can wrap each run below; otherwise they
-            // flatten to bold, matching the long-standing mobile/API treatment.
-            text = text
-                .replace(/^#\s+(.*$)/gm, '\n#### $1')
-                .replace(/^##\s+(.*$)/gm, '\n#### $1');
-            if (!enableAccordions) {
-                text = text.replace(/^###\s+(.*$)/gm, '\n**$1**');
+            if (enableFeatureHeadings) {
+                // Web changelog: a clean descending hierarchy — section (H3) > feature (H4)
+                // > bold sub-point. Demote features FIRST so the section promotion below
+                // can't re-match the freshly written H4 lines.
+                text = text
+                    .replace(/^###(?!#)\s+(.*$)/gm, '\n#### $1')
+                    .replace(/^##\s+(.*$)/gm, '\n### $1')
+                    .replace(/^#\s+(.*$)/gm, '\n### $1');
+            } else {
+                // Mobile / API: top-level sections collapse to H4 and feature subsections
+                // flatten to bold, matching the long-standing treatment on those pages.
+                text = text
+                    .replace(/^#\s+(.*$)/gm, '\n#### $1')
+                    .replace(/^##\s+(.*$)/gm, '\n#### $1')
+                    .replace(/^###\s+(.*$)/gm, '\n**$1**');
             }
 
             // 2. ESCAPE SPECIAL CHARS
             text = text.replace(/([^\\])([{}])/g, '$1\\$2');
-            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br|video|Accordion|AccordionGroup))/g, '\\<');
+            text = text.replace(/<(?!https?:|\/?(Note|Tip|Warning|Info|Success|Danger|Frame|img|br|video|Tabs|Tab))/g, '\\<');
 
             // 3. CONVERT OUTLINE CALLOUTS
             text = text.replace(/:::(\w+)\s+([\s\S]*?):::/g, (match, type, content) => {
@@ -969,12 +883,14 @@ description: "${description}"
             text = text.replace(/!\[(.*?)\]\(([^)\s"]+)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
                 const safeUrl = urlMap[url] || url;
 
-                let candidateCaption = title || '';
-                if (candidateCaption.trim().startsWith('=')) candidateCaption = '';
-                if (!candidateCaption && alt) candidateCaption = alt;
+                // Outline encodes side-by-side / resized images as layout metadata in the title
+                // or alt (e.g. "left-50 =428x330"); strip it so it never surfaces as a caption.
+                const cleanAlt = stripImageLayoutMeta(alt);
+                let candidateCaption = stripImageLayoutMeta(title || '');
+                if (!candidateCaption && cleanAlt) candidateCaption = cleanAlt;
 
-                const safeAlt = alt ? alt.replace(/"/g, '&quot;') : '';
-                const safeCaption = candidateCaption ? candidateCaption.replace(/"/g, '&quot;') : '';
+                const safeAlt = cleanAlt.replace(/"/g, '&quot;');
+                const safeCaption = candidateCaption.replace(/"/g, '&quot;');
 
                 if (safeCaption) {
                     return `\n\n<Frame caption="${safeCaption}"><img src="${safeUrl}" alt="${safeAlt}" /></Frame>\n\n`;
@@ -1013,14 +929,6 @@ description: "${description}"
             }
         }
 
-        // Group H3 feature subsections into collapsible accordions (web changelog only).
-        // Runs after link transplant: in-bullet doc links are already re-applied, and any
-        // link the transplant placed on a feature heading is dropped with the heading markup
-        // (accordion titles are plain text).
-        if (enableAccordions) {
-            processedContent = groupHeadingsIntoAccordions(processedContent);
-        }
-
         const updateLabel = markMajorReleases ? formatUpdateLabel(update) : update.label;
 
         mdxContent += `
@@ -1044,4 +952,3 @@ if (require.main === module) {
     main();
 }
 
-module.exports = { headingTitle, renderAccordionGroup, groupHeadingsIntoAccordions };

@@ -9,7 +9,7 @@ description: "Release history for 2022"
 Below you will find the summary notes for the 17th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Companies can now decide whether to show prices in the shop inclusive (default) or exclusive of taxes [[NG-1986](https://linear.app/nuweb-group/issue/NG-1986)]
   * This also provides more detailed access to individual tax breakdowns (proportion of tax on the item price vs the processing/reseller fees).
@@ -101,7 +101,7 @@ Below you will find the summary notes for the 17th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Integrated with the [Tap](https://www.tap.company/) payment gateway [[NG-1135](https://linear.app/nuweb-group/issue/NG-1135)]
 * Integrated with [Adyen](https://www.adyen.com/) payment gateway [[NG-2006](https://linear.app/nuweb-group/issue/NG-2006)]
@@ -132,7 +132,7 @@ Below you will find the summary notes for the 17th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added mass update functionality to cashless products to allow easier updates of items that are shared across multiple stores [[NG-1990](https://linear.app/nuweb-group/issue/NG-1990)]
 
@@ -234,7 +234,7 @@ Below you will find the summary notes for the 17th release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed an issue with "Every ticket on every event" data capture which, if enabled, would present the user with a blank step in the checkout when no items of type "Ticket" exist in their basket [[NG-1931](https://linear.app/nuweb-group/issue/NG-1931)]
 * Hidden the season ticket schedule sales stats for events that are not yet in a schedule [[NG-1909](https://linear.app/nuweb-group/issue/NG-1909)]
@@ -268,7 +268,7 @@ Below you will find the summary notes for the 17th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Made some internal changes to reports that ensure consistency across scheduled reports, downloaded reports & admin reports, which addresses some recent intermittent scheduled report failures [[NG-2155](https://linear.app/nuweb-group/issue/NG-2155)]
 
@@ -279,7 +279,7 @@ Below you will find the summary notes for the 17th release of the Nuweb core pla
 Below you will find the summary notes for the 16th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Discount codes can now be assigned to events and/or price bands, alongside sale items, allowing for more generic discounts that cover an event or event schedule (NG-1473).
 
@@ -333,7 +333,7 @@ Below you will find the summary notes for the 16th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * The system has been integrated with Szamlazz, a cloud-based billing service for creating invoices that comply with Hungarian law. When enabled, invoices and receipts are seamlessly generated, amended, cancelled and re-issued in the background via the Szamlazz API (NG-1483).
 
@@ -360,7 +360,7 @@ Below you will find the summary notes for the 16th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Revamped the UX of email attendees feature & added the ability to send emails based on ticket types purchased [[NG-1478](https://linear.app/nuweb-group/issue/NG-1478)] [[NG-1726](https://linear.app/nuweb-group/issue/NG-1726)]
 * Added a feature flag for access codes. This will be auto-enabled for any companies (or parents of companies) that have previously used this feature (NG-1471)
@@ -458,14 +458,14 @@ Below you will find the summary notes for the 16th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Updated the access code eligibility settings UI to match the new UI for discount codes (NG-1207)
 * Moved the sales channel toggles in the sale item form to the pricing section, making it easier to understand the fees and availability of the item being created/edited (NG-1493)
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed issue where event media options were being cut off the bottom of the screen for sale items (NG-1453)
 * Fixed issue where percentage donation fees contained many decimal places (NG-1105)
@@ -502,7 +502,7 @@ Below you will find the summary notes for the 16th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Implement incoming API logs to track all request and API response data in realtime (NG-1812)
 
@@ -513,7 +513,7 @@ Below you will find the summary notes for the 16th release of the Nuweb core pla
 Below you will find the summary notes for the 15th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Reseller fees can now be defined based on the base price of the sale item along with the sales channel that is in use (NG-1124, NG-1154, NG-1152)
   * Fees can be defined per sales channel (box office, ticket shop, or global)
@@ -594,7 +594,7 @@ Below you will find the summary notes for the 15th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added a timeline of approval history to the event details block (NG-1165)
 
@@ -628,7 +628,7 @@ Below you will find the summary notes for the 15th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Updated the values in the order summary shown during checkout to more accurately represent the breakdown of costs (NG-1065)
 * Updated the discount code eligibility settings UI to make these easier to understand (NG-745)
@@ -640,7 +640,7 @@ Below you will find the summary notes for the 15th release of the Nuweb core pla
 * Updated seating plan page in admin to look more closely to the event media page (NG-1106)
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed search issues in the shop, where entities with accented characters were not being returned in the search results (NG-1214 / !2375)
 * Fixed an issue where users set event data capture questions to either "Every event in this schedule" or "On specific items across the schedule" for events that do not belong to a schedule. (NG-1245 / !2385)
@@ -659,7 +659,7 @@ Below you will find the summary notes for the 15th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Some housekeeping was performed on the guest list creation/edit pages (NG-1171, NG-1207)
 * Updated the default value for `attracts_discount` to avoid cashless products (particularly top-ups) from being discount attractive (NG-1362)
@@ -672,7 +672,7 @@ Below you will find the summary notes for the 15th release of the Nuweb core pla
 Below you will find the summary notes for the 14th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added a new sales report which compares sales figures across box office users (NP-2821)
 * Added the ability to assign permissions directly to admin users without needing to create a role (NP-2811)
@@ -691,14 +691,14 @@ Below you will find the summary notes for the 14th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Added official support for over-the-phone payments in box office via Stripe MOTO (NP-1711)
 * Added the ability to specify an order reference prefix for Barclays ePDQ transactions (NP-2947)
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added audit log entries on any stock changes that were caused by admin users (!2170 / NP-2512)
   * Added links to view the audit log entries on the sale item capacity bars
@@ -723,14 +723,14 @@ Below you will find the summary notes for the 14th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Overhaul of editing companies in hub. More concise organisation of available fields/toggles as well as grouping of features (NP-2856)
 * Display a warning when creating a discount code for items that cannot be discounted (NP-2626)
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Correctly presented zero minimum values for variable priced sale items as invalid (!2176)
 * Added 'Sorted by:' bar to the Reporting UI to more easily understand a reports ordering (!2179)
@@ -758,7 +758,7 @@ Below you will find the summary notes for the 14th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Drastically improved the efficiency of the hub translation manager to provide better performance for translators (NP-2888)
 
@@ -769,7 +769,7 @@ Below you will find the summary notes for the 14th release of the Nuweb core pla
 Below you will find the summary notes for the 13th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Data capture questions can now be assigned to events across a schedule or an inventory item (NP-2652)
 * Added a new Admin Users Report for an overview on user permissions, last login dates & VGs (NP-2726)
@@ -778,14 +778,14 @@ Below you will find the summary notes for the 13th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Added support for Authorize.Net payment gateway (NP-2712)
 * Added support for Barclays ePDQ payment gateway (NP-2733)
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Contact blocks are now automatically added to events if organiser details are provided when creating new events.
   * Also went back to add contact blocks to previously created events
@@ -820,7 +820,7 @@ Below you will find the summary notes for the 13th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * In template blocks texts have customisable font sizes & SEO tag options
 * Improved accessibility of customer selection in box office checkout (!2024)
@@ -830,7 +830,7 @@ Below you will find the summary notes for the 13th release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed dynamic maps zoom level (NP-2613)
 * Fixed popovers displaying event links on map markers on event pages (NP-2613)
@@ -861,12 +861,10 @@ Below you will find the summary notes for the 13th release of the Nuweb core pla
 Below you will find the summary notes for the 12th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 
-<AccordionGroup>
-
-<Accordion title="Cashless & eWallets (Alpha)" defaultOpen>
+#### Cashless & eWallets (Alpha)
 
 This release introduces the core cashless + eWallets functionality to admin + shop, providing functionality to: 
 
@@ -877,9 +875,9 @@ This release introduces the core cashless + eWallets functionality to admin + sh
 * View/manage cashless wallets within admin (NP-2504 / !1910)
 * Give customers the ability to self administer cashing out from their wallets, within their 'my account' section of the shop (NP-2505 / !1912)
 
-</Accordion>
 
-<Accordion title="Content Management System (Beta)" defaultOpen>
+
+#### Content Management System (Beta)
 
 This release introduces a diverse collection of enhancements to our CMS offering -- empowering organisers, venues and partners to create beautiful & totally customisable, template driven marketing pages, blogs, knowledge centres, marketplaces and more. All of this functionality is built right into our core platform and will continue to be enhanced in future releases.
 
@@ -899,9 +897,9 @@ This release introduces a diverse collection of enhancements to our CMS offering
   * Added a brand new fully customisable form responses report with customisable headers, filters, sorting and the ability to download and schedule as standard with all of our reports
   * Added the ability to configure notifications for each form response
 
-</Accordion>
 
-<Accordion title="Other Features" defaultOpen>
+
+#### Other Features
 
 * Tag can now be organised into tag categories (NP-2485)
   * Tag categories can be labelled as `mandatory` to enforce events to be tagged with at least one tag from these categories
@@ -909,11 +907,9 @@ This release introduces a diverse collection of enhancements to our CMS offering
   * Added ability to filter by tags in admin event attendance and admin sales index (NP-2485)
 * Added an optional event approval process for organisers where authorised users can approve/reject events before they get published (NP-2546)
 
-</Accordion>
 
-</AccordionGroup>
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Timeslot mass updater received two new mass update options:
   * The ability to select "all" timeslots within the collective (event/schedule) instead of being forced to select future/historic timeslots (NP-2482 / !1842)
@@ -941,7 +937,7 @@ This release introduces a diverse collection of enhancements to our CMS offering
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Locale-aware price input has been used in Fundraising setup (!1864)
 * Event dates are now shown alongside event name when creating a new event block on a listing page (!1862)
@@ -962,7 +958,7 @@ This release introduces a diverse collection of enhancements to our CMS offering
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Event media and Seating plan builder received some translations (!1860)
 * Fix a calculation error with blended reseller fees where fixed fees were being counted once per item rather than once per transaction resulting in less money being distributed to the reseller during split payments (NP-2188 / NP-2466)
@@ -975,7 +971,7 @@ This release introduces a diverse collection of enhancements to our CMS offering
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Added stricter checks around "Guest Customer" being used as a name during checkout, to prevent customers leaving the default value (NP-2471 / !1843)
 * Fix: Order index event filter causing filter column to break
@@ -998,7 +994,7 @@ This release introduces a diverse collection of enhancements to our CMS offering
 Below you will find the summary notes for the 11th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Integrated with Stripe Terminal to enable in-person card payments in the web box office. 
 * Implemented rebooking orders (move dates) for seated events for both admin users and customers (!1739 / NP-2355):
@@ -1052,7 +1048,7 @@ Below you will find the summary notes for the 11th release of the Nuweb core pla
   * Added the ability to change the date format for all dates across any given report
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Event pass/level timeslots will now be hidden from the item selector modal when all sale items are 'off sale' (!1746)
 * Scheduled reports that start/end on the same day, and will only execute 'once', are now recognised as 'one off' reports within the UI (!1768 / NP-2399).
@@ -1078,7 +1074,7 @@ Below you will find the summary notes for the 11th release of the Nuweb core pla
 * Improved performance of the hub dashboard
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Vastly improved the UX of the invoices section in Hub:
   * Fix some issues with filtering and sorting of the 'reference' column
@@ -1103,13 +1099,13 @@ Below you will find the summary notes for the 11th release of the Nuweb core pla
 * New 'edit' time slot modal to ensure easy configuration of time slot updates
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Hide global data capture questions from child companies when viewing the event data capture in admin from a parent company. (!6262 / NP-2380)
 * Improved performance of the (non event-media) download page for large orders and fixed a 500 error for very large orders caused by apple wallet QR link generation (HB-84174218)
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Fix: Season ticket "grants access to x events" miscounting where a season ticket was attached to an event more than once. (!1724 / NP-2344)
 * Fix: Ensure that the correct sold/reserved/remaining count is displayed for charity item groups. (!1725)
@@ -1129,7 +1125,7 @@ Below you will find the summary notes for the 11th release of the Nuweb core pla
 Below you will find the summary notes for the 10th release of the Nuweb core platform. This release had a heavy focus on housekeeping and general UI/UX improvements as well as streamlining our processes going forward  into the new year.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * The admin event dashboard has been redesigned and features brand new event level statistics on sales, attendees and orders as well as:
   * New event status block containing status, payment link option and the most important actions.
@@ -1142,7 +1138,7 @@ Below you will find the summary notes for the 10th release of the Nuweb core pla
   * Better use of colour on event dashboard with certain item groups being assigned colours that aren't the primary theme colour.
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Box office users are no longer treated as regular customers during box office checkouts – they will no longer receive confirmation emails or appear in email/customer lists during any attempts to communicate with event attendees such as via the 'compose new email' or 'resend order emails' features.
 * Reporting has been improved both technically to support larger reports as well as from a UX / QoL perspective:
@@ -1170,7 +1166,7 @@ Below you will find the summary notes for the 10th release of the Nuweb core pla
 * Changes to GTM/Google analytics: we now track the events triggered when first landing on the site, once the user opts-in to analytical cookies
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Improved the phrasing on the transfer interface when correcting a transfer
 * Deployed a number of mobile optimisations covering the following areas:
@@ -1199,7 +1195,7 @@ Below you will find the summary notes for the 10th release of the Nuweb core pla
 * Fixed a bug where three-column layout event blocks did not render properly on mobile devices - Also improved the slider so it can be used by trackpad users as well as touchscreen devices.
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fix an issue in the scanning reports where on some occasions it was incorrectly aggregating the total scans (in/out)
 * Fix a bug with event level ticket limits where it was incorrectly identifying users as having reached the ticket limit
@@ -1244,7 +1240,7 @@ Below you will find the summary notes for the 10th release of the Nuweb core pla
 * Fixing an issue preventing headers from being removed from custom reports
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Deployed a new UAT environment for early testing of new development work against (anonymised) production-like data.
 * Reduced the amount of JavaScript loaded on each page visit by up to 75% in some areas of the system.

@@ -9,7 +9,7 @@ description: "Release history for 2023"
 Below you will find the summary notes for the 27th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * New *multi buy* discount code type has been added, allowing a group of items to be discounted when given quantities are reached. [[NG-4646](https://linear.app/nuweb-group/issue/NG-4646)] [[NG-4714](https://linear.app/nuweb-group/issue/NG-4714)]
 
@@ -29,7 +29,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 * Added the ability to delete and restore event media and apple pass templates [[NG-4634](https://linear.app/nuweb-group/issue/NG-4634)]
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * When viewing the list of orders within admin, incomplete instant access orders will now appear amongst completed orders, based on their creation date rather than always appearing at the end of the list [[NG-4494](https://linear.app/nuweb-group/issue/NG-4494)] 
 * When resending confirmation emails on the event page, instant access orders will now be included in the list of recipients [[NG-4496](https://linear.app/nuweb-group/issue/NG-4496)] 
@@ -44,7 +44,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Added details of the token topup amounts a customer has received, on the order and order item detail pages [[NG-4516](https://linear.app/nuweb-group/issue/NG-4516)]
 * Reordered refundable items to show the bundled child items alongside their lead bundle item [[NG-4316](https://linear.app/nuweb-group/issue/NG-4316)]
@@ -52,7 +52,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Forced ticket stock to default to unlimited, rather than 100 [[NG-4654](https://linear.app/nuweb-group/issue/NG-4654)]
 * Standardised the external_id fields on sale items, to avoid some offering (unused) multi-locale functionality [[NG-4515](https://linear.app/nuweb-group/issue/NG-4515)]
@@ -74,7 +74,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Upgraded to the new Stripe Payment Method Domains API which ensures Google Pay, Apple Pay and other wallet methods are future proofed in Stripe Connect [[NG-4689](https://linear.app/nuweb-group/issue/NG-4689)] [[NG-2909](https://linear.app/nuweb-group/issue/NG-2909)]
 * Improve our internal logging mechanisms to minimise performance degradation during peak traffic [[NG-3939](https://linear.app/nuweb-group/issue/NG-3939)]
@@ -86,7 +86,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 Below you will find the summary notes for the 26th release of the Nuweb core platform.
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * New ability to hide CMS header block images in mobile [[NG-4220](https://linear.app/nuweb-group/issue/NG-4220)]
 * Companies with Event Media enabled can now set default event media at the venue level [[NG-4346](https://linear.app/nuweb-group/issue/NG-4346) & [NG-4347](https://linear.app/nuweb-group/issue/NG-4347)]
@@ -102,7 +102,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Show ticket holder details on order overview page in admin & updated page UI [[NG-4248](https://linear.app/nuweb-group/issue/NG-4248)]
 
@@ -111,7 +111,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 <Frame caption="The order overview page received an update that highlights actions and main order details [[NG-4248"><img src="https://linear.app/nuweb-group/issue/NG-4248" alt="The order overview page received an update that highlights actions and main order details [[NG-4248" /></Frame>
 
-] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260624%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260624T185055Z&X-Amz-Expires=3600&X-Amz-Signature=558cb67a891015dc645957152c1c9fe56824e4d23e8a083a1cf1d6cbebcc563b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
+] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260625%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260625T160314Z&X-Amz-Expires=3600&X-Amz-Signature=efb49868e5ae78eb4f07aab093ebef6370a77c2f6eb42b12d4a4fea2228fac23&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
 * Ensured testimonial list blocks function when vertical padding is set to zero [[NG-4227](https://linear.app/nuweb-group/issue/NG-4227)]
 * Added pricing previews to Cashless Shop Products, including the appropriate fee and sales channel breakdowns [[NG-2871](https://linear.app/nuweb-group/issue/NG-2871)]
 * Added a new `Has Tickets` filter to the event index page [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
@@ -126,7 +126,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Added the event name to the related sale items modal [[NG-4094](https://linear.app/nuweb-group/issue/NG-4094)]
 * Expanded list of frontend validated forms [[NG-4088](https://linear.app/nuweb-group/issue/NG-4088)]
@@ -149,7 +149,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Major system speed/performance improvements have been rolled out using a new in-house page acceleration technology amongst other optimisations [[NG-4530](https://linear.app/nuweb-group/issue/NG-4530)] [[NG-4514](https://linear.app/nuweb-group/issue/NG-4514)] [[NG-4498](https://linear.app/nuweb-group/issue/NG-4498)] [[NG-4419](https://linear.app/nuweb-group/issue/NG-4419)] [[NG-4420](https://linear.app/nuweb-group/issue/NG-4420)] [[NG-4424](https://linear.app/nuweb-group/issue/NG-4424)] [[NG-4422](https://linear.app/nuweb-group/issue/NG-4422)]
   * before
@@ -172,7 +172,7 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 Below you will find the summary notes for the 25th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added the ability to add dynamic links to pages, articles and events in WYSIWYG editors for schema blocks and event descriptions [[NG-3817](https://linear.app/nuweb-group/issue/NG-3817)]
 
@@ -188,7 +188,7 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 * Cashless mobile application now allows for top-ups to be created in NFC mode, using a Stripe card terminal (internet connection required) [[NG-3936](https://linear.app/nuweb-group/issue/NG-3936)]
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * A wide variety of infrastructure, package, and software upgrades were performed this release, bolstering performance, and remaining up-to-date with latest technologies and security patches [[NG-4213](https://linear.app/nuweb-group/issue/NG-4213) & [NG-4241](https://linear.app/nuweb-group/issue/NG-4241)]
 * Updated the 'Add ticket' action in the new event notification to open the add tickets modal, rather than redirect to the new ticket creation form [[NG-4163](https://linear.app/nuweb-group/issue/NG-4163)]
@@ -259,7 +259,7 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Added warning when assigning Super User role to a new user [[NG-4267](https://linear.app/nuweb-group/issue/NG-4267)]
 * Updated grid and list layout views, and alternative options available on some pages (Users, Customers, Orders, Reservations, Event Media, Seating plans, Companies, Resellers) [[NG-4087](https://linear.app/nuweb-group/issue/NG-4087)]
@@ -269,7 +269,7 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Prevented users from attempting to sort reports by custom columns, as the sorting occurs before the calculation runs [[NG-4080](https://linear.app/nuweb-group/issue/NG-4080)]
 * Updated the 'view event' action on the admin dashboard to take users to the *correct* page [[NG-3407](https://linear.app/nuweb-group/issue/NG-3407)]
@@ -292,7 +292,7 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 Below you will find the summary notes for the 24th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Sitemaps are now generated by default for all ticket shops, providing search engines/crawlers with an increased chance of correctly indexing event pages, event listings, and articles [[NG-3820](https://linear.app/nuweb-group/issue/NG-3820)]
   * Any events that are unpublished marked 'hidden' are not shown
@@ -305,7 +305,7 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Reseller branding settings has been improved, with new options to control the mobile app splash page settings added [[NG-3748](https://linear.app/nuweb-group/issue/NG-3748) & [NG-3749](https://linear.app/nuweb-group/issue/NG-3749)]
 
@@ -347,13 +347,13 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Integrated with M-PESA for accepting mobile money payments across Africa [[NG-3810](https://linear.app/nuweb-group/issue/NG-3810)]
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Added more customisation options for article block descriptions as well as ability to remove 'View All' link from article and event blocks [[NG-3743](https://linear.app/nuweb-group/issue/NG-3743)]
 * Added maximum space limitations to seating plans to prevent overly large areas / plans [[NG-3755](https://linear.app/nuweb-group/issue/NG-3755)]
@@ -382,7 +382,7 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 
 
 
-#### 🧹Housekeeping
+### 🧹Housekeeping
 
 * Removed flags from the Hub translation manager [[NG-3894](https://linear.app/nuweb-group/issue/NG-3894)]
 * Ensured date-input default values are set at the form level [[NG-3539](https://linear.app/nuweb-group/issue/NG-3539)]
@@ -427,7 +427,7 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 Below you will find the summary notes for the 23rd release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added the ability to share event/template/article blocks across multiple pages in the CMS [[NG-3582](https://linear.app/nuweb-group/issue/NG-3582)]
 
@@ -441,7 +441,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 <br />
 
-<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260624%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260624T185055Z&X-Amz-Expires=3600&X-Amz-Signature=c7ef99936a1576f64243f0f1344b6a4e5a07fba4e7cd9914b9a231c553086513&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
+<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260625%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260625T160314Z&X-Amz-Expires=3600&X-Amz-Signature=9a83079de4b9807440aaca523c4c8bd1ea479250a94a247d69417319550ac031&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
 
 * Added ability to display event times at the event block level (and style them) [[NG-3581](https://linear.app/nuweb-group/issue/NG-3581)]
 
@@ -457,7 +457,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * New UI for modifying reseller and company fees [[NG-3592](https://linear.app/nuweb-group/issue/NG-3592)]
 
@@ -473,7 +473,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 * Improved the seat selection process when using *best available seats* in combination with season tickets to reduce the chances of a seat which is occupied at another event in the schedule from being selected [[NG-3738](https://linear.app/nuweb-group/issue/NG-3738)]
 * Implemented a number of shop-wide performance improvements [[NG-3714](https://linear.app/nuweb-group/issue/NG-3714)]
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Added support for OXXO in-store payments via Stripe Connect [[NG-3575](https://linear.app/nuweb-group/issue/NG-3575)]
 
@@ -493,7 +493,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 * Added ability to use Google Tag Manager on admin to add custom scripts and tracking your users [[NG-3578](https://linear.app/nuweb-group/issue/NG-3578)]
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Our checkbox selectors now show more visual information, making it easier to choose between options [[NG-3563](https://linear.app/nuweb-group/issue/NG-3563)]
 
@@ -504,7 +504,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 * Provided a helper modal when arriving on the schedule page of an event for the first time, helping the user quick create a schedule for that event [[NG-2521](https://linear.app/nuweb-group/issue/NG-2521)]
 
 
-<Frame caption="This helper modal more clearly explains the choice between adding to schedule or adding repeats. "><img src="/images/releases/890a0b5a70fc1940abcb41a28f702f93.png" alt="This helper modal more clearly explains the choice between adding to schedule or adding repeats. " /></Frame>
+<Frame caption="This helper modal more clearly explains the choice between adding to schedule or adding repeats."><img src="/images/releases/890a0b5a70fc1940abcb41a28f702f93.png" alt="This helper modal more clearly explains the choice between adding to schedule or adding repeats. " /></Frame>
 
 * Provided an option to customise the Profile dropdown under Site settings / Menu options [[NG-3665](https://linear.app/nuweb-group/issue/NG-3665)]
 
@@ -514,7 +514,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 * Added more customise options to waiting rooms [[NG-3670](https://linear.app/nuweb-group/issue/NG-3670)]
 * Display maximum character limit in WYSIWYG editors [[NG-3693](https://linear.app/nuweb-group/issue/NG-3693)]
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Major performance improvements implemented across both internal & external basket APIs [[NG-3528](https://linear.app/nuweb-group/issue/NG-3528)]
 * Mobile menu now honours the 'Hide profile' settings [[NG-3588](https://linear.app/nuweb-group/issue/NG-3588)]
@@ -539,7 +539,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 Below you will find the summary notes for the 22nd release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Order Distributions can now be created by customers who purchase large orders and wish to share them with a large groups of attendees [[NG-3396](https://linear.app/nuweb-group/issue/NG-3396)]
 
@@ -573,7 +573,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Extended instant access invoice orders so that they contributes towards sales figures, appear in attendance reports & can be managed in admin the same way as regular paid orders [[NG-3458](https://linear.app/nuweb-group/issue/NG-3458)]
 * Added support for up to 4 decimal places when configuring tax bands [[NG-3397](https://linear.app/nuweb-group/issue/NG-3397)]
@@ -589,7 +589,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Integrated with [First Atlantic Commerce](https://firstatlanticcommerce.com/) payment gateway: [PowerTranz](https://firstatlanticcommerce.com/powertranz/) [[NG-3225](https://linear.app/nuweb-group/issue/NG-3225)]
 
@@ -601,7 +601,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Added an option to add a tooltip to any text in template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
 * Shop's fonts will be used in admin when you are editing template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
@@ -629,7 +629,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Improved internationalisation for various calendar, event and item dates within Shop \[NG-2895/7890/3322\]
 * Displayed additional tags on event/article blocks on listing pages [[NG-3322](https://linear.app/nuweb-group/issue/NG-3322)]
@@ -665,7 +665,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Our Admin and Hub menus received a huge UI / UX overhaul that should make it easier than ever to navigate the system. It can now be collapsed at any screen size, with the ordering and grouping of each item being carefully considered to optimise navigation. 
 \* Specific changes are noted in the [**User Interface (UI/UX)**](/s/5450e24b-d6cd-48c9-a315-a9037dba31f1/doc/r21-9th-may-2023-tbc-NOCDy8fAH0) section of the release notes [[NG-3290](https://linear.app/nuweb-group/issue/NG-3290)]
@@ -685,7 +685,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Included the ability to bulk refund items orders with more than 5 items, using the same settings and cancellation fee for all refunded items [[NG-3208](https://linear.app/nuweb-group/issue/NG-3208)]
 
@@ -724,7 +724,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### ⏳ Coming Soon
+### ⏳ Coming Soon
 
 * Access Control will support data capture on zones, allowing our access control app to ask a question on check-in. This initial version has a very fixed set of data capture questions, but we plan to expand this to allow custom setups in the future [[NG-3230](https://linear.app/nuweb-group/issue/NG-3230)]
 
@@ -736,7 +736,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * The menu received a UI and UX uplift. Now you can collapse the menu any time, and when collapsing the menu will shrink to an icon only view. Some menu items have been moved under different pages [[NG-3290](https://linear.app/nuweb-group/issue/NG-3290)]
   * Box office moved to top menu
@@ -765,7 +765,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed some help text styling to more closely match our UI [[NG-2865](https://linear.app/nuweb-group/issue/NG-2865)]
 * Fixed 'mixed' layout article block images [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
@@ -792,7 +792,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Fixed an issue where seating plan data wasn't refreshed when opening / closing different seating plans [[NG-3257](https://linear.app/nuweb-group/issue/NG-3257)]
 
@@ -804,7 +804,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * New Best Available seats, where the system creates a heatmap for your seating plan, and the customers' seats will be automatically selected for them [[NG-590](https://linear.app/nuweb-group/issue/NG-590)]
 
@@ -812,7 +812,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 <br />
 
-<Frame caption="Searching for available tickets based on a customer choice of price bands, sections or general admissions. "><img src="/images/releases/7ebedff1af3ee39f30d018fcbea56c32.gif" alt="Searching for available tickets based on a customer choice of price bands, sections or general admissions. " /></Frame>
+<Frame caption="Searching for available tickets based on a customer choice of price bands, sections or general admissions."><img src="/images/releases/7ebedff1af3ee39f30d018fcbea56c32.gif" alt="Searching for available tickets based on a customer choice of price bands, sections or general admissions. " /></Frame>
 
 
 
@@ -839,7 +839,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added the schedule creation progress to **all** schedule view pages, rather than just the lead event's view page [[QUA-132](https://linear.app/nuweb-group/issue/QUA-132)]
 * Added image fields to the table contents template block [[NG-2731](https://linear.app/nuweb-group/issue/NG-2731)]
@@ -865,7 +865,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Added a customisable 'Menu announcement' to the theme page [[NG-2736](https://linear.app/nuweb-group/issue/NG-2736)]
 * New notifications for success and error messaging [[NG-2765](https://linear.app/nuweb-group/issue/NG-2765)]
@@ -882,11 +882,11 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 <Frame><img src="/images/releases/65280ad2fafd6338fde205531e41807e.png" alt="" /></Frame>
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Ensure latest data capture responses are shown in customer invoices [[QUA-485](https://linear.app/nuweb-group/issue/QUA-485)]
 
-#### 🧑‍💻 API
+### 🧑‍💻 API
 
 * A number of API performance improvements have been added for cashless and box office related endpoints \[NG-2756, NG-2737\]
 * A new *Partner API* has been added to allow partners to create companies and users within their account via an API. This also allows for company level API tokens to be generated [[NG-2752](https://linear.app/nuweb-group/issue/NG-2752)]
@@ -899,7 +899,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 Below you will find the summary notes for the 19th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * The introduction of [webhooks](https://zapier.com/blog/what-are-webhooks/), featuring the ability to manage multiple webhooks for different events, send test calls for instant feedback during configuration, track failed/successful calls in realtime, inspect real payloads through interactive API docs as well as temporarily pause webhook communication. [[NG-2639](https://linear.app/nuweb-group/issue/NG-2639)]
 
@@ -935,7 +935,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Integrated with [ONVO Pay](https://www.onvopay.com/) [[NG-2651](https://linear.app/nuweb-group/issue/NG-2651)]
 
@@ -957,7 +957,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Provided display customisation options for the start and end times of events [[NG-2634](https://linear.app/nuweb-group/issue/NG-2634)]
 * Improved the CTA for customers to change currencies when events/items are not available in their selected currency [[NG-2637](https://linear.app/nuweb-group/issue/NG-2637)]
@@ -984,7 +984,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### ⏳ Coming very soon…
+### ⏳ Coming very soon…
 
 * Total revamp of the repeating events / timeslot booking experience, unleashing an entirely new and refreshed user shopping experience. Customers can use our new interactive booking calendar to jump straight to the date & time that they're interested in via one unified interface.
 
@@ -1010,13 +1010,13 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Bundled children show sold out/off sale UI to match parent [[NG-2616](https://linear.app/nuweb-group/issue/NG-2616)]
 
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed an issue displaying the Nuweb logo in the powered by section of the footer [[QUA-359](https://linear.app/nuweb-group/issue/QUA-359)]
 * When re-assigning existing charity items, all price tiers are now correctly copied to the new event [[QUA-332](https://linear.app/nuweb-group/issue/QUA-332)]
@@ -1030,7 +1030,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Implemented server-side rendering for listings, articles, event pages and other key areas of the ticket shop to deliver a significant improvement to the lighthouse performance score / general SEO [[QUA-236](https://linear.app/nuweb-group/issue/QUA-236)]
 
@@ -1048,7 +1048,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 Below you will find the summary notes for the 18th release of the Nuweb core platform. This release brought about a change in process whereby release cycles have been shortened to monthly cycles, with weekly patches to address bug fixes, quality improvements & improved performance.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added the ability to create ticket & item templates in admin via the "System defaults" feature, streamlining event set ups & enforcing consistency during item creation [[NG-2437](https://linear.app/nuweb-group/issue/NG-2437)].
 
@@ -1084,7 +1084,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-#### 🔌 Integrations
+### 🔌 Integrations
 
 * Integrated with [PayRetailers](https://payretailers.com/) to support local payment methods across LATAM [[NG-2007](https://linear.app/nuweb-group/issue/NG-2007)]
 * Integrate with [DPO Pay](https://dpogroup.com/) payment gateway with support for card & mobile payment methods such as M-PESA [[NG-2547](https://linear.app/nuweb-group/issue/NG-2547)]
@@ -1098,7 +1098,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * On-sale dates can now be controlled for cashless products, as well as the ability to hide them when they are off sale, and hide them when they out of stock [[NG-2500](https://linear.app/nuweb-group/issue/NG-2500)]
 * Added the ability to list past events when configuring event blocks [[NG-2542](https://linear.app/nuweb-group/issue/NG-2542)]
@@ -1138,7 +1138,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Various seating plan related updates [[NG-2571](https://linear.app/nuweb-group/issue/NG-2571)]
   * New selection tools on the admin event seating plan page, including lasso tool
@@ -1152,7 +1152,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 <br />
 
-<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260624%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260624T185056Z&X-Amz-Expires=3600&X-Amz-Signature=f50e62be5f04554b670069e590c54f523e9a31b47093f7a77b8a9ca82d54c1a2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260625%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260625T160314Z&X-Amz-Expires=3600&X-Amz-Signature=233467e714ed25d1983bf95b65c72cb33e27375b8a758190af649ae8e127f148&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
 
 
 * In seating plan editor block/row labels in edit can be toggled from now, so they won't get in the way
@@ -1167,7 +1167,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-#### ⏱ In Progress
+### ⏱ In Progress
 
 * A new settings have been added to allow Country Classifications to be setup. This will in turn allow conditional tax bands to be configured against sale items [[NG-2492](https://linear.app/nuweb-group/issue/NG-2492)].
 

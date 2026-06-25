@@ -9,7 +9,7 @@ description: "Release history for 2021"
 Below you will find the summary notes for the 9th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Introduced feature toggles to prevent the creation of free tickets, disable modification of past events, disable refunds for past events and enforce event organiser information to be filled out for every event.
 * Add: "live mode" filter on sales/order reports, allowing "all", "live only", "demo only", or "company settings" to be chosen.
@@ -33,7 +33,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
   * Added more interactive hover effects
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Remove mandatory fields from the zone-based reports so that it can be customised to a more precise set of headers
 * Add Finnish, Swedish, German, Italian, Greek, Slovenian and Canadian French language support
@@ -51,7 +51,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * Event data capture has been added to the Customer Journey report.
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * Quantity selector button now adheres to the company branding colours
 * Added a more obvious display of which box office user is currently signed in.
@@ -63,7 +63,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * General Admin Dashboard UI improvements
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Prevent overselling in some situations when using ticket categories in the legacy platform
 * Changing currency on dashboard no longer results in 'NaN' being displayed.
@@ -79,7 +79,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * Removed several buttons throughout admin from users that do not have the required permission level to perform that action
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Removed orphaned seats from old events, which no longer have seating plans attached.
 * Fix duplicate seats which were causing integrity issues with data. These did not impact event sales as they were often for old test events.
@@ -87,9 +87,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * Performance issues with pairing and scanning tickets have been resolved.
 
 
-<AccordionGroup>
-
-<Accordion title="API" defaultOpen>
+#### API
 
 * Added an array of Timeslot data to the `GET /activated-events` endpoint
 * Improved order search by adding a `query` parameter to the `GET /orders endpoint`, meaning you can now search orders by customer email, customer full name, order reference or event name.
@@ -98,11 +96,6 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 * Added new `permissions` attribute to the `GET /activated-events` endpoint, containing information on whether the authenticated user can or cannot edit the event.
 * Added a new `hideAttendees` attribute to the `GET /zones/all` endpoint, allowing for us to control if the attendees tab in the access control app is or is not visible.
 
-</Accordion>
-
-</AccordionGroup>
-
-
 </Update>
 
 <Update label="◆ 20th October 2021" description="Release R8">
@@ -110,7 +103,7 @@ Below you will find the summary notes for the 9th release of the Nuweb core plat
 Below you will find the summary notes for the 8th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 The major focus of this release has been about enhancing our box office product, diving deeper in season ticket functionality and delivering an initial framework for designing bespoke eTickets / printable media.
 
@@ -194,7 +187,7 @@ The major focus of this release has been about enhancing our box office product,
 * Added links to Scanning/Zone Summary/Customer Journey reports from the Access Control Dashboard (formerly, the "manage zones" section)
 
 
-#### 🎨 User Interface (UI/UX)
+### 🎨 User Interface (UI/UX)
 
 * A wide range of features and UI improvements have been made to offer Admin Users the ability to sell Items at a physical Box Office
 * Incorporated box office mode into the admin section to create a streamlined box office sales experience for staff members
@@ -218,7 +211,7 @@ The major focus of this release has been about enhancing our box office product,
 * Fixed an issue where Event Passes were not showing when expected
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Added clearer messaging and better handling of errors when rebookings cannot be processed
 * Correct links on event listings for events that are not part of a schedule but appear within an event block which groups events into schedules
@@ -230,7 +223,7 @@ The major focus of this release has been about enhancing our box office product,
 * Fixed an issue where events were not showing on certain listings if the first event of the schedule was missing a required tag
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Add: New 'description' field for discount codes, which is automatically generated, to describe the discount that's being provided \[used in the box office discounts\].
 * Add: Event Schedule reporting filter, for use in future reporting modifications.
@@ -249,7 +242,7 @@ The major focus of this release has been about enhancing our box office product,
 Below you will find the summary notes for the 7th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Reporting: implemented a brand new reporting UI to more easily manage fields, filters and widgets included in custom reports. Providing quicker access to information, and collapsable menus to increase table size.
 * Added the ability for purchasers to correct a transfer if they accidentally entered the wrong email address or changed their minds - this feature can be toggled on or off.
@@ -257,7 +250,7 @@ Below you will find the summary notes for the 7th release of the Nuweb core plat
 * Allow discount codes/access codes to be edited, allowing codes to be changed at any time.
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Allow box office users to bypass any sharing restrictions during checkout
 * Extended the event search in the shop to allow searching events by venue name
@@ -276,13 +269,13 @@ Below you will find the summary notes for the 7th release of the Nuweb core plat
 * Added the ability to rename seating plan spaces, tables, rows, block, and stands after attaching to an event.
 
 
-#### 🤝 Integrations
+### 🤝 Integrations
 
 * Implement a Single Sign-On solution to support OAuth2/OpenID Connect/Identity Server SSO providers
 * Integrated our ticketing platform with the Tawakkalna COVID-19 health and safety app.
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fix reporting issue where 'asked during registration' questions weren't appearing in certain reports when answered during checkout.
 * Fix double booking issues that occurred during failed off-site payments
@@ -309,7 +302,7 @@ Below you will find the summary notes for the 7th release of the Nuweb core plat
 * (internal) Corrected the automatic Stripe invoice generation
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Fixed some blocking issues preventing the automatic audit backup script from always completing.
 
@@ -330,7 +323,7 @@ section \{ width: 100% \}
 Below you will find the summary notes for the 6th release of the Nuweb core platform.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 This release was particularly feature-rich that we've had to group the features below to make these notes a little more consumable!
 
@@ -377,7 +370,7 @@ This release was particularly feature-rich that we've had to group the features 
 * Added the ability to issue online refunds for card-present stripe transactions made via our box office mobile app
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added "External ID" on sale items/items, to allow for tracking of external identifiers (such as SKUs, or reporting IDs)
 * Added Mandatory Title/Name/Address collection when enabling charity donations or fundraising
@@ -404,14 +397,14 @@ This release was particularly feature-rich that we've had to group the features 
 * Added icons alongside the Profile menu options in Shop, to improve accessibility and offer visual queues to non-native language speakers.
 
 
-#### 🤝 Integrations
+### 🤝 Integrations
 
 * Apple Pass: Now you can scan a QR code from your computer with your iPhone to add Apple Pass to your phone, or add it to your Apple Wallet through Safari
 * Integrated with Apple Sign-In, enabling customers to login with their Apple ID.
 * Added a "Hosted Payment Page" option to the PayTabs integration which supports APMs such as Google and Apple Pay
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fix: Copying events was not properly copying the price band IDs for a seating plan.
 * Fix: Seating plan availability not always being displayed properly on the seating plan, with customers facing "seat unavailable" messages if they then tried to add the seats.
@@ -437,7 +430,7 @@ This release was particularly feature-rich that we've had to group the features 
 * Fix: Inclusive discount code dates were setting the time element to midnight, meaning discount codes were expiring 23 hours and 59 minutes early
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * Refactored the seating plan import experience:
   * Seating plan importing is now batched into smaller tasks, allowing larger plans to be imported more reliably.
@@ -467,7 +460,7 @@ This release was particularly feature-rich that we've had to group the features 
 Below you will find the summary notes for the 5th release of the Nuweb core platform. The focus points are highlighted in yellow.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added ==stadium reserved seating with areas functionality== as well as:
   * Added the ability to choose between large and small seating plans
@@ -489,7 +482,7 @@ Below you will find the summary notes for the 5th release of the Nuweb core plat
 * Added a new 'forced checkout' setting which prevents customers from navigating away from the checkout process without losing their reservation
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added customisable UTM tracking links to all transactional emails
 * Added seating plan gates & stairs to all event-based reports
@@ -524,7 +517,7 @@ Below you will find the summary notes for the 5th release of the Nuweb core plat
 * Box office operator details are now hidden from ticket downloads when customer details are not provided during a box office sale
 
 
-#### 🤝 Integrations
+### 🤝 Integrations
 
 * ==Integration with PayPal Commerce Platform== featuring:
   * Organiser onboarding process
@@ -540,7 +533,7 @@ Below you will find the summary notes for the 5th release of the Nuweb core plat
 * Support alternate PayTabs API URLs depending on the country of origin
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Added feature toggles in Hub for various event add-ons (products, guest lists, streams, teams, access control, data imports and more)
 * Allow carring over seating plan across multiple scheduled events
@@ -562,7 +555,7 @@ Below you will find the summary notes for the 5th release of the Nuweb core plat
 * Fixed issue with data capture where you couldn't disable questions set to ask on "Every ticket on every event"
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * ==Various API additions and updates:==
   * Suspend and restore users
@@ -580,7 +573,7 @@ Below you will find the summary notes for the 5th release of the Nuweb core plat
 Below you will find the summary notes for the 4th release of the Nuweb core platform. The focus points are highlighted in yellow.
 
 
-#### 🚀 New Features
+### 🚀 New Features
 
 * Added ==full multi-lingual support== across the entire platform for user content. Organisers can now provide translations for events, data capture, images and much more for any language supported within their account.
 * Added a new section in *Admin > Website > Text* that allows organisers to ==customise customer emails== at both the account-level and event-level
@@ -618,7 +611,7 @@ Below you will find the summary notes for the 4th release of the Nuweb core plat
   * New collapsable card components
 
 
-#### ✨ Enhancements
+### ✨ Enhancements
 
 * Added two new data capture options:
   * "Assign question to all tickets for all events"
@@ -631,7 +624,7 @@ Below you will find the summary notes for the 4th release of the Nuweb core plat
 * Added sold out/off sale styling for all timeslots, tickets and event blocks
 
 
-#### 🤝 Integrations
+### 🤝 Integrations
 
 * Added a ==PayTabs payment gateway integration==
 * Integrate with the ==General Entertainment Authority== (GEA) for Saudi Arabia
@@ -641,7 +634,7 @@ Below you will find the summary notes for the 4th release of the Nuweb core plat
 * Added an `appView` flag added to the shop, which when enabled hides the main menu. This is useful when embedding the shop into an iOS / Android app
 
 
-#### 🧹 Housekeeping
+### 🧹 Housekeeping
 
 * Fixed stripe double charge bug in rare cases
 * Fixed ==sales & attendance reporting inconsistencies==
@@ -663,7 +656,7 @@ Below you will find the summary notes for the 4th release of the Nuweb core plat
 * When creating time slots, the event times are now displayed for ease of reference
 
 
-#### 💻 Technical
+### 💻 Technical
 
 * We now ensure that the exact details of items at the point of sale, are recorded (for future reporting if needed, following rebooking)
 * Introduced the concept of 'protected' data capture questions which cannot be deleted under any cirumstance. This can be applied to system-critical data capture
