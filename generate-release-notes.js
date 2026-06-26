@@ -4,7 +4,7 @@ const path = require('path');
 const axios = require('axios');
 const crypto = require('crypto');
 const sharp = require('sharp'); // <--- New Dependency for compression
-const { CHANGELOG_LINKS, buildCrossLinkCards } = require('./changelog-nav');
+const { buildCrossLinkCards } = require('./changelog-nav');
 
 // --- CONFIGURATION ---
 const TINYPNG_API_KEY = process.env.TINYPNG_API_KEY;
@@ -124,7 +124,7 @@ async function main() {
         path.join(OUTPUT_DIR, 'index.mdx'),
         "Release Notes",
         `Latest product updates from ${cutoffYear}/${currentYear}`,
-        [CHANGELOG_LINKS.mobile, CHANGELOG_LINKS.api],
+        undefined,
         true,
         true // markMajorReleases — tag major releases in the right-hand date list
     );
@@ -134,8 +134,7 @@ async function main() {
         mobileMain,
         path.join(OUTPUT_DIR, 'mobile.mdx'),
         "Mobile App Updates",
-        `Latest mobile app updates from ${cutoffYear}/${currentYear}`,
-        [CHANGELOG_LINKS.releases, CHANGELOG_LINKS.api]
+        `Latest mobile app updates from ${cutoffYear}/${currentYear}`
     );
 
     // C. Web Archives

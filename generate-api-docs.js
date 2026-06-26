@@ -16,8 +16,7 @@ const APIS = [
     output: 'api-reference/openapi.json',
     // Relocate this changelog alongside the release notes under /releases, split it
     // by year, and leave a placeholder behind in the API Reference tab.
-    primaryChangelog: true,
-    crossLinks: [CHANGELOG_LINKS.releases, CHANGELOG_LINKS.mobile]
+    primaryChangelog: true
   },
   {
     name: 'Partner API',
@@ -134,7 +133,7 @@ ${introText || 'Welcome to the API documentation.'}
   if (api.primaryChangelog) {
     // Relocated, year-split changelog that lives under /releases, leaving a placeholder
     // page behind in the API Reference tab (outputDir).
-    generatePrimaryChangelog(changelogRaw, endpointMap, outputDir, api.crossLinks);
+    generatePrimaryChangelog(changelogRaw, endpointMap, outputDir);
   } else {
     const changelogMdx = generateChangelogMdx(changelogRaw, endpointMap);
     fs.writeFileSync(path.join(outputDir, CHANGELOG_FILENAME), changelogMdx);
@@ -286,7 +285,7 @@ ${renderChangelogUpdates(entries, endpointMap)}
 // current + previous calendar year on the main page (releases/api.mdx) with everything
 // earlier split into per-year archives (releases/{year}-api.mdx). A placeholder page is
 // left in the API Reference tab so its "Changelog" menu item still resolves.
-function generatePrimaryChangelog(rawText, endpointMap, apiOutputDir, crossLinks) {
+function generatePrimaryChangelog(rawText, endpointMap, apiOutputDir) {
   const { preamble, entries } = parseChangelogEntries(rawText);
 
   const currentYear = new Date().getFullYear();
@@ -313,8 +312,6 @@ function generatePrimaryChangelog(rawText, endpointMap, apiOutputDir, crossLinks
 title: "API Changelog"
 description: "Latest updates and changes to the API"
 ---
-
-${buildCrossLinkCards(crossLinks)}
 
 ${preamble}
 
