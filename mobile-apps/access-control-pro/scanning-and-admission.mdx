@@ -123,6 +123,25 @@ When **Age verification** is enabled in settings, the app prompts the operator t
 
 If no date of birth is on record, the operator is prompted to enter one. The entered date of birth is saved to the customer's profile.
 
+## Scanning Attendees Out
+
+<Tip>Scan-out on the entry screen added in Release 47</Tip>
+
+By default, every scan on the **Scan** tab records an admission. When you need to track people leaving as well as arriving, the main entry can be switched to in/out scanning so the same screen handles both directions.
+
+This is driven by the event's default **Entry** zone. When an admin sets the [Entry zone](/core-platform/event-management/access-control#the-default-entry-zone) to **In/Out Manual**, a **Scan in / Scan out** selector appears at the top-left of the Scan tab. Choose the direction before scanning:
+
+- **Scan in** — records an admission at the main entry (the default direction).
+- **Scan out** — records an exit.
+
+The selector applies to every input method — camera, laser scanner, manual entry, and NFC. If the Entry zone is left on **In Only**, the selector does not appear and every scan admits.
+
+<Note>
+Scanning out uses the same overrides as admission. If an exit is blocked — for example by a capacity limit — the app asks *"Do you want to scan out anyway?"* before recording it.
+</Note>
+
+Recording both entries and exits at the main gate lets the platform track live occupancy for the entry, the same way it does for other [in/out zones](/mobile-apps/access-control-pro/zone-access#zone-statistics).
+
 ## Filtering Scans by Ticket Type and Gate
 
 The app allows operators to restrict which ticket types and gates the device will accept. This is useful for directing different ticket types to different entry points.

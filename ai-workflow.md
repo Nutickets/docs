@@ -97,6 +97,11 @@ You must investigate **all** of the following:
    - **Android is the primary platform.** Documentation should centre around Android app capabilities. Two of the apps are available on iOS but those builds are heavily outdated — document what is missing or differs on iOS rather than treating iOS as a primary source.
    - Mobile apps communicate with the main codebase via APIs — trace the API endpoints they consume to understand what data flows between the platform and the apps.
    - When documenting any feature that involves mobile apps (and especially when writing pages under `mobile-apps/`), explore the relevant Android codebase to understand screens, workflows, permissions, and offline behaviour.
+   - **Mobile release notes are published ahead of the app shipping.** A feature named in a *new* mobile release note may therefore not be on the app repo's default branch yet, and the version string on the default branch can lag the version quoted in the note (for example, the note says `6.7.0` while `main` still reads `6.5.10`). When you cannot find a feature on the default branch, look for its **feature branch** rather than assuming the mirror is stale or the feature is undocumentable:
+     - The Linear ticket exposes the branch name in its `gitBranchName` field; you can also search branches by ticket ID, e.g. `git fetch --all && git branch -a | grep 11947`.
+     - Read the code directly from that ref without checking it out: `git show <branch>:<path>`, `git grep -n <term> <branch>`.
+     - Note that the feature may since have been **merged** into the default branch even though the version number has not been bumped — confirm with `git branch -r --merged origin/main | grep <ticket>` before concluding it is unreleased.
+     - Treat the branch/merged code as the source of truth, cross-checked against the Linear ticket and the release-note screenshots.
    - Check for feature parity gaps between the Android and iOS implementations and note them in the documentation.
 
 5. **Related features**
@@ -431,7 +436,7 @@ to enable [workflow]. Configuration is managed through [location].
 - [ ] Read the lang files — extract exact UI labels, tooltips, and help text.
 - [ ] Map relationships — what other features connect to this?
 - [ ] Check for feature flags, role-based behaviour, and permission gates.
-- [ ] If the feature involves mobile apps, explore the Android codebase and note iOS gaps.
+- [ ] If the feature involves mobile apps, explore the Android codebase and note iOS gaps. For features from a new mobile release note, check the feature branch when the code is not yet on the default branch (release notes ship ahead of the app).
 
 ### Writing Phase
 

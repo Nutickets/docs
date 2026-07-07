@@ -56,11 +56,13 @@ The ticket selection screen shows the event details, a filter pill, and the list
 
 Bundle items show the included items underneath the main row, listed by name and quantity with their individual prices struck through to indicate they're included in the bundle price.
 
-Use the **+** and **-** buttons to adjust quantities. The app enforces any configured quantity rules:
+Adjust quantities using the on-screen controls. The app enforces any configured quantity rules:
 
 - **Minimum order quantity** — you cannot add fewer than the minimum (reducing below it removes the item entirely)
 - **Maximum order quantity** — the quantity caps at the configured maximum
 - **Multiples of** — quantities snap to the required increment (e.g., multiples of 2)
+
+On phones, the quantity control is a single button that opens a quantity entry sheet — tap it and type the number of tickets. Turn on **Quantity UI** in [settings](/mobile-apps/box-office-pro/settings-and-hardware#quantity-selection) to use inline **+** / **−** buttons instead. Tablets and larger terminals always show the **+** / **−** buttons. <Tip>Quantity UI setting added in Release 47</Tip>
 
 <Note>
 A maximum of 50 items can be added to a single order.
@@ -111,6 +113,12 @@ Use **Checkout** when the order is straightforward and you want to move quickly 
 
 <Note>
 If any selected ticket has optional [add-ons](/core-platform/sale-items/add-ons), the **Add to basket** flow shows the add-on selection dialog before the basket opens. The **Checkout** flow skips add-on selection — use **Add to basket** when add-ons need to be chosen.
+</Note>
+
+<Tip>Zero-value orders skip payment from the ticket screen in Release 47</Tip>
+
+<Note>
+When the order total is zero — for example, all-complimentary tickets — tapping **Checkout** skips the payment screen entirely and takes you straight to the payment complete screen, with no payment method required. This matches the [basket checkout](#proceeding-to-checkout) behaviour below.
 </Note>
 
 ## The Basket
