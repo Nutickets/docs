@@ -781,6 +781,168 @@ function stripImageLayoutMeta(text) {
         .trim();
 }
 
+// --- TICKET REFERENCE RELOCATION ---
+
+// A ticket reference such as "[NG-11927]" or a multi-ticket "[NG-11927 & NG-11929]".
+// Brackets may arrive escaped ("\[NG-1\]") from the wiki, mirroring the linkify step.
+const TICKET_REFERENCE = String.raw`\\?\[\s*[A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*\s*\\?\]`;
+
+// One or more consecutive ticket references. Authors occasionally write two separate
+// brackets ("[NG-1] [NG-2] Added ...") as well as the combined "[NG-1 & NG-2]" form.
+const TICKET_RUN = `${TICKET_REFERENCE}(?:\\s+${TICKET_REFERENCE})*`;
+
+// A change's text that opens with a ticket reference run, followed by its description.
+const LEADING_TICKETS = new RegExp(`^(${TICKET_RUN})\\s+(\\S.*)$`);
+
+// A line that is nothing but a ticket reference run — a reference authors placed on its
+// own line (typically under a heading or after an image), detached from its description.
+const ISOLATED_TICKETS = new RegExp(`^(${TICKET_RUN})\\s*$`);
+
+// Structural prefix that may precede the change text on a line: leading indentation and
+// an optional list marker ("* ", "- ", "1. ") or heading marker ("#### "). Captured so it
+// stays in place while the ticket reference moves past the description.
+const LINE_PREFIX = /^\s*(?:(?:[*+-]|\d+[.)]|#{1,6})\s+)?/;
+
+// Lines that open a new block and therefore end the current change's description:
+// a nested list item, a heading, an HTML/JSX tag (<Frame>, <img>), an image, a
+// blockquote, a table row or an Outline callout fence.
+const BLOCK_BOUNDARY = /^\s*(?:(?:[*+-]|\d+[.)])\s+|#{1,6}\s+|<|!\[|>|\||:::)/;
+
+// A single ticket bracket group within a leading run, capturing its ticket ids.
+const TICKET_GROUP = /\\?\[\s*([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\s*\\?\]/g;
+
+/**
+ * Canonicalise a leading run of ticket brackets: strip any escaping/padding and use a
+ * consistent " & " separator, while preserving how many brackets there are (a combined
+ * "[NG-1 & NG-2]" stays combined; separate "[NG-1] [NG-2]" stay separate). This leaves
+ * the relocated reference in the tight form the linkify step below expects.
+ *
+ * @param {string} run
+ * @returns {string}
+ */
+function normalizeTicketRun(run) {
+    const groups = [];
+    let match;
+    while ((match = TICKET_GROUP.exec(run)) !== null) {
+        const ids = match[1].split('&').map(id => id.trim());
+        groups.push(`[${ids.join(' & ')}]`);
+    }
+    return groups.join(' ');
+}
+
+/**
+ * Append the reference(s) to a line's change text, positioned before any image glued
+ * inline to it (e.g. "...calendar.![](url)"). Outline sometimes concatenates an image
+ * straight onto the text with no separator; appending at the very end would leave the
+ * reference trailing the rendered image, so it is inserted ahead of the "![" instead.
+ *
+ * @param {string} line
+ * @param {string} tickets
+ * @returns {string}
+ */
+function appendTickets(line, tickets) {
+    const mediaIndex = line.indexOf('![');
+    if (mediaIndex === -1) {
+        return `${line.replace(/\s+$/, '')} ${tickets}`;
+    }
+    const head = line.slice(0, mediaIndex).replace(/\s+$/, '');
+    return `${head} ${tickets}${line.slice(mediaIndex)}`;
+}
+
+/**
+ * Index of the nearest preceding line carrying change text (a heading or list-item /
+ * paragraph), skipping blank lines and image/HTML blocks. Returns -1 if none is found.
+ *
+ * @param {string[]} lines
+ * @returns {number}
+ */
+function findPrecedingTextLine(lines) {
+    for (let k = lines.length - 1; k >= 0; k--) {
+        if (lines[k].trim() === '') {
+            continue;
+        }
+        const rest = lines[k].slice(lines[k].match(LINE_PREFIX)[0].length).trim();
+        if (rest === '' || rest.startsWith('![') || rest.startsWith('<')) {
+            continue;
+        }
+        return k;
+    }
+    return -1;
+}
+
+/**
+ * Move ticket reference(s) to the end of their change description.
+ *
+ * Authors may write "[NG-XXXX] Added ..." or "Added ... [NG-XXXX]" in the wiki, using
+ * single or multi-ticket references ("[NG-XXXX & NG-YYYY]"). This normalises every change
+ * so the reference always trails the description text (and precedes any image belonging to
+ * the change). References already at the end are left untouched. Runs before linkification,
+ * so only the plain bracketed form needs handling.
+ *
+ * Three shapes are handled:
+ *   1. A leading reference — moved to the end of the change text. A description can wrap
+ *      across continuation lines (a hard break with no blank line between), so it is appended
+ *      after the last such line, never past a nested list, heading, image or other block.
+ *   2. An image glued inline to the text — the reference is inserted before it (appendTickets).
+ *   3. A reference authors placed alone on its own line, detached from its change by a
+ *      heading, an image or blank lines — re-attached to the nearest preceding text line.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+function relocateTicketReferences(text) {
+    const lines = text.split('\n');
+    const result = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        const prefix = lines[i].match(LINE_PREFIX)[0];
+        const body = lines[i].slice(prefix.length);
+
+        // 1. Line opens with a ticket reference followed by its description.
+        const leading = body.match(LEADING_TICKETS);
+        if (leading) {
+            const tickets = normalizeTicketRun(leading[1]);
+            const isHeading = /#{1,6}\s+$/.test(prefix);
+
+            // Rebuild the opening line without its leading reference(s).
+            const block = [prefix + leading[2]];
+
+            // A heading is always a single line; a list item or paragraph may wrap onto
+            // plain continuation lines that belong to the same description.
+            if (!isHeading) {
+                while (
+                    i + 1 < lines.length &&
+                    lines[i + 1].trim() !== '' &&
+                    !BLOCK_BOUNDARY.test(lines[i + 1])
+                ) {
+                    block.push(lines[++i]);
+                }
+            }
+
+            const last = block.length - 1;
+            block[last] = appendTickets(block[last], tickets);
+            result.push(...block);
+            continue;
+        }
+
+        // 2. A bare line that is only a ticket reference (no description, no list marker)
+        //    belongs to the change above it; blank lines or an image may sit in between.
+        const isolated = body.match(ISOLATED_TICKETS);
+        if (isolated && /^\s*$/.test(prefix)) {
+            const target = findPrecedingTextLine(result);
+            if (target !== -1) {
+                result[target] = appendTickets(result[target], normalizeTicketRun(isolated[1]));
+                continue;
+            }
+        }
+
+        // 3. Otherwise leave the line untouched.
+        result.push(lines[i]);
+    }
+
+    return result.join('\n');
+}
+
 async function generateMdxFile(updates, filePath, title, description, crossLinks, enableFeatureHeadings = false, markMajorReleases = false) {
     // Parse existing file to preserve manually-added links
     const existingBlocks = parseExistingMdx(filePath);
@@ -871,14 +1033,28 @@ description: "${description}"
                 return `\n<${component}>\n${cleanText}\n</${component}>\n`;
             });
 
-            // 4. LINKIFY TICKETS
+            // 4. NORMALISE OUTLINE HARD BREAKS
+            // Outline serialises a manual line break as a literal "\n" (and sometimes a lone
+            // "\" line). Convert these to real newlines up front so the ticket relocation below
+            // sees the true line structure — otherwise a change and a following image can share
+            // one physical line, and the reference would be pushed past the image instead of
+            // trailing the text. This ran as a final cleanup before; nothing downstream
+            // re-introduces these markers, so it is safe to do here.
+            text = text.replace(/\\n/g, '\n');
+            text = text.replace(/^\s*\\\s*$/gm, '');
+
+            // 5. TICKETS — push any leading reference(s) to the end of the change text, then
+            // linkify. Authors may write "[NG-1] change" or "change [NG-1]" in the wiki (single
+            // or multi-ticket, e.g. "[NG-1 & NG-2]"); relocation normalises every change so the
+            // reference trails its description before it becomes a Linear link.
+            text = relocateTicketReferences(text);
             text = text.replace(/\\?\[([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\\?\]/g, (match, inner) => {
                 const tickets = inner.split('&').map(t => t.trim());
                 const links = tickets.map(ticket => `[${ticket}](https://linear.app/nuweb-group/issue/${ticket})`);
                 return `[${links.join(' & ')}]`;
             });
 
-            // 5. FORMAT IMAGES (Use Local Paths)
+            // 6. FORMAT IMAGES (Use Local Paths)
             text = text.replace(/!\[(.*?)\]\(([^)\s"]+)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
                 const safeUrl = urlMap[url] || url;
 
@@ -897,7 +1073,7 @@ description: "${description}"
                 return `\n\n<Frame><img src="${safeUrl}" alt="${safeAlt}" /></Frame>\n\n`;
             });
 
-            // 5b. FORMAT VIDEOS (embed inline using the local copy)
+            // 6b. FORMAT VIDEOS (embed inline using the local copy)
             // Mintlify has no Video component; a standard HTML5 <video> tag renders inline.
             // No aspect-video class — that forces 16:9 and would crop non-widescreen recordings.
             text = text.replace(/(?<!!)\[[^\]]*?\]\((https?:\/\/[^)\s]+?\.(?:mp4|mov|webm|m4v)(?:\?[^)\s]*)?)\)/gi, (match, url) => {
@@ -905,12 +1081,8 @@ description: "${description}"
                 return `\n\n<Frame><video controls className="w-full rounded-xl" src="${safeUrl}"></video></Frame>\n\n`;
             });
 
-            // 6. FIX BACK-TO-BACK IMAGES
+            // 7. FIX BACK-TO-BACK IMAGES
             text = text.replace(/<\/Frame>\s*<Frame/g, '</Frame>\n\n<br />\n\n<Frame');
-
-            // 7. CLEANUP ARTIFACTS
-            text = text.replace(/\\n/g, '\n');
-            text = text.replace(/^\s*\\\s*$/gm, '');
 
             return text;
         }).join('');
