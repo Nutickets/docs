@@ -6,6 +6,14 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="9th July 2026" description="">
+
+- Added `id` to tag categories returned by [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) when included via `?include=tagCategories`.
+- Added `listing_url` to [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event), linking to the event's shop listing page. For unpublished events this is a signed preview URL.
+- [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) now returns gift vouchers and company-level charity donations alongside the existing event and shop items. Gift vouchers are returned to API users with permission to view gift vouchers; company-level charity donations to API users with permission to view charity donations. A charity donation is returned as its individual priced options, one sale item per amount; the empty parent that groups them is not returned. Filter to a single type with `?types=gift_voucher` or `?types=charity`.
+
+</Update>
+
 <Update label="24th June 2026" description="">
 
 - Added [GET /pricing-history](/api-reference/pricing-history/retrieve-pricing-history) endpoint, returning the paginated pricing history for one or more sale items.
