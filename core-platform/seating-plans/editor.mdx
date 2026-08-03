@@ -202,15 +202,15 @@ Canvas zoom HUD supports:
 
 ## Plan Information Modal (Plan stats)
 
-**Plan information** is a maintenance/QA workspace, not only a stats readout.
+**Plan information** is a maintenance/QA workspace, not only a stats readout. Open it with the **Plan stats** button in the editor header, or from **Plan > Plan information** in the top menu.
 
 It provides:
 
-- Scope switch between whole plan and individual area stats (large plans)
+- Scope switch between **Whole plan details** and individual area stats (large plans)
 - Plan preview generation/regeneration image
 - Duplicate seat label detection with direct seat-jump actions
 - Object and capacity counts (areas, blocks, rows, tables, seats, GA, accessible)
-- Price band / gate / stair / stand / tag usage breakdowns
+- Usage breakdowns under **Price band details**, and equivalent gate, stair, stand, and tag sections — each row shows the band or item name plus **No of seats** and **No of general admission spaces** counters
 - Restore actions when referenced metadata items are missing
 - Rendering version selector (with version help text)
 
@@ -218,6 +218,36 @@ Footer actions:
 
 - **Save all areas**
 - **Recalculate labels**
+
+<Note>
+  **Plan stats** is disabled while an area is open on a large plan — use **Save & back** to return to the main plan first. Opening the modal on a large plan loads every area, so the whole-plan counters include seats inside areas.
+</Note>
+
+### Deleting A Price Band
+
+Price bands are deleted from **Plan information**, not from the **Price bands** tab in the settings panel. A band can only be removed once nothing on the plan is using it.
+
+1. Free up the band first. Select the seats or general admission blocks still assigned to it and apply a different band from the **Price bands** tab in the settings panel, or delete those objects.
+2. Close any open area, then open **Plan stats** from the editor header.
+3. Leave the scope selector on **Whole plan details**.
+4. Find the band under **Price band details**. When nothing is using it, both counters read `0` and a **Delete** link appears next to its name.
+5. Click **Delete**. The band disappears from the list immediately and the counts refresh.
+6. Save the plan to persist the change.
+
+The **Delete** link only appears when all of the following are true:
+
+- The plan is not attached to any [event](/core-platform/event-management/seated-events). Once any event uses the plan, price bands can no longer be deleted.
+- The scope is set to **Whole plan details** — the link is hidden while viewing an individual area's stats.
+- **No of seats** reads `0` for that band.
+- **No of general admission spaces** reads `0` for that band.
+
+<Note>
+  A plan always keeps at least one price band, and the band the plan was created with cannot be deleted. If both counters read `0` but **Delete** does not remove the band, it is the plan's original band — rename it from the **Price bands** tab and reuse it instead.
+</Note>
+
+<Note>
+  If seats still point at a band that is no longer on the plan, **Price band details** lists it as **MISSING PRICE BAND** with a **Restore** action that adds a price band back to the plan so those seats have a band to reference again.
+</Note>
 
 ## Left Object Menu (Creation Tools)
 
@@ -366,13 +396,15 @@ When no single object is selected, the panel shows a draggable layer list for:
 
 #### Price Bands
 
-- Add new price band
+- **Add new price band** (new bands are named `Group 1`, `Group 2`, and so on until renamed)
 - Edit label, color, and marker shape
 - Apply selected price band to selected seats/GA
 - Toggle shop display behavior:
   - Show price band colors/shapes
   - Show unavailable items in filters
   - Show unavailable legend
+
+This tab has no delete action — removing a band is done from the **Plan information** modal, and only while nothing is using it. See [Deleting A Price Band](#deleting-a-price-band).
 
 #### Gates, Stairs, Stands, Tags
 
@@ -521,6 +553,7 @@ The settings panel exposes shortcut guidance for selected objects, including:
 - Input controls for block/table/row creation clamp to allowed ranges.
 - Some operations are constrained when plans have events/sales attached.
 - Area deletion is restricted for saved areas when events are attached.
+- [Price band deletion](#deleting-a-price-band) requires that no event uses the plan and that no seats or general admission spaces are assigned to the band.
 - Image-in-shop toggles are disabled above file-size threshold.
 
 ## Related
