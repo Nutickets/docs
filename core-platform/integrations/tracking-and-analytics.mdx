@@ -138,11 +138,13 @@ Email addresses and phone numbers are SHA-256 hashed before being sent to any tr
 
 If your events are embedded on external websites using an iframe, tracking still works. The platform uses cross-site messaging to relay tracking events from the embedded shop to the parent page.
 
-This is labelled **Cross-site tracking pixels & tag manager** in the UI. When enabled, the embedded shop sends tracking events via `postMessage` to the parent page, allowing the external site to capture conversion data without needing to add tracking codes to their own shop configuration.
+This is labelled **Cross-site tracking pixels & tag manager** in the UI, reached from the **Tracking in iframes** link in your cookies and tracking settings. The embedded shop sends tracking events to the host page, allowing the external site to capture conversion data without needing to add tracking codes to their own shop configuration.
 
 This is particularly useful when partners or promoters embed your events on their own websites and want to track conversions using their own analytics setup.
 
-For more details on embedding, see [Iframe Embeds](/core-platform/technical/iframe-embeds).
+Google Analytics shaped events are sent to the host page regardless of the customer's cookie choice, so the host site must apply consent itself before passing the data on. Pixel shaped events are only sent when the pixel is enabled for the event and the customer has accepted all cookies.
+
+For the full list of events, their parameters, and what customer data each one carries, see [Embed Messages](/core-platform/technical/embed-messages). For how to set up an embed, see [Website Integration](/core-platform/technical/iframe-embeds).
 
 ## Content Security Policy
 
@@ -154,6 +156,8 @@ Child companies inherit the parent company's CSP configuration unless they defin
 
 ## Related
 
-- [Iframe Embeds](/core-platform/technical/iframe-embeds)
+- [Website Integration](/core-platform/technical/iframe-embeds)
+- [Embed Messages](/core-platform/technical/embed-messages)
+- [Google Tag Manager](/core-platform/integrations/google-tag-manager)
 - [Checkout](/core-platform/ticket-shop/checkout)
 - [Basket](/core-platform/ticket-shop/basket)

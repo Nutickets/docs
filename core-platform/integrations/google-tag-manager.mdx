@@ -57,6 +57,8 @@ The platform pushes events to the data layer for the full customer journey — f
 
 If your shop is embedded in an iframe on an external site, GTM and tracking pixels may not fire all events or may fail to initialise. This is due to browser cross-site tracking restrictions. For full tracking reliability, host your shop on its own domain rather than embedding it in an iframe.
 
+Where an embed is required, the shop sends the same e-commerce events listed above to the host page instead, so tracking can run on the host site's own domain. These messages fire whether or not a GTM code is configured on the shop. See [Embed Messages](/core-platform/technical/embed-messages) for the full contract.
+
 ### Cookie Consent
 
 The shop container respects the platform's cookie consent settings:

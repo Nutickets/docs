@@ -56,6 +56,7 @@ Control the appearance and behaviour of the modal overlay:
 | **Hide logout button** | Remove the logout option from the embedded view |
 | **Hide close button** | Remove the modal close button |
 | **Show items** | Display purchasable items by default when the embed opens |
+| **Add cross-site tracking script** | Append a ready-made tracking listener to the generated embed code, so the host site can capture shop activity in its own analytics. On by default when a Google Tag Manager code is configured. See [Embed Messages](/core-platform/technical/embed-messages) |
 
 ### Step 3: Embed Code
 
@@ -70,35 +71,19 @@ Paste this code into your website's HTML where you want the button to appear.
 
 The final step includes a troubleshooting guide to help resolve common issues with embedded checkouts.
 
-## Cross-Site Analytics
+## What the Host Website Can See
 
-When the checkout is embedded on an external website, the platform sends tracking events via the browser's `postMessage` API. The host website can listen for these events to integrate embedded checkout activity with its own analytics tools.
+The embedded shop and the website hosting it are isolated from each other. Everything that crosses between them is sent explicitly by the shop as a browser message, which the host page can listen for. This covers:
 
-Events include:
+- **Control messages** — telling the host page to close the embed, or to open a link outside the iframe
+- **Basket expiry** — so the host page can reset the embed when a reservation times out
+- **Tracking events** — the full customer journey from page views through to purchase, so the host site can run its own analytics on its own domain
+- **Seating plan events** — for events with assigned seating, seat and area selections, plus commands the host page can send back into the plan
 
-- **Page views** — When the customer navigates between pages within the embed
-- **Product impressions** — When products are displayed to the customer
-
-To capture these events, add a `message` event listener on the host page that checks for the `nuTracker` property in the event data.
-
-<Note>
-Cross-site analytics are separate from the platform's built-in analytics. They allow you to track embedded checkout activity in your own analytics tools (such as Google Analytics on the host website).
-</Note>
-
-## Seating Plan Integration
-
-For events with assigned seating, the embedded checkout supports a rich interaction API for controlling the seating plan from the host website. The host page can programmatically:
-
-- Enable or disable seat selection
-- Highlight specific areas, price bands, or individual seats
-- Select or deselect seats
-- Navigate into and out of venue areas
-- Listen for seat selection, deselection, and error events
-
-This enables building custom seating experiences where the host website provides its own UI alongside the embedded seating plan. Communication uses the browser's `postMessage` API — the host page sends commands to the embedded frame and receives events back.
+[Embed Messages](/core-platform/technical/embed-messages) is the complete reference: every message, every parameter, exactly what customer data is included, and how cookie consent affects what is sent.
 
 <Note>
-The seating plan integration API is designed for advanced use cases where the host website needs programmatic control over the seating selection experience. For standard ticket sales, the built-in seating plan interface within the embed requires no additional integration.
+Cross-site tracking is separate from the platform's built-in analytics. Google Tag Manager and tracking pixels are unreliable inside an iframe because browsers restrict cross-site storage, so tracking is best run on the host website using these messages. See [Tracking and Analytics](/core-platform/integrations/tracking-and-analytics).
 </Note>
 
 ## Sessions in Embedded Checkouts

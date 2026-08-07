@@ -325,6 +325,7 @@
                   "core-platform/technical/accessibility",
                   "core-platform/technical/sessions",
                   "core-platform/technical/iframe-embeds",
+                  "core-platform/technical/embed-messages",
                   "core-platform/technical/webhooks",
                   "core-platform/technical/caching",
                   "core-platform/technical/basket-links"
