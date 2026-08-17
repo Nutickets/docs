@@ -1,0 +1,169 @@
+---
+title: "Choosing an Integration Model"
+description: "Six ways to connect, and how to choose between them."
+---
+
+## Overview
+
+Six ways to connect a customer-facing site. They differ in where the handover happens — at what point the customer stops being on your site and starts being on ours.
+
+The later that point, the more you control and the more you build.
+
+<Note>
+These are not exclusive. Embedding a modal for general admission events and redirecting to the shop for seated ones is a normal outcome, as is using an embed for buying and the API for reporting. Pick per journey, not per organisation.
+</Note>
+
+## The Six Models at a Glance
+
+| Model | Who renders the buying UI | Where payment happens | Build effort | Page |
+|-------|---------------------------|----------------------|--------------|------|
+| **Link to the shop** | We do | Our shop | Lowest | [Linking to the Shop](/integrate/checkout/linking-out) |
+| **Embed the whole shop** | We do, inside your page | Inside the embed | Low | [Embedding the Shop](/integrate/checkout/embedding) |
+| **Embed across your own pages** | We do, but you control the shell and the flow between steps | Inside the embed | Medium | [Embedding the Shop](/integrate/checkout/embedding) |
+| **Embed one component, own the basket** | You do, except the component (typically the seating plan) | Our shop, or your own payment step | High | [Building Baskets with the API](/integrate/checkout/building-baskets) |
+| **Build the basket, hand it back** | You do | Our shop | Medium | [Building Baskets with the API](/integrate/checkout/building-baskets) |
+| **Build and complete via the API** | You do | You do | Highest | [Completing Orders with the API](/integrate/checkout/api-checkout) |
+
+We recommend choosing the highest row that meets the requirement. The lighter models put more of the work — and more of the ongoing maintenance — on us, and the shop can be branded and navigated so that a hand-off feels native to your site.
+
+## What Each Model Actually Looks Like
+
+<AccordionGroup>
+
+<Accordion title="Link to the shop">
+  Your site handles discovery — listings, editorial, search, whatever you want to build — and every **Buy tickets** link points at the shop. The customer completes the purchase with us.
+
+  Links can point at a specific event, land the customer on item selection, and preset language, currency or an [access code](/core-platform/basket-codes/access-codes).
+
+  With [custom URLs](/core-platform/utilities/custom-urls), [theme and branding](/core-platform/cms/theme-and-branding) and a [CMS menu](/core-platform/cms/menus) matching your navigation, the shop runs on your domain and looks like your site — the transition reads as moving between sections.
+
+  **Choose it when** your priority is selling rather than owning the buying UI, when the catalogue is the interesting part of your site, or when you want the fewest moving parts.
+
+  **Live with** the customer moving to a different page. Cross-domain analytics needs configuring in your analytics tool, and any branding you cannot express through the shop's own settings will not carry across.
+</Accordion>
+
+<Accordion title="Embed the whole shop">
+  A script and a button on your page open the shop in a frame — as a modal overlay by default, or inline in a container you nominate. The customer picks items, checks out and pays without the page behind them changing.
+
+  This is what the **Website integration** wizard generates, and the quickest way to sell from your own page.
+
+  The embed posts messages out for the whole customer journey, so your analytics can run on your own domain.
+
+  **Choose it when** you want customers to stay on the page they are on and you are happy with our checkout as it stands.
+
+  **Live with** the frame boundary. Your page cannot read inside the shop or drive it, beyond the [messages](/core-platform/technical/embed-messages) the shop sends and the commands the seating plan accepts.
+
+  Demo: [single popup](https://integration-playground.nuwebgroup.com/scenarios/e2e-popup), [inline frames on separate pages](https://integration-playground.nuwebgroup.com/scenarios/e2e-parent-pages).
+</Accordion>
+
+<Accordion title="Embed across your own pages">
+  The same embed, but split. Item selection opens in a modal on your event page.
+
+  When the customer is ready to check out, you take them to a page of your own — your header, your navigation, your copy — with a second frame loading the checkout.
+
+  This is the model to reach for when the stock modal takes the customer further than you want it to. You intercept the point where the customer would have continued inside the frame and route them onto a page you control instead.
+
+  **Choose it when** you want the checkout inside your own page furniture, or you need to insert your own steps — upsells, membership prompts, terms — between selection and payment.
+
+  **Live with** owning the transition between your pages, including carrying the basket across it. [Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers what to build.
+
+  Demo: [modal items to full-page checkout](https://integration-playground.nuwebgroup.com/scenarios/e2e-modal-to-page), [modal picker to basket-link resume](https://integration-playground.nuwebgroup.com/scenarios/modal-basket-resume).
+</Accordion>
+
+<Accordion title="Embed one component, own the basket">
+  Embed only the piece that is hard to rebuild — in practice, the [seating plan](/core-platform/seating-plans/introduction) — and build everything around it yourself.
+
+  Your page listens for seat and area selections coming out of the frame, tracks what the customer has chosen, and calls the API with those space IDs to create the basket.
+
+  You get your own selection UI, your own pricing display, your own basket summary, and a live seat map without implementing one.
+
+  **Choose it when** you have a specific requirement for the buying UI on seated events and the seat map is the only part you cannot reasonably build.
+
+  **Live with** being responsible for everything the shop would otherwise do between selection and basket: availability messaging, limits, add-ons, fees and error cases. The plan tells you what was selected; the API tells you whether the resulting basket is valid.
+
+  Demo: [seating plan and basket API](https://integration-playground.nuwebgroup.com/scenarios/seating-plan).
+</Accordion>
+
+<Accordion title="Build the basket, hand it back">
+  Your system decides what the customer is buying — from your own UI, a membership entitlement, a package builder, a partner feed — and creates the basket server-to-server.
+
+  The API hands back a signed link that drops the customer into our shop with those items reserved, ready to check out.
+
+  The link can be followed as a full redirect or loaded into a frame, so this composes with the embedded models rather than replacing them.
+
+  **Choose it when** basket composition is your logic but you do not want to own checkout or payment.
+
+  **Live with** the reservation clock, which starts when you create the basket rather than when the customer arrives, and with **Basket links** needing to be enabled for the company.
+
+  Demo: [partial API](https://integration-playground.nuwebgroup.com/scenarios/partial-api), [session resume across iframes](https://integration-playground.nuwebgroup.com/scenarios/session-resume).
+</Accordion>
+
+<Accordion title="Build and complete via the API">
+  No shop UI at all. Your system creates the basket, takes payment (or records that payment happened elsewhere), and completes the order through the API. The platform becomes the system of record and the source of tickets, entitlements and reporting.
+
+  Both steps can be a single call — adding items with `autocomplete` set creates the basket and the completed order together.
+
+  **Choose it when** buying does not look like a ticket checkout at all: a membership renewal, an internal allocation tool, a partner system issuing entitlements, a kiosk, or migrating orders in from elsewhere.
+
+  **Live with** owning every rule the checkout enforces, and with payment. Cash, bank transfer, cheque, complimentary and account balance are straightforward to record. Taking a card payment online means driving the payment flow yourself. See [Completing Orders with the API](/integrate/checkout/api-checkout).
+
+  Demo: [full API](https://integration-playground.nuwebgroup.com/scenarios/full-api).
+</Accordion>
+
+</AccordionGroup>
+
+## Where the Handover Happens
+
+If the models blur together, this is the distinction that separates them — the last thing your code is responsible for before the platform takes over.
+
+| Model | Your last responsibility | Our first responsibility |
+|-------|--------------------------|--------------------------|
+| Link to the shop | Rendering a link | Everything from the landing page onwards |
+| Embed the whole shop | Rendering a button | Everything inside the frame |
+| Embed across your own pages | Deciding when to move the customer to your next page, and carrying the basket there | Each frame's contents |
+| Embed one component | Turning selections into an API call and handling the response | Rendering the seat map, validating the basket |
+| Build the basket, hand it back | Creating the basket and sending the customer to the link | Checkout and payment |
+| Build and complete via the API | The entire journey, including payment | Recording the order, issuing tickets, reporting |
+
+## Choosing by Constraint
+
+Sometimes the decision is shaped by something other than preference.
+
+<AccordionGroup>
+
+<Accordion title="You need customers signed in to your system and ours">
+  Any model works. The sign-in design is a separate decision — see [Signing Customers In](/integrate/identity/overview), which covers handing us an identity you already hold so an embedded shop renders already signed in.
+</Accordion>
+
+<Accordion title="You are selling seated events">
+  Embedding gives you the real seat map with live availability, whether you embed the whole shop or only the plan.
+
+  Building the selection UI yourself from [seating plan data](/api-reference/seating-plans/retrieve-seating-plan-details) is possible, but you take on rendering, availability refresh and hold behaviour. See [Caching](/core-platform/technical/caching#seating-plan-availability).
+</Accordion>
+
+<Accordion title="You expect very high demand on-sales">
+  [Waiting rooms](/core-platform/ticket-shop/waiting-rooms) protect the shop during peak on-sales, and apply to embedded frames as well as direct visits. An integration that bypasses the shop is subject to API rate limits instead.
+</Accordion>
+
+<Accordion title="You only need data, not a buying journey">
+  None of these models apply. Go to [Getting Data Out](/integrate/data/extracting-data), which covers webhooks, the reporting API, and scheduled delivery of report files to your own storage.
+</Accordion>
+
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Getting Set Up" icon="key" href="/integrate/getting-access">
+    Tokens, permissions, limits and features
+  </Card>
+  <Card title="Signing Customers In" icon="user-lock" href="/integrate/identity/overview">
+    Where a customer's identity lives
+  </Card>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    Every embed variation and how to configure it
+  </Card>
+  <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
+    Create baskets programmatically and hand them off
+  </Card>
+</CardGroup>

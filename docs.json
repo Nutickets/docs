@@ -368,6 +368,50 @@
         ]
       },
       {
+        "tab": "Integrate",
+        "groups": [
+          {
+            "group": "Start Here",
+            "pages": [
+              "integrate/introduction",
+              "integrate/integration-models",
+              "integrate/getting-access"
+            ]
+          },
+          {
+            "group": "Checkout Journeys",
+            "pages": [
+              "integrate/checkout/linking-out",
+              "integrate/checkout/embedding",
+              "integrate/checkout/session-continuity",
+              "integrate/checkout/building-baskets",
+              "integrate/checkout/api-checkout"
+            ]
+          },
+          {
+            "group": "Identity & Accounts",
+            "pages": [
+              "integrate/identity/overview",
+              "integrate/identity/pre-authentication",
+              "integrate/identity/external-provider"
+            ]
+          },
+          {
+            "group": "Operations & Data",
+            "pages": [
+              "integrate/operations/access-control",
+              "integrate/data/extracting-data"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "integrate/reference/url-parameters"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Mobile Apps",
         "groups": [
           {

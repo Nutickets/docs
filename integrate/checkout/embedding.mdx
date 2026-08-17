@@ -1,0 +1,251 @@
+---
+title: "Embedding the Shop"
+description: "Run the shop inside your own pages, from a stock modal to a single component."
+---
+
+## Overview
+
+Embedding puts the shop inside a frame on your page. The customer selects items, checks out and pays without the page behind them changing.
+
+There are four variations, built from the same script, settings object and URL parameters. Each adds something for you to maintain, so take the earliest one that meets the requirement.
+
+The admin area's embed wizard generates working code for an event, which is the quickest way to get something running. It needs the **Website integration** feature active — see [Website Integration](/core-platform/technical/iframe-embeds).
+
+## How the Embed Works
+
+Two things go on your page: a script tag that loads the embed script from your shop, and a trigger element carrying a settings attribute.
+
+```html
+<button data-nu-settings="{base64}" data-nu-settings-version="2">
+  Buy tickets
+</button>
+<script src="https://tickets.example.com/js/embed-script-1.0.js"></script>
+```
+
+On load, the script scans for elements carrying `data-nu-settings`, decodes the settings, and builds a frame for each one. Clicking the trigger reveals that frame.
+
+The attribute value is the base64 of a URI-encoded JSON object; `data-nu-settings-version="2"` tells the script to decode it that way.
+
+Once wired, the script removes the `data-nu-settings` attribute from the element and tracks the embed internally, so re-scanning the page will not create duplicates.
+
+### The Settings Object
+
+| Key | What it controls |
+|-----|------------------|
+| `eventUrl` | The shop URL the frame loads. This is where the URL parameters below go. |
+| `allowedOrigin` | Your shop's origin. Messages arriving from anywhere else are ignored, and it is the target origin for commands you send in. |
+| `showInModal` | `true` opens the frame as a modal overlay. `false` embeds it inline. |
+| `iframeTarget` | A CSS selector for the element the inline frame is appended to. Only applies when `showInModal` is `false`. |
+| `fullScreen` | Whether a modal frame fills the whole viewport or sits as a centred panel. |
+| `modalOpacity` | Darkness of the backdrop behind a modal frame, `0`–`100`. |
+| `autoLoad` | Opens the frame on page load rather than waiting for a click. |
+| `companyTitle` | Used as the frame's accessible title. |
+
+<Warning>
+`allowedOrigin` is a security boundary. Set it to your shop's origin with no trailing path and no trailing slash — a message's origin never has one, so anything else fails to match and you receive no seat selections, tracking or basket expiry events.
+</Warning>
+
+### The URL Parameters
+
+Everything about what the frame *shows* is controlled by parameters on `eventUrl`, not by the settings object:
+
+| Parameter | Effect |
+|-----------|--------|
+| `showItems=1` | Land on the event's item selection step rather than its description |
+| `iframeMenu=1` | Show the shop's site navigation inside the frame |
+| `hideLogout=1` | Remove the sign-out option from the embedded view |
+| `hideIframeClose=1` | Remove the frame's own close button |
+| `access_code`, `discount_code`, `language`, `currency` | As for any shop link — see [Linking to the Shop](/integrate/checkout/linking-out#carry-state-in-the-link) |
+
+The wizard sets `hideIframeClose=0` for modal embeds and `hideIframeClose=1` for inline ones, on the reasoning that a modal needs a way out and an inline frame is already part of your page. [Shop URL Parameters](/integrate/reference/url-parameters) is the complete reference.
+
+## Variation 1: The Stock Modal
+
+The default, and what the wizard generates: `showInModal: true`, a full-screen or panelled overlay, `showItems=1` on the URL. The customer clicks your button, picks items, checks out, pays and sees their confirmation, all inside the frame.
+
+Nothing crosses the boundary except the messages the shop chooses to send. Your page listens for those to know when to close or reset the frame, and to feed the customer journey into your own analytics:
+
+```js
+window.addEventListener('message', (event) => {
+  if (!event.origin.startsWith('https://tickets.example.com')) return;
+
+  if (event.data.close) {
+    // The customer finished, or asked to leave
+  }
+  if (event.data.event === 'expire') {
+    // Their basket timed out — reset the frame
+  }
+  if (event.data.nuTracker) {
+    // A trackable customer action
+  }
+});
+```
+
+The generated script handles `close` and `visit` for you — you only need your own listener for tracking and basket expiry.
+
+[Embed Messages](/core-platform/technical/embed-messages) documents every message and parameter, which customer data is included, and how cookie consent affects what is sent.
+
+<Note>
+A `close` message means the embed *should* close — it does not close anything by itself if you are handling messages yourself.
+
+Destroy the frame or reload it to its starting URL so the next customer starts clean. The script's `nuCloseModal()` does exactly that.
+</Note>
+
+### Things That Have to Leave the Frame
+
+Some steps cannot complete inside an embedded frame, and the shop breaks out rather than failing:
+
+| Situation | What happens |
+|-----------|--------------|
+| A payment page that must render top-level | Opens in a new tab, and the shop sends `close` after a short delay so the tab is not blocked |
+| A social sign-in | Same — new tab, then `close` |
+| The **X** share option on an event | Sent as a `visit` message for your page to follow |
+| Sending the customer to an external identity provider | A full-page journey, so the customer is lifted out and returned. To avoid it, [pre-authenticate the frame](/integrate/identity/pre-authentication) instead |
+
+The delay on the first two exists because some browsers block a new tab if the frame closes immediately. If you are handling `close` yourself, do not race it.
+
+## Variation 2: Inline Rather Than Modal
+
+Set `showInModal: false` and give `iframeTarget` a selector, and the frame is appended into that element instead of overlaying the page.
+
+The script hides the trigger and clicks it for you, so the frame loads with the page — there is no button for the customer to find.
+
+```json
+{
+  "eventUrl": "https://tickets.example.com/events/summer-festival-2026?showItems=1&hideIframeClose=1",
+  "allowedOrigin": "https://tickets.example.com",
+  "showInModal": false,
+  "iframeTarget": "#ticket-shop"
+}
+```
+
+Use this when the shop is the content of the page rather than an interruption — a dedicated **Tickets** page, or a panel in a layout of your own.
+
+You own the container's dimensions, so give it a sensible height: the frame fills what you provide.
+
+## Variation 3: Splitting the Journey Across Your Own Pages
+
+Reach for this when the stock modal carries the customer further than you want it to.
+
+Item selection happens in a modal on your event page. When the customer is ready to check out, you intercept and take them to a page of your own, with a second frame loading the shop's basket or checkout.
+
+You get your own page furniture around the checkout, and room to insert steps of your own — membership prompts, upsells of your own products, terms you have to present before payment.
+
+On your side this is two pages, each with its own embed, pointed at different shop URLs.
+
+To know when the customer is ready to move on, listen for `seatSelected` and `GASelected` and use them to enable your own **Continue** action.
+
+<Note>
+Your code is what moves the customer between pages, so carrying the basket across that step is yours to build. [Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers the two ways to do it.
+</Note>
+
+## Variation 4: Embedding One Component
+
+You do not have to embed a whole shop page. Point `eventUrl` at `/events/{id-or-slug}/seating-plan` and only the [seating plan](/core-platform/seating-plans/introduction) loads.
+
+This is the most common single-component embed: your page owns everything else, and the frame gives you a live seat map with real availability.
+
+Seating plans are the one part of the embed that talks in both directions. The plan sends selection events out, and accepts commands in — highlighting areas, selecting seats, switching between seat-level and price-band selection:
+
+| Direction | Examples |
+|-----------|----------|
+| Plan → your page | `planReady`, `seatSelected`, `seatUnselected`, `GASelected`, `GAUnselected`, `error` |
+| Your page → plan | `selectSeat`, `unselectSeat`, `focusArea`, `enterArea`, `setGa`, `focusPriceBand`, `setHighlightMode` |
+
+Loaded through the generated script, the outbound messages are re-dispatched on your page as DOM events of the same names (`seatingError` for errors). The script's `postToIframe` helper sends commands the other way, addressed to your configured `allowedOrigin`.
+
+Wait for `planReady` before sending anything. Full list in [Embed Messages](/core-platform/technical/embed-messages#seating-plan-messages).
+
+What you do with those selections is the subject of [Building Baskets with the API](/integrate/checkout/building-baskets) — the plan reports what the customer picked, but it does not create a basket.
+
+<Note>
+Seat and area selection events only ever come from a seat map or general-admission selection screen. Embedding a plain event page and expecting `seatSelected` will get you nothing — point the frame at the seating plan URL.
+</Note>
+
+## Practical Details
+
+<AccordionGroup>
+
+<Accordion title="Adding embeds after page load">
+  The script scans for `[data-nu-settings]` when the document becomes ready. If you render triggers later — a single-page app, a filtered listing, a modal of your own — call `window.nuModalInit()` to scan again. It only wires elements it has not already seen, so repeated calls are safe.
+
+  If you are rebuilding the settings as the customer changes something (picking a different event, say), debounce the re-scan rather than calling it on every keystroke: each distinct settings value produces its own frame.
+</Accordion>
+
+<Accordion title="Several embeds on one page">
+  Each trigger gets its own frame and its own settings, so a listing page with a **Buy** button per event works without special handling. All of them share one message listener, and each message is matched back to the frame it came from.
+</Accordion>
+
+<Accordion title="Closing a frame that has no close button of its own">
+  Some embedded pages — the seating plan among them — have no close control, and an inline embed with `hideIframeClose=1` deliberately has none either. If you need your own close affordance, call the script's `nuCloseModal()` directly rather than waiting for the frame to send `close`.
+
+  A modal frame covers the viewport at a high stack order, so a close button of your own has to sit above it. An ordinary in-flow button will be underneath and unclickable while the modal is open.
+</Accordion>
+
+<Accordion title="Building the iframe yourself">
+  You can skip the script and write your own `<iframe>`, but you lose the message plumbing and must add `parent-origin` set to your site's origin to the frame URL.
+
+  Without it the shop cannot address messages: `close` and `visit` are broadcast and still arrive, but tracking, basket expiry and seating plan messages do not.
+
+  If `close` and `visit` arrive but nothing else does, `parent-origin` is missing.
+</Accordion>
+
+<Accordion title="Frame permissions">
+  The generated frame is sandboxed and carries `allow="payment"`, which is what lets payment request flows work inside it. If you are building the frame yourself and payment appears to do nothing, check that first.
+</Accordion>
+
+<Accordion title="Embedding the account area">
+  The account pages under `/account` embed like any other shop page, so you can offer order history, ticket downloads and profile editing inside your own pages.
+
+  Two things to plan for. The customer has to be signed in, which in a frame means [pre-authentication](/integrate/identity/pre-authentication) rather than a redirect. And if your site already has its own account area, the [customers API](/api-reference/customers/retrieve-customers) may fit better than embedding ours.
+
+  See [Customer Accounts](/core-platform/ticket-shop/customer-accounts) for what the account area contains.
+</Accordion>
+
+</AccordionGroup>
+
+## Tracking From the Host Page
+
+Tag managers and tracking pixels are unreliable inside a frame, because browsers restrict the cross-site storage they depend on. Scripts loaded within the embed may not fire every event, or may fail to initialise at all.
+
+Instead, run tracking on your own domain and your own page, driven by the messages the shop sends.
+
+Every trackable action is posted out — page views, item impressions, add to basket, checkout steps, purchase, errors — in a Google Analytics shape and, where pixels are configured, an ad-platform shape.
+
+The wizard can generate a ready-made listener for you: **Add cross-site tracking script** on the modal settings step appends it to your embed code, and it is on by default if the company has a Google Tag Manager code configured.
+
+<Warning>
+Google Analytics shaped tracking messages reach your page **regardless of the customer's cookie choice in the shop**. The shop honours that choice for its own tracking; your page receives the data either way and must apply consent before passing anything on.
+
+Email addresses and phone numbers are hashed before they leave the shop. Names, customer identifiers and city are not — treat these messages as personal data. See [Embed Messages](/core-platform/technical/embed-messages#what-customer-data-is-included).
+</Warning>
+
+## Try It
+
+Each variation has a working demo in the integration playground, pointed at a shop of your choosing:
+
+| Variation | Demo |
+|-----------|------|
+| The stock modal | [Single popup](https://integration-playground.nuwebgroup.com/scenarios/e2e-popup) |
+| Inline rather than modal | [Separate parent pages](https://integration-playground.nuwebgroup.com/scenarios/e2e-parent-pages) |
+| Split across your own pages | [Modal items to full-page checkout](https://integration-playground.nuwebgroup.com/scenarios/e2e-modal-to-page), [modal picker to basket link](https://integration-playground.nuwebgroup.com/scenarios/modal-basket-resume) |
+| One component only | [Seating plan and basket API](https://integration-playground.nuwebgroup.com/scenarios/seating-plan) |
+
+The [embed snippet tester](https://integration-playground.nuwebgroup.com/tools/embed-snippet) runs a snippet copied straight out of your admin area exactly as your own site would, which is the quickest way to check a generated embed before it goes near your site.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
+    Moving a customer between your own pages
+  </Card>
+  <Card title="Embed Messages" icon="messages" href="/core-platform/technical/embed-messages">
+    Complete message and payload reference
+  </Card>
+  <Card title="Website Integration" icon="wand-magic-sparkles" href="/core-platform/technical/iframe-embeds">
+    Generate embed code from the admin area
+  </Card>
+  <Card title="Shop URL Parameters" icon="link" href="/integrate/reference/url-parameters">
+    Every parameter a frame URL accepts
+  </Card>
+</CardGroup>

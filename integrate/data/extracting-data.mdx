@@ -1,0 +1,212 @@
+---
+title: "Getting Data Out"
+description: "Move orders, customers and reporting data into your own systems."
+---
+
+## Overview
+
+Plenty of integrations never touch a basket — a warehouse ingesting transactions, a CRM syncing customers, a finance system reconciling revenue.
+
+Four ways to do it, depending on whether you need to react immediately, hold a complete record, read aggregated figures, or receive a file.
+
+| Approach | Direction | Shape | Latency | Effort |
+|----------|-----------|-------|---------|--------|
+| **Webhooks** | We push to you | One event, as it happens | Immediate | Low — one HTTPS endpoint |
+| **Orders and related APIs** | You pull | Canonical records | On demand | Medium — pagination and scheduling |
+| **Reporting API** | You pull | Aggregated, shaped like a report | On demand | Low if a report already exists |
+| **Scheduled report files** | We push to your storage | A file per run | Per schedule | Lowest — no code at all |
+
+## Choosing an Approach
+
+<AccordionGroup>
+
+<Accordion title="You need to react to something as it happens">
+  **Webhooks.** Provisioning access on purchase, sending your own confirmation, updating an occupancy display, triggering a fulfilment workflow. Nothing else delivers in real time, and polling frequently enough to approximate it consumes your rate limit.
+</Accordion>
+
+<Accordion title="You are building a warehouse or a system of record">
+  **The orders API**, pulled on a schedule. Webhooks tell you what changed; they are not a complete history, and a delivery that fails permanently is not resent. Anything that has to be *correct* rather than *current* needs a pull, so it can re-read a window and reconcile.
+
+  A common pattern is both: webhooks for immediacy, a nightly pull for completeness.
+</Accordion>
+
+<Accordion title="You need figures rather than records">
+  **The reporting API.** Revenue by event, attendance by ticket type, wallet balances. The [default reports](/core-platform/reporting/default-reports) already do the grouping, aggregation and field selection, so pulling one is less work than deriving the same numbers from raw orders and produces figures that match what colleagues see on screen.
+</Accordion>
+
+<Accordion title="Your BI tool ingests files, not APIs">
+  **Scheduled report files to your own storage.** No API client, no credentials in your code, no scheduling of your own. A report file lands in your S3 bucket on a schedule and your pipeline picks it up. This is often the lightest option that meets the requirement, and worth ruling out before building an API integration.
+</Accordion>
+
+<Accordion title="You need customer records, not transactions">
+  **The [customers API](/api-reference/customers/retrieve-customers).** Read, create and update customers directly, and manage [customer group](/api-reference/customer-groups/add-customers-to-group) membership in bulk. If you are syncing a CRM, this is the surface — not order data with customers attached to it.
+</Accordion>
+
+</AccordionGroup>
+
+## Webhooks
+
+Configure a URL per event type in the admin area and we call it when that event happens. **Webhooks need the feature enabled for the company** — see [Webhooks](/core-platform/technical/webhooks) for setup, the full event list, payload configuration and the call history view.
+
+What matters when you are the one receiving them:
+
+**Verify the signature.** Payloads are signed with HMAC-SHA256 using the secret you generate, and the signature arrives in the `Signature` header. Compute your own HMAC over the **raw request body** and compare. Without that check, the endpoint accepts anything that reaches it.
+
+**Answer fast.** Requests time out after **3 seconds**. Acknowledge immediately and process asynchronously; doing the work inline turns a busy on-sale into a stream of timeouts.
+
+**Plan for missed deliveries.** Three attempts with exponential backoff, then the delivery is marked permanently failed and not retried. Events that occur while a webhook is disabled are not sent retroactively. Anything that must not be lost needs a reconciliation pull behind it.
+
+**Be idempotent.** Retries mean the same event can arrive more than once. Key on the order reference rather than assuming one delivery per event.
+
+**Ask for what you need in the payload.** The **Includes** setting controls which related objects come along — ticket detail, customer information, billing address, data capture responses. Including them avoids a follow-up API call per webhook. Order webhooks can also be filtered by order type, so a [resale](/core-platform/resale/introduction) integration need not receive primary sales.
+
+The [Webhook Reference](/webhook-reference) has the exact payload for every event.
+
+## The Orders API
+
+The pull side, and the canonical one.
+
+| You need | Endpoint |
+|----------|----------|
+| Orders, filterable and paginated | [Retrieve Orders](/api-reference/orders/retrieve-orders) |
+| A single order in full | [Retrieve Order](/api-reference/orders/retrieve-order) |
+| Line-level detail — the individual tickets and products | [Retrieve Order Items](/api-reference/orders/retrieve-order-items) |
+| One purchased item | [Retrieve Specific Purchased Item](/api-reference/orders/retrieve-specific-purchased-item) |
+| Payment records | [Retrieve Transactions](/api-reference/transactions/retrieve-transactions) |
+| Wallet balances and movements | [Retrieve wallets](/api-reference/wallets/retrieve-wallets), [Retrieve wallet transactions](/api-reference/wallets/retrieve-wallet-transactions) |
+
+**Order items, not orders, are usually the grain you want.** An order is a basket of things; a warehouse usually wants a row per ticket, with its item, its price, its holder and its attendance state. Pulling orders and expanding them client-side takes more calls.
+
+**Use async for bulk.** Add `async=true` and page size rises from 100 to 1000, and the polling does not count against your rate limit. A nightly reconciliation should be async; a single order lookup should not. See [Getting Set Up](/integrate/getting-access#large-or-high-volume-requests).
+
+**Filter server-side.** Constrain by date and by event rather than pulling everything and filtering locally, which costs rate limit and grows slower over time.
+
+<Warning>
+Data is filtered by the permissions and [visibility groups](/core-platform/system-access/visibility-groups) of the user whose token you are using, so a narrowly scoped token returns a subset — and that subset changes if somebody edits the user's access.
+
+Where completeness matters, verify the token's scope and check totals against a report.
+</Warning>
+
+## The Reporting API
+
+Two endpoints, doing quite different jobs.
+
+**[Retrieve Custom Report](/api-reference/reports/retrieve-custom-report)** runs a saved [custom report](/core-platform/reporting/custom-reports) by identifier and returns its rows.
+
+The report carries its own fields, filters, groupings and headers, so the shaping happens in the admin area rather than in your code. Build the report once, then pull it.
+
+| Parameter | Use |
+|-----------|-----|
+| `id` | The custom report to run |
+| `filter` | Filter overrides for this request only, merged over the report's saved filters |
+| `headers` | Header overrides, merged by default |
+| `replaceHeaders` | Replace the saved headers entirely instead of merging |
+| `refresh` | Force a regeneration rather than accepting a cached result |
+| `page`, `limit` | Pagination. Max 100 synchronous, 1000 asynchronous |
+
+<Note>
+Some report responses are cached, which a `dataLastSynchronised` attribute tells you. Pass `refresh` for current figures — but not on a tight polling loop, since regenerating a large report is expensive. See [Caching](/core-platform/technical/caching#report-caching).
+</Note>
+
+The `filter` override is what makes this practical for a warehouse. Save one report with the fields and groupings you want, then pull it per event or per date range by overriding the filter, rather than maintaining one saved report per slice.
+
+[Report Reference](/core-platform/reporting/default-reports) documents the filter keys available for each report type.
+
+**[Retrieve Company Sales Report](/api-reference/reports/retrieve-company-sales-report)** is a fixed-shape summary rather than a configurable report: totals for today, this week and all time, plus a per-day breakdown across the last 30 days, split by payment method. It suits a dashboard tile rather than a warehouse — nothing beyond 30 days is available and the shape is not configurable.
+
+## Scheduled Report Files
+
+The option with no API at all. A [scheduled report](/core-platform/reporting/scheduled-reports) runs on its own schedule and publishes the generated file to storage you own, where your pipeline collects it.
+
+<Steps>
+  <Step title="Build a custom report with the fields you want">
+    Scheduling is built on [custom reports](/core-platform/reporting/custom-reports), so the export's shape is whatever you configured — fields, filters, groupings, column headers. Configure it once and every run matches.
+  </Step>
+  <Step title="Create a data endpoint pointing at your storage">
+    Amazon S3 is the supported destination: access key, secret, region, bucket, and an optional directory. Credentials are encrypted and not shown again after creation. See [Data Endpoints](/core-platform/reporting/data-endpoints).
+  </Step>
+  <Step title="Schedule the report and choose the endpoint as its destination">
+    Delivery can be email, data endpoint, or both. Set the cycle — once, hourly, daily, weekly or monthly — and the timezone the schedule is evaluated in.
+  </Step>
+  <Step title="Verify before you depend on it">
+    **Dispatch to endpoint now** sends a run immediately so you can confirm the connection and the file shape without waiting for the schedule.
+  </Step>
+</Steps>
+
+**Formats:** XLSX, CSV, ODS, XLS or HTML. CSV for a pipeline. PDF is no longer available for new schedules.
+
+**Features required:** **Report publishing** for endpoint delivery, and **High frequency scheduled reports** if you need the hourly cycle. Both are arranged through your account manager.
+
+**Set the timezone deliberately.** A daily report at 08:00 runs when it is 08:00 in the timezone you chose, which is a different UTC time twice a year. Where your pipeline expects a file at a fixed UTC hour, choose UTC. See [Timezones](/core-platform/core/timezones).
+
+<Note>
+Deliveries are additive — each run publishes a new file rather than replacing anything. Design your pipeline to be idempotent over re-reads and to cope with a run that produced no rows.
+
+On the platform side, **Send email if report is empty** controls whether an empty run notifies anybody.
+</Note>
+
+## A Reference Warehouse Pipeline
+
+One shape that works for an ingest pipeline:
+
+<Steps>
+  <Step title="Backfill once with the orders API">
+    Async, paged, order-item grain. This is your historical base, pulled once.
+  </Step>
+  <Step title="Take deltas from a nightly scheduled report">
+    A custom report filtered to a rolling window, published to your bucket as CSV. There is no API client to maintain, and each run re-covers the window, so a night your pipeline was down is repaired by the next run.
+  </Step>
+  <Step title="Layer webhooks on for anything time-sensitive">
+    Order completed for provisioning, refunds for entitlement withdrawal, check-ins for live operations. Treat these as a fast path rather than as the record.
+  </Step>
+  <Step title="Reconcile against a report you did not build">
+    Compare your row counts and revenue against a [default report](/core-platform/reporting/default-reports) in the admin area. Where the two disagree, token scoping is the usual cause — see the warning above.
+  </Step>
+</Steps>
+
+## Common Pitfalls
+
+<AccordionGroup>
+
+<Accordion title="Polling for immediacy">
+  Polling every minute costs rate limit and still delivers worse latency than a webhook. Where the requirement is immediacy, use a webhook.
+</Accordion>
+
+<Accordion title="Treating webhooks as the record">
+  Three attempts, then the delivery is dropped, and disabled webhooks do not backfill. Pair them with a periodic pull where completeness matters.
+</Accordion>
+
+<Accordion title="Ignoring cached report responses">
+  A report returning the same figures repeatedly is usually a cached response. Check for `dataLastSynchronised` before investigating further.
+</Accordion>
+
+<Accordion title="Rebuilding the figures from raw orders">
+  Revenue is not the sum of item prices — [fees](/core-platform/fees/default-system-fees), [tax](/core-platform/tax/tax-bands), refunds, [split payments](/core-platform/payments/split-payments), account balance settlements and [resale](/core-platform/resale/introduction) all affect it. Figures taken from a report match what everybody else sees.
+</Accordion>
+
+<Accordion title="Not separating channels">
+  Orders carry the [sales channel](/core-platform/information/sales-channels) they originated from — web, box office, API, kiosk, import, invoice. Reporting them as a single number hides where the sales actually came from.
+</Accordion>
+
+<Accordion title="Forgetting orders change after completion">
+  Refunds, [modifications](/core-platform/order-management/order-modifications), [transfers](/core-platform/order-management/transfers-and-sharing) and cancellations all alter an order after the fact, so an insert-only pipeline drifts. Re-read a rolling window, or subscribe to the refund webhooks as well as the order ones.
+</Accordion>
+
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Webhooks" icon="bell" href="/core-platform/technical/webhooks">
+    Setup, event list, retries and monitoring
+  </Card>
+  <Card title="Data Endpoints" icon="cloud-arrow-up" href="/core-platform/reporting/data-endpoints">
+    Publish report files to your own storage
+  </Card>
+  <Card title="Report Reference" icon="book" href="/core-platform/reporting/default-reports">
+    Every report's fields, filters and groupings
+  </Card>
+  <Card title="Getting Set Up" icon="key" href="/integrate/getting-access">
+    Token scoping, rate limits and async requests
+  </Card>
+</CardGroup>

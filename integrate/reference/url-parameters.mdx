@@ -1,0 +1,121 @@
+---
+title: "Shop URL Parameters"
+description: "Every query parameter the ticket shop accepts."
+---
+
+## Overview
+
+Every parameter the shop accepts, grouped by what it does. They work on any shop URL unless noted, and combine freely:
+
+```
+https://tickets.example.com/events/summer-festival-2026?showItems=1&language=et&hideLogout=1
+```
+
+## Presetting Shop State
+
+These apply to any visit, embedded or not.
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `showItems` | `1` | On an event page, opens item selection immediately instead of showing the event description first. |
+| `language` | A locale the company has enabled | Selects the shop language. An unsupported locale falls back to the company's default. |
+| `currency` | A currency code the company has enabled | Selects the currency. Ignored if the company does not have it enabled. |
+| `access_code` | An access code | Applies an [access code](/core-platform/basket-codes/access-codes), making restricted items visible. |
+| `discount_code` | A discount code | Applies a [discount code](/core-platform/basket-codes/discount-codes) to the basket. |
+
+`currency`, `access_code` and `discount_code` are consumed and stripped from the address, so the customer is not left holding a shareable URL with a code in it. The selection persists for the rest of their visit.
+
+A code that does not exist, or is outside its validity period, is discarded rather than erroring.
+
+<Warning>
+A code in a URL is only as private as the URL — links get shared, cached and indexed. Use codes with usage limits and validity periods rather than relying on the link staying private.
+</Warning>
+
+## Embedded Frame Chrome
+
+These control what the shop renders inside an embedded frame. They have no effect on an ordinary top-level visit.
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `iframeMenu` | `0` / `1` | Whether the shop's own site navigation is shown inside the frame. |
+| `hideLogout` | `0` / `1` | `1` removes the sign-out option from the embedded view and account menu. |
+| `hideIframeClose` | `0` / `1` | `1` removes the frame's own close button. |
+| `hideHome` | `0` / `1` | Whether the home button appears in the embedded header. |
+
+The embed wizard sets `hideIframeClose=0` for modal embeds — a modal needs a way out — and `hideIframeClose=1` for inline ones, where the frame is part of your page and your own layout provides the exits.
+
+<Note>
+These are sticky. The shop remembers each flag for the frame it was set on, so navigation within the frame keeps the same chrome without re-appending it to every URL. Passing the parameter explicitly always wins, so you can change it mid-journey.
+</Note>
+
+`hideLogout=1` matters where your site owns sign-in: a sign-out control inside the frame ends the shop session while leaving the customer signed in to your site. Hide it and drive sign-out from your own controls. See [Signing Customers In](/integrate/identity/overview#signing-out).
+
+## Pre-authenticating a Customer
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `customer_token` | A customer token from the [customer SSO API](/integrate/identity/pre-authentication) | Signs the customer in before the page renders, with no redirect or sign-in step. |
+
+Valid for 24 hours and reusable, but tied to the browsing session that first uses it. Once accepted, the shop removes the parameter from the address before rendering.
+
+An invalid or expired token is ignored: the request proceeds and the visitor continues as a guest, with any existing session untouched.
+
+So a stale token in a bookmark will not break the page, but a mistake also fails quietly. [Pre-authenticating a Session](/integrate/identity/pre-authentication#option-2-the-customer-token) has the full behaviour.
+
+<Warning>
+Treat a customer token as a credential. Never render one into a page for a customer other than its owner, and do not put one in a link you email — it belongs to the browsing session that first used it.
+</Warning>
+
+## Carrying a Session
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `sid` | A session identifier offered by the shop as `nuSid` | Continues that session rather than starting a new one. |
+| `fsid` | `1` | Uses the supplied `sid` in preference to any session the visitor already has. |
+
+You construct these when your own code moves a customer out of a frame into a full-page visit, or between your own pages.
+
+Both are needed together: without `fsid=1` an existing session takes priority, which stops a shared or bookmarked link displacing somebody's live session.
+
+Treat the identifier as specific to the journey in progress: a new one is issued whenever the customer signs in. For anything durable, use a [basket link](/core-platform/technical/basket-links). See [Carrying the Basket Across Pages](/integrate/checkout/session-continuity).
+
+## Message Addressing
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `parent-origin` | Your site's origin | Tells the shop which origin to address its messages to. |
+
+The generated embed script sets this for you. **If you build your own iframe, you must set it**, or the shop cannot work out where to send anything.
+
+`close` and `visit` are broadcast and still arrive; tracking, basket expiry and seating plan messages do not.
+
+If `close` and `visit` arrive but nothing else does, `parent-origin` is missing. Set it explicitly rather than relying on the referring page, which is not always available. See [Embed Messages](/core-platform/technical/embed-messages#which-host-page-receives-each-message).
+
+## Where Parameters Go in an Embed
+
+An embed has two places configuration lives, and they are not interchangeable.
+
+| Goes in the settings object | Goes on the URL |
+|-----------------------------|-----------------|
+| `eventUrl`, `allowedOrigin`, `showInModal`, `iframeTarget`, `fullScreen`, `modalOpacity`, `autoLoad`, `companyTitle` | Everything on this page |
+
+The settings object configures the **frame** — where it appears, how it behaves, which origin to trust. The URL configures the **shop** — what it shows and who it thinks the visitor is.
+
+Putting `showItems` in the settings object, or `showInModal` on the URL, silently does nothing. See [Embedding the Shop](/integrate/checkout/embedding#the-settings-object).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    The settings object and the embed variations
+  </Card>
+  <Card title="Linking to the Shop" icon="link" href="/integrate/checkout/linking-out">
+    Deep linking and carrying state in a link
+  </Card>
+  <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
+    When and how to use `sid` and `fsid`
+  </Card>
+  <Card title="Embed Messages" icon="messages" href="/core-platform/technical/embed-messages">
+    Every message the shop sends out
+  </Card>
+</CardGroup>

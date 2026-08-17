@@ -1,0 +1,139 @@
+---
+title: "Getting Set Up"
+description: "Credentials, permissions, limits and features to arrange before you build."
+---
+
+## Overview
+
+The groundwork: credentials, how to scope them, the limits you work within, and the features that have to be switched on.
+
+Not chosen an approach yet? Start with [Choosing an Integration Model](/integrate/integration-models) — some of this only applies to certain models.
+
+## Getting API Credentials
+
+API requests authenticate with a bearer token:
+
+```
+Authorization: Bearer {your-token}
+```
+
+Tokens are created from **Settings > API Tokens** in the admin area. The full token is shown once, at the moment of creation, and cannot be retrieved afterwards. [API Token Management](/core-platform/utilities/api-token-management) covers creating, listing and revoking them.
+
+You can also obtain one programmatically with [Retrieve API Token](/api-reference/authentication/retrieve-api-token), and check which identity a token belongs to with [Retrieve Authenticated User](/api-reference/authentication/retrieve-authenticated-user).
+
+Requesting a new token does not invalidate existing ones, and a token is reusable until revoked.
+
+### Scope the Token Properly
+
+There is no separate machine identity on the platform. **A token is a personal access token: it carries the permissions and [visibility groups](/core-platform/system-access/visibility-groups) of the user who created it, and its access changes when that user's access changes.**
+
+For production, create a dedicated user with only the permissions the integration needs and issue the token from that account.
+
+This limits what an exposed token can reach, and makes the integration's activity attributable in [audit logs](/core-platform/core/audit-logs).
+
+<Warning>
+Do not issue production tokens from a super user account — that token can reach every endpoint, including ones that delete data.
+
+See [Roles & Permissions](/core-platform/system-access/roles-and-permissions) for building a minimal role, and [Permissions Reference](/core-platform/system-access/permissions-reference) for what each permission grants.
+</Warning>
+
+## Headers That Change Behaviour
+
+| Header | Why it matters |
+|--------|----------------|
+| `Authorization` | `Bearer {token}`. Required on every request. |
+| `X-NU-COMPANY-ID` | Which company the request acts on behalf of. |
+| `Accept-Language` | Which language read and write requests should use. Responses echo the language actually used in `Content-Language`. |
+
+### Always Send the Company Header
+
+If the user behind your token has access to more than one company, requests act on their **last selected company** — whatever they last chose in the admin area. Someone switching company therefore changes which company your integration writes to.
+
+Send `X-NU-COMPANY-ID` on every request to pin it. Alternatively, create a separate user and token per company. That is the better option when the calls are made by a third party, because it locks the credential to one company.
+
+### Languages and Currencies
+
+Send `Accept-Language` to control which language is used for reads and writes. Ask for one the company does not support and its fallback is used instead; `Content-Language` on the response tells you which was applied.
+
+See [Translations](/core-platform/core/translations) and [Supported Currencies](/core-platform/core/supported-currencies).
+
+## Rate Limits
+
+Every company is rate limited over a rolling interval. The limit depends on your account configuration and can be raised on request, provided you have caching in place first — the point of raising it is to support real volume rather than to absorb avoidable traffic.
+
+Two response headers let you stay inside the limit without guessing:
+
+| Header | Meaning |
+|--------|---------|
+| `X-Remaining-Requests` | Requests left in the current window |
+| `X-Available-In-Seconds` | The period the limit is applied over |
+
+Once you exceed the limit, further requests are blocked until it replenishes. Read `X-Remaining-Requests` and back off before that happens.
+
+### Large or High-Volume Requests
+
+Any endpoint can be called asynchronously by adding `async=true`. You get back a `202` with an `asyncUuid`; polling the same endpoint with it returns `202` until the work is done, then the real response.
+
+Polling does not count against your rate limit, and completed responses are kept for two hours whether you collect them or not.
+
+Async suits report pulls and bulk reads. Page size rises from 100 to 1000, and endpoints requiring a password cannot be called this way. Full details in the [API introduction](/api-reference/introduction#asynchronous-requests).
+
+## Features You May Need Enabled
+
+Several integration paths depend on a feature being active for the company. None are enabled on every account by default, and all are arranged through your account manager. Request the ones your design needs before you start building.
+
+| Feature | Needed for | Documented at |
+|---------|-----------|---------------|
+| **Website integration** | Access to the embed wizard that generates embed code in the admin area | [Website Integration](/core-platform/technical/iframe-embeds) |
+| **Basket links** | Turning an API-built basket into a link a customer can follow into checkout | [Basket Links](/core-platform/technical/basket-links) |
+| **Webhooks** | Receiving real-time notifications of orders, check-ins and refunds | [Webhooks](/core-platform/technical/webhooks) |
+| **Report publishing** | Delivering scheduled report files to your own storage | [Data Endpoints](/core-platform/reporting/data-endpoints) |
+
+Customer SSO is also configured at company level rather than from within the admin area, so it is arranged the same way. See [Signing Customers In](/integrate/identity/overview).
+
+## Where to Build and Test
+
+Every company starts in **Demo** mode: the complete purchase experience, including checkout and confirmation emails, against your payment provider's test credentials. No money moves.
+
+Build and test here. [Going Live](/core-platform/get-started/going-live) covers the switch to **Live** mode.
+
+Demo mode is a property of the company, not a separate environment, so plan for one of these:
+
+- **A dedicated integration company** kept in demo mode permanently, with its own user and token. This is the cleanest arrangement if you need somewhere to test against indefinitely.
+- **Your real company in demo mode** during the build, switched to live when you launch.
+
+<Warning>
+API requests to a company whose trial period has expired are rejected with `403 Forbidden`, and every integration against it stops working until the account is activated. If you are building against a trial account, watch the expiry. See [Trial Periods](/core-platform/get-started/trial-periods).
+</Warning>
+
+## Caching and Freshness
+
+Two pieces of platform caching affect integrations directly:
+
+- **Shop pages are cached briefly.** Admin changes take effect immediately in the system, but customer-facing pages may take up to about a minute to reflect them. An integration that publishes an event and immediately links a customer to it should expect that gap.
+- **Some report responses are cached.** A cached report response carries a `dataLastSynchronised` attribute; pass `refresh` to force a regeneration. Regenerating a large report is expensive, so avoid polling one at a high frequency — see [Caching](/core-platform/technical/caching#report-caching).
+
+Seating plan availability also refreshes on an interval rather than in real time, which matters if you are building your own seat selection UI. [Caching](/core-platform/technical/caching#seating-plan-availability) has the intervals.
+
+## Handling Change
+
+The API follows a no-breaking-changes policy. Structural changes arrive as a new major version on a different path (`/v2/events` alongside `/v1/events`), so an existing integration is unaffected by a new version being released.
+
+Additive changes do happen within a version, so parse responses tolerantly — treat unknown fields as ignorable rather than erroring on them. Everything, major or minor, is recorded in the [API changelog](/api-reference/changelog).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Every endpoint, executable in the browser
+  </Card>
+  <Card title="API Token Management" icon="key" href="/core-platform/utilities/api-token-management">
+    Create, inspect and revoke tokens
+  </Card>
+  <Card title="Roles & Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+    Build a minimal role for your integration user
+  </Card>
+  <Card title="Choosing an Integration Model" icon="signs-post" href="/integrate/integration-models">
+    Compare the approaches before you build
+  </Card>
+</CardGroup>

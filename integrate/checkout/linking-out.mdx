@@ -1,0 +1,117 @@
+---
+title: "Linking to the Shop"
+description: "Send customers to the shop with a link, and make it feel like your site."
+---
+
+## Overview
+
+The simplest integration is a link. Your site owns discovery; every **Buy tickets** action sends the customer to the shop to complete the purchase.
+
+Start here. There is nothing to maintain on your side, and every checkout improvement we ship reaches your customers without you doing anything.
+
+Three things decide whether it feels like leaving for a third party or moving between sections of your own site: which page you land on, what state you carry, and how the shop is branded.
+
+## Land on the Right Page
+
+The shop exposes stable, linkable URLs. Event paths accept either the event's numeric identifier or its slug, so you can build links from whichever you already hold.
+
+| Destination | Path |
+|-------------|------|
+| Event listing | `/browse` |
+| A single event page | `/events/{id-or-slug}` |
+| An event's seating plan | `/events/{id-or-slug}/seating-plan` |
+| The basket | `/basket` |
+
+Linking to the event page gives the customer your event's full description, media and dates — the shop's own [event page customisations](/core-platform/event-management/event-page-customisations) decide how that looks.
+
+### Skipping Straight to Item Selection
+
+If your own page has already sold the event and the customer has clicked **Buy tickets**, dropping them on a description they have just read is friction. Add `showItems=1` and the item selection opens as soon as the page loads:
+
+```
+https://tickets.example.com/events/summer-festival-2026?showItems=1
+```
+
+This is what the embed wizard's generated code does by default, and it is the single most useful parameter for a link-out integration.
+
+## Carry State in the Link
+
+Several pieces of state can be preset in the URL, which means your site can make decisions on the customer's behalf rather than asking them to repeat themselves.
+
+| Parameter | Effect |
+|-----------|--------|
+| `showItems=1` | Opens item selection immediately on an event page |
+| `language={locale}` | Selects the shop language, if the company has that language enabled |
+| `currency={code}` | Selects the currency, if the company has that currency enabled |
+| `access_code={code}` | Applies an [access code](/core-platform/basket-codes/access-codes) so restricted items become visible |
+| `discount_code={code}` | Applies a [discount code](/core-platform/basket-codes/discount-codes) to the basket |
+
+```
+https://tickets.example.com/events/summer-festival-2026?showItems=1&language=et&currency=EUR
+```
+
+<Note>
+`currency`, `access_code` and `discount_code` are consumed and removed from the address, so the customer is not left holding a shareable URL with a code in it. The selection persists for the rest of their visit.
+
+A code that is invalid or outside its validity period is discarded rather than failing the request.
+</Note>
+
+The full list of parameters, including the ones that only apply to embedded frames, is in [Shop URL Parameters](/integrate/reference/url-parameters).
+
+<Warning>
+Access codes and discount codes in a URL are only as private as the URL — links get shared, cached and indexed. Use codes with sensible usage limits and validity periods rather than relying on the link staying private.
+</Warning>
+
+## Make the Shop Feel Like Yours
+
+This is where most of the value in a link-out integration sits, and none of it is code. All of it is configured in the admin area.
+
+**Run the shop on your own domain.** [Custom URLs](/core-platform/utilities/custom-urls) let the shop answer on `tickets.yourbrand.com` rather than the default platform address, so the customer stays inside your brand's domain and analytics behaves predictably. You can also point language-specific domains at the same shop, which pairs with the `language` parameter.
+
+**Match the shop to your site.** [Theme and branding](/core-platform/cms/theme-and-branding) covers colours, logos, fonts and custom CSS.
+
+**Carry your own navigation.** [CMS menus](/core-platform/cms/menus) let the shop present the same header and navigation as the rest of your site, with links back to your own pages. Combined with the two above, the customer moves between your site and the shop without a visible change of product — and the shop's own [pages](/core-platform/cms/pages), [articles](/core-platform/cms/articles) and [blocks](/core-platform/cms/blocks) can host supporting content so there is less to link away for.
+
+Getting these three right is usually a better return on effort than moving to an embedded model, and it leaves nothing for your team to maintain.
+
+## Bringing the Customer Back
+
+If your journey needs to continue on your site after the purchase — a confirmation of your own, a membership activation, an onward booking step — you have two options.
+
+For baskets your system created through the API, set a success and a failure redirect URL when you build the basket. The customer returns to your URL after checkout with identifying parameters attached — see [Building Baskets with the API](/integrate/checkout/building-baskets).
+
+For an ordinary link-out where the customer chose their own items, there is no per-link return URL.
+
+Use [webhooks](/core-platform/technical/webhooks) instead. The **Order completed** webhook fires as soon as the order is done, carrying the order, customer and item detail — and unlike a browser redirect, it does not depend on the customer keeping the tab open.
+
+## Knowing What Sold
+
+A link-out integration has no visibility into the purchase from the browser, so plan for that up front:
+
+- **Server-side:** [webhooks](/core-platform/technical/webhooks) for real-time notification, or the [orders API](/api-reference/orders/retrieve-orders) to pull orders on a schedule. [Getting Data Out](/integrate/data/extracting-data) compares the options.
+- **Analytics:** the shop runs its own [tracking and analytics](/core-platform/integrations/tracking-and-analytics), including [Google Tag Manager](/core-platform/integrations/google-tag-manager) and tracking pixels. The shop fires the events; attributing them back to a session that started on your site is configured in your analytics tool.
+
+## When to Move to Another Model
+
+Link-out stops being the right answer when:
+
+- **You need the customer to stay on the page they are on.** [Embedding the Shop](/integrate/checkout/embedding) keeps them there.
+- **You need to insert your own step.** Membership checks, upsells of your own products, or terms you have to present before payment all need [embedding across your own pages](/integrate/checkout/embedding#variation-3-splitting-the-journey-across-your-own-pages).
+- **Your system decides what they are buying.** If the items follow from an entitlement, a package builder or a partner feed rather than the customer browsing, build the basket yourself — see [Building Baskets with the API](/integrate/checkout/building-baskets).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Shop URL Parameters" icon="link" href="/integrate/reference/url-parameters">
+    Every parameter the shop accepts
+  </Card>
+  <Card title="Custom URLs" icon="globe" href="/core-platform/utilities/custom-urls">
+    Run the shop on your own domain
+  </Card>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    Keep the customer on your page instead
+  </Card>
+  <Card title="Getting Data Out" icon="database" href="/integrate/data/extracting-data">
+    Learn what sold, without the browser
+  </Card>
+</CardGroup>

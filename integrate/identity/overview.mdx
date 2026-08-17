@@ -1,0 +1,121 @@
+---
+title: "Signing Customers In"
+description: "Where a customer's identity lives, and what that means for your integration."
+---
+
+## Overview
+
+One question decides the rest: **where does the customer's identity live?**
+
+| Where identity lives | What happens | What you build |
+|---------------------|--------------|----------------|
+| **With the shop** | Customers register and sign in with us, using an email and password or a social provider | Nothing |
+| **With you, handed over per session** | Your site knows who the customer is and tells us, so they arrive already signed in | One API call |
+| **With you, permanently** | The shop holds no credentials and sends customers to your provider to authenticate | Endpoints you host |
+
+The last two combine: delegate to your provider for full-page visits, and hand us the identity directly for embedded ones.
+
+Guest checkout is separate — see [Guest Checkout](#guest-checkout-works-alongside-any-of-these) below.
+
+## Identity Lives With the Shop
+
+Customers register and sign in with us: an email and password, plus whichever social providers the company has enabled. There is nothing for your integration to do.
+
+This is the right answer when your site has no account system of its own, or when the two are separate concerns. It also carries the least maintenance: password resets, verification, social providers and account recovery are all handled.
+
+See [Customer Accounts](/core-platform/ticket-shop/customer-accounts) for what a customer account holds.
+
+## Identity Lives With You, Handed Over Per Session
+
+Your site already knows who is signed in. Before rendering a frame or a link, your server tells us who the customer is and gets back a credential that signs them into the shop.
+
+This is a single API call and no redirect, which makes it the natural fit for an embedded shop behind your own login — the frame renders with the customer already signed in.
+
+You are asserting the identity, so you are responsible for having authenticated them. See [Pre-authenticating a Session](/integrate/identity/pre-authentication).
+
+## Identity Lives With You, Permanently
+
+The shop stops offering its own credentials. When a customer needs to sign in, the shop sends them to your identity provider; you authenticate them and hand them back. Password changes, email changes and sign-out route through you.
+
+Choose this when you are the identity authority for these customers and a second set of credentials would not be acceptable — a membership organisation, a season ticket base, a corporate portal.
+
+Four provider types are supported:
+
+| Type | Notes |
+|------|-------|
+| **OpenID Connect** | Standard OIDC. Also the type that honours the email hint the shop passes when a customer has already typed their address. |
+| **Azure AD B2C** | Microsoft's customer identity service, with its own policy setting. |
+| **Laravel Passport** | OAuth via Laravel Passport. |
+| **External** | Authentication handed over entirely to endpoints you host, rather than a protocol we speak. |
+
+If your identity system speaks one of the first three, there is nothing to build — the platform speaks the protocol and you supply credentials. **External** is for owning the journey yourself; see [Acting as the Identity Provider](/integrate/identity/external-provider).
+
+<Note>
+Sending customers to a provider is a full-page journey, so an embedded shop lifts the customer out and returns them afterwards. To have the frame render already signed in, hand us the identity directly — see [Pre-authenticating a Session](/integrate/identity/pre-authentication).
+
+Most delegated integrations use both: the provider for full-page visits, pre-authentication for frames.
+</Note>
+
+## Guest Checkout Works Alongside Any of These
+
+Guest checkout is a company setting, not an alternative to the above. When it is enabled, a customer who reaches checkout without signing in can buy with just an email address, whichever of the three models is in place.
+
+Guests receive a limited account: identified as **Guest Customer**, able to see only their most recent order, with no account area, profile editing or balance management. They are prompted to upgrade afterwards.
+
+Where authentication is delegated, the shop presents its checkout sign-in card — **Sign in with \{provider name\}** alongside **Continue as guest** — rather than sending the customer straight out, so the guest option stays reachable.
+
+An email address the customer has already typed is passed to the provider as a hint, so they return as the account they intended.
+
+Upgrading a guest normally means setting a password. Where the shop holds no passwords, the upgrade routes through your provider instead:
+
+> Sign in with \{provider name\} to get a full account, where you can track all your orders and view your payment history. We'll bring you straight back afterwards.
+
+Signing in clears the guest flag and returns the customer to what they were doing.
+
+See [Customer Accounts](/core-platform/ticket-shop/customer-accounts#guest-users) and [Checkout](/core-platform/ticket-shop/checkout#guest-checkout).
+
+## Identifying the Same Person on Both Sides
+
+Whichever model you choose, decide early **what identifies the customer**.
+
+Matching on email address works until a customer changes theirs, at which point the next call looks like a different person: a second customer record appears and the original one keeps the order history.
+
+The platform accepts an **external identifier** — your own stable identifier for the person — instead. It becomes the identity, and the email address becomes a mutable attribute: if the address we hold differs from the one you send, we update ours.
+
+Supply it consistently from the first call. Both the [customer SSO API](/integrate/identity/pre-authentication) and the [basket](/integrate/checkout/building-baskets#saying-whose-basket-it-is) and [order](/integrate/checkout/api-checkout) endpoints accept it.
+
+## Signing Out
+
+Decide explicitly whether signing out of one system should end the session in the other.
+
+| What you want | How to get it |
+|---------------|---------------|
+| Shop sign-out ends both sessions | Configure a logout URL for the company; the shop calls it after ending its own session |
+| Provider sign-out ends both sessions | Send the customer to the shop's `/auth/end-session` endpoint |
+| Each system independent | Configure no logout URL |
+| No sign-out control inside an embedded frame | Add `hideLogout=1` to the frame URL |
+
+Use `/auth/end-session` rather than the shop's normal sign-out when your provider starts the sign-out: it ends the shop session without calling your provider back. [Acting as the Identity Provider](/integrate/identity/external-provider#signing-out) covers both directions.
+
+## Getting It Configured
+
+Delegated authentication is configured at company level rather than from within the admin area, so it is arranged through your account manager — provider type, endpoints, credentials, and the claim your identifier arrives in. Have your provider details to hand.
+
+Nothing on this page affects how your own staff sign in to the admin area. That is a separate feature with separate settings — see [Single Sign-On](/core-platform/system-access/single-sign-on).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Pre-authenticating a Session" icon="key" href="/integrate/identity/pre-authentication">
+    Hand us an identity you already hold
+  </Card>
+  <Card title="Acting as the Identity Provider" icon="fingerprint" href="/integrate/identity/external-provider">
+    The endpoints you host and the round trips they serve
+  </Card>
+  <Card title="Customer Accounts" icon="user" href="/core-platform/ticket-shop/customer-accounts">
+    What a customer account holds and how guests differ
+  </Card>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    Where pre-authentication fits an embedded journey
+  </Card>
+</CardGroup>

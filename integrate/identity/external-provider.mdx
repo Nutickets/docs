@@ -1,0 +1,207 @@
+---
+title: "Acting as the Identity Provider"
+description: "Host the endpoints the shop authenticates your customers against."
+---
+
+## Overview
+
+With the **External** customer SSO type, the shop holds no customer credentials. It sends customers to you to authenticate, and you hand them back. Password changes, email changes and sign-out route through you too.
+
+Choose it when you are the identity authority for these customers — a membership organisation, a season ticket base, a corporate portal — and want to own the journey rather than conform to a protocol.
+
+You host up to four endpoints; the shop calls one API endpoint. That is the whole contract.
+
+<Note>
+The other three provider types — **OpenID Connect**, **Azure AD B2C** and **Laravel Passport** — are standard OAuth flows where the platform speaks the protocol and you supply credentials. If your system speaks one of those, use it: there is nothing to build. See [Signing Customers In](/integrate/identity/overview#identity-lives-with-you-permanently).
+</Note>
+
+## What You Host
+
+Four URLs are configured against the company. They must be reachable from the customer's browser, and the sign-in endpoint must also be reachable from our servers.
+
+| Setting | What you host there |
+|---------|--------------------|
+| **SSO base URL** | Your authorisation endpoint — where the shop sends a customer who needs signing in |
+| **SSO logout URL** | Where the shop sends a customer who has signed out of the shop, so you can end your session too |
+| **Change email URL** | Where the shop links a customer wanting to change their email address |
+| **Change password URL** | Where the shop links a customer wanting to change their password |
+
+Leave any of the last three blank and the shop stops offering that journey rather than falling back to its own fields — it holds no password to change, and no verified address to change it to.
+
+With no logout URL configured, shop sign-out ends only the shop session.
+
+Configuration happens at company level rather than from within the admin area, so it is arranged through your account manager. See [Signing Customers In](/integrate/identity/overview#getting-it-configured).
+
+## The Sign-In Round Trip
+
+<Steps>
+  <Step title="The shop sends the customer to you">
+    Something needs the customer authenticated, so the shop redirects the browser to your **SSO base URL** with `redirect_url` appended — where it wants them to end up afterwards. Any query string already on your configured URL is preserved.
+  </Step>
+  <Step title="You establish an identity">
+    If the customer already has a session with you, you have one. If not, show your own sign-in form — holding on to `redirect_url` so it is still available once they have signed in.
+  </Step>
+  <Step title="You tell the shop who they are">
+    Call `POST /v1/customers/single-sign-on` with the identity's email, name, external identifier, and that `redirect_url` as `redirect`.
+  </Step>
+  <Step title="The shop hands back a signed sign-in URL">
+    Valid for one minute, single use.
+  </Step>
+  <Step title="You redirect the browser to it">
+    The shop consumes the signature, signs the customer in, and lands them where `redirect` pointed.
+  </Step>
+</Steps>
+
+The API call is [Customer Single Sign-On](/integrate/identity/pre-authentication) — the same endpoint that powers pre-authentication, called from a different position in the flow. Read that page for the request and response in full; what follows is specific to being the provider.
+
+### Send Your Own Identifier
+
+Send `customerSsoId` — your stable identifier for the person — on every call, alongside the email address.
+
+With it, a customer changing their email address with you updates the customer we already hold. Without it, the same person arrives as a second customer record and the original keeps their order history.
+
+### Validate the Redirect You Are Handed
+
+`redirect_url` arrives on a query string, so accept only URLs on the shop's own origin and drop anything else.
+
+The shop constrains it again at its end — the signed sign-in URL honours a redirect only on the shop's domain — but validate it yourself as the first line of defence.
+
+`redirect_url` can also arrive empty, because the shop fills it in only when it had somewhere in mind. Treat a missing value as *"wherever the shop defaults to"* rather than an error.
+
+### The Signed URL Is for a Waiting Browser
+
+One minute, single use. It exists to redirect a browser that is mid-request, so use it immediately rather than emailing, queueing or storing it.
+
+## What Changes in the Shop
+
+| Area | Behaviour |
+|------|-----------|
+| **Sign-in** | The email and password form is replaced by a **Sign in with \{SSO Name\}** button. |
+| **Registration** | Replaced by **Register with \{SSO Name\}**. Accounts come from you. |
+| **Email and password changes** | Account screens link out to your configured URLs, or omit the option if none is set. |
+| **Verification emails** | Not sent for a provider-backed identity — you own email verification, so ours would verify an address you have already verified and offer a reset for a password that does not exist. |
+| **Social sign-in** | Still appears alongside your button if the company has social providers enabled. Delegation replaces the credential form, not every other method. |
+
+Two behaviours are worth calling out.
+
+**Guest checkout still works.** When a customer reaches checkout without being signed in and guest checkout is enabled, the shop presents its checkout sign-in card — your provider button alongside **Continue as guest** — rather than sending them straight out to you.
+
+**A guest becomes a full account on first sign-in.** Someone who checked out as a guest with an email address, then signs in with you using the same address, has their guest flag cleared rather than a second customer being created, because you own email verification. Upgrading a guest also routes through you rather than asking for a password.
+
+<Warning>
+An existing session with you is not a silent sign-in. A customer with a live provider session is signed into the shop as *that* identity — so somebody who checked out as a guest under one address, then triggers an upgrade while signed in to you as another, ends up on the provider's identity.
+
+Show which identity is about to be used and offer a way to switch. Your authorisation endpoint is the only place that can.
+</Warning>
+
+## Signing Out
+
+Sign-out has two directions, and the shop tells you which one you are in.
+
+### Started by the Shop
+
+<Steps>
+  <Step title="The shop ends its own session first">
+    Before it involves you.
+  </Step>
+  <Step title="The shop sends the customer to your logout URL">
+    With `returnUrl` for where it wants them back, and `nuSessionEnded=1` to say its session has already ended. Both are appended to whatever query string or fragment your configured URL already carries.
+  </Step>
+  <Step title="You end your session and return them">
+    Send them to that `returnUrl`. Because `nuSessionEnded=1` is present, there is nothing left to close on our side.
+  </Step>
+</Steps>
+
+### Started by You
+
+<Steps>
+  <Step title="You end your own session">
+    The shop still has one open.
+  </Step>
+  <Step title="Send the customer to the shop's end-session endpoint">
+    `/auth/end-session` on the shop's origin, with `redirect` set to where you want them returned.
+  </Step>
+  <Step title="The shop ends its session and returns them">
+    To your `redirect`, without calling your logout URL back.
+  </Step>
+</Steps>
+
+<Note>
+`nuSessionEnded=1` is what lets a single endpoint serve both directions. Present, it means the shop has already closed its session and you only need to close yours. Absent, you are the side that started the sign-out and the shop's session is still open.
+</Note>
+
+<Warning>
+When you start the sign-out, use `/auth/end-session` rather than the shop's normal sign-out. Normal sign-out calls your logout URL, which would send the customer back to end the shop's session again. `/auth/end-session` ends only the shop's session.
+</Warning>
+
+## Changing an Email Address or Password
+
+These live with you because the shop holds neither.
+
+- **Changing an email address with you does not notify the shop.** It picks the new address up on the customer's next sign-in, matched on the external identifier, and updates the customer it already holds. This depends on you sending `customerSsoId`.
+- **A blank URL removes the journey.** The shop does not fall back to its own fields; the option is not offered.
+
+To push profile changes across immediately rather than waiting for the next sign-in, the [customers API](/api-reference/customers/update-customer) can update a customer directly. See [Managing Customers](/core-platform/customer-management/managing-customers).
+
+## Pre-authenticating an Embedded Shop
+
+Sending a customer to your provider is a full-page journey, so a shop running in a frame lifts the customer out to you and returns them afterwards.
+
+To have an embedded shop render already signed in, hand us the identity directly with a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) — your site already knows who is signed in, and no navigation is needed.
+
+Most delegated integrations use both: the provider for full-page visits, pre-authentication for frames.
+
+## Details Worth Getting Right
+
+<AccordionGroup>
+
+<Accordion title="The two legs use different parameter names">
+  Sign-in arrives as `redirect_url`. Sign-out arrives as `returnUrl`. They are not interchangeable.
+</Accordion>
+
+<Accordion title="Your endpoints have to be reachable from two places">
+  The customer's browser has to reach all of your configured URLs, and our servers have to reach the sign-in endpoint. A local hostname or an internal-only host works only against a shop on the same network.
+</Accordion>
+
+<Accordion title="Send the name as well as the email">
+  `name` is optional, but without it a newly created customer has no name on record, which shows up in confirmation emails and at the box office. Send it on every call and it stays synchronised.
+</Accordion>
+
+<Accordion title="Sign-in traffic counts against the API rate limit">
+  Every sign-in is an API call against the company's rate limit. A busy on-sale where many customers sign in at once can reach that ceiling, so establish your expected peak and ask for the limit to be raised in advance. See [Getting Set Up](/integrate/getting-access#rate-limits).
+</Accordion>
+
+<Accordion title="Handle the API call failing">
+  Your authorisation endpoint sits mid-redirect with a customer waiting. If the API call fails — network, rate limit, validation — have somewhere to send them and something to tell them.
+</Accordion>
+
+<Accordion title="Keep your identifiers unique">
+  If the same `customerSsoId` ends up on more than one customer record, the call is rejected with *"This customer SSO ID is associated with multiple customers."* and sign-in stops working for that person.
+
+  Use the [customers API](/api-reference/customers/retrieve-customers) to audit what we hold if you suspect drift.
+</Accordion>
+
+</AccordionGroup>
+
+## Try It
+
+The [external SSO scenario](https://integration-playground.nuwebgroup.com/scenarios/external-sso) in the integration playground is a working External provider.
+
+Point a company's customer SSO settings at it and you can walk first sign-in, returning sign-in, guest upgrade and both directions of sign-out — useful for comparing against your own implementation.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Pre-authenticating a Session" icon="key" href="/integrate/identity/pre-authentication">
+    The API call this flow depends on, and the token for frames
+  </Card>
+  <Card title="Signing Customers In" icon="user-lock" href="/integrate/identity/overview">
+    How delegation compares to the alternatives
+  </Card>
+  <Card title="Customer Accounts" icon="user" href="/core-platform/ticket-shop/customer-accounts">
+    What changes in the shop's account area
+  </Card>
+  <Card title="Managing Customers" icon="users" href="/core-platform/customer-management/managing-customers">
+    The customer record your identity maps onto
+  </Card>
+</CardGroup>

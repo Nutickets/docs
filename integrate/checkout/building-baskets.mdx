@@ -1,0 +1,205 @@
+---
+title: "Building Baskets with the API"
+description: "Build a basket through the API, then hand the customer to our checkout."
+---
+
+## Overview
+
+Your system decides *what* the customer is buying; the platform handles *taking the money*. You get your own buying UI without owning checkout, payment, tax, fees or receipts.
+
+It fits three situations:
+
+- **Your own basket UI.** You have built the selection experience — a package builder, a membership renewal, a multi-event journey — and you want our checkout at the end of it.
+- **A partial embed.** You embed only the [seating plan](/core-platform/seating-plans/introduction), listen for what the customer picks, and turn those selections into a basket yourself.
+- **A basket that follows from a rule rather than a choice.** An entitlement, a renewal, a partner feed, an allocation. Nobody browsed; your system already knows the answer.
+
+The shape is the same in all three: build the basket with one API call, then hand it back to the shop.
+
+## Creating the Basket
+
+Everything happens through [Add To Basket](/api-reference/baskets/add-to-basket). Called without a `basketId`, it creates a basket; called with one, it adds to that basket. Because basket and order identifiers are interchangeable, the identifier you get back is the one you keep using.
+
+```json
+{
+  "customerEmail": "customer@example.com",
+  "customerName": "Alex Morgan",
+  "generateBasketUrl": true,
+  "items": [
+    { "id": 4821, "quantity": 2 }
+  ]
+}
+```
+
+### Saying Whose Basket It Is
+
+You have three ways to identify the customer, and they resolve in this order:
+
+| Supply | Behaviour |
+|--------|-----------|
+| `basketId` | Adds to that existing basket. Customer fields are ignored entirely. |
+| `customerId` | Adds to that customer's basket, creating one if they have none. |
+| `customerEmail` + `customerName` | Finds the customer, or creates one if no match exists. |
+
+For companies using an external identity system, `customerSsoId` can accompany either of the latter two, so the basket attaches to the right customer even when the email address on your side has changed. See [Signing Customers In](/integrate/identity/overview).
+
+Leaving all of them out creates an anonymous basket, which is fine when the customer will identify themselves in our checkout.
+
+Where you already know who they are, supplying the customer up front makes their order history, [account balance](/core-platform/account-balances/top-ups) and saved details available at checkout.
+
+### Describing the Items
+
+Each entry in `items` needs an `id` — the sale item identifier, which you can look up with [Retrieve Sale Items](/api-reference/sale-items/retrieve-sale-items). Beyond that:
+
+| Field | Use it for |
+|-------|-----------|
+| `quantity` | Standard items. Required unless the item is variable or custom priced. |
+| `amount` | Variable and custom priced items, in the smallest currency unit. Omit `quantity`. |
+| `spaceId` | Seated items — the specific space being booked. See below. |
+| `bestAvailableSeats` | Let the platform pick seats, for events with best available seats enabled. Optionally constrain with `areaId`. |
+| `orderItemId` | Adding a [resale](/core-platform/resale/introduction) item instead of a primary one. |
+| `preventBasketModification` | Stop the customer removing or reducing this line in the shop. Increasing quantity is still allowed. |
+
+<Note>
+`preventBasketModification` stops a customer unpicking a basket your business rules composed — an entitlement bundle, a fixed package. It is set per item rather than per basket, so you can lock the mandatory parts and leave optional extras editable.
+</Note>
+
+### Currency
+
+Pass `currencyId` on the call that creates the basket if you need a specific currency; it must be one the company has enabled, and it is ignored once a basket exists. See [Supported Currencies](/core-platform/core/supported-currencies).
+
+## From an Embedded Seating Plan to a Basket
+
+The join between the embedded plan and the API is the part worth spelling out.
+
+<Steps>
+  <Step title="Embed the plan, not the event page">
+    Point the frame at `/events/{id-or-slug}/seating-plan`. Seat and area selection events only ever come from a seat map — a plain event page will send you nothing. See [Embedding the Shop](/integrate/checkout/embedding#variation-4-embedding-one-component).
+  </Step>
+  <Step title="Accumulate selections on your page">
+    Listen for `seatSelected`, `seatUnselected`, `GASelected` and `GAUnselected`, keeping your own list. Nothing is reserved yet — the plan is reporting intent, not holding stock.
+  </Step>
+  <Step title="Read the space identifier out of the payload">
+    Each event carries the selected object, wrapped by kind. The identifier the basket API wants is the **space** identifier nested inside it: `detail.seat().space.id` for seats, `detail.ga().space.id` for general admission areas.
+  </Step>
+  <Step title="Send the identifiers to your own server">
+    Post your accumulated list to your backend. The API call must be server-to-server — your token must never reach the browser.
+  </Step>
+  <Step title="Create the basket">
+    One `items` entry per space, each carrying `spaceId`. General admission spaces also take a `quantity`; individual seats do not.
+  </Step>
+</Steps>
+
+```json
+{
+  "generateBasketUrl": true,
+  "items": [
+    { "spaceId": 90211 },
+    { "spaceId": 90212 }
+  ]
+}
+```
+
+<Warning>
+The plan's events describe what the customer selected. Whether the basket is valid is decided when you create it — per-item limits, basket size, sale periods, [customer group](/core-platform/customer-management/customer-groups) restrictions and availability are all enforced at that point.
+
+Handle the API's validation errors in your own UI, including two customers selecting the same seat and only one call succeeding.
+</Warning>
+
+<Note>
+Seating plan availability inside the frame refreshes on an interval rather than in real time — every 10 seconds by default in the shop. A seat can look available for a few seconds after somebody else has taken it. See [Caching](/core-platform/technical/caching#seating-plan-availability).
+</Note>
+
+## Handing the Basket Back
+
+Add `generateBasketUrl: true` and the response includes `startBasketUrl` — a signed URL that drops the customer into the shop with the basket loaded and ready. **This needs the Basket links feature enabled for the company**; see [Basket Links](/core-platform/technical/basket-links).
+
+You have three ways to use it, and they are interchangeable from the platform's point of view:
+
+| Hand-off | When it fits |
+|----------|-------------|
+| **Full redirect** | Your journey ends at checkout. The customer leaves your site and finishes on the shop. |
+| **Load it into a frame** | You want checkout inside a page of yours. Point an ordinary frame at the URL. |
+| **Store it and use it later** | The basket is built ahead of the customer arriving — a renewal reminder, a held allocation. Mind the basket timer. |
+
+Because the link identifies the basket explicitly, it is also the simplest way to carry a basket between two of your own pages, or across different domains. See [Carrying the Basket Across Pages](/integrate/checkout/session-continuity).
+
+### What Happens When the Customer Follows It
+
+The signature is validated and the basket confirmed as still active. A registered customer is signed in automatically.
+
+Any *other* active basket they have is expired, the pre-built basket is loaded into their session, and they land on the basket page ready to continue.
+
+From there it is an ordinary purchase: they can apply [discount codes](/core-platform/basket-codes/discount-codes) or [access codes](/core-platform/basket-codes/access-codes), add or remove items unless you locked them, and go through [checkout](/core-platform/ticket-shop/checkout) and payment.
+
+### Bringing Them Back Afterwards
+
+Set `successRedirectUrl` and `failureRedirectUrl` when you create the basket and the customer returns to you rather than stopping on our confirmation page:
+
+| Outcome | Where they go | Parameters they arrive with |
+|---------|---------------|----------------------------|
+| Checkout completed | `successRedirectUrl` | `order_id`, `customer_id` |
+| Payment failed | `failureRedirectUrl` | `basket_id`, `customer_id` |
+
+<Warning>
+These control where the browser goes; they are not a record of the sale. A customer who closes the tab never reaches your success URL, and the parameters arrive from the browser rather than from us.
+
+Confirm the order server-side before granting anything — with the [Order completed webhook](/core-platform/technical/webhooks), or by reading it back with [Retrieve Order](/api-reference/orders/retrieve-order).
+</Warning>
+
+## Managing a Basket Before Hand-Off
+
+Between creating a basket and handing it over, you can keep working on it:
+
+| Operation | Endpoint |
+|-----------|----------|
+| Read its current contents and totals | [Retrieve Basket](/api-reference/baskets/retrieve-basket) |
+| Change a line's quantity | [Update Basket Item](/api-reference/baskets/update-basket-item) |
+| Remove a line | [Remove Basket Item](/api-reference/baskets/remove-basket-item) |
+| Apply a discount code | [Apply Basket Discount](/api-reference/baskets/apply-basket-discount) |
+| See what data capture the basket requires | [Data Capture](/api-reference/baskets/data-capture) |
+| Abandon it and release the stock | [Expire basket](/api-reference/baskets/expire-basket) |
+
+`Retrieve Basket` is where fees, tax and totals come from. If your UI shows a price, take it from there rather than computing it.
+
+[Fees](/core-platform/fees/default-system-fees), [tax bands](/core-platform/tax/tax-bands) and [all-in pricing](/core-platform/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
+
+Passing `cancelExistingBasket` alongside a `basketId` expires that basket and issues a new one, which is the clean way to start a customer over rather than unpicking their items individually.
+
+<Warning>
+The reservation clock starts when you create the basket, not when the customer arrives. Build it as late as you reasonably can, and handle the expired case. [Sessions & Cookies](/core-platform/technical/sessions) covers the timer, extensions and recovery.
+</Warning>
+
+## Data Capture
+
+If the items require [data capture](/core-platform/data-capture/introduction) — attendee names, dietary requirements, membership numbers — the shop asks for it during checkout.
+
+To collect it in your own UI instead, submit responses with [Capture Response](/api-reference/data-capture/capture-response) before handing over and the customer is not asked twice.
+
+## Going Further
+
+If you do not want to hand back to our checkout at all — because you are taking payment yourself, or there is no customer present — the same basket becomes an order through the API. See [Completing Orders with the API](/integrate/checkout/api-checkout).
+
+## Try It
+
+Three playground scenarios cover the paths on this page:
+
+- [Seating plan and basket API](https://integration-playground.nuwebgroup.com/scenarios/seating-plan) — builds a basket from seats picked in an embedded plan
+- [Partial API](https://integration-playground.nuwebgroup.com/scenarios/partial-api) — builds one server-side and hands off by redirect
+- [Modal picker to basket-link resume](https://integration-playground.nuwebgroup.com/scenarios/modal-basket-resume) — hands off into a frame instead
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Basket Links" icon="link" href="/core-platform/technical/basket-links">
+    Signed basket URLs, security and restrictions
+  </Card>
+  <Card title="Completing Orders with the API" icon="receipt" href="/integrate/checkout/api-checkout">
+    Skip our checkout entirely
+  </Card>
+  <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
+    Why basket links beat cookies
+  </Card>
+  <Card title="Basket" icon="basket-shopping" href="/core-platform/ticket-shop/basket">
+    What the customer sees when they arrive
+  </Card>
+</CardGroup>

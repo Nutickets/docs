@@ -75,6 +75,16 @@ Each message is identified by a property on `event.data`. A single message never
 | Basket expiry | `event: 'expire'` | The customer's basket timed out |
 | Tracking | `nuTracker: true` | A customer action worth tracking occurred |
 | Seating plan | `planReady`, `seatSelected`, `seatUnselected`, `GASelected`, `GAUnselected`, `error` | Seating plan state changed |
+| Handshake request | `nuRequestHandshake: true` | The shop is asking the host page to identify itself |
+| Session identifier | `nuSid` | The shop's current session identifier, sent only to a host page that answered the handshake |
+
+### The Session Handshake
+
+These two messages let a host page continue a customer's basket in a page of its own.
+
+On load the shop posts `nuRequestHandshake`. The embed script replies with `{ nuHandshake: true, parentHref }`, and the shop then posts `{ nuSid: '<identifier>' }` — repeating it as the customer moves around inside the frame, so the value the host page holds stays current. A host page that does not answer the handshake is not sent an identifier.
+
+[Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers what to do with it.
 
 ### Which Host Page Receives Each Message
 
@@ -336,6 +346,7 @@ Pixel shaped messages are only sent when the pixel is enabled with an ID for tha
 ## Related
 
 - [Website Integration](/core-platform/technical/iframe-embeds)
+- [Embedding the Shop](/integrate/checkout/embedding) — the embed variations these messages support, and how to configure each
 - [Tracking and Analytics](/core-platform/integrations/tracking-and-analytics)
 - [Google Tag Manager](/core-platform/integrations/google-tag-manager)
 - [Sessions](/core-platform/technical/sessions)

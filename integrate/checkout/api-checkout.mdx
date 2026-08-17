@@ -1,0 +1,178 @@
+---
+title: "Completing Orders with the API"
+description: "Create and complete orders through the API, with no shop UI."
+---
+
+## Overview
+
+No shop UI at all. Your system creates the basket, handles payment, and writes a completed order through the API.
+
+Tickets are issued, confirmation emails go out, reporting and access control work as normal. The platform becomes a system of record rather than a storefront.
+
+Use it when buying does not look like a ticket checkout:
+
+- A membership renewal or subscription cycle that issues entitlements
+- An internal allocation or comp-issuing tool
+- A partner or agency system with its own commercial flow
+- A kiosk or point-of-sale application of your own
+- Migrating historical orders in from another system
+
+Not when a customer is sitting in a browser choosing tickets — that means reimplementing fees, tax, data capture, approvals, refund protection and the payment edge cases. [Handing back to our checkout](/integrate/checkout/building-baskets) covers the same ground with far less to maintain.
+
+<Warning>
+Read [Building Baskets with the API](/integrate/checkout/building-baskets) first. Everything about composing a basket applies here unchanged — this page only covers turning that basket into a completed order.
+</Warning>
+
+## Two Shapes of the Same Thing
+
+### One Call
+
+Add `autocomplete: true` and a `paymentMethod` to [Add To Basket](/api-reference/baskets/add-to-basket) and the basket and the completed order are created together:
+
+```json
+{
+  "customerEmail": "member@example.com",
+  "customerName": "Alex Morgan",
+  "autocomplete": true,
+  "paymentMethod": "complimentary",
+  "uuid": "renewal-2026-8814",
+  "items": [
+    { "id": 4821, "quantity": 1 }
+  ]
+}
+```
+
+This is the shape to use when nothing happens between deciding and completing — an allocation, a comp, a renewal charged elsewhere.
+
+<Note>
+Pass `uuid` whenever you use `autocomplete`. It is an idempotency key, so a call you are unsure landed can be retried without creating a second order.
+
+Do not use `uuid` to build up a basket across several calls — that is what `basketId` is for.
+</Note>
+
+### Two Calls
+
+Build the basket first, then complete it with [Complete Order](/api-reference/orders/complete-order). Use this shape when something has to happen in between: a payment you need to take, an approval, a customer confirming.
+
+```json
+{
+  "basketId": 88213,
+  "paymentMethod": "cash"
+}
+```
+
+Basket and order identifiers are interchangeable, so the identifier you got when you created the basket is the one you complete.
+
+## Payment Methods
+
+`paymentMethod` determines how the transaction is recorded and, for some methods, whether money actually moves.
+
+| Method | What it means |
+|--------|---------------|
+| `cash`, `bank`, `cheque`, `money-order` | Payment taken outside the platform. Recorded, not processed. |
+| `complimentary` | No payment. |
+| `gift-card` | Settled against a gift card. |
+| `card-not-present-offline`, `card-present-offline` | A card payment taken on your own equipment and recorded here. |
+| `card-not-present-online`, `card-present-online` | A card payment processed through the platform's gateway. Needs the payment flow below. |
+| `ewallet-online` | Settled against the customer's [account balance](/core-platform/account-balances/top-ups). Requires `customerId`, and a `source` identifying the wallet (an `nfc_tag` or an `order_item`). |
+| `split` | Several methods on one order. Supply `paymentSplits`; the amounts must sum exactly to the order total. See [Split Payments](/core-platform/payments/split-payments). |
+
+The `-offline` methods are the reason a lot of API integrations are simpler than they expect: if you have already taken the money, you are recording a fact, not processing a payment.
+
+Deposits are supported through `paymentPlan` with type `deposit`, which takes a partial payment now and leaves a balance outstanding. See [Deposit Payments](/core-platform/payments/deposit-payments).
+
+## Taking a Card Payment Online
+
+There is no hosted checkout to redirect to here, so you drive the payment yourself.
+
+<Steps>
+  <Step title="Create the basket">
+    As normal, without `autocomplete`.
+  </Step>
+  <Step title="Create a payment intent">
+    [Create Payment Intent](/api-reference/payments/create-payment-intent) prepares the payment against the basket and returns what you need to confirm it client-side. Set `cardPresent` for in-person payments, or `interacPresent` for Interac in Canada.
+  </Step>
+  <Step title="Confirm the payment in the customer's browser or on your terminal">
+    Using the payment provider's own client SDK. Card-present flows also need a [connection token](/api-reference/payments/retrieve-connection-token) for the reader.
+  </Step>
+  <Step title="Complete the order">
+    Call [Complete Order](/api-reference/orders/complete-order) with the `basketId`, the `transactionId` from the intent, and `capture: true` so the endpoint captures the payment as part of completion.
+  </Step>
+</Steps>
+
+<Warning>
+**The Payments API currently supports Stripe only.** If the company's gateway is anything else, online card payment through the API is not available — take the payment outside the platform and record it with an `-offline` method, or hand the customer to our checkout with a [basket link](/core-platform/technical/basket-links) instead. See [Payment Processors](/core-platform/payments/payment-processors) for what each gateway supports.
+</Warning>
+
+<Note>
+`capture` defaults to `false` for backwards compatibility, so omitting it completes the order against an uncaptured payment. Set it explicitly. If capture cannot be confirmed, the call returns a `422`, the order stays incomplete, and the transaction stays open for retry.
+</Note>
+
+## Controlling the Side Effects
+
+Completing an order normally triggers everything a shop purchase would. Two flags let you suppress that when the order is not really a purchase:
+
+| Flag | Effect |
+|------|--------|
+| `inhibitConfirmationEmail` | No order confirmation email. Only applies with `autocomplete`. |
+| `inhibitApprovalEmail` | No [guest list](/core-platform/sale-items/guest-lists) approval email, when an approval-requiring item is auto-approved. |
+
+Per-item, `autoApprove` handles items that would otherwise be held for approval — it bypasses paid-approval requirements on ordinary items, and auto-approves guest list entries that need approval. And `secureBarcodeDisabled` controls [secure barcode](/core-platform/event-management/secure-barcodes) issuance per line.
+
+If you suppressed the confirmation and later need to send it, [Send Order Confirmation Email](/api-reference/orders/send-order-confirmation-email) does that on demand.
+
+<Note>
+Bulk work — a renewal run, a migration — should use `async=true` rather than a burst of synchronous calls. Page size rises from 100 to 1000, and polling does not count against your rate limit. See [Getting Set Up](/integrate/getting-access#large-or-high-volume-requests).
+</Note>
+
+## How These Orders Behave Afterwards
+
+An API-created order is an ordinary order. It appears in the admin area, its tickets scan at the gate, and it can be refunded, modified and reported on like any other. Two differences are worth knowing about.
+
+**They are recorded on the API sales channel.** Every order carries the channel it originated from, and API-created orders are marked as **API**. That makes them separable in reporting — filter by sales channel in the [order reports](/core-platform/reporting/default-reports) to see your integration's volume distinctly from web and box office sales. See [Sales Channels](/core-platform/information/sales-channels).
+
+**They are priced like box office sales.** Where an item has box-office-specific pricing configured, an API basket picks up that price rather than the web price — an API integration is treated as a staffed or systemic channel rather than a public storefront. Check the [pricing](/core-platform/sale-items/core-concepts) configured for the items you are selling.
+
+Refunds work through the API too, whole-order with [Refund Order](/api-reference/orders/refund-order) or line-by-line with [Refund Order Items](/api-reference/orders/refund-order-items). [Refunds and Cancellations](/core-platform/order-management/refunds-and-cancellations) covers the rules that apply either way.
+
+## What You Are Taking On
+
+These are the things our checkout does that an API-driven purchase does not get:
+
+| The shop handles | You now handle |
+|------------------|----------------|
+| Presenting fees and tax correctly before payment | Reading totals back from [Retrieve Basket](/api-reference/baskets/retrieve-basket) rather than computing them |
+| Collecting [data capture](/core-platform/data-capture/introduction) answers | Submitting them with [Capture Response](/api-reference/data-capture/capture-response), or accepting incomplete records |
+| Basket timers, warnings, extension and recovery | Completing before the basket expires |
+| [Waiting rooms](/core-platform/ticket-shop/waiting-rooms) under peak load | Living within API rate limits instead |
+| Validation messages a human can act on | Mapping validation errors into your own UI |
+| Offering [refund protection](/core-platform/refund-protection/protect-group), add-ons and upsells | Nothing — those revenue lines are simply absent |
+
+Take totals from the API rather than calculating them. [Fees](/core-platform/fees/default-system-fees), [tax bands](/core-platform/tax/tax-bands), [conditional tax](/core-platform/tax/conditional-tax-bands) and [all-in pricing](/core-platform/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
+
+## A Lighter Alternative
+
+If payment is the only reason for taking this model, there is a smaller step: build the basket through the API and hand the customer to our checkout for the payment step alone.
+
+You keep your own buying UI and business rules; we keep responsibility for checkout. See [Building Baskets with the API](/integrate/checkout/building-baskets#handing-the-basket-back).
+
+## Try It
+
+The [full API scenario](https://integration-playground.nuwebgroup.com/scenarios/full-api) in the integration playground creates a basket and a completed order in a single call with no frame involved, so you can see the response shape before building against it.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
+    Everything about composing the basket
+  </Card>
+  <Card title="Payment Lifecycle" icon="credit-card" href="/core-platform/payments/payment-lifecycle">
+    How transactions move between states
+  </Card>
+  <Card title="Order Management" icon="receipt" href="/core-platform/order-management/core-concepts">
+    What happens to an order after completion
+  </Card>
+  <Card title="Getting Data Out" icon="database" href="/integrate/data/extracting-data">
+    Reconciling orders back into your systems
+  </Card>
+</CardGroup>

@@ -1,0 +1,111 @@
+---
+title: "Integrating with the Platform"
+description: "How to connect your site or system to the platform."
+---
+
+This section is for developers building something that talks to the platform — a discovery site that hands off to our checkout, an embedded shop, a basket built through the API, a data warehouse, an access control layer.
+
+For how a feature behaves in the admin area, see [Core Platform](/core-platform/get-started/introduction).
+
+## What You Can Connect To
+
+Four surfaces. Most integrations use more than one.
+
+<CardGroup cols={2}>
+  <Card title="The ticket shop" icon="browser">
+    The customer-facing storefront, running on your own domain and branding if you want it to. You can link to it, embed parts of it, or embed all of it.
+  </Card>
+  <Card title="The embed layer" icon="frame">
+    A script and a message channel that let an embedded shop and the page hosting it talk to each other — seat selections out, commands in, control of when the frame opens and closes.
+  </Card>
+  <Card title="The REST API" icon="code">
+    Read and write access to events, sale items, baskets, orders, customers, wallets, seating plans, access control and reporting. Mirrors what the admin area can do.
+  </Card>
+  <Card title="Data out" icon="database">
+    Webhooks for real-time events, the reporting API for pulling report data on demand, and scheduled delivery of report files to your own storage.
+  </Card>
+</CardGroup>
+
+## How Much Do You Want to Own?
+
+Almost every design decision follows from this one question.
+
+At one end you own discovery and nothing else: a customer clicks a link and completes the purchase on our shop.
+
+At the other you own everything — basket UI, checkout, payment — and the platform is a system of record you write orders into.
+
+```
+You own less                                                                  You own more
+|-------------------|-------------------|-------------------|-------------------|
+Link to             Embed the           Embed one           Your basket,        Everything
+the shop            whole shop          component           our checkout        via API
+```
+
+Moving right buys you control over look, feel and flow. It also moves work onto you: basket rules, availability, pricing, fees, tax, payment handling, and the edge cases our checkout already handles. Moving left costs you control and buys back all of that.
+
+### Start From the Left
+
+Our recommendation is to take the simplest option that meets the requirement, and to be sceptical of moving right without a concrete reason.
+
+The lighter models are not a compromise. The shop runs on [your own domain](/core-platform/utilities/custom-urls), with [your branding](/core-platform/cms/theme-and-branding) and [your navigation](/core-platform/cms/menus).
+
+To the person buying, a well-configured redirect is often indistinguishable from a bespoke integration — with fewer moving parts on both sides.
+
+That compounds. Every capability we add to checkout — payment methods, add-ons, [refund protection](/core-platform/refund-protection/protect-group), accessibility improvements — reaches your customers for free. Anything you rebuild yourself, you maintain yourself.
+
+Move right when there is something you cannot express in the shop: a buying UI your product depends on, business rules that decide what goes in the basket, or a purchase that does not look like a ticket checkout. [Choosing an Integration Model](/integrate/integration-models) walks through each option.
+
+## How This Section Is Organised
+
+<Steps>
+  <Step title="Decide on an approach">
+    [Choosing an Integration Model](/integrate/integration-models) compares every option side by side and points you at the pages that go deeper.
+  </Step>
+  <Step title="Get set up">
+    [Getting Set Up](/integrate/getting-access) covers tokens, permissions, company scoping, rate limits and features.
+  </Step>
+  <Step title="Build the buying journey">
+    **Checkout Journeys** takes each approach in turn: [linking out](/integrate/checkout/linking-out), [embedding](/integrate/checkout/embedding), [carrying a basket across pages](/integrate/checkout/session-continuity), [building baskets](/integrate/checkout/building-baskets), [completing orders](/integrate/checkout/api-checkout).
+  </Step>
+  <Step title="Deal with sign-in">
+    **Identity & Accounts** covers where a customer's identity lives: with the shop, [handed to us per session](/integrate/identity/pre-authentication), or [with your own provider](/integrate/identity/external-provider).
+  </Step>
+  <Step title="Connect everything else">
+    [Access Control Integrations](/integrate/operations/access-control) covers building your own scanning or entry layer. [Getting Data Out](/integrate/data/extracting-data) covers webhooks, the reporting API, and scheduled file delivery.
+  </Step>
+</Steps>
+
+## Before You Start Building
+
+<AccordionGroup>
+
+<Accordion title="Baskets hold stock for a limited time">
+  Adding items reserves stock for a limited time — 10 minutes by default, set per company. Any integration that builds a basket and then takes the customer elsewhere should assume the clock is running. See [Sessions & Cookies](/core-platform/technical/sessions).
+</Accordion>
+
+<Accordion title="Your API token carries a user's permissions">
+  A token can do what its creator can do, filtered by the same roles and [visibility groups](/core-platform/system-access/visibility-groups). Create a dedicated user with only the permissions your integration needs.
+</Accordion>
+
+<Accordion title="Some options need a feature enabled first">
+  Basket links, website integration, webhooks and report publishing each need a feature switched on. [Getting Set Up](/integrate/getting-access#features-you-may-need-enabled) lists which approach needs what.
+</Accordion>
+
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Choosing an Integration Model" icon="signs-post" href="/integrate/integration-models">
+    Compare every approach and its trade-offs
+  </Card>
+  <Card title="Getting Set Up" icon="key" href="/integrate/getting-access">
+    Tokens, permissions, limits and features
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Every endpoint, executable in the browser
+  </Card>
+  <Card title="Webhook Reference" icon="bell" href="/webhook-reference">
+    Payloads for every webhook event
+  </Card>
+</CardGroup>

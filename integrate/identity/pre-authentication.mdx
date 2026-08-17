@@ -1,0 +1,190 @@
+---
+title: "Pre-authenticating a Session"
+description: "Sign a customer into the shop from your own server."
+---
+
+## Overview
+
+When your site already knows who the customer is, one API call turns that identity into a shop session they are already inside.
+
+One endpoint — [Customer Single Sign-On](/api-reference/authentication/customer-single-sign-on) — returns two credentials, for two situations:
+
+| Credential | Shape | Use it for |
+|------------|-------|-----------|
+| A signed sign-in URL | Single use, valid for one minute | A redirect. The customer navigates to it and lands signed in. |
+| A customer token | Reusable, valid for 24 hours | A frame. Append it to any shop URL and the page renders already signed in. |
+
+The token is the one to use for embedded journeys: because nothing has to navigate, the frame renders signed in with no sign-in step.
+
+<Warning>
+This endpoint takes your word for who the customer is. Call it **server-side only**, from a request you have already authenticated.
+
+Your API token must never reach the browser, and neither must the sign-in URL or customer token for anyone other than the customer they belong to.
+</Warning>
+
+## Making the Call
+
+```
+POST /v1/customers/single-sign-on
+```
+
+```json
+{
+  "email": "customer@example.com",
+  "name": "Alex Morgan",
+  "customerSsoId": "crm-88421",
+  "redirect": "/basket"
+}
+```
+
+| Field | Required | Purpose |
+|-------|----------|---------|
+| `email` | Yes | The customer's email address. |
+| `name` | No | Used when creating a new customer, and synchronised onto an existing one. |
+| `customerSsoId` | No | Your own stable identifier for this person. Recommended — see below. |
+| `redirect` | No | Where the signed URL should land the customer. |
+
+The customer is created if we do not hold them, and updated with whatever else you supplied if we do. The token used for the call needs permission to create customers.
+
+### The Response
+
+```json
+{
+  "customerId": 1,
+  "url": "https://tickets.example.com/?signature=xyz&user=1",
+  "customerToken": "1|abc123",
+  "customerTokenExpiresAt": "2026-07-29T12:00:00.000000Z"
+}
+```
+
+Keep `customerId` — it is what you use to attach [baskets](/integrate/checkout/building-baskets#saying-whose-basket-it-is) and orders to this customer, and to read them back with [Retrieve Customer](/api-reference/customers/retrieve-customer).
+
+## Use Your Own Identifier, Not the Email Address
+
+`customerSsoId` is optional and worth sending.
+
+Without it, the email address is the identity, so a customer who changes their address on your side looks like a different person on the next call: a second customer record appears and the original keeps the order history.
+
+With it, your identifier is the identity and the email address becomes a mutable attribute. If the address we hold differs from the one you send, we update ours.
+
+<Note>
+Supply it from the first call for a given customer. On first use against a customer we already hold by email, the identifier attaches to that existing record — so adopting it later works, while the email addresses still line up.
+</Note>
+
+The same identifier is accepted by the [basket](/api-reference/baskets/add-to-basket) and [order completion](/api-reference/orders/complete-order) endpoints, so you can identify a customer consistently across everything your integration does.
+
+### Validation Responses
+
+| Response | Cause |
+|----------|-------|
+| *Customer SSO ID provided but SSO is disabled.* | The company has no customer SSO configured. External identifiers apply alongside a configured provider — see [Signing Customers In](/integrate/identity/overview#getting-it-configured). |
+| *This customer SSO ID is associated with multiple customers.* | The identifier is not unique in our records. Resolve the duplicates before retrying. |
+| *A customer with this email address already exists.* | The identifier resolved to one customer but the email you sent belongs to a different one. |
+
+## Option 1: The Signed Sign-In URL
+
+`url` is a one-minute, single-use signed URL. Redirect the customer's browser to it and they arrive signed in.
+
+The one-minute window is sized for redirecting a browser that is already waiting, so use it immediately rather than emailing, queueing or storing it.
+
+Set `redirect` to control where they land. It is honoured only if it points at the shop's own domain; anything else falls back to the customer's account page. A relative path such as `/basket` is the simplest correct value.
+
+Use this when:
+
+- Your site is handing off with a full navigation — a **Buy tickets** link for a signed-in member
+- You are running an [external identity provider](/integrate/identity/external-provider) and this is the final leg of the sign-in round trip
+
+It is not suited to a frame: the URL cannot be reused, so you would need a fresh API call on every render.
+
+## Option 2: The Customer Token
+
+`customerToken` is reusable for 24 hours. Append it to any shop URL as `customer_token` and the customer is signed in before the page renders:
+
+```
+https://tickets.example.com/events/summer-festival-2026?showItems=1&customer_token=1|abc123
+```
+
+You call the API once, hold the token alongside the customer's session on your side, and reuse it on every shop URL you render.
+
+<Steps>
+  <Step title="Call the endpoint once, when your customer signs in">
+    Store `customerToken` and `customerTokenExpiresAt` against their session on your side.
+  </Step>
+  <Step title="Append the token to every shop URL you render">
+    Frames, links, whatever. Reuse the same token.
+  </Step>
+  <Step title="Refresh when it expires">
+    Check `customerTokenExpiresAt` before use and call the endpoint again if it has passed.
+  </Step>
+</Steps>
+
+Once accepted, the shop removes the token from the address before rendering, so it does not remain in the browser's address bar or history.
+
+### Tokens Belong to One Browsing Session
+
+A token is tied to the browsing session that first uses it. Presented from a different browser it is ignored: the visitor simply continues as a guest, and any session they already had is untouched.
+
+That shapes how you cache them:
+
+- **Mint one per customer browsing session**, not one per customer account.
+- **Call the endpoint again if a sign-in does not take.** It is a cheap call, and a customer who has changed context needs a new token.
+- **Do not put a token in an email or a link that will be opened later.** By then it belongs to a different browsing session.
+
+An expired or unrecognised token is ignored the same way — the request proceeds and normal session handling applies.
+
+So a stale token in a bookmark will not break the page, but a mistake also fails quietly. If a customer is unexpectedly a guest, check the token first.
+
+### Revoking a Token
+
+Signing out of the shop does not revoke the token and does not notify you. If your site continues appending the same token afterwards, the customer is signed back in.
+
+So stop sending the token once it should no longer apply — when the customer signs out of *your* site, when their session ends, or when their access is withdrawn. Where you need the token itself dead rather than unused, revoke it:
+
+```
+DELETE /v1/customers/token
+```
+
+```json
+{ "customerToken": "1|abc123" }
+```
+
+This is idempotent and returns `204` whether the token was live, already revoked, unknown, or belonged to another company, so it is always safe to repeat. It sits under **Authentication** in the [API reference](/api-reference/introduction).
+
+## Choosing Between Them
+
+| Situation | Use |
+|-----------|-----|
+| Rendering an embedded frame for a signed-in customer | Customer token |
+| A link or button that navigates the whole browser | Signed URL |
+| The final leg of an external SSO round trip | Signed URL |
+| Several frames across several of your pages | Customer token, reused |
+| A link inside an email or a notification | Neither — the signed URL expires in a minute, and a token belongs to a browsing session that is not the reader's. Link to the shop and let them sign in. |
+
+Nothing stops you using both — a token for frames and a signed URL for top-level hand-offs — from the same call.
+
+## Pre-authentication and the Basket
+
+Pass the `customerId` you got back when you [create a basket](/integrate/checkout/building-baskets#saying-whose-basket-it-is) and the basket belongs to that customer from the outset, so their account balance and saved details are available at checkout.
+
+Following a [basket link](/core-platform/technical/basket-links) already signs in a registered customer, so a basket link plus a customer token is usually redundant. Use the token for frames the customer arrives at without one.
+
+## Try It
+
+The [SSO token login scenario](https://integration-playground.nuwebgroup.com/scenarios/sso-token-login) in the integration playground calls the endpoint for an identity, shows the raw response, then loads a frame with the token appended so you can watch the shop render already signed in.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Signing Customers In" icon="user-lock" href="/integrate/identity/overview">
+    Where a customer's identity lives
+  </Card>
+  <Card title="Acting as the Identity Provider" icon="fingerprint" href="/integrate/identity/external-provider">
+    Own authentication end to end
+  </Card>
+  <Card title="Customer Single Sign-On" icon="code" href="/api-reference/authentication/customer-single-sign-on">
+    The endpoint, executable in the browser
+  </Card>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    Where the customer token fits an embedded journey
+  </Card>
+</CardGroup>

@@ -1,0 +1,116 @@
+---
+title: "Carrying the Basket Across Pages"
+description: "Keep a customer's basket with them when your code moves them between pages."
+---
+
+## Overview
+
+Inside the shop — including inside an embedded frame — a customer's basket follows them around. Nothing to configure.
+
+This page is for when **your** code moves the customer: between your own pages, or out of a frame into a full-page visit. Then the basket is yours to carry, and there are two ways to do it.
+
+<Note>
+If your integration is a single modal that the customer completes in one go, or a set of links straight to the shop, none of this applies.
+</Note>
+
+## Two Ways to Carry It
+
+### Basket Links
+
+If your server builds the basket, ask the API for a basket link and use that as the hand-off.
+
+It is a signed URL identifying the basket, so it works as a redirect or as the source of a frame, across different domains.
+
+```
+POST /v1/basket-items   →   startBasketUrl
+```
+
+This is the recommended option wherever it applies. Your server already holds the link, so you can pass it between your pages however suits you — a query parameter, your own session, a database row — and the customer can leave and come back to it.
+
+See [Building Baskets with the API](/integrate/checkout/building-baskets#handing-the-basket-back) for creating one, and [Basket Links](/core-platform/technical/basket-links) for how the link behaves once followed. It needs the **Basket links** feature enabled for the company.
+
+### The Session Identifier
+
+Where the customer built the basket themselves inside our frames, your server has nothing to hand off. In that case the shop offers you its current session identifier, and you put it on the URL you send the customer to.
+
+<Steps>
+  <Step title="Listen for the identifier">
+    The shop offers it over the embed message channel as `nuSid`. If you are using the generated embed script, the exchange that enables this happens for you; add a `message` listener and keep the value.
+  </Step>
+  <Step title="Keep the latest one">
+    The shop sends an updated value as the customer moves around inside the frame. Always use the most recent one — earlier values go stale, and signing in always produces a new one.
+  </Step>
+  <Step title="Put it on your onward URL">
+    Add it as `sid`, together with `fsid=1`.
+  </Step>
+</Steps>
+
+```
+https://tickets.example.com/basket?sid={nuSid}&fsid=1
+```
+
+`fsid=1` tells the shop to prefer the identifier you supplied over any session the visitor already has.
+
+Without it the existing session wins — the correct default everywhere else, since it stops a shared or bookmarked link displacing somebody's live session.
+
+Treat the identifier as short-lived and specific to the journey in progress: use it for the navigation you are performing, and do not store it, log it, or put it in a link that will be shared.
+
+## Which to Use
+
+| Your journey | Use |
+|--------------|-----|
+| Your server builds the basket | Basket links |
+| Customer builds the basket in our frames, and you move them to another of your pages | The session identifier |
+| Customer builds the basket in our frames, and you send them to the shop full-page | The session identifier |
+| Either, across different domains | Basket links |
+| Either, where the customer may come back later | Basket links |
+
+## Things Worth Knowing
+
+<AccordionGroup>
+
+<Accordion title="The basket timer is running throughout">
+  Items are held for a limited time — 10 minutes by default, set per company — and an expired basket releases them. Any hand-off between pages happens against that clock.
+
+  The customer can extend the timer up to three times, and the shop can often recover the most recently expired basket. See [Sessions & Cookies](/core-platform/technical/sessions).
+</Accordion>
+
+<Accordion title="Signing in produces a new session">
+  Signing a customer in regenerates their session. Their basket and any [waiting room](/core-platform/ticket-shop/waiting-rooms) position carry over automatically, but an identifier you captured beforehand no longer applies. This is why you keep the latest value the shop sends rather than the first.
+</Accordion>
+
+<Accordion title="If you built the frame yourself">
+  The generated embed script performs the exchange that lets the shop send you a session identifier.
+
+  Writing your own `<iframe>` means adding `parent-origin` set to your site's origin to the frame URL, and replying to the shop's handshake message. The same requirement governs tracking and seating plan messages. See [Embed Messages](/core-platform/technical/embed-messages).
+</Accordion>
+
+<Accordion title="A basket link is single use">
+  Once its order completes the link is spent, and it becomes invalid if the basket expires or contains an item for a cancelled event. [Basket Links](/core-platform/technical/basket-links#restrictions) lists every restriction.
+</Accordion>
+
+</AccordionGroup>
+
+## Try It
+
+Two playground scenarios build the same two-page journey with an explicit hand-off:
+
+- [Session resume across iframes](https://integration-playground.nuwebgroup.com/scenarios/session-resume) — adds an item on one page, resumes the basket in a frame on the next
+- [Modal picker to basket-link resume](https://integration-playground.nuwebgroup.com/scenarios/modal-basket-resume) — the same, from a seating-plan modal
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Basket Links" icon="link" href="/core-platform/technical/basket-links">
+    How signed basket URLs behave
+  </Card>
+  <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
+    Create a basket and get a link for it
+  </Card>
+  <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
+    The embed variations this page applies to
+  </Card>
+  <Card title="Shop URL Parameters" icon="sliders" href="/integrate/reference/url-parameters">
+    `sid`, `fsid` and everything else
+  </Card>
+</CardGroup>
