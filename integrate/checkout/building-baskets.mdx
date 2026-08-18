@@ -73,7 +73,7 @@ The join between the embedded plan and the API is the part worth spelling out.
 
 <Steps>
   <Step title="Embed the plan, not the event page">
-    Point the frame at `/events/{id-or-slug}/seating-plan`. Seat and area selection events only ever come from a seat map — a plain event page will send you nothing. See [Embedding the Shop](/integrate/checkout/embedding#variation-4-embedding-one-component).
+    Point the frame at `/events/{id}/seating-plan`. Seat and area selection events only ever come from a seat map — a plain event page will send you nothing. See [Embedding the Shop](/integrate/checkout/embedding#variation-4-embedding-one-component).
   </Step>
   <Step title="Accumulate selections on your page">
     Listen for `seatSelected`, `seatUnselected`, `GASelected` and `GAUnselected`, keeping your own list. Nothing is reserved yet — the plan is reporting intent, not holding stock.

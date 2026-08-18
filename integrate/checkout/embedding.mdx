@@ -112,7 +112,7 @@ The script hides the trigger and clicks it for you, so the frame loads with the 
 
 ```json
 {
-  "eventUrl": "https://tickets.example.com/events/summer-festival-2026?showItems=1&hideIframeClose=1",
+  "eventUrl": "https://tickets.example.com/events/48213?showItems=1&hideIframeClose=1",
   "allowedOrigin": "https://tickets.example.com",
   "showInModal": false,
   "iframeTarget": "#ticket-shop"
@@ -141,7 +141,7 @@ Your code is what moves the customer between pages, so carrying the basket acros
 
 ## Variation 4: Embedding One Component
 
-You do not have to embed a whole shop page. Point `eventUrl` at `/events/{id-or-slug}/seating-plan` and only the [seating plan](/core-platform/seating-plans/introduction) loads.
+You do not have to embed a whole shop page. Point `eventUrl` at `/events/{id}/seating-plan` and only the [seating plan](/core-platform/seating-plans/introduction) loads.
 
 This is the most common single-component embed: your page owns everything else, and the frame gives you a live seat map with real availability.
 

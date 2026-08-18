@@ -101,7 +101,7 @@ It is not suited to a frame: the URL cannot be reused, so you would need a fresh
 `customerToken` is reusable for 24 hours. Append it to any shop URL as `customer_token` and the customer is signed in before the page renders:
 
 ```
-https://tickets.example.com/events/summer-festival-2026?showItems=1&customer_token=1|abc123
+https://tickets.example.com/events/48213?showItems=1&customer_token=1|abc123
 ```
 
 You call the API once, hold the token alongside the customer's session on your side, and reuse it on every shop URL you render.
