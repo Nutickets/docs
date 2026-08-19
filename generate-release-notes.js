@@ -479,7 +479,7 @@ function parseExistingMdx(filePath) {
 
 // Internal doc-link prefixes worth preserving across regenerations: the platform/mobile
 // guides plus the auto-generated API and webhook reference pages.
-const PRESERVED_LINK_PREFIXES = ['/core-platform/', '/mobile-apps/', '/api-reference/', '/webhook-reference/'];
+const PRESERVED_LINK_PREFIXES = ['/user-manual/', '/mobile-apps/', '/api-reference/', '/webhook-reference/'];
 
 function extractDocLinks(content) {
     const links = [];

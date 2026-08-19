@@ -23,7 +23,7 @@ Customers register and sign in with us: an email and password, plus whichever so
 
 This is the right answer when your site has no account system of its own, or when the two are separate concerns. It also carries the least maintenance: password resets, verification, social providers and account recovery are all handled.
 
-See [Customer Accounts](/core-platform/ticket-shop/customer-accounts) for what a customer account holds.
+See [Customer Accounts](/user-manual/ticket-shop/customer-accounts) for what a customer account holds.
 
 ## Identity Lives With You, Handed Over Per Session
 
@@ -72,7 +72,7 @@ Upgrading a guest normally means setting a password. Where the shop holds no pas
 
 Signing in clears the guest flag and returns the customer to what they were doing.
 
-See [Customer Accounts](/core-platform/ticket-shop/customer-accounts#guest-users) and [Checkout](/core-platform/ticket-shop/checkout#guest-checkout).
+See [Customer Accounts](/user-manual/ticket-shop/customer-accounts#guest-users) and [Checkout](/user-manual/ticket-shop/checkout#guest-checkout).
 
 ## Identifying the Same Person on Both Sides
 
@@ -101,7 +101,7 @@ Use `/auth/end-session` rather than the shop's normal sign-out when your provide
 
 Delegated authentication is configured at company level rather than from within the admin area, so it is arranged through your account manager — provider type, endpoints, credentials, and the claim your identifier arrives in. Have your provider details to hand.
 
-Nothing on this page affects how your own staff sign in to the admin area. That is a separate feature with separate settings — see [Single Sign-On](/core-platform/system-access/single-sign-on).
+Nothing on this page affects how your own staff sign in to the admin area. That is a separate feature with separate settings — see [Single Sign-On](/user-manual/system-access/single-sign-on).
 
 ## Related
 
@@ -112,7 +112,7 @@ Nothing on this page affects how your own staff sign in to the admin area. That 
   <Card title="Acting as the Identity Provider" icon="fingerprint" href="/integrate/identity/external-provider">
     The endpoints you host and the round trips they serve
   </Card>
-  <Card title="Customer Accounts" icon="user" href="/core-platform/ticket-shop/customer-accounts">
+  <Card title="Customer Accounts" icon="user" href="/user-manual/ticket-shop/customer-accounts">
     What a customer account holds and how guests differ
   </Card>
   <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">

@@ -17,7 +17,7 @@ API requests authenticate with a bearer token:
 Authorization: Bearer {your-token}
 ```
 
-Tokens are created from **Settings > API Tokens** in the admin area. The full token is shown once, at the moment of creation, and cannot be retrieved afterwards. [API Token Management](/core-platform/utilities/api-token-management) covers creating, listing and revoking them.
+Tokens are created from **Settings > API Tokens** in the admin area. The full token is shown once, at the moment of creation, and cannot be retrieved afterwards. [API Token Management](/user-manual/utilities/api-token-management) covers creating, listing and revoking them.
 
 You can also obtain one programmatically with [Retrieve API Token](/api-reference/authentication/retrieve-api-token), and check which identity a token belongs to with [Retrieve Authenticated User](/api-reference/authentication/retrieve-authenticated-user).
 
@@ -25,16 +25,16 @@ Requesting a new token does not invalidate existing ones, and a token is reusabl
 
 ### Scope the Token Properly
 
-There is no separate machine identity on the platform. **A token is a personal access token: it carries the permissions and [visibility groups](/core-platform/system-access/visibility-groups) of the user who created it, and its access changes when that user's access changes.**
+There is no separate machine identity on the platform. **A token is a personal access token: it carries the permissions and [visibility groups](/user-manual/system-access/visibility-groups) of the user who created it, and its access changes when that user's access changes.**
 
 For production, create a dedicated user with only the permissions the integration needs and issue the token from that account.
 
-This limits what an exposed token can reach, and makes the integration's activity attributable in [audit logs](/core-platform/core/audit-logs).
+This limits what an exposed token can reach, and makes the integration's activity attributable in [audit logs](/user-manual/core/audit-logs).
 
 <Warning>
 Do not issue production tokens from a super user account — that token can reach every endpoint, including ones that delete data.
 
-See [Roles & Permissions](/core-platform/system-access/roles-and-permissions) for building a minimal role, and [Permissions Reference](/core-platform/system-access/permissions-reference) for what each permission grants.
+See [Roles & Permissions](/user-manual/system-access/roles-and-permissions) for building a minimal role, and [Permissions Reference](/user-manual/system-access/permissions-reference) for what each permission grants.
 </Warning>
 
 ## Headers That Change Behaviour
@@ -55,7 +55,7 @@ Send `X-NU-COMPANY-ID` on every request to pin it. Alternatively, create a separ
 
 Send `Accept-Language` to control which language is used for reads and writes. Ask for one the company does not support and its fallback is used instead; `Content-Language` on the response tells you which was applied.
 
-See [Translations](/core-platform/core/translations) and [Supported Currencies](/core-platform/core/supported-currencies).
+See [Translations](/user-manual/core/translations) and [Supported Currencies](/user-manual/core/supported-currencies).
 
 ## Rate Limits
 
@@ -84,10 +84,10 @@ Several integration paths depend on a feature being active for the company. None
 
 | Feature | Needed for | Documented at |
 |---------|-----------|---------------|
-| **Website integration** | Access to the embed wizard that generates embed code in the admin area | [Website Integration](/core-platform/technical/iframe-embeds) |
-| **Basket links** | Turning an API-built basket into a link a customer can follow into checkout | [Basket Links](/core-platform/technical/basket-links) |
-| **Webhooks** | Receiving real-time notifications of orders, check-ins and refunds | [Webhooks](/core-platform/technical/webhooks) |
-| **Report publishing** | Delivering scheduled report files to your own storage | [Data Endpoints](/core-platform/reporting/data-endpoints) |
+| **Website integration** | Access to the embed wizard that generates embed code in the admin area | [Website Integration](/user-manual/technical/iframe-embeds) |
+| **Basket links** | Turning an API-built basket into a link a customer can follow into checkout | [Basket Links](/user-manual/technical/basket-links) |
+| **Webhooks** | Receiving real-time notifications of orders, check-ins and refunds | [Webhooks](/user-manual/technical/webhooks) |
+| **Report publishing** | Delivering scheduled report files to your own storage | [Data Endpoints](/user-manual/reporting/data-endpoints) |
 
 Customer SSO is also configured at company level rather than from within the admin area, so it is arranged the same way. See [Signing Customers In](/integrate/identity/overview).
 
@@ -95,7 +95,7 @@ Customer SSO is also configured at company level rather than from within the adm
 
 Every company starts in **Demo** mode: the complete purchase experience, including checkout and confirmation emails, against your payment provider's test credentials. No money moves.
 
-Build and test here. [Going Live](/core-platform/get-started/going-live) covers the switch to **Live** mode.
+Build and test here. [Going Live](/user-manual/get-started/going-live) covers the switch to **Live** mode.
 
 Demo mode is a property of the company, not a separate environment, so plan for one of these:
 
@@ -103,7 +103,7 @@ Demo mode is a property of the company, not a separate environment, so plan for 
 - **Your real company in demo mode** during the build, switched to live when you launch.
 
 <Warning>
-API requests to a company whose trial period has expired are rejected with `403 Forbidden`, and every integration against it stops working until the account is activated. If you are building against a trial account, watch the expiry. See [Trial Periods](/core-platform/get-started/trial-periods).
+API requests to a company whose trial period has expired are rejected with `403 Forbidden`, and every integration against it stops working until the account is activated. If you are building against a trial account, watch the expiry. See [Trial Periods](/user-manual/get-started/trial-periods).
 </Warning>
 
 ## Caching and Freshness
@@ -111,9 +111,9 @@ API requests to a company whose trial period has expired are rejected with `403 
 Two pieces of platform caching affect integrations directly:
 
 - **Shop pages are cached briefly.** Admin changes take effect immediately in the system, but customer-facing pages may take up to about a minute to reflect them. An integration that publishes an event and immediately links a customer to it should expect that gap.
-- **Some report responses are cached.** A cached report response carries a `dataLastSynchronised` attribute; pass `refresh` to force a regeneration. Regenerating a large report is expensive, so avoid polling one at a high frequency — see [Caching](/core-platform/technical/caching#report-caching).
+- **Some report responses are cached.** A cached report response carries a `dataLastSynchronised` attribute; pass `refresh` to force a regeneration. Regenerating a large report is expensive, so avoid polling one at a high frequency — see [Caching](/user-manual/technical/caching#report-caching).
 
-Seating plan availability also refreshes on an interval rather than in real time, which matters if you are building your own seat selection UI. [Caching](/core-platform/technical/caching#seating-plan-availability) has the intervals.
+Seating plan availability also refreshes on an interval rather than in real time, which matters if you are building your own seat selection UI. [Caching](/user-manual/technical/caching#seating-plan-availability) has the intervals.
 
 ## Handling Change
 
@@ -127,10 +127,10 @@ Additive changes do happen within a version, so parse responses tolerantly — t
   <Card title="API Reference" icon="code" href="/api-reference/introduction">
     Every endpoint, executable in the browser
   </Card>
-  <Card title="API Token Management" icon="key" href="/core-platform/utilities/api-token-management">
+  <Card title="API Token Management" icon="key" href="/user-manual/utilities/api-token-management">
     Create, inspect and revoke tokens
   </Card>
-  <Card title="Roles & Permissions" icon="shield-halved" href="/core-platform/system-access/roles-and-permissions">
+  <Card title="Roles & Permissions" icon="shield-halved" href="/user-manual/system-access/roles-and-permissions">
     Build a minimal role for your integration user
   </Card>
   <Card title="Choosing an Integration Model" icon="signs-post" href="/integrate/integration-models">

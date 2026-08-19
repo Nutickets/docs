@@ -1,0 +1,352 @@
+---
+title: "Embed Messages"
+description: "Complete reference for the data an embedded ticket shop sends to the website hosting it — control messages, basket expiry, tracking events, and seating plan events."
+---
+
+## Overview
+
+When your ticket shop runs inside an iframe on another website, the two pages are isolated from each other — the host site cannot read the shop's content, and the shop cannot read the host site's. Everything that crosses the boundary is sent explicitly by the shop as a browser `postMessage`, which arrives on the host page as a plain JavaScript object.
+
+This page documents every message the shop sends, so you know exactly what a site embedding your shop can see and act on. It is the reference to hand to a developer who needs to:
+
+- Close or reset the embed when the customer finishes buying, or when their basket expires
+- Feed shop activity into analytics tools that run on the host website rather than in the shop
+- Build a custom seating experience alongside the embedded seating plan
+
+Messages travel from the shop out to the host page. The only exception is the seating plan, which also accepts commands sent in the other direction.
+
+For how to generate and configure an embed in the first place, see [Website Integration](/user-manual/technical/iframe-embeds).
+
+## Listening for Messages
+
+Add a single `message` listener to the page hosting the iframe. Always check `event.origin` first and ignore anything that did not come from your shop — any site or script can post messages to a window.
+
+```js
+window.addEventListener('message', (event) => {
+	// Only trust messages sent by your shop
+	if (!event.origin.startsWith('https://tickets.example.com')) {
+		return;
+	}
+
+	// The customer finished, or asked to leave the embed
+	if (event.data.close) {
+		// Close the iframe. We recommend destroying it, or reloading it
+		// back to its starting URL, so the next customer starts fresh.
+	}
+
+	// The customer's basket expired
+	if (event.data.event === 'expire') {
+		// Reset the iframe to its starting point, or destroy it.
+	}
+
+	// A link needs to open outside the iframe
+	if (event.data.visit) {
+		const link = document.createElement('a');
+		link.href = event.data.visit.href;
+		link.setAttribute('target', event.data.visit.target || '_blank');
+		link.click();
+	}
+
+	// Analytics. Every tracking message carries nuTracker.
+	if (event.data.nuTracker) {
+		console.log(event.data.event, event.data);
+	}
+});
+```
+
+<Note>
+If you use the generated embed script, `close`, `visit` and all seating plan messages are already handled for you — the script closes and resets the modal, follows visit links, and re-dispatches seating events as DOM events on the host page. You only need your own listener for tracking messages and basket expiry.
+</Note>
+
+### Getting a Starter Listener from the Embed Wizard
+
+On **Step 2: Modal settings** of the embed wizard there is an **Add cross-site tracking script** toggle. When enabled, the generated embed code includes a ready-made tracking listener alongside the embed script. The toggle is on by default if your company has a Google Tag Manager code configured.
+
+The same snippet is available on its own from the **Tracking in iframes** link in your cookies and tracking settings, under the heading **Cross-site tracking pixels & tag manager**.
+
+## Message Reference
+
+Each message is identified by a property on `event.data`. A single message never combines these.
+
+| Message | Identified by | What it means |
+|---------|---------------|---------------|
+| Close | `close: true` | The embed should be closed or reset |
+| Visit | `visit` object | A link needs to open outside the iframe |
+| Basket expiry | `event: 'expire'` | The customer's basket timed out |
+| Tracking | `nuTracker: true` | A customer action worth tracking occurred |
+| Seating plan | `planReady`, `seatSelected`, `seatUnselected`, `GASelected`, `GAUnselected`, `error` | Seating plan state changed |
+| Handshake request | `nuRequestHandshake: true` | The shop is asking the host page to identify itself |
+| Session identifier | `nuSid` | The shop's current session identifier, sent only to a host page that answered the handshake |
+
+### The Session Handshake
+
+These two messages let a host page continue a customer's basket in a page of its own.
+
+On load the shop posts `nuRequestHandshake`. The embed script replies with `{ nuHandshake: true, parentHref }`, and the shop then posts `{ nuSid: '<identifier>' }` — repeating it as the customer moves around inside the frame, so the value the host page holds stays current. A host page that does not answer the handshake is not sent an identifier.
+
+[Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers what to do with it.
+
+### Which Host Page Receives Each Message
+
+Close and visit messages are broadcast, so they reach the host page in every setup.
+
+Every other message — tracking, basket expiry and seating — is addressed to a specific host origin, and is only delivered if the shop has been able to work out what that origin is. The shop resolves it in this order:
+
+1. A `parent-origin` parameter on the embed URL. The generated embed script adds this automatically.
+2. The referring page.
+3. A host origin resolved earlier in the same browser and remembered since.
+
+<Warning>
+If you build your own iframe rather than using the generated embed script, and the browser sends no referrer, none of the tracking, basket expiry or seating messages will reach your page. Add a `parent-origin` parameter set to your site's origin to the iframe URL.
+</Warning>
+
+## Control Messages
+
+### Close
+
+```js
+{ close: true }
+```
+
+Sent when the customer takes an action that should dismiss the embed. Every trigger is a deliberate customer action — the shop never sends it on its own. It is sent when they:
+
+- Click the close button, which appears in the embedded header and on the payment processing, order confirmation, and guest account upgrade screens
+- Click **Back to shopping** in the basket
+- Click **Continue browsing** on the order confirmation
+- Click **Proceed to payment** where the payment page opens in a new tab
+- Start a social login, which also continues in a new tab
+
+<Note>
+The last two are sent after a short delay, so the new tab has time to open first. Some browsers block the new tab if the embed closes immediately.
+</Note>
+
+The message says the embed should close — it does not close anything by itself. Destroy the iframe or reload it back to its starting URL so the next customer begins from a clean state.
+
+### Visit
+
+```js
+{ visit: { href: 'https://…', target: '_blank' } }
+```
+
+Sent when a link must open outside the iframe. Currently this is only used for the **X** (Twitter) share option on the event share block, which cannot open inside an embedded frame.
+
+Create a link with the supplied `href` and `target` and click it, as shown in the listener example above. Fall back to `_blank` if `target` is absent.
+
+## Basket Expiry
+
+```js
+{ event: 'expire', user_id: 42, transaction_id: 'ABC123' }
+```
+
+Baskets are held for a limited time. When that time runs out, the customer loses their reservation and the embed is showing a stale basket, so the host page usually wants to reset or destroy the iframe.
+
+This message is sent at two different moments:
+
+| When | Carries `nuTracker` |
+|------|---------------------|
+| The basket countdown reaches zero while the embed is open | Yes |
+| The customer opens the basket and it has already expired | No |
+
+Because only one of the two carries `nuTracker`, check for `event.data.event === 'expire'` **outside** any `nuTracker` guard, as in the listener example above. Otherwise you will miss the already-expired case.
+
+## Tracking Messages
+
+Every tracking message carries `nuTracker: true` and an `event` name. These messages exist because Google Tag Manager and tracking pixels are unreliable inside an iframe — browsers restrict cross-site storage, so scripts loaded within the embed may not fire all events, or may fail to initialise at all. Sending the raw activity to the host page lets you run your own tracking on your own domain instead.
+
+### When Tracking Messages Are Sent
+
+| Message shape | Sent when |
+|---------------|-----------|
+| Google Analytics shaped | Always — regardless of the customer's cookie choice, and regardless of whether a Google Tag Manager code is configured on the shop |
+| Pixel shaped (Meta, Spotify, TikTok, X) | Only when that pixel is enabled with a pixel ID for the event **and** the customer has accepted all cookies |
+
+This is reflected in the wizard's own guidance: these messages *"don't require you to add your GTM or tracking code to the shop, they will always fire."*
+
+Both shapes describe the same customer action, so when pixels are active you will receive more than one message per action. Google Analytics shaped messages use the `event` property as the event name. Pixel shaped messages carry an `action` property naming the action, while their `event` property holds the ad platform's event ID — which can be remapped per event in the shop's [tracking pixel settings](/user-manual/integrations/tracking-and-analytics#mapping-checkout-events).
+
+<Warning>
+Google Analytics shaped tracking messages reach the host page even when the customer has declined cookies in the shop. The shop's own tracking honours that choice, but the host site receives the data either way and is responsible for applying consent before passing it to any analytics tool.
+</Warning>
+
+### What Customer Data Is Included
+
+Email addresses and phone numbers are SHA-256 hashed before the message leaves the shop, so `email`, `email_address` and `phone_number` never contain readable values.
+
+Other identifying fields are sent as-is, including `customer_name`, the customer identifier (`customer_id` / `user_id`), `city` and `last_visit`. Treat tracking messages as personal data and handle them accordingly on the host site.
+
+### Parameters Sent with Every Shop Event
+
+| Parameter | Description |
+|-----------|-------------|
+| `context` | Always `shop` for messages from the ticket shop |
+| `currency` | Selected currency code |
+| `conversion_id` | Basket or order reference |
+| `customer_id` | Customer identifier, or `null` when not logged in |
+| `customer_name` | Customer's name, or `null` when not logged in |
+| `is_new_customer` | `true` when the customer registered today |
+| `discount_code` | Discount code applied to the basket or order |
+| `email_address` | SHA-256 hash of the customer's email address |
+| `phone_number` | SHA-256 hash of the customer's phone number |
+| `roles` | Role identifiers held by the logged-in user |
+| `company_id` | Identifier of the company that owns the shop |
+| `utc_timezone_offset` | Browser timezone offset in minutes |
+
+### Event Reference
+
+| Customer action | Google Analytics `event` | Pixel `action` |
+|-----------------|--------------------------|----------------|
+| Views any page | `page_view` | `PageView` |
+| Sees an event in a listing | `product_impression` | `ProductImpression` |
+| Opens the items modal | `view_item_list` | `viewItemList` |
+| Lands on an event page | `product_detail` | `productDetailImpression` |
+| Clicks an event link | `product_click` | `productClick` |
+| Logs in | `login` | `login` |
+| Creates an account | `sign_up` | `register` |
+| Logs out | `logout` | `logout` |
+| Adds an item to the basket | `add_to_cart` | `addToBasket` |
+| Removes an item from the basket | `remove_from_cart` | `removeFromBasket` |
+| Opens the basket | `view_cart` | `viewCart` |
+| Starts checkout | `begin_checkout` | `checkout` |
+| Selects a checkout option | `checkout_option` | `checkoutOption` |
+| Submits delivery or billing details | `add_shipping_info` | `addShippingInfo` |
+| Applies a discount code | `select_promotion` | `selectPromotion` |
+| Completes an order | `purchase` | `purchase` |
+| Hits an error during checkout | `purchase_error` | `checkoutError` |
+| Processes a self-serve refund | `refund` | `refundOrder` |
+| Shares an event | `share` | `shareEvent` |
+| Submits feedback | `customer_feedback` | `CustomerFeedback` |
+| Basket times out | `expire` | *(no action property)* |
+
+<Accordion title="Parameters by event">
+
+In addition to the parameters sent with every shop event, each event carries its own:
+
+| Event | Additional parameters |
+|-------|----------------------|
+| `page_view` | `page_referrer`, `page_location` |
+| `product_impression` | `product_list`, `currency` |
+| `view_item_list` | `item_list_id`, `item_list_name`, `items` |
+| `product_detail` | `product_id`, `product_name` |
+| `product_click` | `product_id`, `product_name` |
+| `login` | `method` (`email`, or the external provider used), `user_id`, `city`, `last_visit` |
+| `sign_up` | `method`, `user_id`, `city` |
+| `logout` | `user_id` |
+| `add_to_cart` | `currency`, `value`, `items` |
+| `remove_from_cart` | `currency`, `value`, `items` |
+| `view_cart` | `currency`, `value`, `items` |
+| `begin_checkout` | `currency`, `value`, `items`, `step` |
+| `checkout_option` | `checkout_option` (containing `step` and `option`) |
+| `add_shipping_info` | `currency`, `value`, `items` |
+| `select_promotion` | `promotion_name` |
+| `purchase` | `currency`, `value`, `transaction_id`, `items` |
+| `purchase_error` | `error_description`, `transaction_id` |
+| `refund` | `currency`, `value`, `transaction_id` |
+| `share` | `method` (the network used) |
+| `customer_feedback` | `feedback` |
+| `expire` | `user_id`, `transaction_id` |
+
+Pixel shaped messages carry the equivalent data under each platform's own property names — `contents` for Meta, TikTok and X, and `line_items` for Spotify — alongside `content_ids` for TikTok and `status` in place of `error_description` on checkout errors.
+
+</Accordion>
+
+<Accordion title="Item and product arrays">
+
+`product_list` — events shown in a listing:
+
+| Property | Description |
+|----------|-------------|
+| `product_id` | Event identifier |
+| `product_name` | Event name |
+| `category` | Event tags, comma separated |
+
+`items` — sale items:
+
+| Property | Description |
+|----------|-------------|
+| `item_id` | Sale item identifier |
+| `item_name` | Sale item name |
+
+`contents` — the Meta, TikTok and X equivalent, holding either events or sale items depending on context:
+
+| Property | Description |
+|----------|-------------|
+| `content_id` / `content_ids` | Item identifier, or array of identifiers |
+| `content_name` | Item name |
+| `content_category` / `category` | Tags, comma separated |
+
+`line_items` — the Spotify equivalent:
+
+| Property | Description |
+|----------|-------------|
+| `product_id` | Item identifier |
+| `product_name` | Item name |
+| `variant_name` | Tags, comma separated |
+| `position` | Position in the list |
+
+</Accordion>
+
+## Seating Plan Messages
+
+Events with assigned seating expose a two-way message API so the host site can build its own interface around the embedded plan. This is an advanced integration — for standard ticket sales the seating plan inside the embed needs no extra work.
+
+### Messages the Plan Sends
+
+| Message | Meaning |
+|---------|---------|
+| `planReady: true` | The seating plan has finished loading and is ready for commands |
+| `seatSelected` | A seat was selected. Carries the seat's details |
+| `seatUnselected` | A seat was deselected. Carries the seat's details |
+| `GASelected` | A general admission area was selected. Carries the area's details |
+| `GAUnselected` | A general admission area was deselected. Carries the area's details |
+| `error` | The plan could not be shown. The value is the reason: `No seating plan found.`, `Seating plan is syncing.`, or `Event is off sale.` |
+
+When you use the generated embed script, these are re-dispatched on the host page as the DOM events `planReady`, `seatSelected`, `seatUnselected`, `GASelected`, `GAUnselected` and `seatingError`. The seat or area details are available from the event's `detail` property, and the error reason from `detail.error()`.
+
+### Commands the Plan Accepts
+
+Send these into the iframe to drive the plan. Wait for `planReady` before sending anything.
+
+| Command | Effect |
+|---------|--------|
+| `enableSeatSelection` | Switches between selecting individual seats and selecting by price band |
+| `setHighlightMode` | Turns highlight mode on or off |
+| `selectSeat` / `unselectSeat` | Selects or deselects a specific seat |
+| `setSeatInBasket` | Marks a seat as being in the basket |
+| `processingSeat` | Shows a seat as processing |
+| `focusArea` / `blurArea` | Highlights or clears the highlight on an area |
+| `enterArea` / `exitArea` | Navigates into or back out of an area |
+| `focusGa` / `blurGa` | Highlights or clears the highlight on a general admission area |
+| `setGa` | Sets the selected quantity for a general admission area |
+| `focusPriceBand` / `blurPriceBand` | Highlights or clears the highlight on a price band |
+
+The generated embed script provides a `postToIframe` helper for sending these, which addresses the message to the shop origin configured on the embed.
+
+## Troubleshooting
+
+<AccordionGroup>
+
+<Accordion title="No tracking messages arrive">
+The shop could not resolve your site's origin. This happens with hand-built iframes when the browser sends no referrer. Add a `parent-origin` parameter set to your site's origin to the iframe URL, or use the generated embed script, which does this for you.
+</Accordion>
+
+<Accordion title="Close and visit messages arrive but nothing else does">
+Close and visit are broadcast to any host page, while every other message is addressed to a specific origin. Receiving only these two confirms the origin could not be resolved — see above.
+</Accordion>
+
+<Accordion title="Messages arrive from scripts other than the shop">
+Any script on your page, including third-party tracking pixels, can post messages to your window. Always check `event.origin` against your shop's URL before acting on a message, and check for the property that identifies the message before reading anything else.
+</Accordion>
+
+<Accordion title="Fewer events arrive than expected">
+Pixel shaped messages are only sent when the pixel is enabled with an ID for that event and the customer has accepted all cookies. Google Analytics shaped messages are always sent, so use those as your baseline.
+</Accordion>
+
+</AccordionGroup>
+
+## Related
+
+- [Website Integration](/user-manual/technical/iframe-embeds)
+- [Embedding the Shop](/integrate/checkout/embedding) — the embed variations these messages support, and how to configure each
+- [Tracking and Analytics](/user-manual/integrations/tracking-and-analytics)
+- [Google Tag Manager](/user-manual/integrations/google-tag-manager)
+- [Sessions](/user-manual/technical/sessions)

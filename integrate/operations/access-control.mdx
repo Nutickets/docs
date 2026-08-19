@@ -10,7 +10,7 @@ Most events scan attendees in with the [Access Control Pro](/mobile-apps/access-
 The same API the app uses is available to you. The main decision is which of two models you build against.
 
 <Note>
-Read [Access Control](/core-platform/event-management/access-control) first. Zones, scan modes, limits, capacity, eligible items, age restrictions and validity dates are configured per event and enforced by the platform — your integration inherits those rules rather than defining them.
+Read [Access Control](/user-manual/event-management/access-control) first. Zones, scan modes, limits, capacity, eligible items, age restrictions and validity dates are configured per event and enforced by the platform — your integration inherits those rules rather than defining them.
 </Note>
 
 ## Two Models, One Decision
@@ -116,9 +116,9 @@ Upload refusals as well as admissions, with a `status` of `failed` and a `status
 
 **NFC.** Tags are paired to purchased tickets with [Pair NFC Ticket](/api-reference/access-control/pair-nfc-ticket), then presented as `nfcIds` on subsequent scans.
 
-Pairing takes the ticket's barcode, the tag's identifier and the event; `pair-barcode-again` re-pairs a ticket that already has a tag. See [NFC Pairing](/core-platform/event-management/nfc-pairing).
+Pairing takes the ticket's barcode, the tag's identifier and the event; `pair-barcode-again` re-pairs a ticket that already has a tag. See [NFC Pairing](/user-manual/event-management/nfc-pairing).
 
-**Secure barcodes.** Events using [secure barcodes](/core-platform/event-management/secure-barcodes) issue rotating, time-based codes rather than static ones, which stops a screenshot being shared.
+**Secure barcodes.** Events using [secure barcodes](/user-manual/event-management/secure-barcodes) issue rotating, time-based codes rather than static ones, which stops a screenshot being shared.
 
 If your scanning layer handles them, set `secure` on the scan so the record shows the code was verified. A scanner that falls back to the static barcode removes the protection the event was configured for — handle the rotating code, or route those events through the app.
 
@@ -126,7 +126,7 @@ If your scanning layer handles them, set `secure` on the scan so the record show
 
 Guest list attendance differs from ticketed entry: one entry can admit several people.
 
-[Retrieve Guest List Attendees](/api-reference/access-control/retrieve-guest-list-attendees) fetches the guest lists for one or more events with their entries. [Update Guest List Attendees](/api-reference/access-control/update-guest-list-attendees) records how many people arrived against an entry. See [Guest Lists](/core-platform/sale-items/guest-lists).
+[Retrieve Guest List Attendees](/api-reference/access-control/retrieve-guest-list-attendees) fetches the guest lists for one or more events with their entries. [Update Guest List Attendees](/api-reference/access-control/update-guest-list-attendees) records how many people arrived against an entry. See [Guest Lists](/user-manual/sale-items/guest-lists).
 
 ## Admitting Without a Gate
 
@@ -138,12 +138,12 @@ It is not a substitute for a gate: it admits an order wholesale, without the per
 
 ## Reacting to Scans From Elsewhere
 
-If your system needs to *know about* admissions rather than perform them — a venue occupancy display, a hospitality system, an analytics pipeline — use [webhooks](/core-platform/technical/webhooks) rather than polling:
+If your system needs to *know about* admissions rather than perform them — a venue occupancy display, a hospitality system, an analytics pipeline — use [webhooks](/user-manual/technical/webhooks) rather than polling:
 
 | Webhook | Fires when |
 |---------|-----------|
 | **Attendee check in** | An attendee is scanned into a zone or the main entry |
-| **Attendee check out** | An attendee is scanned out — a zone, the default **Entry** zone, an [auto scan-out](/core-platform/event-management/access-control#auto-scan-out) time, or an out-direction scan through the API |
+| **Attendee check out** | An attendee is scanned out — a zone, the default **Entry** zone, an [auto scan-out](/user-manual/event-management/access-control#auto-scan-out) time, or an out-direction scan through the API |
 
 Check-out deliveries carry a `scans` array — company, event, zone, customer and item, plus `scannedAt` and `visitDuration` in seconds. Occupancy and dwell time come out of the webhook rather than being computed by polling. Full payloads in the [Webhook Reference](/webhook-reference).
 
@@ -160,11 +160,11 @@ Have a degraded mode for when you reach it — falling back to offline validatio
 </Accordion>
 
 <Accordion title="Scope the token to scanning only">
-  A scanning integration needs to read tickets and record scans, not refund orders or edit events — and a token on field hardware is more exposed than one on a server. Create a dedicated user with a minimal role. See [Roles & Permissions](/core-platform/system-access/roles-and-permissions).
+  A scanning integration needs to read tickets and record scans, not refund orders or edit events — and a token on field hardware is more exposed than one on a server. Create a dedicated user with a minimal role. See [Roles & Permissions](/user-manual/system-access/roles-and-permissions).
 </Accordion>
 
 <Accordion title="Send times in UTC">
-  `scannedOn` on a bulk upload must be UTC. Devices with local clocks, and devices crossing a DST boundary mid-event, are a common source of attendance data that reads incorrectly afterwards. See [Timezones](/core-platform/core/timezones).
+  `scannedOn` on a bulk upload must be UTC. Devices with local clocks, and devices crossing a DST boundary mid-event, are a common source of attendance data that reads incorrectly afterwards. See [Timezones](/user-manual/core/timezones).
 </Accordion>
 
 <Accordion title="Handle the all-or-nothing rule deliberately">
@@ -172,7 +172,7 @@ Have a degraded mode for when you reach it — falling back to offline validatio
 </Accordion>
 
 <Accordion title="Reconcile afterwards">
-  Attendance is reportable independently of your integration. The [attendance reports](/core-platform/reporting/default-reports) are the record of who came in, so reconcile your own data against them rather than against device logs — particularly after an event that ran partly offline.
+  Attendance is reportable independently of your integration. The [attendance reports](/user-manual/reporting/default-reports) are the record of who came in, so reconcile your own data against them rather than against device logs — particularly after an event that ran partly offline.
 </Accordion>
 
 </AccordionGroup>
@@ -180,13 +180,13 @@ Have a degraded mode for when you reach it — falling back to offline validatio
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Access Control" icon="door-open" href="/core-platform/event-management/access-control">
+  <Card title="Access Control" icon="door-open" href="/user-manual/event-management/access-control">
     Zones, scan modes, limits and the rules you inherit
   </Card>
   <Card title="Access Control Pro" icon="mobile" href="/mobile-apps/access-control-pro/introduction">
     The standard scanning app
   </Card>
-  <Card title="Webhooks" icon="bell" href="/core-platform/technical/webhooks">
+  <Card title="Webhooks" icon="bell" href="/user-manual/technical/webhooks">
     React to check-ins and check-outs
   </Card>
   <Card title="Getting Data Out" icon="database" href="/integrate/data/extracting-data">

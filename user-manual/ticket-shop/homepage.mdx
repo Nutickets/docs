@@ -1,0 +1,46 @@
+---
+title: "Homepage"
+description: "Configure the landing page customers see when they visit your ticket shop, using headers, content blocks, and custom content."
+---
+
+## Overview
+
+The homepage is the first thing customers see when they visit your ticket shop URL. It is a fully configurable landing page built using the [CMS page system](/user-manual/cms/pages) — you control the header style, the content blocks that appear, and how events and articles are displayed.
+
+Behind the scenes, the homepage is a **listing page** with its URL set to `/` (the root of your shop). You compose it by adding and arranging [content blocks](/user-manual/cms/blocks) in the admin page editor, choosing from event blocks, article blocks, and template blocks.
+
+<Note>
+If no listing page exists for the root URL (`/`), customers are automatically redirected to the events browse page instead. You do not need a homepage to run your shop, but having one gives you full control over the first impression.
+</Note>
+
+## Creating Your Homepage
+
+1. Navigate to **CMS > Pages**
+2. Create a new listing page (or edit an existing one)
+3. Set the **URL** to `/` to make it the homepage
+4. Choose a [header style](/user-manual/cms/pages#header-styles) to set the visual presentation
+5. Add [content blocks](/user-manual/cms/blocks) to populate the page with events, articles, or custom content
+
+## Building an Effective Homepage
+
+A well-built homepage typically combines several block types to create a layered experience. For example:
+
+1. A **full-width image header** as a hero banner with a welcome message
+2. A **featured-style event block** highlighting your top upcoming events
+3. A **template block** with a promotional banner or call to action
+4. A **three-column event block** sourced from a specific tag, showing events in a particular category
+5. An **article block** with recently published news or blog posts
+6. A **slider event block** with recently added events for customers to browse
+
+There is no fixed formula — the block system is flexible enough to suit everything from a single-event page to a content-rich magazine-style landing page with carousels, maps, and editorial content.
+
+<Note>
+Event block results are cached with a 15-minute TTL. After you publish a new event or change event details, it may take up to 15 minutes for those changes to appear in event blocks on the homepage.
+</Note>
+
+## Related
+
+- [CMS: Pages](/user-manual/cms/pages) — Page creation, header styles, SEO, and settings
+- [CMS: Blocks](/user-manual/cms/blocks) — Block types, layouts, sources, and styling
+- [CMS: Theme & Branding](/user-manual/cms/theme-and-branding) — Visual customisation of the shop
+- [Browsing & Search](/user-manual/ticket-shop/browsing-and-search) — The event browse page and search functionality

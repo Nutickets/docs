@@ -33,9 +33,9 @@ We recommend choosing the highest row that meets the requirement. The lighter mo
 <Accordion title="Link to the shop">
   Your site handles discovery — listings, editorial, search, whatever you want to build — and every **Buy tickets** link points at the shop. The customer completes the purchase with us.
 
-  Links can point at a specific event, land the customer on item selection, and preset language, currency or an [access code](/core-platform/basket-codes/access-codes).
+  Links can point at a specific event, land the customer on item selection, and preset language, currency or an [access code](/user-manual/basket-codes/access-codes).
 
-  With [custom URLs](/core-platform/utilities/custom-urls), [theme and branding](/core-platform/cms/theme-and-branding) and a [CMS menu](/core-platform/cms/menus) matching your navigation, the shop runs on your domain and looks like your site — the transition reads as moving between sections.
+  With [custom URLs](/user-manual/utilities/custom-urls), [theme and branding](/user-manual/cms/theme-and-branding) and a [CMS menu](/user-manual/cms/menus) matching your navigation, the shop runs on your domain and looks like your site — the transition reads as moving between sections.
 
   **Choose it when** your priority is selling rather than owning the buying UI, when the catalogue is the interesting part of your site, or when you want the fewest moving parts.
 
@@ -51,7 +51,7 @@ We recommend choosing the highest row that meets the requirement. The lighter mo
 
   **Choose it when** you want customers to stay on the page they are on and you are happy with our checkout as it stands.
 
-  **Live with** the frame boundary. Your page cannot read inside the shop or drive it, beyond the [messages](/core-platform/technical/embed-messages) the shop sends and the commands the seating plan accepts.
+  **Live with** the frame boundary. Your page cannot read inside the shop or drive it, beyond the [messages](/user-manual/technical/embed-messages) the shop sends and the commands the seating plan accepts.
 
   Demo: [single popup](https://integration-playground.nuwebgroup.com/scenarios/e2e-popup), [inline frames on separate pages](https://integration-playground.nuwebgroup.com/scenarios/e2e-parent-pages).
 </Accordion>
@@ -71,7 +71,7 @@ We recommend choosing the highest row that meets the requirement. The lighter mo
 </Accordion>
 
 <Accordion title="Embed one component, own the basket">
-  Embed only the piece that is hard to rebuild — in practice, the [seating plan](/core-platform/seating-plans/introduction) — and build everything around it yourself.
+  Embed only the piece that is hard to rebuild — in practice, the [seating plan](/user-manual/seating-plans/introduction) — and build everything around it yourself.
 
   Your page listens for seat and area selections coming out of the frame, tracks what the customer has chosen, and calls the API with those space IDs to create the basket.
 
@@ -138,11 +138,11 @@ Sometimes the decision is shaped by something other than preference.
 <Accordion title="You are selling seated events">
   Embedding gives you the real seat map with live availability, whether you embed the whole shop or only the plan.
 
-  Building the selection UI yourself from [seating plan data](/api-reference/seating-plans/retrieve-seating-plan-details) is possible, but you take on rendering, availability refresh and hold behaviour. See [Caching](/core-platform/technical/caching#seating-plan-availability).
+  Building the selection UI yourself from [seating plan data](/api-reference/seating-plans/retrieve-seating-plan-details) is possible, but you take on rendering, availability refresh and hold behaviour. See [Caching](/user-manual/technical/caching#seating-plan-availability).
 </Accordion>
 
 <Accordion title="You expect very high demand on-sales">
-  [Waiting rooms](/core-platform/ticket-shop/waiting-rooms) protect the shop during peak on-sales, and apply to embedded frames as well as direct visits. An integration that bypasses the shop is subject to API rate limits instead.
+  [Waiting rooms](/user-manual/ticket-shop/waiting-rooms) protect the shop during peak on-sales, and apply to embedded frames as well as direct visits. An integration that bypasses the shop is subject to API rate limits instead.
 </Accordion>
 
 <Accordion title="You only need data, not a buying journey">

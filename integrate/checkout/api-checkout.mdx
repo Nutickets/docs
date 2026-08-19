@@ -74,12 +74,12 @@ Basket and order identifiers are interchangeable, so the identifier you got when
 | `gift-card` | Settled against a gift card. |
 | `card-not-present-offline`, `card-present-offline` | A card payment taken on your own equipment and recorded here. |
 | `card-not-present-online`, `card-present-online` | A card payment processed through the platform's gateway. Needs the payment flow below. |
-| `ewallet-online` | Settled against the customer's [account balance](/core-platform/account-balances/top-ups). Requires `customerId`, and a `source` identifying the wallet (an `nfc_tag` or an `order_item`). |
-| `split` | Several methods on one order. Supply `paymentSplits`; the amounts must sum exactly to the order total. See [Split Payments](/core-platform/payments/split-payments). |
+| `ewallet-online` | Settled against the customer's [account balance](/user-manual/account-balances/top-ups). Requires `customerId`, and a `source` identifying the wallet (an `nfc_tag` or an `order_item`). |
+| `split` | Several methods on one order. Supply `paymentSplits`; the amounts must sum exactly to the order total. See [Split Payments](/user-manual/payments/split-payments). |
 
 The `-offline` methods are the reason a lot of API integrations are simpler than they expect: if you have already taken the money, you are recording a fact, not processing a payment.
 
-Deposits are supported through `paymentPlan` with type `deposit`, which takes a partial payment now and leaves a balance outstanding. See [Deposit Payments](/core-platform/payments/deposit-payments).
+Deposits are supported through `paymentPlan` with type `deposit`, which takes a partial payment now and leaves a balance outstanding. See [Deposit Payments](/user-manual/payments/deposit-payments).
 
 ## Taking a Card Payment Online
 
@@ -101,7 +101,7 @@ There is no hosted checkout to redirect to here, so you drive the payment yourse
 </Steps>
 
 <Warning>
-**The Payments API currently supports Stripe only.** If the company's gateway is anything else, online card payment through the API is not available — take the payment outside the platform and record it with an `-offline` method, or hand the customer to our checkout with a [basket link](/core-platform/technical/basket-links) instead. See [Payment Processors](/core-platform/payments/payment-processors) for what each gateway supports.
+**The Payments API currently supports Stripe only.** If the company's gateway is anything else, online card payment through the API is not available — take the payment outside the platform and record it with an `-offline` method, or hand the customer to our checkout with a [basket link](/user-manual/technical/basket-links) instead. See [Payment Processors](/user-manual/payments/payment-processors) for what each gateway supports.
 </Warning>
 
 <Note>
@@ -115,9 +115,9 @@ Completing an order normally triggers everything a shop purchase would. Two flag
 | Flag | Effect |
 |------|--------|
 | `inhibitConfirmationEmail` | No order confirmation email. Only applies with `autocomplete`. |
-| `inhibitApprovalEmail` | No [guest list](/core-platform/sale-items/guest-lists) approval email, when an approval-requiring item is auto-approved. |
+| `inhibitApprovalEmail` | No [guest list](/user-manual/sale-items/guest-lists) approval email, when an approval-requiring item is auto-approved. |
 
-Per-item, `autoApprove` handles items that would otherwise be held for approval — it bypasses paid-approval requirements on ordinary items, and auto-approves guest list entries that need approval. And `secureBarcodeDisabled` controls [secure barcode](/core-platform/event-management/secure-barcodes) issuance per line.
+Per-item, `autoApprove` handles items that would otherwise be held for approval — it bypasses paid-approval requirements on ordinary items, and auto-approves guest list entries that need approval. And `secureBarcodeDisabled` controls [secure barcode](/user-manual/event-management/secure-barcodes) issuance per line.
 
 If you suppressed the confirmation and later need to send it, [Send Order Confirmation Email](/api-reference/orders/send-order-confirmation-email) does that on demand.
 
@@ -129,11 +129,11 @@ Bulk work — a renewal run, a migration — should use `async=true` rather than
 
 An API-created order is an ordinary order. It appears in the admin area, its tickets scan at the gate, and it can be refunded, modified and reported on like any other. Two differences are worth knowing about.
 
-**They are recorded on the API sales channel.** Every order carries the channel it originated from, and API-created orders are marked as **API**. That makes them separable in reporting — filter by sales channel in the [order reports](/core-platform/reporting/default-reports) to see your integration's volume distinctly from web and box office sales. See [Sales Channels](/core-platform/information/sales-channels).
+**They are recorded on the API sales channel.** Every order carries the channel it originated from, and API-created orders are marked as **API**. That makes them separable in reporting — filter by sales channel in the [order reports](/user-manual/reporting/default-reports) to see your integration's volume distinctly from web and box office sales. See [Sales Channels](/user-manual/information/sales-channels).
 
-**They are priced like box office sales.** Where an item has box-office-specific pricing configured, an API basket picks up that price rather than the web price — an API integration is treated as a staffed or systemic channel rather than a public storefront. Check the [pricing](/core-platform/sale-items/core-concepts) configured for the items you are selling.
+**They are priced like box office sales.** Where an item has box-office-specific pricing configured, an API basket picks up that price rather than the web price — an API integration is treated as a staffed or systemic channel rather than a public storefront. Check the [pricing](/user-manual/sale-items/core-concepts) configured for the items you are selling.
 
-Refunds work through the API too, whole-order with [Refund Order](/api-reference/orders/refund-order) or line-by-line with [Refund Order Items](/api-reference/orders/refund-order-items). [Refunds and Cancellations](/core-platform/order-management/refunds-and-cancellations) covers the rules that apply either way.
+Refunds work through the API too, whole-order with [Refund Order](/api-reference/orders/refund-order) or line-by-line with [Refund Order Items](/api-reference/orders/refund-order-items). [Refunds and Cancellations](/user-manual/order-management/refunds-and-cancellations) covers the rules that apply either way.
 
 ## What You Are Taking On
 
@@ -142,13 +142,13 @@ These are the things our checkout does that an API-driven purchase does not get:
 | The shop handles | You now handle |
 |------------------|----------------|
 | Presenting fees and tax correctly before payment | Reading totals back from [Retrieve Basket](/api-reference/baskets/retrieve-basket) rather than computing them |
-| Collecting [data capture](/core-platform/data-capture/introduction) answers | Submitting them with [Capture Response](/api-reference/data-capture/capture-response), or accepting incomplete records |
+| Collecting [data capture](/user-manual/data-capture/introduction) answers | Submitting them with [Capture Response](/api-reference/data-capture/capture-response), or accepting incomplete records |
 | Basket timers, warnings, extension and recovery | Completing before the basket expires |
-| [Waiting rooms](/core-platform/ticket-shop/waiting-rooms) under peak load | Living within API rate limits instead |
+| [Waiting rooms](/user-manual/ticket-shop/waiting-rooms) under peak load | Living within API rate limits instead |
 | Validation messages a human can act on | Mapping validation errors into your own UI |
-| Offering [refund protection](/core-platform/refund-protection/protect-group), add-ons and upsells | Nothing — those revenue lines are simply absent |
+| Offering [refund protection](/user-manual/refund-protection/protect-group), add-ons and upsells | Nothing — those revenue lines are simply absent |
 
-Take totals from the API rather than calculating them. [Fees](/core-platform/fees/default-system-fees), [tax bands](/core-platform/tax/tax-bands), [conditional tax](/core-platform/tax/conditional-tax-bands) and [all-in pricing](/core-platform/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
+Take totals from the API rather than calculating them. [Fees](/user-manual/fees/default-system-fees), [tax bands](/user-manual/tax/tax-bands), [conditional tax](/user-manual/tax/conditional-tax-bands) and [all-in pricing](/user-manual/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
 
 ## A Lighter Alternative
 
@@ -166,10 +166,10 @@ The [full API scenario](https://integration-playground.nuwebgroup.com/scenarios/
   <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
     Everything about composing the basket
   </Card>
-  <Card title="Payment Lifecycle" icon="credit-card" href="/core-platform/payments/payment-lifecycle">
+  <Card title="Payment Lifecycle" icon="credit-card" href="/user-manual/payments/payment-lifecycle">
     How transactions move between states
   </Card>
-  <Card title="Order Management" icon="receipt" href="/core-platform/order-management/core-concepts">
+  <Card title="Order Management" icon="receipt" href="/user-manual/order-management/core-concepts">
     What happens to an order after completion
   </Card>
   <Card title="Getting Data Out" icon="database" href="/integrate/data/extracting-data">

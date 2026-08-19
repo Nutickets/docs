@@ -1,0 +1,73 @@
+---
+title: "Introduction"
+description: "How payments work across your ticket shop and box office, from gateway setup to checkout completion."
+---
+
+## Overview
+
+Payments control how customers pay for orders placed through your ticket shop or box office. The platform supports a range of payment methods — from online card payments through a gateway, to offline methods like cash and bank transfer, to deferred flows where payment is collected after the order is placed.
+
+Payment behaviour is shaped by three things:
+
+- **What the customer owes** — whether they're paying the full amount, a deposit, or a remaining balance
+- **Which payment methods are available** — determined by your gateway configuration and channel settings
+- **How the payment is processed** — through an online gateway, recorded offline, or deferred for later collection
+
+## Channels
+
+Payments can work differently depending on where the sale happens:
+
+<Tabs>
+  <Tab title="Ticket Shop">
+    The customer-facing online checkout. Payment methods here are typically gateway-based (card payments, local payment methods). Invoice payments and account balance spending can also be enabled for the shop.
+
+    The checkout flow adapts dynamically based on basket content — additional steps may appear for data capture, VAT details, gift aid, or charity donations depending on configuration.
+  </Tab>
+  <Tab title="Box Office">
+    The staff-facing sales interface. Box office supports all online methods plus in-person methods like cash, cheque, bank transfer, and external card terminals. Staff can also generate payment links, create invoice reservations, and reserve orders for on-site payment.
+
+    Box office includes additional controls for customer assignment, confirmation emails, and payment method metadata (e.g. cheque numbers, card network details).
+  </Tab>
+</Tabs>
+
+## Payment Methods
+
+The platform supports a wide range of payment methods, broadly grouped by how they're processed:
+
+| Category | Methods |
+|----------|---------|
+| **Online gateway** | Card payments, MOTO transactions, local payment methods (e.g. OXXO) |
+| **Offline** | Cash, bank transfer, cheque, money order, external card terminal |
+| **Account balance** | Customer account balance (e-wallet), balance carried forward from a previous order |
+| **Deferred** | Payment link, invoice, reserve to pay on-site, pending approval |
+| **Other** | Complimentary, gift card, split payment (multiple methods on one order) |
+
+Not all methods are available in every context. Gateway-based methods require a configured payment processor, some methods are box office only, and certain methods (like invoice or account balance) require specific settings or feature access to be enabled.
+
+## Payment Company
+
+Every order is processed through a **payment company** — the company whose payment configuration and gateway credentials are used for the transaction.
+
+In most setups, this is simply the company running the event. In parent/child company structures where global transaction settings are enabled, the parent company may handle payment processing on behalf of child companies.
+
+## Where to Configure Payments
+
+Payment configuration is managed from **Settings > Payment** in the admin panel. This page is organised into sections:
+
+| Section | What it controls |
+|---------|-----------------|
+| **Payment gateways** | Connect and configure payment processors, set primary gateways per channel, toggle live/test mode |
+| **Manual payments** | Enable invoice payments, set minimum order values, configure payment instructions |
+| **Deposit payments** | Set deposit percentages, minimum order values, and payment deadlines |
+| **Checkout settings** | Payment link expiry, confirmation email toggles, box office payment metadata requirements |
+| **Balance settings** | Account balance spending, top-ups, cashouts, and balance refund controls |
+
+Some settings sections are only visible when the relevant feature is enabled for your company.
+
+## Related
+
+- [Payment Lifecycle](/user-manual/payments/payment-lifecycle)
+- [Payment Processors](/user-manual/payments/payment-processors)
+- [Split Payments](/user-manual/payments/split-payments)
+- [Deposit Payments](/user-manual/payments/deposit-payments)
+- [Invoice Payments](/user-manual/payments/invoice-payments)

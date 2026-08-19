@@ -8,7 +8,7 @@ Before starting any documentation workflows, you need to get your `newtickets` r
 
 ```
 newtickets/
-├── mintlify/                  # Core platform docs (docs.nuwebgroup.com)
+├── mintlify/                  # Main docs site (docs.nuwebgroup.com)
 │   ├── generate-api-docs.js   # Generates API docs for both mintlify + mintlify-hub
 │   ├── generate-release-notes.js
 │   ├── docs.json

@@ -31,7 +31,7 @@ Four ways to do it, depending on whether you need to react immediately, hold a c
 </Accordion>
 
 <Accordion title="You need figures rather than records">
-  **The reporting API.** Revenue by event, attendance by ticket type, wallet balances. The [default reports](/core-platform/reporting/default-reports) already do the grouping, aggregation and field selection, so pulling one is less work than deriving the same numbers from raw orders and produces figures that match what colleagues see on screen.
+  **The reporting API.** Revenue by event, attendance by ticket type, wallet balances. The [default reports](/user-manual/reporting/default-reports) already do the grouping, aggregation and field selection, so pulling one is less work than deriving the same numbers from raw orders and produces figures that match what colleagues see on screen.
 </Accordion>
 
 <Accordion title="Your BI tool ingests files, not APIs">
@@ -46,7 +46,7 @@ Four ways to do it, depending on whether you need to react immediately, hold a c
 
 ## Webhooks
 
-Configure a URL per event type in the admin area and we call it when that event happens. **Webhooks need the feature enabled for the company** — see [Webhooks](/core-platform/technical/webhooks) for setup, the full event list, payload configuration and the call history view.
+Configure a URL per event type in the admin area and we call it when that event happens. **Webhooks need the feature enabled for the company** — see [Webhooks](/user-manual/technical/webhooks) for setup, the full event list, payload configuration and the call history view.
 
 What matters when you are the one receiving them:
 
@@ -58,7 +58,7 @@ What matters when you are the one receiving them:
 
 **Be idempotent.** Retries mean the same event can arrive more than once. Key on the order reference rather than assuming one delivery per event.
 
-**Ask for what you need in the payload.** The **Includes** setting controls which related objects come along — ticket detail, customer information, billing address, data capture responses. Including them avoids a follow-up API call per webhook. Order webhooks can also be filtered by order type, so a [resale](/core-platform/resale/introduction) integration need not receive primary sales.
+**Ask for what you need in the payload.** The **Includes** setting controls which related objects come along — ticket detail, customer information, billing address, data capture responses. Including them avoids a follow-up API call per webhook. Order webhooks can also be filtered by order type, so a [resale](/user-manual/resale/introduction) integration need not receive primary sales.
 
 The [Webhook Reference](/webhook-reference) has the exact payload for every event.
 
@@ -82,7 +82,7 @@ The pull side, and the canonical one.
 **Filter server-side.** Constrain by date and by event rather than pulling everything and filtering locally, which costs rate limit and grows slower over time.
 
 <Warning>
-Data is filtered by the permissions and [visibility groups](/core-platform/system-access/visibility-groups) of the user whose token you are using, so a narrowly scoped token returns a subset — and that subset changes if somebody edits the user's access.
+Data is filtered by the permissions and [visibility groups](/user-manual/system-access/visibility-groups) of the user whose token you are using, so a narrowly scoped token returns a subset — and that subset changes if somebody edits the user's access.
 
 Where completeness matters, verify the token's scope and check totals against a report.
 </Warning>
@@ -91,7 +91,7 @@ Where completeness matters, verify the token's scope and check totals against a 
 
 Two endpoints, doing quite different jobs.
 
-**[Retrieve Custom Report](/api-reference/reports/retrieve-custom-report)** runs a saved [custom report](/core-platform/reporting/custom-reports) by identifier and returns its rows.
+**[Retrieve Custom Report](/api-reference/reports/retrieve-custom-report)** runs a saved [custom report](/user-manual/reporting/custom-reports) by identifier and returns its rows.
 
 The report carries its own fields, filters, groupings and headers, so the shaping happens in the admin area rather than in your code. Build the report once, then pull it.
 
@@ -105,25 +105,25 @@ The report carries its own fields, filters, groupings and headers, so the shapin
 | `page`, `limit` | Pagination. Max 100 synchronous, 1000 asynchronous |
 
 <Note>
-Some report responses are cached, which a `dataLastSynchronised` attribute tells you. Pass `refresh` for current figures — but not on a tight polling loop, since regenerating a large report is expensive. See [Caching](/core-platform/technical/caching#report-caching).
+Some report responses are cached, which a `dataLastSynchronised` attribute tells you. Pass `refresh` for current figures — but not on a tight polling loop, since regenerating a large report is expensive. See [Caching](/user-manual/technical/caching#report-caching).
 </Note>
 
 The `filter` override is what makes this practical for a warehouse. Save one report with the fields and groupings you want, then pull it per event or per date range by overriding the filter, rather than maintaining one saved report per slice.
 
-[Report Reference](/core-platform/reporting/default-reports) documents the filter keys available for each report type.
+[Report Reference](/user-manual/reporting/default-reports) documents the filter keys available for each report type.
 
 **[Retrieve Company Sales Report](/api-reference/reports/retrieve-company-sales-report)** is a fixed-shape summary rather than a configurable report: totals for today, this week and all time, plus a per-day breakdown across the last 30 days, split by payment method. It suits a dashboard tile rather than a warehouse — nothing beyond 30 days is available and the shape is not configurable.
 
 ## Scheduled Report Files
 
-The option with no API at all. A [scheduled report](/core-platform/reporting/scheduled-reports) runs on its own schedule and publishes the generated file to storage you own, where your pipeline collects it.
+The option with no API at all. A [scheduled report](/user-manual/reporting/scheduled-reports) runs on its own schedule and publishes the generated file to storage you own, where your pipeline collects it.
 
 <Steps>
   <Step title="Build a custom report with the fields you want">
-    Scheduling is built on [custom reports](/core-platform/reporting/custom-reports), so the export's shape is whatever you configured — fields, filters, groupings, column headers. Configure it once and every run matches.
+    Scheduling is built on [custom reports](/user-manual/reporting/custom-reports), so the export's shape is whatever you configured — fields, filters, groupings, column headers. Configure it once and every run matches.
   </Step>
   <Step title="Create a data endpoint pointing at your storage">
-    Amazon S3 is the supported destination: access key, secret, region, bucket, and an optional directory. Credentials are encrypted and not shown again after creation. See [Data Endpoints](/core-platform/reporting/data-endpoints).
+    Amazon S3 is the supported destination: access key, secret, region, bucket, and an optional directory. Credentials are encrypted and not shown again after creation. See [Data Endpoints](/user-manual/reporting/data-endpoints).
   </Step>
   <Step title="Schedule the report and choose the endpoint as its destination">
     Delivery can be email, data endpoint, or both. Set the cycle — once, hourly, daily, weekly or monthly — and the timezone the schedule is evaluated in.
@@ -137,7 +137,7 @@ The option with no API at all. A [scheduled report](/core-platform/reporting/sch
 
 **Features required:** **Report publishing** for endpoint delivery, and **High frequency scheduled reports** if you need the hourly cycle. Both are arranged through your account manager.
 
-**Set the timezone deliberately.** A daily report at 08:00 runs when it is 08:00 in the timezone you chose, which is a different UTC time twice a year. Where your pipeline expects a file at a fixed UTC hour, choose UTC. See [Timezones](/core-platform/core/timezones).
+**Set the timezone deliberately.** A daily report at 08:00 runs when it is 08:00 in the timezone you chose, which is a different UTC time twice a year. Where your pipeline expects a file at a fixed UTC hour, choose UTC. See [Timezones](/user-manual/core/timezones).
 
 <Note>
 Deliveries are additive — each run publishes a new file rather than replacing anything. Design your pipeline to be idempotent over re-reads and to cope with a run that produced no rows.
@@ -160,7 +160,7 @@ One shape that works for an ingest pipeline:
     Order completed for provisioning, refunds for entitlement withdrawal, check-ins for live operations. Treat these as a fast path rather than as the record.
   </Step>
   <Step title="Reconcile against a report you did not build">
-    Compare your row counts and revenue against a [default report](/core-platform/reporting/default-reports) in the admin area. Where the two disagree, token scoping is the usual cause — see the warning above.
+    Compare your row counts and revenue against a [default report](/user-manual/reporting/default-reports) in the admin area. Where the two disagree, token scoping is the usual cause — see the warning above.
   </Step>
 </Steps>
 
@@ -181,15 +181,15 @@ One shape that works for an ingest pipeline:
 </Accordion>
 
 <Accordion title="Rebuilding the figures from raw orders">
-  Revenue is not the sum of item prices — [fees](/core-platform/fees/default-system-fees), [tax](/core-platform/tax/tax-bands), refunds, [split payments](/core-platform/payments/split-payments), account balance settlements and [resale](/core-platform/resale/introduction) all affect it. Figures taken from a report match what everybody else sees.
+  Revenue is not the sum of item prices — [fees](/user-manual/fees/default-system-fees), [tax](/user-manual/tax/tax-bands), refunds, [split payments](/user-manual/payments/split-payments), account balance settlements and [resale](/user-manual/resale/introduction) all affect it. Figures taken from a report match what everybody else sees.
 </Accordion>
 
 <Accordion title="Not separating channels">
-  Orders carry the [sales channel](/core-platform/information/sales-channels) they originated from — web, box office, API, kiosk, import, invoice. Reporting them as a single number hides where the sales actually came from.
+  Orders carry the [sales channel](/user-manual/information/sales-channels) they originated from — web, box office, API, kiosk, import, invoice. Reporting them as a single number hides where the sales actually came from.
 </Accordion>
 
 <Accordion title="Forgetting orders change after completion">
-  Refunds, [modifications](/core-platform/order-management/order-modifications), [transfers](/core-platform/order-management/transfers-and-sharing) and cancellations all alter an order after the fact, so an insert-only pipeline drifts. Re-read a rolling window, or subscribe to the refund webhooks as well as the order ones.
+  Refunds, [modifications](/user-manual/order-management/order-modifications), [transfers](/user-manual/order-management/transfers-and-sharing) and cancellations all alter an order after the fact, so an insert-only pipeline drifts. Re-read a rolling window, or subscribe to the refund webhooks as well as the order ones.
 </Accordion>
 
 </AccordionGroup>
@@ -197,13 +197,13 @@ One shape that works for an ingest pipeline:
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Webhooks" icon="bell" href="/core-platform/technical/webhooks">
+  <Card title="Webhooks" icon="bell" href="/user-manual/technical/webhooks">
     Setup, event list, retries and monitoring
   </Card>
-  <Card title="Data Endpoints" icon="cloud-arrow-up" href="/core-platform/reporting/data-endpoints">
+  <Card title="Data Endpoints" icon="cloud-arrow-up" href="/user-manual/reporting/data-endpoints">
     Publish report files to your own storage
   </Card>
-  <Card title="Report Reference" icon="book" href="/core-platform/reporting/default-reports">
+  <Card title="Report Reference" icon="book" href="/user-manual/reporting/default-reports">
     Every report's fields, filters and groupings
   </Card>
   <Card title="Getting Set Up" icon="key" href="/integrate/getting-access">

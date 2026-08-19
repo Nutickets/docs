@@ -5,7 +5,7 @@ description: "How to connect your site or system to the platform."
 
 This section is for developers building something that talks to the platform — a discovery site that hands off to our checkout, an embedded shop, a basket built through the API, a data warehouse, an access control layer.
 
-For how a feature behaves in the admin area, see [Core Platform](/core-platform/get-started/introduction).
+For how a feature behaves in the admin area, see the [User Manual](/user-manual/get-started/introduction).
 
 ## What You Can Connect To
 
@@ -47,11 +47,11 @@ Moving right buys you control over look, feel and flow. It also moves work onto 
 
 Our recommendation is to take the simplest option that meets the requirement, and to be sceptical of moving right without a concrete reason.
 
-The lighter models are not a compromise. The shop runs on [your own domain](/core-platform/utilities/custom-urls), with [your branding](/core-platform/cms/theme-and-branding) and [your navigation](/core-platform/cms/menus).
+The lighter models are not a compromise. The shop runs on [your own domain](/user-manual/utilities/custom-urls), with [your branding](/user-manual/cms/theme-and-branding) and [your navigation](/user-manual/cms/menus).
 
 To the person buying, a well-configured redirect is often indistinguishable from a bespoke integration — with fewer moving parts on both sides.
 
-That compounds. Every capability we add to checkout — payment methods, add-ons, [refund protection](/core-platform/refund-protection/protect-group), accessibility improvements — reaches your customers for free. Anything you rebuild yourself, you maintain yourself.
+That compounds. Every capability we add to checkout — payment methods, add-ons, [refund protection](/user-manual/refund-protection/protect-group), accessibility improvements — reaches your customers for free. Anything you rebuild yourself, you maintain yourself.
 
 Move right when there is something you cannot express in the shop: a buying UI your product depends on, business rules that decide what goes in the basket, or a purchase that does not look like a ticket checkout. [Choosing an Integration Model](/integrate/integration-models) walks through each option.
 
@@ -80,11 +80,11 @@ Move right when there is something you cannot express in the shop: a buying UI y
 <AccordionGroup>
 
 <Accordion title="Baskets hold stock for a limited time">
-  Adding items reserves stock for a limited time — 10 minutes by default, set per company. Any integration that builds a basket and then takes the customer elsewhere should assume the clock is running. See [Sessions & Cookies](/core-platform/technical/sessions).
+  Adding items reserves stock for a limited time — 10 minutes by default, set per company. Any integration that builds a basket and then takes the customer elsewhere should assume the clock is running. See [Sessions & Cookies](/user-manual/technical/sessions).
 </Accordion>
 
 <Accordion title="Your API token carries a user's permissions">
-  A token can do what its creator can do, filtered by the same roles and [visibility groups](/core-platform/system-access/visibility-groups). Create a dedicated user with only the permissions your integration needs.
+  A token can do what its creator can do, filtered by the same roles and [visibility groups](/user-manual/system-access/visibility-groups). Create a dedicated user with only the permissions your integration needs.
 </Accordion>
 
 <Accordion title="Some options need a feature enabled first">

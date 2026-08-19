@@ -42,7 +42,7 @@ Manual entry also accepts input from external keyboard-style barcode scanners �
 
 ### NFC Scanning
 
-When the event's [scanning mode](/core-platform/event-management/access-control#scanning-mode) is set to **NFC** or the device is configured for NFC pairing:
+When the event's [scanning mode](/user-manual/event-management/access-control#scanning-mode) is set to **NFC** or the device is configured for NFC pairing:
 
 - Hold the NFC tag against the device's NFC reader
 - The app reads the tag and validates the associated ticket
@@ -129,7 +129,7 @@ If no date of birth is on record, the operator is prompted to enter one. The ent
 
 By default, every scan on the **Scan** tab records an admission. When you need to track people leaving as well as arriving, the main entry can be switched to in/out scanning so the same screen handles both directions.
 
-This is driven by the event's default **Entry** zone. When an admin sets the [Entry zone](/core-platform/event-management/access-control#the-default-entry-zone) to **In/Out Manual**, a **Scan in / Scan out** selector appears at the top-left of the Scan tab. Choose the direction before scanning:
+This is driven by the event's default **Entry** zone. When an admin sets the [Entry zone](/user-manual/event-management/access-control#the-default-entry-zone) to **In/Out Manual**, a **Scan in / Scan out** selector appears at the top-left of the Scan tab. Choose the direction before scanning:
 
 - **Scan in** — records an admission at the main entry (the default direction).
 - **Scan out** — records an exit.
@@ -183,10 +183,10 @@ Failed scans are captured for all rejection reasons, including:
 
 Failed scans queue with the same background sync as successful scans, so they upload automatically when the device has connectivity.
 
-Once synced to the platform, failed scans appear in the [Failed scans report](/core-platform/reporting/default-reports#scanning-reports) in admin, with the barcode, scan time, zone, device user, and the reason the scan was rejected.
+Once synced to the platform, failed scans appear in the [Failed scans report](/user-manual/reporting/default-reports#scanning-reports) in admin, with the barcode, scan time, zone, device user, and the reason the scan was rejected.
 
 ## Secure QR Codes
 
 When the event's scanning mode is set to **Secure QR Only**, the app validates time-based dynamic QR codes that rotate periodically. This prevents ticket fraud via screenshot sharing.
 
-The app decodes and validates the secure barcode locally before processing the admission. See [secure barcodes](/core-platform/event-management/secure-barcodes) for how this feature is configured.
+The app decodes and validates the secure barcode locally before processing the admission. See [secure barcodes](/user-manual/event-management/secure-barcodes) for how this feature is configured.

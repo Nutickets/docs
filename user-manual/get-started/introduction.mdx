@@ -1,0 +1,92 @@
+---
+title: "Introduction"
+description: "Key concepts, system structure, and navigating the docs."
+---
+
+The platform is an event management and ticketing system. You use it to create events, sell tickets and products, manage customers, process payments, control venue access, and run on-site operations.
+
+This documentation is a reference for everything the platform can do, start here to understand how the pieces fit together.
+
+## Main Concepts
+
+Everything in the platform revolves around a few core concepts. Understanding these will help you navigate both the system and this documentation.
+
+### Companies
+
+A **company** is your account on the platform. It's where all your events, customers, orders, and settings live. Each company has its own [ticket shop](/user-manual/ticket-shop/homepage) — a public-facing website where customers browse and purchase.
+
+Companies can operate independently or as part of a parent–child structure, where a parent company manages shared settings and features across multiple child companies.
+
+### Events
+
+[Events](/user-manual/event-management/introduction) are the central building block. An event has a date, a location (physical, online, or both), and one or more things to sell. Events can be standalone or grouped into a [schedule](/user-manual/event-management/schedules) for recurring or multi-date series.
+
+Each event is configured with its own [capacity controls](/user-manual/event-management/capacity-controls), [access control rules](/user-manual/event-management/access-control), [sales periods](/user-manual/event-management/sales-periods), and [page customisations](/user-manual/event-management/event-page-customisations).
+
+### Sale Items
+
+A [sale item](/user-manual/sale-items/core-concepts) is anything a customer can purchase — tickets, products, guest list entries, donations, season tickets, or bundles. Each sale item is configured with its own pricing, stock, on-sale dates, and sales channel visibility.
+
+Sale items are sold through an **inventory** — the entity that owns and lists them. Events are the most common inventory, but sale items can also belong to [EPOS shops](/user-manual/epos/overview) or to the company itself (for items sold independently of any event).
+
+Sale items can be enhanced with [add-ons](/user-manual/sale-items/add-ons), restricted to [customer groups](/user-manual/customer-management/customer-groups), and organised into [groups](/user-manual/event-management/sale-item-groups) that control how they appear to customers.
+
+### Orders & Customers
+
+When a customer completes a purchase, it becomes an [order](/user-manual/order-management/core-concepts). Orders contain individual order items — each with a unique barcode — and support [refunds](/user-manual/order-management/refunds-and-cancellations), [modifications](/user-manual/order-management/order-modifications), and [transfers](/user-manual/event-management/item-transfers).
+
+Customers are created automatically when someone makes a purchase or registers an account. You can [edit customer records](/user-manual/customer-management/managing-customers), [merge duplicates](/user-manual/customer-management/merging-customers), and segment customers into [groups](/user-manual/customer-management/customer-groups) for targeted access and pricing.
+
+## Sales Channels
+
+Sale items can be made available across multiple sales channels, and each channel serves a different selling context:
+
+| Channel | Description |
+| --- | --- |
+| **Ticket Shop** | Your [customer-facing website](/user-manual/ticket-shop/homepage). Customers browse events, select items, and check out on their own. The shop supports [event listings](/user-manual/ticket-shop/browsing-and-search), [search](/user-manual/ticket-shop/browsing-and-search), a [global basket](/user-manual/ticket-shop/basket) across multiple events, and [guest checkouts](/user-manual/ticket-shop/checkout). Its appearance is controlled through the [CMS](/user-manual/cms/theme-and-branding). |
+| **Box Office** | [Staff-assisted web sales](/user-manual/box-office/introduction) — at the door, over the phone, or anywhere a staff member is helping a customer. Runs inside the shop with staff authentication, adding operational tools like [instant checkout](/user-manual/box-office/instant-checkout), [named orders](/user-manual/box-office/checkout-flow), and additional [payment methods](/user-manual/box-office/payment-methods). |
+| **Mobile Box Office** | Staff-assisted sales through the [Box Office Pro](/mobile-apps/box-office-pro/introduction) mobile app, designed for on-the-ground selling with connected hardware. |
+| **Kiosk** | Self-service purchasing for customers at a physical location, without staff involvement. |
+| **API** | Programmatic sales through the [public API](/api-reference/introduction), enabling third-party integrations and custom sales flows. |
+
+Each sale item can be independently enabled or disabled per channel, so you can control exactly where each item is available for purchase.
+
+## Navigating This Documentation
+
+The documentation is organised into sections that mirror how the platform works:
+
+<CardGroup cols={2}>
+  <Card title="Events" icon="calendar" href="/user-manual/event-management/introduction">
+    Creating events, configuring timeslots, venues, capacity, seating plans, access control, and sales periods.
+  </Card>
+
+  <Card title="Commerce & Revenue" icon="cart-shopping" href="/user-manual/sale-items/core-concepts">
+    Sale items, pricing, fees, tax, discount codes, payment processing, refund protection, and resale.
+  </Card>
+
+  <Card title="Channels & Experience" icon="store" href="/user-manual/ticket-shop/homepage">
+    Ticket shop configuration, box office mode, CMS, data capture, notifications, and EPOS.
+  </Card>
+
+  <Card title="Data & Insights" icon="chart-line" href="/user-manual/order-management/core-concepts">
+    Order management, customer management, reporting, and data imports.
+  </Card>
+
+  <Card title="Platform & Admin" icon="gear" href="/user-manual/system-access/users">
+    Users, roles, permissions, system defaults, integrations, and technical settings.
+  </Card>
+
+  <Card title="Information" icon="circle-info" href="/user-manual/information/sales-channels">
+    Glossary, sales channel details, supported languages and currencies, and other reference material.
+  </Card>
+</CardGroup>
+
+Use the sidebar to drill into any section, or use the search to jump directly to a specific feature.
+
+## Beyond the User Manual
+
+This tab covers the admin platform and ticket shop. For other parts of the ecosystem, see the other documentation tabs:
+
+- [**Mobile Apps**](/mobile-apps/get-started/introduction) — Access Control Pro, Box Office Pro, and EPOS Pro for on-site operations with mobile devices.
+- [**API Reference**](/api-reference/introduction) — Public API for building integrations, automating workflows, and accessing platform data programmatically.
+- [**Webhook Reference**](/webhook-reference/introduction) — Real-time event notifications for external systems.

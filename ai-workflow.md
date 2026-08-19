@@ -10,7 +10,7 @@
 
 - Documentation for this repo lives in `mintlify/` with configuration in `mintlify/docs.json`.
 - The full multi-repo layout (including `mintlify-hub/` and `mobile-apps/*`) is defined in `mintlify/README.md` and must be treated as the source of truth.
-- Pages in this repo are MDX files organised by system (for example `core-platform/` and `mobile-apps/`).
+- Pages in this repo are MDX files organised by system (for example `user-manual/` and `mobile-apps/`).
 - Other tabs (API Reference, Partner API Reference, Webhook Reference, Releases) are auto-generated and not part of this workflow but may be referenced/linked to.
 
 ### Mandatory First Step — Read Repository Structure
@@ -213,7 +213,7 @@ The key test: can a reader go top-to-bottom and feel like they followed a cohere
 
 ### Reference Example
 
-`core-platform/event-management/event-approvals.mdx` is the gold standard for a complete documentation page. Study it before writing. What makes it work:
+`user-manual/event-management/event-approvals.mdx` is the gold standard for a complete documentation page. Study it before writing. What makes it work:
 
 - **Overview grounds the reader in purpose** — "Event approvals add a review step to the event publishing workflow" tells you what, who, and why in one sentence. It doesn't start with abstraction.
 - **Sections are named as user tasks** — "Requesting Approval", "Finding Events Awaiting Approval", "Reviewing Approval Requests" map directly to things users do.
@@ -423,7 +423,7 @@ to enable [workflow]. Configuration is managed through [location].
 ### Selection Phase
 
 - [ ] Read `mintlify/README.md` and confirm the full repo/sub-repo structure.
-- [ ] Select the documentation system (core-platform, mobile-apps, partner-hub).
+- [ ] Select the documentation system (user-manual, mobile-apps, partner-hub).
 - [ ] Select the specific page to work on.
 - [ ] Select the task type (initial draft, flesh out, refinement, gap analysis).
 - [ ] Read the current state of the target page.

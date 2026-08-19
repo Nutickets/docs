@@ -9,7 +9,7 @@ Embedding puts the shop inside a frame on your page. The customer selects items,
 
 There are four variations, built from the same script, settings object and URL parameters. Each adds something for you to maintain, so take the earliest one that meets the requirement.
 
-The admin area's embed wizard generates working code for an event, which is the quickest way to get something running. It needs the **Website integration** feature active — see [Website Integration](/core-platform/technical/iframe-embeds).
+The admin area's embed wizard generates working code for an event, which is the quickest way to get something running. It needs the **Website integration** feature active — see [Website Integration](/user-manual/technical/iframe-embeds).
 
 ## How the Embed Works
 
@@ -83,7 +83,7 @@ window.addEventListener('message', (event) => {
 
 The generated script handles `close` and `visit` for you — you only need your own listener for tracking and basket expiry.
 
-[Embed Messages](/core-platform/technical/embed-messages) documents every message and parameter, which customer data is included, and how cookie consent affects what is sent.
+[Embed Messages](/user-manual/technical/embed-messages) documents every message and parameter, which customer data is included, and how cookie consent affects what is sent.
 
 <Note>
 A `close` message means the embed *should* close — it does not close anything by itself if you are handling messages yourself.
@@ -141,7 +141,7 @@ Your code is what moves the customer between pages, so carrying the basket acros
 
 ## Variation 4: Embedding One Component
 
-You do not have to embed a whole shop page. Point `eventUrl` at `/events/{id}/seating-plan` and only the [seating plan](/core-platform/seating-plans/introduction) loads.
+You do not have to embed a whole shop page. Point `eventUrl` at `/events/{id}/seating-plan` and only the [seating plan](/user-manual/seating-plans/introduction) loads.
 
 This is the most common single-component embed: your page owns everything else, and the frame gives you a live seat map with real availability.
 
@@ -154,7 +154,7 @@ Seating plans are the one part of the embed that talks in both directions. The p
 
 Loaded through the generated script, the outbound messages are re-dispatched on your page as DOM events of the same names (`seatingError` for errors). The script's `postToIframe` helper sends commands the other way, addressed to your configured `allowedOrigin`.
 
-Wait for `planReady` before sending anything. Full list in [Embed Messages](/core-platform/technical/embed-messages#seating-plan-messages).
+Wait for `planReady` before sending anything. Full list in [Embed Messages](/user-manual/technical/embed-messages#seating-plan-messages).
 
 What you do with those selections is the subject of [Building Baskets with the API](/integrate/checkout/building-baskets) — the plan reports what the customer picked, but it does not create a basket.
 
@@ -199,7 +199,7 @@ Seat and area selection events only ever come from a seat map or general-admissi
 
   Two things to plan for. The customer has to be signed in, which in a frame means [pre-authentication](/integrate/identity/pre-authentication) rather than a redirect. And if your site already has its own account area, the [customers API](/api-reference/customers/retrieve-customers) may fit better than embedding ours.
 
-  See [Customer Accounts](/core-platform/ticket-shop/customer-accounts) for what the account area contains.
+  See [Customer Accounts](/user-manual/ticket-shop/customer-accounts) for what the account area contains.
 </Accordion>
 
 </AccordionGroup>
@@ -217,7 +217,7 @@ The wizard can generate a ready-made listener for you: **Add cross-site tracking
 <Warning>
 Google Analytics shaped tracking messages reach your page **regardless of the customer's cookie choice in the shop**. The shop honours that choice for its own tracking; your page receives the data either way and must apply consent before passing anything on.
 
-Email addresses and phone numbers are hashed before they leave the shop. Names, customer identifiers and city are not — treat these messages as personal data. See [Embed Messages](/core-platform/technical/embed-messages#what-customer-data-is-included).
+Email addresses and phone numbers are hashed before they leave the shop. Names, customer identifiers and city are not — treat these messages as personal data. See [Embed Messages](/user-manual/technical/embed-messages#what-customer-data-is-included).
 </Warning>
 
 ## Try It
@@ -239,10 +239,10 @@ The [embed snippet tester](https://integration-playground.nuwebgroup.com/tools/e
   <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
     Moving a customer between your own pages
   </Card>
-  <Card title="Embed Messages" icon="messages" href="/core-platform/technical/embed-messages">
+  <Card title="Embed Messages" icon="messages" href="/user-manual/technical/embed-messages">
     Complete message and payload reference
   </Card>
-  <Card title="Website Integration" icon="wand-magic-sparkles" href="/core-platform/technical/iframe-embeds">
+  <Card title="Website Integration" icon="wand-magic-sparkles" href="/user-manual/technical/iframe-embeds">
     Generate embed code from the admin area
   </Card>
   <Card title="Shop URL Parameters" icon="link" href="/integrate/reference/url-parameters">

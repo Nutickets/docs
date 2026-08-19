@@ -27,7 +27,7 @@ POST /v1/basket-items   →   startBasketUrl
 
 This is the recommended option wherever it applies. Your server already holds the link, so you can pass it between your pages however suits you — a query parameter, your own session, a database row — and the customer can leave and come back to it.
 
-See [Building Baskets with the API](/integrate/checkout/building-baskets#handing-the-basket-back) for creating one, and [Basket Links](/core-platform/technical/basket-links) for how the link behaves once followed. It needs the **Basket links** feature enabled for the company.
+See [Building Baskets with the API](/integrate/checkout/building-baskets#handing-the-basket-back) for creating one, and [Basket Links](/user-manual/technical/basket-links) for how the link behaves once followed. It needs the **Basket links** feature enabled for the company.
 
 ### The Session Identifier
 
@@ -72,21 +72,21 @@ Treat the identifier as short-lived and specific to the journey in progress: use
 <Accordion title="The basket timer is running throughout">
   Items are held for a limited time — 10 minutes by default, set per company — and an expired basket releases them. Any hand-off between pages happens against that clock.
 
-  The customer can extend the timer up to three times, and the shop can often recover the most recently expired basket. See [Sessions & Cookies](/core-platform/technical/sessions).
+  The customer can extend the timer up to three times, and the shop can often recover the most recently expired basket. See [Sessions & Cookies](/user-manual/technical/sessions).
 </Accordion>
 
 <Accordion title="Signing in produces a new session">
-  Signing a customer in regenerates their session. Their basket and any [waiting room](/core-platform/ticket-shop/waiting-rooms) position carry over automatically, but an identifier you captured beforehand no longer applies. This is why you keep the latest value the shop sends rather than the first.
+  Signing a customer in regenerates their session. Their basket and any [waiting room](/user-manual/ticket-shop/waiting-rooms) position carry over automatically, but an identifier you captured beforehand no longer applies. This is why you keep the latest value the shop sends rather than the first.
 </Accordion>
 
 <Accordion title="If you built the frame yourself">
   The generated embed script performs the exchange that lets the shop send you a session identifier.
 
-  Writing your own `<iframe>` means adding `parent-origin` set to your site's origin to the frame URL, and replying to the shop's handshake message. The same requirement governs tracking and seating plan messages. See [Embed Messages](/core-platform/technical/embed-messages).
+  Writing your own `<iframe>` means adding `parent-origin` set to your site's origin to the frame URL, and replying to the shop's handshake message. The same requirement governs tracking and seating plan messages. See [Embed Messages](/user-manual/technical/embed-messages).
 </Accordion>
 
 <Accordion title="A basket link is single use">
-  Once its order completes the link is spent, and it becomes invalid if the basket expires or contains an item for a cancelled event. [Basket Links](/core-platform/technical/basket-links#restrictions) lists every restriction.
+  Once its order completes the link is spent, and it becomes invalid if the basket expires or contains an item for a cancelled event. [Basket Links](/user-manual/technical/basket-links#restrictions) lists every restriction.
 </Accordion>
 
 </AccordionGroup>
@@ -101,7 +101,7 @@ Two playground scenarios build the same two-page journey with an explicit hand-o
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Basket Links" icon="link" href="/core-platform/technical/basket-links">
+  <Card title="Basket Links" icon="link" href="/user-manual/technical/basket-links">
     How signed basket URLs behave
   </Card>
   <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">

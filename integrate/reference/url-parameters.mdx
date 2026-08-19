@@ -20,8 +20,8 @@ These apply to any visit, embedded or not.
 | `showItems` | `1` | On an event page, opens item selection immediately instead of showing the event description first. |
 | `language` | A locale the company has enabled | Selects the shop language. An unsupported locale falls back to the company's default. |
 | `currency` | A currency code the company has enabled | Selects the currency. Ignored if the company does not have it enabled. |
-| `access_code` | An access code | Applies an [access code](/core-platform/basket-codes/access-codes), making restricted items visible. |
-| `discount_code` | A discount code | Applies a [discount code](/core-platform/basket-codes/discount-codes) to the basket. |
+| `access_code` | An access code | Applies an [access code](/user-manual/basket-codes/access-codes), making restricted items visible. |
+| `discount_code` | A discount code | Applies a [discount code](/user-manual/basket-codes/discount-codes) to the basket. |
 
 `currency`, `access_code` and `discount_code` are consumed and stripped from the address, so the customer is not left holding a shareable URL with a code in it. The selection persists for the rest of their visit.
 
@@ -77,7 +77,7 @@ You construct these when your own code moves a customer out of a frame into a fu
 
 Both are needed together: without `fsid=1` an existing session takes priority, which stops a shared or bookmarked link displacing somebody's live session.
 
-Treat the identifier as specific to the journey in progress: a new one is issued whenever the customer signs in. For anything durable, use a [basket link](/core-platform/technical/basket-links). See [Carrying the Basket Across Pages](/integrate/checkout/session-continuity).
+Treat the identifier as specific to the journey in progress: a new one is issued whenever the customer signs in. For anything durable, use a [basket link](/user-manual/technical/basket-links). See [Carrying the Basket Across Pages](/integrate/checkout/session-continuity).
 
 ## Message Addressing
 
@@ -89,7 +89,7 @@ The generated embed script sets this for you. **If you build your own iframe, yo
 
 `close` and `visit` are broadcast and still arrive; tracking, basket expiry and seating plan messages do not.
 
-If `close` and `visit` arrive but nothing else does, `parent-origin` is missing. Set it explicitly rather than relying on the referring page, which is not always available. See [Embed Messages](/core-platform/technical/embed-messages#which-host-page-receives-each-message).
+If `close` and `visit` arrive but nothing else does, `parent-origin` is missing. Set it explicitly rather than relying on the referring page, which is not always available. See [Embed Messages](/user-manual/technical/embed-messages#which-host-page-receives-each-message).
 
 ## Where Parameters Go in an Embed
 
@@ -115,7 +115,7 @@ Putting `showItems` in the settings object, or `showInModal` on the URL, silentl
   <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
     When and how to use `sid` and `fsid`
   </Card>
-  <Card title="Embed Messages" icon="messages" href="/core-platform/technical/embed-messages">
+  <Card title="Embed Messages" icon="messages" href="/user-manual/technical/embed-messages">
     Every message the shop sends out
   </Card>
 </CardGroup>

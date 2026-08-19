@@ -10,7 +10,7 @@ Your system decides *what* the customer is buying; the platform handles *taking 
 It fits three situations:
 
 - **Your own basket UI.** You have built the selection experience — a package builder, a membership renewal, a multi-event journey — and you want our checkout at the end of it.
-- **A partial embed.** You embed only the [seating plan](/core-platform/seating-plans/introduction), listen for what the customer picks, and turn those selections into a basket yourself.
+- **A partial embed.** You embed only the [seating plan](/user-manual/seating-plans/introduction), listen for what the customer picks, and turn those selections into a basket yourself.
 - **A basket that follows from a rule rather than a choice.** An entitlement, a renewal, a partner feed, an allocation. Nobody browsed; your system already knows the answer.
 
 The shape is the same in all three: build the basket with one API call, then hand it back to the shop.
@@ -44,7 +44,7 @@ For companies using an external identity system, `customerSsoId` can accompany e
 
 Leaving all of them out creates an anonymous basket, which is fine when the customer will identify themselves in our checkout.
 
-Where you already know who they are, supplying the customer up front makes their order history, [account balance](/core-platform/account-balances/top-ups) and saved details available at checkout.
+Where you already know who they are, supplying the customer up front makes their order history, [account balance](/user-manual/account-balances/top-ups) and saved details available at checkout.
 
 ### Describing the Items
 
@@ -56,7 +56,7 @@ Each entry in `items` needs an `id` — the sale item identifier, which you can 
 | `amount` | Variable and custom priced items, in the smallest currency unit. Omit `quantity`. |
 | `spaceId` | Seated items — the specific space being booked. See below. |
 | `bestAvailableSeats` | Let the platform pick seats, for events with best available seats enabled. Optionally constrain with `areaId`. |
-| `orderItemId` | Adding a [resale](/core-platform/resale/introduction) item instead of a primary one. |
+| `orderItemId` | Adding a [resale](/user-manual/resale/introduction) item instead of a primary one. |
 | `preventBasketModification` | Stop the customer removing or reducing this line in the shop. Increasing quantity is still allowed. |
 
 <Note>
@@ -65,7 +65,7 @@ Each entry in `items` needs an `id` — the sale item identifier, which you can 
 
 ### Currency
 
-Pass `currencyId` on the call that creates the basket if you need a specific currency; it must be one the company has enabled, and it is ignored once a basket exists. See [Supported Currencies](/core-platform/core/supported-currencies).
+Pass `currencyId` on the call that creates the basket if you need a specific currency; it must be one the company has enabled, and it is ignored once a basket exists. See [Supported Currencies](/user-manual/core/supported-currencies).
 
 ## From an Embedded Seating Plan to a Basket
 
@@ -100,18 +100,18 @@ The join between the embedded plan and the API is the part worth spelling out.
 ```
 
 <Warning>
-The plan's events describe what the customer selected. Whether the basket is valid is decided when you create it — per-item limits, basket size, sale periods, [customer group](/core-platform/customer-management/customer-groups) restrictions and availability are all enforced at that point.
+The plan's events describe what the customer selected. Whether the basket is valid is decided when you create it — per-item limits, basket size, sale periods, [customer group](/user-manual/customer-management/customer-groups) restrictions and availability are all enforced at that point.
 
 Handle the API's validation errors in your own UI, including two customers selecting the same seat and only one call succeeding.
 </Warning>
 
 <Note>
-Seating plan availability inside the frame refreshes on an interval rather than in real time — every 10 seconds by default in the shop. A seat can look available for a few seconds after somebody else has taken it. See [Caching](/core-platform/technical/caching#seating-plan-availability).
+Seating plan availability inside the frame refreshes on an interval rather than in real time — every 10 seconds by default in the shop. A seat can look available for a few seconds after somebody else has taken it. See [Caching](/user-manual/technical/caching#seating-plan-availability).
 </Note>
 
 ## Handing the Basket Back
 
-Add `generateBasketUrl: true` and the response includes `startBasketUrl` — a signed URL that drops the customer into the shop with the basket loaded and ready. **This needs the Basket links feature enabled for the company**; see [Basket Links](/core-platform/technical/basket-links).
+Add `generateBasketUrl: true` and the response includes `startBasketUrl` — a signed URL that drops the customer into the shop with the basket loaded and ready. **This needs the Basket links feature enabled for the company**; see [Basket Links](/user-manual/technical/basket-links).
 
 You have three ways to use it, and they are interchangeable from the platform's point of view:
 
@@ -129,7 +129,7 @@ The signature is validated and the basket confirmed as still active. A registere
 
 Any *other* active basket they have is expired, the pre-built basket is loaded into their session, and they land on the basket page ready to continue.
 
-From there it is an ordinary purchase: they can apply [discount codes](/core-platform/basket-codes/discount-codes) or [access codes](/core-platform/basket-codes/access-codes), add or remove items unless you locked them, and go through [checkout](/core-platform/ticket-shop/checkout) and payment.
+From there it is an ordinary purchase: they can apply [discount codes](/user-manual/basket-codes/discount-codes) or [access codes](/user-manual/basket-codes/access-codes), add or remove items unless you locked them, and go through [checkout](/user-manual/ticket-shop/checkout) and payment.
 
 ### Bringing Them Back Afterwards
 
@@ -143,7 +143,7 @@ Set `successRedirectUrl` and `failureRedirectUrl` when you create the basket and
 <Warning>
 These control where the browser goes; they are not a record of the sale. A customer who closes the tab never reaches your success URL, and the parameters arrive from the browser rather than from us.
 
-Confirm the order server-side before granting anything — with the [Order completed webhook](/core-platform/technical/webhooks), or by reading it back with [Retrieve Order](/api-reference/orders/retrieve-order).
+Confirm the order server-side before granting anything — with the [Order completed webhook](/user-manual/technical/webhooks), or by reading it back with [Retrieve Order](/api-reference/orders/retrieve-order).
 </Warning>
 
 ## Managing a Basket Before Hand-Off
@@ -161,17 +161,17 @@ Between creating a basket and handing it over, you can keep working on it:
 
 `Retrieve Basket` is where fees, tax and totals come from. If your UI shows a price, take it from there rather than computing it.
 
-[Fees](/core-platform/fees/default-system-fees), [tax bands](/core-platform/tax/tax-bands) and [all-in pricing](/core-platform/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
+[Fees](/user-manual/fees/default-system-fees), [tax bands](/user-manual/tax/tax-bands) and [all-in pricing](/user-manual/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
 
 Passing `cancelExistingBasket` alongside a `basketId` expires that basket and issues a new one, which is the clean way to start a customer over rather than unpicking their items individually.
 
 <Warning>
-The reservation clock starts when you create the basket, not when the customer arrives. Build it as late as you reasonably can, and handle the expired case. [Sessions & Cookies](/core-platform/technical/sessions) covers the timer, extensions and recovery.
+The reservation clock starts when you create the basket, not when the customer arrives. Build it as late as you reasonably can, and handle the expired case. [Sessions & Cookies](/user-manual/technical/sessions) covers the timer, extensions and recovery.
 </Warning>
 
 ## Data Capture
 
-If the items require [data capture](/core-platform/data-capture/introduction) — attendee names, dietary requirements, membership numbers — the shop asks for it during checkout.
+If the items require [data capture](/user-manual/data-capture/introduction) — attendee names, dietary requirements, membership numbers — the shop asks for it during checkout.
 
 To collect it in your own UI instead, submit responses with [Capture Response](/api-reference/data-capture/capture-response) before handing over and the customer is not asked twice.
 
@@ -190,7 +190,7 @@ Three playground scenarios cover the paths on this page:
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Basket Links" icon="link" href="/core-platform/technical/basket-links">
+  <Card title="Basket Links" icon="link" href="/user-manual/technical/basket-links">
     Signed basket URLs, security and restrictions
   </Card>
   <Card title="Completing Orders with the API" icon="receipt" href="/integrate/checkout/api-checkout">
@@ -199,7 +199,7 @@ Three playground scenarios cover the paths on this page:
   <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
     Why basket links beat cookies
   </Card>
-  <Card title="Basket" icon="basket-shopping" href="/core-platform/ticket-shop/basket">
+  <Card title="Basket" icon="basket-shopping" href="/user-manual/ticket-shop/basket">
     What the customer sees when they arrive
   </Card>
 </CardGroup>

@@ -1,0 +1,156 @@
+---
+title: "Shop Settings"
+description: "Configure the environment-level settings that shape the overall ticket shop experience, from traffic management and cookie consent to SEO and date formatting."
+---
+
+## Overview
+
+Shop settings are the environment-level controls that affect the entire ticket shop -- not a single event, basket, or checkout step, but the overall shopping experience every customer encounters. These include the virtual waiting room for managing high-demand traffic, cookie consent and privacy controls, SEO and search engine indexing, analytics integration, and how dates and times are displayed.
+
+Most of these settings live in **General Settings** under your admin panel, while the waiting room is configured through the **theme editor**. This page walks through each setting area and explains how it affects your customers.
+
+## Virtual Waiting Room
+
+The virtual waiting room is a queue system that manages traffic during high-demand on-sale periods. When your shop reaches its capacity limit, incoming customers are placed in a queue and admitted automatically as space becomes available.
+
+For full details on configuration, capacity tracking, queue behaviour, and polling intervals, see [Waiting Rooms](/user-manual/ticket-shop/waiting-rooms).
+
+## Cookie Banner and Policy
+
+The cookie banner gives customers control over which cookies your shop sets, helping you meet privacy requirements. When enabled, customers see a consent banner on their first visit.
+
+### Enabling the Cookie Banner
+
+Enable the cookie banner in **Company Settings**:
+
+- Toggle **Enable cookies banner & policy page** to on
+
+<Note>
+All text shown on the cookie banner and policy page can be customised in the CMS text editor under the text menu. This includes the banner message, cookie descriptions, and the full policy page content.
+</Note>
+
+### Cookie Categories
+
+The banner presents two categories of cookies:
+
+| Category | Description | Customer Choice |
+|----------|-------------|-----------------|
+| **Necessary cookies** | Enable core functionality such as security, network management, and accessibility | Always active -- cannot be declined |
+| **Analytics cookies** | Help improve the website by collecting and reporting information on how customers use it | Optional -- customer can accept or decline |
+
+Customers are presented with two options:
+- **Use necessary cookies** -- accepts only the cookies required for the shop to function
+- **Allow all cookies** -- accepts all cookies including analytics
+
+### Passing Cookie Preferences from Another Site
+
+If your ticket shop is linked from a main website where the customer has already made a cookie choice, you can pass that preference through to avoid showing the banner again. Append the `cookiesAccepted` query parameter to your shop URL:
+
+| Parameter Value | Meaning |
+|-----------------|---------|
+| `cookiesAccepted=0` | No previous choice -- banner will be shown |
+| `cookiesAccepted=1` | Necessary cookies only |
+| `cookiesAccepted=2` | All cookies accepted |
+
+For example: `https://yourshop.com/?cookiesAccepted=2` would suppress the cookie banner and treat the customer as having accepted all cookies.
+
+## SEO and Search Engine Indexing
+
+These settings control how search engines discover and display your ticket shop in search results.
+
+### Meta Tags
+
+Configure your shop's default SEO metadata in **Company Settings**:
+
+| Setting | Purpose |
+|---------|---------|
+| **Meta title** | The page title shown in browser tabs and search engine results |
+| **Meta description** | The description shown beneath the title in search engine results |
+
+Both fields support translations, so you can set different meta content for each language your shop supports.
+
+<Note>
+Individual listing pages (CMS pages) can override these defaults with their own meta title and description. The company-level settings act as fallbacks for pages that do not have their own SEO metadata configured.
+</Note>
+
+### Disabling Search Engine Indexing
+
+If you want to prevent search engines from indexing parts of your shop -- for example, during a staging or testing period -- use the **Disable SEO Indexing** setting in **Company Settings**.
+
+You can disable indexing for:
+- **The whole site** -- prevents search engines from indexing any page on your ticket shop
+- **Individual areas** -- selectively exclude specific sections while keeping the rest indexed
+
+When indexing is disabled for a page, a `noindex` meta tag is added to tell search engines not to include that page in their results.
+
+<Warning>
+Disabling indexing for the whole site will remove your shop from search engine results over time. Only use this for shops that are not yet live or should not be publicly discoverable.
+</Warning>
+
+### Sitemap
+
+Your ticket shop automatically generates a sitemap at `/sitemap.xml` for search engine crawlers. The sitemap includes:
+
+- Published events
+- Listing pages (CMS pages)
+- Standard shop pages
+
+The sitemap updates automatically as events are published or unpublished -- no manual action is required. Search engines use the sitemap to discover and index your content more efficiently.
+
+## Google Tag Manager
+
+Integrate Google Tag Manager to add tracking, analytics, and marketing tags across your shop without modifying code.
+
+### Setting Up Google Tag Manager
+
+1. Navigate to **Company Settings**
+2. Enter your GTM container ID in the **Google Tag Manager code** field (e.g. `GTM-XXXXXXX`)
+
+Once configured, the GTM container is loaded on every page of your ticket shop.
+
+<Note>
+Google Tag Manager respects the cookie banner. If you have the cookie banner enabled, analytics and marketing tags configured in GTM will only fire after the customer has accepted analytics cookies. This ensures your tracking complies with the customer's consent choice.
+</Note>
+
+## Date and Time Display
+
+Date format, time format, and timezone display settings affect how dates and times appear to customers throughout the shop. These are configured at the company level — see [Company Settings: Localization](/user-manual/utilities/company-settings#localization) for the full list of options.
+
+## Early Access Features
+
+The platform periodically introduces new shop experiences as **early access features** — optional upgrades that you can enable before they become the default. Early access features are managed in **Site > Theme settings** under the **Early access features** section.
+
+Each feature has a testing period during which it is optional. Once that period ends, the feature becomes the default behaviour for all shops. The admin UI shows the date when the testing period closes for each feature.
+
+### Timeslot and Schedule Selection
+
+When enabled, the traditional calendar-based [timeslot](/user-manual/event-management/timeslots) picker is replaced with a streamlined list-based interface that is more accessible and mobile-friendly.
+
+The new experience works in two steps:
+
+1. **Select a date** — available dates are shown in a scrollable list. If the schedule spans multiple months, a month picker appears first. Each date shows the time range and number of available slots.
+2. **Select a time** — once a date is chosen, available times are listed. When there are many timeslots (more than ten), they are grouped into **Morning**, **Afternoon**, and **Evening** sections to help customers find a convenient time quickly.
+
+Each timeslot in the list shows:
+- The time window
+- The lowest available price (prefixed with "from")
+- Stock availability (e.g. "only 3 left", "sold out", "off sale")
+
+The same interface is used for selecting timeslots from other dates or selecting other events in a [repeat schedule](/user-manual/event-management/schedules). Recently viewed timeslots are tracked so customers can quickly return to options they were considering.
+
+### Item Selection
+
+When enabled, the traditional quantity selector (starting at zero with increment/decrement controls) is replaced with a **Select** call-to-action button. This provides a clearer purchasing flow:
+
+- **Before selection** — items display a **Select** button instead of a quantity input set to zero.
+- **After selection** — the button changes to **Selected × 1** (or the relevant quantity) with a checkmark. If the item supports multiple quantities, the standard quantity controls appear so the customer can adjust.
+- **Removing** — hovering over a selected item reveals a **Remove** option.
+
+This change applies on both [seated](/user-manual/event-management/seated-events) and non-seated events.
+
+## Related Pages
+
+- [CMS: Theme & Branding](/user-manual/cms/theme-and-branding) -- Visual customisation of the shop
+- [CMS: Website Text](/user-manual/cms/website-text) -- Customising all shop text including waiting room and cookie banner content
+- [Custom URLs](/user-manual/utilities/custom-urls) -- Custom domain setup for your shop
+- [Homepage](/user-manual/ticket-shop/homepage) -- Homepage configuration and content blocks

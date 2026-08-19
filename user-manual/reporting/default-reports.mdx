@@ -1,0 +1,1520 @@
+---
+title: "Report Reference"
+description: "Complete field, filter, grouping, and interval reference for every report type."
+---
+
+## How to Use This Reference
+
+This page documents every report type available in the platform, organised by the categories you see on the reports listing page. For each report type, you will find:
+
+- **What the report shows** — a plain-language summary of the data
+- **Available reports** — the pre-configured report views (templates) within that category, each with different default filters and groupings
+- **Fields** — every column you can add to the report, organised by field group
+- **Groupings** — how you can aggregate results
+- **Key filters** — notable filters specific to this report type
+- **Time intervals** — whether the report supports time-based bucketing
+
+For general guidance on using filters, fields, groupings, sorting, and exporting, see [Using Reports](/user-manual/reporting/using-reports).
+
+<Note>
+Many reports in the same category share the same underlying data engine with different default configurations. For example, **Ticket sales report**, **Product sales report**, and **Guest list sales report** all use the event sales engine but default to different item type filters. This means they share the same available fields, groupings, and filters — the difference is in what is pre-selected when you open them.
+</Note>
+
+---
+
+## Sales Reports
+
+Sales reports provide financial and volume data for items sold across events and shops. They are the primary tool for understanding revenue, discounts, fees, and item counts.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Event sales report** | View sales figures by event |
+| **Ticket sales report** | View sales figures for each ticket type |
+| **Product sales report** | View sales figures for each product type |
+| **Guest list sales report** | View sales figures for each guest list |
+| **Season ticket sales report** | View sales figures for each season ticket type |
+| **Item type sales report** | View sales figures by item type |
+| **Sale item report** | View sales figures by sale item |
+| **Timeslot report** | View sales figures by timeslot |
+| **Sale item group report** | View sales figures by sale item group |
+| **Admin user sales report** | View sales figures by admin user |
+| **Company sales report** | View sales figures by company |
+| **Reseller sales report** | View sales figures by reseller |
+| **Sales channel analysis** | View sales figures by sales channel |
+| **Payment method analysis** | View sales figures by payment method |
+| **Purchase price sales report** | View the number of sales by purchase price |
+| **Refund protect sales** | View sales figures for refund protection fees |
+| **Dynamic pricing uplift** | Per-event dynamic pricing revenue uplift <Tip>New in Release 47</Tip> |
+
+All sales reports share the same underlying engine. The difference between them is which grouping and item type filter is applied by default.
+
+<Tip>**Dynamic pricing uplift** added in Release 47. This preset is only available when [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for your account. It groups by event and defaults to the dynamic pricing revenue columns, pre-filtered to dynamically priced items.</Tip>
+
+### Fields
+
+<Accordion title="Sales volume fields">
+
+| Field | Description |
+|-------|-------------|
+| **Items issued (before adjustments)** | Total items originally issued, including items later cancelled or refunded |
+| **Items issued (after adjustments)** | Total items still active after cancellations and refunds |
+| **Items issued ticket shop (before adjustments)** | Items sold via the online ticket shop, before adjustments |
+| **Items issued ticket shop (after adjustments)** | Items sold via the online ticket shop, after adjustments |
+| **Items issued box office (before adjustments)** | Items sold via box office, before adjustments |
+| **Items issued box office (after adjustments)** | Items sold via box office, after adjustments |
+| **Items issued API (before adjustments)** | Items sold via the API, before adjustments |
+| **Items issued API (after adjustments)** | Items sold via the API, after adjustments |
+| **Items issued free (before adjustments)** | Free items issued, before adjustments |
+| **Items issued free (after adjustments)** | Free items issued, after adjustments |
+| **Items issued complimentary (before adjustments)** | Complimentary items issued, before adjustments |
+| **Items issued complimentary (after adjustments)** | Complimentary items issued, after adjustments |
+| **Items issued deferred (before adjustments)** | Deferred items issued, before adjustments |
+| **Items issued deferred (after adjustments)** | Deferred items issued, after adjustments |
+| **Items cancelled** | Total items that have been cancelled |
+| **Items refunded online** | Items refunded through the online shop |
+| **Items refunded offline** | Items refunded through box office or admin |
+| **Items refunded to account balance online** | Items refunded to a customer's account balance online |
+| **Items refunded to account balance offline** | Items refunded to an account balance offline |
+| **Items refunded to balance** | Items refunded to balance |
+| **Items attended (Entry)** | Unique items scanned into the default entry zone |
+| **Items attended (All zones)** | Unique items scanned into any zone |
+| **Attendance % (Entry)** | Percentage of issued items that attended the entry zone |
+| **Attendance % (All zones)** | Percentage of issued items that attended any zone |
+| **New customer (%)** | Percentage of purchasers who are first-time buyers |
+| **Existing customer (%)** | Percentage of purchasers who have bought before |
+| **Total gift vouchers unclaimed** | Gift vouchers issued but not yet redeemed |
+| **Total gift vouchers claimed** | Gift vouchers that have been redeemed |
+
+<Note>
+"Before adjustments" means the count includes items that were later cancelled or refunded. "After adjustments" excludes those items. Use "after adjustments" for a net count of currently valid items.
+</Note>
+</Accordion>
+
+<Accordion title="Revenue fields (per currency)">
+
+These fields appear once per active currency. For example, if you sell in GBP and EUR, you will see **Total gross (GBP)** and **Total gross (EUR)** as separate columns.
+
+| Field | Description |
+|-------|-------------|
+| **Total gross** | Total revenue before discounts and refunds |
+| **Total gross MOTO** | Total gross from MOTO (mail order/telephone order) payments |
+| **Total gross (after adjustments)** | Total gross after discounts and gateway (external) fees. Gateway fees are not supported by all gateways. |
+| **Total discounts** | Total discount value applied |
+| **Total discounts net (after taxes deducted)** | Net discount amount after tax adjustments |
+| **Total complimentary** | Total value of complimentary items |
+| **Total account balance** | Total paid via account balance (wallet) |
+| **Total refunds online** | Value of refunds processed online |
+| **Total refunds offline** | Value of refunds processed offline |
+| **Total refunds to account balance** | Value refunded to customer account balances |
+| **Total account balance refunds online** | Account balance refunds processed online |
+| **Total account balance refunds offline** | Account balance refunds processed offline |
+| **Total cancellation fees** | Revenue retained from cancellation fees |
+| **Total processing fees** | Total payment processing fees |
+| **Total reseller fees** | Total platform/reseller fees |
+| **Total reseller fees MOTO** | Reseller fees from MOTO payments |
+| **Total fees** | Sum of processing and reseller fees |
+| **Total external fees** | Fees charged by the payment gateway (not supported by all providers) |
+| **Total sales tax** | Total sales tax calculated |
+| **Total net** | Revenue after discounts and refunds |
+| **Total net (after all fees)** | Revenue after discounts, refunds, processing fees, and reseller fees |
+| **Total net (after reseller and gateway fees)** | Revenue after discounts, refunds, gateway fees, and reseller fees. Gateway fees are not supported by all gateways. |
+| **Total base** | Revenue after discounts, processing fees, and reseller fees |
+| **Total retained cancellation revenue** | Revenue kept when orders are cancelled with a cancellation fee |
+| **Total base before dynamic pricing** | What the base total would have been without dynamic pricing <Tip>New in Release 47</Tip> |
+| **Total gross before dynamic pricing** | What the gross total would have been without dynamic pricing |
+| **Total base after dynamic pricing** | What the base total came to with dynamic pricing |
+| **Total gross after dynamic pricing** | What the gross total came to with dynamic pricing |
+| **Total base uplift from dynamic pricing** | How much dynamic pricing moved the base total |
+| **Total gross uplift from dynamic pricing** | How much dynamic pricing moved the gross total |
+| **Base % uplift from dynamic pricing** | How much dynamic pricing moved the base total, as a percentage |
+| **Gross % uplift from dynamic pricing** | How much dynamic pricing moved the gross total, as a percentage |
+
+<Note>
+The eight **dynamic pricing** revenue fields (grouped as **Dynamic pricing uplift fields**) are only available when [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for your account. They compare each item's price before and after dynamic pricing — the "before" figure is derived from the item's [pricing history](/user-manual/sale-items/pricing-history), taken from the last price recorded before the first dynamic price update. The columns count only dynamically priced items, so they are hidden when the **Pricing type** filter is set to **Static**. The **Dynamic pricing uplift** preset report opens with these columns pre-selected.
+</Note>
+
+</Accordion>
+
+<Accordion title="Context fields (vary by grouping)">
+
+These fields appear based on which grouping is selected. When grouped by event, event-related context fields become available. When grouped by payment gateway, gateway fields appear, and so on.
+
+| Field | Appears when grouped by | Description |
+|-------|------------------------|-------------|
+| **Event name** | Event, timeslot, sale item, sale item group, price band | The event name |
+| **Event ID** | Event | The event identifier |
+| **Event start date** / **Event end date** | Event, timeslot | Event date range |
+| **Event on sale** | Event | Whether the event is currently on sale |
+| **Event schedule name** / **Event schedule ID** | Schedule | Schedule details |
+| **Event schedule group name** | Schedule group | The schedule group name |
+| **Venue name** / **Venue ID** | Venue | The venue |
+| **Item type** | Item type | The item type (ticket, product, guest list, etc.) |
+| **Item name** | Item name | The specific item name |
+| **Sale item name** / **Sale item ID** | Sale item | The sale item |
+| **Timeslot name** / **Timeslot ID** | Timeslot | The timeslot |
+| **Timeslot start/end date/time** | Timeslot | Timeslot date and time range |
+| **Timeslot on sale** | Timeslot | Whether the timeslot is on sale |
+| **Sale item group name** / **Sale item group ID** | Sale item group | The sale item group |
+| **Sale item group on sale** | Sale item group | Whether the group is on sale |
+| **Admin user name** / **Admin user email** | Admin user | The admin user who processed the sale |
+| **Payment gateway** | Payment gateway | The payment gateway used |
+| **Card network** | Card network | The card network (Visa, Mastercard, etc.) |
+| **Event tag(s)** / **Tag category** | Event tag | Event tags and their categories |
+| **Company name** | Company | The company |
+| **Reseller name** | Reseller | The reseller (at reseller level) |
+| **Account manager** | Account manager | The account manager (at reseller level) |
+| **Sales channel** | Sales channel | Where the sale originated |
+| **Purchase price (before discounts)** | Purchase price | The item's listed price |
+| **Purchase price (after discounts)** | Price paid | What the customer actually paid |
+| **Seating Plan Price Band** / **Price Band ID** | Price band | The seating plan price band |
+| **Remaining item stock** / **Total item stock** | Item name, sale item | Current and original stock levels |
+| **Remaining sale item stock** / **Total sale item stock** | Sale item | Sale item stock levels |
+| **Remaining event capacity** / **Total event capacity** | Event | Overall event capacity |
+| **Remaining timeslot stock** / **Total timeslot stock** | Timeslot | Timeslot stock levels |
+| **Sale item group stock** | Sale item group | Group stock levels |
+
+</Accordion>
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Event** | One row per event |
+| **Venue** | One row per venue |
+| **Item type** | One row per item type (tickets, products, etc.) |
+| **Item name** | One row per named item |
+| **Sale item** | One row per sale item configuration |
+| **Timeslot** | One row per timeslot |
+| **Sale item group** | One row per sale item group |
+| **Admin user** | One row per admin user who processed sales |
+| **Event tag** | One row per event tag |
+| **Tag category** | One row per tag category |
+| **Event schedule** | One row per schedule |
+| **Event schedule group** | One row per schedule group |
+| **Payment gateway** | One row per payment gateway |
+| **Purchase price** | One row per purchase price point |
+| **Price paid** | One row per price paid (after discounts) |
+| **Price band** | One row per seating plan price band |
+| **Sales channel** | Secondary grouping — breaks down by sales channel |
+| **Card network** | Secondary grouping — breaks down by card network |
+| **Pricing type** | Splits each row into **Static** and **Dynamic**, so you can contrast sales by pricing method <Tip>New in Release 47</Tip> |
+| **Company** | One row per company |
+| **Reseller** | One row per reseller (at reseller level) |
+
+This report supports **multi-grouping** — you can select multiple groupings simultaneously.
+
+<Note>
+The **Pricing type** grouping is only available when [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for your account.
+</Note>
+
+### Key Filters
+
+Events, event schedules, venues, companies, item types, sale items, payment methods, payment gateways, card networks, sales channels, currencies, visibility groups, event status, admin users. Date filters for order completion and event start dates. Toggle filters for box office items, addons, timeslot/sale item group/price band presence.
+
+When [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for your account, a **Pricing type** filter is also available. <Tip>New in Release 47</Tip> Set it to **Static** or **Dynamic** to limit the report to items sold at a static price or items that were dynamically priced. Combine it with the **Pricing type** grouping to break the same report down by both methods at once.
+
+---
+
+## Attendance Reports
+
+Attendance reports provide per-item data covering the full lifecycle from purchase through scanning and attendance. Each row represents an individual order item (a specific ticket, product, or guest list entry).
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Attendance report** | Full attendance data for all item types |
+| **Ticket attendance report** | Attendance data filtered to tickets |
+| **Season ticket attendance report** | Attendance data filtered to season tickets |
+| **Product purchases report** | Purchase data for products |
+| **Guest list sign-ups report** | Data for guest list entries |
+| **Donations made report** | Data for donation items |
+| **Item attendance report** | Attendance data across all item types |
+| **EPOS product purchases report** | Purchase data for EPOS products |
+
+### Fields
+
+<Accordion title="Item fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order item ID** | Unique identifier for this item |
+| **Barcode** | The item's barcode |
+| **Item label** | Display label for the item |
+| **Item status** | Current status (active, cancelled, refunded, etc.) |
+| **Item type** | Type of item (ticket, product, guest list, etc.) |
+| **Item name** | Name of the item |
+| **Item name (at PoS)** | Name displayed at point of sale |
+| **Quantity / # of guests** | Number of guests (for guest list items) |
+| **Delivery date** | When the item was delivered |
+| **Fulfilment method** | How the item is fulfilled |
+| **Fulfilment status** | Whether the item has been fulfilled |
+| **Fulfilled at** | When fulfilment occurred |
+| **Fulfilled by** | Who fulfilled the item |
+| **Fulfilment fee** / **Fulfilment fee sale item ID** | Associated fulfilment fee details |
+| **Inventory item ID** | The inventory item identifier |
+| **Face Value** | The price of the highest-priced item in the same price band, before fees |
+
+</Accordion>
+
+<Accordion title="Order and basket fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order reference** | The order reference number |
+| **Order ID** | Order identifier |
+| **Order status** | Current order status |
+| **Order notes** | Notes attached to the order |
+| **Basket started at** | When the customer started the basket |
+| **Added to basket at** | When this item was added to the basket |
+| **Reservation completed at** | When the reservation was completed |
+| **Order created at** / **Order completed at** / **Order updated at** | Order lifecycle timestamps |
+| **Order expires at** | When the order reservation expires |
+| **Item refunded at** | When this item was refunded |
+| **Item approved at** / **Item rejected at** | Approval timestamps for items requiring approval |
+| **Transferred at** | When the item was transferred to another holder |
+| **Instant Access Order** | Whether this is an instant access order |
+
+</Accordion>
+
+<Accordion title="Purchaser fields">
+
+| Field | Description |
+|-------|-------------|
+| **Purchaser name** / **first name** / **surname** | Purchaser's full, first, or last name |
+| **Purchaser email** | Purchaser's email address |
+| **Purchaser DoB** | Date of birth |
+| **Purchaser title** | Title (Mr, Mrs, etc.) |
+| **Purchaser nationality** | Nationality |
+| **Purchaser address** (line 1, line 2, city, postcode) | Address details |
+| **Purchaser phone** | Phone number |
+| **Purchaser notes** | Notes about the purchaser |
+| **Purchaser is guest** | Whether the purchaser checked out as a guest |
+| **Purchaser first order** | Whether this is the purchaser's first completed order. Considers completed and refunded orders, or those awaiting a payment action such as invoice or approval. |
+| **Purchaser ID** / **Purchaser SSO ID** | Identifiers |
+| **Purchaser initial of first name** | First initial |
+| **Purchaser ISO country codes** | Alpha-2 and alpha-3 country codes |
+| **Purchaser region** / **Purchaser country** | Geographic region and country |
+| **Box Office User ID** | If the order was placed by a box office user |
+
+</Accordion>
+
+<Accordion title="Item holder fields">
+
+| Field | Description |
+|-------|-------------|
+| **Item holder name** / **first name** / **surname** | Holder's name (may differ from purchaser after transfers) |
+| **Item holder email** | Holder's email address |
+| **Item holder customer ID** / **Item holder ID** | Holder identifiers |
+| **Item holder DoB** | Date of birth |
+| **Item holder title** / **nationality** | Title and nationality |
+| **Item holder address** (line 1, line 2, city, postcode) | Address details |
+| **Item holder phone** / **notes** | Phone and notes |
+| **Item holder is guest** | Whether the holder is a guest account |
+| **Item holder SSO ID** | SSO identifier |
+| **Item holder ISO country codes** | Alpha-2 and alpha-3 country codes |
+| **Item holder region** / **Item holder country** | Geographic region and country |
+| **Item holder initial of first name** | First initial |
+
+</Accordion>
+
+<Accordion title="Scanning fields">
+
+| Field | Description |
+|-------|-------------|
+| **First scan in date** / **First scan in zone** / **First scanned in by (name)** | First entry scan details |
+| **First scan out date** / **First scan out zone** / **First scanned out by (name)** | First exit scan details |
+| **Latest scan in date** / **Latest scan in zone** / **Latest scanned in by (name)** | Most recent entry scan |
+| **Latest scan out date** / **Latest scan out zone** / **Latest scanned out by (name)** | Most recent exit scan |
+| **Scan was secure** | Whether the scan was validated as secure |
+| **Guest list - number attended** | How many guests attended (for guest list items) |
+| **Guest list - attended modification date** | When guest attendance was last modified |
+
+</Accordion>
+
+<Accordion title="Financial fields">
+
+| Field | Description |
+|-------|-------------|
+| **Gross** / **Discount** / **Refunded** | Item-level financial figures |
+| **Net** / **Net discount (before taxes deducted)** | Net figures |
+| **Processing fee** / **Customer processing fee** | Processing fees |
+| **Reseller fee** / **Customer reseller fee** | Platform/reseller fees |
+| **Cancellation fee** / **Total fees** / **Total customer fees** | Fee totals |
+| **Sales tax** / **Tax band** / **Tax rate** | Tax details |
+| **Reverse charge tax** / **Reverse charge tax band** / **Reverse charge tax rate** | Reverse charge tax |
+| **Item base price (Net)** | The base price after discounts |
+| **Item net processing fee** | Processing fee after discounts |
+| **Item processing fee is absorbed** | Whether the processing fee is hidden/absorbed |
+| **Processing fee was hidden** / **Reseller fee was hidden** | Whether fees were absorbed |
+| **Order total gross (complimentary)** | Total paid as complimentary |
+| **Hidden fees** (Order total absorbed fees) | Absorbed reseller and processing fees |
+
+</Accordion>
+
+<Accordion title="Event and venue fields">
+
+| Field | Description |
+|-------|-------------|
+| **Event name** / **Event ID** | Event identification |
+| **Event start date** / **Event end date** | Event dates |
+| **Event status** | Published, draft, cancelled |
+| **Venue name** / **Venue ID** | Venue details |
+| **Timeslot name** / **Timeslot ID** | Timeslot identification |
+| **Timeslot start/end date/time** | Timeslot timing |
+| **Sale item name** / **Sale item ID** | Sale item details |
+| **Sale item group name** / **Sale item group ID** | Sale item group |
+| **Sale item prices** | Configured prices for the sale item |
+| **Company name** / **Company ID** | Company details |
+| **Reseller name** / **Reseller ID** | Reseller details (at reseller level) |
+
+</Accordion>
+
+<Accordion title="Seating plan fields">
+
+| Field | Description |
+|-------|-------------|
+| **Seating Plan Name** / **Seating Plan ID** | The seating plan |
+| **Seating Plan Area** / **Area ID** | Area within the plan |
+| **Seating Plan Block** / **Block ID** | Block within the area |
+| **Seating Plan Row** | Row identifier |
+| **Seating Plan Space** / **Space ID** | Individual space |
+| **Seating Plan Price Band** / **Price Band ID** | Price band |
+| **Seating Plan Stand** / **Gate** / **Table** / **Stairs** | Structural elements |
+| **Seating Plan Hold** / **Seating Plan Hold (at PoS)** | Hold information |
+| **Space Display As** | How the space is labelled |
+| **Space Is Accessible** | Whether the space is marked accessible |
+
+</Accordion>
+
+<Accordion title="Order totals and transaction fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order total gross** | Total order gross before discounts and refunds |
+| **Order total paid** | Amount actually paid (may be deposit for partially paid orders) |
+| **Order total deposit** | Deposit amount for payment plan orders |
+| **Order total remaining balance** | Amount still owed |
+| **Order total discount** / **Order net discount** | Order-level discount totals |
+| **Order total refunded** | Total refunded on the order |
+| **Order total all fees** | Sum of all fees on the order (reseller and processing) |
+| **Order total processing fees** / **Order total reseller fees** / **Order total cancellation fees** | Fee breakdowns |
+| **Order total sales tax** | Sales tax total |
+| **Order total gross (after discounts)** | Gross minus discounts |
+| **Order total net** | After discounts and refunds |
+| **Order total net (after all fees)** | After discounts, refunds, reseller fees, and processing fees |
+| **Order items issued** (including/excluding fee items) | Count of items in the order |
+| **Order deferred total** | Deferred payment total |
+| **Transaction ID(s)** / **Transaction total(s)** | Transaction identifiers and amounts |
+| **Transaction status(es)** / **Transaction context(s)** | Transaction states |
+| **Transaction payment method(s)** / **Transaction payment gateway(s)** | Payment details |
+| **Gateway payment method(s)** / **Gateway payment provider(s)** | Method and provider as reported by the gateway (e.g. `paylater` / `atome`) <Tip>New in Release 47</Tip> |
+| **Transaction card network(s)** / **Cheque number(s)** / **Money order number(s)** | Payment instrument details |
+| **Transaction total(s) gross** | Transaction total minus external fees |
+| **Transaction total external fees** | Gateway-charged fees (not all gateways) |
+| **Transaction created on** / **Transaction updated on** | Transaction timestamps |
+| **Transaction notes** / **Transaction metadata** | Additional transaction data |
+| **Gateway reference** | Reference used in the payment gateway for reconciliation |
+| **Split payment methods** / **Split payment totals** | Split payment details |
+| **Refunded from transaction ID** | Links a refund back to the original payment |
+| **Refunded from payment method** | The payment method of the original transaction |
+| **Payment mode(s)** | Live or demo/test |
+
+</Accordion>
+
+<Accordion title="Additional fields">
+
+| Field | Description |
+|-------|-------------|
+| **NFC Tag fields** | Paired NFC Tag, All paired NFC tags, Purchased by NFC Tag |
+| **Team fields** | Team ID, Team Name, Team Code, Team Role, Team Leader |
+| **Delivery address fields** | Delivery address line 1/2, city, postcode, country |
+| **Billing address fields** | Billing address line 1/2, city, postcode, country |
+| **Fundraising fields** | Has fundraising page, Fundraising page status/URL, Giftaid fields |
+| **Access Code(s)** / **Discount code(s)** | Codes applied to the item or order |
+| **Download link** / **Auto-download link** | Links for downloading items |
+| **Parent barcode** / **Parent ID** | For child items linked to a parent |
+| **Currency code** / **Currency symbol** | Currency identifiers |
+| **Marketing preferences last updated at** | When marketing preferences were last changed |
+| **Data capture response fields** | Dynamic — one column per configured data capture question |
+| **Internal question fields** | Dynamic — one column per configured internal event question |
+
+<Note>
+Fundraising information appears against the main purchaser only, not against each individual item.
+</Note>
+</Accordion>
+
+### Key Filters
+
+Events, event schedules, venues, companies, item types, statuses, payment methods, payment gateways, currencies, sales channels, visibility groups, zones. Date filters for order completion, event start date, timeslot dates. Text filters for order reference, barcode, purchaser/holder email and name, SSO ID. Toggle filters for purchaser is guest, holder is guest, has fundraising page, has access code, has split payments, box office items, addons, instant access.
+
+<Note>
+The attendance report defaults to showing items belonging to complete and refunded/partially refunded orders. Adjust the status filter if you need to include other order statuses.
+</Note>
+
+---
+
+## Attendance Summary Reports
+
+These reports provide aggregated attendance counts rather than per-item records. They are useful for quick overviews of attendance at the event, ticket type, or timeslot level.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Event attendance summary report** | Attendance counts aggregated by event |
+| **Ticket attendance summary report** | Attendance counts aggregated by ticket type |
+| **Timeslot attendance summary report** | Attendance counts aggregated by timeslot |
+
+These reports use the same engine as the event sales report but with attendance-focused default fields and groupings.
+
+---
+
+## Order Reports
+
+Order reports provide order-level data with full financial and transaction details. Each row represents a single order, with columns for every financial component, purchaser details, and transaction records.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Order report** | All orders with full details |
+| **Completed orders report** | Orders that have been completed |
+| **Active reservation report** | Orders currently in an active reservation state |
+| **Abandoned basket report** | Orders that expired without being completed |
+| **Rejected reservation report** | Orders that were rejected |
+| **Transactions report** | All transactional data at the transaction level |
+| **Fee invoice orders report** | Breakdown of orders that made up selected fee invoices |
+
+### Fields
+
+<Accordion title="Order fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order ID** / **Order reference** | Order identification |
+| **Order status** | Complete, active, expired, cancelled, etc. |
+| **Order created at** / **Order completed at** / **Order updated at** / **Order expires at** | Order lifecycle timestamps |
+| **Order validated at** | When the order was validated |
+| **Order notes** | Notes attached to the order |
+| **Order transactions count** / **Order payments count** | Count of associated transactions and payments |
+| **Instant Access Order** | Whether the order uses instant access |
+| **Last refund date** | Date of the most recent refund transaction |
+| **Order events** | Events associated with the order |
+
+</Accordion>
+
+<Accordion title="Order financial fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order total gross** | Before discounts and refunds |
+| **Order total paid** | Amount received. May represent only the deposit for partially paid orders. |
+| **Order total deposit** | Deposit amount for payment plan orders |
+| **Order total remaining balance** | Amount still owed against the order |
+| **Order total discount** / **Order net discount (after taxes deducted)** | Discount amounts |
+| **Order total refunded** | Total refunded |
+| **Order total absorbed fees** | Absorbed (hidden) reseller and processing fees |
+| **Order total all fees** | Reseller and processing fees combined |
+| **Order total processing fees** / **Order total reseller fees** / **Order total cancellation fees** | Individual fee breakdowns |
+| **Order total sales tax** | Sales tax on the order |
+| **Order total gross (after discounts)** | Gross minus discounts |
+| **Order total net** | After discounts and refunds |
+| **Order total net (after all fees)** | After discounts, refunds, reseller fees, and processing fees |
+| **Order total gross (complimentary)** | Value paid as complimentary |
+| **Order deferred total** | Deferred payment total |
+| **Order items issued** (including/excluding fee items) | Item counts |
+
+</Accordion>
+
+<Accordion title="Item type breakdowns">
+
+For each item type (tickets, products, guest list, charity/donation, season tickets, cashless top-ups, cashless products, fulfilment fees, gift vouchers), the following fields are available:
+
+| Field pattern | Description |
+|---------------|-------------|
+| **Order total gross (*type*)** | Gross revenue for that item type |
+| **Order total discount (*type*)** | Discounts applied to that item type |
+| **Order total refunded (*type*)** | Refunds for that item type |
+| **Order total net (*type*)** | Net revenue for that item type |
+| **Order total cancellation fees (*type*)** | Cancellation fees for that item type |
+| **Order total processing fees (*type*)** | Processing fees for that item type |
+| **Order total reseller fees (*type*)** | Reseller fees for that item type |
+| **Order total fees (*type*)** | Total fees for that item type |
+| **Order total sales tax (*type*)** | Sales tax for that item type |
+| **Transaction total gross (*type*)** | Transaction total for that item type |
+
+This allows you to see the financial breakdown per item type within each order.
+</Accordion>
+
+<Accordion title="Transaction fields">
+
+| Field | Description |
+|-------|-------------|
+| **Transaction ID(s)** | Transaction identifiers |
+| **Transaction total(s)** | Transaction amounts |
+| **Transaction total(s) gross** | Transaction total minus external fees |
+| **Transaction total external fees** | Gateway fees (not all gateways) |
+| **Transaction status(es)** | Payment statuses |
+| **Transaction context(s)** | Transaction context (payment, refund, etc.) |
+| **Transaction payment method(s)** | Cash, card, invoice, etc. |
+| **Transaction payment gateway(s)** | Gateway provider |
+| **Card network(s)** | Visa, Mastercard, etc. |
+| **Gateway payment method(s)** | The payment method as reported by the gateway (e.g. `card`, `wallet`, `paylater`, `netbanking`) <Tip>New in Release 47</Tip> |
+| **Gateway payment provider(s)** | The provider behind that method as reported by the gateway (e.g. a wallet name, a bank, or a buy-now-pay-later provider such as `atome`) |
+| **Cheque number(s)** / **Money order number(s)** | Reference numbers |
+| **Gateway reference** | Reference for reconciliation with the gateway |
+| **Transaction created on** / **Transaction updated on** | Timestamps |
+| **Transaction notes** / **Transaction metadata** | Additional data |
+| **Refunded from transaction ID** | Links refund back to original payment |
+| **Refunded from payment method** | Original payment method for refunds |
+| **Split payment methods** / **Split payment totals** | Split payment details |
+
+</Accordion>
+
+<Note>
+**Gateway payment method(s)** and **Gateway payment provider(s)** are populated for gateways that report this detail back to the platform. <Tip>New in Release 47</Tip> For Curlec payments this captures the underlying method and provider — for example `paylater` with `atome`, or `wallet`, `netbanking`, and `card` payments — so buy-now-pay-later and wallet transactions can be reconciled against the gateway without matching orders by hand. Curlec card payments also resolve the **Card network** where the gateway returns it.
+</Note>
+
+The order report also includes purchaser detail fields, event fields, and data capture response fields as described in the Attendance Reports section above.
+
+### Key Filters
+
+Events, event schedules, venues, companies, statuses, transaction statuses, payment methods, payment gateways, currencies, sales channels, visibility groups. Date filters for order completion, order creation, event start date, last refund date. Text filters for order reference, purchaser email/name. Toggle filters for purchaser is guest, has split payments, has deposit payment, box office items, instant access, payment mode.
+
+---
+
+## Zone Reports
+
+Zone reports provide data on scanning zones — capacity, live attendance, and customer movement through zones.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Zone summary report** | Live zone statistics including capacity and current attendance |
+| **Customer journey report** | Zone attendance tracked per individual customer |
+
+### Fields
+
+<Accordion title="Zone fields">
+
+| Field | Description |
+|-------|-------------|
+| **Zone ID** / **Zone name** | Zone identification |
+| **Zone total capacity** | Maximum capacity configured for the zone |
+| **Zone live capacity** | Capacity at the current moment, based on the zone's total capacity rather than the number of eligible items |
+| **Zone current attendance** | Number of attendees currently in the zone. May be inaccurate for scan-in-only zones. |
+| **Event name** / **Event ID** / **Event status** | Associated event |
+| **Company name** | Company |
+
+</Accordion>
+
+<Accordion title="Aggregate scan data">
+
+| Field | Description |
+|-------|-------------|
+| **Total scans in** / **Total scans out** | Total scan counts |
+| **Unique items scanned** | Number of distinct items scanned |
+| **Unique visitors** | Number of distinct visitors |
+| **Average stay** | Average time spent in the zone |
+| **Average visits** | Average number of visits per person |
+| **Latest scan mode** | Mode of the most recent scan |
+| **Latest scan date** | When the last scan occurred |
+
+</Accordion>
+
+When grouped by attendee, customer detail fields and data capture fields become available.
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Zone** | One row per zone |
+| **Attendee** | One row per customer (adds customer detail fields) |
+
+### Key Filters
+
+Events, zones, companies. Date filters. When grouped by attendee, text filters for customer name and email.
+
+---
+
+## Scanning Reports
+
+Scanning reports provide individual scan event records — each row represents a single scan action (in, out, or failed).
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Ticket scanning report** | Scan data for tickets |
+| **Product scanning report** | Scan data for products |
+| **Guest list scanning report** | Scan data for guest list entries |
+| **Item scanning report** | Scan data for all item types |
+| **Failed scans report** | Failed scan attempts with failure details <Tip>New in Release 46</Tip> |
+
+### Fields
+
+<Accordion title="Scan event fields">
+
+| Field | Description |
+|-------|-------------|
+| **Scan ID** | Unique scan identifier |
+| **Scan date** | When the scan occurred |
+| **Scan mode** | Direction of scan (in or out) |
+| **Scan status** | Whether the scan succeeded or failed |
+| **Status detail** | For failed scans, the reason the scan was rejected (e.g. *outside of validity period*, *already in*, *denied*) |
+| **Scan latitude** / **Scan longitude** | GPS coordinates of the scan (if available) |
+| **Scanned by ID** / **Scanned by Name** / **Scanned by Email** | Who performed the scan |
+| **Scanned item barcode** / **Scanned item name** / **Scanned item label** | Item details |
+| **Scanned item total** | Value of the scanned item |
+| **Scanned item order total** | Total of the associated order |
+| **Scanned item order date** | Order date |
+| **Zone ID** / **Zone name** | Which zone the scan occurred in |
+| **Zone total capacity** / **Zone live capacity** / **Zone current attendance** | Zone statistics at scan time |
+| **Event ID** / **Event name** / **Event status** | Event details |
+| **Company name** | Company |
+
+</Accordion>
+
+Scanning reports also include seating plan fields, timeslot fields, customer detail fields, and data capture response fields.
+
+### Failed Scans Report
+
+<Tip>New in Release 46</Tip>
+
+The Failed scans report is a pre-filtered view of scanning data limited to rejected scans. Each row represents an individual failed scan attempt — the barcode that was scanned, when and where it happened, and the reason it was rejected. The report is populated from data recorded by [Access Control Pro](/mobile-apps/access-control-pro/scanning-and-admission#failed-scan-logging) — every scan that doesn't result in a successful admission is logged on the device and synced to the platform.
+
+Default columns are zone, scan date, scanned barcode, scan status, status detail, customer email, and event details. All other scanning report fields can be added through [report customisation](/user-manual/reporting/fundamentals).
+
+### Key Filters
+
+Events, zones, companies, item types. Date filters. Text filters for barcode, customer email and name. Scan status filter (used by the Failed scans report to restrict to failed scans).
+
+---
+
+## Activity Reports
+
+Activity reports provide platform usage metrics at the company level, showing counts of events created, orders placed, items issued, and other operational measures. These reports are available at the reseller level.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Daily activity report** | Daily activity by company (max 2-month date range) |
+| **Weekly activity report** | Weekly activity by company |
+| **Monthly activity report** | Monthly activity by company |
+
+### Fields
+
+<Accordion title="Activity metrics">
+
+| Field | Description |
+|-------|-------------|
+| **Company name** / **Reseller name** | Who the activity belongs to |
+| **Events created** | Number of events created |
+| **Items created** | Number of items created |
+| **Sale items created** | Number of sale items created |
+| **Total scans** | Total scan events |
+| **Users created** | New user registrations |
+| **Roles created** | New roles created |
+| **Discount codes created** | New discount codes |
+| **Event listings created** | New event listings |
+| **Data capture questions created** | New data capture questions |
+| **Data capture categories created** | New data capture categories |
+| **Total orders** | Total orders placed |
+| **Free orders** / **Paid orders** | Orders by payment type |
+| **Expired orders** / **Active orders** / **Cancelled/Refunded orders** | Orders by status |
+| **Total transactions** | Transaction count |
+| **Reports created** / **Widgets created** | Reporting activity |
+| **Tax bands created** | Tax configuration changes |
+
+Additionally, item type-specific counts are generated dynamically for each item type.
+</Accordion>
+
+### Time Intervals
+
+Activity reports are always grouped by time interval (daily, weekly, or monthly depending on which report you open). The **Time interval** column shows the start of each period.
+
+<Note>
+Daily activity reports cannot span a date range greater than 2 months. Activity reports in general cannot span more than 2 years.
+</Note>
+
+---
+
+## Customer Reports
+
+Customer reports list customer records with their profile data, registration history, and purchase patterns.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Newest customers** | Customers ordered by registration date |
+
+### Fields
+
+<Accordion title="Customer fields">
+
+| Field | Description |
+|-------|-------------|
+| **User ID** / **Customer ID** / **SSO ID** | Customer identifiers |
+| **Name** / **First name** / **Surname** | Customer name |
+| **Email** | Email address |
+| **Phone** | Phone number |
+| **Date of Birth** | DoB |
+| **Title** | Title (Mr, Mrs, etc.) |
+| **Nationality** | Nationality |
+| **Address Line 1** / **Address Line 2** / **City** / **Postcode** | Address fields |
+| **Selected Locale** / **Selected Currency** | Customer preferences |
+| **Created At** | Registration date |
+| **Email Verified At** | When email was verified |
+| **Is Guest** | Whether this is a guest account (checkout without registration) |
+| **Registration source** | How the customer registered |
+| **Customer Groups** | Groups the customer belongs to |
+| **Purchase type** | Types of items the customer has purchased |
+| **Ticket type** / **Product type** / **Guest list type** | Specific item types purchased |
+| **Ticket purchase history** / **Product purchase history** / **Guest list purchase history** | History of purchases by type |
+| **Event tag(s)** / **Tag category** | Tags from events the customer has attended |
+
+</Accordion>
+
+### Key Filters
+
+Companies, customer groups, event tags. Date filters for registration date. Text filters for name, email, SSO ID. Toggle filter for guest accounts.
+
+---
+
+## Payout Reports
+
+Payout reports track reseller payouts — amounts owed and amounts settled. These reports are available at the reseller level.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Reseller payouts (other) report** | Payouts for standard (non-connect) payment gateways |
+| **Reseller payouts (connect) report** | Payouts for connect payment gateways |
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Paid at** | When the payout was made |
+| **Reseller** | The reseller name |
+| **Company** | The company name |
+| **Status** | Payout status (outstanding, complete) |
+| **Payment gateway** | The payment gateway |
+| **Total** | Payout amount |
+| **Description** | Payout description (connect payouts only) |
+
+### Key Filters
+
+Companies, resellers, payment gateways. Date filter for payment date. Toggle for unreconciled/known payments (connect payouts).
+
+---
+
+## Invoices
+
+Invoice reports provide access to invoice records and breakdowns.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Invoices** | All invoices with status, amounts, and dates |
+| **Fee invoice orders report** | Breakdown of orders that made up selected fee invoices |
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Reference** | Invoice reference number |
+| **Date issued** / **Date due** | Invoice dates |
+| **Company name** | The invoiced company |
+| **Net** / **VAT** / **Gross** | Financial breakdown |
+| **Status** | Invoice status (outstanding, paid, overdue, etc.) |
+| **Type** | Invoice type |
+| **Orders report URL** | Link to the associated orders report (conditional) |
+
+---
+
+## Seating Plan Reports
+
+Seating plan reports provide detailed data about seat allocation, utilisation, and sales across seating plan structures (areas, blocks, price bands, and individual spaces).
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Seating plan allocation report** | Orders allocated to individual seating plan spaces |
+| **Seating plan summary report** | Summary of all seats for a given event |
+| **Seating plan area utilisation report** | How areas are utilised across events |
+| **Seating plan block utilisation report** | How blocks are utilised across events |
+| **Seating plan price band utilisation report** | How price bands are utilised across events |
+| **Seating plan sales report** | Sales data broken down by seating plan structure |
+
+### Fields — Space Allocation Report
+
+<Accordion title="Space and allocation fields">
+
+| Field | Description |
+|-------|-------------|
+| **Seating Plan Space ID** / **Seating Plan Space** | Space identification |
+| **Space Is Occupied** | Whether the space currently has an occupant |
+| **Space Status** / **Space Sales Status** | Availability and sales status |
+| **Space Display As** | How the space is labelled in the plan |
+| **Space Is Accessible** | Whether the space is marked as accessible |
+| **Seating Plan Area** / **Block** / **Row** / **Price Band** | Structural location |
+| **Stand** / **Gates** / **Stairs** / **Hold** | Additional structural details |
+| **Barcode** / **Item label** / **Item type** | Associated item details |
+| **Order reference** | Associated order |
+| **Purchaser/Holder name, email, DoB, phone, notes** | Person details |
+
+Plus scanning fields, event and timeslot fields, and data capture response fields.
+</Accordion>
+
+### Fields — Area, Block, and Price Band Utilisation Reports
+
+<Accordion title="Utilisation and capacity fields">
+
+| Field | Description |
+|-------|-------------|
+| **Area/Block/Price band name** | The structural element name |
+| **Seating plan name** / **Venue name** / **Company name** | Context |
+| **Total Spaces Count** | Total spaces in this element |
+| **Available Spaces Count** / **Available Spaces for Sale Count** | Currently available spaces |
+| **Sold Spaces Count** / **Reserved Spaces Count** | Occupied spaces |
+| **Hidden Spaces Count** / **Restricted Spaces Count** / **Unavailable Spaces Count** | Spaces not available for sale |
+| **Hold Space Count** / **Hold Space Name(s)** | Spaces held |
+| **Total Blocks** / **Total Tables** / **Total Stands** / **Total Gates** / **Total Stairs** | Sub-element counts (area report) |
+| **Accessible Spaces Count** | Spaces marked as accessible |
+
+Plus all sales volume fields and revenue fields (per currency) as described in the Sales Reports section.
+</Accordion>
+
+### Fields — Seating Plan Sales Report
+
+The seating plan sales report supports multi-grouping and includes:
+
+| Field | Description |
+|-------|-------------|
+| **Seating Plan ID** / **Seating Plan Name** | Plan identification |
+| **Venue ID** / **Venue name** | Venue details |
+| **Company name** | Company |
+| **Space counts** | Total, available, sold, reserved, hidden, restricted, unavailable, accessible |
+
+Context fields (area, block, price band, event, schedule) appear based on selected groupings. All sales volume and revenue fields are available.
+
+<Note>
+The seating plan utilisation reports are legacy reports. For new analysis, the seating plan sales report provides more comprehensive data with flexible grouping options.
+</Note>
+
+---
+
+## Account Balance Reports
+
+Account balance reports cover wallet/account balance activity — top-ups, purchases, cash-outs, and current balances.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Topups purchased (orders) report** | All top-up order items |
+| **Account balance transactions** | All account balance transactions |
+| **Account balance top-up transactions** | Top-up transactions only |
+| **Account balance cash-out transactions** | Cash-out transactions only |
+| **Account balances report** | Currently active account balances |
+
+### Fields
+
+<Accordion title="Transaction-level fields (when viewing individual transactions)">
+
+| Field | Description |
+|-------|-------------|
+| **Transaction amount** | Amount of the transaction |
+| **Balance brought forward** | Account balance before the transaction |
+| **Balance carried forward** | Account balance after the transaction |
+| **Currency code** | Transaction currency |
+| **Holder name** / **Holder email** | Account holder details |
+| **Paired NFC Tag** / **Paired NFC Tag Name** | Associated NFC tag |
+| **Created At** | Transaction timestamp |
+| **Company name** | Company |
+
+</Accordion>
+
+<Accordion title="Balance-level fields (when viewing account summaries)">
+
+| Field | Description |
+|-------|-------------|
+| **Account balance** | Current balance |
+| **Estimated balance** | Estimated balance |
+| **Holder name** / **Holder email** | Account holder |
+| **Paired NFC Tag** / **Paired NFC Tag Name** | Associated NFC tag |
+| **Currency code** | Currency |
+| **Company name** | Company |
+
+</Accordion>
+
+<Accordion title="Aggregate fields (when grouped by currency or company)">
+
+| Field | Description |
+|-------|-------------|
+| **Gross account balances** | Total balance across accounts |
+| **Gross top-ups** (total, online, offline) | Top-up values |
+| **Gross cash-outs** (total, online, offline) | Cash-out values |
+| **Gross top-up refunds** (total, online, offline) | Refunded top-up values |
+| **Gross top-up purchases** (total, online, offline) | Purchase values from top-ups |
+| **Total top-ups** (total, online, offline) | Top-up counts |
+| **Total cash-outs** (total, online, offline) | Cash-out counts |
+| **Total top-up refunds** (total, online, offline) | Refund counts |
+| **Total purchases** (total, online, offline) | Purchase counts |
+
+</Accordion>
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Transaction** | One row per individual transaction |
+| **Wallet** | One row per account/wallet |
+| **Currency** | One row per currency |
+| **Company** | One row per company |
+
+---
+
+## EPOS Reports
+
+EPOS reports cover point-of-sale activity from EPOS devices, including shop sales and transaction data by admin user.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Shop sales report** | Sales figures by shop |
+| **EPOS admin usage** | EPOS transaction data summarised by admin user |
+
+### Fields
+
+The shop sales report uses the same sales volume and revenue fields as the event sales report, with shop-specific context fields:
+
+| Field | Description |
+|-------|-------------|
+| **Shop name** / **Shop ID** | Shop identification |
+| **Company name** | Company |
+| **Item type** / **Item name** / **Sale item** | What was sold |
+| **Payment gateway** | Payment gateway used |
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Company** | One row per company |
+| **Shop** | One row per shop |
+| **Item type** | One row per item type |
+| **Item name** | One row per named item |
+| **Sale item** | One row per sale item |
+| **Payment gateway** | One row per gateway |
+| **Reseller** | One row per reseller (at reseller level) |
+
+---
+
+## EPOS Wallet Transactions Report
+
+This report provides detailed EPOS wallet transaction data, including NFC tag activity and transaction breakdowns.
+
+### Fields
+
+<Accordion title="Transaction-level fields">
+
+| Field | Description |
+|-------|-------------|
+| **Transaction amount** | Transaction value |
+| **Transaction type** | Type of EPOS transaction |
+| **Payment method** | How the transaction was paid |
+| **Currency code** | Currency |
+| **Created At** | Transaction timestamp |
+| **NFC Tag ID** / **NFC Tag Name** | NFC tag details |
+| **Customer name** / **Customer email** | Customer details |
+| **Admin user name** / **Admin user email** | Staff member who processed |
+| **Company name** | Company |
+
+</Accordion>
+
+<Accordion title="Aggregate fields (when grouped)">
+
+| Field | Description |
+|-------|-------------|
+| **Gross top-up** / **Gross cash-outs** / **Gross shop purchases** / **Gross shop refunds** | Financial totals |
+| **Account balance** | Current balance |
+
+</Accordion>
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Transaction item** | One row per transaction item |
+| **NFC tag** | One row per NFC tag |
+| **Company** | One row per company |
+| **Customer** | One row per customer |
+| **Admin user** | One row per staff member |
+| **Currency** | One row per currency |
+
+---
+
+## Transfer Reports
+
+Transfer reports track the movement of items between customers.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Ticket transfers report** | Ticket transfer records |
+| **Product transfers report** | Product transfer records |
+| **Season ticket transfers report** | Season ticket transfer records |
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Old Barcode** / **Current Barcode** | Barcode before and after transfer |
+| **From Customer Email** / **Name** / **First Name** / **Surname** / **ID** | Original holder |
+| **To Customer Email** / **Name** / **First Name** / **Surname** / **ID** | New holder |
+| **Item type** | What was transferred |
+| **Order reference** | Associated order |
+| **Event** / **Event status** | Event details |
+| **Company** / **Reseller** | Organisation details |
+| **Source** | How the transfer was initiated |
+| **Transferred At** / **Transfer Due Date** | Transfer timing |
+| **Created At** / **Updated At** | Record timestamps |
+| **Notification Sent At** | When the transfer notification was emailed |
+
+<Note>
+[Gift voucher](/user-manual/sale-items/gift-vouchers) transfers now appear in the transfer reports alongside ticket, product, and season ticket transfers. <Tip>New in Release 47</Tip> Because gift vouchers are not tied to an event, the **Event** and **Event status** columns are blank for these rows. To isolate them, set the item type filter to **Gift Voucher**.
+</Note>
+
+### Key Filters
+
+Events, companies, item types. Date filters for transfer date. Text filters for from/to customer email. Toggle for claimed/unclaimed transfers.
+
+<Tip>**Gift Voucher** item type filter added in Release 47.</Tip> The item type filter now includes a **Gift Voucher** option so you can return only transferred gift vouchers.
+
+---
+
+## Discount Code Reports
+
+Discount code reports show usage statistics and allow bulk export for editing and re-importing.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Discount code usage report** | Usage statistics per discount code |
+| **Discount code export** | Full export of all discount codes for bulk editing via the data importer |
+| **External voucher code usage report** | Usage of external voucher codes |
+| **External voucher code category usage report** | Collective usage of voucher codes by category |
+| **Basket codes usage report** | Usage of all basket codes |
+
+### Fields — Usage Report
+
+<Accordion title="Usage report fields">
+
+| Field | Description |
+|-------|-------------|
+| **Code** | The discount code |
+| **Amount** | Discount value |
+| **Type** | Percentage or fixed amount |
+| **Category** | Code category |
+| **Maximum Uses** | Total use limit |
+| **Maximum uses per customer** / **per order** / **per event** / **per schedule** | Granular limits |
+| **New customers only** | Whether restricted to first-time buyers |
+| **Valid From** / **Valid To** | Validity period |
+| **Currency code** / **Currency symbol** | Currency |
+| **Total Discounted** | Total value discounted across all uses |
+| **Total Uses** | Number of completed orders using this code |
+| **Created At** / **Updated At** | Code timestamps |
+
+</Accordion>
+
+### Fields — Export Report
+
+The discount code export includes all configuration fields needed for bulk editing:
+
+<Accordion title="Export fields">
+
+| Field | Description |
+|-------|-------------|
+| **ID** / **Code** | Identification |
+| **Type** / **Category** / **Amount** | Discount configuration |
+| **When customer buys amount** / **When customer buys sale item ID** | Conditional trigger |
+| **On up to amount** / **On up to sale item ID** | Application limits |
+| **Maximum number of uses** / **Max uses per order** / **Max uses per customer** / **per event** / **per schedule** | Usage limits |
+| **Applies to specific items** / **Restricted to currency** / **New customers only** / **Minimum Spend** | Restrictions |
+| **Valid From** / **Valid Until** | Validity dates |
+| **Visible in Box Office** / **Box office role** / **Can be shared via URL** | Visibility settings |
+| **Sale Item IDs** / **Item IDs** / **Event IDs** / **Schedule IDs** / **Price Band IDs** | Associated entities |
+| **Number of child discount codes** | Child code count |
+| **Description (*locale*)** | Description per configured language |
+
+</Accordion>
+
+<Note>
+You can use the discount code export report to export codes, amend them in a spreadsheet, and re-import via the discount code data importer.
+</Note>
+
+### Groupings (Usage Report)
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Code** | One row per individual code |
+| **Category** | One row per code category |
+
+---
+
+## Access Code Reports
+
+Access code reports show usage data and allow bulk export for editing.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Access code usage report** | Usage statistics per access code |
+| **Access code export report** | Full export for bulk editing via the data importer |
+
+### Fields — Usage Report
+
+<Accordion title="Usage report fields">
+
+| Field | Description |
+|-------|-------------|
+| **Code** | The access code |
+| **Total Uses** | Number of unique, completed orders using this code |
+| **Maximum number of uses** / **Maximum uses per customer** | Usage limits |
+| **Valid From** / **Valid To** | Validity period |
+| **Hide unrestricted items** | Whether items not restricted by this code are hidden |
+| **Hide restricted items after validity period** | Whether restricted items are hidden once the code expires |
+| **Sale items** / **Events** / **Schedules** / **Inventory items** | Entities the code is associated with (comma-separated names) |
+| **Number of child access codes** | Child code count |
+| **Disabled at** / **Deleted at** | Lifecycle dates |
+| **Created At** / **Updated At** | Record timestamps |
+
+<Note>
+**Total Uses** counts unique completed orders, not individual item uses within an order.
+</Note>
+</Accordion>
+
+### Fields — Export Report
+
+The export includes all fields needed for bulk editing: ID, Code, maximum uses, per-customer limits, validity dates, hide settings, associated Sale Item IDs, Event IDs, Schedule IDs, Item IDs, child code prefix, parent ID, and child code count.
+
+<Note>
+You can use the access code export report to export codes, amend them, and re-import via the access code data importer.
+</Note>
+
+### Groupings (Usage Report)
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Parent** | One row per parent access code |
+| **Sale item** | One row per sale item |
+| **Event** | One row per event |
+
+This report supports **multi-grouping**.
+
+---
+
+## Data Capture Reports
+
+Data capture reports display responses to configured data capture forms.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Form data capture report** | Responses to data capture forms |
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Submission ID** | Unique submission identifier |
+| **First name** / **Surname** / **Email** | Respondent details |
+| **Date** | Submission date |
+| **Data capture response fields** | Dynamic — one column per question in the selected form |
+
+### Mandatory Filters
+
+This report requires a **form** to be selected before data can be displayed. Select the form from the filter panel.
+
+### Groupings
+
+| Grouping | What it aggregates by |
+|----------|-----------------------|
+| **Forms** | Group responses by form |
+
+---
+
+## Customer Feedback Reports
+
+Customer feedback (customer effort score) reports capture post-purchase feedback from the order success page.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Order success customer feedback** | All customer feedback from the order success page |
+
+### Fields
+
+<Accordion title="Feedback fields">
+
+| Field | Description |
+|-------|-------------|
+| **Feedback type** | Type of feedback collected |
+| **Feedback rating** | Individual rating (when viewing individual responses) |
+| **Feedback sentiment** | Positive, neutral, or negative |
+| **Feedback category** | Category assigned to the feedback |
+| **Feedback comments** | Free-text comments |
+| **Feedback created at** / **Feedback updated at** | Timestamps |
+
+When a grouping or time interval is applied, aggregate fields appear:
+
+| Field | Description |
+|-------|-------------|
+| **Feedback total** | Total feedback responses |
+| **Feedback total positive** / **neutral** / **negative** | Counts by sentiment |
+| **Feedback average** | Mean rating |
+| **Feedback total ratio (positive)** | Ratio of positive to total feedback |
+
+</Accordion>
+
+<Accordion title="Order context fields">
+
+| Field | Description |
+|-------|-------------|
+| **Order reference** / **Order ID** | Associated order |
+| **Order completed at** | When the order was completed |
+| **Purchaser name** / **Purchaser email** | Who left the feedback |
+| **Company name** / **Reseller name** | Organisation (at reseller level) |
+
+</Accordion>
+
+### Groupings
+
+Supports **multi-grouping** with options including event, company, and reseller (at reseller level). Time intervals are supported for trend analysis.
+
+---
+
+## Barcode History Report
+
+Tracks manual changes to item barcodes.
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Barcode history ID** | Record identifier |
+| **Old barcode** / **New barcode** | The barcode before and after the change |
+| **Order reference** / **Order ID** | Associated order |
+| **Order Item ID** / **Item name** / **Item status** | Item details |
+| **Purchaser name** / **Purchaser email** | Purchaser details |
+| **Item holder name** / **Item holder email** | Current holder details |
+| **Event ID** / **Event name** / **Event status** | Event details |
+| **Company ID** / **Company name** | Company |
+| **Barcode history created at** / **Barcode history updated at** | Timestamps |
+
+### Key Filters
+
+Events, companies. Date filter. Text filters for old barcode, current barcode, order reference.
+
+---
+
+## Event Schedules Report
+
+Provides a high-level overview of configured [schedules](/user-manual/event-management/schedules), including their settings and aggregate event counts.
+
+### Fields
+
+<Accordion title="Schedule fields">
+
+| Field | Description |
+|-------|-------------|
+| **Schedule ID** / **Schedule name** | Schedule identification |
+| **Company name** / **Reseller name** | Owning company and reseller |
+| **Schedule type** | The type of schedule (e.g. repeating, series) |
+| **Header style** / **Default list style** | Display configuration |
+| **Created at** / **Updated at** | Record timestamps |
+
+</Accordion>
+
+<Accordion title="Schedule settings">
+
+| Field | Description |
+|-------|-------------|
+| **Enable schedule listing** | Whether the schedule has a listing page |
+| **Enable listing dates** | Whether dates are shown on the listing |
+| **Allow staff rebooking** | Whether staff can rebook customers to other events in the schedule |
+| **Allow customer rebooking** | Whether customers can rebook themselves |
+
+</Accordion>
+
+<Accordion title="Schedule aggregates">
+
+| Field | Description |
+|-------|-------------|
+| **Total groups** | Number of groups in the schedule |
+| **Total events** | Total number of events |
+| **Total published events** | Number of published events |
+| **Total upcoming events** | Number of future events |
+| **Total upcoming published events** | Number of future published events |
+| **Total past events** | Number of events that have ended |
+
+</Accordion>
+
+### Key Filters
+
+Schedule type, has upcoming events (boolean). Reseller and company filters available for hub users.
+
+---
+
+## Event Report
+
+Provides an overview of all past and upcoming events with their configuration details.
+
+### Fields
+
+<Accordion title="Event configuration fields">
+
+| Field | Description |
+|-------|-------------|
+| **Event ID** / **Event name** | Event identification |
+| **Event url** | Public URL |
+| **Event tag(s)** / **Tag category** | Tags and categories |
+| **Event start date** / **Event end date** | Event dates |
+| **Event status** | Published, draft, cancelled |
+| **Venue ID** / **Venue name** / **Venue address** / **Venue capacity** | Venue details |
+| **City ID** / **City name** / **Country ID** / **Country name** | Location |
+| **Seating Plan ID** / **Seating Plan Name** | Seating plan (if applicable) |
+| **Approved at** / **Approved by name** / **Approved by email** | Approval details |
+| **Approval status** | Approval workflow status |
+| **Description** / **External ID** | Event description and external reference |
+| **Organiser name** / **email** / **phone** | Organiser contact details |
+| **Schedule ID** / **Schedule name** / **Copied from event ID** | Schedule and copy details |
+| **Created by ID** / **name** / **email** | Event creator |
+| **Updated by ID** / **name** / **email** | Last editor |
+| **Cancelled at** / **Dates last modified at** | Lifecycle timestamps |
+| **Timezone** | Event timezone |
+| **Max tickets per customer** | Per-customer ticket limit |
+| **Is online only** / **Is hidden** / **Teams enabled** | Configuration flags |
+| **Scanning mode** | How scanning is configured |
+| **Share settings** (tickets/products, before/after purchase) | Sharing configuration |
+| **Show remaining** | Whether remaining capacity is displayed |
+| **Ticket capacity includes season tickets** | Capacity calculation setting |
+| **Meta title** / **Meta description** | SEO metadata |
+| **Created at** / **Updated at** | Record timestamps |
+
+</Accordion>
+
+<Note>
+The event report has no mandatory filters, so it shows all events across all companies by default. Use filters to narrow to specific companies, date ranges, or event statuses.
+</Note>
+
+---
+
+## Exchange Rate Report
+
+Displays daily exchange rates between configured currencies.
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **From currency** | Source currency code |
+| **To currency** | Target currency code |
+| **Exchange rate** | The conversion rate |
+| **Created At** | When the rate was recorded |
+
+### Key Filters
+
+Filter by source and/or target currency.
+
+---
+
+## Admin User Report
+
+Provides an overview of all admin users, their roles, access, and activity.
+
+### Fields
+
+<Accordion title="Admin user fields">
+
+| Field | Description |
+|-------|-------------|
+| **User ID** | User identifier |
+| **Name** / **Email** | User details |
+| **Accepted terms at** / **Accepted privacy policy at** / **Accepted additional policy at** / **Accepted email opt in at** | Policy acceptance timestamps |
+| **Last login date** | When the user last logged in |
+| **Last activity date** | Date of the latest audit log entry for this user. After a configured number of days of inactivity, this field becomes empty. |
+| **Last API activity date** | Date of the latest API request from this user, including mobile app usage. After a configured number of days of inactivity, this field becomes empty. |
+| **Two-factor enabled at** | When 2FA was enabled |
+| **Role IDs** / **Roles** | Assigned role identifiers and names |
+| **Hold IDs** / **Holds** | Assigned hold identifiers and names |
+| **Company name(s)** / **Company ID(s)** | Companies the user has access to, scoped to companies you are permitted to see |
+| **Visibility group IDs** / **Visibility groups** | Visibility group assignments |
+| **Created at** / **Updated at** / **Deleted at** | Account lifecycle timestamps |
+
+</Accordion>
+
+### Key Filters
+
+Companies. Date filters for last login, last activity, last API activity. Toggle filter for two-factor enabled. Text filters for name, email. Toggle for suspended (trashed) users.
+
+---
+
+## Gift Voucher Reports
+
+Tracks gift voucher issuance and redemption.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Gift vouchers redemption report** | Order line level overview of gift vouchers and their redemption status |
+
+This report uses the attendance report engine filtered to gift voucher items, with a **Gift voucher redemption status** field showing whether each voucher has been redeemed.
+
+---
+
+## Resale Reports
+
+Resale reports cover the [resale](/user-manual/resale/introduction) marketplace — the listings sellers create, the contracts that result when items resell, and the revenue from resold items. This category is available when resale is enabled for your account.
+
+### Available Reports
+
+| Report | Description |
+|--------|-------------|
+| **Resale sales report** | View sales figures for resold items |
+| **Resale listings report** | View all resale listings and their status |
+| **Resale contracts report** | View resale contract data including seller/buyer information, pricing, and proceeds status |
+
+### Resale Listings Report
+
+The resale listings report shows one row per listing, covering who listed the item, the listing's current status, how many contracts it holds, and how many have sold. Default columns include **Resale listing ID**, **Event name**, **Seller name**, **Seller email**, **Listing status**, **Contract count**, **Contract sold count**, and **Listing creation date**.
+
+<Tip>Closure type and reason added in Release 47.</Tip> When a listing is no longer open, two columns explain why it closed:
+
+| Field | Description |
+|-------|-------------|
+| **Closure type** | Why the listing closed — **Closed by seller**, **Closed by admin**, **Expired**, or **Sold out** |
+| **Closure reason** | The free-text reason recorded when the listing was cancelled |
+
+Both columns are included by default. **Closure type** is empty for listings that are still open and for older closed listings recorded before this tracking existed. **Closure reason** is populated when whoever cancelled the listing added a note at cancellation time; system closures (such as a listing expiring or selling out) leave it blank.
+
+### Resale Contracts Report
+
+The resale contracts report shows one row per contract — an item that has actually resold. It covers the seller, the buyer, the price split, and the status of seller proceeds and payouts. Default columns include **Contract ID**, **Order reference**, **Event name**, **Contract sold date**, seller and buyer name and email, **Pending proceeds**, **Paid proceeds**, **Status of proceeds**, **Paid out proceeds**, and **Status of payout**.
