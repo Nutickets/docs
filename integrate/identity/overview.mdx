@@ -97,6 +97,12 @@ Decide explicitly whether signing out of one system should end the session in th
 
 Use `/auth/end-session` rather than the shop's normal sign-out when your provider starts the sign-out: it ends the shop session without calling your provider back. [Acting as the Identity Provider](/integrate/identity/external-provider#signing-out) covers both directions.
 
+<Warning>
+None of these end a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token). A token outlives the session it created, so a customer who signs out and then loads any page you are still appending it to is signed straight back in.
+
+If you pre-authenticate, sign-out has to stop sending the token as well — and [revoke it](/integrate/identity/pre-authentication#revoking-a-token) where it must not merely go unused.
+</Warning>
+
 ## Getting It Configured
 
 Delegated authentication is configured at company level rather than from within the admin area, so it is arranged through your account manager — provider type, endpoints, credentials, and the claim your identifier arrives in. Have your provider details to hand.

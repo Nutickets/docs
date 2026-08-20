@@ -17,11 +17,14 @@ These apply to any visit, embedded or not.
 
 | Parameter | Values | Effect |
 |-----------|--------|--------|
-| `showItems` | `1` | On an event page, opens item selection immediately instead of showing the event description first. |
+| `showItems` | `1` | On an event page, opens item selection immediately instead of showing the event description first. Applies to that visit only. |
+| `displayPurchaseItemsByDefault` | `0` / `1` | The same choice, made durable: it is remembered and applied to every event page afterwards, overriding the theme's own setting. |
 | `language` | A locale the company has enabled | Selects the shop language. An unsupported locale falls back to the company's default. |
 | `currency` | A currency code the company has enabled | Selects the currency. Ignored if the company does not have it enabled. |
 | `access_code` | An access code | Applies an [access code](/user-manual/basket-codes/access-codes), making restricted items visible. |
 | `discount_code` | A discount code | Applies a [discount code](/user-manual/basket-codes/discount-codes) to the basket. |
+
+`showItems` and `displayPurchaseItemsByDefault` look interchangeable and are not. `showItems` opens the picker once and is dropped from the address when the customer closes it. `displayPurchaseItemsByDefault` sets the display mode for the visitor and keeps it — the embed wizard now emits it, explicitly `1` or `0`, so an embed's configured display mode survives into a top-level visit if the customer follows the fallback link out of the frame. That persistence is deliberate, but it does mean the parameter outlives the URL that carried it.
 
 `currency`, `access_code` and `discount_code` are consumed and stripped from the address, so the customer is not left holding a shareable URL with a code in it. The selection persists for the rest of their visit.
 
@@ -40,7 +43,8 @@ These control what the shop renders inside an embedded frame. They have no effec
 | `iframeMenu` | `0` / `1` | Whether the shop's own site navigation is shown inside the frame. |
 | `hideLogout` | `0` / `1` | `1` removes the sign-out option from the embedded view and account menu. |
 | `hideIframeClose` | `0` / `1` | `1` removes the frame's own close button. |
-| `hideHome` | `0` / `1` | Whether the home button appears in the embedded header. |
+| `hideHome` | `0` / `1` | Whether the home button appears in the embedded header. Left unset, it appears only when `iframe-origin` is present; `0` forces it on, `1` off. |
+| `iframe-origin` | The URL the frame started at | Gives the header's home button somewhere to go, and makes it a real link rather than a message. The generated embed script sets it for you. |
 
 The embed wizard sets `hideIframeClose=0` for modal embeds — a modal needs a way out — and `hideIframeClose=1` for inline ones, where the frame is part of your page and your own layout provides the exits.
 
@@ -56,14 +60,14 @@ These are sticky. The shop remembers each flag for the frame it was set on, so n
 |-----------|--------|--------|
 | `customer_token` | A customer token from the [customer SSO API](/integrate/identity/pre-authentication) | Signs the customer in before the page renders, with no redirect or sign-in step. |
 
-Valid for 24 hours and reusable, but tied to the browsing session that first uses it. Once accepted, the shop removes the parameter from the address before rendering.
+Valid for 24 hours and reusable, but it binds to the IP address and browser it is first presented from, and is refused anywhere else. Read only on `GET` requests. Once accepted, the shop removes the parameter from the address before rendering.
 
-An invalid or expired token is ignored: the request proceeds and the visitor continues as a guest, with any existing session untouched.
+A token that is expired, unrecognised, from another company, or presented from a device it is not bound to is stripped from the URL and the visitor continues as a guest, with any existing session untouched — **and the shop tells them so**, with *Authentication failed, invalid or expired token.*
 
-So a stale token in a bookmark will not break the page, but a mistake also fails quietly. [Pre-authenticating a Session](/integrate/identity/pre-authentication#option-2-the-customer-token) has the full behaviour.
+So a stale token in a bookmark will not break the page, but it will show your customer an error. [Pre-authenticating a Session](/integrate/identity/pre-authentication#a-token-locks-to-the-first-device-that-uses-it) has the full behaviour.
 
 <Warning>
-Treat a customer token as a credential. Never render one into a page for a customer other than its owner, and do not put one in a link you email — it belongs to the browsing session that first used it.
+Treat a customer token as a credential. Never render one into a page for a customer other than its owner, and do not put one in a link you email — it binds to the first device that opens it, which may not be theirs.
 </Warning>
 
 ## Carrying a Session
@@ -85,11 +89,11 @@ Treat the identifier as specific to the journey in progress: a new one is issued
 |-----------|--------|--------|
 | `parent-origin` | Your site's origin | Tells the shop which origin to address its messages to. |
 
-The generated embed script sets this for you. **If you build your own iframe, you must set it**, or the shop cannot work out where to send anything.
+The generated embed script sets this for you. If you build your own iframe you need it, unless you answer the shop's handshake — replying to `nuRequestHandshake` establishes your origin from the message itself, which the shop trusts ahead of this parameter.
 
-`close` and `visit` are broadcast and still arrive; tracking, basket expiry and seating plan messages do not.
+Do neither and the shop falls back to the referring page, which is not always sent. `close` and `visit` are broadcast and still arrive; tracking, basket expiry, seating plan messages and the session identifier do not.
 
-If `close` and `visit` arrive but nothing else does, `parent-origin` is missing. Set it explicitly rather than relying on the referring page, which is not always available. See [Embed Messages](/user-manual/technical/embed-messages#which-host-page-receives-each-message).
+If `close` and `visit` arrive but nothing else does, that is the symptom. See [Embed Messages](/user-manual/technical/embed-messages#which-host-page-receives-each-message).
 
 ## Where Parameters Go in an Embed
 
@@ -97,7 +101,7 @@ An embed has two places configuration lives, and they are not interchangeable.
 
 | Goes in the settings object | Goes on the URL |
 |-----------------------------|-----------------|
-| `eventUrl`, `allowedOrigin`, `showInModal`, `iframeTarget`, `fullScreen`, `modalOpacity`, `autoLoad`, `companyTitle` | Everything on this page |
+| `eventUrl`, `allowedOrigin`, `showInModal`, `iframeTarget`, `fullScreen`, `height`, `modalOpacity`, `autoLoad`, `companyTitle` | Everything on this page |
 
 The settings object configures the **frame** — where it appears, how it behaves, which origin to trust. The URL configures the **shop** — what it shows and who it thinks the visitor is.
 

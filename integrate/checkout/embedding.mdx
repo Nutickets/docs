@@ -37,12 +37,15 @@ Once wired, the script removes the `data-nu-settings` attribute from the element
 | `showInModal` | `true` opens the frame as a modal overlay. `false` embeds it inline. |
 | `iframeTarget` | A CSS selector for the element the inline frame is appended to. Only applies when `showInModal` is `false`. |
 | `fullScreen` | Whether a modal frame fills the whole viewport or sits as a centred panel. |
+| `height` | Height of a panelled modal frame, default `700`. `'auto'` lets the frame grow with its content instead of scrolling inside a fixed box. Ignored when `fullScreen` is `true`. |
 | `modalOpacity` | Darkness of the backdrop behind a modal frame, `0`–`100`. |
 | `autoLoad` | Opens the frame on page load rather than waiting for a click. |
 | `companyTitle` | Used as the frame's accessible title. |
 
 <Warning>
-`allowedOrigin` is a security boundary. Set it to your shop's origin with no trailing path and no trailing slash — a message's origin never has one, so anything else fails to match and you receive no seat selections, tracking or basket expiry events.
+`allowedOrigin` is a security boundary, and the script enforces it strictly: a message is accepted only if it came from the frame it claims to and its origin matches exactly. Get it wrong and you receive no seat selections, tracking or basket expiry events — the script logs *Message source is not within allowed Origin* to the console rather than failing silently.
+
+You can write it as a full URL; the script reduces it to an origin before comparing, so a trailing slash or path no longer breaks the match.
 </Warning>
 
 ### The URL Parameters
@@ -51,7 +54,8 @@ Everything about what the frame *shows* is controlled by parameters on `eventUrl
 
 | Parameter | Effect |
 |-----------|--------|
-| `showItems=1` | Land on the event's item selection step rather than its description |
+| `displayPurchaseItemsByDefault=1` | Land on the event's item selection step rather than its description. What the wizard now emits — it also sets `=0` when the option is off |
+| `showItems=1` | The same, for one visit only. Use this where you do not want the choice remembered |
 | `iframeMenu=1` | Show the shop's site navigation inside the frame |
 | `hideLogout=1` | Remove the sign-out option from the embedded view |
 | `hideIframeClose=1` | Remove the frame's own close button |
@@ -61,13 +65,14 @@ The wizard sets `hideIframeClose=0` for modal embeds and `hideIframeClose=1` for
 
 ## Variation 1: The Stock Modal
 
-The default, and what the wizard generates: `showInModal: true`, a full-screen or panelled overlay, `showItems=1` on the URL. The customer clicks your button, picks items, checks out, pays and sees their confirmation, all inside the frame.
+The default, and what the wizard generates: `showInModal: true`, a full-screen or panelled overlay, `displayPurchaseItemsByDefault=1` on the URL. The customer clicks your button, picks items, checks out, pays and sees their confirmation, all inside the frame.
 
 Nothing crosses the boundary except the messages the shop chooses to send. Your page listens for those to know when to close or reset the frame, and to feed the customer journey into your own analytics:
 
 ```js
 window.addEventListener('message', (event) => {
-  if (!event.origin.startsWith('https://tickets.example.com')) return;
+  if (event.origin !== 'https://tickets.example.com') return;
+  if (!event.data?.nuMessage) return;
 
   if (event.data.close) {
     // The customer finished, or asked to leave
@@ -81,6 +86,8 @@ window.addEventListener('message', (event) => {
 });
 ```
 
+Every message the shop sends carries `nuMessage: true`. Check for it before reading anything else — a page of any size receives messages from scripts that have nothing to do with the embed, and the marker is what separates ours from theirs.
+
 The generated script handles `close` and `visit` for you — you only need your own listener for tracking and basket expiry.
 
 [Embed Messages](/user-manual/technical/embed-messages) documents every message and parameter, which customer data is included, and how cookie consent affects what is sent.
@@ -88,7 +95,7 @@ The generated script handles `close` and `visit` for you — you only need your 
 <Note>
 A `close` message means the embed *should* close — it does not close anything by itself if you are handling messages yourself.
 
-Destroy the frame or reload it to its starting URL so the next customer starts clean. The script's `nuCloseModal()` does exactly that.
+Destroy the frame or reload it to its starting URL so the next customer starts clean. The script's `nuCloseModal()` does exactly that, and takes the embed's hash to act on one frame — `nuCloseModal(hash)` — leaving any other embeds on the page alone.
 </Note>
 
 ### Things That Have to Leave the Frame
@@ -112,7 +119,7 @@ The script hides the trigger and clicks it for you, so the frame loads with the 
 
 ```json
 {
-  "eventUrl": "https://tickets.example.com/events/48213?showItems=1&hideIframeClose=1",
+  "eventUrl": "https://tickets.example.com/events/48213?displayPurchaseItemsByDefault=1&hideIframeClose=1",
   "allowedOrigin": "https://tickets.example.com",
   "showInModal": false,
   "iframeTarget": "#ticket-shop"
@@ -173,21 +180,31 @@ Seat and area selection events only ever come from a seat map or general-admissi
 </Accordion>
 
 <Accordion title="Several embeds on one page">
-  Each trigger gets its own frame and its own settings, so a listing page with a **Buy** button per event works without special handling. All of them share one message listener, and each message is matched back to the frame it came from.
+  Each trigger gets its own frame and its own settings, so a listing page with a **Buy** button per event works without special handling. All of them share one message listener, and each message is matched back to its frame by the window it arrived from — so a `close` from one embed closes that embed and leaves the rest open.
+
+  The frame chrome flags — `iframeMenu`, `hideLogout`, `hideIframeClose`, `hideHome` — are remembered per frame rather than per shop, so setting one on a single embed no longer changes the others on the same page.
 </Accordion>
 
 <Accordion title="Closing a frame that has no close button of its own">
   Some embedded pages — the seating plan among them — have no close control, and an inline embed with `hideIframeClose=1` deliberately has none either. If you need your own close affordance, call the script's `nuCloseModal()` directly rather than waiting for the frame to send `close`.
 
+  Pass the embed's hash to close just that one. Called with no argument it closes and resets every embed on the page, which is what you want for a single-embed page and rarely what you want otherwise.
+
   A modal frame covers the viewport at a high stack order, so a close button of your own has to sit above it. An ordinary in-flow button will be underneath and unclickable while the modal is open.
 </Accordion>
 
 <Accordion title="Building the iframe yourself">
-  You can skip the script and write your own `<iframe>`, but you lose the message plumbing and must add `parent-origin` set to your site's origin to the frame URL.
+  You can skip the script and write your own `<iframe>`, but the message plumbing becomes yours to build, and there are two things to get right.
 
-  Without it the shop cannot address messages: `close` and `visit` are broadcast and still arrive, but tracking, basket expiry and seating plan messages do not.
+  **Tell the shop your origin.** On load the frame posts `{ nuRequestHandshake: true }`. Reply to it and the shop takes your origin from the reply itself, which is the most reliable route because the browser attests it. If you would rather not answer, add `parent-origin` set to your site's origin to the frame URL instead. Do neither and the shop falls back to the referring page, which browsers do not always send: `close` and `visit` are broadcast and still arrive, but tracking, basket expiry, seating plan messages and the session identifier do not.
 
-  If `close` and `visit` arrive but nothing else does, `parent-origin` is missing.
+  **Give the frame a `name`.** The chrome flags and the display mode are remembered against it, so two unnamed frames on one page share one set of remembered settings and overwrite each other. The generated script names every frame it creates; a hand-built frame without one logs a warning to the console.
+</Accordion>
+
+<Accordion title="Frame height and scrollbars">
+  Shop pages fill at least the height of the frame, so a short page — a sold-out event, a thin listing — puts its footer at the bottom rather than leaving the frame scrolling over empty space.
+
+  That settles the height of the content. The height of the *frame* is still yours: an inline embed fills the container you give it, and a panelled modal uses `height`, `700` by default. Where the content varies enough that no single figure fits, `height: 'auto'` lets the modal grow with it instead of scrolling inside a fixed box.
 </Accordion>
 
 <Accordion title="Frame permissions">

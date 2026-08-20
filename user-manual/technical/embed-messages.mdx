@@ -66,12 +66,15 @@ The same snippet is available on its own from the **Tracking in iframes** link i
 
 ## Message Reference
 
-Each message is identified by a property on `event.data`. A single message never combines these.
+Every message the shop sends carries `nuMessage: true`, which is how a host page tells them apart from messages posted by anything else on the page. Check for it before reading anything else.
+
+Beyond that marker, each message is identified by a property on `event.data`. A single message never combines these.
 
 | Message | Identified by | What it means |
 |---------|---------------|---------------|
 | Close | `close: true` | The embed should be closed or reset |
 | Visit | `visit` object | A link needs to open outside the iframe |
+| Home | `home: true` | The customer used the home control in the embedded header |
 | Basket expiry | `event: 'expire'` | The customer's basket timed out |
 | Tracking | `nuTracker: true` | A customer action worth tracking occurred |
 | Seating plan | `planReady`, `seatSelected`, `seatUnselected`, `GASelected`, `GAUnselected`, `error` | Seating plan state changed |
@@ -82,19 +85,22 @@ Each message is identified by a property on `event.data`. A single message never
 
 These two messages let a host page continue a customer's basket in a page of its own.
 
-On load the shop posts `nuRequestHandshake`. The embed script replies with `{ nuHandshake: true, parentHref }`, and the shop then posts `{ nuSid: '<identifier>' }` — repeating it as the customer moves around inside the frame, so the value the host page holds stays current. A host page that does not answer the handshake is not sent an identifier.
+On load the shop posts `nuRequestHandshake` to any listener. The embed script replies with `{ nuHandshake: true }`, and the shop then posts `{ nuSid: '<identifier>' }` — repeating it as the customer moves around inside the frame, so the value the host page holds stays current. A host page that does not answer the handshake is not sent an identifier.
 
-[Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers what to do with it.
+The reply does more than unlock the identifier: the shop takes the origin from the reply message itself, so a host page that answers the handshake does not need a `parent-origin` parameter to receive addressed messages.
+
+[Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers what to do with the identifier.
 
 ### Which Host Page Receives Each Message
 
 Close and visit messages are broadcast, so they reach the host page in every setup.
 
-Every other message — tracking, basket expiry and seating — is addressed to a specific host origin, and is only delivered if the shop has been able to work out what that origin is. The shop resolves it in this order:
+Every other message — tracking, basket expiry, seating and the session identifier — is addressed to a specific host origin, and is only delivered if the shop has been able to work out what that origin is. The shop resolves it in this order:
 
-1. A `parent-origin` parameter on the embed URL. The generated embed script adds this automatically.
-2. The referring page.
-3. A host origin resolved earlier in the same browser and remembered since.
+1. The origin of the host page's reply to the handshake. The browser sets this on the message, so the shop trusts it above anything it is told.
+2. A `parent-origin` parameter on the embed URL. The generated embed script adds this automatically.
+3. The referring page.
+4. A host origin resolved earlier in the same browser and remembered since.
 
 <Warning>
 If you build your own iframe rather than using the generated embed script, and the browser sends no referrer, none of the tracking, basket expiry or seating messages will reach your page. Add a `parent-origin` parameter set to your site's origin to the iframe URL.
@@ -131,6 +137,18 @@ The message says the embed should close — it does not close anything by itself
 Sent when a link must open outside the iframe. Currently this is only used for the **X** (Twitter) share option on the event share block, which cannot open inside an embedded frame.
 
 Create a link with the supplied `href` and `target` and click it, as shown in the listener example above. Fall back to `_blank` if `target` is absent.
+
+### Home
+
+```js
+{ home: true }
+```
+
+Sent when the customer clicks the home control in the embedded header. Like `close`, it reports the intent and does nothing on its own.
+
+What the control does inside the frame depends on `iframe-origin`. With it set — the generated embed script always sets it, to the frame's starting URL — the icon is a link that takes the customer back to where the embed began, and this message tells you it happened. Without it the icon is a plain button, the frame does not navigate, and the message is the only outcome: use it to drive whatever "back to the start" means on your page.
+
+The control is hidden entirely with `hideHome=1`. Left unset it appears only where `iframe-origin` is set, so a hand-built frame gets no home icon until you ask for one with `hideHome=0`.
 
 ## Basket Expiry
 
@@ -197,13 +215,13 @@ Other identifying fields are sent as-is, including `customer_name`, the customer
 |-----------------|--------------------------|----------------|
 | Views any page | `page_view` | `PageView` |
 | Sees an event in a listing | `product_impression` | `ProductImpression` |
-| Opens the items modal | `view_item_list` | `viewItemList` |
+| Opens the items modal, or a gift vouchers page with vouchers on it | `view_item_list` | `viewItemList` |
 | Lands on an event page | `product_detail` | `productDetailImpression` |
 | Clicks an event link | `product_click` | `productClick` |
 | Logs in | `login` | `login` |
 | Creates an account | `sign_up` | `register` |
 | Logs out | `logout` | `logout` |
-| Adds an item to the basket | `add_to_cart` | `addToBasket` |
+| Adds an item or a gift voucher to the basket | `add_to_cart` | `addToBasket` |
 | Removes an item from the basket | `remove_from_cart` | `removeFromBasket` |
 | Opens the basket | `view_cart` | `viewCart` |
 | Starts checkout | `begin_checkout` | `checkout` |

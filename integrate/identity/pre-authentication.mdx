@@ -33,7 +33,8 @@ POST /v1/customers/single-sign-on
   "email": "customer@example.com",
   "name": "Alex Morgan",
   "customerSsoId": "crm-88421",
-  "redirect": "/basket"
+  "redirect": "/basket",
+  "generateCustomerToken": true
 }
 ```
 
@@ -43,6 +44,11 @@ POST /v1/customers/single-sign-on
 | `name` | No | Used when creating a new customer, and synchronised onto an existing one. |
 | `customerSsoId` | No | Your own stable identifier for this person. Recommended — see below. |
 | `redirect` | No | Where the signed URL should land the customer. |
+| `generateCustomerToken` | No | `true` adds a customer token to the response. Off by default. |
+
+<Note>
+The signed URL comes back on every call; the token does not. Without `generateCustomerToken: true` the response contains only `url` and `customerId` — which is the thing to check first if you are reading for a `customerToken` that never arrives.
+</Note>
 
 The customer is created if we do not hold them, and updated with whatever else you supplied if we do. The token used for the call needs permission to create customers.
 
@@ -118,21 +124,41 @@ You call the API once, hold the token alongside the customer's session on your s
   </Step>
 </Steps>
 
-Once accepted, the shop removes the token from the address before rendering, so it does not remain in the browser's address bar or history.
+Once accepted, the shop removes the token from the address before rendering, so it does not remain in the browser's address bar or history, and the page is served with a `no-referrer` policy so it is not passed on to anything the customer clicks through to.
 
-### Tokens Belong to One Browsing Session
+<Note>
+A customer token signs somebody into the shop and does nothing else. It is not an API credential: presented as a bearer token it is rejected, and it cannot be sent on an [asynchronous API request](/integrate/getting-access#large-or-high-volume-requests). Your API token remains the only thing that authenticates calls to us.
+</Note>
 
-A token is tied to the browsing session that first uses it. Presented from a different browser it is ignored: the visitor simply continues as a guest, and any session they already had is untouched.
+### A Token Locks to the First Device That Uses It
+
+The first request to present a token binds it to that visitor's IP address and browser user agent, for the rest of its life. Presented from anywhere else it is refused — which is what stops a token that leaks from a URL, a log or a screen recording being usable by whoever finds it.
+
+The binding is stricter than "the same browser": a customer who moves from home wifi to mobile data, or onto a corporate VPN, changes IP and needs a new token. Browser updates change the user agent and do the same.
 
 That shapes how you cache them:
 
-- **Mint one per customer browsing session**, not one per customer account.
-- **Call the endpoint again if a sign-in does not take.** It is a cheap call, and a customer who has changed context needs a new token.
-- **Do not put a token in an email or a link that will be opened later.** By then it belongs to a different browsing session.
+- **Mint one per customer browsing session**, not one per customer account. A customer may hold several live tokens at once, so a second one does not invalidate the first.
+- **Call the endpoint again when a sign-in does not take.** It is a cheap call, and a customer who has changed network or device needs a new token.
+- **Do not put a token in an email or a link opened later.** It will bind to the first device that opens it, which may not be the customer's.
 
-An expired or unrecognised token is ignored the same way — the request proceeds and normal session handling applies.
+<Note>
+Only ordinary page requests carry a token. The shop reads `customer_token` on `GET` requests and ignores it on anything that submits — so a token appended to a form action does not sign the customer in.
+</Note>
 
-So a stale token in a bookmark will not break the page, but a mistake also fails quietly. If a customer is unexpectedly a guest, check the token first.
+### When a Token Is Refused
+
+A token that has expired, is unrecognised, belongs to another company, or arrives from a device it is not bound to is stripped from the URL and the visitor continues as a guest. Any session they already had is left untouched.
+
+**This is not silent.** The shop shows the visitor a message:
+
+> Authentication failed, invalid or expired token.
+
+It is shown in whichever of the shop's languages best matches the visitor's browser, and the one case it is suppressed is when they were already signed in as that same customer — where the token added nothing and the warning would only confuse.
+
+<Warning>
+That message is customer-facing, so a token bug is visible to the people using your site rather than only to you. Check `customerTokenExpiresAt` before appending a token, and stop appending one you know to be stale rather than letting the shop reject it.
+</Warning>
 
 ### Revoking a Token
 

@@ -76,7 +76,7 @@ Any endpoint can be called asynchronously by adding `async=true`. You get back a
 
 Polling does not count against your rate limit, and completed responses are kept for two hours whether you collect them or not.
 
-Async suits report pulls and bulk reads. Page size rises from 100 to 1000, and endpoints requiring a password cannot be called this way. Full details in the [API introduction](/api-reference/introduction#asynchronous-requests).
+Async suits report pulls and bulk reads. Page size rises from 100 to 1000. Requests carrying a credential cannot be called this way — a password or a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) anywhere in the body is rejected with a validation error. Full details in the [API introduction](/api-reference/introduction#asynchronous-requests).
 
 ## Features You May Need Enabled
 
