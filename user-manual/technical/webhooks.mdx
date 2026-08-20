@@ -72,12 +72,60 @@ Each webhook has the following settings:
 
 ### Secret
 
-Each webhook can have a secret key used to sign requests, allowing your receiving system to verify that requests genuinely come from the platform. **Webhook secrets help secure the connection between our system and your app. Click generate to create a new secret and copy it to your clipboard.**
+Each webhook is signed with a shared secret, set in the **Secret** field when you create or edit it. A secret is required — the webhook cannot be saved without one. Click **Generate** to produce a new secret; it is copied to your clipboard at the same time, ready to paste into the application that will receive the calls.
 
-The platform uses HMAC-SHA256 to sign webhook payloads with this secret. The signature is included in the **Signature** header of each request.
+The platform signs every payload with HMAC-SHA256 using this secret and sends the result in the **Signature** header. Checking that header is what proves a request came from us, rather than from anyone who happened to discover your endpoint URL.
 
 <Note>
-Always verify the signature on your receiving end to ensure requests haven't been tampered with. Compare the signature in the header against your own HMAC-SHA256 hash of the raw request body using the shared secret.
+A new secret applies from the next delivery onwards. Update your receiving application at the same time you save the change, or verification will start failing on live events.
+</Note>
+
+#### Verifying the Signature
+
+The **Signature** header holds a lowercase hexadecimal HMAC-SHA256 digest of the JSON request body, keyed with the webhook's secret. There is no prefix, version tag or timestamp in the value — the digest is the entire header.
+
+<Warning>
+Verification depends on there being a request body to hash. When **HTTP Request Method** is set to `GET`, the payload is sent as query string parameters and no body is sent, leaving nothing to verify against. Use `POST` wherever the signature matters.
+</Warning>
+
+The check is the same three steps in any language:
+
+```
+// 1. Read the raw request body — the exact bytes received, before parsing the JSON.
+rawBody = request.rawBody()
+
+// 2. Compute the expected digest using the value from the webhook's Secret field.
+expected = hex(hmac_sha256(key: webhookSecret, message: rawBody))
+
+// 3. Compare it against the header, in constant time.
+if (not constant_time_equals(expected, request.header("Signature"))) {
+    respond(401)
+    return
+}
+
+// Only now is the payload safe to trust.
+respond(200)
+process_asynchronously(json_parse(rawBody))
+```
+
+<Warning>
+Hash the raw body, not a re-serialised copy of the parsed payload. Re-encoding JSON changes key order, whitespace and character escaping, and any one of those produces a different digest — so the check fails on every delivery, even though the requests are genuine.
+</Warning>
+
+Three things commonly go wrong:
+
+| Problem | What to do instead |
+|---------|--------------------|
+| Comparing the two values with a plain string equality check | Use a constant-time comparison — `hash_equals`, `crypto.timingSafeEqual`, `hmac.compare_digest` — so a failing check cannot be probed a character at a time. |
+| Reading the body after the framework has parsed it | Many frameworks consume the request stream to build the parsed payload, leaving nothing to hash. Capture the raw body first, via middleware or your framework's raw-body option. |
+| Verifying and processing before responding | Requests time out after 3 seconds. Verify, respond, then do the work asynchronously. |
+
+<Note>
+There is no timestamp header, so a valid signature on its own does not tell you whether a request is a replay. Deliveries are attempted up to three times, which means the same signed payload can legitimately arrive more than once for one event — key your processing on something stable in the payload, such as the order reference, and make it idempotent.
+</Note>
+
+<Note>
+Test requests are signed exactly like real ones, so you can confirm your verification code works using the [test option](#testing-a-webhook) before a live event fires. The **Signature** value sent with any delivery is also listed under **Headers** on the call detail page — see [Monitoring Webhook Activity](#monitoring-webhook-activity).
 </Note>
 
 ### Payload Settings

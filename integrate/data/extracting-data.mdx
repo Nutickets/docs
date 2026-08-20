@@ -50,7 +50,7 @@ Configure a URL per event type in the admin area and we call it when that event 
 
 What matters when you are the one receiving them:
 
-**Verify the signature.** Payloads are signed with HMAC-SHA256 using the secret you generate, and the signature arrives in the `Signature` header. Compute your own HMAC over the **raw request body** and compare. Without that check, the endpoint accepts anything that reaches it.
+**Verify the signature.** Payloads are signed with HMAC-SHA256 using the secret you generate, and the signature arrives in the `Signature` header. Compute your own HMAC over the **raw request body** and compare, in constant time. Without that check, the endpoint accepts anything that reaches it. [Verifying the Signature](/user-manual/technical/webhooks#verifying-the-signature) has the steps and the mistakes that break it.
 
 **Answer fast.** Requests time out after **3 seconds**. Acknowledge immediately and process asynchronously; doing the work inline turns a busy on-sale into a stream of timeouts.
 
