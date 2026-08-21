@@ -92,10 +92,22 @@ Cross-site tracking is separate from the platform's built-in analytics. Google T
 
 ## Sessions in Embedded Checkouts
 
-Embedded checkouts handle sessions differently from standard visits because third-party cookies may not be available within embedded frames on some browsers. When cookies cannot be set, the platform automatically falls back to passing a session identifier via URL parameters or request headers — no additional configuration is needed.
+Embedded checkouts handle sessions differently from standard visits, because Safari and Firefox restrict or block cookies for a frame served from a different domain to the page hosting it. Without that cookie the shop has no default way to recognise a returning customer.
 
-The session is validated on each request to prevent hijacking, and the platform tracks the client's identity to ensure session integrity.
+Inside a single embed this is handled for you. Where the shop detects it cannot rely on a cookie, it carries the session identifier on the links it generates instead, so a customer moving between items, basket and checkout inside the frame keeps their basket throughout. Nothing to configure.
+
+That handling stops at the edge of the frame. When the host website moves the customer itself — to another of its own pages carrying a second embed, or out to a full-page visit on the shop — those URLs are built by the host site rather than the shop, so the basket only travels if the host site carries the identifier onto them deliberately.
 
 <Note>
-If customers experience issues completing checkout in an embedded view, ensure that the host website's domain is not blocked by browser privacy settings. The platform's automatic session fallback handles most scenarios transparently.
+Carrying a basket beyond a single frame is a developer task, not an admin setting. The shop offers its session identifier to the host page over the embed message channel, and the host page puts it back on the URL it sends the customer to. [Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers this and the basket-link alternative; [Embed Messages](/user-manual/technical/embed-messages) covers the handshake that releases the identifier.
+</Note>
+
+### Handling the Session Identifier
+
+Sessions resumed from an identifier are validated on each request. One that fails validation starts a fresh session rather than resuming the original, so a basket cannot be picked up by someone the identifier was not issued to.
+
+Treat an identifier as belonging to the journey in progress: use it for the navigation being performed, and do not store it, log it, or put it in a link that will be shared.
+
+<Note>
+If customers report an empty basket after moving between pages in an embedded view, check whether the host site is carrying the session identifier onto the URL it sends them to. A basket that survives in Chrome but empties in Safari is the usual sign that it is not.
 </Note>
