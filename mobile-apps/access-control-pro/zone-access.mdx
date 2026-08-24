@@ -126,10 +126,16 @@ Zone scanning normally requires a server connection because scans are evaluated 
 When offline mode is enabled:
 
 - Scans are evaluated against locally cached ticket data instead of the server
+- The only checks made are whether the ticket has access to the zone and whether its ticket type is disabled on this device — everything else is skipped
 - Every zone is treated as **In Only** with **unlimited** scan limits — the app cannot track in/out status or enforce capacity without server state
+- Validity dates and age restrictions are not checked
 - Data capture fields are not shown during offline zone scans
 - Scan results are stored locally and uploaded when the connection returns
 
 <Warning>
-Offline zone mode trades accuracy for availability. Capacity limits, in/out tracking, and data capture are not enforced. Use it only when scanning must continue despite connectivity loss.
+Offline zone mode trades accuracy for availability. Capacity, in/out tracking, scan limits, validity dates, age restrictions, and data capture all go unenforced until the scans sync. Use it only when scanning must continue despite connectivity loss.
 </Warning>
+
+<Note>
+Because validity dates are skipped, a [timeslot](/user-manual/event-management/timeslots) ticket is accepted into a zone outside its own timeslot while offline mode is on. Entry scanning on the main **Scan** tab is not affected — it checks the validity window held in cached ticket data, so timeslot windows still hold there even with no connection.
+</Note>

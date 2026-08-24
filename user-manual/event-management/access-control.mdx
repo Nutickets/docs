@@ -156,6 +156,48 @@ The grace period only applies when scanning into zones where validity date check
 
 You can optionally display check-in times to customers by enabling **Show check in times to customer** on the sale item. When enabled, validity times are displayed within the customer account, order confirmation, and event media templates.
 
+## Timeslots and Event Passes
+
+Splitting an event into [timeslots](/user-manual/event-management/timeslots) does not split access control. A scan is always recorded against a **zone** and a **ticket** — there is no separate scan counter per timeslot. What a timeslot changes is *when* a ticket is valid, not *how many times* it can be used.
+
+### Admitting a Timeslot Ticket
+
+A ticket assigned to a timeslot takes its validity window from that slot's start and end times. On the sale item, the **Check in times** options are replaced by a single fixed option — **Defined by the timeslot start and end times** — and Anytime, One hour before, and Custom are greyed out. The form explains why: *"You cannot set validity dates on this ticket, within a time slot, as the time slot determines the validity of a ticket."* Any [grace period](#grace-period) set on the item still extends that window in both directions.
+
+Present the ticket outside its slot and it is turned away. In [Access Control Pro](/mobile-apps/access-control-pro/introduction) the scan result reads **Not yet valid** before the slot opens and **No longer valid** after it closes, and no **Admit ticket** button is offered. Through a zone, the API, or the admin panel, the scan is denied and logged to the [failed scans report](/user-manual/reporting/default-reports#failed-scans-report) as being outside the validity period.
+
+Two things override that:
+
+- **[Ignore item validity dates](#ignoring-validity-dates)** on the zone — the zone stops checking validity dates altogether, so a ticket from any slot can enter at any time.
+- **Admit all** in Access Control Pro — when admitting a whole order, this admits every item including those outside their window. **Admit valid** admits only the items currently within theirs.
+
+### What an Event Pass Is
+
+An **event pass** is a ticket on a timeslotted event that has not been assigned to a timeslot. It sits alongside the slots in the ticket shop as [its own option](/user-manual/event-management/timeslots#event-passes), for customers who want entry to the event without committing to a particular time.
+
+Because an event pass has no slot, its validity comes from its own [check-in time](#check-in-time-options) setting — **Anytime**, **One hour before**, or **Custom** — exactly as on an event with no timeslots at all. It is never narrowed to a slot, and on a [seated event](/user-manual/event-management/seated-events) it holds its seat across every timeslot.
+
+### How Often a Pass Can Be Scanned
+
+<Note>
+This is the question that comes up most often, so to answer it directly: an event pass is **not** admitted once per timeslot. How many times any ticket can be scanned in is set by the zone's [scan limit](#scan-limits), and that limit counts scans across the whole event.
+</Note>
+
+| Zone scan limit | What an event pass holder can do |
+|-----------------|-----------------------------------|
+| **Single access** | Scan in once. Every later attempt is rejected with **Scan in limit exceeded**, no matter how many timeslots have started since. |
+| **Unlimited access** | Scan in as many times as they like for the duration of the event, which in practice means entering during every timeslot. |
+
+Timeslot tickets follow the same rule, with the added constraint that every scan has to fall inside their own slot.
+
+The defaults matter here. The [Entry zone](#the-default-entry-zone) is created with **single access**, while zones you create yourself default to **unlimited access**. So the same event pass admits once at the main gate but can come and go freely through a zone you have added.
+
+The **Scan** tab in Access Control Pro behaves the same way as the Entry zone: once a ticket has been admitted into any zone on the event it shows as **Already scanned** with no admit button — one admission per ticket for the event, not one per timeslot. To let attendees move in and out between slots, scan them through an unlimited-access zone from the **Zones** tab instead.
+
+### Restricting a Zone to Particular Slots
+
+[Eligible items](#eligible-items) are matched on the ticket type, not on the individual timeslot's copy of it. Every timeslot holds its own copy of a sale item but they all share one underlying ticket type, so picking one copy under **Select specific items** admits that ticket type from every timeslot. A zone cannot be limited to a single slot this way — the ticket's own validity window is what confines it to a slot.
+
 ## Admitting Attendees
 
 ### Via Access Control Pro

@@ -68,6 +68,12 @@ After a scan, a full-screen result appears showing the ticket status, customer d
 If a valid ticket is blocked because the device has its ticket type or gate disabled (see [filtering scans](#filtering-scans-by-ticket-type-and-gate) below), the scan result shows as red even though the ticket itself is valid. The message **This device is not enabled to admit this ticket** explains why.
 </Note>
 
+### Timeslot Tickets and Event Passes
+
+On a [timeslotted](/user-manual/event-management/timeslots) event, the valid-from and valid-until window behind **Not yet valid** and **No longer valid** is the ticket's own timeslot. Present a slot ticket before its slot opens or after it closes and the app holds it back — there is no admit button until the slot is live. [Event passes](/user-manual/event-management/timeslots#event-passes) are not tied to a slot, so they fall back to their own check-in times.
+
+Admissions made on the **Scan** tab are recorded against the event's default **Entry** zone. **Already scanned** appears once a ticket has been admitted into *any* zone on the event, so a ticket admits once here for the whole event — not once per timeslot, even for an event pass valid across all of them. To let attendees re-enter between slots, scan them through a zone with unlimited access from the [**Zones** tab](/mobile-apps/access-control-pro/zone-access) instead. See [Timeslots and Event Passes](/user-manual/event-management/access-control#timeslots-and-event-passes) for how the limits are configured.
+
 ### Ticket Details Shown
 
 The scan result screen displays:

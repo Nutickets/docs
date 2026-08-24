@@ -48,8 +48,8 @@ description: 'Split events into specific admission windows with independent stoc
 <Accordion title="Exhibition with optional timed viewing">
   An exhibition offers timed viewing slots for peak hours but also sells general
   admission tickets for the full day. Timeslotted tickets manage peak-hour
-  capacity, while non-timeslotted tickets appear under the **Whole Event**
-  option for visitors who prefer flexible entry.
+  capacity, while non-timeslotted tickets are sold as
+  [event passes](#event-passes) for visitors who prefer flexible entry.
 </Accordion>
 
 ## Creating Timeslots
@@ -218,9 +218,17 @@ Each timeslot also shows its lowest price when visible in the shop.
 
 In the redesigned selector, a timeslot that has a [name](#core-fields) now also shows its start and end time on a second line beneath the name. Previously only the name was shown, which made slots indistinguishable when every timeslot shared the same name (for example, several "Entry timeslot" slots that differ only by time). Timeslots without a name continue to show their start and end time as the main label.
 
-### Whole Event Option
+### Event Passes
 
-If an event has both timeslotted and non-timeslotted sale items, the shop displays a **Whole Event** pseudo-slot alongside the actual timeslots. This allows customers to purchase items that are not assigned to a specific timeslot.
+An **event pass** is a ticket on a timeslotted event that is not assigned to any timeslot — it covers the event as a whole rather than one slot, which suits customers who want entry without committing to a particular time. Whenever an event has both timeslotted and non-timeslotted sale items, the shop offers event passes alongside the real timeslots so both can be bought from the same place.
+
+In the timeslot picker the option is headed **Event pass**, with **Whole Event** in place of a time underneath. The [redesigned selector](#selecting-a-date-and-time) puts it first in each day's time list, labelled **Whole Event** with the event's dates beneath.
+
+<Note>
+**Event pass** is the platform's name for the ticket; **Whole Event** only ever labels the option that holds them. Admin uses the same wording throughout — **This item is an event pass** on the seating plan, **Apply as event pass** and **Select all event passes** when bulk editing, and **Event pass** in the seating plan legend. The customer-facing label can be reworded for your own shop through [website text](/user-manual/cms/website-text), so your customers may see something different.
+</Note>
+
+Event passes have no timeslot to draw a validity window from, so they keep their own [check-in times](/user-manual/event-management/access-control#check-in-time-options) and are admitted differently from timeslot tickets — see [Admitting Timeslot Tickets](#admitting-timeslot-tickets).
 
 ### Box Office
 
@@ -232,10 +240,21 @@ If an event has both timeslotted and non-timeslotted sale items, the shop displa
 - **Limited** — a specific sales cap for the timeslot. Total stock cannot be set below the sum of already sold and reserved quantities; current stock is recalculated as total minus sold and reserved.
 - Effective saleability is the **minimum** of the timeslot's own stock and the stock of its assigned sale items. Both must have availability for a purchase to succeed.
 
+## Admitting Timeslot Tickets
+
+Timeslots decide *when* a ticket is valid for entry, not how entry itself is controlled. [Access control](/user-manual/event-management/access-control) still works through zones: every scan is recorded against a zone and a ticket, and no scan counter is kept per timeslot.
+
+- **Timeslot tickets** take their [validity window](/user-manual/event-management/access-control#validity-dates) from the timeslot's start and end times, extended by any grace period on the sale item. Scanning one outside its slot is rejected — [Access Control Pro](/mobile-apps/access-control-pro/introduction) shows **Not yet valid** or **No longer valid** and offers no admit button.
+- **[Event passes](#event-passes)** keep their own check-in times, so they are valid whenever those times allow rather than being tied to a slot.
+- **Re-entry** is governed by the zone's [scan limit](/user-manual/event-management/access-control#scan-limits), which counts scans across the whole event. An event pass scanned into a **single access** zone admits once for the event, not once per timeslot; in an **unlimited access** zone it can be re-scanned throughout, covering every timeslot.
+
+For the full picture — including how to override validity checks and why a zone cannot be restricted to a single slot — see [Timeslots and Event Passes](/user-manual/event-management/access-control#timeslots-and-event-passes).
+
+Attendance can still be broken down by slot after the event. The [scanning report](/user-manual/reporting/default-reports#scanning-reports) carries the timeslot name and its start and end dates against each scan, leaving those columns empty for event passes.
+
 ## Related Constraints
 
 - Timeslotted sale items cannot be associated with [sale item groups](/user-manual/event-management/sale-item-groups).
-- Tickets assigned to a timeslot use the timeslot's start and end dates as their [validity window](/user-manual/event-management/access-control#validity-dates).
 - If event dates are changed after creating timeslots, the admin flags out-of-bounds timeslots so they can be corrected.
 
 ## Related
