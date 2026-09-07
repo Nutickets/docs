@@ -56,7 +56,7 @@ These are sticky. The shop remembers each flag for the frame it was set on, so n
 
 ## Leaving the Frame
 
-Some journeys cannot happen inside a frame at all: signing in with an identity or social provider, signing back out of one, a payment gateway that refuses to render embedded, adding a ticket to a calendar, sharing a link. These two parameters control what the shop does about that.
+Some journeys cannot happen inside a frame at all: signing in with an identity or social provider, signing back out of one, changing details that provider owns, a payment gateway that refuses to render embedded. These two parameters control what the shop does about that.
 
 | Parameter | Values | Effect |
 |-----------|--------|--------|
@@ -67,7 +67,9 @@ Some journeys cannot happen inside a frame at all: signing in with an identity o
 
 `blank` keeps your page alive behind the new tab. `top` takes the customer's whole page with them, which is what an identity provider you host needs — it has somewhere to hand them back to, and can name that page with [`parent_url`](/integrate/identity/external-provider#where-the-customer-actually-is). A new tab leaves it with nothing to return to.
 
-The trade-off is that the choice applies to *every* link out of the frame, including ones with no return leg — a calendar link or a share intent takes your page too. Weigh it against the alternative for identity specifically: a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) signs the frame in with no navigation at all.
+It only reaches links the customer comes back from. A one-way link — adding a ticket to a calendar, sharing an event — always opens a new tab whatever you set, because nothing is going to hand the customer back and taking your page with them would cost you the page for nothing.
+
+Weigh `top` against the alternative for identity specifically: a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) signs the frame in with no navigation at all.
 
 Where the link does open in a new tab, the shop also posts [`close`](/user-manual/technical/embed-messages#close) to your page, so you can dismiss or reset an embed the customer has moved on from. It sends nothing on a `top` breakout — there is no page left behind to tell.
 

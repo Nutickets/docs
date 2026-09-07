@@ -161,6 +161,8 @@ These live with you because the shop holds neither.
 
 - **Changing an email address with you does not notify the shop.** It picks the new address up on the customer's next sign-in, matched on the external identifier, and updates the customer it already holds. This depends on you sending `customerSsoId`.
 - **A blank URL removes the journey.** The shop does not fall back to its own fields; the option is not offered.
+- **Both links carry `returnUrl`.** It names the shop page the customer was on when they clicked, so you can put them back where they were once the change is saved. Same parameter as the sign-out leg, so a provider that already honours one honours both. It never carries the shop's session identifier.
+- **The links leave an embedded frame.** They point at your site, so they follow the host page's [`externalTarget`](/integrate/reference/url-parameters#leaving-the-frame) like any other link out of the frame — a new tab by default, or the whole page where the embed asked for it.
 
 To push profile changes across immediately rather than waiting for the next sign-in, the [customers API](/api-reference/customers/update-customer) can update a customer directly. See [Managing Customers](/user-manual/customer-management/managing-customers).
 
@@ -181,7 +183,7 @@ Most delegated integrations use both: the provider for full-page visits, pre-aut
 <AccordionGroup>
 
 <Accordion title="The two legs use different parameter names">
-  Sign-in arrives as `redirect_url`. Sign-out arrives as `returnUrl`. They are not interchangeable.
+  Sign-in arrives as `redirect_url`. Sign-out arrives as `returnUrl`, as do the change email and change password links. They are not interchangeable.
 </Accordion>
 
 <Accordion title="Your endpoints have to be reachable from two places">
