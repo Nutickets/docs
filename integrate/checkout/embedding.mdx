@@ -59,6 +59,7 @@ Everything about what the frame *shows* is controlled by parameters on `eventUrl
 | `iframeMenu=1` | Show the shop's site navigation inside the frame |
 | `hideLogout=1` | Remove the sign-out option from the embedded view |
 | `hideIframeClose=1` | Remove the frame's own close button |
+| `externalTarget=top` | Send a link that has to leave the frame — SSO, a gateway that will not render embedded — to the top window rather than a new tab |
 | `access_code`, `discount_code`, `language`, `currency` | As for any shop link — see [Linking to the Shop](/integrate/checkout/linking-out#carry-state-in-the-link) |
 
 The wizard sets `hideIframeClose=0` for modal embeds and `hideIframeClose=1` for inline ones, on the reasoning that a modal needs a way out and an inline frame is already part of your page. [Shop URL Parameters](/integrate/reference/url-parameters) is the complete reference.

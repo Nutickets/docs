@@ -119,11 +119,16 @@ Sent when the customer takes an action that should dismiss the embed. Every trig
 - Click the close button, which appears in the embedded header and on the payment processing, order confirmation, and guest account upgrade screens
 - Click **Back to shopping** in the basket
 - Click **Continue browsing** on the order confirmation
-- Click **Proceed to payment** where the payment page opens in a new tab
-- Start a social login, which also continues in a new tab
+- Click **Proceed to payment**, where the payment page opens in a new tab
+- Start a sign-in with an identity or social provider, which continues in a new tab
+- Sign out, where the company hands sign-out to an identity provider and that continues in a new tab
 
 <Note>
-The last two are sent after a short delay, so the new tab has time to open first. Some browsers block the new tab if the embed closes immediately.
+The last three are sent after a short delay, so the new tab has time to open first. Some browsers block the new tab if the embed closes immediately.
+</Note>
+
+<Note>
+Those three depend on the link actually opening in a new tab. An embed running with [`externalTarget=top`](/integrate/reference/url-parameters#leaving-the-frame) takes your whole page with it instead, so there is no page left behind to close and nothing is sent.
 </Note>
 
 The message says the embed should close — it does not close anything by itself. Destroy the iframe or reload it back to its starting URL so the next customer begins from a clean state.
@@ -137,6 +142,8 @@ The message says the embed should close — it does not close anything by itself
 Sent when a link must open outside the iframe. Currently this is only used for the **X** (Twitter) share option on the event share block, which cannot open inside an embedded frame.
 
 Create a link with the supplied `href` and `target` and click it, as shown in the listener example above. Fall back to `_blank` if `target` is absent.
+
+Honour the `target` you are given rather than assuming `_blank` — it follows the embed's [`externalTarget`](/integrate/reference/url-parameters#leaving-the-frame), so an embed set to `top` sends `_top` here.
 
 ### Home
 

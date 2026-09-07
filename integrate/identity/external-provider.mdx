@@ -36,7 +36,7 @@ Configuration happens at company level rather than from within the admin area, s
 
 <Steps>
   <Step title="The shop sends the customer to you">
-    Something needs the customer authenticated, so the shop redirects the browser to your **SSO base URL** with `redirect_url` appended — where it wants them to end up afterwards. Any query string already on your configured URL is preserved.
+    Something needs the customer authenticated, so the shop redirects the browser to your **SSO base URL** with `redirect_url` appended — where it wants them to end up afterwards. Where the shop is embedded in a frame on somebody's site, `parent_url` comes too, naming the page the customer is actually looking at. Any query string already on your configured URL is preserved.
   </Step>
   <Step title="You establish an identity">
     If the customer already has a session with you, you have one. If not, show your own sign-in form — holding on to `redirect_url` so it is still available once they have signed in.
@@ -66,7 +66,24 @@ With it, a customer changing their email address with you updates the customer w
 
 The shop constrains it again at its end — the signed sign-in URL honours a redirect only on the shop's domain — but validate it yourself as the first line of defence.
 
-`redirect_url` can also arrive empty, because the shop fills it in only when it had somewhere in mind. Treat a missing value as *"wherever the shop defaults to"* rather than an error.
+`redirect_url` is always sent. Where the customer was bounced to sign-in from a page that needed them authenticated, it names that page. Where nothing put a destination in mind — they reached the sign-in screen under their own steam — it names the shop's basket, so there is always somewhere to hand them back to and somewhere a customer mid-purchase can carry on from.
+
+### Where the Customer Actually Is
+
+`parent_url` arrives only when the shop is running inside a frame on somebody else's page, and it names that page rather than anything on the shop.
+
+It is an **addition** to `redirect_url`, never a replacement: `redirect_url` is where the shop wants them, `parent_url` is where they were. Which one you hand back is your decision, and the two lead to different journeys.
+
+| You send back | What the customer gets |
+|---------------|------------------------|
+| `redirect_url` as `redirect` | The signed sign-in URL lands them on the shop itself, signed in — outside the frame they started in. |
+| `parent_url` | They return to the page they were on. The frame there is a fresh, signed-out one, so pre-authenticate it with a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) — you already know who they are by this point. |
+
+The second only works if the frame that sent them to you navigated the *top* window rather than opening a new tab, which the host page opts into with [`externalTarget=top`](/integrate/reference/url-parameters#leaving-the-frame). A new tab has no page to return to.
+
+<Warning>
+`parent_url` reaches the shop from the embedding page via the browser, so the shop can only confirm it is a well-formed `http`/`https` address before passing it on — it cannot vouch for whose site it names. Treat it the way you treat `redirect_url`: check it against origins you actually expect before redirecting anybody to it.
+</Warning>
 
 ### The Signed URL Is for a Waiting Browser
 
@@ -127,6 +144,10 @@ Sign-out has two directions, and the shop tells you which one you are in.
 </Steps>
 
 <Note>
+Sign-out leaves an embedded frame the same way sign-in does. Where a logout URL is configured, the shop posts the sign-out into the target the host page asked for with [`externalTarget`](/integrate/reference/url-parameters#leaving-the-frame) rather than redirecting the frame onto your endpoint — so `returnUrl` brings the customer back to a context they can actually see.
+</Note>
+
+<Note>
 `nuSessionEnded=1` is what lets a single endpoint serve both directions. Present, it means the shop has already closed its session and you only need to close yours. Absent, you are the side that started the sign-out and the shop's session is still open.
 </Note>
 
@@ -145,7 +166,11 @@ To push profile changes across immediately rather than waiting for the next sign
 
 ## Pre-authenticating an Embedded Shop
 
-Sending a customer to your provider is a full-page journey, so a shop running in a frame lifts the customer out to you and returns them afterwards.
+Sending a customer to your provider is a full-page journey, so a shop running in a frame lifts the customer out to you and returns them afterwards. By default that means a new tab, which leaves you with nowhere to hand them back to — the host page can set [`externalTarget=top`](/integrate/reference/url-parameters#leaving-the-frame) so the whole page comes with them and `parent_url` becomes usable.
+
+<Warning>
+Where you are the only way in, `/login` and `/register` have no button to break out with — they redirect to you the moment the customer arrives, and inside a frame that redirect moves the frame onto your endpoint rather than the top window. Frame them with `no_redirect=1` so the screen renders and the customer leaves the frame by clicking your button.
+</Warning>
 
 To have an embedded shop render already signed in, hand us the identity directly with a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) — your site already knows who is signed in, and no navigation is needed.
 
@@ -188,6 +213,8 @@ Most delegated integrations use both: the provider for full-page visits, pre-aut
 The [external SSO scenario](https://integration-playground.nuwebgroup.com/scenarios/external-sso) in the integration playground is a working External provider.
 
 Point a company's customer SSO settings at it and you can walk first sign-in, returning sign-in, guest upgrade and both directions of sign-out — useful for comparing against your own implementation.
+
+The [iframe sign-in scenario](https://integration-playground.nuwebgroup.com/scenarios/iframe-sso-breakout) puts that same provider behind a hand-placed frame, which is where the awkward parts live. It shows both `redirect_url` and `parent_url` as they arrive, lets you switch the frame between `blank` and `top`, and lets you switch the provider between handing the customer back to the shop and handing them back to the host page with a customer token — so you can compare the two journeys before committing to one.
 
 ## Related
 

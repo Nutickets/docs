@@ -54,6 +54,39 @@ These are sticky. The shop remembers each flag for the frame it was set on, so n
 
 `hideLogout=1` matters where your site owns sign-in: a sign-out control inside the frame ends the shop session while leaving the customer signed in to your site. Hide it and drive sign-out from your own controls. See [Signing Customers In](/integrate/identity/overview#signing-out).
 
+## Leaving the Frame
+
+Some journeys cannot happen inside a frame at all: signing in with an identity or social provider, signing back out of one, a payment gateway that refuses to render embedded, adding a ticket to a calendar, sharing a link. These two parameters control what the shop does about that.
+
+| Parameter | Values | Effect |
+|-----------|--------|--------|
+| `externalTarget` | `blank` / `top` | Where a link that has to leave the frame opens. `blank` (the default) puts it in a new tab; `top` replaces your whole page with it. No effect on a top-level visit. |
+| `no_redirect` | `1` | On `/login` and `/register`, renders the screen rather than handing the customer straight to an identity provider. |
+
+### Choosing Where the Link Opens
+
+`blank` keeps your page alive behind the new tab. `top` takes the customer's whole page with them, which is what an identity provider you host needs — it has somewhere to hand them back to, and can name that page with [`parent_url`](/integrate/identity/external-provider#where-the-customer-actually-is). A new tab leaves it with nothing to return to.
+
+The trade-off is that the choice applies to *every* link out of the frame, including ones with no return leg — a calendar link or a share intent takes your page too. Weigh it against the alternative for identity specifically: a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token) signs the frame in with no navigation at all.
+
+Where the link does open in a new tab, the shop also posts [`close`](/user-manual/technical/embed-messages#close) to your page, so you can dismiss or reset an embed the customer has moved on from. It sends nothing on a `top` breakout — there is no page left behind to tell.
+
+<Note>
+A frame you build yourself needs `allow-top-navigation` in its `sandbox` attribute, or no attribute at all. The generated embed script already sets it. Without it the browser blocks the navigation and the customer sits on a dead link.
+</Note>
+
+### When There Is No Link to Break Out With
+
+`externalTarget` only reaches links. Where a delegated provider is the *only* way in, `/login` and `/register` have none to offer — they hand the customer over the moment they arrive, and that hand-over is a server-side redirect, so in a frame it moves the frame onto the provider rather than the top window. Providers usually refuse to be framed, so the customer is left on a blocked page.
+
+`no_redirect=1` on the frame's URL renders the screen instead, with its provider button on it, and the button leaves the frame properly. It works on both screens.
+
+You do not need it where the company also has social sign-in enabled, or where the customer reaches `/login` with items in the basket and guest checkout on — the screen renders on its own in both cases.
+
+Unlike the frame chrome parameters, `no_redirect` is honoured on an ordinary top-level visit too.
+
+Both parameters, and both ways a provider can hand the customer back, are demonstrated in the [iframe sign-in scenario](https://integration-playground.nuwebgroup.com/scenarios/iframe-sso-breakout) of the integration playground.
+
 ## Pre-authenticating a Customer
 
 | Parameter | Values | Effect |
@@ -88,12 +121,17 @@ Treat the identifier as specific to the journey in progress: a new one is issued
 | Parameter | Values | Effect |
 |-----------|--------|--------|
 | `parent-origin` | Your site's origin | Tells the shop which origin to address its messages to. |
+| `parent-url` | The full URL of the page hosting the frame | Tells the shop which page the customer is actually looking at, so it can pass that on to an identity provider as `parent_url`. |
 
 The generated embed script sets this for you. If you build your own iframe you need it, unless you answer the shop's handshake — replying to `nuRequestHandshake` establishes your origin from the message itself, which the shop trusts ahead of this parameter.
 
 Do neither and the shop falls back to the referring page, which is not always sent. `close` and `visit` are broadcast and still arrive; tracking, basket expiry, seating plan messages and the session identifier do not.
 
 If `close` and `visit` arrive but nothing else does, that is the symptom. See [Embed Messages](/user-manual/technical/embed-messages#which-host-page-receives-each-message).
+
+`parent-url` is separate because the shop cannot work it out for itself: reading the address of the page above it throws, cross-origin. The generated embed script sets it, and refreshes it on every handshake reply so a single-page host that has navigated since the frame loaded is still named correctly. Build your own frame and you have to set it, or answer the handshake with `nuParentUrl` on the reply.
+
+Only the External identity type does anything with it, and only ever as an extra alongside `redirect_url` — see [Acting as the Identity Provider](/integrate/identity/external-provider#the-sign-in-round-trip).
 
 ## Where Parameters Go in an Embed
 
