@@ -97,6 +97,28 @@ Decide explicitly whether signing out of one system should end the session in th
 
 Use `/auth/end-session` rather than the shop's normal sign-out when your provider starts the sign-out: it ends the shop session without calling your provider back. [Acting as the Identity Provider](/integrate/identity/external-provider#signing-out) covers both directions.
 
+### Ending the Frame's Session, Not Just the Page's
+
+Everything above assumes one shop session. Embed the shop and there may be two: where the browser partitions storage — Safari and Firefox do by default — the session inside your frame and any session the customer has on the shop at top level are separate, and ending one leaves the other signed in. A customer who signs out on your page can reopen the frame and still be there.
+
+Ending the frame's session from a top-level navigation therefore means naming the session you mean:
+
+```
+https://tickets.example.com/auth/end-session?sid={nuSid}&fsid=1
+```
+
+`sid` is the identifier the frame offered you as `nuSid`. `fsid=1` is what makes it count: without it the top-level context's own cookie wins and you end *that* session, leaving the frame's exactly as it was. Take the most recent `nuSid` the frame sent — a new one is issued whenever the customer signs in. [Carrying the Basket Across Pages](/integrate/checkout/session-continuity) covers capturing it.
+
+The same request leaves the top-level context pointing at the session it just ended, so the customer is signed out in both places.
+
+<Note>
+A top-level session that existed beforehand is orphaned rather than closed — the browser simply stops holding a cookie for it. Where it has to be closed outright, make the plain `/auth/end-session` call first and the `sid`/`fsid` one second. The other way round, the second call lands on the session the first one already replaced.
+</Note>
+
+Send the customer somewhere of your own afterwards rather than relying on `redirect`: that parameter is honoured only where the company's authentication is delegated to an **external** provider, and everywhere else the customer lands on the shop's login page.
+
+The sign-out control inside the frame has the mirror problem — it ends the frame's session and leaves a top-level one signed in. Where your site owns sign-out, `hideLogout=1` and driving it from your own controls avoids the question entirely.
+
 <Warning>
 None of these end a [customer token](/integrate/identity/pre-authentication#option-2-the-customer-token). A token outlives the session it created, so a customer who signs out and then loads any page you are still appending it to is signed straight back in.
 

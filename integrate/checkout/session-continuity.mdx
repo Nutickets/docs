@@ -53,6 +53,8 @@ https://tickets.example.com/basket?sid={nuSid}&fsid=1
 
 Without it the existing session wins — the correct default everywhere else, since it stops a shared or bookmarked link displacing somebody's live session.
 
+Carrying the basket is the common use, but the pair names a session for any purpose. Sign-out is the other one: ending a frame's session from a top-level navigation needs the same `sid` and `fsid=1`, or you end the top-level session and leave the frame signed in — see [Ending the Frame's Session](/integrate/identity/overview#ending-the-frames-session-not-just-the-pages).
+
 Treat the identifier as short-lived and specific to the journey in progress: use it for the navigation you are performing, and do not store it, log it, or put it in a link that will be shared.
 
 ## Which to Use

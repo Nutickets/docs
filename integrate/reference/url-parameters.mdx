@@ -110,7 +110,7 @@ Treat a customer token as a credential. Never render one into a page for a custo
 | `sid` | A session identifier offered by the shop as `nuSid` | Continues that session rather than starting a new one. |
 | `fsid` | `1` | Uses the supplied `sid` in preference to any session the visitor already has. |
 
-You construct these when your own code moves a customer out of a frame into a full-page visit, or between your own pages.
+You construct these when your own code moves a customer out of a frame into a full-page visit, between your own pages, or [signs them out of a frame](/integrate/identity/overview#ending-the-frames-session-not-just-the-pages) from a top-level navigation.
 
 Both are needed together: without `fsid=1` an existing session takes priority, which stops a shared or bookmarked link displacing somebody's live session.
 
