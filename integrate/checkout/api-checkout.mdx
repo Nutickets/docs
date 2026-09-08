@@ -21,6 +21,8 @@ Not when a customer is sitting in a browser choosing tickets — that means reim
 
 <Warning>
 Read [Building Baskets with the API](/integrate/checkout/building-baskets) first. Everything about composing a basket applies here unchanged — this page only covers turning that basket into a completed order.
+
+Where the payment is processed determines whether these orders can be refunded online. [Taking Payment](/integrate/checkout/payments) compares the routes.
 </Warning>
 
 ## Two Shapes of the Same Thing
@@ -79,11 +81,13 @@ Basket and order identifiers are interchangeable, so the identifier you got when
 
 The `-offline` methods are the reason a lot of API integrations are simpler than they expect: if you have already taken the money, you are recording a fact, not processing a payment.
 
+The platform holds no gateway reference for that money, so an order recorded with an `-offline` method cannot be refunded online — only recorded as refunded, or credited to the customer's [account balance](/user-manual/account-balances/top-ups). Still use the `-offline` variants rather than the `-online` ones: an off-platform payment recorded as an online one produces an order that appears refundable online and fails at the gateway when it is. See [What Off-Platform Payment Changes](/integrate/checkout/payments#what-off-platform-payment-changes).
+
 Deposits are supported through `paymentPlan` with type `deposit`, which takes a partial payment now and leaves a balance outstanding. See [Deposit Payments](/user-manual/payments/deposit-payments).
 
 ## Taking a Card Payment Online
 
-There is no hosted checkout to redirect to here, so you drive the payment yourself.
+There is no hosted checkout to redirect to here, so you drive the payment yourself. The money still moves through the company's connected gateway, so the transaction is gateway-backed and can be refunded to the card later.
 
 <Steps>
   <Step title="Create the basket">
@@ -106,6 +110,10 @@ There is no hosted checkout to redirect to here, so you drive the payment yourse
 
 <Note>
 `capture` defaults to `false` for backwards compatibility, so omitting it completes the order against an uncaptured payment. Set it explicitly. If capture cannot be confirmed, the call returns a `422`, the order stays incomplete, and the transaction stays open for retry.
+</Note>
+
+<Note>
+Creating a payment intent requires the **Mobile box office: sell items** permission. A token scoped only to reading events and writing baskets is rejected, so include it in the [integration user's role](/user-manual/system-access/roles-and-permissions).
 </Note>
 
 ## Controlling the Side Effects
@@ -135,6 +143,8 @@ An API-created order is an ordinary order. It appears in the admin area, its tic
 
 Refunds work through the API too, whole-order with [Refund Order](/api-reference/orders/refund-order) or line-by-line with [Refund Order Items](/api-reference/orders/refund-order-items). [Refunds and Cancellations](/user-manual/order-management/refunds-and-cancellations) covers the rules that apply either way.
 
+Both accept `online: true`, but the flag only takes effect on a transaction the platform's gateway processed. On an order recorded with an `-offline` method an offline refund is recorded instead and the call still returns `200`, so check `refundStatus` rather than the status code.
+
 ## What You Are Taking On
 
 These are the things our checkout does that an API-driven purchase does not get:
@@ -147,6 +157,7 @@ These are the things our checkout does that an API-driven purchase does not get:
 | [Waiting rooms](/user-manual/ticket-shop/waiting-rooms) under peak load | Living within API rate limits instead |
 | Validation messages a human can act on | Mapping validation errors into your own UI |
 | Offering [refund protection](/user-manual/refund-protection/protect-group), add-ons and upsells | Nothing — those revenue lines are simply absent |
+| Leaving a gateway-backed transaction that can be refunded to the card later | Returning the money yourself, when payment was taken off-platform |
 
 Take totals from the API rather than calculating them. [Fees](/user-manual/fees/default-system-fees), [tax bands](/user-manual/tax/tax-bands), [conditional tax](/user-manual/tax/conditional-tax-bands) and [all-in pricing](/user-manual/fees/all-in-pricing) are configurable per company and per item, so a local calculation drifts as soon as one changes.
 
@@ -155,6 +166,8 @@ Take totals from the API rather than calculating them. [Fees](/user-manual/fees/
 If payment is the only reason for taking this model, there is a smaller step: build the basket through the API and hand the customer to our checkout for the payment step alone.
 
 You keep your own buying UI and business rules; we keep responsibility for checkout. See [Building Baskets with the API](/integrate/checkout/building-baskets#handing-the-basket-back).
+
+To keep the payment step in your own interface without giving up platform processing, use the Payments API instead. [Taking Payment](/integrate/checkout/payments) compares the routes.
 
 ## Try It
 
@@ -166,7 +179,10 @@ The [full API scenario](https://integration-playground.nuwebgroup.com/scenarios/
   <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
     Everything about composing the basket
   </Card>
-  <Card title="Payment Lifecycle" icon="credit-card" href="/user-manual/payments/payment-lifecycle">
+  <Card title="Taking Payment" icon="credit-card" href="/integrate/checkout/payments">
+    Whose gateway processes the money, and why it matters
+  </Card>
+  <Card title="Payment Lifecycle" icon="arrows-rotate" href="/user-manual/payments/payment-lifecycle">
     How transactions move between states
   </Card>
   <Card title="Order Management" icon="receipt" href="/user-manual/order-management/core-concepts">

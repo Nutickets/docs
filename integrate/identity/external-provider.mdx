@@ -122,7 +122,7 @@ Sign-out has two directions, and the shop tells you which one you are in.
     Before it involves you.
   </Step>
   <Step title="The shop sends the customer to your logout URL">
-    With `returnUrl` for where it wants them back, and `nuSessionEnded=1` to say its session has already ended. Both are appended to whatever query string or fragment your configured URL already carries.
+    With `returnUrl` for where it wants them back, and `nuSessionEnded=1` to say its session has already ended. Where the shop was embedded, `parent_url` comes too — the same pair as sign-in, so you can return the customer to the site hosting the frame rather than to the shop. All are appended to whatever query string or fragment your configured URL already carries.
   </Step>
   <Step title="You end your session and return them">
     Send them to that `returnUrl`. Because `nuSessionEnded=1` is present, there is nothing left to close on our side.
@@ -144,7 +144,7 @@ Sign-out has two directions, and the shop tells you which one you are in.
 </Steps>
 
 <Note>
-Sign-out leaves an embedded frame the same way sign-in does. Where a logout URL is configured, the shop posts the sign-out into the target the host page asked for with [`externalTarget`](/integrate/reference/url-parameters#leaving-the-frame) rather than redirecting the frame onto your endpoint — so `returnUrl` brings the customer back to a context they can actually see.
+Sign-out leaves an embedded frame the same way sign-in does. Where a logout URL is configured, the shop posts the sign-out into the target the host page asked for with [`externalTarget`](/integrate/reference/url-parameters#leaving-the-frame) rather than redirecting the frame onto your endpoint — so `returnUrl` and `parent_url` bring the customer back to a context they can actually see.
 </Note>
 
 <Note>

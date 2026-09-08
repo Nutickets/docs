@@ -385,7 +385,8 @@
               "integrate/checkout/embedding",
               "integrate/checkout/session-continuity",
               "integrate/checkout/building-baskets",
-              "integrate/checkout/api-checkout"
+              "integrate/checkout/api-checkout",
+              "integrate/checkout/payments"
             ]
           },
           {

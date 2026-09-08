@@ -1,0 +1,158 @@
+---
+title: "Taking Payment"
+description: "Where a payment is processed in an integration, and what that determines afterwards."
+---
+
+## Overview
+
+A payment is either processed by the platform's gateway, or taken on your own merchant account and recorded here afterwards.
+
+The platform can only return money it moved. A gateway-processed payment leaves a gateway-backed transaction on the order, which online refunds, [cash outs](/user-manual/account-balances/cash-outs) to the original card, [resale](/user-manual/resale/introduction) payouts and [order modifications](/user-manual/order-management/order-modifications) all rely on. A payment recorded after the fact leaves no gateway reference, so those operations are unavailable on that order.
+
+This is a separate decision from the [integration model](/integrate/integration-models). Our checkout, an embed and a basket link all process payment on the platform; an API-completed order can go either way.
+
+## The Two Routes
+
+| | Platform-processed | Off-platform |
+|---|---|---|
+| Merchant account | The company's, connected to the platform | Your own |
+| How you get there | Our checkout, or the [Payments API](#option-2-your-ui-our-gateway) | Take payment yourself, then record it |
+| What lands on the order | A gateway-backed transaction | A record that payment happened |
+| Online refunds | Yes | No |
+| Refund to account balance | Yes | Yes, where the feature is enabled and the order has a customer |
+| Cash outs and resale payouts to the original card | Yes | No |
+
+Three ways to get there. Our checkout and the Payments API are both platform-processed; taking the money yourself is not.
+
+## Option 1: Our Checkout Takes the Payment
+
+The customer pays in our checkout, reached by [link](/integrate/checkout/linking-out), inside an [embedded frame](/integrate/checkout/embedding), or through a [basket link](/user-manual/technical/basket-links) generated from an API-built basket.
+
+This is the recommended route, including for integrations that build their own basket — [handing the basket back](/integrate/checkout/building-baskets#handing-the-basket-back) keeps your buying UI and leaves payment with us.
+
+It covers:
+
+- **Every gateway the platform supports** — around 25, changed in settings rather than in your integration. See [Payment Processors](/user-manual/payments/payment-processors).
+- **Methods layered on the gateway** — Apple Pay and Google Pay, saved cards, Stripe Link, and local or buy-now-pay-later methods such as Klarna, iDEAL, Bancontact and OXXO where the gateway offers them.
+- **Non-gateway methods** — [account balance](/user-manual/account-balances/top-ups) spending, gift vouchers, [split payments](/user-manual/payments/split-payments), [deposits](/user-manual/payments/deposit-payments) and [invoice payments](/user-manual/payments/invoice-payments).
+- **3D Secure, SCA and gateway failure handling**, including gateways that cannot render inside a frame and have to open at top level. See [Leaving the Frame](/integrate/reference/url-parameters#leaving-the-frame).
+- **Post-payment operations** — online refunds, [refund protection](/user-manual/refund-protection/protect-group), [resale](/user-manual/resale/introduction) payouts and [order modifications](/user-manual/order-management/order-modifications).
+
+Confirm the sale server-side rather than from the browser. Set `successRedirectUrl` and `failureRedirectUrl` to return the customer to you, then verify with the [Order completed webhook](/user-manual/technical/webhooks) or [Retrieve Order](/api-reference/orders/retrieve-order). See [Bringing Them Back Afterwards](/integrate/checkout/building-baskets#bringing-them-back-afterwards).
+
+## Option 2: Your UI, Our Gateway
+
+The Payments API renders the payment step in your own interface while still processing through the company's connected gateway, so the transaction is gateway-backed and refunds behave normally.
+
+<Steps>
+  <Step title="Build the basket">
+    [Add To Basket](/api-reference/baskets/add-to-basket), without `autocomplete`.
+  </Step>
+  <Step title="Create a payment intent">
+    [Create Payment Intent](/api-reference/payments/create-payment-intent) prepares the payment against the basket and returns what you need to confirm it client-side, along with a `transactionId`. Set `cardPresent` for in-person payments, or `interacPresent` for Interac in Canada.
+  </Step>
+  <Step title="Confirm the payment">
+    In the customer's browser, or on your terminal, using the payment provider's own client SDK. Card-present flows also need a [connection token](/api-reference/payments/retrieve-connection-token) for the reader.
+  </Step>
+  <Step title="Complete the order">
+    [Complete Order](/api-reference/orders/complete-order) with the `basketId`, the `transactionId` from the intent, and `capture: true`.
+  </Step>
+</Steps>
+
+<Warning>
+The Payments API supports Stripe only, and rejects any other gateway with a validation error. On any other gateway the options are our checkout or Option 3. See [Payment Processors](/user-manual/payments/payment-processors).
+</Warning>
+
+Three things to account for:
+
+- **`capture` defaults to `false`** for backwards compatibility, so omitting it completes the order against an uncaptured payment. Set it explicitly. If capture cannot be confirmed the call returns a `422`, the order stays incomplete, and the transaction stays open for retry.
+- **The integration user needs the box office selling permission.** Creating a payment intent requires **Mobile box office: sell items**; a token scoped only to reading events and writing baskets is rejected with a `403`. See [Permissions Reference](/user-manual/system-access/permissions-reference#mobile-apps).
+- **This route collects nothing the checkout collects.** [Data capture](/user-manual/data-capture/introduction), terms, [refund protection](/user-manual/refund-protection/protect-group) and upsells are yours to build or omit.
+
+<Note>
+Deposits are supported — pass `paymentPlan` with type `deposit` on the intent and on completion. See [Deposit Payments](/user-manual/payments/deposit-payments).
+</Note>
+
+## Option 3: You Take the Payment
+
+Payment runs on your own merchant account, and the order is completed afterwards with the method that describes it:
+
+| Method | What it means |
+|--------|---------------|
+| `card-not-present-offline` | A card payment taken on your own online checkout |
+| `card-present-offline` | A card payment taken on your own terminal |
+| `cash`, `bank`, `cheque`, `money-order` | Payment taken outside the platform in that form |
+| `complimentary` | No payment |
+
+If you have already taken the money you are recording it rather than processing it, which is what the `-offline` methods are for. [Completing Orders with the API](/integrate/checkout/api-checkout) covers the mechanics.
+
+Use the `-offline` variants rather than `card-not-present-online` or `card-present-online`. The `-online` methods describe a payment the platform's gateway processed. Recording an off-platform payment as one produces an order that appears refundable online; the refund attempt then falls back to the company's default gateway and fails there rather than at validation.
+
+## What Off-Platform Payment Changes
+
+An **online refund** — *"An online refund will cancel the items in this system as well as attempt to return the money to the customer via their original payment method"* — is offered only where the original transaction went through a payment gateway. Whether that gateway was reached through our checkout or the Payments API makes no difference.
+
+On an order recorded offline, the refund screen shows **No items can be refunded online**, and *"Item cannot be refunded online."* per item. What remains:
+
+| Refund type | On an off-platform order |
+|-------------|--------------------------|
+| **Refund online** | Unavailable |
+| **Refund offline** | Available. *"An offline refund will cancel the items in this system but no money will be returned to the customer."* You return the money in your own system |
+| **Refund to balance** | Available where **Account Balance Refunds** is enabled for the company and the order has a customer. Credits the customer's [account balance](/user-manual/account-balances/top-ups) instead of their card |
+| **Cancel items** | Available. Cancels without a monetary refund |
+
+Through the API, [Refund Order](/api-reference/orders/refund-order) and [Refund Order Items](/api-reference/orders/refund-order-items) accept `online: true`, but on a transaction with no payment gateway behind it the flag has no effect and an offline refund is recorded. The call still returns `200`, so check `refundStatus` rather than the status code.
+
+Two other operations depend on a gateway-backed payment:
+
+- **[Cash outs](/user-manual/account-balances/cash-outs) to the original payment method.** Otherwise only recordable offline.
+- **[Resale](/user-manual/resale/introduction) payouts to the original payment method.** Sellers are paid to their account balance instead.
+
+[Order modifications](/user-manual/order-management/order-modifications) still work, but a later refund of the replacement order returns only the part paid through the gateway.
+
+<Note>
+A gateway reference cannot be attached to an order after the fact, so this applies for the life of every order taken this way.
+</Note>
+
+## Which to Choose
+
+<AccordionGroup>
+
+<Accordion title="You want to sell tickets">
+  Option 1. Link, embed, or build the basket through the API and hand it back with a basket link. All three process payment on the platform, and the basket link keeps your own buying UI.
+</Accordion>
+
+<Accordion title="You need the payment step in your own interface">
+  Option 2, if the company is on Stripe. On any other gateway, weigh a branded checkout — [custom URL](/user-manual/utilities/custom-urls), [theme](/user-manual/cms/theme-and-branding), [menu](/user-manual/cms/menus) — against losing online refunds.
+</Accordion>
+
+<Accordion title="You have to use your own merchant account">
+  Option 3. Record with an `-offline` method and handle refunds in your own system. Check first whether **Refund to balance** covers enough of your cases to use instead.
+</Accordion>
+
+<Accordion title="Nobody is paying at the point of sale">
+  The question does not arise. Comps, entitlements, allocations, migrated orders and renewals charged elsewhere complete with `complimentary` or an `-offline` method. See [Completing Orders with the API](/integrate/checkout/api-checkout).
+</Accordion>
+
+<Accordion title="You are mixing routes">
+  Common — an embedded shop for the public, API-completed orders for a partner feed. Keep the payment methods accurate on each; filter [Retrieve Transactions](/api-reference/transactions/retrieve-transactions) by `type` to separate gateway payments from recorded ones.
+</Accordion>
+
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
+    Build the basket, hand payment back to our checkout
+  </Card>
+  <Card title="Completing Orders with the API" icon="receipt" href="/integrate/checkout/api-checkout">
+    Complete orders yourself, with or without our gateway
+  </Card>
+  <Card title="Payment Processors" icon="credit-card" href="/user-manual/payments/payment-processors">
+    Every gateway and what each supports
+  </Card>
+  <Card title="Refunds and Cancellations" icon="rotate-left" href="/user-manual/order-management/refunds-and-cancellations">
+    How refunds behave once an order exists
+  </Card>
+</CardGroup>

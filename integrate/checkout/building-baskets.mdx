@@ -113,6 +113,8 @@ Seating plan availability inside the frame refreshes on an interval rather than 
 
 Add `generateBasketUrl: true` and the response includes `startBasketUrl` — a signed URL that drops the customer into the shop with the basket loaded and ready. **This needs the Basket links feature enabled for the company**; see [Basket Links](/user-manual/technical/basket-links).
 
+This is what keeps payment on the platform. The customer pays through the company's connected gateway with every method the checkout offers, leaving a gateway-backed transaction on the order — which online refunds, [cash outs](/user-manual/account-balances/cash-outs) and [order modifications](/user-manual/order-management/order-modifications) rely on. See [Taking Payment](/integrate/checkout/payments).
+
 You have three ways to use it, and they are interchangeable from the platform's point of view:
 
 | Hand-off | When it fits |
@@ -179,6 +181,8 @@ To collect it in your own UI instead, submit responses with [Capture Response](/
 
 If you do not want to hand back to our checkout at all — because you are taking payment yourself, or there is no customer present — the same basket becomes an order through the API. See [Completing Orders with the API](/integrate/checkout/api-checkout).
 
+Taking the money on your own merchant account rules out online refunds on those orders. The Payments API is a third option: your own payment step, processed through the platform's gateway. See [Taking Payment](/integrate/checkout/payments).
+
 ## Try It
 
 Three playground scenarios cover the paths on this page:
@@ -195,6 +199,9 @@ Three playground scenarios cover the paths on this page:
   </Card>
   <Card title="Completing Orders with the API" icon="receipt" href="/integrate/checkout/api-checkout">
     Skip our checkout entirely
+  </Card>
+  <Card title="Taking Payment" icon="credit-card" href="/integrate/checkout/payments">
+    Whose gateway processes the money, and why it matters
   </Card>
   <Card title="Carrying the Basket Across Pages" icon="arrows-left-right" href="/integrate/checkout/session-continuity">
     Why basket links beat cookies

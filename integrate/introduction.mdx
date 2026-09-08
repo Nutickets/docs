@@ -65,7 +65,7 @@ Move right when there is something you cannot express in the shop: a buying UI y
     [Getting Set Up](/integrate/getting-access) covers tokens, permissions, company scoping, rate limits and features.
   </Step>
   <Step title="Build the buying journey">
-    **Checkout Journeys** takes each approach in turn: [linking out](/integrate/checkout/linking-out), [embedding](/integrate/checkout/embedding), [carrying a basket across pages](/integrate/checkout/session-continuity), [building baskets](/integrate/checkout/building-baskets), [completing orders](/integrate/checkout/api-checkout).
+    **Checkout Journeys** takes each approach in turn: [linking out](/integrate/checkout/linking-out), [embedding](/integrate/checkout/embedding), [carrying a basket across pages](/integrate/checkout/session-continuity), [building baskets](/integrate/checkout/building-baskets), [completing orders](/integrate/checkout/api-checkout), and [taking payment](/integrate/checkout/payments).
   </Step>
   <Step title="Deal with sign-in">
     **Identity & Accounts** covers where a customer's identity lives: with the shop, [handed to us per session](/integrate/identity/pre-authentication), or [with your own provider](/integrate/identity/external-provider).
@@ -91,6 +91,10 @@ Move right when there is something you cannot express in the shop: a buying UI y
   Basket links, website integration, webhooks and report publishing each need a feature switched on. [Getting Set Up](/integrate/getting-access#features-you-may-need-enabled) lists which approach needs what.
 </Accordion>
 
+<Accordion title="Where payment is processed is fixed per order">
+  A link, an embed or a basket link all route payment through the platform's gateway. An API-completed order can use either the platform's gateway or your own merchant account — and money the platform never handled cannot be refunded to the card afterwards, only recorded as refunded. See [Taking Payment](/integrate/checkout/payments).
+</Accordion>
+
 </AccordionGroup>
 
 ## Related
@@ -101,6 +105,9 @@ Move right when there is something you cannot express in the shop: a buying UI y
   </Card>
   <Card title="Getting Set Up" icon="key" href="/integrate/getting-access">
     Tokens, permissions, limits and features
+  </Card>
+  <Card title="Taking Payment" icon="credit-card" href="/integrate/checkout/payments">
+    Whose gateway processes the money, and why it matters
   </Card>
   <Card title="API Reference" icon="code" href="/api-reference/introduction">
     Every endpoint, executable in the browser

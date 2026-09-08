@@ -22,9 +22,19 @@ These are not exclusive. Embedding a modal for general admission events and redi
 | **Embed across your own pages** | We do, but you control the shell and the flow between steps | Inside the embed | Medium | [Embedding the Shop](/integrate/checkout/embedding) |
 | **Embed one component, own the basket** | You do, except the component (typically the seating plan) | Our shop, or your own payment step | High | [Building Baskets with the API](/integrate/checkout/building-baskets) |
 | **Build the basket, hand it back** | You do | Our shop | Medium | [Building Baskets with the API](/integrate/checkout/building-baskets) |
-| **Build and complete via the API** | You do | You do | Highest | [Completing Orders with the API](/integrate/checkout/api-checkout) |
+| **Build and complete via the API** | You do | Your own gateway, or ours via the Payments API | Highest | [Completing Orders with the API](/integrate/checkout/api-checkout) |
 
 We recommend choosing the highest row that meets the requirement. The lighter models put more of the work — and more of the ongoing maintenance — on us, and the shop can be branded and navigated so that a hand-off feels native to your site.
+
+## Payment Is a Separate Decision
+
+Where payment happens is a separate question from who renders the buying UI, and it determines what the platform can do with the money afterwards.
+
+In the first three models the customer pays in our checkout, leaving a gateway-backed transaction on the order. Online refunds, [cash outs](/user-manual/account-balances/cash-outs), [resale](/user-manual/resale/introduction) payouts and [order modifications](/user-manual/order-management/order-modifications) all rely on that transaction.
+
+The last three involve a basket built through the API, where there is a choice. Handing the basket back leaves payment on the platform. Completing the order yourself means picking the gateway: ours through the Payments API, or your own merchant account, in which case a refund can be recorded but not sent.
+
+[Taking Payment](/integrate/checkout/payments) compares the routes.
 
 ## What Each Model Actually Looks Like
 
@@ -105,7 +115,7 @@ We recommend choosing the highest row that meets the requirement. The lighter mo
 
   **Choose it when** buying does not look like a ticket checkout at all: a membership renewal, an internal allocation tool, a partner system issuing entitlements, a kiosk, or migrating orders in from elsewhere.
 
-  **Live with** owning every rule the checkout enforces, and with payment. Cash, bank transfer, cheque, complimentary and account balance are straightforward to record. Taking a card payment online means driving the payment flow yourself. See [Completing Orders with the API](/integrate/checkout/api-checkout).
+  **Live with** owning every rule the checkout enforces, and with payment. Cash, bank transfer, cheque, complimentary and account balance are straightforward to record. Taking a card payment online means driving the payment flow yourself — through the platform's gateway with the Payments API, or on your own merchant account, which rules out online refunds on those orders. See [Taking Payment](/integrate/checkout/payments) and [Completing Orders with the API](/integrate/checkout/api-checkout).
 
   Demo: [full API](https://integration-playground.nuwebgroup.com/scenarios/full-api).
 </Accordion>
@@ -145,6 +155,12 @@ Sometimes the decision is shaped by something other than preference.
   [Waiting rooms](/user-manual/ticket-shop/waiting-rooms) protect the shop during peak on-sales, and apply to embedded frames as well as direct visits. An integration that bypasses the shop is subject to API rate limits instead.
 </Accordion>
 
+<Accordion title="You have to take payment through your own provider">
+  Only the last model allows it. The platform never handles the money, so it cannot return it: [refunds](/user-manual/order-management/refunds-and-cancellations) on those orders can be recorded, or credited to the customer's [account balance](/user-manual/account-balances/top-ups), but not returned to the card.
+
+  If the requirement is only that the payment step sits in your own interface, the Payments API does that while keeping processing on the platform. See [Taking Payment](/integrate/checkout/payments).
+</Accordion>
+
 <Accordion title="You only need data, not a buying journey">
   None of these models apply. Go to [Getting Data Out](/integrate/data/extracting-data), which covers webhooks, the reporting API, and scheduled delivery of report files to your own storage.
 </Accordion>
@@ -162,6 +178,9 @@ Sometimes the decision is shaped by something other than preference.
   </Card>
   <Card title="Embedding the Shop" icon="frame" href="/integrate/checkout/embedding">
     Every embed variation and how to configure it
+  </Card>
+  <Card title="Taking Payment" icon="credit-card" href="/integrate/checkout/payments">
+    Whose gateway processes the money, and why it matters
   </Card>
   <Card title="Building Baskets with the API" icon="basket-shopping" href="/integrate/checkout/building-baskets">
     Create baskets programmatically and hand them off
