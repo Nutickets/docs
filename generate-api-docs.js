@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const { CHANGELOG_LINKS, buildCrossLinkCards } = require('./changelog-nav');
+const { CHANGELOG_LINKS, buildCrossLinkCards, formatChangelogDate } = require('./changelog-nav');
 
 // --- CONFIGURATION ---
 const APIS = [
@@ -295,11 +295,13 @@ function generatePrimaryChangelog(rawText, endpointMap, apiOutputDir) {
   const archiveByYear = {};
 
   for (const entry of entries) {
+    // Release pages share the short-month date labels ("23rd Sep 2026").
     const year = changelogYear(entry.dateLabel, currentYear);
+    const releaseEntry = { ...entry, dateLabel: formatChangelogDate(entry.dateLabel) };
     if (year >= cutoffYear) {
-      mainEntries.push(entry);
+      mainEntries.push(releaseEntry);
     } else {
-      (archiveByYear[year] = archiveByYear[year] || []).push(entry);
+      (archiveByYear[year] = archiveByYear[year] || []).push(releaseEntry);
     }
   }
 

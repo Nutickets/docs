@@ -1,6 +1,6 @@
 // Shared navigation between our three changelogs (Release Notes, Mobile App Updates,
 // API Changelog). Both generators (generate-release-notes.js and generate-api-docs.js)
-// import these so the cross-links and cards stay consistent across every page.
+// import these so the cross-links, cards and date labels stay consistent across every page.
 
 // All three changelogs live under /releases. `href`s are absolute site paths;
 // `/releases` is the Release Notes index page (releases/index.mdx).
@@ -45,4 +45,24 @@ function buildCrossLinkCards(links) {
   return `<CardGroup cols={${links.length}}>\n${cards}\n</CardGroup>`;
 }
 
-module.exports = { CHANGELOG_LINKS, buildCrossLinkCards };
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * Shorten the month in a changelog date label ("21st September 2026" → "21st Sep 2026"), returning
+ * anything that isn't a day-month-year date unchanged. Already-short labels pass through as-is.
+ */
+function formatChangelogDate(label) {
+  const match = String(label).trim().match(/^(\d{1,2}(?:st|nd|rd|th)?)\s+([A-Za-z]{3,})\.?\s+(\d{4})$/);
+  if (!match) {
+    return label;
+  }
+
+  const month = MONTHS.find((name) => name.toLowerCase().startsWith(match[2].toLowerCase()));
+  if (!month) {
+    return label;
+  }
+
+  return `${match[1]} ${month.slice(0, 3)} ${match[3]}`;
+}
+
+module.exports = { CHANGELOG_LINKS, buildCrossLinkCards, formatChangelogDate };

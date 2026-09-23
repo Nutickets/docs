@@ -4,7 +4,7 @@ const path = require('path');
 const axios = require('axios');
 const crypto = require('crypto');
 const sharp = require('sharp'); // <--- New Dependency for compression
-const { buildCrossLinkCards } = require('./changelog-nav');
+const { buildCrossLinkCards, formatChangelogDate } = require('./changelog-nav');
 
 // --- CONFIGURATION ---
 const TINYPNG_API_KEY = process.env.TINYPNG_API_KEY;
@@ -442,22 +442,24 @@ function updateDocsJson(webArchiveYears, mobileArchiveYears) {
 function normalizeLabel(label) {
     // Strip the leading major-release marker ("◆ 24th June 2026" → "24th June 2026"), any legacy
     // version suffix ("24th June 2026 · R47" → "24th June 2026"), and stray trailing formatting
-    // characters ("20th January 2026**" → "20th January 2026"). Keeps link-preservation keys stable
-    // regardless of whether/how a label is decorated, across regenerations.
-    return label
+    // characters ("20th January 2026**" → "20th January 2026"), then shorten the date so long wiki
+    // dates and the short published labels ("24th Jun 2026") share a key. Keeps link-preservation
+    // keys stable regardless of whether/how a label is decorated, across regenerations.
+    return formatChangelogDate(label
         .replace(/^◆\s*/, '')
         .replace(/\s*·\s*R\d\w*\s*$/, '')
         .replace(/[*]+$/g, '')
-        .trim();
+        .trim());
 }
 
-// Prefix major-release labels with a small "◆" marker (e.g. "◆ 24th June 2026") so they stand out
-// among the date-only patch entries in the left date badge and the right-hand "on this page" list,
-// without widening the badge enough to wrap. The marker is stripped again by normalizeLabel(), so
-// link-preservation keys stay stable across regenerations.
-function formatUpdateLabel(update) {
-    const isMajor = /^Release\s+R\d/.test(update.description);
-    return isMajor ? `◆ ${update.label}` : update.label;
+// Publish labels in the short date format ("24th Jun 2026"), prefixing major releases with a small "◆"
+// marker so they stand out among the date-only patch entries in the left date badge and the
+// right-hand "on this page" list, without widening the badge enough to wrap. normalizeLabel() undoes
+// both, so link-preservation keys stay stable across regenerations.
+function formatUpdateLabel(update, markMajorReleases) {
+    const label = formatChangelogDate(update.label);
+    const isMajor = markMajorReleases && /^Release\s+R\d/.test(update.description);
+    return isMajor ? `◆ ${label}` : label;
 }
 
 function parseExistingMdx(filePath) {
@@ -1123,7 +1125,7 @@ description: "${description}"
             }
         }
 
-        const updateLabel = markMajorReleases ? formatUpdateLabel(update) : update.label;
+        const updateLabel = formatUpdateLabel(update, markMajorReleases);
 
         mdxContent += `
 <Update label="${updateLabel}" description="${update.description}">

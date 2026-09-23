@@ -4,7 +4,7 @@ description: "API changelog history for 2023"
 ---
 
 
-<Update label="21st November 2023" description="">
+<Update label="21st Nov 2023" description="">
 
 - The [POST /v1/guestdata](/api-reference/access-control/retrieve-guest-list-attendees) endpoint now contains the email and order reference for each entry in `content.guests`
 - The [GET /v1/entry/tickets](/api-reference/access-control/retrieve-entry-tickets) now has the email in each `stable` object
@@ -12,20 +12,20 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="3rd November 2023" description="">
+<Update label="3rd Nov 2023" description="">
 
 - The [GET /v1/event-medias](/api-reference/event-media/retrieve-defined-event-media) and [GET /v1/event-media/generate-link](/api-reference/event-media/retrieve-download-links-for-specific-event-media) endpoints have been added to enable integrations with event media. The [GET /v1/event-media/generate-link](/api-reference/event-media/retrieve-download-links-for-specific-event-media) allows for you to retrieve hosted URLs from which customers can directly download their tickets.
 - The [GET /v1/orders](/api-reference/orders/retrieve-orders) endpoint has been updated to include the `downloadUrl` of the order, from which a customer can download their tickets using default event media
 
 </Update>
 
-<Update label="30th October 2023" description="">
+<Update label="30th Oct 2023" description="">
 
 - Added new `seatingPlan` property to the _Retrieve Events_ and _Retrieve Event_ endpoints. This currently includes a single `bestAvailableSeatsEnabled` option.
 
 </Update>
 
-<Update label="10th October 2023" description="">
+<Update label="10th Oct 2023" description="">
 
 - The [GET /v1/events](/api-reference/events/retrieve-events) endpoint now surfaces the owning company's `live_mode` in relationship data.
 - A new filter (`hideDemoMode`) has been added to [GET /v1/events](/api-reference/events/retrieve-events) which allows consumers to exclude any events belonging to demo companies from the response.
@@ -33,32 +33,32 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="9th October 2023" description="">
+<Update label="9th Oct 2023" description="">
 
 - The [GET /v1/orders](/api-reference/orders/retrieve-orders) and [GET /v1/order](/api-reference/orders/retrieve-order) endpoint can now return a full `customer` object. This value will be included in the response when `customers` is given as an `include` parameter.
 
 </Update>
 
-<Update label="6th October 2023" description="">
+<Update label="6th Oct 2023" description="">
 
 - The [GET /v1/events](/api-reference/events/retrieve-events) endpoint now surfaces the `organiserName`, `organiserEmail` and `organiserPhone` attributes.
 
 </Update>
 
-<Update label="4th October 2023" description="">
+<Update label="4th Oct 2023" description="">
 
 - The [GET /v1/event-tickets](/api-reference/events/retrieve-event-tickets) endpoint added a new `tickets.*.seatingPlanAreas` array, which includes seating plan area ID's for which that sale item can be bought. This new property was added to facilitate the ability to book _best available seats_ for specific areas via the API.
 - Additionally, the `tickets.*.seatingPlanAreas` property can be filtered to only include areas with availability by passing an additional query param `checkAreaAvailability=true`.
 
 </Update>
 
-<Update label="26th September 2023" description="">
+<Update label="26th Sep 2023" description="">
 
 - <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-danger sl-text-on-primary sl-rounded-lg'>Breaking</span> Removed the `token` param from [GET /customer](/api-reference/customers/retrieve-customer) as we've since replaced the `SESScustomertoken` cookie with a `customer_id` cookie.
 
 </Update>
 
-<Update label="14th September 2023" description="">
+<Update label="14th Sep 2023" description="">
 
 - Added new [GET /venues](/api-reference/venues/retrieve-venues) endpoint to retrieve a list of venues.
 - Added a new [POST /venues](/api-reference/venues/create-a-venue) endpoint to allow venues to be created.
@@ -66,7 +66,7 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="12th September 2023" description="">
+<Update label="12th Sep 2023" description="">
 
 - Added multi language support. Clients can now optionally specify a preferred language for the request using the [`Accept-Language`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) header.
   - If the given language is enabled against the company, the request payload and respective response data will be treated as local to the specified language.
@@ -75,31 +75,31 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="4th September 2023" description="">
+<Update label="4th Sep 2023" description="">
 
 - Added a new `/event-statistics` endpoint for retrieving real-time event sales data for a single event.
 
 </Update>
 
-<Update label="1st September 2023" description="">
+<Update label="1st Sep 2023" description="">
 
 - Added a new `offline` parameter to [POST /orders/complete](/api-reference/orders/complete-order) endpoint to facilitate offline e-wallet top-ups.
 
 </Update>
 
-<Update label="7th August 2023" description="">
+<Update label="7th Aug 2023" description="">
 
 - Added a new [GET /companies](/api-reference/companies/retrieve-companies) endpoint to retrieve companies the authenticated user is associated to.
 
 </Update>
 
-<Update label="11th July 2023" description="">
+<Update label="11th Jul 2023" description="">
 
 - Added a new [GET /seating-plan-areas](/api-reference/seating-plans/retrieve-areas) endpoint to retrieve seating plan areas by `eventId`.
 
 </Update>
 
-<Update label="6th July 2023" description="">
+<Update label="6th Jul 2023" description="">
 
 - Added `only_on_sale` flag to the events endpoint to return only events that can be sold via the current sales channel (box office, or kiosk).
 
@@ -120,7 +120,7 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="9th March 2023" description="">
+<Update label="9th Mar 2023" description="">
 
 - Added `currentStock` and `onSale` attributes to [GET /event-tickets](/api-reference/events/retrieve-event-tickets) and [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) endpoints.
 - Add `description` to [GET /events](/api-reference/events/retrieve-events)
@@ -128,7 +128,7 @@ description: "API changelog history for 2023"
 
 </Update>
 
-<Update label="1st February 2023" description="">
+<Update label="1st Feb 2023" description="">
 
 - Added `onSaleFrom` and `onSaleUntil` dates to [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) and [GET /event-tickets](/api-reference/events/retrieve-event-tickets) endpoints.
 - Added an optional `redirect` query param to [POST /admin-users/single-sign-on](/api-reference/authentication/admin-single-sign-on) and [POST /customers/single-sign-on](/api-reference/authentication/customer-single-sign-on) to allow control over the final redirection.

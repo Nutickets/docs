@@ -4,7 +4,7 @@ description: "API changelog history for 2022"
 ---
 
 
-<Update label="12th December 2022" description="">
+<Update label="12th Dec 2022" description="">
 
 - Following the introduction of tax breakdowns in shop orders, the tax breakdown details are now provided via [GET /order-items](/api-reference/orders/retrieve-order-items) and [GET /orders](/api-reference/orders/retrieve-orders).
 - The currency ID of any collected fees is now included in [GET /order-items](/api-reference/orders/retrieve-order-items) for use when any transactions take place in custom currencies.
@@ -13,7 +13,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="6th December 2022" description="">
+<Update label="6th Dec 2022" description="">
 
 - Removed the `sku` parameter from the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint, in favour of using topup IDs directly (as returned by [GET /sale-items](/api-reference/sale-items/retrieve-sale-items))
 - Added a `currencyId` parameter to the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint to specify the basket currency, rather than relying on the customer's previously selected currency or the company default.
@@ -22,40 +22,40 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="5th December 2022" description="">
+<Update label="5th Dec 2022" description="">
 
 - Added the `bundledWith` array on [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) to return the list of sale item IDs that come bundled with an item.
 - Added the `bundleLeadOrderItemId` to the [GET /orders](/api-reference/orders/retrieve-orders) and `GET /orders/:id` endpoints, to highlight where an order item is being purchased as part of a bundle.
 
 </Update>
 
-<Update label="28th November 2022" description="">
+<Update label="28th Nov 2022" description="">
 
 - Added `isCustom` to the currencies returned from [GET /currencies](/api-reference/currencies/retrieve-currencies), to identify which currencies are custom token currencies.
 - Added `topupTokenAmount` to the sale item details returned from [GET /sale-items](/api-reference/sale-items/retrieve-sale-items), and `GET /items` to detail how many tokens a topup will add to a users basket. This value will be null if cashless settings do not use a custom token currenciy.
 
 </Update>
 
-<Update label="4th November 2022" description="">
+<Update label="4th Nov 2022" description="">
 
 - Added `subunit` to [GET /currencies](/api-reference/currencies/retrieve-currencies) to complement our new support for non-2DP currencies.
 
 </Update>
 
-<Update label="28th October 2022" description="">
+<Update label="28th Oct 2022" description="">
 
 - Added UUID to the `initiate wallet download` endpoint to ensure idempotency between requests.
 
 </Update>
 
-<Update label="19th October 2022" description="">
+<Update label="19th Oct 2022" description="">
 
 - Allowed the transaction source to be recorded for cashouts via the `POST /wallets/cashouts` endpoint.
 - Allowed the transaction source to be recorded for topups and cashouts via the [POST /orders/upload](/api-reference/cashless/upload-orders) endpoint.
 
 </Update>
 
-<Update label="22nd September 2022" description="">
+<Update label="22nd Sep 2022" description="">
 
 - <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>Major Feature</span>  Added `only` and `except` params throughout the API allowing for precise control over which fields are returned in the payload. Applies to the following endpoints:
     - [GET /company/users](/api-reference/company-users/retrieve-company-users)
@@ -91,13 +91,13 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="19th September 2022" description="">
+<Update label="19th Sep 2022" description="">
 
 - Added a global response header to all requests: `X-Runtime` which returns the total execution time, in seconds, for any given API in call. This value can be observed to adjust the rate of API calls according to performance degradation over a period of time.
 
 </Update>
 
-<Update label="7th September 2022" description="">
+<Update label="7th Sep 2022" description="">
 
 - Added an optional `region` field to [POST /customers](/api-reference/customers/create-customer) and [POST /customers/update](/api-reference/customers/update-customer).
 - Added `isHidden`, `isPublished`, `pageDisplayDate`, `pageDisplayLocation`, `pagePricingDisplay` fields to [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event).
@@ -105,7 +105,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="11th August 2022" description="">
+<Update label="11th Aug 2022" description="">
 
 - Added `thumbnailImage`, `pageHeaderImage`, and `metaImage` Media Resources to the following endpoints in our Events API:
     - [GET /activated-events](/api-reference/events/retrieve-activated-events) - This endpoint does currently have `media.header-image`, `media.list-thumbnail`, and `media.meta-image` attributes, but these are now considered deprecated. For backwards compatibility these attributes will remain in the response.
@@ -117,7 +117,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="21st July 2022" description="">
+<Update label="21st Jul 2022" description="">
 
 - Fixed an issue where events could be created without a timezone. If no timezone is specified, it now falls back to the timezone stored against the current company.
 - Added `itemName` and `itemId` to the `/order` endpoint's order item response data.
@@ -130,7 +130,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="30th June 2022" description="">
+<Update label="30th Jun 2022" description="">
 
 - Added `uuid` parameter to the [POST /basket-items](/api-reference/baskets/add-to-basket) endpoint to provide idempotency functionality when auto completing orders.
 - Added the `image` property to all sale items returned via the `/sale-items` endpoint.
@@ -189,7 +189,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="28th February 2022" description="">
+<Update label="28th Feb 2022" description="">
 
 - Added `includeProducts` as an option to [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) to include product barcodes in the valid tickets list.
 - Automatically include valid <strong>addon</strong> tickets in [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets).
@@ -203,7 +203,7 @@ description: "API changelog history for 2022"
 
 </Update>
 
-<Update label="24th January 2022" description="">
+<Update label="24th Jan 2022" description="">
 
 - Added `country`, `city`, and `region` to our Customer Resource, meaning this information is available directly via the [GET /customers](/api-reference/customers/retrieve-customers) and [GET /customer](/api-reference/customers/retrieve-customer), and any other endpoint in which customers can be `include` via a resource relationship.
 - Standardised date formats across the entire API. The following dates have been changed:

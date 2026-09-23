@@ -4,32 +4,32 @@ description: "API changelog history for 2024"
 ---
 
 
-<Update label="18th December 2024" description="">
+<Update label="18th Dec 2024" description="">
 
 - [GET /order-items](/api-reference/orders/retrieve-order-items) now correctly returns items from fully cancelled/refunded orders. Previously it would include refunded items if the order was only partially refunded.
 
 </Update>
 
-<Update label="13th December 2024" description="">
+<Update label="13th Dec 2024" description="">
 
 - The customer update endpoint will now preserve existing customer address fields as long as no new address data is provided. Prior to this change, customer address fields would be cleared if no address data was provided within the payload.
 
 </Update>
 
-<Update label="3rd October 2024" description="">
+<Update label="3rd Oct 2024" description="">
 
 - Added `minPrice` and `maxPrice` to [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) as additional opt-in attributes
 - Updated the `lastUpdated` filter on [GET /events](/api-reference/events/retrieve-events) so that it now considers pricing, venue & item updates.
 
 </Update>
 
-<Update label="5th September 2024" description="">
+<Update label="5th Sep 2024" description="">
 
 - Added `appleWalletPassUrl` to [GET /orders](/api-reference/orders/retrieve-orders), [GET /order](/api-reference/orders/retrieve-order), [GET /order-items](/api-reference/orders/retrieve-order-items) and [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item) for easy access to download an Apple Wallet pkpass file for each order item.
 
 </Update>
 
-<Update label="29th August 2024" description="">
+<Update label="29th Aug 2024" description="">
 
 - Added `reserverName` to [GET /orders](/api-reference/orders/retrieve-orders), [GET /order](/api-reference/orders/retrieve-order), and add `namedHolder` to the items within the same endpoints, as well as the [GET /order-items](/api-reference/orders/retrieve-order-items) endpoint
 - Added `phone` and `phoneCode` as fields that can be sent to [POST /customers/update](/api-reference/customers/update-customer) and [POST /customers](/api-reference/customers/create-customer)
@@ -38,7 +38,7 @@ description: "API changelog history for 2024"
 
 </Update>
 
-<Update label="24th July 2024" description="">
+<Update label="24th Jul 2024" description="">
 
 - Added the `scheduleId` to the returned fields on [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) endpoints
 - Added `eventSchedules` as a possible include on [GET /events](/api-reference/events/retrieve-events) and [GET /event](/api-reference/events/retrieve-event) endpoints
@@ -47,7 +47,7 @@ description: "API changelog history for 2024"
 
 </Update>
 
-<Update label="19th June 2024" description="">
+<Update label="19th Jun 2024" description="">
 
 - Added `historicalBarcodes` to the include parameter for the below endpoints. New barcodes are generated when an order item is transfered or a barcode change is manually performed. This will return all historical barcodes associated with the order item.
     - [GET /order-item](/api-reference/orders/retrieve-specific-purchased-item)
@@ -163,7 +163,7 @@ description: "API changelog history for 2024"
 
 </Update>
 
-<Update label="5th April 2024" description="">
+<Update label="5th Apr 2024" description="">
 
 The following endpoints now accept a decimal percentage for the discount amount value.
  - [POST /v1/discount-codes/percentage](/api-reference/discount-codes/create-percentage-discount-code)
@@ -173,7 +173,7 @@ The following endpoints now accept a decimal percentage for the discount amount 
 
 </Update>
 
-<Update label="6th March 2024" description="">
+<Update label="6th Mar 2024" description="">
 
 - [GET /v1/activated-events](/api-reference/events/retrieve-activated-events) will no longer return any events that are in draft status
  - <span class='sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-bg-primary sl-text-on-primary sl-rounded-lg'>New Feature</span> Added support for processing and refunding split payments:
@@ -186,21 +186,21 @@ The following endpoints now accept a decimal percentage for the discount amount 
 
 </Update>
 
-<Update label="12th February 2024" description="">
+<Update label="12th Feb 2024" description="">
 
 - The [GET /orders](/api-reference/orders/retrieve-orders) endpoint now allows for the retrieval of orders in failed reservation states (cancelled, expired, failed, and rejected), through the use of the `withReservations` query parameter.
 - The [GET /order](/api-reference/orders/retrieve-order) endpoint now allows for the retrieval of orders in failed reservation reservation states as above.
 
 </Update>
 
-<Update label="1st February 2024" description="">
+<Update label="1st Feb 2024" description="">
 
 - The [GET /order](/api-reference/orders/retrieve-order) endpoint now allows for the retrieval of orders in reservation state.
 - The [GET /orders](/api-reference/orders/retrieve-orders) endpoint now allows for the retrieval of orders in reservation state, through the use of the `withReservations` query parameter.
 
 </Update>
 
-<Update label="23rd January 2024" description="">
+<Update label="23rd Jan 2024" description="">
 
 - The [GET /sale-items](/api-reference/sale-items/retrieve-sale-items) and [GET /event-tickets](/api-reference/events/retrieve-event-tickets) endpoints now include the following attributes for `timeslots`:
   - `hasUnlimitedStock`
@@ -216,14 +216,14 @@ The following endpoints now accept a decimal percentage for the discount amount 
 
 </Update>
 
-<Update label="22nd January 2024" description="">
+<Update label="22nd Jan 2024" description="">
 
 - The add to basket (`POST v1/basket-items`) endpoint now accepts the `spaceId` to which a sale item should be associated on a seated event.
 - The add to basket (`POST v1/basket-items`) endpoint now permits you to provide the same sale item ID in multiple basket items, allowing each to utilise different item settings.
 
 </Update>
 
-<Update label="21st January 2024" description="">
+<Update label="21st Jan 2024" description="">
 
 - The `v1/zones/scan` and `v1/zones/check` endpoints now return the order reference in the responseg
 - Prices are now returned in all available currencies on the get event tickets (`GET v1/event-tickets`) endpoint
@@ -231,13 +231,13 @@ The following endpoints now accept a decimal percentage for the discount amount 
 
 </Update>
 
-<Update label="8th January 2024" description="">
+<Update label="8th Jan 2024" description="">
 
 - The _Add to basket_ endpoint ([POST /v1/basket-items](/api-reference/baskets/add-to-basket)) received an update in error response status code from **403** to **422** when attempting to add a child company sale item to a parent company basket without global transactions enabled.
 
 </Update>
 
-<Update label="3rd January 2024" description="">
+<Update label="3rd Jan 2024" description="">
 
 - The [GET /v1/order-items](/api-reference/orders/retrieve-order-items) and [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) endpoints now contain additional tax breakdowns, tax rates, and conditional tax fields.
 - The [GET /v1/order-items](/api-reference/orders/retrieve-order-items) and [GET /v1/order-item](/api-reference/orders/retrieve-specific-purchased-item) endpoints will return the order status of the associated order when specifying that the order should be included in the response.
