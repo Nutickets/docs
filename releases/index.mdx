@@ -414,13 +414,6 @@ Here are the summary notes for the 48th release of the Nuweb core platform.
 * Order completed date no longer considered within the `listEndTime` returned via [`GET /v1/entry/tickets`](/api-reference/access-control/retrieve-entry-tickets). [[NG-12741](https://linear.app/nuweb-group/issue/NG-12741)]
 
 
-
-#### **Pending**
-
-* Added a new ‘payout status’ badge to resale listing index, and the resale listing show page. [[NG-12366](https://linear.app/nuweb-group/issue/NG-12366)]
-* Added a ‘retry payout’ button to resale listing show page. [[NG-12366](https://linear.app/nuweb-group/issue/NG-12366)]
-
-
 </Update>
 
 <Update label="4th September 2026" description="Patch R47P">
@@ -465,34 +458,34 @@ Here are the summary notes for the 48th release of the Nuweb core platform.
 
 #### 🚀 New features
 
-* The [Customer SSO API](/api-reference/authentication/customer-single-sign-on) now supports the ability to use external IDs as unique identifiers, as well as being able to optionally issue customer tokens used to pre-authenticate embedded iframes. (NG-12508, NG-12511)
-* Logout, change email and change password URLs can be configured for custom SSO integrations. (NG-12616)
-* Guest checkouts now work adjacent to oauth/custom SSO integrations (NG-12520)
-* [Order imports](/user-manual/data-imports/import-types#named-orders-without-an-email) can now create named orders from customer name and barcode alone. (NG-12401)
-* Introduced 2 new [resale related email notifications](/user-manual/resale/configuration#when-a-listing-closes-unsold) for sellers (NG-11814):
+* The [Customer SSO API](/api-reference/authentication/customer-single-sign-on) now supports the ability to use external IDs as unique identifiers, as well as being able to optionally issue customer tokens used to pre-authenticate embedded iframes. [[NG-12508](https://linear.app/nuweb-group/issue/NG-12508) & [NG-12511](https://linear.app/nuweb-group/issue/NG-12511)]
+* Logout, change email and change password URLs can be configured for custom SSO integrations. [[NG-12616](https://linear.app/nuweb-group/issue/NG-12616)]
+* Guest checkouts now work adjacent to oauth/custom SSO integrations [[NG-12520](https://linear.app/nuweb-group/issue/NG-12520)]
+* [Order imports](/user-manual/data-imports/import-types#named-orders-without-an-email) can now create named orders from customer name and barcode alone. [[NG-12401](https://linear.app/nuweb-group/issue/NG-12401)]
+* Introduced 2 new [resale related email notifications](/user-manual/resale/configuration#when-a-listing-closes-unsold) for sellers [[NG-11814](https://linear.app/nuweb-group/issue/NG-11814)]:
   * Your listing has expired
   * Your listing has been closed
 
 #### ✨ Improvements
 
-* Event pages now use [cleaner canonical and sitemap URLs](/user-manual/core/seo), with matching structured data for offers, organiser details, performer data where available. (NG-12179)
-* [Event audit reports](/user-manual/reporting/default-reports#event-audit-report) now include headers for the remaining held seats, per [hold category](/user-manual/seating-plans/holds#hold-categories). (NG-12630)
-* [Orders API](/api-reference/orders/retrieve-orders) now includes a payment breakdown for [split payments](/user-manual/payments/split-payments#how-split-payments-work). (NG-12347)
-* The webhooks section now includes information on [webhook secrets](/user-manual/technical/webhooks#secret) and how to validate them. (NG-12655)
+* Event pages now use [cleaner canonical and sitemap URLs](/user-manual/core/seo), with matching structured data for offers, organiser details, performer data where available. [[NG-12179](https://linear.app/nuweb-group/issue/NG-12179)]
+* [Event audit reports](/user-manual/reporting/default-reports#event-audit-report) now include headers for the remaining held seats, per [hold category](/user-manual/seating-plans/holds#hold-categories). [[NG-12630](https://linear.app/nuweb-group/issue/NG-12630)]
+* [Orders API](/api-reference/orders/retrieve-orders) now includes a payment breakdown for [split payments](/user-manual/payments/split-payments#how-split-payments-work). [[NG-12347](https://linear.app/nuweb-group/issue/NG-12347)]
+* The webhooks section now includes information on [webhook secrets](/user-manual/technical/webhooks#secret) and how to validate them. [[NG-12655](https://linear.app/nuweb-group/issue/NG-12655)]
 
 #### 🧹 Fixes
 
-* Repeat box office orders now show tax profiles correctly without requiring a page refresh. (NG-12243)
-* Refund requests for async gateways no longer trigger a 500 error in the API on the first attempt. (NG-12261)
-* The mobile checkout discount-code link now opens the correct discount entry flow instead of the gift voucher flow. (NG-12437)
-* Seating plan revisions no longer get stuck when re-syncing. (NG-12538)
-* Template block brand colours now match between the editor and the shop by default. (NG-4599)
-* The orders index filter now uses the correct “completed from” label. (NG-12476)
-* The [upsell wizard](/user-manual/ticket-shop/basket#upsell-wizard) now keeps the previous button available when moving between seating plans and tickets. (NG-12321)
-* The forced minimum order quantity toggle is disabled for seated price bands. (NG-9604)
-* [Discount code eligibility](/user-manual/basket-codes/discount-codes#configuring-eligibility-rules) messages no longer incorrectly mark eligible sale items as ineligible. (NG-10956)
-* Custom event media sizes now save the entered height correctly. (NG-12238)
-* Fix UI bug where named ticket holders were showing twice in grid view. (NG-12622)
+* Repeat box office orders now show tax profiles correctly without requiring a page refresh. [[NG-12243](https://linear.app/nuweb-group/issue/NG-12243)]
+* Refund requests for async gateways no longer trigger a 500 error in the API on the first attempt. [[NG-12261](https://linear.app/nuweb-group/issue/NG-12261)]
+* The mobile checkout discount-code link now opens the correct discount entry flow instead of the gift voucher flow. [[NG-12437](https://linear.app/nuweb-group/issue/NG-12437)]
+* Seating plan revisions no longer get stuck when re-syncing. [[NG-12538](https://linear.app/nuweb-group/issue/NG-12538)]
+* Template block brand colours now match between the editor and the shop by default. [[NG-4599](https://linear.app/nuweb-group/issue/NG-4599)]
+* The orders index filter now uses the correct “completed from” label. [[NG-12476](https://linear.app/nuweb-group/issue/NG-12476)]
+* The [upsell wizard](/user-manual/ticket-shop/basket#upsell-wizard) now keeps the previous button available when moving between seating plans and tickets. [[NG-12321](https://linear.app/nuweb-group/issue/NG-12321)]
+* The forced minimum order quantity toggle is disabled for seated price bands. [[NG-9604](https://linear.app/nuweb-group/issue/NG-9604)]
+* [Discount code eligibility](/user-manual/basket-codes/discount-codes#configuring-eligibility-rules) messages no longer incorrectly mark eligible sale items as ineligible. [[NG-10956](https://linear.app/nuweb-group/issue/NG-10956)]
+* Custom event media sizes now save the entered height correctly. [[NG-12238](https://linear.app/nuweb-group/issue/NG-12238)]
+* Fix UI bug where named ticket holders were showing twice in grid view. [[NG-12622](https://linear.app/nuweb-group/issue/NG-12622)]
 
 </Update>
 
