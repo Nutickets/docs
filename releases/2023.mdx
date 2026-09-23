@@ -34,9 +34,9 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 * When viewing the list of orders within admin, incomplete instant access orders will now appear amongst completed orders, based on their creation date rather than always appearing at the end of the list [[NG-4494](https://linear.app/nuweb-group/issue/NG-4494)] 
 * When resending confirmation emails on the event page, instant access orders will now be included in the list of recipients [[NG-4496](https://linear.app/nuweb-group/issue/NG-4496)] 
 * The check payments status radio buttons will no longer be shown when completing an order if there is no gateway transaction for that order [[NG-4495](https://linear.app/nuweb-group/issue/NG-4495)]
-* Events where the only sale items that are available are fees will no longer show the "Buy Now" button on the shop. They will show the "Off Sale" button instead [[NG-2873](https://linear.app/nuweb-group/issue/NG-2873)]
-* When viewing discount codes that have already been used in admin, the add children button will now be disabled, with some information about how it isn't possible to add children to a discount code that has been used [[NG-4695](https://linear.app/nuweb-group/issue/NG-4695)]
-* If a user's locale is not valid for the current company, the locale will be updated automatically to the company fallback. In box office mode, when placing an order for a customer, if the customer's locale is not valid, the company fallback will be used for the order instead [[NG-4604](https://linear.app/nuweb-group/issue/NG-4604)]
+* Events where the only sale items that are available are fees will no longer show the “Buy Now” button on the shop. They will show the “Off Sale” button instead [[NG-2873](https://linear.app/nuweb-group/issue/NG-2873)]
+* When viewing discount codes that have already been used in admin, the add children button will now be disabled, with some information about how it isn’t possible to add children to a discount code that has been used [[NG-4695](https://linear.app/nuweb-group/issue/NG-4695)]
+* If a user’s locale is not valid for the current company, the locale will be updated automatically to the company fallback. In box office mode, when placing an order for a customer, if the customer’s locale is not valid, the company fallback will be used for the order instead [[NG-4604](https://linear.app/nuweb-group/issue/NG-4604)]
 * When viewing a payment method sales report on the hub, applying multiple payments methods to the payment method filter now works correctly, rather than only using the first payment method [[NG-3540](https://linear.app/nuweb-group/issue/NG-3540)]
 * Allow stock on inventory from child companies to be edited from the parent company [[NG-4407](https://linear.app/nuweb-group/issue/NG-4407)]
 * Seating plan & event media zoom scrolling now requirers user to press Cmd / Ctrl in addition [[NG-4649](https://linear.app/nuweb-group/issue/NG-4649)]
@@ -56,9 +56,9 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 
 * Forced ticket stock to default to unlimited, rather than 100 [[NG-4654](https://linear.app/nuweb-group/issue/NG-4654)]
 * Standardised the external_id fields on sale items, to avoid some offering (unused) multi-locale functionality [[NG-4515](https://linear.app/nuweb-group/issue/NG-4515)]
-* Fixed company acronyms sometimes appearing as 'Undefined' on hub company index page [[NG-4600](https://linear.app/nuweb-group/issue/NG-4600)]
+* Fixed company acronyms sometimes appearing as ‘Undefined’ on hub company index page [[NG-4600](https://linear.app/nuweb-group/issue/NG-4600)]
 * The company from name will now be used as the from name on emails, whether the company from address is set or not [[NG-4582](https://linear.app/nuweb-group/issue/NG-4582)]
-* Fix a reporting issue where reserve to pay on-site reservations weren't correctly displaying the relevant gateway [[NG-4674](https://linear.app/nuweb-group/issue/NG-4674)]
+* Fix a reporting issue where reserve to pay on-site reservations weren’t correctly displaying the relevant gateway [[NG-4674](https://linear.app/nuweb-group/issue/NG-4674)]
 * Added clearer messaging of how discounts have applied to a basket [[NG-4723](https://linear.app/nuweb-group/issue/NG-4723)]
 * Seating plan dragging icon now synced to mouse movement[[NG-4617](https://linear.app/nuweb-group/issue/NG-4617)]
 * iframe improvements for event submenu when site menu is displayed [[NG-4607](https://linear.app/nuweb-group/issue/NG-4607)]
@@ -69,7 +69,7 @@ Below you will find the summary notes for the 27th release of the Nuweb core pla
 * Seating plan image export fixed for events with time slots[[NG-4724](https://linear.app/nuweb-group/issue/NG-4724)]
 * Seat customer data now can be visited from Event / Manage seating plan page [[NG-4725](https://linear.app/nuweb-group/issue/NG-4725)]
 * Resolved an issue when creating sale item groups that meant there were no sale items to select from to add to the group [[NG-4739](https://linear.app/nuweb-group/issue/NG-4739)]
-* Prevent incomplete seating plans from being displayed on the event's *attach seating plan* screen [[NG-4796](https://linear.app/nuweb-group/issue/NG-4796)]
+* Prevent incomplete seating plans from being displayed on the event’s *attach seating plan* screen [[NG-4796](https://linear.app/nuweb-group/issue/NG-4796)]
 * Sale items can now be assigned when creating a sale item group [[NG-4739](https://linear.app/nuweb-group/issue/NG-4739)]
 
 
@@ -93,11 +93,11 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 * Companies with Event Media enabled can now set default event media at the inventory item level [[NG-4349](https://linear.app/nuweb-group/issue/NG-4349) & [NG-4350](https://linear.app/nuweb-group/issue/NG-4350)]
 * Link targets added for link fields in CMS [[NG-4219](https://linear.app/nuweb-group/issue/NG-4219)]
 * Order information always honours the order currency when changing shop currency on order success page [[NG-4141](https://linear.app/nuweb-group/issue/NG-4141)]
-* Conditional tax bands have been improved to allow for a separate tax rate to be used for *all other countries* that don't match one of the other country classifications, rather than always assuming the domestic tax rate [[NG-4356](https://linear.app/nuweb-group/issue/NG-4356)]
-* Surface `external_id` fields for venues, events, inventory items, and sale items, across the admin UI displays + forms \[NG-4487, NG-4353\]
+* Conditional tax bands have been improved to allow for a separate tax rate to be used for *all other countries* that don’t match one of the other country classifications, rather than always assuming the domestic tax rate [[NG-4356](https://linear.app/nuweb-group/issue/NG-4356)]
+* Surface `external_id` fields for venues, events, inventory items, and sale items, across the admin UI displays + forms [NG-4487, NG-4353]
 * Added inputs for meta tag fields and images for mixed event schedules [[NG-4183](https://linear.app/nuweb-group/issue/NG-4183)]
-* Added 'last API activity date' header to the Admin Users report [[NG-4390](https://linear.app/nuweb-group/issue/NG-4390)]
-* Articles with images have received mobile usability updates that will improve the page's SEO score [[NG-4476](https://linear.app/nuweb-group/issue/NG-4476)]
+* Added ‘last API activity date’ header to the Admin Users report [[NG-4390](https://linear.app/nuweb-group/issue/NG-4390)]
+* Articles with images have received mobile usability updates that will improve the page’s SEO score [[NG-4476](https://linear.app/nuweb-group/issue/NG-4476)]
 * Added a new Paste tool to WYSIWYG fields, which helps pasting texts with formatting from rich text editor applications (such as MS Word) and other applications [[NG-4396](https://linear.app/nuweb-group/issue/NG-4396)]
 
 
@@ -111,15 +111,15 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 
 <Frame caption="The order overview page received an update that highlights actions and main order details [[NG-4248"><img src="https://linear.app/nuweb-group/issue/NG-4248" alt="The order overview page received an update that highlights actions and main order details [[NG-4248" /></Frame>
 
-] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260709%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260709T182949Z&X-Amz-Expires=3600&X-Amz-Signature=a4367b14c7cedf0b51c1eaf15148f71cec76582c360fd2ef9978b1b6979950a4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
+] ](https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/b9d81000-7c2f-4f68-875d-fa003c48cbfa/CleanShot%202023-10-30%20at%2012.39.08%402x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260923%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260923T114425Z&X-Amz-Expires=3600&X-Amz-Signature=77b039bc352dce6ccdd4da91e75f4569bdfc1940e203ff388b4be6a42cccfd81&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
 * Ensured testimonial list blocks function when vertical padding is set to zero [[NG-4227](https://linear.app/nuweb-group/issue/NG-4227)]
 * Added pricing previews to Cashless Shop Products, including the appropriate fee and sales channel breakdowns [[NG-2871](https://linear.app/nuweb-group/issue/NG-2871)]
 * Added a new `Has Tickets` filter to the event index page [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
-  * Expanded all `Has [Sale Item Type]` filters on the event index page, to allow filtering by 'Yes (Has)', 'No (Does not have)', and "All (Both)".
+  * Expanded all `Has [Sale Item Type]` filters on the event index page, to allow filtering by ‘Yes (Has)’, ‘No (Does not have)’, and “All (Both)”.
 * Added hints that downloading also saves custom reports [[NG-4312](https://linear.app/nuweb-group/issue/NG-4312)]
 * Ensured you can always see the full image settings modal when editing template bocks [[NG-4433](https://linear.app/nuweb-group/issue/NG-4433)]
 * Improved dragging to reorder items for touchscreen devices [[NG-4412](https://linear.app/nuweb-group/issue/NG-4412)]
-* Added new 'negative bottom padding' field to template block settings [[NG-4222](https://linear.app/nuweb-group/issue/NG-4222)]
+* Added new ‘negative bottom padding’ field to template block settings [[NG-4222](https://linear.app/nuweb-group/issue/NG-4222)]
 * Seating plans in box office will adjust their size, and will appear bigger [[NG-4449](https://linear.app/nuweb-group/issue/NG-4449)]
 * Best available seats UI has improved UI & added help texts [[NG-4200](https://linear.app/nuweb-group/issue/NG-4200)]
 * Admin Cashless pages will now use the new index page layouts [[NG-4504](https://linear.app/nuweb-group/issue/NG-4504)]
@@ -132,14 +132,14 @@ Below you will find the summary notes for the 26th release of the Nuweb core pla
 * Expanded list of frontend validated forms [[NG-4088](https://linear.app/nuweb-group/issue/NG-4088)]
 * Removed the requirement for a venue region when creating/editing a venue, in line with other address fields [[NG-4247](https://linear.app/nuweb-group/issue/NG-4247)]
 * Improved the filter options on event filters to allow for events with **and** without a particular sale item type [[NG-4467](https://linear.app/nuweb-group/issue/NG-4467)]
-* Removed 'floating' loading spinners [[NG-4436](https://linear.app/nuweb-group/issue/NG-4436)]
+* Removed ‘floating’ loading spinners [[NG-4436](https://linear.app/nuweb-group/issue/NG-4436)]
 * When adjusting single row position in seating plan, rotated positions are taken into consideration[[NG-4450](https://linear.app/nuweb-group/issue/NG-4450)] 
 * Prevented an empty about content block being added to events that are created without a description [[NG-4284](https://linear.app/nuweb-group/issue/NG-4284)]
-* Ensure volunteers can put events on sale as long as they're already published [[NG-4285](https://linear.app/nuweb-group/issue/NG-4285)]
+* Ensure volunteers can put events on sale as long as they’re already published [[NG-4285](https://linear.app/nuweb-group/issue/NG-4285)]
 * Ensure baskets honour order pricing in case of sale item pricing updates during checkout [[NG-4435](https://linear.app/nuweb-group/issue/NG-4435)]
 * Removed unwanted dragging when customising article and event pages [[NG-4596](https://linear.app/nuweb-group/issue/NG-4596)]
 * Ensure no unwanted form submissions when adding embedded wysiwyg videos [[NG-4594](https://linear.app/nuweb-group/issue/NG-4594)]
-* Resolve an issue where notes couldn't be edited if they originated from the parent company [[NG-4626](https://linear.app/nuweb-group/issue/NG-4626)]
+* Resolve an issue where notes couldn’t be edited if they originated from the parent company [[NG-4626](https://linear.app/nuweb-group/issue/NG-4626)]
 * Improved reliability of syncing gates in seating plans [[NG-4622](https://linear.app/nuweb-group/issue/NG-4622)]
 * Improved user flow when creating event fee for a specific sale item [[NG-4633](https://linear.app/nuweb-group/issue/NG-4633)]
 * Resolved an issue when creating a cashless product [[NG-4481](https://linear.app/nuweb-group/issue/NG-4481)]
@@ -197,7 +197,7 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 ### ✨ Enhancements
 
 * A wide variety of infrastructure, package, and software upgrades were performed this release, bolstering performance, and remaining up-to-date with latest technologies and security patches [[NG-4213](https://linear.app/nuweb-group/issue/NG-4213) & [NG-4241](https://linear.app/nuweb-group/issue/NG-4241)]
-* Updated the 'Add ticket' action in the new event notification to open the add tickets modal, rather than redirect to the new ticket creation form [[NG-4163](https://linear.app/nuweb-group/issue/NG-4163)]
+* Updated the ‘Add ticket’ action in the new event notification to open the add tickets modal, rather than redirect to the new ticket creation form [[NG-4163](https://linear.app/nuweb-group/issue/NG-4163)]
 * Improved the notification display logic so that sidebar notifications only appear within relevant contexts (i.e. event related notifications only appear on the event dashboard) [[NG-4075](https://linear.app/nuweb-group/issue/NG-4075)]
 * Added new `Sales Tax Band` and `Sales Tax Rate` to the attendance reports for better reporting of the applied tax at point of sale, on individual order items [[NG-4086](https://linear.app/nuweb-group/issue/NG-4086)].
 * Added reverse tax breakdown to the item attendance reports [[NG-4086](https://linear.app/nuweb-group/issue/NG-4086)].
@@ -222,8 +222,8 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 
 
 
-* Increased the input length of 'long text' data capture from 255 characters to a much higher limit [[NG-4050](https://linear.app/nuweb-group/issue/NG-4050)]
-* Increased the visibility on data capture in the attendance report by allowing the ability to show purchaser responses as a fallback when the item holder hasn't supplied their own responses [[NG-4265](https://linear.app/nuweb-group/issue/NG-4265)]
+* Increased the input length of ‘long text’ data capture from 255 characters to a much higher limit [[NG-4050](https://linear.app/nuweb-group/issue/NG-4050)]
+* Increased the visibility on data capture in the attendance report by allowing the ability to show purchaser responses as a fallback when the item holder hasn’t supplied their own responses [[NG-4265](https://linear.app/nuweb-group/issue/NG-4265)]
 
   
 
@@ -231,17 +231,17 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 
 
 
-* Added 'last activity date' to the default admin users report [[NG-4063](https://linear.app/nuweb-group/issue/NG-4063)]
-* Implemented an additional email notification to acknowledge a user's request to publish an event (where event approvals are enabled/required) [[NG-4008](https://linear.app/nuweb-group/issue/NG-4008)]
+* Added ‘last activity date’ to the default admin users report [[NG-4063](https://linear.app/nuweb-group/issue/NG-4063)]
+* Implemented an additional email notification to acknowledge a user’s request to publish an event (where event approvals are enabled/required) [[NG-4008](https://linear.app/nuweb-group/issue/NG-4008)]
 * Added the ability to resend individual order invoices on complete (or instantly accessible) orders [[NG-4157](https://linear.app/nuweb-group/issue/NG-4157)]
 * Improved the speed at which e-ticket downloads are generated for large orders that contain images [[NG-4154](https://linear.app/nuweb-group/issue/NG-4154)]
 * Token top-ups for cashless eWallets can now be refunded & deducted from eWallet balances [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
 * Added the ability to search for articles and pages in global admin search [[NG-3817](https://linear.app/nuweb-group/issue/NG-3817)]
 * Update sale item price preview when disabling / enabling currency [[NG-4054](https://linear.app/nuweb-group/issue/NG-4054)]
 * Improved the overall performance of seating plan rendering in both admin and ticket shop [[NG-4093](https://linear.app/nuweb-group/issue/NG-4093)]
-* Enriched the application of discount code "at least one of every event" logic to only require one item from an event, rather than one of every item sold at an event [[NG-4179](https://linear.app/nuweb-group/issue/NG-4179)]
+* Enriched the application of discount code “at least one of every event” logic to only require one item from an event, rather than one of every item sold at an event [[NG-4179](https://linear.app/nuweb-group/issue/NG-4179)]
 * Improved the grouping of bundled items in the basket to make it clearer which parent/lead item the bundled items belong to [[NG-4380](https://linear.app/nuweb-group/issue/NG-4380)]
-* Added a new "Auto download link" header to attendance reports which contains a link to the relevant ticket download page where the tickets begin downloading automatically [[NG-4313](https://linear.app/nuweb-group/issue/NG-4313)]
+* Added a new “Auto download link” header to attendance reports which contains a link to the relevant ticket download page where the tickets begin downloading automatically [[NG-4313](https://linear.app/nuweb-group/issue/NG-4313)]
 
  
 
@@ -286,18 +286,18 @@ Below you will find the summary notes for the 25th release of the Nuweb core pla
 ### 🧹 Housekeeping
 
 * Prevented users from attempting to sort reports by custom columns, as the sorting occurs before the calculation runs [[NG-4080](https://linear.app/nuweb-group/issue/NG-4080)]
-* Updated the 'view event' action on the admin dashboard to take users to the *correct* page [[NG-3407](https://linear.app/nuweb-group/issue/NG-3407)]
-* Improved the formatting of long data capture questions when presented on the final stage of checkout pNG-3407\]
+* Updated the ‘view event’ action on the admin dashboard to take users to the *correct* page [[NG-3407](https://linear.app/nuweb-group/issue/NG-3407)]
+* Improved the formatting of long data capture questions when presented on the final stage of checkout pNG-3407]
 * The Shop main menu should now more accurately resize or collapse itself when a large number of menu items are added [[NG-4208](https://linear.app/nuweb-group/issue/NG-4208)]
 * Deployed a noticeable performance improvement to the entry API for speedier access control [[NG-4296](https://linear.app/nuweb-group/issue/NG-4296)]
-* When refunding cashless top-ups via the admin UI, a new 'refundable from wallet' field is displayed, highlighting how much is going to be refunded from the customer's eWallet balance [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
+* When refunding cashless top-ups via the admin UI, a new ‘refundable from wallet’ field is displayed, highlighting how much is going to be refunded from the customer’s eWallet balance [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
 * When using the bulk refund tool on an order that contains bundled cashless top-ups, these are now displayed and selectable within the bulk refunder [[NG-3495](https://linear.app/nuweb-group/issue/NG-3495)]
 * Improved the bulk refund UI to show items that were identical inventory items, but different sale items (across different events) [[NG-4257](https://linear.app/nuweb-group/issue/NG-4257)]
 * Updated the bulk refund UI to auto select all checkboxes when selecting order items, offering a much more consistent/predictable experience [[NG-4257](https://linear.app/nuweb-group/issue/NG-4257)]
 * Improved timezone handling/offsets in the event calendar, providing a consistent experience regardless of positive or negative time offset [[NG-4206](https://linear.app/nuweb-group/issue/NG-4206)]
 * Updated text to Select donation amount in shop [[NG-4014](https://linear.app/nuweb-group/issue/NG-4014)]
 * Fixed an error that could be encountered by box office users if their user was suspended mid-session [[NG-4369](https://linear.app/nuweb-group/issue/NG-4369)]
-* Disabled erroneous "Complete your Account" emails that were sometimes forcefully sent to guest customers without user intervention/opt-in [[NG-4013](https://linear.app/nuweb-group/issue/NG-4013)]
+* Disabled erroneous “Complete your Account” emails that were sometimes forcefully sent to guest customers without user intervention/opt-in [[NG-4013](https://linear.app/nuweb-group/issue/NG-4013)]
 
 </Update>
 
@@ -309,7 +309,7 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 ### 🚀 New Features
 
 * Sitemaps are now generated by default for all ticket shops, providing search engines/crawlers with an increased chance of correctly indexing event pages, event listings, and articles [[NG-3820](https://linear.app/nuweb-group/issue/NG-3820)]
-  * Any events that are unpublished marked 'hidden' are not shown
+  * Any events that are unpublished marked ‘hidden’ are not shown
   * Past events are not shown
   * Sitemaps are cached for \~24 hours
   * Custom domains will be used based on the locale preferences of those domains
@@ -375,7 +375,7 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 
 ### 🎨 User Interface (UI/UX)
 
-* Added more customisation options for article block descriptions as well as ability to remove 'View All' link from article and event blocks [[NG-3743](https://linear.app/nuweb-group/issue/NG-3743)]
+* Added more customisation options for article block descriptions as well as ability to remove ‘View All’ link from article and event blocks [[NG-3743](https://linear.app/nuweb-group/issue/NG-3743)]
 * Added maximum space limitations to seating plans to prevent overly large areas / plans [[NG-3755](https://linear.app/nuweb-group/issue/NG-3755)]
 
 
@@ -415,14 +415,14 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 * Fixed season tickets sometimes not appearing in shop if there are no regular tickets [[NG-3769](https://linear.app/nuweb-group/issue/NG-3769)]
 * Improved best available seat selection to prevent deleted seats being selected in some specific situations [[NG-3734](https://linear.app/nuweb-group/issue/NG-3734)]
 * Fixed article type URL not auto-generating based on article type name [[NG-3915](https://linear.app/nuweb-group/issue/NG-3915)]
-* Fixed an issue where access codes using the 'hide unrestricted items' option would prevent items being added to the basket when event level fees were enabled [[NG-3911](https://linear.app/nuweb-group/issue/NG-3911)]
+* Fixed an issue where access codes using the ‘hide unrestricted items’ option would prevent items being added to the basket when event level fees were enabled [[NG-3911](https://linear.app/nuweb-group/issue/NG-3911)]
 * Fixed an issue where event media would fail to download as a PDF on orders with more than 50 items [[NG-3554](https://linear.app/nuweb-group/issue/NG-3554)]
 * Fixed time slots not being shown in 12hr time in time slot builder [[NG-3654](https://linear.app/nuweb-group/issue/NG-3654)]
 * General housekeeping around report generation to ensure stale reports are cleared out [[NG-3906](https://linear.app/nuweb-group/issue/NG-3906)]
 * Fixed an issue where time slots week view was not paginating properly for events that started in the past [[NG-3760](https://linear.app/nuweb-group/issue/NG-3760)]
 * Fixed double border page dividers not defaulting to showing two lines [[NG-3845](https://linear.app/nuweb-group/issue/NG-3845)]
 * Improved the performance of mass updates on sale items which exist against thousands of sibling timeslots etc [[NG-3875](https://linear.app/nuweb-group/issue/NG-3875)]
-* Updated the pricing preview display on sale items to ensure that blended gateway fees aren't returned for free sale items [[NG-3858](https://linear.app/nuweb-group/issue/NG-3858)]
+* Updated the pricing preview display on sale items to ensure that blended gateway fees aren’t returned for free sale items [[NG-3858](https://linear.app/nuweb-group/issue/NG-3858)]
 * Fixed top menu announcements not appearing in mobile as well as mobile burger menu appearing when no items are shown [[NG-3744](https://linear.app/nuweb-group/issue/NG-3744)]
 * Resolved a possible cause for a payment link with no items or transactions associated with it [[NG-3728](https://linear.app/nuweb-group/issue/NG-3728)]
 * Improved visibility of validation errors when mass updating sale items [[NG-4065](https://linear.app/nuweb-group/issue/NG-4065)]
@@ -433,11 +433,11 @@ Below you will find the summary notes for the 24th release of the Nuweb core pla
 * Added help text if theres no content in your currently selected locale for article text blocks [[NG-4029](https://linear.app/nuweb-group/issue/NG-4029)]
 * Fixed the user profile icon and dropdown appearing in the menu for box office [[NG-4076](https://linear.app/nuweb-group/issue/NG-4076)]
 * Admin dashboard refreshing fix [[NG-3917](https://linear.app/nuweb-group/issue/NG-3917)]
-* Created default styling for waiting room when company settings can't be found [[NG-3878](https://linear.app/nuweb-group/issue/NG-3878)]
+* Created default styling for waiting room when company settings can’t be found [[NG-3878](https://linear.app/nuweb-group/issue/NG-3878)]
 * On certain screen sizes the active menu were open by default in admin. This has been resolved. [[NG-3644](https://linear.app/nuweb-group/issue/NG-3644)]
 * Support for browsers with no localStorage support added / when localStorage is not available in incognito mode [[NG-3976](https://linear.app/nuweb-group/issue/NG-3976)]
 * Various seating plan fixes and improvements:
-  * Seat labels weren't generated properly when adjusting row / seat counts of the block [[NG-4016](https://linear.app/nuweb-group/issue/NG-4016)]
+  * Seat labels weren’t generated properly when adjusting row / seat counts of the block [[NG-4016](https://linear.app/nuweb-group/issue/NG-4016)]
   * Full table selection fixed in areas [[NG-3877](https://linear.app/nuweb-group/issue/NG-3877)]
   * Add to basket button placement fixed in box office in seating plans [[NG-4042](https://linear.app/nuweb-group/issue/NG-4042)]
   * Maintain shop seat selection UI state when add to basket validation errors occur [[NG-4066](https://linear.app/nuweb-group/issue/NG-4066)]
@@ -467,14 +467,14 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 <br />
 
-<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260709%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260709T182950Z&X-Amz-Expires=3600&X-Amz-Signature=bca7220addcd9bc6a8e400d161908147e9df0f977997d60585227bba5474f63d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
+<Frame caption="With orphan seat protection, only seats that do not leave orphan seats are selected using best available."><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/1d3a10be-761e-444d-a2a4-2ba059632cea/c70cf7df-13dd-47a5-816b-d3d4813b5927/CleanShot%202023-08-01%20at%2013.00.37.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260923%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260923T114425Z&X-Amz-Expires=3600&X-Amz-Signature=9631d19e08d302b053545f62a2aa71a60c569470928e49674c75db315c375e43&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="With orphan seat protection, only seats that do not leave orphan seats are selected using best available." /></Frame>
 
 
 
 * Added ability to display event times at the event block level (and style them) [[NG-3581](https://linear.app/nuweb-group/issue/NG-3581)]
 
 
-* New features added to embedding your site, like displaying it in full screen, customising the default language & currency per implementation, and displaying the site with the site's header and footer [[NG-3577](https://linear.app/nuweb-group/issue/NG-3577)]
+* New features added to embedding your site, like displaying it in full screen, customising the default language & currency per implementation, and displaying the site with the site’s header and footer [[NG-3577](https://linear.app/nuweb-group/issue/NG-3577)]
 
 
  
@@ -495,7 +495,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 
 
 * Added ability to order countries for phone/address dropdowns at a default level, individual data capture question level and event data capture question level [[NG-3400](https://linear.app/nuweb-group/issue/NG-3400)]
-* Added new company feature *Extended Customer Country*, which lets customers choose from any country, not just from the company's setup [[NG-3579](https://linear.app/nuweb-group/issue/NG-3579)]
+* Added new company feature *Extended Customer Country*, which lets customers choose from any country, not just from the company’s setup [[NG-3579](https://linear.app/nuweb-group/issue/NG-3579)]
 * Added the ability to upload a *mobile splash logo* to the reseller branding settings to be used within the mobile apps [[NG-3538](https://linear.app/nuweb-group/issue/NG-3538)]
 * Order distribution total/reserved figures within the customer account will now be reflective of any items in the distribution which have since been refunded [[NG-3566](https://linear.app/nuweb-group/issue/NG-3566)]
 * Added additional admin permissions to determine whether box office users should be able to skip certain item level validation rules [[NG-3584](https://linear.app/nuweb-group/issue/NG-3584)]
@@ -553,8 +553,8 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 ### 🧹 Housekeeping
 
 * Major performance improvements implemented across both internal & external basket APIs [[NG-3528](https://linear.app/nuweb-group/issue/NG-3528)]
-* Mobile menu now honours the 'Hide profile' settings [[NG-3588](https://linear.app/nuweb-group/issue/NG-3588)]
-* Resolve an issue where "force minimum quantity" on sold out / off sale / restricted items would prevent reservations for *any* item from the same event [[NG-3652](https://linear.app/nuweb-group/issue/NG-3652)]
+* Mobile menu now honours the ‘Hide profile’ settings [[NG-3588](https://linear.app/nuweb-group/issue/NG-3588)]
+* Resolve an issue where “force minimum quantity" on sold out / off sale / restricted items would prevent reservations for *any* item from the same event [[NG-3652](https://linear.app/nuweb-group/issue/NG-3652)]
 * Event pages now honour the time display settings [[NG-3636](https://linear.app/nuweb-group/issue/NG-3636)]
 * Unblock failing Szamlazz API calls caused by invalid tax band names [[NG-3638](https://linear.app/nuweb-group/issue/NG-3638)]
 * Addons now present broken down taxes if price is set to exclude tax [[NG-3689](https://linear.app/nuweb-group/issue/NG-3689)]
@@ -566,7 +566,7 @@ Below you will find the summary notes for the 23rd release of the Nuweb core pla
 * Seating plan interactivity fixed for devices with touch and mouse inputs [[NG-3706](https://linear.app/nuweb-group/issue/NG-3706)]
 * Fixed duplication of blocks on event page [[NG-3485](https://linear.app/nuweb-group/issue/NG-3485)]
 * Validity dates on Apple passes now display according to the sale item settings [[NG-3627](https://linear.app/nuweb-group/issue/NG-3627)]
-* Several seating plan improvements, including not allowing to delete price bands from seating plans already synced, improved display of general admissions with best available seats enabled and various selection issues fixed \[NG-3781,NG-3756,NG-3707,NG-3701,NG-3678\]
+* Several seating plan improvements, including not allowing to delete price bands from seating plans already synced, improved display of general admissions with best available seats enabled and various selection issues fixed [NG-3781,NG-3756,NG-3707,NG-3701,NG-3678]
 
 </Update>
 
@@ -598,7 +598,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 * Added a new company setting to allow item barcodes to be preserved when instant transfers are enabled. This prevents barcodes being regenerated when the item is transferred [[NG-3398](https://linear.app/nuweb-group/issue/NG-3398)].
 
 
-* Added the ability to sort events, reservations, orders, and customers by a choice of different columns \[NG-3361, NG-2866\]
+* Added the ability to sort events, reservations, orders, and customers by a choice of different columns [NG-3361, NG-2866]
 
   
 
@@ -639,7 +639,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 ### 🎨 User Interface (UI/UX)
 
 * Added an option to add a tooltip to any text in template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
-* Shop's fonts will be used in admin when you are editing template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
+* Shop’s fonts will be used in admin when you are editing template blocks [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
 * New improved Table template block [[NG-3399](https://linear.app/nuweb-group/issue/NG-3399)]
   * Select cell content type (text, badges, buttons, images, icons)
   * New option to set cell padding
@@ -668,7 +668,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 
 ### 🧹 Housekeeping
 
-* Improved internationalisation for various calendar, event and item dates within Shop \[NG-2895/7890/3322\]
+* Improved internationalisation for various calendar, event and item dates within Shop [NG-2895/7890/3322]
 * Displayed additional tags on event/article blocks on listing pages [[NG-3322](https://linear.app/nuweb-group/issue/NG-3322)]
 * Miscellaneous fixes to hub tax band management [[NG-3477](https://linear.app/nuweb-group/issue/NG-3477)]
 * Fixed an error when attempting to select best available seats across multiple price bands [[NG-3465](https://linear.app/nuweb-group/issue/NG-3465)]
@@ -677,7 +677,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 * Prevented non-functioning parent access codes from being duplicated inadvertently [[NG-3497](https://linear.app/nuweb-group/issue/NG-3497)]
 * Where a discount code has multiple event conditions of identical names, the descriptions no longer repeat the number and instead display only unique event conditions [[NG-3459](https://linear.app/nuweb-group/issue/NG-3459)]
 * Ensure tax receipt emails are sent out for orders where reverse charges apply [[NG-3335](https://linear.app/nuweb-group/issue/NG-3335)]
-* Improved the additional information provided for items and fees within the Shop \[NG-3273/3475\]
+* Improved the additional information provided for items and fees within the Shop [NG-3273/3475]
 * Fixed z-index issues of dropdowns within card elements [[NG-3467](https://linear.app/nuweb-group/issue/NG-3467)]
 * Improved mobile UI where larger company logos were used within the top navigation bar [[NG-3281](https://linear.app/nuweb-group/issue/NG-3281)]
 * Added character limit for tags as well as help text [[NG-3276](https://linear.app/nuweb-group/issue/NG-3276)]
@@ -689,7 +689,7 @@ Below you will find the summary notes for the 22nd release of the Nuweb core pla
 * Fixed a visual bug where it appeared you can set sold seats as available on the manage seating plan page [[NG-3428](https://linear.app/nuweb-group/issue/NG-3428)]
 * Increased resolution of images used in Testimonials template block [[NG-3401](https://linear.app/nuweb-group/issue/NG-3401)]
 * Added UI for deleted / inactive / disabled children of access code children and discount code children [[NG-2842](https://linear.app/nuweb-group/issue/NG-2842)]
-* Fixed issues when you couldn't select seats on the manage seating plan page [[NG-3524](https://linear.app/nuweb-group/issue/NG-3524)]
+* Fixed issues when you couldn’t select seats on the manage seating plan page [[NG-3524](https://linear.app/nuweb-group/issue/NG-3524)]
 * Additional sale item information is rendered as HTML in event media [[NG-3601](https://linear.app/nuweb-group/issue/NG-3601)]
 * Resolved an issue where the *refresh* modal was being displayed twice in some very specific report scenarios [[NG-2867](https://linear.app/nuweb-group/issue/NG-2867)]
 * Improved performance of processing multi-seat baskets, especially noticeable with Best Available seating [[NG-3527](https://linear.app/nuweb-group/issue/NG-3527)]
@@ -737,8 +737,8 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 * Streamlined the process of claiming shared/transferred tickets by removing the need to login/create a password & by sending the customer directly to the relevant download screen [[NG-3206](https://linear.app/nuweb-group/issue/NG-3206)]
 * Add the ability to specify an optional order reference prefix for Adyen payments [[NG-3209](https://linear.app/nuweb-group/issue/NG-3209)]
 * Cashless reports (shops, transactions, and NFC transactions) can now be filtered by transaction completion date [[NG-3216](https://linear.app/nuweb-group/issue/NG-3216)]
-* The manual payment fields (at the company and event level) are now multi-locale, allowing you define the invoice title, receipt title, and payment instructions in a customer's native language \[NG-3220, NG-3326\]
-* Box office checkout now provides a 'Change due' calculator when checking out with cash \[NG-3231, NG-3289\]
+* The manual payment fields (at the company and event level) are now multi-locale, allowing you define the invoice title, receipt title, and payment instructions in a customer’s native language [NG-3220, NG-3326]
+* Box office checkout now provides a ‘Change due’ calculator when checking out with cash [NG-3231, NG-3289]
 
 
 <Frame caption="Change due is now calculated when using cash payment in Box Office"><img src="/images/releases/b79d1bbffde42b0248d9b7cbbddc84f2.gif" alt="Change due is now calculated when using cash payment in Box Office" /></Frame>
@@ -749,10 +749,10 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 * You may now configure whether it is mandatory to capture a *cheque number*, or *card network* when using the *cheque* or *card offline* payment methods respectively [[NG-3233](https://linear.app/nuweb-group/issue/NG-3233) & [NG-3207](https://linear.app/nuweb-group/issue/NG-3207)]
 * Preview dates in article blocks can now be hidden [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
 * The background colour of event and article blocks can now be customised [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
-* Improved page load speed when viewing inventory items which are linked to a large number of events \[NG-2861Improved page load speed when viewing inventory items which are linked to a large number of events [[NG-2861](https://linear.app/nuweb-group/issue/NG-2861)]
-* A new barcode encoding option "interleaved 2 of 5" is available for event media [[NG-3302](https://linear.app/nuweb-group/issue/NG-3302)]
-* Full venue addresses are now displayed throughout all product surfaces \[NG-3221, NG-3288Full venue addresses are now displayed throughout all product surfaces \[NG-3221, NG-3288\]
-* Expanded article block theme settings allowing for customisations matching that of event blocks \[NG-3279Expanded article block theme settings allowing for customisations matching that of event blocks [[NG-3279](https://linear.app/nuweb-group/issue/NG-3279)]
+* Improved page load speed when viewing inventory items which are linked to a large number of events [NG-2861Improved page load speed when viewing inventory items which are linked to a large number of events [[NG-2861](https://linear.app/nuweb-group/issue/NG-2861)]
+* A new barcode encoding option “interleaved 2 of 5” is available for event media [[NG-3302](https://linear.app/nuweb-group/issue/NG-3302)]
+* Full venue addresses are now displayed throughout all product surfaces [NG-3221, NG-3288Full venue addresses are now displayed throughout all product surfaces [NG-3221, NG-3288]
+* Expanded article block theme settings allowing for customisations matching that of event blocks [NG-3279Expanded article block theme settings allowing for customisations matching that of event blocks [[NG-3279](https://linear.app/nuweb-group/issue/NG-3279)]
 
   
 
@@ -760,7 +760,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 
 
-* Kiosk sales channel is now available, controlling the visibility of the item on the Box Office App (Kiosk) and Box Office Web (Shop) individually \[NG-3363, NG-3214\]
+* Kiosk sales channel is now available, controlling the visibility of the item on the Box Office App (Kiosk) and Box Office Web (Shop) individually [NG-3363, NG-3214]
 
 
 <Frame caption="Enabling and disabling the item from the Box Office App (Kiosk)"><img src="/images/releases/39837dde0a7c88b3e4cc803b6ea4d292.gif" alt="Enabling and disabling the item from the Box Office App (Kiosk)" /></Frame>
@@ -807,7 +807,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 * Image editing in articles received some fixes regarding under settings appearing above the modal, and icons now appear in a modal with the icon names inlcuded [[NG-3310](https://linear.app/nuweb-group/issue/NG-3310)]
 * Sale item lists on event dashboard now have unified icons and orderings in their header [[NG-3331](https://linear.app/nuweb-group/issue/NG-3331)]
 * Added search option and alphabetised options in venue selector on event dashboard and seating plan editor [[NG-3327](https://linear.app/nuweb-group/issue/NG-3327)]
-* The 'Order Now' button that is shown when choosing to pay by invoice can be now be customised in website text [[NG-3222](https://linear.app/nuweb-group/issue/NG-3222)]
+* The ‘Order Now’ button that is shown when choosing to pay by invoice can be now be customised in website text [[NG-3222](https://linear.app/nuweb-group/issue/NG-3222)]
 * The text in the reverse charge/VAT number input modal can now be customised in website text [[NG-3223](https://linear.app/nuweb-group/issue/NG-3223)]
 
 
@@ -815,7 +815,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 ### 🧹 Housekeeping
 
 * Fixed some help text styling to more closely match our UI [[NG-2865](https://linear.app/nuweb-group/issue/NG-2865)]
-* Fixed 'mixed' layout article block images [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
+* Fixed ‘mixed’ layout article block images [[NG-2781](https://linear.app/nuweb-group/issue/NG-2781)]
 * Resolved an issue with bulk approving/rejecting reservations [[NG-3260](https://linear.app/nuweb-group/issue/NG-3260)]
 * Restored the call to action and navigation controls on event listing pages when using iframes [[QUA-380](https://linear.app/nuweb-group/issue/QUA-380)]
 * The reverse/conditional tax, VAT number collection text is now customisable in website text [[NG-3223](https://linear.app/nuweb-group/issue/NG-3223)]
@@ -824,14 +824,14 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 * Fixed various issues with template block UI [[NG-3248](https://linear.app/nuweb-group/issue/NG-3248)]
 * Fixed formatting issues when exporting invoice/discount code reports [[NG-2892](https://linear.app/nuweb-group/issue/NG-2892)]
 * Ticket descriptions now appearing when multiple tickets are assigned to seats in shop [[NG-3264](https://linear.app/nuweb-group/issue/NG-3264)]
-* When Contacts B template block had links added the icons weren't clickable [[NG-3316](https://linear.app/nuweb-group/issue/NG-3316)]
+* When Contacts B template block had links added the icons weren’t clickable [[NG-3316](https://linear.app/nuweb-group/issue/NG-3316)]
 * Ticket restrictions now appear for tickets when selecting seats [[NG-3328](https://linear.app/nuweb-group/issue/NG-3328)]
-* Resolved an issue where Excluded labels settings didn't appear in the seating plan editor [[NG-3256](https://linear.app/nuweb-group/issue/NG-3256)]
+* Resolved an issue where Excluded labels settings didn’t appear in the seating plan editor [[NG-3256](https://linear.app/nuweb-group/issue/NG-3256)]
 * Texts in event media preview now has got improved text alignment displays [[NG-3311](https://linear.app/nuweb-group/issue/NG-3311)]
 * Shrink to fit texts in event media has been optimised in preview [[NG-3271](https://linear.app/nuweb-group/issue/NG-3271)]
-* Fixed an issue when lasso tool wasn't completing in event media editor [[NG-3272](https://linear.app/nuweb-group/issue/NG-3272)]
-* Resolved an issue when customer used a social media login in iframes in Safari and the login page didn't appear [[NG-2891](https://linear.app/nuweb-group/issue/NG-2891)]
-* When an order contained an order fee, the order displayed "Multiple events" incorrectly in lists [[NG-3333](https://linear.app/nuweb-group/issue/NG-3333)]
+* Fixed an issue when lasso tool wasn’t completing in event media editor [[NG-3272](https://linear.app/nuweb-group/issue/NG-3272)]
+* Resolved an issue when customer used a social media login in iframes in Safari and the login page didn’t appear [[NG-2891](https://linear.app/nuweb-group/issue/NG-2891)]
+* When an order contained an order fee, the order displayed “Multiple events” incorrectly in lists [[NG-3333](https://linear.app/nuweb-group/issue/NG-3333)]
 * Fixed an issue with the top menubar ordering [[NG-2900](https://linear.app/nuweb-group/issue/NG-2900)]
 * Ensure customer locale is respected in all forms of email communication, unless overridden [[NG-3330](https://linear.app/nuweb-group/issue/NG-3330)]
 * Resolved an issue with sharing where the system would force customers to share all tickets if the sale item purchase limit was greater than the event-level purchase limit [[NG-2940](https://linear.app/nuweb-group/issue/NG-2940)]
@@ -841,7 +841,7 @@ Below you will find the summary notes for the 21st release of the Nuweb core pla
 
 ### 💻 Technical
 
-* Fixed an issue where seating plan data wasn't refreshed when opening / closing different seating plans [[NG-3257](https://linear.app/nuweb-group/issue/NG-3257)]
+* Fixed an issue where seating plan data wasn’t refreshed when opening / closing different seating plans [[NG-3257](https://linear.app/nuweb-group/issue/NG-3257)]
 
 </Update>
 
@@ -853,7 +853,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 ### 🚀 New Features
 
-* New Best Available seats, where the system creates a heatmap for your seating plan, and the customers' seats will be automatically selected for them [[NG-590](https://linear.app/nuweb-group/issue/NG-590)]
+* New Best Available seats, where the system creates a heatmap for your seating plan, and the customers’ seats will be automatically selected for them [[NG-590](https://linear.app/nuweb-group/issue/NG-590)]
 
  
 
@@ -890,13 +890,13 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
   * Creates a single exhibitor user to access the lead capture results
   * Generates a custom report to provide those results
   * Schedules an automated report to be emailed after the close of the event
-* Access control data capture allows organisers to define data capture questions to be asked when scanning into a zone. At present this is limited to just a single 'notes' field, but there is scope to give more customisation in future releases \[NG-3230, NG-3345\]
+* Access control data capture allows organisers to define data capture questions to be asked when scanning into a zone. At present this is limited to just a single ‘notes’ field, but there is scope to give more customisation in future releases [NG-3230, NG-3345]
 
 
 
 ### ✨ Enhancements
 
-* Added the schedule creation progress to **all** schedule view pages, rather than just the lead event's view page [[QUA-132](https://linear.app/nuweb-group/issue/QUA-132)]
+* Added the schedule creation progress to **all** schedule view pages, rather than just the lead event’s view page [[QUA-132](https://linear.app/nuweb-group/issue/QUA-132)]
 * Added image fields to the table contents template block [[NG-2731](https://linear.app/nuweb-group/issue/NG-2731)]
 * Added the ability to import cashless sale items, with their allocated categories [[NG-2747](https://linear.app/nuweb-group/issue/NG-2747)]
 * Added the ability to generate X child access codes for a given parent access code [[NG-2742](https://linear.app/nuweb-group/issue/NG-2742)]
@@ -922,7 +922,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 ### 🎨 User Interface (UI/UX)
 
-* Added a customisable 'Menu announcement' to the theme page [[NG-2736](https://linear.app/nuweb-group/issue/NG-2736)]
+* Added a customisable ‘Menu announcement’ to the theme page [[NG-2736](https://linear.app/nuweb-group/issue/NG-2736)]
 * New notifications for success and error messaging [[NG-2765](https://linear.app/nuweb-group/issue/NG-2765)]
 
   
@@ -947,7 +947,7 @@ Below you will find the summary notes for the 20th release of the Nuweb core pla
 
 ### 🧑‍💻 API
 
-* A number of API performance improvements have been added for cashless and box office related endpoints \[NG-2756, NG-2737\]
+* A number of API performance improvements have been added for cashless and box office related endpoints [NG-2756, NG-2737]
 * A new *Partner API* has been added to allow partners to create companies and users within their account via an API. This also allows for company level API tokens to be generated [[NG-2752](https://linear.app/nuweb-group/issue/NG-2752)]
 * Added API rate limiting, with customisable limits at both partner and company levels.
 
@@ -969,7 +969,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-* Payment reminders may now be issued en-masse to purchasers who used the invoice payment method. This is accessed via the 'email attendees' function within the event dashboard, or against individual tickets/timeslots etc. [[NG-2496](https://linear.app/nuweb-group/issue/NG-2496)]
+* Payment reminders may now be issued en-masse to purchasers who used the invoice payment method. This is accessed via the ‘email attendees’ function within the event dashboard, or against individual tickets/timeslots etc. [[NG-2496](https://linear.app/nuweb-group/issue/NG-2496)]
 * Conditional tax bands may now be configured against sale items. This enables different tax rates (including reverse charges) to be applied based on the country the customer is purchasing from. We have also added a [VATStack](https://vatstack.com/) integration which can be enabled to validate the customers country based on their VAT number [[NG-2493](https://linear.app/nuweb-group/issue/NG-2493)]
 
 
@@ -979,7 +979,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-* Added a new API Device Manager section to the admin portal, so that you can view all devices along with the last time they connected or uploaded data. \[NG-2556, NG-2559\]
+* Added a new API Device Manager section to the admin portal, so that you can view all devices along with the last time they connected or uploaded data. [NG-2556, NG-2559]
   * This comes with the added ability to immediately block a device which will cause all future requests to fail until the device is unblocked
   * Individual devices can also be named for better tracking
 
@@ -990,7 +990,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-* A new 'enable instant access' option has been added to manual payment settings. When enabled, this allows customers who have selected the invoice payment method instant access to their tickets and other downloadable items, before payment of the invoice is made. [[NG-2585](https://linear.app/nuweb-group/issue/NG-2585)]
+* A new ‘enable instant access’ option has been added to manual payment settings. When enabled, this allows customers who have selected the invoice payment method instant access to their tickets and other downloadable items, before payment of the invoice is made. [[NG-2585](https://linear.app/nuweb-group/issue/NG-2585)]
 
 
 
@@ -1045,7 +1045,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 ### ⏳ Coming very soon…
 
-* Total revamp of the repeating events / timeslot booking experience, unleashing an entirely new and refreshed user shopping experience. Customers can use our new interactive booking calendar to jump straight to the date & time that they're interested in via one unified interface.
+* Total revamp of the repeating events / timeslot booking experience, unleashing an entirely new and refreshed user shopping experience. Customers can use our new interactive booking calendar to jump straight to the date & time that they’re interested in via one unified interface.
 
 
  
@@ -1058,7 +1058,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 
 
 
-* We haven't ignored the mixed event schedules such as football seasons & multi-venue events as we introduce a new opt-in booking calendar which provides a more practical overview of the upcoming events:
+* We haven’t ignored the mixed event schedules such as football seasons & multi-venue events as we introduce a new opt-in booking calendar which provides a more practical overview of the upcoming events:
 
 
  
@@ -1085,7 +1085,7 @@ Below you will find the summary notes for the 19th release of the Nuweb core pla
 * API calls to Szamlazz now respect the payment company of the order [[NG-2642](https://linear.app/nuweb-group/issue/NG-2642)]
 * Fixed issue where timeslots were not reloading on event dashboard after emailing attendees [[NG-2688](https://linear.app/nuweb-group/issue/NG-2688)]
 * Fixed an issue where timeslots were not being copied with their relative on sale dates [[NG-2668](https://linear.app/nuweb-group/issue/NG-2668)]
-* Fixed an issue where publishing an event with timeslots still shows 'off sale' for the sale items within those timeslots [[NG-2669](https://linear.app/nuweb-group/issue/NG-2669) & [NG-2659](https://linear.app/nuweb-group/issue/NG-2659)]
+* Fixed an issue where publishing an event with timeslots still shows ‘off sale’ for the sale items within those timeslots [[NG-2669](https://linear.app/nuweb-group/issue/NG-2669) & [NG-2659](https://linear.app/nuweb-group/issue/NG-2659)]
 
 
 
@@ -1109,7 +1109,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 ### 🚀 New Features
 
-* Added the ability to create ticket & item templates in admin via the "System defaults" feature, streamlining event set ups & enforcing consistency during item creation [[NG-2437](https://linear.app/nuweb-group/issue/NG-2437)].
+* Added the ability to create ticket & item templates in admin via the “System defaults” feature, streamlining event set ups & enforcing consistency during item creation [[NG-2437](https://linear.app/nuweb-group/issue/NG-2437)].
 
 
  
@@ -1138,8 +1138,8 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 * Added the ability to setup companies within a trial period. A banner is displayed in admin informing the user how long the trial has left. Once the trial is up, the company can no longer access their account [[NG-2434](https://linear.app/nuweb-group/issue/NG-2434)]
-* Added a new feature flag for "allow fees to be discounted" which will enable resellers to opt companies **into** being able to discount any associated fees through the use of discount codes [[NG-2443](https://linear.app/nuweb-group/issue/NG-2443)]
-  * Combined with the new "disallow absorbing fees" company limitation, this puts resellers in direct control of how and when fees are discounted.
+* Added a new feature flag for “allow fees to be discounted” which will enable resellers to opt companies **into** being able to discount any associated fees through the use of discount codes [[NG-2443](https://linear.app/nuweb-group/issue/NG-2443)]
+  * Combined with the new “disallow absorbing fees” company limitation, this puts resellers in direct control of how and when fees are discounted.
 
 
 
@@ -1169,8 +1169,8 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 
 
-* Added ability to create "Proforma" invoices in hub [[NG-2498](https://linear.app/nuweb-group/issue/NG-2498)]
-* Added a new payment method "Cheque" in Box Office [[NG-2499](https://linear.app/nuweb-group/issue/NG-2499)]
+* Added ability to create “Proforma” invoices in hub [[NG-2498](https://linear.app/nuweb-group/issue/NG-2498)]
+* Added a new payment method “Cheque” in Box Office [[NG-2499](https://linear.app/nuweb-group/issue/NG-2499)]
 * Invoice emails now include an invoice number and invoice date, as well as a new option within company payment settings to toggle whether customer name and email address should be displayed [[NG-2502](https://linear.app/nuweb-group/issue/NG-2502)]
 
 
@@ -1215,7 +1215,7 @@ Below you will find the summary notes for the 18th release of the Nuweb core pla
 
 <br />
 
-<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260709%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260709T182950Z&X-Amz-Expires=3600&X-Amz-Signature=0be5e0c02c25bcf550f281acc9514fe631ca97c524ab0b6267dd1f20b8d4d203&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
+<Frame><img src="https://nutickets-getoutline.s3.eu-west-1.amazonaws.com/uploads/517d4d80-777b-4e6a-a6b6-a861b117cc62/c828ec01-e149-461a-b5be-8259e25a9da0/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5X5FBUSU4BCCMM4S%2F20260923%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20260923T114426Z&X-Amz-Expires=3600&X-Amz-Signature=362941edd07f0bff736a5e17fe879b71689e02181b4f6642c55bcd8835f2579a&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject" alt="" /></Frame>
 
 
 * In seating plan editor block/row labels in edit can be toggled from now, so they won't get in the way

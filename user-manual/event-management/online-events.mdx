@@ -17,14 +17,37 @@ When [creating an event](/user-manual/event-management/introduction), you select
 
 | Type | Venue | Streaming | Description |
 |------|-------|-----------|-------------|
-| **In Venue** | Required | Disabled | A physical event at a specific venue. No streaming. |
+| **In-venue** | Required | Disabled | A physical event at a specific venue. No streaming. |
 | **Online** | Not required | Enabled | A virtual-only event with no physical location. |
 | **Both** | Required | Enabled | A hybrid event with both in-person attendance and an online stream. |
 
-The location type can be changed after creation from the event dashboard by editing the event location.
+The location type can be changed after creation — see [Editing the Event Location](#editing-the-event-location).
 
 <Note>
-Selecting **Online** or **Both** automatically enables the streaming configuration. Switching to **In Venue** disables it.
+Selecting **Online** or **Both** automatically enables the streaming configuration. Switching to **In-venue** disables it.
+</Note>
+
+### Editing the Event Location
+
+<Tip>Stream settings added to the location panel in Release 48</Tip>
+
+To change where an event takes place, open the event dashboard, click **Edit**, and choose **Edit event location**. The **Edit event location** panel offers the same three location types — **In-venue**, **Online**, and **Both**:
+
+- **In-venue** and **Both** show the **Venue** selector. Pick an existing [venue](/user-manual/event-management/venues), or click **Add new venue** to create one without leaving the panel — **Add venue** creates it and selects it for the event, and **Back** returns you to the location options.
+- **Online** and **Both** show the stream settings in the same panel, so you can set up the stream as you switch the event online:
+
+| Field | Description |
+|-------|-------------|
+| **Live streaming provider** | **YouTube**, **Vimeo**, or **Other**. Required. |
+| **Stream URL** | The live stream URL from your provider. Required. |
+| **Display chat on event page** | Show the provider's live chat alongside the stream. Available for YouTube and Vimeo only. |
+
+The panel can't be saved as **Online** or **Both** until a provider and stream URL are entered. Saving it with either option turns the event's live stream on; saving it as **In-venue** turns the stream off. Closing the panel without saving restores the previous location and stream settings.
+
+The stream body and the **Enable event live stream** toggle are still managed under **Event Streaming Settings** — see [Stream Configuration](#stream-configuration).
+
+<Note>
+If the **Event Streams** feature isn't enabled for your company, the panel offers only **In-venue** and **Online**, without any stream fields — switching to **Online** marks the event as online-only with no stream.
 </Note>
 
 ## Stream Configuration

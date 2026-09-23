@@ -84,6 +84,35 @@ Use the object menu on the left side of the designer to add elements to your can
 
 Each object can be positioned, resized, and styled using the properties panel on the right side of the designer. You can set colours, fonts, opacity, borders, and alignment.
 
+### Styling Text and Shapes
+
+<Tip>Colour presets, border radius, and separate horizontal and vertical padding added in Release 48</Tip>
+
+Text objects and shapes share a set of styling controls in the properties panel:
+
+| Setting | Applies to | What it does |
+|---------|-----------|--------------|
+| **Text colour**, **Background colour**, **Stroke colour** | Text | Colours the text, the box behind it, and the box's outline |
+| **Fill colour**, **Stroke colour** | Shapes | Colours the shape's interior and outline |
+| **Border radius** | Text and rectangles | Rounds the corners of the text box or rectangle — for example, to create pill-shaped labels |
+| **Horizontal padding**, **Vertical padding** | Text | Sets the space between the text and the edge of its box, separately for the left and right sides and for the top and bottom. Shown while **Automatic size** is off |
+
+#### Colour Presets
+
+Every colour setting on text and shapes is a dropdown of presets:
+
+| Option | Colour |
+|--------|--------|
+| **Transparent** | No colour — use it to remove a background or outline |
+| **Grey - light**, **Grey - dark** | Fixed grey shades |
+| **Black**, **White** | Black or white |
+| **Brand - 1** to **Brand - 11** | The shades of your shop's [colour theme](/user-manual/cms/theme-and-branding#colour-theme), from lightest (**Brand - 1**) to darkest (**Brand - 11**) |
+| **Custom** | Opens a colour picker for any hex value, starting from the object's current colour |
+
+Brand shades are saved as a reference to your colour theme rather than as a fixed colour. If you change your colour theme, newly generated PDFs pick up the new shades without you editing each template. Colours chosen with **Custom** stay fixed.
+
+To remove a text background, set **Background colour** to **Transparent** — this replaces the previous **Has background colour** toggle. The same presets are used for text and shapes in the [seating plan editor](/user-manual/seating-plans/editor#colour-presets).
+
 ### Dynamic Fields
 
 Dynamic fields are the core of what makes each generated PDF unique. When you add a text object, you can insert field placeholders that are replaced with actual data when the PDF is generated.
@@ -92,10 +121,19 @@ To insert a dynamic field, use the **Choose ticket data** field picker in the te
 
 <Accordion title="Order fields">
   Information about the overall order:
+
+  <Tip>Order gross, tax, amount paid, amount due, and payment method fields added in Release 47</Tip>
+
   - **Order reference** — The unique order reference code
   - **Order total** — Total order value
-  - **Order discount** — Any discount applied
-  - **Order completion date** — When the order was completed
+  - **Order total gross (before discount)** — The order total before any discount was taken off
+  - **Order tax (included in total)** — The tax included in the order total
+  - **Order discount amount** — Any discount applied
+  - **Order refund amount** — The amount refunded on the order so far
+  - **Order amount paid** — How much of the order has been paid
+  - **Order amount due** — The balance still to pay, for example on a [deposit](/user-manual/payments/deposit-payments) or [invoice](/user-manual/payments/invoice-payments) order
+  - **Order payment method** — How the order was paid. Orders paid with more than one method list each one, separated by commas
+  - **Order completion date & time** — When the order was completed
   - **Order delivery address** — Full delivery address (and individual parts: line 1, line 2, city, postcode, country)
   - **Order billing address** — Full billing address (and individual parts)
   - **Order source** — Where the order was placed (online, box office, etc.)
@@ -110,6 +148,7 @@ To insert a dynamic field, use the **Choose ticket data** field picker in the te
   - **Base price**, **Total price**, **Paid price** — Pricing information
   - **Sale item name** and **description** — The sale item details
   - **Additional information** — Any extra information configured on the sale item
+  - **Verified resale**, **Refund protection (protected)**, **Refund protection (not protected)**, and **Refund protection disclaimer** — Status badges that print only on the items they apply to (see [Resale and Refund Protection Badges](#resale-and-refund-protection-badges))
 </Accordion>
 
 <Accordion title="Seating fields">
@@ -158,6 +197,38 @@ To insert a dynamic field, use the **Choose ticket data** field picker in the te
 </Accordion>
 
 When a field has no value for a particular item (for example, seating fields on an unseated event), the placeholder is replaced with the template's **empty variable text** — which defaults to a dash (`-`). You can change this default in the template settings.
+
+### Resale and Refund Protection Badges
+
+<Tip>New in Release 48</Tip>
+
+Four order item fields show an item's resale or refund protection status. Unlike other fields, each one prints only on the items it applies to — on every other item the whole object, including its background and outline, is left off the PDF. One template can therefore serve every ticket on an order without leaving empty boxes or placeholder dashes.
+
+| Field | Prints | Printed on | Offered in the designer when |
+|-------|--------|------------|------------------------------|
+| **Verified resale** | *Verified resale* | Tickets bought through [resale](/user-manual/resale/introduction) | Resale is enabled for your account |
+| **Refund protection (protected)** | *Protected* | Items with active refund protection | [Protect Group](/user-manual/refund-protection/protect-group) or [manual refund protection](/user-manual/refund-protection/alternative-providers) is enabled |
+| **Refund protection (not protected)** | *Not Protected* | Items without active refund protection, including items whose protection has been claimed or cancelled | Protect Group or manual refund protection is enabled |
+| **Refund protection disclaimer** | *Refund Protect applies only to the original purchaser and is non-transferable.* | Items with active Protect Group protection | Protect Group is enabled |
+
+The printed text is translated into the customer's language.
+
+To add a badge to a template:
+
+1. In the object menu, select **Add ticket data** > **Add and choose data**, then draw the box on the canvas
+2. In the properties panel, open **Choose ticket data** and select the field from **Order item fields**
+
+Selecting **Verified resale**, **Refund protection (protected)**, or **Refund protection (not protected)** applies a ready-made badge style: rounded corners, padding, an icon, and [brand colours](#colour-presets) — or **Grey - light** with white text for **Refund protection (not protected)**. You can then adjust the colours, font size, padding, and border radius like any other text object. The icon comes with the badge style and has no setting of its own, and switching the object to a different field removes the badge styling, including the icon.
+
+The **Detailed ticket** and **Small ticket** [pre-built templates](#pre-built-templates) include a **Verified resale** badge, as does the built-in [system default](/user-manual/event-management/event-media/overview#assigning-templates) ticket used when no template is assigned. Templates you have already created keep their saved layout — add the field to show the badge on them.
+
+<Note>
+The **Preview** uses a sample ticket that has Protect Group protection and — when resale is enabled — was bought through resale. **Verified resale**, **Protected**, and the disclaimer appear in the preview, but **Not Protected** never does.
+</Note>
+
+<Note>
+These fields are not offered on gift voucher templates or on [cover sheets](/user-manual/event-management/event-media/cover-sheets), which cover a whole order rather than a single item.
+</Note>
 
 ### Gift Voucher Fields
 

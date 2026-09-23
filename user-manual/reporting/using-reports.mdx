@@ -17,9 +17,11 @@ Fields (also called headers or columns) control which data columns appear in the
 
 Use the dropdowns above the active fields list to add columns:
 
-- **Add System Field** — Standard report fields such as order reference, event name, financial totals, and dates.
-- **Add Global Data Capture Field** — Responses to data capture questions configured globally.
-- **Add Assigned Data Capture Field** — Responses to data capture questions assigned to specific events or items.
+- **Add system field** — Standard report fields such as order reference, event name, financial totals, and dates.
+- **Add global DC field** — Responses to [data capture](/user-manual/data-capture/introduction) questions configured globally.
+- **Add assigned DC field** — Responses to data capture questions assigned to specific events or items.
+
+Each dropdown stays open after you pick a field, so you can add several fields in one go without reopening it. <Tip>Multiple selection in the data capture field dropdowns added in Release 47</Tip>
 
 Fields are organised into groups (such as **Purchaser fields**, **Order total fields**, **Event fields**, **Seating plan fields**) to help you find what you need. The available groups depend on the report type.
 
@@ -58,6 +60,8 @@ You can create calculated or reference columns that do not exist in the underlyi
 | **Formula** | `` =(`order_gross`-`order_refunded`)*2.5 `` | Calculates a value from other columns. Prefix with `=` for math operations. |
 
 Formulas support basic arithmetic (`+`, `-`, `*`, `/`) and the functions `round`, `floor`, and `ceil`. For example: `` =round(`order_gross`-`order_refunded`) ``
+
+When a formula references a monetary column, its result is shown as an amount in that row's currency. <Tip>Currency display settings applied to formulas in Release 48</Tip> These results follow the report's **Hide currency symbols** and **Hide currency formatting** settings — listed under **Report settings** in the filters panel on reports that offer them — in the same way as standard monetary columns. Hiding symbols removes the currency symbol, and hiding formatting removes thousands separators, so formula columns stay consistent with the rest of the report when you export plain figures for a spreadsheet.
 
 <Note>
 Custom fields are not sortable in the data table because they are calculated after the data is loaded.
@@ -107,7 +111,7 @@ These filters appear across many report types:
 | Filter | What it narrows |
 |--------|----------------|
 | **Date range** | Restricts results to a specific time period. Different reports offer different date dimensions (order completion date, event start date, transaction date, etc.). |
-| **Events** | Limits to specific events. Searchable with pagination for large event catalogues. |
+| **Events** | Limits to specific events. Searchable by event name or ID, with pagination for large event catalogues. Events are listed by start date, earliest first — click **Sort** at the top of the list to show the latest events first. The order is kept as you page through the list. <Tip>Sort control added in Release 47</Tip> |
 | **Event schedules** | Limits to events within specific schedules. |
 | **Venues** | Limits to events at specific venues. |
 | **Companies** | Limits to specific companies (relevant in multi-company setups). |
@@ -185,6 +189,8 @@ Custom fields cannot be sorted because they are calculated after the data is ret
 ## Totals Row
 
 When a report contains more than 12 rows, a **totals row** appears at the bottom of the data table. This row shows the sum of all numeric and monetary columns across the entire filtered dataset (not just the current page).
+
+Count columns are summed like any other number. A column that counts distinct records in each row, such as **Total orders**, can therefore total more than the number of distinct records — an order with items in two rows is counted once in each.
 
 For monetary columns, the totals row respects the currency context. If the report contains data in multiple currencies without a single currency filter applied, monetary totals may be left blank to avoid misleading cross-currency sums.
 

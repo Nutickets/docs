@@ -20,6 +20,24 @@ Settings control how the app scans, admits, and processes tickets. Access them f
 When **Auto admit** is enabled, the **Ability to admit all** option is forced off and cannot be changed. Disable auto-admit to re-enable it.
 </Note>
 
+## Ticket Download Batch Size
+
+<Tip>New in Release 48</Tip>
+
+When you open an event, the app downloads its tickets to the device in batches, and keeps fetching further batches in the background to pick up new purchases and changes (see [Connectivity and Offline Mode](/mobile-apps/access-control-pro/introduction#connectivity-and-offline-mode)). The **Ticket download batch size** slider controls how many tickets are fetched in each request.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Ticket download batch size** | 200 | Number of tickets fetched per request when downloading tickets. Adjustable from 200 to 1,000 in steps of 100. |
+
+Lower values are more reliable on a poor connection; higher values sync faster. For a large event on a strong Wi-Fi or mobile data connection, raising the value gets every ticket onto the device sooner. If downloads stall at a venue with weak signal, bring it back down towards 200.
+
+The value is saved on the device and applies to every event you open on it.
+
+<Note>
+The iOS version of the app doesn't have this setting — it always downloads 200 tickets per request.
+</Note>
+
 ## NFC Pairing
 
 NFC pairing links physical NFC tags to tickets, enabling tap-based entry and (optionally) cashless functionality. The app acts as both the pairing tool and the scanner.

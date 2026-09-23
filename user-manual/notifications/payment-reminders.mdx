@@ -1,0 +1,130 @@
+---
+title: "Payment Reminders"
+description: "Automatically email customers before a payment link expires, a deposit balance falls due, or an invoice reaches its due date."
+---
+
+<Tip>New in Release 48</Tip>
+
+## Overview
+
+Payment reminders email customers who still owe money on a reservation shortly before their payment deadline passes. They cover the three deferred payment methods that come with a deadline: [payment links](/user-manual/payments/payment-lifecycle#payment-link), [deposit balances](/user-manual/payments/deposit-payments), and [invoices](/user-manual/payments/invoice-payments).
+
+Each method has its own reminder setting, so the timing can suit how customers pay — for example, a week's notice before an invoice falls due, but only a day's notice before a payment link expires. Reminders are off until you turn them on. From then on the platform sends them automatically, one per reservation, each with a **Pay now** button that takes the customer back to pay.
+
+## Turning On Reminders
+
+Reminders are configured in **Settings > Payment**, next to the setting that controls each method's deadline:
+
+| Payment method | Setting | Section | Reminder is timed from |
+|----------------|---------|---------|------------------------|
+| **Payment link** | **Send a payment reminder before expiry** | **Checkout settings** | The payment link's expiry |
+| **Deposit** | **Send a payment reminder before the deadline** | **Deposit payments** settings | The deadline for paying the remaining balance |
+| **Invoice** | **Send a payment reminder before the due date** | **Manual payments** settings | The invoice's due date |
+
+Enter how long before the deadline the reminder should be sent, in hours, days, or weeks, up to a maximum of four weeks. A value of **0** turns reminders off for that method.
+
+<Note>
+The invoice reminder setting is hidden while **Enable instant access** is on. [Instant access orders](/user-manual/payments/instant-access-orders) have no due date, so they never receive a payment reminder.
+</Note>
+
+<Warning>
+Reminders apply to existing reservations as well as new ones. When you turn a reminder on or lengthen its timing, every outstanding reservation whose deadline already falls inside the new window is sent its reminder at the next check.
+</Warning>
+
+### Overriding the Invoice Reminder for an Event
+
+The invoice reminder can be set per event, alongside the event's other [manual payment overrides](/user-manual/payments/invoice-payments#event-level-overrides):
+
+1. Open the event dashboard and edit **Purchase settings**
+2. Under **Manual payments**, turn on **Enabled manual payments** if it isn't already
+3. Set **Send a payment reminder before the due date**
+
+| Value | Effect on this event's invoices |
+|-------|---------------------------------|
+| Blank (shows **Inherits from company**) | The company setting applies |
+| A time | This time is used instead — even if invoice reminders are turned off at company level |
+| **0** | No invoice reminders are sent for this event |
+
+As with other event-level manual payment settings, the override only applies to orders where every item is for that event. Payment link and deposit reminders are set at company level only.
+
+## Which Reservations Are Reminded
+
+A reservation is reminded when it still has an outstanding balance, its deadline hasn't passed, and the reminder for its payment method is turned on:
+
+| Reservation | Reminder sent |
+|-------------|---------------|
+| **Awaiting payment link**, or a payment link the customer has opened but not finished paying | Payment link reminder |
+| **Partially paid**, including when the customer has started paying the remaining balance | Deposit balance reminder |
+| **Awaiting invoice** with a due date | Invoice reminder |
+
+No reminder is sent when:
+
+- The reservation has no deadline — for example, an [instant access](/user-manual/payments/instant-access-orders) invoice
+- The outstanding balance has already been paid
+- The deadline has already passed
+- The reservation contains items for a [cancelled event](/user-manual/event-management/event-cancellations)
+
+## How Reminders Are Sent
+
+The platform checks for reservations approaching their deadline every 30 minutes. Once the time left before a reservation's deadline falls within the reminder window for its payment method, a reminder email is queued for the customer. Because of the 30-minute cycle, a reminder can arrive up to 30 minutes after the configured time.
+
+- **One reminder per reservation.** Once a reservation has been reminded, it doesn't receive another automatic reminder — even if its deadline is extended or it moves to a different payment method. You can [resend the reminder](#resending-a-reminder) yourself.
+- **Timing follows the current deadline.** Each check uses the reservation's deadline at that moment, so extending a deadline before the reminder goes out moves the reminder back to match.
+- **Short deadlines are reminded straight away.** If a reservation starts with less time remaining than the reminder window — for example, a payment link valid for 24 hours with a reminder set for 2 days before expiry — the reminder is sent at the next check.
+
+<Note>
+The platform checks the reservation again just before the reminder is sent. If the customer has paid, the deadline has passed, the reservation is no longer awaiting payment, or the event has been cancelled in the meantime, the reminder isn't sent and appears in the [email logs](/user-manual/notifications/email-logs) with a **Failed** status.
+</Note>
+
+## What the Customer Receives
+
+Each reminder is worded for its payment method. All three state the amount still outstanding and the deadline, summarise the reserved items, and include a **Pay now** button:
+
+| Reminder | Default subject | **Pay now** takes the customer to |
+|----------|-----------------|-----------------------------------|
+| Payment link | *Reminder: your payment link with [Company] is expiring soon* | Their payment link, to complete payment |
+| Deposit balance | *Reminder: your balance with [Company] is due soon* | A payment link for the remaining balance |
+| Invoice | *Reminder: your invoice with [Company] is due soon* | Their order in your shop, where the payment instructions are shown |
+
+Reminders are sent to the customer's email address on the reservation.
+
+## Customising Reminder Text
+
+Reminder wording is edited in the [website text manager](/user-manual/notifications/customising-emails):
+
+1. Navigate to **Settings > Website Text**
+2. In the **Category** dropdown, select **Payment reminder emails** from the **Emails** group
+3. Edit the fields under **Payment link reminder email**, **Deposit balance reminder email**, or **Invoice reminder email**
+
+Each reminder has its own **Subject**, **Greeting**, **Header**, **Body**, warning line (**Expiry warning**, **Deadline warning**, or **Due date warning**), and **CTA button** text, so the wording can differ for each payment method. The placeholders available for each field are shown beneath it — for example, `:expires` inserts the deadline.
+
+Like other order emails, reminder text can also be customised for a specific event or event schedule. See [Scoping Customisations](/user-manual/notifications/customising-emails#scoping-customisations).
+
+## Tracking and Resending Reminders
+
+Reminders are logged like any other email, with the type **Payment deadline reminder**. Filter the [email logs](/user-manual/notifications/email-logs) by this type to see which customers have been reminded, or open a reservation's email log to check whether its reminder has gone out.
+
+### Resending a Reminder
+
+Once a reservation has received its automatic reminder, you can send it again:
+
+1. Open the reservation
+2. Open the dropdown on the **Complete order** button and click **View email log**
+3. Click **Resend deadline email**
+4. Confirm with **Yes**
+
+The reminder is sent to the customer's email address on the reservation and matches the payment method the reservation is currently on. **Resend deadline email** only appears after the automatic reminder has been sent, and only while the reservation is still awaiting payment, its deadline hasn't passed, and its event hasn't been cancelled.
+
+<Note>
+**Resend deadline email** and **Resend payment instructions** send different emails. **Resend payment instructions** resends the original payment link, invoice, or deposit received email, and lets you change the recipient and language or add your own text. **Resend deadline email** resends the payment reminder. See [Resending Emails from a Reservation](/user-manual/notifications/sending-emails#resending-emails-from-a-reservation).
+</Note>
+
+The email log is only available to users with the **View email logs** permission — see [Email Logs](/user-manual/notifications/email-logs#permissions).
+
+## Related Pages
+
+- [Payment Lifecycle](/user-manual/payments/payment-lifecycle) — How deferred payment flows and deadlines work
+- [Deposit Payments](/user-manual/payments/deposit-payments) — Deposit settings and balance deadlines
+- [Invoice Payments](/user-manual/payments/invoice-payments) — Invoice settings, due dates, and event-level overrides
+- [Customising Emails](/user-manual/notifications/customising-emails) — Change email content
+- [Email Logs](/user-manual/notifications/email-logs) — Track delivery status

@@ -17,7 +17,7 @@ These emails are sent to the people who purchase items, receive transfers, or in
 
 ### Order Confirmation
 
-Sent to the purchaser when an order is completed successfully. Contains the order reference, a summary of purchased items grouped by event, download links for tickets and QR codes, and calendar links.
+Sent to the purchaser when an order is completed successfully. Contains the order reference, a summary of purchased items grouped by event, download links for tickets and QR codes, and calendar links. Tickets bought through [resale](/user-manual/resale/introduction) are marked with a **Verified resale** badge beneath the item name — see [The Verified Resale Badge](/user-manual/resale/selling-and-buying#the-verified-resale-badge).
 
 | Detail | Value |
 |--------|-------|
@@ -27,7 +27,7 @@ Sent to the purchaser when an order is completed successfully. Contains the orde
 | **Conditions** | Not sent if confirmation emails are disabled for the channel (see [Disabling Confirmation Emails](/user-manual/notifications/email-settings#disabling-confirmation-emails)) |
 
 <Note>
-If an order contains items from multiple events and the **Dispatch confirmation email per inventory source** setting is enabled, the customer receives a separate confirmation email for each event rather than a single combined email.
+If an order contains items from multiple events and the **Send a separate confirmation email per event** setting is enabled, the customer receives a separate confirmation email for each event rather than a single combined email.
 </Note>
 
 ### Reservation Confirmation
@@ -64,6 +64,19 @@ Sent when a deposit payment is received for a partially paid order. Confirms the
 | **Triggered by** | Deposit payment processed |
 | **Recipient** | The email address on the order |
 | **Subject** | *[Company] has received your deposit* |
+
+### Payment Deadline Reminder
+
+<Tip>New in Release 48</Tip>
+
+Sent automatically before a reservation's payment deadline while the customer still has an outstanding balance. There are three versions — for payment links, deposit balances, and invoices — each stating the amount outstanding and the deadline, with a **Pay now** button.
+
+| Detail | Value |
+|--------|-------|
+| **Triggered by** | Automatic — a configurable time before a payment link expires, a deposit balance is due, or an invoice is due |
+| **Recipient** | The email address on the order |
+| **Subject** | *Reminder: your payment link with [Company] is expiring soon*, *Reminder: your balance with [Company] is due soon*, or *Reminder: your invoice with [Company] is due soon* |
+| **Conditions** | Only sent if [payment reminders](/user-manual/notifications/payment-reminders) are turned on for the payment method. Each reservation is reminded once automatically |
 
 ### Tax Receipt
 
@@ -193,6 +206,24 @@ Sent when an attendee's seat or space is moved to a different location.
 | **Triggered by** | Admin reallocates a customer's seat or space |
 | **Recipient** | The email address on the order |
 
+### Resale Seller Notifications
+
+<Tip>Listing closure emails added in Release 47</Tip>
+
+Sent to customers who list tickets for [resale](/user-manual/resale/introduction), to keep them updated on their listing. Each has a **View resale listing** button.
+
+| Email | Subject | Triggered by |
+|-------|---------|--------------|
+| Listing active | *Your resale listing is active!* | The listing goes live and becomes available to buyers |
+| Items sold | *Congratulations! Your tickets have been sold* | One or more items in the listing are bought |
+| Listing expired | *Your resale listing has expired* | The listing reaches the end of its sale time with items still unsold |
+| Listing closed | *Your resale listing has been closed* | The seller or an admin closes the listing while items are still unsold |
+
+| Detail | Value |
+|--------|-------|
+| **Recipient** | The seller |
+| **Conditions** | Only sent when resale seller [notifications](/user-manual/resale/configuration#notifications) are enabled for the event. The expired and closed emails list the unsold items and aren't sent if everything in the listing sold |
+
 ### Added to Customer Group
 
 Sent when a customer is added to a customer group, welcoming them and explaining any benefits.
@@ -251,7 +282,7 @@ Sent to designated staff members whenever a purchase is made for their event. Co
 | **Conditions** | Only sent if **Send purchase summary email** is enabled for the event |
 
 <Note>
-An enriched variant is available that includes additional detail such as billing address, customer address, and data capture responses. Enable this via **Enable enriched purchase notifications** in company settings.
+An enriched variant is available that includes additional detail such as billing address, customer address, and data capture responses. Enable this via **Enriched purchase notifications** in company settings.
 </Note>
 
 ### Event Approval Requested
@@ -261,7 +292,7 @@ Sent to approval recipients when a user requests approval to publish an event. C
 | Detail | Value |
 |--------|-------|
 | **Triggered by** | User requests publishing approval for an event |
-| **Recipient** | The email addresses configured in **Event approval email(s)** in company settings |
+| **Recipient** | The email addresses configured in **Event approval emails** in General settings |
 | **Subject** | *Event approval request: [event name]* |
 | **Conditions** | Only sent if approval email addresses are configured |
 
@@ -311,7 +342,7 @@ Sent to designated recipients when a new event is created or copied. Used to not
 
 ### Bulk Refund Summary
 
-Sent after a bulk refund operation completes, summarising the results.
+Sent after a bulk refund operation completes, summarising the results: the orders that were refunded (with the amount and payment gateway) or cancelled, any refunds still being confirmed by the payment provider, and any orders that failed. See [Bulk Refunds](/user-manual/order-management/refunds-and-cancellations#bulk-refunds).
 
 | Detail | Value |
 |--------|-------|
@@ -337,4 +368,5 @@ These emails are sent to system administrators for operational purposes. They ar
 - [Email Settings](/user-manual/notifications/email-settings) — Configure which emails are sent
 - [Customising Emails](/user-manual/notifications/customising-emails) — Change email content
 - [Sending Emails](/user-manual/notifications/sending-emails) — Send and resend emails manually
+- [Payment Reminders](/user-manual/notifications/payment-reminders) — Automatic reminders before payment deadlines
 - [Email Logs](/user-manual/notifications/email-logs) — Track delivery status

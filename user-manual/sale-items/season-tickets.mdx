@@ -42,9 +42,25 @@ Season tickets work within the following constraints:
 | Requirement | Detail |
 |-------------|--------|
 | **Schedule** | The event must be part of a schedule. A season ticket on a non-scheduled event behaves like a regular ticket. |
-| **No timeslots** | Events with season tickets cannot use timeslots. You'll see: *"You cannot enable timeslots for an event which has got season tickets"* |
+| **Not with both timeslots and a seating plan** | An event can combine season tickets with [timeslots](/user-manual/event-management/timeslots) or with a [seating plan](/user-manual/event-management/seated-events), but not with both. See [Season Tickets on Timeslot Events](#season-tickets-on-timeslot-events). <Tip>Season tickets on timeslot events added in Release 47</Tip> |
 | **No teams** | Events with season tickets cannot use teams. You'll see: *"You cannot enable teams for an event which has got season tickets"* |
 | **Feature flag** | The **Season tickets** feature must be enabled for your company |
+
+### Season Tickets on Timeslot Events
+
+<Tip>Added in Release 47</Tip>
+
+Season tickets can be added to events that use [timeslots](/user-manual/event-management/timeslots) — for example, a membership pass for an attraction that sells its day tickets by entry time. A season ticket covers the event as a whole rather than one of its timeslots: it isn't restricted to a timeslot and doesn't count towards any timeslot's capacity. When the event has timeslots, the season ticket form reminds you: *"Season tickets aren't restricted by timeslot and do not count towards timeslot capacity."*
+
+An event can have any two of timeslots, season tickets, and a seating plan, but not all three:
+
+| You try to… | On an event that already has… | You'll see |
+|-------------|-------------------------------|------------|
+| Create a season ticket | A seating plan and timeslots | *"You cannot create season tickets on a seated event that has timeslots."* |
+| Add timeslots | A seating plan and season tickets | *"You cannot enable timeslots for a seated event which has got season tickets"* |
+| Assign a seating plan | Timeslots and season tickets | *"You cannot assign a seating plan to an event that already has timeslots and season tickets."* |
+
+When you assign a season ticket to every event in the schedule, seated events that already have timeslots are skipped, and a warning lists them: *"The season ticket was not added to the following events, as they are seated and already have timeslots: …"*
 
 ## Creating a Season Ticket
 
@@ -92,8 +108,7 @@ Season tickets have **unlimited stock** by default. You can configure:
 
 | Field | Description |
 |-------|-------------|
-| **Minimum order quantity** | Fewest season tickets a customer can buy in one order |
-| **Maximum order quantity** | Most season tickets a customer can buy in one order |
+| **Min & Max order quantity** | Fewest and most season tickets a customer can buy in one order, entered together in one field. See [Order Limits](/user-manual/sale-items/core-concepts#order-limits) for the defaults and validation. <Tip>Redesigned in Release 48</Tip> |
 | **Multiples of** | Require purchases in set multiples (e.g. pairs) |
 | **Purchase limit per customer** | Maximum a single customer can buy across all orders |
 

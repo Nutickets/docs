@@ -14,9 +14,20 @@ A schedule is a group of related events. Schedules enable:
 Schedules can be created in two ways:
 
 1. **Linking standalone events** — Attach multiple separate events together into a schedule
-2. **Creating repeating events** — Turn a single event into a repeating series
+2. **Creating repeating events** — Turn a single event into a repeating series (see [Creating Repeating Events](#creating-repeating-events))
 
 These approaches can be combined: standalone events can be attached to existing repeating series and vice versa.
+
+### Adding Existing Events to a Schedule
+
+1. Open the schedule dashboard by clicking **Create schedule** or **Manage schedule** on the event dashboard.
+2. Open the **Schedule help** window. It opens automatically when the event isn't in a schedule yet; on a mixed events schedule, click **Add events**.
+3. Open the **Attach existing event** tab and click **Attach existing event**.
+4. Choose the event from **Select existing event**, then click **Add to schedule**.
+
+On a repeating events schedule, **Add events** opens the **Schedule repeats** modal instead — see [Creating Repeating Events](#creating-repeating-events).
+
+Only events that haven't ended and aren't already in a schedule are listed. Each is shown with its start and end date and time, so events on the same day — such as a matinee and an evening performance — can be told apart. <Tip>Event times added to the event list in Release 47</Tip>
 
 ### Removing Events from a Schedule
 
@@ -113,8 +124,6 @@ The new group appears as a tab on the schedule dashboard immediately.
 
 ### Showing Groups in the Shop
 
-<Tip>New in Release 46</Tip>
-
 By default, schedule groups are an admin-only organisation tool — customers don't see which group an event belongs to. You can change this per group with the **Group is visible to customers** toggle in the group's settings.
 
 The toggle's help text reads: *"When enabled the name of the schedule group will be displayed to the customer during date selection."*
@@ -152,7 +161,12 @@ This lets you make targeted changes — for example, adjusting ticket prices for
 
 ## Creating Repeating Events
 
-When creating repeating events from an existing event, you can configure:
+Repeating events copy one event onto a series of new dates within the same schedule. You can set them up in two places:
+
+- **While creating an event** — turn on **Repeat event** under **Event dates** in the **Location & Dates** step of the [event creation wizard](/user-manual/event-management/introduction#creating-events). The event you are creating is always part of the list, using the dates from **Event dates**, and all of the dates are grouped into a **Repeating events** schedule. When you save, the event is created and the other dates are queued for creation in the background — you are taken to the schedule dashboard with the message *Your event has been created and future dates have been queued for creation.*
+- **From an existing event** — open the schedule dashboard (**Create schedule** or **Manage schedule** on the event dashboard) and click **Add events**. On a repeating events schedule this opens the **Schedule repeats** modal directly; on a mixed events schedule, or for an event that isn't scheduled yet, choose **Schedule new event** first. The modal shows the **Event to be repeated** — click **Edit** to search for a different event in the schedule to use as the template.
+
+Both use the same controls to choose the dates.
 
 ### Repeat Cycle
 
@@ -166,19 +180,53 @@ When creating repeating events from an existing event, you can configure:
 
 ### Repeat Window
 
-- **Repeat start window**: The date from which repeats should begin
-- **Repeat end window**: Either:
-  - An end date (repeats stop on or before this date), or
-  - A number of occurrences (e.g., repeat for 30 events)
+- **Repeat start window**: The date from which repeats should begin. Only shown in the **Schedule repeats** modal — when creating an event, repeats follow on from the event's own dates.
+- The end of the window is either:
+  - **Repeat ends on or before** — an end date, or
+  - **Repeat ends after** — a number of events (e.g., repeat for 30 events)
 
 <Warning>
-  A maximum of 31 events can be created in a single repeat action. For larger
-  schedules, add repeats in batches.
+  Each repeat action can create a limited number of events — 31 unless your
+  account manager has set a different limit for your account. The limit is
+  shown as **Maximum** beside **Repeat ends after**. For larger schedules, add
+  repeats in batches.
 </Warning>
+
+### Adjusting Individual Dates
+
+<Tip>Custom times for repeat events added in Release 48</Tip>
+
+The dates you choose are listed under **Events to be scheduled**, each with its **Start** and **End** date and time, and a **Total** count (plus a **Remaining** count once you are close to the maximum). Every date can be changed on its own, so repeats don't have to share the original event's times — for example, to create a matinee and an evening performance on the same day in one go.
+
+To change a date:
+
+1. Click **Edit** on its row. The **Start** and **End** become date and time fields.
+2. Set the date and times for that occurrence.
+3. Click **Done**.
+
+To remove a date, click the delete (bin) icon on its row.
+
+Editing or removing a date that was generated by a daily, weekly, monthly, or annual cycle switches the **Repeat cycle** to **Custom**, keeping every date already in the list, so your changes are not overwritten by the cycle.
+
+With **Custom** selected, there are two ways to add dates:
+
+- **Pick from the calendar** — each date you click adds an event on that day at the original event's start time and duration. Clicking a date that is already in the list adds another event on that day, which you then edit to a different time.
+- **Add date** — adds an empty row ready for you to enter its start and end.
+
+When creating an event, its own row can't be edited or removed here — change it with **Event dates** instead.
+
+Each row is checked as you edit, and you can't move on (**Next**, or **Save as draft** in the wizard) until every row is valid:
+
+| Message | Cause |
+| ------- | ----- |
+| *Enter both a start and end date and time.* | The row is missing a start or an end |
+| *The start date and time must be in the future.* | The start has already passed |
+| *Each repeat event needs a unique start time.* | Another row starts at the same date and time |
+| *The end date and time must be after the start date and time.* | The end is not after the start |
 
 ### What Gets Copied
 
-When creating repeating events, you can select which elements to copy from the original event:
+When adding repeats with the **Schedule repeats** modal, the next step lets you select which elements to copy from the original event:
 
 - **Sale items** (tickets, add-ons) — Copied items retain a reference to the original, allowing bulk editing and rebooking across the schedule
 - **Seating plan** — The seating configuration is replicated
@@ -191,7 +239,7 @@ When creating repeating events, you can select which elements to copy from the o
 
 ### Publishing
 
-You can choose to:
+In the **Schedule repeats** modal, the **Publish** toggle (*Do you want the new event(s) to be published immediately?*) controls how new events are created:
 
-- **Publish immediately** — Events go live as they are created
-- **Publish manually** — Events are created as drafts, allowing you to publish them individually
+- **On** — Events go live as they are created
+- **Off** (default) — Events are created as drafts, allowing you to publish them individually

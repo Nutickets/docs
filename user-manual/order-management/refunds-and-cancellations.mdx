@@ -29,7 +29,7 @@ Both actions restock the cancelled items (releasing capacity back to general sal
 
 ### Starting a Refund
 
-1. Open the order in admin and click **Refund order**.
+1. Open the order in admin and click **Refund/cancel items**.
 2. Select which items to refund using the checkboxes.
 3. Optionally set a [cancellation fee](#cancellation-fees) for the items being refunded.
 4. Choose the refund method:
@@ -139,9 +139,9 @@ Refunds can also be processed programmatically. Use the API to [refund an entire
 
 To cancel items without returning money:
 
-1. Open the order in admin and click **Refund order**.
+1. Open the order in admin and click **Refund/cancel items**.
 2. Select the items to cancel.
-3. Choose **Cancellation** mode (instead of refund).
+3. Choose **Cancel items** as the refund type.
 4. Optionally choose whether to notify the customer.
 5. Submit.
 
@@ -150,6 +150,31 @@ Cancelled items are removed from the order, stock is restocked, and the order st
 <Note>
 Wallet top-up items that are cancelled will have the corresponding balance deducted from the customer's wallet. If the customer has already spent more than the wallet contains, the cancellation is blocked.
 </Note>
+
+### Cancelling Resale Tickets
+
+<Tip>Resale ticket cancellation added in Release 48</Tip>
+
+Tickets a customer bought through [primary resale](/user-manual/resale/introduction) can't be refunded, because the buyer's payment has already been paid out to the seller. They can be cancelled, though — for example to void a ticket after a chargeback on the original purchase, or after a resale that broke the event's terms. Cancelling moves no money: the buyer isn't refunded and the seller keeps their [payout](/user-manual/resale/selling-and-buying#how-sellers-get-paid).
+
+On the refund page, resale tickets carry a **Resale** badge and a banner explains: *"Refunds aren't supported for resale tickets yet. Cancelling voids the ticket without returning any money to the customer."*
+
+1. Open the buyer's order in admin and click **Refund/cancel items**.
+2. Select the resale tickets and choose **Cancel items** as the refund type.
+3. Decide whether to restock the tickets (see below).
+4. Optionally choose whether to notify the customer.
+5. Submit.
+
+| Restock | What happens to the ticket's place |
+|---|---|
+| **On** | It is released back to general sale on the primary market. It does not return to the resale marketplace, and the seller's [listing](/user-manual/resale/selling-and-buying#listing-lifecycle-and-statuses) stays closed. The refund page confirms: *"Resale items will be released back onto the primary market and the sellers' original resale listings will remain closed."* |
+| **Off** | It is held back from sale — stock and capacity limits are reduced so the place isn't sold again. |
+
+<Note>
+A resale ticket can only be cancelled once the resale has settled — the buyer's order is complete and the seller's payout has been processed. Until then (for example, while the buyer's order is still awaiting an invoice or payment link payment), cancelling is blocked with **We're currently unable to refund resale order items.** Any refund type other than **Cancel items** is blocked with the same message.
+</Note>
+
+Resale tickets can also be cancelled in bulk — see [Bulk Refunds](#bulk-refunds).
 
 ## Customer Self-Service Refunds
 
@@ -190,32 +215,34 @@ Customers who need a refund to their original payment method (rather than accoun
 
 ## Bulk Refunds
 
-For situations where you need to refund multiple orders at once — such as cancelling an event — use the bulk refund feature.
+For situations where you need to refund or cancel many orders at once — such as a cancelled or postponed event — use the bulk refund page. Open it from the event dashboard by clicking **Issue refunds**. It also opens automatically, with the event(s) pre-selected, when you [cancel an event from the event listing](/user-manual/event-management/event-cancellations#from-the-event-listing).
 
 ### Processing a Bulk Refund
 
-1. Navigate to **Sales > Orders** and click **Bulk refund**.
-2. Select the event(s) whose orders you want to refund.
-3. The system displays all eligible orders with refundable items from those events.
-4. Optionally, filter the order list to narrow which orders are included:
+1. Open the event dashboard and click **Issue refunds**.
+2. The page lists the orders containing items from the event, grouped under the event. Tick the event to select every order that can be selected, or expand it to pick orders individually — expanding an order shows its items for the event. Only items linked to the event are refunded; an order that also contains items from other events is partially refunded. See [Choosing Which Orders to Include](#choosing-which-orders-to-include) for what each order's badges mean and which orders can be selected.
+3. Optionally, filter the order list to narrow which orders are included:
 
 | Filter | Description |
 |--------|-------------|
 | **Payment method** | Only show orders paid with a specific payment method |
-| **Sales channel** | Only show orders from a specific channel (online, box office, import, API, invoice, kiosk) |
+| **Sales channels** | Only show orders from a specific channel (online, box office, import, API, invoice, kiosk) |
+| **Cancelled orders** | **Show** (the default) lists every order. **Show only** lists orders whose items for the event have all been cancelled — a refund also cancels items, so refunded orders are included. **Hide** lists only orders that still have live items for the event. See [Cancelling Now, Refunding Later](#cancelling-now-refunding-later). <Tip>New in Release 48</Tip> |
 
-5. Configure the refund settings:
-   - **Refund type** — **Online** (refund to original payment method via gateway), **Balance** (refund to customer account balance), **Offline** (manual refund recorded without gateway processing), or **Cancel** (cancel items without issuing a monetary refund)
-   - **Cancellation fee** — An optional fee deducted from each refund, distributed proportionally across items based on their refundable amounts. Requires the [cancellation fees](#cancellation-fees) feature and the **Apply cancellation fees** permission.
-   - **Restock items** — Whether to release capacity
-   - **Refund processing fees** — Include or exclude
-   - **Refund reseller fees** — Include or exclude
-   - **Notify customers** — Send refund confirmation emails
-   - **Additional email text** — Custom message to include in the notification
-   - **Reason** — Refund reason for records
-6. Submit the bulk refund.
+4. Configure the refund settings:
+   - **Refund type** — **Refund online** (return the money to the original payment method via the gateway), **Refund to balance** (credit the customer's account balance — only offered when **Enable balance refunds in admin** is turned on in the [balance settings](/user-manual/account-balances/self-service-refunds#enabling-self-service-refunds)), **Refund offline** (cancel the items and record the refund without any gateway processing — you return the money yourself), or **Cancel items** (cancel the items without returning any money)
+   - **Refund processing fees for the selected orders** and **Refund [platform name] fees for the selected orders** — Whether processing fees and platform fees are included in the refund. Not shown for **Cancel items**.
+   - **Restock items for the selected orders** — Whether to release the items' capacity back to sale. When unticked, the page warns that stock and capacity limits will be reduced instead.
+   - **Cancellation fee** — An optional fee deducted from each refund, distributed proportionally across items based on their refundable amounts. Not shown for **Cancel items**. Requires the [cancellation fees](#cancellation-fees) feature and the **Apply cancellation fees** permission.
+   - **Refund reason** — Refund reason for records
+   - **Send a notification to all of the purchasers of the selected orders** — Email each customer about their refund or cancellation, with optional **Additional email text** to include in the message
+5. Click **Refund** and confirm.
 
-Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue, so one problem order never blocks the rest of the batch. After all orders are processed, you receive a **Bulk refund summary email** showing which orders were successfully refunded and which failed.
+<Note>
+The bulk refund page requires the **Refund** permission for orders, and processing a **Cancel items** run also requires the **Cancel** permission. See the [permissions reference](/user-manual/system-access/permissions-reference).
+</Note>
+
+Each order is processed individually. If any individual order fails to refund (e.g. due to a gateway error), it is skipped and the rest continue, so one problem order never blocks the rest of the batch. After all orders are processed, you receive a **Bulk refund summary email** listing the orders that were refunded (with the amount and payment gateway) or cancelled, and any that failed.
 
 After you submit, the platform takes you straight to the [Bulk Refund Status](#following-a-bulk-refund-in-real-time) page for the batch, where you can watch progress without waiting for the email.
 
@@ -225,6 +252,56 @@ Bulk refunds cannot be undone. Review the list of affected orders carefully befo
 
 <Note>
 Orders that are already part of an in-progress bulk refund are held back from the picker until that batch finishes. If you open the Bulk refund page while a batch is still running, a banner reading **You have bulk refunds in progress** lists each in-flight batch with a **View status** link, alongside the note *"Orders included in these batches are excluded from the list below until they finish processing."* This prevents an order being included in two batches at once.
+</Note>
+
+### Choosing Which Orders to Include
+
+<Tip>Order status and refund protection badges added in Release 48</Tip>
+
+Each order in the list shows badges so you can see where it stands before you select it:
+
+| Badge | Meaning |
+|---|---|
+| **Cancelled** | All of the order's items for the event have been cancelled, but no money has been paid back yet — a refund is still owed. |
+| **Refunded** | All of the order's items for the event have been cancelled and money has been paid back. The order is settled. |
+| **Protected** | The customer bought refund protection for the order. |
+| **Claimed** | A refund protection claim has been paid out on the order. |
+
+The **Protected** and **Claimed** badges only appear when [Protect Group](/user-manual/refund-protection/protect-group) or [manual refund protection](/user-manual/refund-protection/alternative-providers) is enabled. Orders containing resale tickets are also labelled **Resale**, and orders created through an [order modification](/user-manual/order-management/order-modifications) are labelled **Modified**.
+
+Which orders you can select depends on the refund type. Orders that can't be selected are shown struck through, and switching the refund type automatically deselects any orders the new type can't act on.
+
+| Refund type | Orders you can select |
+|---|---|
+| **Cancel items** | Orders that still have live items for the event. Orders whose items are all cancelled can't be cancelled again. |
+| **Refund online**, **Refund to balance**, **Refund offline** | Orders with items that still have money to return — including items that were cancelled without a refund. Orders with nothing left to return can't be selected: those already refunded, those whose tickets were replaced through resale or an order modification, and those with a refund protection claim paid out (**Claimed**), since the customer has already been reimbursed. |
+
+<Note>
+An item that has had any money paid back counts as refunded here, even if retained fees or a cancellation fee leave part of its balance behind. To return that remainder, open the order and refund it individually — see [Refunding Cancelled or Partially Refunded Items](#refunding-cancelled-or-partially-refunded-items).
+</Note>
+
+The page loads up to 500 orders at a time. Orders that still have live tickets for the event are listed first, then cancelled orders still awaiting a refund, then settled orders — newest first within each group — so each run you complete sinks to the bottom and the next batch is ready at the top. When the list reaches the limit, the page warns you that the refund needs to be completed in multiple steps.
+
+<Note>
+Some orders can be selected but fail when processed, with the reason shown on the [Bulk Refund Status](#following-a-bulk-refund-in-real-time) page:
+
+- Orders containing resale tickets can only be processed with **Cancel items** — any other refund type fails with **We're currently unable to refund resale order items.** When your selection includes resale orders, the page reminds you that cancelling voids the tickets without returning any money. With **Cancel items** and restocking selected, their places are released back onto the primary market. See [Cancelling Resale Tickets](#cancelling-resale-tickets).
+- Tickets carried over through an order modification can't be refunded or cancelled in bulk — the order fails with **We're currently unable to refund modified order items.** Process these orders individually from the order page.
+</Note>
+
+### Cancelling Now, Refunding Later
+
+<Tip>Cancel-then-refund support added in Release 48</Tip>
+
+When an event is cancelled or postponed, you may want to void every ticket straight away but issue — or decide on — the refunds later. The bulk refund page supports this as two separate runs, using the **Cancelled orders** filter to separate the orders that still need each step:
+
+1. **Cancel the tickets.** Set **Cancelled orders** to **Hide**, choose **Cancel items**, select the orders, and submit. The tickets are cancelled, so they're no longer valid, and no money moves.
+2. **Refund them later.** When you're ready, return to the page, set **Cancelled orders** to **Show only**, choose **Refund online**, **Refund to balance**, or **Refund offline**, select the orders, and submit. The refund is issued against the items you cancelled in the first run, and their badge changes from **Cancelled** to **Refunded**.
+
+The filter's help text summarises this: *"Orders cancelled without a refund can still be refunded here. Hide them to cancel the remaining orders, or show only them to issue their refunds."*
+
+<Note>
+Stock is only adjusted when items are first cancelled, so decide on **Restock items for the selected orders** during the cancellation run. When you later refund items that were already cancelled, their stock isn't adjusted a second time.
 </Note>
 
 ### Following a Bulk Refund in Real Time
@@ -271,8 +348,6 @@ Only update a pending refund's status once you have confirmed the actual outcome
 
 ### Tracking In-Flight Refunds
 
-<Tip>New in Release 46</Tip>
-
 Some payment gateways — including Revolut and Nuvei, as well as certain Stripe card types — return a **pending** status when a refund is submitted. The actual outcome arrives later via a webhook from the gateway. Bulk refunds now track these delayed refunds end-to-end so you have full visibility on what's still in progress and what's been confirmed.
 
 | Email | When it sends | What it contains |
@@ -297,6 +372,9 @@ Not all items or orders can be refunded. The following conditions prevent a refu
 | **Order is frozen** | The order is locked during an active [modification](/user-manual/order-management/order-modifications) or resale listing. Cancel the modification or wait for it to complete first. Once a modification completes, refund the replacement order — see [Refunding a Modified Order](/user-manual/order-management/order-modifications#refunding-a-modified-order). |
 | **Item already refunded** | The item has no refundable balance left. A cancelled or partially refunded item that still has a remaining balance can be refunded — see [Refunding Cancelled or Partially Refunded Items](#refunding-cancelled-or-partially-refunded-items). |
 | **Item replaced by resale or modification** | The item's value was already returned elsewhere (resale proceeds or a balance transfer to the replacement order). Refund the replacement order instead. |
+| **Resale ticket** | Tickets bought through resale can't be refunded: **We're currently unable to refund resale order items.** Once the resale has settled they can be cancelled without a refund instead — see [Cancelling Resale Tickets](#cancelling-resale-tickets). |
+| **Refund protection claimed** | The customer has already been reimbursed through their refund protection policy: **This item has already been refunded via the refund protection policy and cannot be refunded again** |
+| **Nothing to pay back** | The retained fees and any cancellation fee would cover the whole balance of the selected items: **This refund would pay nothing back, because the retained fees and any cancellation fee cover the full balance of the items selected.** |
 | **Claimed gift voucher** | Gift vouchers that have been redeemed by the recipient cannot be refunded. |
 | **Pending refund in progress** | Another refund is currently being processed for this order (common with asynchronous payment gateways). Wait for it to complete. |
 | **Deposit item** | Deposit payments are non-refundable through the standard refund flow. |

@@ -12,7 +12,7 @@ This is useful for:
 - Venues with high-throughput entry points where tap-to-enter is faster than QR scanning
 - Events where attendees may not have their phone readily available
 
-All pairing happens on-site through the access control mobile app. Staff pair tags to tickets during check-in or at a dedicated NFC station.
+All pairing happens on-site. Staff pair tags to tickets with the access control mobile app during check-in or at a dedicated NFC station, or with [Box Office Pro](/mobile-apps/box-office-pro/introduction) at the point of sale.
 
 ## Setting the Scanning Mode
 
@@ -44,8 +44,10 @@ Staff use the access control mobile app to link a physical tag to a ticket:
 
 Once paired, the attendee can tap their NFC tag at any scanning point for that event instead of presenting a QR code.
 
+Tickets sold in [Box Office Pro](/mobile-apps/box-office-pro/orders-and-after-the-sale#nfc-ticket-pairing) can also be paired at the point of sale, straight after payment, when the app's **NFC pairing** setting is on. The app steps through each ticket and season ticket on the order for events using **NFC (online)**, asking staff to tap a tag for each one before showing the order confirmation.
+
 <Note>
-The access control app and a network connection are required for pairing. All pairing is done on-site by event staff — attendees cannot pair tags themselves through the web or customer account.
+A network connection is required for pairing, whichever app is used. All pairing is done on-site by event staff — attendees cannot pair tags themselves through the web or customer account.
 </Note>
 
 NFC tags can also be paired to tickets programmatically via the [Pair NFC Ticket](/api-reference/access-control/pair-nfc-ticket) API endpoint.

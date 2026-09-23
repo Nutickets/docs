@@ -85,9 +85,12 @@ For events that belong to a [schedule](/user-manual/event-management/schedules),
 Each event has a maximum number of timeslots, controlled by a company setting (default: `30`). The creation form displays the remaining capacity and blocks submission if the generated timeslots would exceed it.
 
 <Warning>
-  Timeslots cannot be created if the event already has [season
-  tickets](/user-manual/sale-items/season-tickets). The two features are
-  mutually exclusive.
+  Timeslots can't be created on a [seated event](/user-manual/event-management/seated-events)
+  that already has [season tickets](/user-manual/sale-items/season-tickets) — an event can have
+  any two of timeslots, season tickets, and a seating plan, but not all three. When creating
+  timeslots across a schedule, seated events with season tickets are skipped and listed in a
+  warning. See [Season Tickets on Timeslot Events](/user-manual/sale-items/season-tickets#season-tickets-on-timeslot-events).
+  <Tip>Timeslots on events with season tickets added in Release 47</Tip>
 </Warning>
 
 ## Managing Timeslots
@@ -180,7 +183,7 @@ Timeslots that are sold out or off sale appear greyed-out with a **Sold Out** or
 
 When the timeslot selection UI is enabled as an [early access feature](/user-manual/ticket-shop/shop-settings#early-access-features), customers choose a date and time through a simplified, step-by-step flow that also covers [scheduled events](/user-manual/event-management/schedules). The same flow handles both single-day timeslotted events and longer schedules.
 
-**Choosing a date.** Customers first pick a date. Short date ranges are shown as a single list grouped under month headings (**Select date**). When there are many dates spanning several months, a **Select month** step appears first: customers pick a month, then move between months using the **previous** and **next** month arrows or return to the full list with **View other months**. Each entry shows how many dates or slots it contains, or **Sold out** when nothing is available.
+**Choosing a date.** Customers first pick a date. Dates are listed in date order, and events on the same day in order of their start time. When there are fewer than 10 dates, they're shown as a single list grouped under month headings (**Select date**). With 10 or more dates spread over several months, dates are shown a month at a time: customers move between months using the **previous** and **next** month arrows, or use **View other months** to pick from the **Select month** list. The selector opens on the event's own month — or the first month with dates, if the event's month has none — but starts on the **Select month** list when the event's date has already passed, or when the opening month has only one date while another month offers more. When every date falls in the same month, there's no month step at all: the dates are listed straight away under the month's name. <Tip>Single-month schedules skip the month step in Release 47</Tip> Each entry shows how many dates or slots it contains, or **Sold out** when nothing is available.
 
 **Choosing a time.** After selecting a date, customers choose a timeslot. When a day has many timeslots spread across the day, they are grouped into segments:
 
@@ -198,6 +201,17 @@ Selecting a segment shows just those times, with **View all timeslots** to see t
 <Note>
 If the available dates and times cannot be loaded, customers see the message *We could not load the available dates and times. Please try again.* with a **Try again** action. Months that have already loaded stay available while the failed request is retried.
 </Note>
+
+#### Dates With a Single Time
+
+<Tip>Single-time dates skip the time step in Release 48</Tip>
+
+When a customer picks a date that has only one timeslot they can buy — whether on a single event or across the events in a [schedule](/user-manual/event-management/schedules) — there is nothing left to choose, so the time step is skipped: that timeslot is selected for them and they go straight to choosing tickets. Sold out and off sale timeslots don't count towards this, so a date with only one timeslot still available is skipped too.
+
+The list of times is still shown when:
+
+- The event also offers [event passes](#event-passes) — **Whole Event** is always a second option alongside the day's time.
+- The customer arrives at the date using the **Previous date** and **Next date** arrows, so they can keep stepping through the times on each day.
 
 ### Display Format
 

@@ -5,7 +5,7 @@ description: "Configure the environment-level settings that shape the overall ti
 
 ## Overview
 
-Shop settings are the environment-level controls that affect the entire ticket shop -- not a single event, basket, or checkout step, but the overall shopping experience every customer encounters. These include the virtual waiting room for managing high-demand traffic, cookie consent and privacy controls, SEO and search engine indexing, analytics integration, and how dates and times are displayed.
+Shop settings are the environment-level controls that affect the entire ticket shop -- not a single event, basket, or checkout step, but the overall shopping experience every customer encounters. These include the virtual waiting room for managing high-demand traffic, which parts of the shop are visible to customers, cookie consent and privacy controls, SEO and search engine indexing, analytics integration, and how dates and times are displayed.
 
 Most of these settings live in **General Settings** under your admin panel, while the waiting room is configured through the **theme editor**. This page walks through each setting area and explains how it affects your customers.
 
@@ -14,6 +14,48 @@ Most of these settings live in **General Settings** under your admin panel, whil
 The virtual waiting room is a queue system that manages traffic during high-demand on-sale periods. When your shop reaches its capacity limit, incoming customers are placed in a queue and admitted automatically as space becomes available.
 
 For full details on configuration, capacity tracking, queue behaviour, and polling intervals, see [Waiting Rooms](/user-manual/ticket-shop/waiting-rooms).
+
+## Shop Visibility
+
+<Tip>New in Release 48</Tip>
+
+Your ticket shop can be switched off in whole or in part. You might do this when all sales go through a parent company's shop or your own website, or when customers should only reach your events through direct links and embeds rather than by browsing. Disabling the shop is set up for your account by your account manager. Once it is, a **Shop visibility** page appears under **Settings** for users who can edit company settings.
+
+The page shows which mode applies to your shop:
+
+| Mode | What it means |
+|------|---------------|
+| **Full** | All shop pages are disabled, including event, checkout and account pages. |
+| **Partial** | All shop pages are accessible; only the pages you disable will be blocked. |
+
+[Box office](/user-manual/box-office/introduction) is unaffected in both modes, so staff can keep selling in person. While the shop is fully disabled, **View shop** in admin warns that *"The shop for this company is disabled, so can only be accessed through box office."*
+
+### Choosing Which Pages to Disable
+
+In partial mode, choose the pages to block under **Disabled pages**, then click **Submit**:
+
+| Page | What it blocks |
+|------|----------------|
+| **Articles listing** | The page listing your [articles](/user-manual/cms/articles), and its search |
+| **Donations listing** | The page listing your [donations](/user-manual/sale-items/donations) |
+| **Events listing** | The events browse page, and its search |
+| **Gift vouchers listing** | The page listing your [gift vouchers](/user-manual/sale-items/gift-vouchers) |
+| **Homepage, pages and articles** | Your homepage, your [pages](/user-manual/cms/pages), and individual articles |
+
+Disabled pages are also hidden from your shop's [menus](/user-manual/cms/menus), so customers aren't shown links they can't use. Event pages, checkout, and customer accounts stay available, so customers can still buy through direct event links or your [website integration](/user-manual/technical/iframe-embeds).
+
+### Sending Customers Somewhere Else
+
+Use **Discovery URL** to choose where customers go when they reach a disabled page, such as your main website's events page.
+
+- **With a discovery URL**, customers are redirected to it. The platform adds `dsr=1` to the address, so your website can recognise visitors who arrived from a disabled shop page.
+- **Without one**, customers see a **Page disabled** screen reading *"This shop page has been disabled."* In partial mode, the screen has a **Back** button.
+
+Inside an embedded checkout, the discovery URL opens in the whole browser window rather than inside the frame. Without a discovery URL, the **Page disabled** screen offers **Close** instead.
+
+<Note>
+If your company is a child of another company, fully disabling the shop works differently. With global login enabled, customers are redirected to the parent company's shop, and the page notes that you should *"configure your parent shop's visibility settings"*. With global login disabled, the shop can't be fully disabled, because customers would no longer be able to sign in, so the page recommends partial mode. In both cases the settings can't be changed here. Contact your account manager to change the mode.
+</Note>
 
 ## Cookie Banner and Policy
 

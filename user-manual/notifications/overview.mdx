@@ -15,8 +15,8 @@ Emails fall into two categories based on how they are triggered:
 
 | Category | How it works | Examples |
 |----------|-------------|----------|
-| **Automatic** | Sent by the platform when a workflow event occurs — no manual action required | Order confirmations, payment links, refund confirmations, transfer claim emails |
-| **Manual** | Triggered by an admin user, either individually or in bulk | Resending a confirmation email, emailing all attendees of an event, sending payment reminders |
+| **Automatic** | Sent by the platform when a workflow event occurs — no manual action required | Order confirmations, payment links, payment deadline reminders, refund confirmations, transfer claim emails |
+| **Manual** | Triggered by an admin user, either individually or in bulk | Resending a confirmation email, emailing all attendees of an event, resending payment links |
 
 Both categories are processed through a queue, so emails are not sent instantaneously. Automatic emails from checkout workflows are prioritised and typically arrive within seconds. Bulk emails sent to large audiences are processed at a controlled rate and may take longer — the platform displays a confirmation that emails have been added to the queue.
 
@@ -24,7 +24,7 @@ Both categories are processed through a queue, so emails are not sent instantane
 
 The platform provides several layers of control over email notifications:
 
-- **Which emails are sent** — Company and event-level settings control whether specific email types are enabled or disabled. For example, you can suppress order confirmation emails in box office, or enable automatic event reminder emails. See [Email Settings](/user-manual/notifications/email-settings).
+- **Which emails are sent** — Company and event-level settings control whether specific email types are enabled or disabled. For example, you can suppress order confirmation emails in box office, or enable automatic event reminder emails. See [Email Settings](/user-manual/notifications/email-settings). Reminders before payment deadlines are turned on alongside each payment method — see [Payment Reminders](/user-manual/notifications/payment-reminders).
 
 - **What emails say** — Email subjects, greetings, body text, and calls to action can all be customised per company through the website text manager. Customisations can also be scoped to specific events, schedules, or customer groups. See [Customising Emails](/user-manual/notifications/customising-emails).
 
@@ -34,7 +34,7 @@ The platform provides several layers of control over email notifications:
 
 ## Email Types
 
-The platform sends emails to three audiences: **customers** (order confirmations, payment links, refund notices, transfer claims, event reminders), **admin staff** (purchase summaries, approval workflow emails), and **system operators** (report deliveries, health alerts).
+The platform sends emails to three audiences: **customers** (order confirmations, payment links, payment reminders, refund notices, transfer claims, event reminders), **admin staff** (purchase summaries, approval workflow emails), and **system operators** (report deliveries, health alerts).
 
 For a complete reference of every email type, when it is triggered, and who receives it, see [Email Types](/user-manual/notifications/email-types).
 
@@ -52,6 +52,9 @@ For a complete reference of every email type, when it is triggered, and who rece
   </Card>
   <Card title="Sending Emails" icon="paper-plane" href="/user-manual/notifications/sending-emails">
     Send emails manually or resend to attendees in bulk.
+  </Card>
+  <Card title="Payment Reminders" icon="bell" href="/user-manual/notifications/payment-reminders">
+    Remind customers before payment deadlines pass.
   </Card>
   <Card title="Email Logs" icon="clock-rotate-left" href="/user-manual/notifications/email-logs">
     Track sent emails and check delivery status.

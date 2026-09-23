@@ -9,14 +9,20 @@ The **Scan** tab is where operators spend most of their time. It supports four i
 
 ## Scan Input Methods
 
-### Camera QR Scanning
+### Camera Scanning
 
-The default scan method. The app uses the device camera with ML Kit barcode detection to read QR codes in real time.
+<Tip>Code 39 camera scanning added in Release 48</Tip>
 
-- Point the camera at the QR code on a ticket or customer's screen
-- The app detects and processes QR codes automatically
+The default scan method. The app reads codes through the device camera in real time — QR codes as well as **Code 128** and **Code 39** barcodes, so tickets printed with a linear barcode can be scanned without a [laser scanner](#hardware-laser-scanner). The same formats are read when [scanning in a zone](/mobile-apps/access-control-pro/zone-access#scanning-in-a-zone).
+
+- Point the camera at the QR code or barcode on a ticket or customer's screen
+- The app detects and processes the code automatically
 - Tap the torch icon to toggle the flashlight in low-light conditions
-- Scanning is rate-limited to one scan every 200 milliseconds to prevent duplicate reads
+- While a scan is being checked or its result is on screen, the camera ignores further reads, so the same ticket isn't processed twice
+
+<Note>
+On the iOS version of the app, camera scanning inside a zone reads QR codes and Code 128 barcodes only. Code 39 barcodes can still be camera-scanned from the **Scan** tab.
+</Note>
 
 ### Hardware Laser Scanner
 
@@ -32,13 +38,17 @@ Make sure the device's scanner settings are configured to output via virtual key
 
 ### Manual Entry
 
+<Tip>Continuous entry added in Release 48</Tip>
+
 For situations where a barcode cannot be scanned (damaged ticket, screen glare, etc.):
 
 1. Tap the keyboard icon on the scan screen
-2. Enter the barcode number in the text field
+2. Type the barcode number into the **Please enter the barcode:** dialog
 3. Tap **Validate**
 
-Manual entry also accepts input from external keyboard-style barcode scanners — if the input contains a newline character (from the scanner pressing Enter), the barcode is submitted automatically.
+After each barcode is submitted, the field clears and the dialog stays open, ready for the next one. Tap **Cancel** when you're finished — tapping outside the dialog doesn't close it.
+
+Manual entry also accepts input from external keyboard-style barcode scanners — if the input contains a newline character (from the scanner pressing Enter), the barcode is submitted automatically. Because the dialog stays open, you can scan ticket after ticket into it, and with [Auto admit](#auto-admit) and **Auto close after admitting** both on, each valid ticket is admitted and its result closes without a tap.
 
 ### NFC Scanning
 
@@ -111,9 +121,9 @@ The ability to admit entire orders can be disabled in [settings](/mobile-apps/ac
 
 ### Auto-Admit
 
-When **Auto admit** is enabled in settings, valid tickets are admitted automatically after scanning — no tap required.
+When **Auto admit** is enabled in [settings](/mobile-apps/access-control-pro/settings-and-hardware#scanning-settings), valid tickets are admitted automatically after scanning — no tap required. This applies to camera, laser scanner and [manual entry](#manual-entry) scans alike. The result is shown for just under a second before the ticket is admitted, so the operator can still see who was scanned.
 
-After the auto-admit completes, the result screen closes automatically if **Auto close after admitting** is also enabled. In laser scan mode, the screen always stays open briefly to allow the operator to see the result.
+After the auto-admit completes, the result screen closes automatically if **Auto close after admitting** is also enabled. Otherwise it stays open until you close it.
 
 <Note>
 Enabling auto-admit automatically disables the **Ability to admit all** setting, since automatic admission operates on individual tickets only.
@@ -174,8 +184,6 @@ Tickets that have no gate assignment are always accepted regardless of gate filt
 Tap the clock icon on the scan screen to view a list of the most recent scans. The app stores up to 20 recent scans per event (or per zone), showing the barcode, customer name, email, and scan time for each entry.
 
 ## Failed Scan Logging
-
-<Tip>New in Release 46</Tip>
 
 Every scan that does not result in a successful admission is recorded locally on the device and synced to the platform. This gives event managers a record of every rejected scan attempt — useful for spotting access issues, evaluating venue flow, and reconciling attendance figures.
 

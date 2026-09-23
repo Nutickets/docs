@@ -5,71 +5,102 @@ description: "Build your shop's navigation by creating menu items across header,
 
 ## Overview
 
-Menus control how visitors navigate your ticket shop. You create menu items and assign them to different regions of the page — the header, footer, top bar, logo area, or account sidebar. Each item links to a destination: a CMS page, a built-in shop route like the events browse page, or a custom external URL.
+Menus control how visitors navigate your ticket shop. You create menu items and assign them to different regions of the page — the header, top bar, footer, or account sidebar — and choose where your logo links to. Each item links to a destination: one of your pages, a built-in shop page such as the events browse page, or a custom URL. Links can open in the same tab or a new tab, or in a side panel or modal over the page the visitor is on.
 
 Menu items support up to three levels of nesting, icons, and button styling, giving you full control over your shop's navigation structure.
 
-Menus are managed from **CMS > Menu items** in admin.
+Menus are managed from **Website > Menus** in admin.
 
 ## Menu Regions
 
-Each menu item belongs to one of five regions, controlling where it appears on the shop:
+Each menu item belongs to one of these regions, controlling where it appears on the shop:
 
 | Region | Location | Typical use |
 |--------|----------|-------------|
 | **Header** | Main navigation bar | Primary site navigation — your most important links |
 | **Top bar** | Narrow bar above the header | Secondary links, contact info, or utility navigation |
 | **Footer** | Bottom of every page | Supporting links, legal pages, social links |
-| **Logo** | Logo area of the header | Custom logo behaviour or branding link |
+| **Logo** | Logo area of the header or top bar | Where your logo links to |
 | **Account sidebar** | Customer account side menu | Additional account-related navigation for logged-in customers |
+
+The menus page has a tab for each of **Header**, **Top bar**, **Footer**, and **Account sidebar**. The logo doesn't have its own tab. When your logo is shown in the header or top bar, an **Edit logo link** button appears on that tab instead.
 
 The visual appearance of each region is controlled by your [theme settings](/user-manual/cms/theme-and-branding).
 
 ## Creating a Menu Item
 
-1. Navigate to **CMS > Menu items**
-2. Click **Create new menu item**
-3. Configure the item:
+1. Navigate to **Website > Menus** and open the tab for the region you want to add to.
+2. Click **Create menu item**. The new item belongs to the region of the tab you started from.
+3. Under **Basic details**, configure the item:
 
 | Field | Description |
 |-------|-------------|
-| **Menu** | Which region this item appears in (Header, Top bar, Footer, Logo, Account sidebar) |
-| **Label** | The text displayed to visitors |
-| **Link type** | How the item links to its destination (see [Link Types](#link-types) below) |
-| **Parent** | Optional — nest this item under an existing item to create a dropdown |
-| **Target** | Whether the link opens in the same window or a new tab |
+| **Icon** | Optional icon shown alongside the label (see [Icons](#icons)) |
+| **Label** | The text displayed to visitors. Required, and can be translated for each language your shop supports |
+| **Parent** | Optional. Nest this item under an existing item to create a dropdown |
 
-4. Click **Save**
+4. Under **Link details**, choose the destination (see [Link Types](#link-types)) and a **Target** (see [Choosing Where a Link Opens](#choosing-where-a-link-opens)).
+5. Click **Submit**.
 
 ## Link Types
 
-Each menu item uses one of three link types to connect to its destination:
+Each menu item either links to an existing page or to a custom URL.
 
-### Page Link
+### Link to Existing Page
 
-Link to an existing [CMS page](/user-manual/cms/pages). Select from your available pages — the menu item will automatically point to the page's URL.
+Choose **Link to existing page**, then select the destination from the **URL/Page** list:
 
-### Route Link
+- **Browse Events Page (/browse)** — the default events listing
+- **Browse Gift Vouchers Page (/gift-vouchers)** — when the gift vouchers browse page is enabled
+- **Browse Donations Page (/donations)** — when the donations browse page is enabled
+- Your [pages](/user-manual/cms/pages)
 
-Link to a built-in shop route. Available routes include:
+Links to existing pages follow the page, so they keep working if its URL changes.
 
-- **Browse events page** — the default events listing
-- **Browse gift vouchers page** — the gift voucher shop (when gift vouchers are enabled)
-- **Browse charity donations page** — the charity donations page (when charity donations are enabled)
+### Link to Custom URL
 
-Route links automatically adapt if feature URLs change.
+Choose **Link to custom url** and enter the full address in **Custom URL**, for example `https://www.domain.com/`. The URL can be set per language. This is useful for linking to external websites, specific sections of your shop, or any destination not covered by the list of existing pages.
 
-### Custom URL
+## Choosing Where a Link Opens
 
-Link to any URL — internal or external. Enter the full URL manually. This is useful for linking to external websites, specific sections of your shop, or any destination not covered by page or route links.
+<Tip>Side panel and modal targets added in Release 48</Tip>
+
+The **Target** controls what happens when a visitor clicks the item:
+
+| Target | What the visitor sees |
+|--------|-----------------------|
+| **Open in same tab** | A standard link that replaces the current page |
+| **Open in new tab** | The destination opens in a new browser tab |
+| **Open in side panel** | The destination opens in a panel that slides in over the current page, titled with the item's label. Set the **Panel width** (640–3,840 px, default 800 px) |
+| **Open in modal** | The destination opens in a modal window over the current page, titled with the item's label. Set the **Modal width** (640–3,840 px, default 1,280 px) and **Modal height** (400–2,160 px, default 800 px) |
+
+Side panels and modals keep visitors on the page they were browsing, which suits supporting content such as venue information, FAQs, a size guide, or a sign-up form hosted elsewhere.
+
+Click **Try it** next to the **Target** label to preview a side panel, modal, or new tab before you save.
+
+### Opening Custom URLs in a Side Panel or Modal
+
+When a custom URL opens in a side panel or modal, the page is embedded in a frame on your shop:
+
+- **It opens without the visitor's session details, cookies, or saved preferences** for that site. This improves privacy and security, but visitors may need to sign in again inside the panel or modal, and some personalised features may not work.
+- **If the visitor's browser doesn't support this secure embedding, the link opens in a new tab instead.**
+- **The site must allow itself to be displayed in a frame.** If the preview stays empty, check that the URL is correct and that the site's security policies allow it to be embedded, or use **Open in new tab** instead.
+
+Two advanced fields, **Iframe allow attribute** and **Iframe sandbox attribute**, control what the embedded page is permitted to do. The sandbox has a default value, and both fields are best left to a web developer.
+
+<Note>
+Pages chosen with **Link to existing page** open in a side panel or modal with the visitor's session, so a customer who is signed in stays signed in.
+</Note>
 
 ## Nesting and Hierarchy
 
-Menu items can be nested up to **three levels deep** to create dropdown menus:
+Menu items in the header, top bar, and footer can be nested up to **three levels deep** to create dropdown menus:
 
 - **Level 1** — top-level items visible in the menu bar
 - **Level 2** — items nested under a level 1 item, shown as a dropdown
 - **Level 3** — items nested under a level 2 item, shown as a sub-dropdown
+
+The account sidebar supports two levels.
 
 When creating or editing an item, select a **Parent** to nest it. Only items that are themselves at level 1 or level 2 can be parents — you cannot create a fourth level.
 
@@ -77,35 +108,46 @@ When creating or editing an item, select a **Parent** to nest it. Only items tha
 Deleting a parent item is not allowed while it has children. Remove or reassign child items first.
 </Note>
 
+## How Menus Behave for Visitors
+
+<Tip>Keyboard navigation and scrolling dropdowns added in Release 48</Tip>
+
+- **Keyboard navigation** — dropdowns open when a visitor tabs to a menu item, as well as on hover, so the items inside them can be reached with the keyboard.
+- **Long menus stay on screen** — a dropdown taller than the visible window scrolls within itself instead of running off the bottom of the page.
+- **Button dropdowns** — header items styled as buttons can have child items and open a dropdown, just like text links (see [Button Styling](#button-styling)).
+- **Hidden pages** — if parts of your shop are disabled in your [shop visibility settings](/user-manual/ticket-shop/shop-settings#shop-visibility), menu items linking to those pages are hidden automatically.
+
 ## Icons
 
-Menu items can display an icon alongside their label. Icons are drawn from the FontAwesome library and support:
+Menu items can display an icon alongside their label, in every region including the account sidebar:
 
-- **Icon selection** — choose from available icons
-- **Icon colour** — set a custom colour for the icon
-- **Icon version** — choose between default and thick icon weights
+- **Icon selection** — choose from the **System icons** or **Marketing icons** libraries, or search for an icon by name
+- **Colour and version** — depending on the icon, set its colour or choose between icon weights
 
-Icons are optional — most menu items use text labels only.
+Icons are optional.
 
 ## Button Styling
 
-Header menu items can be styled as buttons instead of plain text links. This is useful for call-to-action items like "Buy Tickets" or "Sign Up".
+Top-level header items can be styled as buttons instead of plain text links using the **Link style** setting. This is useful for call-to-action items like "Buy Tickets" or "Sign Up".
 
 | Style | Description |
 |-------|-------------|
-| **Primary** | Styled as a primary action button using your theme's primary button colours |
-| **Secondary** | Styled as a secondary action button using your theme's secondary button colours |
+| **Default** | A plain text link |
+| **Primary button** | Styled as a primary action button using your theme's primary button colours |
+| **Secondary button** | Styled as a secondary action button using your theme's secondary button colours |
 
-Button-styled items also support an **animation** toggle that adds a subtle animated effect to draw attention.
+Button-styled items also support an **Animate button text** toggle that animates the label to draw attention. The animation plays when a visitor hovers over the button or tabs to it with the keyboard.
+
+Buttons are shown after the other header items. They can have their own child items, which open as a dropdown from the button. <Tip>Button dropdowns added in Release 48</Tip>
 
 ## Sorting Menu Items
 
-Drag and drop menu items within a region to change their display order. The sort order is saved automatically and supports reordering across all nesting levels — you can rearrange both top-level items and their children.
+To change the order of a region's items, click **Reorder**, drag the items into position, then click **Save** (or **Cancel** to discard your changes). You can rearrange top-level items and the children within each parent. Header items styled as buttons are listed after the other items and can only be reordered among the other buttons.
 
 ## Editing and Deleting
 
-- **Edit** a menu item to change its label, link, parent, or styling at any time
-- **Delete** a menu item to remove it from the navigation — deleted items are soft-deleted and can be restored
+- **Edit** a menu item by clicking it in the list. You can change its label, link, parent, target, or styling at any time.
+- **Delete** a menu item with its delete icon to remove it from the navigation.
 
 ## Related Pages
 
@@ -115,5 +157,8 @@ Drag and drop menu items within a region to change their display order. The sort
   </Card>
   <Card title="Theme & Branding" icon="palette" href="/user-manual/cms/theme-and-branding">
     Control the visual styling of menu regions
+  </Card>
+  <Card title="Shop Settings" icon="store" href="/user-manual/ticket-shop/shop-settings">
+    Shop visibility and other settings that affect the whole shop
   </Card>
 </CardGroup>

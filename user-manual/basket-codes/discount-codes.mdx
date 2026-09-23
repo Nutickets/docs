@@ -123,12 +123,12 @@ Eligibility rules control when and how a discount code can be used. On the disco
 
 | Rule | Purpose |
 |------|---------|
-| **Maximum uses** | Total number of orders that can use this code across all customers |
-| **Maximum item uses** | Total number of items that can be discounted across all orders |
-| **Limit per customer** | Maximum orders per customer using this code |
-| **Item limit per customer** | Maximum items per customer that can be discounted |
-| **Limit per customer per event** | Maximum orders per customer per event |
-| **Limit per customer per schedule** | Maximum orders per customer per schedule |
+| **Maximum number of orders** | Total number of orders that can use this code across all customers |
+| **Maximum number of items** | Total number of items that can be discounted across all orders |
+| **Maximum orders per customer** | Maximum orders per customer using this code |
+| **Maximum items, across orders, per customer** | Maximum items per customer that can be discounted |
+| **Maximum orders per customer per event** | Maximum orders per customer per event |
+| **Maximum orders per customer per schedule** | Maximum orders per customer per schedule |
 | **Maximum items per order** | How many items in a single order receive the discount (percentage type) |
 
 For fixed discounts, the code applies once across the entire order by default.
@@ -236,11 +236,19 @@ For scenarios where you need many unique codes with the same discount configurat
 4. Optionally enter a **Prefix** for the generated codes
 5. Click **Submit**
 
-Codes are generated in the background. The parent detail page shows children organised by status: **Active**, **Inactive**, **Disabled**, and **Deleted**.
+Codes are generated in the background. The parent detail page shows children organised by status: **Active**, **Inactive**, **Disabled**, and **Deleted**. Individual child codes can be deleted or disabled from these lists in the same way as any other code (see [Disabling and Deleting](#disabling-and-deleting)). A child code that hasn't been used is deleted and moves to the **Deleted** tab; one that has been used is disabled instead, so its order history is kept. The same applies to the parent: once any of its child codes has been used, deleting the parent disables it instead.
 
 <Note>
-You cannot add children to a code that has already been used in an order, or to a code with **Auto apply** enabled.
+**Add children** is unavailable on a code with **Auto apply** enabled, or on a code that has already been used in an order and has no child codes — create a new parent code instead. Once a code has children, you can add more at any time, even after existing child codes have been used. Expired, cancelled and refunded orders don't count as uses.
 </Note>
+
+### Renaming a Child Code
+
+<Tip>New in Release 48</Tip>
+
+Child codes are generated at random, but you can replace one with a code of your choice — for example, to give a partner a code that's easier to share. In the parent's child code list, click the pencil icon next to the code, type the new code, and confirm with the tick. Press **Esc** or click the cross to cancel.
+
+The new code must be unique among your discount codes and can't contain spaces. A child code can only be renamed until it's used. Once it has been used in an order, the pencil icon is no longer shown.
 
 ## Entering a Discount Code
 
@@ -305,7 +313,17 @@ When you delete a discount code:
 - If the code has **no orders**: it is soft-deleted and can be restored
 - If the code **has orders**: it is disabled instead (preserving order history)
 
+Expired, cancelled and refunded orders don't count, so a code whose only orders ended that way can still be deleted.
+
 Disabled and deleted codes can be restored from the admin list.
+
+#### Codes in Active Baskets
+
+<Tip>New in Release 48</Tip>
+
+If a customer is part-way through a purchase with the code — or, for a parent code, with any of its child codes — you're asked to confirm before it's disabled, for example: *"The code 'SUMMER10' is currently in 2 active basket(s). Disabling it will remove it from those baskets before payment. Are you sure?"* Confirming disables the code.
+
+Only baskets that are still in progress count. Orders awaiting payment, such as invoice or payment link orders, don't trigger this confirmation.
 
 ### Filtering the List
 

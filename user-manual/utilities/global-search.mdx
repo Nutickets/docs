@@ -28,24 +28,20 @@ The available search types are:
 
 | Search Type | What It Searches | Result Details |
 |-------------|-----------------|----------------|
-| **Events** | Event name or ID | Event name, date, venue |
-| **Orders** | Order reference, customer name, or email | Reference, customer, completion date, total |
-| **Reservations** | Reservation reference, customer name, or email | Reference, customer, creation date, status |
 | **Customers** | Customer name or email | Name, email, phone |
-| **Schedules** | Schedule name, ID, or related event names | Name, date range, event count |
-| **Sale Items** | Sale item name | Name, inventory source, timeslot |
-| **Items** | Item name or ID | Name, company, inventory types |
-| **Price Bands** | Price band name | Name and related event |
-| **Event Media** | Media asset name | Name, type, preview |
+| **Events** | Event name or ID | Event name, date, venue |
+| **Orders** | Order reference, customer name or email, or ticket holder name | Reference, customer, completion date, total |
+| **Reservations** | Reservation reference, customer name or email, or ticket holder name | Reference, customer, creation date, status |
 | **Articles** | Article name | Name, article type |
-| **Listings** | Listing page name | Name, subheading |
-| **Customer Groups** | Group name | Name, type |
+| **Pages** | Page name | Name, subheading |
 
-## Searching by ID
+Each search type only appears if you have permission to view that type of record — for example, **Orders** and **Reservations** require permission to view orders.
 
-For events, items, orders, and schedules, you can search by numeric ID directly. Type the number (with or without a `#` prefix) and global search will match it against record IDs first, falling back to name-based search if no ID match is found.
+## Searching by ID or Reference
 
-For orders, typing an order reference (e.g. `ORD-12345`) searches by reference rather than name.
+For events, you can search by numeric ID directly. Type the number (with or without a `#` prefix) and global search matches it against event IDs as well as event names.
+
+For orders and reservations, typing a complete order reference — ten capital letters and digits, such as `A1B2C3D4E5` — finds that order straight away. If nothing matches the full reference, the search falls back to matching part of a reference, customer names, email addresses, and ticket holder names.
 
 ## Quick Actions on Results
 
@@ -72,7 +68,7 @@ Some search result types include action buttons that let you take immediate acti
 
 - **Partial matching** — search terms match anywhere in the record name or field, not just the start
 - **Debounced** — search waits briefly after you stop typing before sending the query, so you can type your full search term without triggering multiple requests
-- **Results limit** — up to 6 results are shown per search to keep results fast and focused
+- **Results limit** — up to 6 results are shown per search to keep results fast and focused (see [Viewing All Matches](#viewing-all-matches))
 - **Permission-aware** — results only include records you have permission to view
 
 <Note>
@@ -81,6 +77,18 @@ If no results are found, the search panel displays a suggestion to try changing 
 
 <Note>
 Global search is also available in box office mode, using the same keyboard shortcut and search types. This allows staff to quickly look up customers, events, and orders while processing sales.
+</Note>
+
+## Viewing All Matches
+
+<Tip>View all option added in Release 47</Tip>
+
+When more than six records match your search, a **View all** link appears below the results. It opens the full list for that search type — the customers, events, orders, reservations, articles, or pages list — filtered by your search term, so you can work through every match there.
+
+The full list is filtered on the main field shown for each result: the customer's name, the event name, the order or reservation reference, or the article or page name.
+
+<Note>
+Because the full list filters on that one field, it can show fewer results than the search panel suggested. For example, orders that matched on the customer's email address won't appear in the orders list opened by **View all**.
 </Note>
 
 ## Related Pages

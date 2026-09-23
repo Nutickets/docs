@@ -41,7 +41,7 @@ Cash outs distinguish between two types based on how the original top ups were p
 | Type | Refunds to | When to use |
 |------|-----------|-------------|
 | **Online** | Payment methods used for online top-up purchases (card payments, etc.) | Customer-initiated cash outs from the ticket shop |
-| **Offline** | A wider set of payment methods including those used for in-person top-up purchases | Admin-initiated cash outs from the admin panel |
+| **Offline** | Nothing — the platform doesn't return the money. The cash out is recorded against top ups paid by a wider set of payment methods, including in-person top-up purchases | Admin-initiated cash outs from the admin panel |
 
 The **refundable balance** shown for each type may differ because each only considers top ups paid through its respective payment method set. A customer who loaded £50 online and £30 via box office would see a different refundable balance for online vs offline cash outs.
 
@@ -68,8 +68,8 @@ Staff can process cash outs on behalf of a customer from the admin panel:
 2. Open their **Account Balance** page
 3. Click **Cash Out** in the quick actions
 4. Select the cash-out type:
-   - **Online** — refunds top ups paid via online payment methods
-   - **Offline** — refunds top ups paid via any payment method (broader eligibility)
+   - **Cash out online (refund)** — resets the balance and attempts to return the money to the customer's original payment method(s). Covers top ups paid via online payment methods
+   - **Cash out offline** — resets the balance, but no money is returned to the customer by the platform. Covers top ups paid via any payment method (broader eligibility)
 5. Review the **refundable balance** shown for the selected type
 6. Review the **current balance** and **balance after cash out**
 7. Click **Submit** to process the cash out
@@ -77,6 +77,20 @@ Staff can process cash outs on behalf of a customer from the admin panel:
 <Note>
 Admin cash outs require the **cashout wallet transactions** permission. The cash-out panel shows the refundable balance for the selected type — this is the maximum amount that can be cashed out, not the full wallet balance.
 </Note>
+
+### When a Balance Can't Be Cashed Out
+
+<Tip>Cash-out explanations added in Release 47</Tip>
+
+Once you pick a cash-out type, the panel explains why if there's nothing that type can return:
+
+| Message | When it appears |
+|---------|-----------------|
+| *No funds are available for the selected cash-out type. This balance can be returned using the offline option instead. Switch the cash-out type to continue.* | The selected type has nothing to return, but the other type does — for example, a top up paid in cash or by bank transfer can be cashed out offline but not online. The message names whichever type can be used. |
+| *This balance cannot be cashed out. Only unused cashable top-ups can be returned. Refunds to balance, manual or offline adjustments, and spent top-ups cannot be cashed out.* | The customer has a balance, but none of it can be cashed out with either type, because it didn't come from unspent top ups. See [Refundable Balance](#refundable-balance). |
+| *Available balance to cash out is empty.* | The customer's balance is empty. |
+
+The help text beside the cash-out type options states the same rule, so staff can see before choosing a type which balances can be returned.
 
 Cash outs can also be processed programmatically via the [Create Wallet Cashout](/api-reference/wallets/create-wallet-cashout) API endpoint.
 

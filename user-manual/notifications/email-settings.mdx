@@ -32,6 +32,7 @@ Company-level email sender settings are managed in the hub:
 | **Company from name** | The sender name that appears in the recipient's inbox (e.g. "Acme Events") |
 | **Company from email** | The email address emails are sent from. Must be a verified sending address |
 | **Company reply-to email** | The email address used when a recipient clicks "Reply". If not set, no reply-to header is included |
+| **Company BCC email** | A blind copy of every order and customer email — the emails recorded in your [email logs](/user-manual/notifications/email-logs) — is sent to this address, for example so an outbound email tracking tool can see them. Only available when enabled by your account manager <Tip>Added in Release 47</Tip> |
 
 <Warning>
 Custom from email addresses must be verified with the email delivery provider before they can be used. Setting an unverified address may cause emails to fail. Use the **Send test email** button to verify your configuration.
@@ -39,7 +40,7 @@ Custom from email addresses must be verified with the email delivery provider be
 
 ### Testing Your Configuration
 
-When a from email or reply-to email is configured, a **Send test email** button appears. Clicking it sends a test email to your own email address to confirm the configuration is working. The test email confirms whether the from and reply-to addresses are correctly verified for sending.
+When a from email, reply-to email, or BCC email is configured, a **Send test email** button appears. Clicking it sends a test email to your own email address — with a blind copy to the BCC address, if one is set — to confirm the configuration is working. The test email confirms whether the addresses are correctly verified for sending.
 
 ### Setting the Reseller From Address
 
@@ -84,7 +85,7 @@ Purchase summary emails notify designated staff whenever a purchase is made for 
 ### Enabling Purchase Summaries
 
 1. Open the event dashboard
-2. Click **Email Preferences** (in the quick actions)
+2. Click **Email settings** (in the quick actions)
 3. Enable **Send purchase summary email**
 4. Add one or more recipient email addresses
 
@@ -99,17 +100,17 @@ By default, purchase summary emails contain basic order information. An enriched
 - Data capture responses associated with the order
 - SSO identifiers (if applicable)
 
-Enable this at the company level in **Company Settings** with the **Enable enriched purchase notifications** toggle. This applies to all events under the company.
+Enable this at the company level in **Company Settings** with the **Enriched purchase notifications** toggle. This applies to all events under the company.
 
 ### Enriched Order Confirmations
 
-A similar enrichment is available for customer-facing order confirmation emails. When **Enable enriched order confirmation emails** is enabled in company settings, order confirmation emails sent to customers include address details and data capture responses.
+A similar enrichment is available for customer-facing order confirmation emails. When **Enriched order confirmation emails** is enabled in company settings, order confirmation emails sent to customers include address details and data capture responses.
 
 ---
 
 ## Confirmation Email Splitting
 
-By default, when a customer purchases items from multiple events in a single order, they receive one confirmation email covering all items. The **Dispatch confirmation email per inventory source** setting in company settings changes this behaviour so the customer receives a separate confirmation email for each event.
+By default, when a customer purchases items from multiple events in a single order, they receive one confirmation email covering all items. The **Send a separate confirmation email per event** setting in company settings changes this behaviour so the customer receives a separate confirmation email for each event.
 
 When enabled, the customer also sees a note in each email: *"Please note that as your order contains items from multiple events, a confirmation email has been sent for each event individually."*
 
@@ -119,12 +120,16 @@ When enabled, the customer also sees a note in each email: *"Please note that as
 
 Automatic reminder emails notify attendees before an event takes place, providing download links for their tickets. This feature must be enabled for the company before it can be used.
 
+<Note>
+Reminders for customers who haven't yet paid for a payment link, deposit balance, or invoice are configured separately, alongside each payment method. See [Payment Reminders](/user-manual/notifications/payment-reminders).
+</Note>
+
 ### Enabling at the Company Level
 
 1. Navigate to **Company Settings**
-2. Find **Enable automatic event reminder emails**
+2. Find **Automatic event reminder emails**
 3. Enable the toggle
-4. Set the **time before event** — this determines how far in advance of the event start time the reminder is sent (configurable in hours, days, or weeks)
+4. Set **Send reminders this long before the event** — this determines how far in advance of the event start time the reminder is sent (configurable in hours, days, or weeks)
 
 This creates a company-wide default. All events inherit this setting unless overridden at the event level.
 
@@ -137,7 +142,7 @@ When enabling company-wide reminders, any events that already fall within the re
 Individual events can override the company default:
 
 1. Open the event dashboard
-2. Click **Email Preferences**
+2. Click **Email settings**
 3. Under **Automatic Reminder Emails**, choose:
    - **Inherit company settings** — uses the company default (the current company setting is shown for reference)
    - **Disabled** — no reminder emails for this event
@@ -157,7 +162,7 @@ Reminder emails are sent approximately at the configured time, not exactly. Beca
 
 ### Customising Reminder Content
 
-The subject and body of the reminder email can be customised through the website text manager. From the event's **Email Preferences** modal, click **Customise reminder email** to go directly to the relevant text editing page.
+The subject and body of the reminder email can be customised through the website text manager. From the event's **Email settings** modal, click **Customise reminder email** to go directly to the relevant text editing page.
 
 See [Customising Emails](/user-manual/notifications/customising-emails) for more on editing email content.
 
@@ -168,7 +173,7 @@ See [Customising Emails](/user-manual/notifications/customising-emails) for more
 When using the [event approval workflow](/user-manual/event-management/event-approvals), email addresses can be configured to receive notifications when approval is requested.
 
 1. Navigate to **Company Settings**
-2. Find **Event approval email(s)**
+2. Find **Event approval emails**
 3. Enter one or more email addresses, separated by commas
 
 These recipients are notified whenever a user requests publishing approval for an event. The email includes the event name, the requesting user's name, and a link to review the event.
@@ -209,5 +214,6 @@ SMS is a supplementary channel — email remains the primary notification method
 
 - [Email Types](/user-manual/notifications/email-types) — Complete reference of every email
 - [Customising Emails](/user-manual/notifications/customising-emails) — Change email content
+- [Payment Reminders](/user-manual/notifications/payment-reminders) — Automatic reminders before payment deadlines
 - [Sending Emails](/user-manual/notifications/sending-emails) — Send and resend emails manually
 - [Email Logs](/user-manual/notifications/email-logs) — Track delivery status

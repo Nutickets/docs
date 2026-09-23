@@ -149,6 +149,17 @@ When a ticket is resold, the seller can contribute toward the [resale fees](/use
 - On the **buyer's** invoice, each resale fee line shows the buyer's portion after the seller's contribution is deducted. If the seller covered a fee in full, that fee does not appear on the buyer's invoice at all.
 - On a **corrective invoice**, refunded resale fees are adjusted the same way, so the corrected amount matches what the buyer actually paid rather than the full fee.
 
+#### The Seller's Corrective Invoice
+
+<Tip>Separate seller fee lines added in Release 47</Tip>
+
+When a resold ticket's seller is paid out, a corrective invoice is issued against the seller's original invoice. If the seller contributed toward the resale fees, the contribution is shown rather than netted off the ticket:
+
+- The resold ticket is credited as a negative line for its full price — the payout plus the amount withheld for resale fees, up to the ticket's own price.
+- Each resale fee the seller contributed toward is added as its own positive line, named after the fee in the seller's language and taxed using that fee's tax band.
+
+The corrective invoice therefore totals the amount the seller actually received. If a payout is completed in more than one step, the fee lines only appear on the first corrective invoice, so the seller is never charged for them twice.
+
 ### Third-Party Refund Protection Claims
 
 <Tip>New in Release 47</Tip>
@@ -158,6 +169,8 @@ When a customer makes a [refund protection](/user-manual/refund-protection/prote
 - The claimed ticket is added as a negative line for its full amount.
 - A **Refund Protect Payment** line is added for the same amount, so the corrective invoice nets to zero.
 - The invoice comment notes: **"The invoice was corrected due to the use of the Refund Protect service."**
+
+Only items the claim cancels are corrected. Fees on the order are cancelled with the tickets by default; to keep them on the original invoice, turn off **Cancel fees on successful claim** in your [Protect Group settings](/user-manual/refund-protection/protect-group#configuration-options). <Tip>Fee cancellation setting added in Release 47</Tip>
 
 <Note>
 This corrective invoice is only generated for claims on **upcoming events**. Claims on events that have already ended do not produce a corrective invoice.

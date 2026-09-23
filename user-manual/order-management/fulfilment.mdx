@@ -1,0 +1,191 @@
+---
+title: "Fulfilment Dashboard"
+description: "Work through orders that need printing, packing or posting — fulfil them one at a time or in batches assigned to your team, and record tracking details as you go."
+---
+
+<Tip>New in Release 48</Tip>
+
+## Overview
+
+The fulfilment dashboard is where your team works through orders that still need to be fulfilled — printing tickets for postal delivery, packing merchandise, preparing orders for collection, or posting parcels. It lists every paid order with items awaiting fulfilment. From there you can fulfil an order on the spot, or group orders into **fulfilment batches** that a colleague can print, pack and process together.
+
+As items are fulfilled, the platform records who fulfilled them, along with any tracking number and postage carrier you enter. Those details then appear against the order and its items throughout admin.
+
+The dashboard builds on [fulfilment fees](/user-manual/fees/fulfilment-fees), which let customers choose a delivery method at checkout, and on the [fulfilment statuses](/user-manual/order-management/core-concepts#fulfilment-tracking) recorded against each order item.
+
+## Getting Access
+
+The dashboard is part of the fulfilment fees feature. When fulfilment fees are enabled for your account, **Fulfilment** appears under **Sales & Reports** for users who hold the **Manage fulfilment** permission. If you don't have fulfilment fees, contact your account manager.
+
+To give someone access, add **Manage fulfilment** (in the **Fulfilment** group) to one of their [roles](/user-manual/system-access/roles-and-permissions). It isn't added to existing roles automatically.
+
+<Note>
+Fulfilment staff don't need permission to view orders. Anyone with **Manage fulfilment** sees every order awaiting fulfilment, and can print and fulfil it from the dashboard. The link through to the full order page only appears for users who can also view orders.
+</Note>
+
+## Which Orders Appear
+
+An order is listed on the dashboard when:
+
+- Its status is **Complete** or **Partially refunded**.
+- It isn't frozen. Orders locked during an [order modification](/user-manual/order-management/order-modifications) or a [resale](/user-manual/resale/introduction) listing drop off the dashboard until they're unfrozen.
+- It contains at least one item with a fulfilment method. When an order completes, each of its tickets, season tickets and products that has **Allows fulfilment method selection** turned on takes the delivery method the customer chose — see [Choosing Which Items Offer Delivery Options](/user-manual/fees/fulfilment-fees#choosing-which-items-offer-delivery-options).
+
+Cancelled, fully refunded and rejected items are left out, so they never count towards what's left to fulfil.
+
+<Note>
+Every item with a fulfilment method stays **Pending** until someone marks it fulfilled — including items the customer chose to receive as an **eTicket**. If your team only handles some delivery methods, use the **Fulfilment method** filter (for example **Shipped**) to focus on those.
+</Note>
+
+## Finding Orders
+
+Navigate to **Sales & Reports > Fulfilment** to open the **Fulfilment dashboard**. Each row shows the order reference, customer name, the order's fulfilment methods, when it was completed, how many of its items have been fulfilled (for example **1 of 3 items fulfilled**), the batch it's in, and a **Pending** or **Fulfilled** badge.
+
+By default, the dashboard shows orders that still have items to fulfil and aren't already in a fulfilment batch, oldest first — so the orders that have waited longest are at the top. Use the sort control to switch to **Completed at (latest first)**.
+
+| Filter | What it finds |
+|---|---|
+| **Order reference** | A specific order |
+| **Customer email** / **Customer name** | Orders for a particular customer |
+| **Order completed** | Orders completed within a date range |
+| **Event** | Orders containing items from one or more events |
+| **Fulfilment status** | **Pending** (the default) — orders with at least one item still to fulfil. **Fulfilled** — orders with nothing left to fulfil. **All** — both. |
+| **Fulfilment method** | Orders with items to fulfil by **eTicket**, **In person**, **Digital** or **Shipped** |
+| **Fulfilment batch inclusion** | **Not included in a fulfilment batch** (the default), **Included in a fulfilment batch**, or **All orders**. Only batches that are still pending count. |
+
+The count above the list — for example **42 orders awaiting fulfilment** — is the number of matching orders that can still be added to a batch.
+
+## Fulfilling a Single Order
+
+Click an order to open the **Fulfil order** panel. It brings together everything needed to fulfil the order:
+
+- The order reference and customer name, with a link to the full order for users who can view orders.
+- A **Pending** or **Fulfilled** badge, and progress such as **2 of 4 items fulfilled**.
+- The order's items, grouped by event, each with its barcode and status. Items that don't belong to an event are listed under **Other items**.
+- The **Fulfilment method** the customer chose.
+- The **Delivery address**, if one was captured. Copy individual lines, or click **Copy full address** to copy the whole address at once.
+- **Tracking number** and **Postage carrier** fields.
+
+To fulfil the order:
+
+1. Select the items you've fulfilled. Ticking an event's checkbox selects all of that event's pending items.
+2. For orders with a **Shipped** fulfilment method, enter the **Tracking number** and **Postage carrier** if you have them.
+3. Click **Fulfil order** (shown when every pending item is selected) or **Fulfil X items**.
+
+The selected items are marked **Fulfilled** and you're recorded as the person who fulfilled them. The tracking number and postage carrier you entered are saved against every item fulfilled in that step, so fulfil items separately if they're going out in different parcels.
+
+<Note>
+Tracking details can only be recorded for orders with a **Shipped** fulfilment method. For any other method, the fields are disabled with the message **"This order does not have a Shipped fulfilment method, so tracking and carrier details are not applicable."**
+</Note>
+
+<Note>
+Fulfilling items doesn't send the customer an email. Fulfilment status and tracking details are for your team.
+</Note>
+
+### Printing Tickets
+
+The print buttons open the same PDF that's generated when the items are downloaded, ready for your browser's print dialog:
+
+| Button | Prints |
+|---|---|
+| **Print order** | Every item in the order |
+| **Print event** | The order's items for one event |
+| **Print item** | A single item |
+
+Items with [secure barcodes](/user-manual/event-management/secure-barcodes) can't be printed from the dashboard, because a rotating barcode can't be put on paper. They show **Secure Barcode** in place of a barcode, their **Print item** button is disabled with the tooltip **Secure barcodes cannot be printed**, and **Print order** and **Print event** are unavailable whenever they include one.
+
+### Adding an Order to a Batch
+
+Once batches exist, the panel's **Fulfilment batch** row lets you add the order to one: choose a batch from **Assign to a fulfilment batch**.
+
+An order that's already in a pending batch shows that batch here, with a **View batch** link. Its items and tracking fields are read-only in the panel — the order has to be fulfilled from its batch.
+
+## Fulfilling Orders in Batches
+
+Batches split a large fulfilment run into chunks your team can work through — for example, one person prints and packs one batch of 100 orders while a colleague takes the next.
+
+### Creating a Batch
+
+1. Tick the orders to include. The checkbox at the top of the list selects every eligible order on the current page, and **Select all** selects every matching order across all pages (the link reads **Select first 100** when more than 100 orders match).
+2. Click **Begin fulfilling X orders**.
+
+The batch is created, assigned to you, and its page opens.
+
+A batch can hold up to 100 orders, and an order can only be in one pending batch at a time. Orders that are already in a batch, or that have nothing left to fulfil, can't be selected.
+
+### Working Through a Batch
+
+The batch page — titled **Fulfilment batch** followed by the batch's reference — shows its status, when it was created and last updated, who it's **Assigned to**, and a progress ring showing how many of its orders are done.
+
+Orders are listed oldest first, 25 per page, and every pending item on the page is selected when it opens. Click an order to expand its items. For each order you can:
+
+- Print the whole order, one event's items, or a single item.
+- Enter a **Tracking number** and **Postage carrier** (orders with a **Shipped** fulfilment method only).
+- Fulfil just that order with its own **Fulfil order** button.
+- Take it out of the batch with **Remove order from batch**.
+
+To fulfil everything that's selected on the page in one go, click **Fulfil X items** in the bar at the bottom of the page. The confirmation reads **"This will fulfil X selected items across Y selected orders. This cannot be undone."** Each order's tracking details are saved against its own items.
+
+<Note>
+Tracking details you've typed aren't saved until the order is fulfilled. If you click **Back to fulfilment dashboard** with unsaved details, you're warned that leaving the page will discard them.
+</Note>
+
+<Note>
+If an order is fully refunded, cancelled or frozen after it's added to a batch, it stays in the batch but can't be fulfilled from there, and its items can't be selected.
+</Note>
+
+### Assigning a Batch
+
+Click the name next to **Assigned to** (or **Unassigned**) to open **Update assignee**. Choose a user, or **Unassigned**, and click **Submit**.
+
+Any admin user in your company can be chosen. If you use [visibility groups](/user-manual/system-access/visibility-groups), the list only includes users you can see. The assignee needs the **Manage fulfilment** permission to open the batch. Assigning a batch doesn't notify anyone, so let your colleague know — they can find it under **View batches**.
+
+### Removing Orders and Cancelling a Batch
+
+- **Remove order from batch** takes an order out of the batch. Any of its items that were already fulfilled stay fulfilled, and the order returns to the dashboard if it still has items to fulfil. A batch needs at least one order, so to remove the last one, cancel the batch instead.
+- **Cancel fulfilment batch** releases every order in the batch. The warning reads **"This will remove all orders from the batch. Fulfilled orders will remain fulfilled. This cannot be undone."** Orders that still have items to fulfil return to the dashboard, ready to be batched again. Only pending batches can be cancelled.
+
+### Batch Statuses
+
+| Status | Meaning |
+|---|---|
+| **Pending** | At least one order in the batch still has items to fulfil |
+| **Completed** | Every order in the batch has been fulfilled. The batch page shows when it was completed. |
+| **Cancelled** | The batch was cancelled and its orders were released |
+
+### Viewing Batches
+
+Click **View batches** on the dashboard to open **Fulfilment batches**. It lists every batch — including completed and cancelled ones — with the most recently updated first, showing each batch's reference, status, assignee and progress. Click a batch to open it.
+
+## Where Fulfilment Details Appear
+
+Once items are fulfilled from the dashboard, their details show up across admin:
+
+- **The order page** — While an order is in a pending batch, the **Fulfilment status** in the order summary shows the batch reference and who it's assigned to. The **Change fulfilment status** panel lists each item's status and method, plus the tracking number, postage carrier and **Fulfilled by** for fulfilled items. See [Fulfilment Tracking](/user-manual/order-management/core-concepts#fulfilment-tracking).
+- **The order item page** — The **Tracking number** (with a copy button) and **Postage carrier**.
+- **Reports** — [Attendance reports](/user-manual/reporting/default-reports#attendance-reports) include **Fulfilment method**, **Fulfilment status**, **Fulfilled at** and **Fulfilled by** fields.
+
+<Warning>
+You can still change an item's fulfilment status from the order page while the order is in a batch, but it bypasses the batch. The panel warns: **"Updating fulfilment here bypasses the batch workflow and may leave the batch out of sync."**
+</Warning>
+
+<Note>
+Tracking numbers and postage carriers recorded here aren't shown to customers. Parcels booked through [Montonio shipping](/user-manual/integrations/montonio-shipping) are different — customers get the carrier's tracking links on their order. Montonio orders appear on the dashboard with the **Shipped** method, like any other shipped order.
+</Note>
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Fulfilment Fees" icon="truck" href="/user-manual/fees/fulfilment-fees">
+    Offer delivery methods at checkout and choose which items use them.
+  </Card>
+  <Card title="Core Concepts" icon="receipt" href="/user-manual/order-management/core-concepts#fulfilment-tracking">
+    Fulfilment statuses and methods on individual orders.
+  </Card>
+  <Card title="Montonio Shipping" icon="box" href="/user-manual/integrations/montonio-shipping">
+    Carrier-quoted delivery to pickup points, booked automatically.
+  </Card>
+  <Card title="Roles and Permissions" icon="user-shield" href="/user-manual/system-access/roles-and-permissions">
+    Grant the **Manage fulfilment** permission.
+  </Card>
+</CardGroup>

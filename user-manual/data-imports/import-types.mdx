@@ -259,7 +259,7 @@ Import sale item groups for events and optionally associate existing sale items 
 
 ## Order Item Import
 
-The most feature-rich import type. Import order items with full customer, event, sale item, and seating details. Each row creates an order item — rows with the same Order ID are grouped into a single order.
+The most feature-rich import type. Import order items with full customer, event, sale item, and seating details. Each row creates an order item — rows with the same Order ID are grouped into a single order. Where an order has multiple items, the first row's customer details are applied to the order, and each row's item keeps its own customer details.
 
 Events and sale items can be resolved by internal ID, external ID, or by name (with optional auto-creation if the **Create sale items if not found** setting is enabled).
 
@@ -314,12 +314,27 @@ Provide one of these methods to identify the sale item:
 | Field | Values Required | Description |
 |-------|-----------------|-------------|
 | **Customer Name** | Yes | Full name as a single value |
-| **Customer Email** | No | Email address for sign-in. Used to find or create the customer record |
+| **Customer Email** | No | Email address for sign-in. Used to find or create the customer record. Leave blank to import a named ticket without a customer account — see [Named Orders Without an Email](#named-orders-without-an-email) |
 | **Customer DOB** | No | Date of birth |
 | **Customer Phone Code** | No | Phone country code |
 | **Customer Phone** | No | Phone number |
 | **Customer Locale** | No | Two-digit language code (e.g. `en`, `es`) |
 | **SSO ID** | No | Single sign-on identifier (only for custom SSO setups) |
+
+#### Named Orders Without an Email
+
+<Tip>Named orders from a name and barcode added in Release 47</Tip>
+
+A row doesn't need a **Customer Email**. With just a **Customer Name** — and a **Barcode**, if the ticket should keep one it already has — the row imports as a named ticket, the same way a [box office](/user-manual/box-office/introduction) order can be sold without a customer:
+
+- **No customer account is created.** The order is recorded against the admin user who ran the import, and shows the first row's **Customer Name** as its name — in the order list, and under **Name** on the order page, where it can be changed like a box office order's [named purchaser](/user-manual/box-office/after-the-sale#rename-order).
+- **Every ticket carries its own name.** Each item is named after its own row's **Customer Name**, so a multi-item order imports one named ticket per attendee.
+
+Rows with and without an email can be mixed in the same order. A row with an email is linked to that customer's account and shows their name — not the name from the order's first row.
+
+<Note>
+Named orders have no customer email address, so any email the import sends for them — from **Send confirmation e-mails**, **Send payment links to customers**, or **Reserve to pay on site** — goes to the admin user who ran the import.
+</Note>
 
 #### Purchaser Fields
 

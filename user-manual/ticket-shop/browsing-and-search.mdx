@@ -66,6 +66,8 @@ Search results are grouped into categories:
 | Venues | 4 |
 | Cities | 4 |
 
+Within **Events** results, an event whose name exactly matches the search term is listed first, followed by events whose names start with it, then other matches by relevance. Matching ignores upper and lower case.
+
 Customers can click a result to jump directly to an event page, or click a tag, venue, or city result to apply it as a filter on the browse page. This makes the search bar both a direct navigation tool and a filter entry point.
 
 <Note>
@@ -114,7 +116,7 @@ Sorting controls the order events appear in the results. You can enable or disab
 |-------------|-------------|-------------|
 | **Upcoming** | Events ordered by start date, soonest first. Always enabled. | Shop and Box Office |
 | **Alphabetical** | Events ordered A–Z by name | Shop and Box Office |
-| **Most Relevant** | Ordered by search match score. Only appears when the customer has an active search query. | Shop and Box Office |
+| **Most Relevant** | Ordered by search match score. Only appears when the customer has an active search query. If a search is active and no sort has been chosen, events are ranked by name first — exact matches, then names that start with the search term — and then by search match score. | Shop and Box Office |
 | **Nearest** | Events ordered by distance from the customer's location (geolocation-based) | Shop only |
 | **Price - Lowest to Highest** | Events ordered by price ascending | Shop only |
 | **Price - Highest to Lowest** | Events ordered by price descending | Shop only |

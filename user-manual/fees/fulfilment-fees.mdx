@@ -46,6 +46,14 @@ Fulfilment fees cannot be free. If you want to offer a delivery method at no cos
 
 The **Active dates** control when the fulfilment fee is available. Outside of these dates, the delivery method will not appear as an option at checkout. This is useful for seasonal delivery options or methods that are only available for a limited period.
 
+## Choosing Which Items Offer Delivery Options
+
+Delivery options only apply to items that are set up for fulfilment. On a ticket, season ticket or product, find the **Fulfilment settings** section and turn on **Allows fulfilment method selection** — its help text reads *"Customers will be able to select their fulfilment method at checkout."*
+
+The **Delivery method** step only appears when the basket contains at least one item with this setting turned on, and fulfilment fees are only charged against those items. Items without it have no fulfilment method, and their fulfilment status is **Not required**.
+
+When an order completes, each of these items takes the delivery method the customer chose — or **eTicket** if they kept the default — and stays **Pending** until it's marked as fulfilled. Those pending items are what place the order on the [fulfilment dashboard](/user-manual/order-management/fulfilment).
+
 ## How Fulfilment Fees Work at Checkout
 
 When one or more fulfilment fees are configured, customers see a **Delivery method** step during checkout.
@@ -109,6 +117,20 @@ When the **Shipped** fulfilment method is selected, customers can be asked to pr
 If fulfilment fees are enabled, the delivery address data capture setting must be enabled and set to mandatory for the **Shipped** method to work correctly.
 </Note>
 
+## Carrier-Quoted Shipping with Montonio
+
+<Tip>Montonio shipping added in Release 48</Tip>
+
+If you take payments through Montonio, you can let Montonio price and book deliveries instead of setting your own shipping fees. With **Let Montonio handle shipping** turned on, customers paying in EUR or PLN choose a carrier and a pickup point at the **Delivery method** step, and pay the rate Montonio quotes. The shipment is booked with Montonio automatically once the order is paid.
+
+While Montonio handles shipping, your own fulfilment fees — including **In person** and **Digital** — don't appear at checkout for orders in EUR or PLN, and no delivery address is requested. Orders in other currencies continue to use the fulfilment fees on this page. See [Montonio Shipping](/user-manual/integrations/montonio-shipping) for setup and requirements.
+
+## Fulfilling Orders
+
+<Tip>Fulfilment dashboard added in Release 48</Tip>
+
+Once orders come in, use the [fulfilment dashboard](/user-manual/order-management/fulfilment) to work through them. Print tickets, record tracking numbers and postage carriers for shipped orders, and mark items as fulfilled — one order at a time, or in batches that can be assigned to members of your team.
+
 ## Related Pages
 
 <CardGroup cols={2}>
@@ -117,5 +139,11 @@ If fulfilment fees are enabled, the delivery address data capture setting must b
   </Card>
   <Card title="Sale Item Fees" icon="receipt" href="/user-manual/fees/sale-item-fees">
     Create custom fees that are added to orders at event or company level.
+  </Card>
+  <Card title="Fulfilment Dashboard" icon="boxes-stacked" href="/user-manual/order-management/fulfilment">
+    Print, pack and fulfil orders individually or in batches.
+  </Card>
+  <Card title="Montonio Shipping" icon="box" href="/user-manual/integrations/montonio-shipping">
+    Carrier-quoted delivery to pickup points, booked automatically.
   </Card>
 </CardGroup>

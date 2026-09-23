@@ -738,7 +738,9 @@ function parseReleaseDocument(title, markdown) {
     }
 
     if (patchContent) {
-        const patchSections = patchContent.split(/(?=###\s)/);
+        // Split only on patch headers ("### R47K - 5th August 2026"): patches can carry their own
+        // "### ✨ Improvements" / "#### 🚀 New features" sub-headings, which must stay in the body.
+        const patchSections = patchContent.split(/(?=^###\s+R\d)/m);
         patchSections.forEach(section => {
             const cleanSection = section.trim();
             if (!cleanSection.startsWith('###')) return;
@@ -791,6 +793,11 @@ const TICKET_REFERENCE = String.raw`\\?\[\s*[A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+
 // brackets ("[NG-1] [NG-2] Added ...") as well as the combined "[NG-1 & NG-2]" form.
 const TICKET_RUN = `${TICKET_REFERENCE}(?:\\s+${TICKET_REFERENCE})*`;
 
+// A bracketed run of tickets the author already linked to Linear, e.g.
+// "[[NG-11923](https://linear.app/…/NG-11923/slug)]" or "[[NG-1](…) & [NG-2](…)]".
+const LINKED_TICKET = String.raw`\[[A-Z]{2,}-\d+\]\(https?:\/\/linear\.app\/[^)\s]*\)`;
+const LINKED_TICKET_RUN = new RegExp(String.raw`\\?\[\s*(${LINKED_TICKET}(?:\s*&\s*${LINKED_TICKET})*)\s*\\?\]`, 'g');
+
 // A change's text that opens with a ticket reference run, followed by its description.
 const LEADING_TICKETS = new RegExp(`^(${TICKET_RUN})\\s+(\\S.*)$`);
 
@@ -828,6 +835,20 @@ function normalizeTicketRun(run) {
         groups.push(`[${ids.join(' & ')}]`);
     }
     return groups.join(' ');
+}
+
+/**
+ * Unwrap tickets the author already linked to Linear back to the plain "[NG-1 & NG-2]" form.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+function unlinkTicketReferences(text) {
+    return text.replace(LINKED_TICKET_RUN, (match, run) => {
+        // Read ids from the link text only — the URL repeats the id in its path.
+        const ids = [...run.matchAll(/\[([A-Z]{2,}-\d+)\]\(/g)].map(id => id[1]);
+        return `[${ids.join(' & ')}]`;
+    });
 }
 
 /**
@@ -1046,9 +1067,11 @@ description: "${description}"
             // 5. TICKETS — push any leading reference(s) to the end of the change text, then
             // linkify. Authors may write "[NG-1] change" or "change [NG-1]" in the wiki (single
             // or multi-ticket, e.g. "[NG-1 & NG-2]"); relocation normalises every change so the
-            // reference trails its description before it becomes a Linear link.
-            text = relocateTicketReferences(text);
-            text = text.replace(/\\?\[([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\\?\]/g, (match, inner) => {
+            // reference trails its description before it becomes a Linear link. References the
+            // author already linked are unwrapped first so they get the same treatment.
+            text = relocateTicketReferences(unlinkTicketReferences(text));
+            // (?!\() leaves any ticket that is still a link alone, rather than nesting a second link inside it.
+            text = text.replace(/\\?\[([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\\?\](?!\()/g, (match, inner) => {
                 const tickets = inner.split('&').map(t => t.trim());
                 const links = tickets.map(ticket => `[${ticket}](https://linear.app/nuweb-group/issue/${ticket})`);
                 return `[${links.join(' & ')}]`;

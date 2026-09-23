@@ -43,14 +43,14 @@ If a basket only contains fee items (no tickets or products), refund protection 
 
 ## Enabling Protect Group
 
-Protect Group is enabled per company and requires credentials from your reseller. To configure it:
+Protect Group is enabled per company and requires credentials set up by your account manager. To configure it:
 
 1. Navigate to **Settings**
 2. Open **Protect Group settings**
 3. Toggle the integration **on**
 
 <Note>
-The Protect Group integration must first be enabled at the reseller level with valid API credentials before it becomes available to companies. If the integration toggle is not visible, contact your reseller.
+The Protect Group integration must first be enabled for your account with valid API credentials before it becomes available. If the integration toggle is not visible, contact your account manager.
 </Note>
 
 ### Configuration Options
@@ -60,11 +60,12 @@ Once enabled, the following settings are available:
 | Setting | Description |
 |---------|-------------|
 | **Event opt-in required** | Controls the default behaviour for events. When **off** (default), all events offer protection unless individually opted out. When **on**, events must individually opt in to offer protection. |
-| **Vendor code** | By default, the reseller's vendor codes are used. You can override these with your own codes if Protect Group has issued them directly to you. Separate codes are available for test and live modes. |
+| **Vendor code settings** | By default, the platform's vendor codes are used — the option reads **Use *[platform name]* vendor codes**, with your platform's name. If Protect Group has issued codes to you directly, choose **Set vendor codes** and enter your own **Test vendor code** and **Live vendor code**. If the platform has no vendor codes set up, you must enter your own. |
 | **Contact email** | The support email address shown to customers in protection-related communications. |
 | **Minimum order value** | The minimum basket total (of protectable items) required before protection is offered. Configured per currency. When set to 0 for a currency, protection is not offered for orders in that currency. |
 | **Tax band** | The tax band applied to the protection fee. Protect Group requires that the tax rate does not exceed 2 decimal places. |
 | **Cut-off before the event** | How close to the event start date protection can still be purchased. The default is 72 hours. For baskets containing items from multiple events, the earliest event start date is used. |
+| **Cancel fees on successful claim** | Shown when **Custom fees** are enabled for your account. When **on** (default), fees on a claimed order are cancelled along with the claimed items. When **off**, they are marked as claimed but not cancelled. Applies to every protected fee type except the protection fee itself. See [When a Claim Is Approved](#when-a-claim-is-approved). <Tip>Added in Release 47</Tip> |
 
 ### Event-Level Overrides
 
@@ -86,7 +87,7 @@ When a customer reaches the refund protection step during checkout, they see a P
 - An explanation of what the protection covers
 - Options to accept or decline
 
-If the customer selects protection, the fee is added to their basket and appears as a line item in the order summary. If they decline, a warning is shown: **"You are about to complete your booking without refund protection, are you sure you want to continue?"**
+If the customer selects protection, the fee is added to their basket and appears as a line item in the order summary. The fee line has no description, so the protection provider isn't named to the customer. If they decline, a warning is shown: **"You are about to complete your booking without refund protection, are you sure you want to continue?"**
 
 ### Basket Changes After Selection
 
@@ -105,7 +106,7 @@ This happens transparently — the customer sees the updated fee without needing
 
 Once the order is completed, the protection policy is finalised with Protect Group. The customer receives:
 
-- An order confirmation email noting their **refundable booking**, with details on how to make a claim and the terms and conditions
+- An order confirmation email with a **Refundable booking** section, with details on how to make a claim and the terms and conditions. You can reword this section — see [Customising the Refundable Booking Text](#customising-the-refundable-booking-text).
 - If the policy is still being processed when the confirmation sends, the email states: **"Your refund protection policy is currently being processed, you will receive a separate confirmation email once this is complete."**
 
 Customers can also view their protection status from their order page, where a **Show Details** link opens a panel with the policy status and terms.
@@ -137,6 +138,21 @@ The refund protection status (protected, unprotected, claimed) is available:
 - In [attendance reports](/user-manual/reporting/default-reports#attendance-reports), with the ability to filter by protection status (protected, unprotected, claimed)
 
 This makes it possible to track protection uptake and claim rates across events without manual review.
+
+## When a Claim Is Approved
+
+<Tip>Fee cancellation setting added in Release 47</Tip>
+
+Customers make claims directly with Protect Group, and Protect Group pays approved claims to the customer — you don't issue a refund yourself. When a claim is approved, the order is updated automatically:
+
+- The items in the claim are marked **Claimed** — see the badges under [For Admins](#for-admins).
+- Claimed items for events that haven't ended yet are cancelled and released back to sale. Items for events that have already ended are marked as claimed but left in place.
+- Fees on the order — custom fees, fulfilment fees, and resale fees — are cancelled along with the items. To keep them, turn off **Cancel fees on successful claim** in the [configuration options](#configuration-options): the fees are then marked as claimed but not cancelled, reflecting that the service they charge for has already been provided.
+- The customer receives the **Claim processed** email describing the changes to their order. If every claimed item was for an event that has already ended, nothing is cancelled and no email is sent.
+
+<Note>
+If you use [Számlázz.hu](/user-manual/integrations/szamlazz#third-party-refund-protection-claims), the corrective invoice issued for a claim only includes the items the claim cancelled — so fees kept with **Cancel fees on successful claim** turned off stay on the original invoice.
+</Note>
 
 ## Refunds and Cancellations
 
@@ -176,7 +192,7 @@ If the protection was already cancelled successfully on an earlier attempt, retr
 
 By default, refund protection is only available in the online checkout. To enable it in the box office:
 
-- The **Refund protection in box office** feature must be enabled at the reseller level
+- The **Refund protection in box office** feature must be enabled by your account manager
 - Box office staff may need to complete mandatory training before the setting can be activated
 
 When enabled in box office, staff see the same protection selection step during checkout. However, protection can only be added when:
@@ -209,6 +225,32 @@ If any of these conditions are not met, the refund protection step is skipped du
 | **Policy still processing** | States the policy is being processed and a follow-up email will be sent |
 | **Policy finalised** | Sent when the protection policy has been processed, with full details and claim information |
 | **Claim processed** | Notifies the customer of changes to their order following a refund protection claim |
+
+### Customising the Refundable Booking Text
+
+<Tip>Protect Group wording made editable in Release 48</Tip>
+
+The **Refundable booking** section of the order confirmation email can be reworded in the [text manager](/user-manual/cms/website-text). Select the **Order confirmation email** category and edit:
+
+| Entry | What it controls |
+|---|---|
+| **Refund protection section header** | The section heading — **Refundable booking** by default |
+| **Refund protection section body (Protect Group)** | The section text for orders protected by Protect Group |
+
+By default, the Protect Group text asks customers to contact you if the event has been cancelled or rescheduled, explains that they can claim a full refund if they can't attend due to unforeseen circumstances covered by the terms and conditions, and gives their booking reference with a link to the claim form. The body is a rich-text field, and the following placeholders are filled in for each order:
+
+| Placeholder | Replaced with |
+|---|---|
+| `:contact_email` | The **Contact email** from your Protect Group settings, or your company name if none is set |
+| `:terms_url` | The link to the policy's terms and conditions |
+| `:order_reference` | The order reference |
+| `:refund_url` | The link to the claim form for the policy |
+
+The same text is shown as the policy **Status** in the panel that opens from **Show Details** on the order page, both in the customer's account and in the admin. Until the policy has finished processing, the email and panel show the *"currently being processed"* message instead.
+
+<Note>
+The separate **Refund protection section body (manual refund protection)** entry controls the equivalent text for [manual refund protection](/user-manual/refund-protection/alternative-providers). Changing one does not affect the other.
+</Note>
 
 ## Related Pages
 

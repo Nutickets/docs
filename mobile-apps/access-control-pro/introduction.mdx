@@ -9,7 +9,7 @@ description: "High-speed ticket validation and entry management for live events.
 
 Access Control Pro is the entry scanning app for live events. Staff use it to validate tickets, admit attendees, manage guest lists, and control access to zones — all from an Android device. The app works offline by downloading ticket data to the device and syncing scan results back to the server when a connection is available.
 
-The app supports four scan input methods — camera QR scanning, hardware laser scanners, manual barcode entry, and NFC tag reading.
+The app supports four scan input methods — [camera scanning](/mobile-apps/access-control-pro/scanning-and-admission#camera-scanning) of QR codes and barcodes, hardware laser scanners, manual barcode entry, and NFC tag reading.
 
 ## Getting Started
 
@@ -72,7 +72,7 @@ If your permissions change while the app is open (for example, an admin updates 
 Access Control Pro works reliably with intermittent or no internet connection.
 
 **How data flows:**
-1. When you open an event, the app downloads all ticket data to the device's local database.
+1. When you open an event, the app downloads all ticket data to the device's local database, in batches whose size you can adjust with the [Ticket download batch size](/mobile-apps/access-control-pro/settings-and-hardware#ticket-download-batch-size) setting.
 2. Every scan is evaluated locally — there is no round-trip to the server at scan time, so scanning is fast regardless of connection quality.
 3. Scan results are stored locally and uploaded to the server in the background every 30 seconds.
 4. The ticket list refreshes from the server periodically (every 5 minutes) to pick up new purchases and changes.

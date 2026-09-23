@@ -85,12 +85,14 @@ The platform automatically generates the following metadata in the HTML of your 
 
 ### Canonical URLs and Language Alternates
 
+<Tip>Clean canonical URLs added in Release 47</Tip>
+
 The platform generates:
 
-- A **canonical URL** pointing to the primary version of each page (using your company's fallback language)
-- **Alternate language links** (`hreflang`) for each of your configured languages, so search engines know about all language versions of a page
+- A **canonical URL** for each page — its clean address on your shop domain, without a `?language=` parameter. Whichever language a visitor is browsing in, search engines are pointed to the same preferred address, so each page is indexed once rather than once per language.
+- **Alternate language links** (`hreflang`) for each of your configured languages, so search engines know about all language versions of a page. The link for your company's fallback language uses the same clean address as the canonical URL.
 
-If you use language-specific domains (e.g., `fr.example.com` for French), the alternate links point to those domains. Otherwise, they use a `?language=` parameter.
+If you use language-specific domains (e.g., `fr.example.com` for French), the alternate links for those languages point to those domains. Other languages use a `?language=` parameter.
 
 ## Search Engine Indexing Controls
 
@@ -138,9 +140,15 @@ The sitemap includes:
 
 Past events, unpublished events, hidden events, and unpublished articles are excluded.
 
+### Last Modified Dates
+
+<Tip>Event dates cover content, sale item, and pricing changes in Release 47</Tip>
+
+Each page in the sitemap carries the date it last changed, so search engines can tell when a page is worth crawling again. For events, this is the most recent change to anything shown on the event page — the event itself, its settings, content blocks, images, sale items, or pricing — not just edits to the event's own details.
+
 ### Multi-Language Sitemaps
 
-Each URL in the sitemap includes alternate language links for all your configured languages. This helps search engines understand that the same content exists in multiple languages and serve the right version to users in different regions.
+Each URL in the sitemap is the page's clean address — the same one used as its [canonical URL](#canonical-urls-and-language-alternates) — and includes alternate language links for all your configured languages. This helps search engines understand that the same content exists in multiple languages and serve the right version to users in different regions.
 
 ### Sitemap Access
 
@@ -150,11 +158,15 @@ The sitemap regenerates automatically and is cached for 24 hours.
 
 ## Structured Data
 
+<Tip>Ticket prices added to event structured data in Release 47</Tip>
+
 The platform automatically generates structured data (JSON-LD, Schema.org) for events and articles, helping search engines understand your content and enabling rich search results like the Google events carousel. This is enabled by default and can be disabled at the company level if needed.
 
 <Accordion title="What structured data is generated">
 
-**Event pages** include: event name, start/end dates, venue name and address (if assigned), and organiser name. This can enable Google to show your events in event-specific search features, including the events carousel and Knowledge Panel.
+**Event pages** include: event name, start/end dates, venue name and address (if assigned), organiser name, and ticket prices. This can enable Google to show your events in event-specific search features, including the events carousel and Knowledge Panel.
+
+Ticket prices are added as an offer in your company's default currency, following the event's [pricing display](/user-manual/event-management/event-page-customisations#pricing-display) settings — the lowest-to-highest price range when the page shows both, or a single price when the event has one price or the page shows only the lowest or highest. Events with no priced items, or whose only prices are free while **Hide free items** is turned on, have no offer.
 
 **Article pages** include: headline, header image, publication date, last modified date, and author name.
 

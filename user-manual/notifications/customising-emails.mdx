@@ -29,6 +29,7 @@ The following email templates can be customised:
 | **Reservation rejected email** | Notification sent when a reservation is rejected |
 | **Payment link email** | Email requesting payment with a payment link |
 | **Deposit received email** | Confirmation sent when a deposit is received |
+| **Payment reminder emails** | Automatic [payment reminders](/user-manual/notifications/payment-reminders) sent before a payment link expires, a deposit balance is due, or an invoice is due, with separate text for each <Tip>New in Release 48</Tip> |
 | **Payment failure email** | Alert sent when a payment attempt fails |
 | **Tax receipt email** | Tax receipt email subject and title |
 | **Refund confirmation email** | Confirmation sent when a refund is processed |
@@ -38,6 +39,7 @@ The following email templates can be customised:
 | **Item rejected email** | Notification when individual items are rejected |
 | **Event reminder email** | Automatic reminder sent before an event |
 | **Deferred tickets email** | Notification when withheld tickets become available |
+| **Resale emails** | [Resale](/user-manual/resale/configuration#notifications) seller notifications: listing active, items sold, listing expired, and listing closed <Tip>Listing closure emails added in Release 47</Tip> |
 | **Added to customer group email** | Welcome email when added to a customer group |
 | **Organiser purchase notification email** | Purchase summary sent to event staff |
 | **Event approval notification email** | Notification when event approval is requested |
@@ -45,6 +47,8 @@ The following email templates can be customised:
 | **Complete your account email** | Account setup email for imported customers |
 | **Email verification notification** | Email address verification email |
 | **Global email text** | Shared text that appears across multiple email types (footer text, common headers) |
+
+For protected orders, the **Order confirmation email** template also controls the **Refundable booking** section — see [Customising the Refundable Booking Text](/user-manual/refund-protection/protect-group#customising-the-refundable-booking-text).
 
 ## Editing Email Content
 
@@ -132,12 +136,13 @@ Per-event and per-schedule overrides are only applied when the email relates to 
 
 ## Customising Reminder Emails
 
-The event reminder email can also be reached directly from the event's **Email Preferences** modal. Click **Customise reminder email** to jump to the text manager with the event reminder template and the current event pre-selected.
+The event reminder email can also be reached directly from the event's **Email settings** modal. Click **Customise reminder email** to jump to the text manager with the event reminder template and the current event pre-selected.
 
-See [Automatic Event Reminder Emails](/user-manual/notifications/email-settings#automatic-event-reminder-emails) for setting up reminders.
+See [Automatic Event Reminder Emails](/user-manual/notifications/email-settings#automatic-event-reminder-emails) for setting up reminders. Payment reminder text is edited separately, under the **Payment reminder emails** category — see [Customising Reminder Text](/user-manual/notifications/payment-reminders#customising-reminder-text).
 
 ## Related Pages
 
 - [Email Settings](/user-manual/notifications/email-settings) — Configure which emails are sent
 - [Email Types](/user-manual/notifications/email-types) — Reference of every email type
+- [Payment Reminders](/user-manual/notifications/payment-reminders) — Automatic reminders before payment deadlines
 - [Sending Emails](/user-manual/notifications/sending-emails) — Send and resend emails manually

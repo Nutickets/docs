@@ -26,6 +26,7 @@ description: 'Attach a seating plan to an event, sync event-level data, and conf
 | **Venue match**       | Only seating plans belonging to the same venue as the event are available for selection.       |
 | **Plan completeness** | The seating plan must be marked as complete before it can be attached.                         |
 | **No existing sales** | If the event already has sales and no seating plan is attached, a plan can no longer be added. |
+| **Not with both timeslots and season tickets** | A seating plan can't be attached to an event that already has both [timeslots](/user-manual/event-management/timeslots) and [season tickets](/user-manual/sale-items/season-tickets): *"You cannot assign a seating plan to an event that already has timeslots and season tickets."* When a plan is applied across a schedule, such events are skipped and listed in a warning. <Tip>Added in Release 47</Tip> |
 
 ### Steps
 
@@ -71,6 +72,20 @@ Best available seats suggests optimal seat allocation based on scoring and price
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Enable best available seats**         | Activates best-seat suggestions. General admission spaces and seats for tables requiring full-table booking are excluded from suggestions.                                                 |
 | **Best available seats adjacency mode** | Controls how seats are grouped: **Any** (adjacent or otherwise), **Prefer adjacency** (prefer adjacent but permit non-adjacent), or **Only adjacent** (only adjacent seats are permitted). |
+
+#### Seeing How Each Seat Was Chosen
+
+<Tip>Added in Release 47</Tip>
+
+Each seated order item records whether its seat was picked by best available or chosen by hand. In admin, the item's seat details — on the order page, on reservations, and on the order item page — show **Seat selection mode** alongside the seat and the **View in seating plan** link:
+
+| Value | Meaning |
+| --- | --- |
+| **Best available** | The seat was allocated by best available seat selection |
+| **Manual** | The seat was picked from the plan |
+| **Unknown** | The item has a seat, but how it was chosen wasn't recorded |
+
+The same information is returned as `seatSelectionMode` (`BA` for best available, `M` for manual) by the [orders](/api-reference/orders/retrieve-orders) and [order items](/api-reference/orders/retrieve-order-items) API endpoints, and is available as the **Seat selection mode** field in [attendance reports](/user-manual/reporting/default-reports#attendance-reports). For a live split across an event, add the **Seat selection mode** widget to the [sales dashboard](/user-manual/utilities/sales-dashboards#available-widgets).
 
 ### Orphan Seat Protection
 

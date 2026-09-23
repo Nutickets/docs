@@ -55,9 +55,19 @@ Each entry in `items` needs an `id` — the sale item identifier, which you can 
 | `quantity` | Standard items. Required unless the item is variable or custom priced. |
 | `amount` | Variable and custom priced items, in the smallest currency unit. Omit `quantity`. |
 | `spaceId` | Seated items — the specific space being booked. See below. |
+| `space` | Seated items identified by the labels shown on the seating plan instead of a `spaceId`, for example `{ "block": "Stalls", "row": "A", "name": "1" }`. |
 | `bestAvailableSeats` | Let the platform pick seats, for events with best available seats enabled. Optionally constrain with `areaId`. |
 | `orderItemId` | Adding a [resale](/user-manual/resale/introduction) item instead of a primary one. |
+| `barcode` | A barcode your system has already issued, used for the ticket instead of one the platform generates. Omit it to have a barcode generated as usual. |
 | `preventBasketModification` | Stop the customer removing or reducing this line in the shop. Increasing quantity is still allowed. |
+
+<Note>
+`space` saves looking up internal space identifiers when your system already knows seats by their labels. `name` is always required, plus one of: `block` and `row` for a seat in a row, `block` or `area` for general admission, or `table` for a table. `area` and `stand` can be added to any of these to tell apart spaces with the same labels. The reference is matched, ignoring case, against the spaces the item's sale item can be sold for. If it matches no space, or more than one, that item fails validation. Send either `space` or `spaceId` on an item, not both. See [Add to Basket](/api-reference/baskets/add-to-basket).
+</Note>
+
+<Note>
+`barcode` suits partners who print or distribute their own barcodes, so the ticket scans at the gate with the code the customer already holds. A supplied barcode identifies exactly one ticket: the item's `quantity` must be `1`, it can't be combined with `bestAvailableSeats`, and single-line items such as guest list places and donations can't already be in the basket. For event tickets it must be unique among live tickets for the same event — or the whole schedule, for scheduled events — otherwise the item fails with *Barcode is already in use for the same event or schedule*. It can't be sent with `orderItemId`, because a resale item keeps the barcode of the ticket it replaces. Errors are reported against the item, as `items.<index>.barcode`. See [Add to Basket](/api-reference/baskets/add-to-basket).
+</Note>
 
 <Note>
 `preventBasketModification` stops a customer unpicking a basket your business rules composed — an entitlement bundle, a fixed package. It is set per item rather than per basket, so you can lock the mandatory parts and leave optional extras editable.

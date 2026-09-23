@@ -166,13 +166,11 @@ Controls how much detail buyers see about resale fees in the basket. This settin
 
 ### Notifications
 
-<Tip>New in Release 46</Tip>
-
 Controls whether sellers receive additional email notifications during the resale lifecycle. These emails are sent on top of the standard order-related emails buyers and sellers already receive.
 
 | Option | Label | Behaviour |
 |--------|-------|-----------|
-| **Enabled** | Enabled | Sellers receive automated emails at key stages of their resale journey — when a listing goes live and when items sell. |
+| **Enabled** | Enabled | Sellers receive automated emails at key stages of their resale journey — when a listing goes live, when items sell, and when a listing closes with items still unsold. |
 | **Disabled** | Disabled | Sellers receive only the standard order emails. No additional resale notifications are sent. |
 
 When enabled, the seller receives:
@@ -182,9 +180,45 @@ When enabled, the seller receives:
 
 This setting can be configured at company level and overridden at event level under the event's resale settings.
 
+#### When a Listing Closes Unsold
+
+<Tip>Listing closure emails added in Release 47</Tip>
+
+When a listing closes while some of its items haven't sold, the seller is also told what happened to them:
+
+| Email | Sent when |
+|-------|-----------|
+| **Your resale listing has expired** | The listing reaches the end of its sale time — see [Automatic Expiry](/user-manual/resale/selling-and-buying#automatic-expiry) |
+| **Your resale listing has been closed** | The seller [closes the listing early](/user-manual/resale/selling-and-buying#closing-a-listing-early), from their account or through the API, or an admin [closes it](/user-manual/resale/selling-and-buying#closing-listings) |
+
+Both emails list the unsold items with their purchase price and listed price, reassure the seller that the tickets are still valid and available in their account, and link back to the listing with a **View resale listing** button. No closure email is sent when every item has sold — the seller has already received **Congratulations! Your tickets have been sold**.
+
 #### Customising the Email Wording
 
-The full wording of both notifications is editable through the [text manager](/user-manual/cms/website-text). Open the text manager and select the **Resale emails** category to edit subjects, headings, and body copy. Each entry supports translations, so you can localise resale notifications for multi-language shops.
+The full wording of the seller notifications is editable through the [text manager](/user-manual/cms/website-text). Open the text manager and select the **Resale emails** category, then choose **Your listing is active email**, **Your items have sold email**, **Your items didn't sell email** (the expiry email), or **Your resale listing closed email** to edit subjects, headings, and body copy. Each entry supports translations, so you can localise resale notifications for multi-language shops.
+
+### Managing Listings on an External Platform
+
+<Tip>External listing links added in Release 47</Tip>
+
+If your sellers manage their resale listings somewhere else — such as your own website or app — you can send them there instead of to the listing pages in the shop.
+
+| Setting | Label | Behaviour |
+|---------|-------|-----------|
+| **Externally managed** | Resale managed on an external platform | When enabled, sellers are sent to your listing URL from resale notification emails and whenever they open a listing from their account. |
+| **Listing URL** | Listing deeplink URL | The full web address (starting `https://` or `http://`) that sellers are sent to. Add the placeholders `{listingId}` and `{orderId}` to have the listing and order IDs filled in automatically — for example `https://example.com/resale/{listingId}?order={orderId}`. No other placeholders are accepted. |
+
+With both set, the seller's journey changes in three places:
+
+- **Notification emails** — The **View resale listing** button in every seller [notification](#notifications) — from **Your resale listing is active!** through to the listing closure emails — links to your URL.
+- **Opening a listing** — Opening a listing from the account area, whether from **Resale listings** or the **Listing details** link on an order, redirects the seller to your URL.
+- **Creating a listing** — After confirming a new listing, the seller lands on the **Resale listings** page with the usual success message, rather than being taken straight off-site.
+
+Both settings are available at company level and can be overridden per event in the event's **Resale settings**. At event level, **Resale managed on an external platform** offers **Inherit**, **Enabled**, and **Disabled**. Leave the event's **Listing deeplink URL** blank to use the company's URL, which is shown beneath the field as **Inherited from company defaults**.
+
+<Note>
+If no listing URL is set, or the URL uses `{orderId}` but the listing isn't linked to an order, sellers are sent to the standard listing page in the shop instead.
+</Note>
 
 ## Related Pages
 

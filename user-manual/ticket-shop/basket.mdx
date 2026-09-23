@@ -1,13 +1,13 @@
 ---
 title: "Basket"
-description: "Understand how the ticket shop basket reserves items, manages timeouts, and offers discount and access code entry before checkout."
+description: "Understand how the ticket shop basket reserves items, manages timeouts, and offers discount code entry before checkout."
 ---
 
 ## Overview
 
 The basket is where customers collect tickets and products before checking out. When a customer adds items, those items are **reserved** -- stock is held so no one else can purchase the same seats or limited inventory. A countdown timer shows how long the reservation lasts, and when the timer expires, items are released back to inventory for other customers.
 
-Beyond holding items, the basket is the place where customers enter discount codes, apply access codes, and (optionally) are guided through an upsell wizard before proceeding to checkout.
+Beyond holding items, the basket is the place where customers enter discount codes before proceeding to checkout. This page also covers access codes and the upsell wizard, which shape what customers add to their basket in the first place.
 
 Several company settings control basket behaviour. This page walks through each one and explains how they affect the customer experience.
 
@@ -17,7 +17,7 @@ Every basket has a countdown timer. When items are added, the timer starts and t
 
 ### Configuring the Timeout
 
-Set the timeout duration in **General Settings** under **Basket timeout (in minutes)**.
+Set the timeout duration in **General settings** under **Basket timeout (minutes)**.
 
 | Setting | Value |
 |---------|-------|
@@ -79,7 +79,7 @@ The basket size limit does not apply to box office orders. Box office staff can 
 
 By default, customers can add items from **multiple events** into a single basket and check out once. This is called the global basket.
 
-Configure this in **Company Settings** under **Enable global basket**.
+Configure this in **General settings** under **Global basket**.
 
 ### When Enabled (Default)
 
@@ -106,7 +106,7 @@ Global basket cannot be used with forced checkout (they are mutually exclusive) 
 
 Forced checkout prevents customers from navigating away from the checkout flow once they have items in their basket, reducing abandoned carts. It is only available when global basket is **disabled** and applies to the ticket shop only (not box office).
 
-Configure this in **Company Settings** under **Enable forced checkout**.
+Configure this in **General settings** under **Force customers to finish checkout**.
 
 ### How It Works
 
@@ -137,15 +137,16 @@ For creating and managing discount codes, see [Discount Codes](/user-manual/bask
 
 ## Access Codes
 
-Access codes work differently from discount codes -- rather than reducing prices, they **unlock hidden sale items** that are not otherwise visible in the shop.
+Access codes work differently from discount codes -- rather than reducing prices, they **unlock hidden sale items** that are not otherwise visible in the shop. Because they unlock items, customers enter them while choosing what to buy rather than in the basket itself:
 
-The access code field is controlled by the **Show access code input** setting in **Company Settings**. When enabled, customers can enter their code in the basket or via the **Profile** icon in the menu.
+- From the padlock button on an event page, or the **Enter access code** option in the event's item selection. These are controlled per event by **Show event page access code input**.
+- From the **Access codes** option in the profile menu. This is controlled by **Show access code input** in the access code settings.
 
-The basket displays: "If you have an access code, please enter it in the box below to unlock additional items." with an **Apply** button.
+See [Entering an Access Code](/user-manual/basket-codes/access-codes#entering-an-access-code) for the full customer journey.
 
 | Event | What the customer sees |
 |-------|----------------------|
-| Code applied successfully | "We have applied your access code to your order." with an **Access Code Applied** badge |
+| Code applied successfully | **Access Code Applied** |
 | Invalid code | "The access code specified is invalid." |
 
 <Note>
@@ -156,18 +157,23 @@ For creating and managing access codes, see [Access Codes](/user-manual/basket-c
 
 ## Upsell Wizard
 
-The upsell wizard encourages customers to consider additional products and donations after they add items to their basket, before they proceed to checkout.
+The upsell wizard turns an event's item selection into a series of steps, so customers are shown products and other non-ticket items before they add anything to their basket.
 
-Configure this in **Company Settings** under **Enable upsell wizard**.
+Turn it on with the **Upsell wizard** setting in **Company Settings**. A separate **Upsell wizard in box office** setting applies the same flow for [box office](/user-manual/box-office/introduction) staff.
 
 ### How It Works
 
-When enabled, adding items to the basket triggers a guided wizard that presents relevant non-ticket items such as merchandise, food and drink packages, or donation options. The customer can:
+<Tip>**Skip & continue** added in Release 48</Tip>
 
-| Button | Action |
-|--------|--------|
-| **Add & checkout** | Adds the selected upsell items and proceeds to checkout |
-| **Skip & checkout** | Skips the upsell suggestions and proceeds directly to checkout |
+When an event offers more than one type of item, each type becomes a step, in this order: **Seating plan**, **Tickets**, **Products** and **Guest lists**. Steps with nothing available are left out. The buttons change as the customer moves through the steps:
+
+| Button | When it appears |
+|--------|-----------------|
+| **Next** | On every step except the last, once the customer has selected something on the current step |
+| **Skip & continue** | Replaces **Next** when nothing is selected on the current step, so it's clear the customer can move on without adding anything. Shown as **Skip** on small screens. |
+| **Previous** | On every step except the first |
+
+On the final step, the usual **Add to basket** and checkout buttons appear, and add everything selected across the steps.
 
 ## Basket Page Layout
 
@@ -176,7 +182,7 @@ The basket page shows customers everything they need before checking out:
 - **Title:** "Your basket"
 - Each item with its name, quantity, and price
 - Running order total
-- Discount code and access code sections (if enabled)
+- Discount code section (if enabled)
 - Countdown timer
 - **Checkout** button
 
@@ -196,13 +202,14 @@ A summary of all company settings that affect basket behaviour:
 
 | Setting | Location | Effect |
 |---------|----------|--------|
-| **Basket timeout (in minutes)** | General Settings | How long items are reserved |
+| **Basket timeout (minutes)** | General settings | How long items are reserved |
 | **Basket size limit** | Company Settings | Maximum items per basket (ticket shop only) |
-| **Enable global basket** | Company Settings | Allow multi-event purchasing |
-| **Enable forced checkout** | Company Settings | Prevent navigation away from checkout |
+| **Global basket** | General settings | Allow multi-event purchasing |
+| **Force customers to finish checkout** | General settings | Prevent navigation away from checkout |
 | **Show discount input** | Company Settings | Show discount code field in basket |
-| **Show access code input** | Company Settings | Show access code field in basket |
-| **Enable upsell wizard** | Company Settings | Guide customers through upsells before checkout |
+| **Show access code input** | Access Codes > **Settings** | Show the **Access codes** option in the shop's profile menu |
+| **Upsell wizard** | Company Settings | Split item selection into steps that show upsell items before checkout |
+| **Upsell wizard in box office** | Company Settings | The same step-by-step item selection for box office staff |
 
 ## Related Pages
 

@@ -16,7 +16,7 @@ Dashboards are widget-driven. You choose which data panels to display, arrange t
 | **Schedule sales dashboard** | Aggregate data across all events in a schedule | Schedule view |
 
 <Note>
-Sales dashboards require the **FEATURE_SALES_DASHBOARDS** feature flag to be enabled for your company. This is controlled by your reseller and cannot be self-managed. You also need the **VIEW_DEFAULT_REPORTS** permission to access dashboards.
+Sales dashboards must be enabled for your company by your account manager — this can't be self-managed. You also need the **View default reports** [permission](/user-manual/system-access/permissions-reference) to access dashboards.
 </Note>
 
 ## Understanding the Dashboard Layout
@@ -25,14 +25,23 @@ Each sales dashboard has two main areas: **widgets** at the top and **data table
 
 Widgets are compact, focused panels that surface a single metric or trend. Data tables provide a structured breakdown of events and inventory items with capacity and revenue figures.
 
+On the event and schedule dashboards, a header above the widgets shows the event name, its dates and times, and where it takes place. <Tip>Venue name added to the header in Release 48</Tip> Events at a venue show the venue name. Events without a venue are labelled **Online event**, and events at a venue that are also [streamed](/user-manual/event-management/online-events) are labelled **Online and on-location event**. The schedule dashboard shows the schedule's first and last dates, with the venue of the event you opened it from, or of the schedule's earliest event.
+
 ### Data Tables
 
 The tables shown depend on which dashboard you are viewing:
 
-- **Company sales dashboard** -- An events table showing each event with capacity bars that visualise the breakdown of sold, reserved, and complimentary items.
-- **Event and schedule sales dashboards** -- An events table plus an inventory items table with per-item sales breakdowns and revenue figures.
+- **Company sales dashboard** -- An **Events** table showing each event with capacity bars that visualise the breakdown of sold, reserved, and complimentary items.
+- **Event sales dashboard** -- A **Price bands** table (for events with a [seating plan](/user-manual/event-management/seated-events)), a **Holds** table (for events with [seating plan holds](/user-manual/seating-plans/holds) — see [Holds](#holds)), and a **Sale items** table, each with capacity bars and revenue figures.
+- **Schedule sales dashboard** -- An **Events** table plus an **Inventory items** table with per-item sales breakdowns and revenue figures.
 
 On the schedule sales dashboard, you can optionally filter to a specific event within the schedule.
+
+#### Searching and Paging Through Tables
+
+<Tip>Search, totals, and 50-row pages added in Release 47</Tip>
+
+Each table has a **Search** box that filters its rows by name or ID, and shows 50 rows per page. A **Totals** row beneath the table adds up every matching row — across all pages, not just the one you're viewing — so the totals stay accurate as you page through the table or narrow it with a search.
 
 ## Available Widgets
 
@@ -49,8 +58,24 @@ You can add any combination of the following widgets to your dashboard:
 | **Customer sentiment** | Positive, neutral, and negative customer feedback. Displayed as a progress bar. |
 
 <Note>
-The **Customer sentiment** widget requires an additional reseller-level feature flag and may also be disabled per company. If you do not see it as an option, contact your reseller.
+The **Customer sentiment** widget requires an additional feature enabled by your account manager, and may also be disabled for your company. If you do not see it as an option, contact your account manager.
 </Note>
+
+## Reading Widget Figures
+
+The **Revenue** and **No. items sold** widgets show a headline figure, with an indicator beneath it showing how much that figure has changed.
+
+### Abbreviated and Exact Values
+
+<Tip>Exact value toggle added in Release 48</Tip>
+
+Large figures are abbreviated to keep widgets readable — K for thousands, M for millions, and B for billions, so 15,123 items sold shows as **15.12K**. Click the figure to switch to the exact value, and click it again to return to the abbreviated view. Hovering over the figure shows **Show full number** or **Abbreviate number** to indicate what a click will do.
+
+Your choice is remembered for each widget in your browser, so the dashboard opens with the same format next time. The toggle is only available when the abbreviated and exact values differ — typically for figures of 1,000 or more — and not while you are editing widgets.
+
+### Change Since Last Update
+
+The indicator beneath the figure shows the change **since last update:** — how much the figure moved at the most recent refresh — with an arrow showing whether it went up or down. Click the indicator to switch to **since page load:**, which shows the total change since you opened the dashboard. Like the number format, this choice is remembered for each widget.
 
 ## Customising Your Dashboard
 
@@ -109,6 +134,16 @@ The event dashboard includes a visual capacity breakdown across price bands:
 | **Complimentary** | Items issued at no charge |
 | **Held** | Seats or items held back from sale (if seating plan holds are enabled) |
 | **Remaining** | Available capacity |
+
+### Holds
+
+<Tip>Hold remaining counts added in Release 47</Tip>
+
+For events with [seating plan holds](/user-manual/seating-plans/holds), the **Holds** table lists each hold with its colour, name, and ID. The **Stock** bar breaks the hold's capacity down into **Sold**, **Reserved**, **Comp.** (complimentary), and **Remaining**, and **Revenue** shows the revenue from items sold from the hold.
+
+**Remaining** is the number of spaces in the hold that are still available to sell right now. Rather than subtracting sales from the capacity, it counts the held seats — and any general admission hold stock — that are currently available. Hovering over it explains: *"Determined based on the seats currently available in this hold. Sold item counts are not used to calculate this value."*
+
+The **Totals** row adds these figures up across every hold, including **Total issued** — sold plus complimentary — against the combined capacity.
 
 ## Schedule Sales Dashboard
 

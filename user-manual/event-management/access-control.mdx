@@ -213,7 +213,11 @@ Each scan is validated against the zone's rules — eligible items, scan limits,
 
 ### Via Box Office Pro
 
-The [Box Office Pro](/mobile-apps/box-office-pro/introduction) app can also perform admission scanning, using the same zone rules as Access Control Pro. This is useful where the same team handles both sales and entry.
+<Tip>Zone checks skipped for box office check-in in Release 48</Tip>
+
+The [Box Office Pro](/mobile-apps/box-office-pro/introduction) app can [check in an order's tickets](/mobile-apps/box-office-pro/orders-and-after-the-sale#check-in-after-purchase) straight after the sale — with the **Admit** button on the confirmation screen, or automatically when the app's **Check in all the tickets purchased** setting is **Auto admit**. This is useful where the same team handles both sales and entry.
+
+The tickets are admitted into the event's default [Entry zone](#the-default-entry-zone). Because the operator has just sold them in person, the zone's usual checks are skipped: ticket [validity dates](#validity-dates), the zone's [opening and closing dates](#creating-a-zone), [age restrictions](#age-restrictions), and [capacity](#capacity) do not block the admission. Only tickets are checked in — products and season tickets on the order are not admitted. If any ticket on the order can't be admitted, none of them are.
 
 ### Via Admin Panel
 

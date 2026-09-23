@@ -26,6 +26,10 @@ Operational event workflows (assigning plans to events, event availability, even
 | **Settings panel (right)** | Configure selected objects and plan metadata (price bands, gates, stairs, stands, tags)             |
 | **Plan information modal** | Stats, duplicate label checks, preview generation, rendering version, area-wide maintenance actions |
 
+<Note>
+The editor needs a browser window at least 768 pixels wide. In a narrower window — on a phone, for example — the editor is hidden and the page shows *"The editor requires a wider window to use. Please resize your browser or use another screen or device."*
+</Note>
+
 ## Top Menu Tools
 
 ### Plan
@@ -90,8 +94,13 @@ When a toggle is **Disabled**, areas that are not open are drawn as plain bounda
 | **Default size** (`Ctrl/Cmd + 0`)                  | Resets zoom                                 | Recovering from extreme zoom states                                |
 | **Zoom in / Zoom out** (`Ctrl/Cmd + +/-`)          | Changes zoom level                          | Precise editing or high-level review                               |
 | **Enable zooming help for customers**              | Enables zoom-assist overlay behavior        | Shop usability, especially when seats are very small at entry zoom |
+| **Zoom only with Ctrl/Cmd scroll**                 | Requires Ctrl (Windows) or Cmd (Mac) to be held for the mouse wheel to zoom the plan | Letting the page scroll normally when the pointer passes over the plan <Tip>Added in Release 47</Tip> |
 | **Enable sticky grid**                             | Snaps moved objects to nearest grid line    | Cleaner spacing and alignment consistency                          |
 | **Show alignment guides**                          | Shows alignment guides while moving objects | Faster visual alignment across blocks/labels/shapes                |
+
+<Note>
+**Zoom only with Ctrl/Cmd scroll** is on by default, including for existing plans. While it's on, scrolling over the plan without holding the key doesn't zoom — instead, an overlay briefly tells you to use Ctrl (Cmd on a Mac) + scroll to zoom. Turn it off to zoom with the mouse wheel alone. The setting is saved with the plan, so it also applies wherever the plan is shown, including the seat selector customers use in the shop.
+</Note>
 
 ### Seats
 
@@ -467,8 +476,8 @@ The **Properties** tab is object-type aware.
 
 | Group          | Available tooling                               |
 | -------------- | ----------------------------------------------- |
-| **Appearance** | Fill, opacity, stroke width/style/color         |
-| **Geometry**   | Radius (circle), width/height/angle (rectangle) |
+| **Appearance** | Fill colour, opacity, stroke width/style/colour — colours use [colour presets](#colour-presets) |
+| **Geometry**   | Radius (circle), width/height/angle (rectangle), border radius (rectangle) <Tip>Border radius added in Release 48</Tip> |
 | **Linking**    | Add/remove URL link and link target             |
 
 ### QR / Barcode Object
@@ -484,11 +493,29 @@ The **Properties** tab is object-type aware.
 | ----------------- | ----------------------------------------------------------------------------------- |
 | **Content**       | Plain text, rich text (HTML), or ticket-data variable                               |
 | **Variable data** | Field picker and test preview values                                                |
-| **Typography**    | Font size, text color, style, decoration                                            |
-| **Text block**    | Automatic size, width/height, padding, shrink-to-fit, horizontal/vertical alignment |
-| **Box styling**   | Stroke width/style/color, background/fill color                                     |
+| **Typography**    | Font size, text colour, style, decoration                                           |
+| **Text block**    | Automatic size, width/height, horizontal and vertical padding (while automatic size is off), border radius, shrink-to-fit, horizontal/vertical alignment <Tip>Border radius and separate horizontal/vertical padding added in Release 48</Tip> |
+| **Box styling**   | Stroke width/style/colour, background colour — colours use [colour presets](#colour-presets) |
 | **Linking**       | Add/remove URL link and link target                                                 |
 | **Display**       | Angle                                                                               |
+
+### Colour Presets
+
+<Tip>Colour presets added in Release 48</Tip>
+
+The colour settings on shapes (**Fill colour**, **Stroke colour**) and text (**Text colour**, **Stroke colour**, **Background colour**) are dropdowns of presets rather than free colour pickers:
+
+| Option                            | Colour                                                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Transparent**                   | No colour — use it to remove a text background or outline                                                                |
+| **Grey - light**, **Grey - dark** | Fixed grey shades                                                                                                        |
+| **Black**, **White**              | Black or white                                                                                                           |
+| **Brand - 1** to **Brand - 11**   | The shades of your shop's [colour theme](/user-manual/cms/theme-and-branding#colour-theme), from lightest to darkest     |
+| **Custom**                        | Opens a colour picker for any hex value, starting from the object's current colour                                      |
+
+A brand shade is saved as a reference to your colour theme rather than as a fixed colour, so plan text and shapes follow any later change to your theme — in the editor and on the plan customers see in the shop. Colours chosen with **Custom** stay fixed. To remove a text background, choose **Transparent**; this replaces the previous **Has background colour** toggle.
+
+Area stroke and fill colours and the plan background colour still use the standard colour picker. The same presets are used in the [event media template designer](/user-manual/event-management/event-media/custom-pdfs#colour-presets).
 
 ### Image Object
 

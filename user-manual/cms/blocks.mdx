@@ -11,7 +11,7 @@ There are three block types:
 
 - **Event blocks** — pull in events and display them in grids, lists, sliders, maps, or calendars
 - **Article blocks** — pull in [articles](/user-manual/cms/articles) and display them in lists, grids, or sliders
-- **Template blocks** — display custom-designed content defined with a JSON schema
+- **Template blocks** — display custom-designed content built from pre-designed templates, including [video layouts](#video-templates)
 
 Blocks are created through a guided wizard when you add one to a page. You can also manage all blocks from their dedicated sections in admin.
 
@@ -132,7 +132,7 @@ Set an **article limit** to cap how many articles are shown, and toggle **Show p
 
 ## Template Blocks
 
-Template blocks display custom-designed content using a JSON schema. They are the most flexible block type — rather than pulling in events or articles, they render whatever structure and content you define in the schema.
+Template blocks display custom-designed content built from a library of pre-designed templates. They are the most flexible block type — rather than pulling in events or articles, they render whatever content you add to the template you choose.
 
 Template blocks are ideal for:
 - Hero banners with custom layouts
@@ -143,13 +143,59 @@ Template blocks are ideal for:
 
 Template blocks use a single-step wizard:
 
-1. Enter a **Name** for the block
-2. Define the **Schema** — the JSON structure that controls the block's content and layout
-3. Assign the block to one or more **Pages**
-4. Save
+1. Enter a **Block title**
+2. Assign the block to one or more **Pages**
+3. Under **Template**, choose a group — **Basic**, **Lists**, **Tables**, **Images**, **Videos**, **Buttons**, or **Dividers** — and select a layout
+4. Edit the block's content directly in the preview that appears below
+5. Save
 
 <Note>
 Template blocks must be enabled for your company before they appear as an option. When enabled, you can add pre-designed templated blocks to event pages, article pages, and CMS pages.
+</Note>
+
+### Video Templates
+
+The **Videos** group contains three templates for embedding Vimeo videos:
+
+| Template | Layout |
+|----------|--------|
+| **Full page video** | A single video spanning the block |
+| **Video with text on side** | A video alongside a column of text, badges, and buttons (see [below](#video-with-text-on-side)) |
+| **Video slideshow** | A title and a list of videos next to the player. Selecting an entry plays its video, and the slideshow moves on to the next entry when each video finishes. |
+
+#### Video With Text On Side
+
+<Tip>New in Release 48</Tip>
+
+**Video with text on side** places a video next to a column of content, so you can pair a video with a message and a call to action. The text column can include:
+
+- An **icon** or **image** above the text — choose **Icon**, **Image**, or **Hidden** (the default) in its **Image settings**
+- **Badges**, added with **Add badge**
+- A **title** and **description**, both of which support entrance animations
+- **Buttons**, added with **New button** — set the **Button text**, the **Button link**, and whether the link opens on the **Same page** or in a **New tab**
+
+Use the **Images aligned to...** quick setting to put the video on the **Left** or **Right** of the text. The video sits on the right by default, and the two columns stack on smaller screens.
+
+#### Video Settings
+
+Every video template embeds videos from Vimeo. Click **Add video** in the preview, or **Video settings** below an existing video, to configure it:
+
+| Setting | What it does |
+|---------|--------------|
+| **Add Vimeo video ID** | The ID of the Vimeo video to embed |
+| **Loading / Stay tuned image** | An image shown while the video loads, and in place of the video while no video ID is set |
+| **Loop video** | Restarts the video when it reaches the end |
+| **Play in background (disable interactions)** | Loops, autoplays, and mutes the video, and hides all player controls so visitors can't interact with it. The autoplay, mute, controls, and autopause settings are hidden while this is on. |
+| **Autoplay** | Starts playing the video automatically. Autoplay may be blocked in some environments, such as iOS, Chrome 66+, and Safari 11+. |
+| **Mute on load** | Starts the video muted. Unmuted videos might not autoplay in some environments. |
+| **Show video controls** | Displays the Vimeo player controls. When off, visitors can't click the player to play or pause the video. |
+| **Autopause** | Pauses the video when another Vimeo video on the page starts playing. Turn this off if you want more than one Vimeo video playing on the same page. |
+| **Custom parameters** | Additional Vimeo player parameters, entered as a query string (for example `transcript=1&texttrack=en`) |
+
+A newly added video starts with **Play in background**, **Loop video**, **Autoplay**, **Mute on load**, and **Autopause** switched on, and **Show video controls** switched off. The player's colours follow your [theme's](/user-manual/cms/theme-and-branding#colour-theme) primary colours.
+
+<Note>
+Some video settings are only available on certain Vimeo accounts. See Vimeo's [player parameters overview](https://help.vimeo.com/hc/en-us/articles/12426260232977-Player-parameters-overview) if a setting doesn't take effect.
 </Note>
 
 ## Block Styling

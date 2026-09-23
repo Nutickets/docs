@@ -26,7 +26,7 @@ Enable invoice payments separately for each channel:
 | **Enable in Shop** | Allows customers to select invoice as a payment method during online checkout. Requires the invoice payments in shop feature to be enabled for your company. |
 
 <Note>
-Invoice payments in the shop require a separate feature to be enabled for your company. If you do not see the shop toggle, contact your reseller to enable this capability.
+Invoice payments in the shop require a separate feature to be enabled for your company. If you do not see the shop toggle, contact your account manager to enable this capability.
 </Note>
 
 ### Invoice Payment Settings
@@ -40,6 +40,7 @@ Once enabled, configure the following settings:
 | **Paid invoice title** | The title displayed on the invoice after payment has been confirmed. Acts as a receipt title. |
 | **Minimum order value** | The minimum order total required for the invoice payment method to be available. This is a flat rate regardless of currency — no conversion is applied. Only applies to non-box-office checkouts. |
 | **Default payment period** | How many days the customer has to pay. This can be changed during box office sales but is fixed for shop checkout. |
+| **Send a payment reminder before the due date** | How long before the invoice due date to email the customer a reminder, in hours, days, or weeks (up to four weeks). Set to 0 to turn reminders off — they are off by default. Hidden when instant access is enabled, because instant access invoices have no due date. See [Payment Reminders](/user-manual/notifications/payment-reminders). <Tip>New in Release 48</Tip> |
 | **Payment instructions** | The instructions shown to the customer explaining how to make payment (e.g. bank account details, reference numbers). This is a required field and supports rich text formatting. |
 | **Show customer billing address on invoice** | Whether the customer's billing address appears on the generated invoice. |
 | **Show customer name and email address on invoice** | Whether the customer's name and email appear on the generated invoice. |
@@ -52,7 +53,9 @@ The **Default payment period** help text changes depending on which channels are
 
 For single-event orders, invoice payment settings can be overridden at the event level. This allows different events to have their own invoice configuration — for example, a different minimum order value or different payment instructions.
 
-Event-level settings are configured from the event's settings page. When an event-level setting is configured, it takes priority over the company-level setting for orders containing items from that event.
+Event-level settings are configured on the event dashboard in **Purchase settings**, under **Manual payments**, once **Enabled manual payments** is turned on for the event. When an event-level setting is configured, it takes priority over the company-level setting for orders containing items from that event.
+
+This includes the invoice payment reminder: set **Send a payment reminder before the due date** on the event to use a different reminder time for its invoices, or **0** to turn invoice reminders off for the event. Leave it blank to use the company setting. See [Overriding the Invoice Reminder for an Event](/user-manual/notifications/payment-reminders#overriding-the-invoice-reminder-for-an-event).
 
 <Note>
 Manual payments must be enabled at the company level before they can be enabled for an individual event. If manual payments are disabled at the company level, the event-level toggle will show a message: "Manual payments must be enabled at the company level before enabling for an event."
@@ -148,3 +151,4 @@ In the box office, when instant access is eligible, a message confirms: "This or
 - [Payment Lifecycle](/user-manual/payments/payment-lifecycle)
 - [Deposit Payments](/user-manual/payments/deposit-payments)
 - [Split Payments](/user-manual/payments/split-payments)
+- [Payment Reminders](/user-manual/notifications/payment-reminders)

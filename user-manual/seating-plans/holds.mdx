@@ -26,8 +26,9 @@ From **Seating plans → Holds**:
 1. Click **Add new hold**.
 2. Enter a **Name**.
 3. Set a **Colour**.
-4. Assign **Hold users** (admin users for the current company).
-5. Submit.
+4. Optionally choose a **Hold category** (see [Hold Categories](#hold-categories)).
+5. Assign **Hold users** (admin users for the current company).
+6. Submit.
 
 Validation includes unique hold naming and user validity checks.
 
@@ -51,6 +52,37 @@ You can:
 - Edit hold details
 - Soft delete and restore holds
 - Filter seating plans by hold usage from the seating plans list
+
+## Hold Categories
+
+<Tip>Hold categories added in Release 47</Tip>
+
+Hold categories group related holds so you can audit their capacity together. The admin describes them as *"a grouping mechanism when auditing hold capacities on aggregate within the Event Audit report."* For example, you might put every sponsor hold in a **Sponsors** category and every production hold in a **Production** category, then check how many seats each group is holding across an event.
+
+In the [Event audit report](/user-manual/reporting/default-reports), each category adds two columns under a **Hold categories** heading — for a **Sponsors** category, **Sponsors capacity** (the stock held by holds in that category) and **Sponsors remaining** (how much of that held stock is still available).
+
+### Managing Hold Categories
+
+Navigate to **Events > Seating plans** and open the **Hold categories** tab. The tab is also on the **Holds** page, and appears when seating plan holds are enabled for your company and you have permission to view hold categories.
+
+- **Create a category** — Click **Add new hold category**, enter a **Name**, and click **Submit**. Names must be unique within your company.
+- **Rename a category** — Click the category in the list, change its **Name**, and click **Submit**. Holds keep their category when it's renamed.
+- **Delete a category** — Click its delete icon. A category can't be deleted while a hold is assigned to it — you'll see *"This hold category cannot be deleted whilst it is in use."* Remove the category from those holds first. Deleted holds still count, so a category that was assigned to a hold before it was deleted can't be deleted either.
+
+### Assigning a Category to a Hold
+
+Each hold can belong to one category. Set it with the **Hold category** field, which appears:
+
+- When you create or edit a hold from the **Holds** tab.
+- On an event's [plan dashboard](/user-manual/event-management/seated-events#plan-dashboard), when you restrict spaces to a hold — for a new hold created with **Add new hold**, or for an existing hold you have permission to edit.
+
+Start typing to choose an existing category. If you have permission to create hold categories, you can also type a new name — the category is created when the hold is saved. Without that permission, you can only choose from existing categories. To take a hold out of its category, clear the field.
+
+<Note>
+A hold and its category must belong to the same company. If you work across a parent company and its child companies, a hold can only use categories created by the company that owns the hold — otherwise saving shows *"The selected hold category must belong to the same company as the hold."*
+</Note>
+
+Hold categories have their own **Hold categories** group in the role builder, with the standard create, view, edit, and delete actions. See the [Permissions Reference](/user-manual/system-access/permissions-reference#other-event-related-groups).
 
 ## Holds on the Event Dashboard
 

@@ -32,7 +32,7 @@ The **Asked where** setting determines when and where a question appears. These 
 | Option | Behaviour |
 |--------|-----------|
 | **Every item on this event** | Asked once per item type in the basket for this event. |
-| **On specific items on this event** | Asked only when purchasing selected sale items. After choosing this option, a selector lets you pick which items trigger the question. |
+| **On specific items on this event** | Asked only when purchasing selected sale items. After choosing this option, a selector lets you pick which items trigger the question (see [Choosing Specific Items](#choosing-specific-items)). |
 | **On specific items across the schedule** | Like the above, but applies to the selected items across all events in the schedule. |
 | **Every ticket on this event** | Asked individually for **each ticket** purchased. If a customer buys 3 tickets, they answer this question 3 times — once per ticket. |
 | **Every ticket on every event** | Asked per ticket across all events. |
@@ -78,6 +78,30 @@ Each assigned question has four configurable settings, displayed as columns in t
 | **Mandatory** | When enabled, customers must answer this question to proceed through checkout. |
 | **Hide during checkout** | The question is not shown during the checkout flow. Instead, it appears on the post-purchase **Complete data capture** page (see [Post-Purchase Data Capture](#post-purchase-data-capture)). |
 | **Asked where** | The [assignment level](#assignment-levels) that controls which events, items, or contexts this question appears in. |
+
+### Choosing Specific Items
+
+<Tip>Multi-item selection added in Release 47</Tip>
+
+Choosing **On specific items on this event** or **On specific items across the schedule** in **Asked where** opens **Assign items for "[question]"**, where you pick the items that trigger the question. Once items are assigned, the question's row shows a button with the number of items selected — click it to change them.
+
+1. Tick each item that should trigger the question. The count at the top, such as **3 of 12 items selected**, updates as you go. When there are more than five items to choose from, a search box helps you find them.
+2. Click **Submit** to save all of your changes at once. **Submit** stays disabled until you've changed the selection.
+
+If you close the window before submitting, you're asked to confirm: *Your item assignment changes for "[question]" have not been saved yet. Close this modal and lose those changes?*
+
+Each item shows the details that tell similar items apart:
+
+| Asked where | Details shown for each item |
+|-------------|-----------------------------|
+| **On specific items on this event** | The item's type and name, the item it's sold with, its price band and group, and its timeslot |
+| **On specific items across the schedule** | The item's type and name, the items it's sold with, and a summary of where it's listed — for example *Listed in 12 events · 24 timeslots · 3 price bands*. Expand an item to see each event it's listed in and the sale items it's listed under |
+
+The search matches item names and types, as well as groups, price bands, timeslots, and the items an item is sold with.
+
+<Note>
+Fees can't be assigned data capture questions, so they aren't listed.
+</Note>
 
 ### Reordering Questions
 

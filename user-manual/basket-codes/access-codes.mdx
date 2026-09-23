@@ -21,11 +21,15 @@ Access codes must be enabled on your account. If you do not see **Access Codes**
 ## Use Cases
 
 <Accordion title="Presale access for loyalty members">
-  Create an access code linked to early-bird sale items and distribute it to your loyalty mailing list. Set a **Valid from** and **Valid to** date to control the presale window. Once the presale period ends, you can release the same items to the general public by removing the access code restriction.
+  Create an access code linked to early-bird sale items and distribute it to your loyalty mailing list. Set a **Valid from** and **Valid until** date to control the presale window. Once the presale period ends, you can release the same items to the general public by removing the access code restriction.
 </Accordion>
 
 <Accordion title="Partner allocations">
-  Generate [child codes](#generating-child-codes) with unique codes for each distribution partner. Each partner receives their own code linked to the same inventory. Use **Maximum uses** to cap each partner's allocation, and track redemptions through the [access code usage report](#reporting).
+  Generate [child codes](#generating-child-codes) with unique codes for each distribution partner. Each partner receives their own code linked to the same inventory. Use **Maximum number of items** to cap each partner's allocation at a set number of tickets — each child code counts its own items — and track redemptions through the [access code usage report](#reporting).
+</Accordion>
+
+<Accordion title="Per-customer caps on a presale">
+  Stop a presale being bought up by a handful of customers by giving the code a **Maximum items, across orders, per customer** of 4. Each customer can then buy up to four of the code's tickets, whether they check out once or come back for more later. Add **Maximum items per order** to limit how many can go into a single order as well. See [Item Limits](#item-limits).
 </Accordion>
 
 <Accordion title="VIP or invite-only items">
@@ -54,7 +58,7 @@ Two settings control how item visibility changes when an access code is entered:
 | Setting | Effect |
 |---------|--------|
 | **Hide unrestricted items** | When enabled, items that are *not* restricted by any access code are hidden when this code is active. The customer sees only the items linked to their code. |
-| **Hide restricted items after validity period** | When enabled, items linked to this code are hidden after the code's validity period expires, even if the code was previously entered. |
+| **Hide restricted items after validity** | When enabled, items linked to this code are hidden after the code's validity period expires, even if the code was previously entered. |
 
 <Note>
 **Hide unrestricted items** is useful for scenarios where you want the access code to act as a filter — showing only the specific items allocated to that code holder, rather than adding items to the existing catalogue.
@@ -94,17 +98,66 @@ If you operate a parent company with child company shops, access codes assigned 
 
 ## Configuring Eligibility Settings
 
-Eligibility settings control when and how many times a code can be used. On the access code detail page, click **Add new condition** to enable any of the following:
+Eligibility settings control when and how much a code can be used. On the access code detail page, click **Add new condition** to enable any of the following:
 
 | Setting | Purpose |
 |---------|---------|
-| **Hide restricted items after validity period** | Hides the code's linked items after the validity period expires |
-| **Maximum uses** | Caps total uses across all customers (e.g. limit to 100 redemptions) |
-| **Maximum uses per customer** | Caps how many times a single customer can use the code |
+| **Hide restricted items after validity** | Hides the code's linked items after the validity period expires |
+| **Maximum number of orders** | Caps how many orders can use the code across all customers (e.g. limit to 100 redemptions) |
+| **Maximum orders per customer** | Caps how many orders a single customer can place with the code |
+| **Maximum number of items** | Caps how many items the code can unlock in total, across all customers and orders — see [Item Limits](#item-limits) |
+| **Maximum items, across orders, per customer** | Caps how many items a single customer can buy with the code, however many orders they place — see [Item Limits](#item-limits) |
+| **Maximum items per order** | Caps how many of the code's items can go into a single order — see [Item Limits](#item-limits) |
 | **Valid from** | The earliest date and time the code can be used |
-| **Valid to** | The latest date and time the code can be used |
+| **Valid until** | The latest date and time the code can be used |
 
-Each condition can be independently enabled or disabled. When no eligibility settings are configured, the code can be used unlimited times with no time restrictions.
+Each condition can be independently enabled or disabled, and order and item limits can be combined. When no eligibility settings are configured, the code can be used unlimited times with no time restrictions.
+
+**Maximum number of orders** and **Maximum orders per customer** were previously labelled **Maximum uses** and **Maximum uses per customer**. They count orders: each order that uses the code counts once, however many items it contains. Orders still in a basket or awaiting payment count towards these limits; expired, cancelled and refunded orders don't.
+
+### Item Limits
+
+<Tip>New in Release 48</Tip>
+
+Order limits count checkouts, not what's in them, so a customer limited to one order can still fill that order with the code's items. Item limits count the items themselves, which suits codes that represent an allocation of tickets — 50 tickets for a partner, or four presale tickets per customer.
+
+| Condition | What it counts |
+|-----------|----------------|
+| **Maximum number of items** | Every item bought with the code, across all customers and orders |
+| **Maximum items, across orders, per customer** | The items a single customer has bought with the code, across all of their orders |
+| **Maximum items per order** | The code's items in the customer's current order |
+
+#### Which Items Count
+
+- Only items the code unlocks count: tickets, products, guest list entries and season tickets linked to the code through its [assigned items, events or schedules](#assigning-items-to-an-access-code). Other items in the same basket, and fees, don't count.
+- A [bundle](/user-manual/sale-items/bundles) counts as one item, however many items it includes.
+- Items count as soon as they're added to a basket, including baskets that are still in progress and orders awaiting payment. They stop counting if the basket expires, the customer removes the items or the code, or the items are cancelled or refunded.
+- For customers checking out as guests, **Maximum items, across orders, per customer** counts the items bought during their current browsing session.
+
+#### When a Limit Is Reached
+
+A customer can't add more of the code's items than its limits allow. Items that would go over a limit aren't added to the basket, and the customer sees one of these messages:
+
+| Limit | Message |
+|-------|---------|
+| **Maximum number of items** or **Maximum items, across orders, per customer** | *"The maximum uses of this access code has been reached."* |
+| **Maximum items per order** | *"The maximum access code uses for this order has been reached."* |
+
+The same checks run when a customer applies the code to a basket that already contains items it unlocks. If the basket is already over a limit, the code isn't applied.
+
+<Note>
+Reaching an item limit doesn't change a code's [state](#access-code-states). It still shows as **Active** in the admin. A code only becomes **Inactive** when it's outside its validity period or has reached its **Maximum number of orders**.
+</Note>
+
+#### Availability
+
+Item limits are only available on access codes created from 21 September 2026, when Release 48 went live. Before then, the platform didn't record which items were bought with which code, so it can't count item usage for older codes. If the item limit conditions aren't offered under **Add new condition**, the code was created before this date. Create a new access code to use item limits.
+
+When item limits are set on a parent code, each [child code](#generating-child-codes) gets the same limits and counts its own items, so one child code reaching its limit doesn't stop the others being used.
+
+<Note>
+In [box office](/user-manual/box-office/introduction) mode, adding items beyond an item limit doesn't block the sale. Staff see a warning and can continue.
+</Note>
 
 ## Generating Child Codes
 
@@ -115,6 +168,7 @@ For scenarios where you need to distribute many unique codes that share the same
 - The **parent code** acts as a template. It holds all the configuration (assigned items, eligibility settings, visibility options) but cannot itself be used by customers.
 - **Child codes** are randomly generated unique codes that inherit all settings from the parent. These are the codes you distribute.
 - Updating the parent's settings automatically syncs changes to all child codes.
+- Usage limits apply to each child code on its own. For example, a **Maximum number of orders** of 1 lets each child code be used for one order.
 
 ### Creating Child Codes
 
@@ -127,7 +181,7 @@ For scenarios where you need to distribute many unique codes that share the same
 Child codes are generated in the background. The page shows the sync status while processing.
 
 <Note>
-You cannot add children to an access code that has already been used in an order. Create a new parent code instead.
+**Add children** is unavailable on a code that has already been used in an order and has no child codes. Create a new parent code instead. Once a code has children, you can add more at any time, even after existing child codes have been used. Expired, cancelled and refunded orders don't count as uses.
 </Note>
 
 ### Managing Child Codes
@@ -137,45 +191,75 @@ The parent code detail page displays children in four tabs by status:
 | Tab | Contents |
 |-----|----------|
 | **Active** | Child codes currently usable |
-| **Inactive** | Codes outside their validity period or with maximum uses reached |
+| **Inactive** | Codes outside their validity period or that have reached their **Maximum number of orders** |
 | **Disabled** | Codes that have been manually disabled |
 | **Deleted** | Soft-deleted codes that can be restored |
 
+Individual child codes can be deleted or disabled from these lists in the same way as any other code (see [Disabling and Deleting](#disabling-and-deleting)). A child code that hasn't been used is deleted and moves to the **Deleted** tab; one that has been used is disabled instead, so its order history is kept. The same applies to the parent: once any of its child codes has been used, deleting the parent disables it instead.
+
+#### Renaming a Child Code
+
+<Tip>New in Release 48</Tip>
+
+Child codes are generated at random, but you can replace one with a code of your choice — for example, to give a partner a code that's easier to share. In the parent's child code list, click the pencil icon next to the code, type the new code, and confirm with the tick. Press **Esc** or click the cross to cancel.
+
+The new code must be unique and follow the same rules as any access code: letters, numbers, dashes and underscores only. A child code can only be renamed until it's used. Once it has been used in an order, the pencil icon is no longer shown.
+
 ## Enabling the Access Code Input
 
-Customers need an input field to enter their access code. This can be enabled at two levels:
+Customers need somewhere to enter their access code. This can be enabled at two levels:
 
 ### Per-Event
 
-On the event dashboard, find the **Show access code input** section:
+On the event dashboard, edit **Show access code input** and turn on **Show event page access code input**. The dashboard shows the setting as **Visible** or **Hidden**.
 
-- Set to **Visible** to show the access code input on that event's page
-- Set to **Hidden** to hide it
+When visible, customers can enter a code from the padlock button on the event page and from the event's [item selection](#entering-a-code-during-item-selection).
 
 ### Globally
 
-To enable the access code input across the entire shop:
+To let customers enter a code from anywhere in the shop:
 
-1. Open the access code settings (accessible from the access codes admin page)
+1. On the **Access Codes** page, click **Settings** to open **Access settings**
 2. Enable **Show access code input**
 
+Customers can then enter a code from the **Access codes** option in the shop's profile menu.
+
 <Note>
-Even when the global setting is disabled, access codes can still be entered on individual event pages where the per-event toggle is enabled.
+Even when the global setting is disabled, access codes can still be entered on individual event pages where the per-event toggle is enabled. The item selection entry and the profile menu option only appear when your shop has at least one access code that isn't disabled.
 </Note>
 
 ## Entering an Access Code
 
-When the access code input is enabled, customers see it as an option on the event page or shop. The flow is:
+Depending on how the [access code input](#enabling-the-access-code-input) is configured, customers can enter a code from:
 
-1. Customer clicks the access code input
-2. A modal appears with the prompt: *"If you have an access code, please enter it in the box below to unlock additional items."*
+| Where | How it works |
+|-------|--------------|
+| **Event page** | The padlock button opens the access code dialog |
+| **Item selection** | An **Enter access code** option lets the customer type the code without leaving the selection — see [Entering a Code During Item Selection](#entering-a-code-during-item-selection) |
+| **Profile menu** | The **Access codes** option opens the access code dialog |
+| **Access code URL** | The code is applied when the customer opens the link — see [Access Code URL](#access-code-url) |
+
+### Using the Access Code Dialog
+
+1. Customer opens the dialog from the event page or the profile menu
+2. The dialog shows the prompt: *"If you have an access code, please enter it in the box below to unlock items."*
 3. Customer types their code and submits
 4. If valid: restricted items linked to the code become visible. A confirmation message appears: **Access Code Applied**.
 5. If invalid: an error message is shown (see [Error Messages](#error-messages))
 
+### Entering a Code During Item Selection
+
+<Tip>New in Release 48</Tip>
+
+When a customer opens an event's item selection, an **Enter access code** option appears alongside the event details, or at the top of the selection on smaller screens. Selecting it opens an input in place. Once the customer submits a valid code, the list of items reloads with the unlocked items included, so the customer can carry on choosing without starting again.
+
+While a code is applied, the input shows the code with a remove button. Removing the code collapses the input back to **Enter access code**.
+
+If nothing is available to buy — for example, when every item on the event is restricted — the item selection shows *"No items are currently available."* followed by *"If you have an access code, enter it to unlock items."*
+
 ### Removing an Access Code
 
-Customers can remove an applied access code by clicking the remove button in the access code modal. A warning is shown: *"Removing an access code may remove associated items from your basket"*.
+Customers can remove an applied access code with the remove button in the access code dialog or in the item selection. When a code is applied, the dialog warns: *"Removing an access code may remove associated items from your basket"*.
 
 When a code is removed:
 
@@ -193,7 +277,7 @@ Each access code has a shareable URL that automatically applies the code when a 
 | State | Meaning | How It Happens |
 |-------|---------|----------------|
 | **Active** | Code can be used | Default state when within validity period and under usage limits |
-| **Inactive** | Code cannot currently be used | Validity period hasn't started, has expired, or maximum uses reached |
+| **Inactive** | Code cannot currently be used | Validity period hasn't started, has expired, or **Maximum number of orders** reached |
 | **Disabled** | Code has been manually deactivated | Admin deleted a code that had existing orders |
 | **Deleted** | Code has been soft-deleted | Admin deleted a code with no existing orders |
 
@@ -203,6 +287,16 @@ When you delete an access code:
 
 - If the code has **no orders**: it is soft-deleted and can be restored
 - If the code **has orders**: it is disabled instead (to preserve order history)
+
+Expired, cancelled and refunded orders don't count, so a code whose only orders ended that way can still be deleted.
+
+#### Codes in Active Baskets
+
+<Tip>New in Release 48</Tip>
+
+If a customer is part-way through a purchase with the code — or, for a parent code, with any of its child codes — you're asked to confirm before it's disabled, for example: *"The code 'VIP-A7K2' is currently in 2 active basket(s). Disabling it will remove it from those baskets before payment. Are you sure?"* Confirming disables the code.
+
+Only baskets that are still in progress count. Orders awaiting payment, such as invoice or payment link orders, don't trigger this confirmation.
 
 ### Restoring
 
@@ -264,11 +358,14 @@ When a customer enters an invalid or ineligible access code, they see one of the
 
 | Scenario | Message |
 |----------|---------|
-| Code does not exist, is disabled, or is deleted | *"This is not a valid access code."* |
-| Global maximum uses reached | *"The maximum uses for this access code has been met."* |
-| Per-customer maximum uses reached | *"The maximum uses for this access code has been met for the customer"* |
-| Code is outside its validity period | Same as invalid code message |
-| Parent code entered (has children) | Same as invalid code message |
+| Code does not exist, is deleted, or is outside its validity period | *"The access code specified is invalid."* |
+| Code is disabled, or is a parent code with child codes | *"This is not a valid access code."* |
+| **Maximum number of orders** reached | *"The maximum uses for this access code has been met."* |
+| **Maximum orders per customer** reached | *"The maximum uses for this access code has been met for the customer"* |
+| **Maximum number of items** or **Maximum items, across orders, per customer** reached | *"The maximum uses of this access code has been reached."* |
+| **Maximum items per order** exceeded | *"The maximum access code uses for this order has been reached."* |
+
+The item limit messages can also appear after the code is applied, when the customer tries to add more of the code's items than its [item limits](#item-limits) allow.
 
 ## Related Pages
 

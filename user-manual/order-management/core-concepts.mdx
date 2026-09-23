@@ -7,7 +7,7 @@ description: "Understand order lifecycle, statuses, and how to find and manage o
 
 An order is a record of a completed (or in-progress) purchase. It captures everything about the transaction: the items bought, the customer, payments made, and the current state of the purchase. Orders are created when a customer or staff member begins checkout — whether through the online shop, box office, or admin — and progress through a series of statuses as payment is processed, items are fulfilled, and post-purchase actions are taken.
 
-Most day-to-day order management happens in admin under **Sales > Orders**, where you can search, filter, refund, transfer items, modify orders, and track fulfilment. Customers manage their own orders through **My Account > Orders**, where they can view details, request refunds, modify orders, and transfer items to other people.
+Most day-to-day order management happens in admin under **Sales & Reports > Orders**, where you can search, filter, refund, transfer items, modify orders, and track fulfilment. Customers manage their own orders through **My Account > Orders**, where they can view details, request refunds, modify orders, and transfer items to other people.
 
 ## Order Lifecycle
 
@@ -81,9 +81,19 @@ Every order has a status that reflects where it sits in the lifecycle. Here is t
 
 ### Admin Order List
 
-Navigate to **Sales > Orders** to see all orders across your events. The list shows each order's customer name, reference number, completion date, event, status, fulfilment state, total, and payment mode.
+Navigate to **Sales & Reports > Orders** to see all orders across your events. The list shows each order's customer name, reference number, completion date, event, status, fulfilment state, total, and payment mode.
+
+Box office orders completed without assigning a customer show their **Named purchaser** — see [Rename Order](/user-manual/box-office/after-the-sale#rename-order) — in place of a customer name, and guest checkouts from the shop show **Guest Customer**. <Tip>Named purchasers shown in the list in Release 48</Tip>
+
+#### Loading More Orders
+
+<Tip>Infinite scroll added in Release 48</Tip>
+
+Orders load 30 at a time. As you scroll to the bottom of the list, the next page loads automatically; after the first few pages, a **Load more** button appears instead. The footer shows how many orders have loaded so far — for example, **90 of 1,250 loaded**.
 
 #### Filtering
+
+By default, the list shows orders completed in the last 30 days. Change the **Order completed** filter to look further back.
 
 The order list supports extensive filtering to help you find specific orders:
 
@@ -91,7 +101,7 @@ The order list supports extensive filtering to help you find specific orders:
 |---|---|
 | **Customer email** / **Customer name** | Orders for a specific customer |
 | **Order reference** | Exact order reference lookup |
-| **Completed at** | Orders completed within a date range |
+| **Order completed** | Orders completed within a date range |
 | **Event** | Orders containing items from specific events |
 | **Contains** | Orders with specific item types |
 | **Status** | Filter by one or more order statuses |
@@ -103,6 +113,14 @@ The order list supports extensive filtering to help you find specific orders:
 | **Has access code** | Orders that used an access code |
 
 You can also search by order reference, customer name, or email using the search bar.
+
+#### Remembered Filters
+
+<Tip>New in Release 48</Tip>
+
+The order list remembers the filters you last used. If you refresh the page, open an order and come back, or return to the list later, your filters are applied again automatically. Filters are remembered separately for each company you switch between, for the rest of your session.
+
+The page address always includes your current filters, so you can bookmark a filtered view or share it with a colleague. When your filters differ from the default view, a **Reset to default** link appears next to the active filters — click it to return to orders completed in the last 30 days.
 
 ### Customer Order List
 
@@ -130,7 +148,7 @@ If the order is a replacement (from an [order modification](/user-manual/order-m
 
 ### Order Items
 
-All purchased items are listed, grouped by event or product category. Each item shows its name, price, any fees, and its individual status (e.g. whether it has been refunded, transferred, or is awaiting approval).
+All purchased items are listed, grouped by event or product category. Each item shows its name, price, any fees, and its individual status (e.g. whether it has been refunded, transferred, or is awaiting approval). Seated items also show their seat, a **View in seating plan** link, and the **Seat selection mode** — whether the seat was picked by best available or by hand (see [Seeing How Each Seat Was Chosen](/user-manual/event-management/seated-events#seeing-how-each-seat-was-chosen)).
 
 ### Financial Breakdown
 
@@ -189,7 +207,7 @@ Some items require admin approval before payment can be processed. When a custom
 
 ### Reviewing Reservations
 
-Find orders awaiting approval under **Sales > Reservations**, or filter the main orders list by the **Awaiting approval** status.
+Find orders awaiting approval under **Sales & Reports > Reservations**, or filter the main orders list by the **Awaiting approval** status.
 
 ### Approving a Reservation
 
@@ -239,9 +257,9 @@ Orders that are not completed within their time limit expire automatically. This
 - Any split payment holds are reversed
 - If the order was a replacement (from a modification), the original order is unfrozen and restored
 
-### Manually Expiring an Order
+### Manually Expiring a Reservation
 
-Staff can manually expire a pending order from the order detail page by clicking **Expire order**. A confirmation dialog warns that expiring the order will clear the reservation and release all reserved items for general sale, and that once expired, the reservation cannot be restored.
+Staff can manually expire a pending reservation from the reservation detail page by clicking **Expire reservation**. A confirmation dialog warns that expiring the order will clear the reservation and release all reserved items for general sale, and that once expired, the reservation cannot be restored.
 
 <Note>
 Completed orders cannot be expired — use [refunds or cancellations](/user-manual/order-management/refunds-and-cancellations) instead.
@@ -266,33 +284,45 @@ Manually completing an order without verifying payment could lead to overselling
 
 ## Fulfilment Tracking
 
-Order items can be tracked through a fulfilment workflow. This is useful for orders that include physical goods, printed tickets, or items that need to be collected in person.
+Order items can be tracked through a fulfilment workflow. This is useful for orders that include physical goods, printed tickets, or items that need to be collected in person. Items take part when their ticket, season ticket or product has **Allows fulfilment method selection** turned on — see [Fulfilment Fees](/user-manual/fees/fulfilment-fees#choosing-which-items-offer-delivery-options).
 
 ### Fulfilment Statuses
 
 | Status | Meaning |
 |---|---|
-| **Pending** | Item needs to be fulfilled |
-| **Not required** | Fulfilment is not applicable (e.g. e-tickets that are delivered digitally) |
+| **Pending** | The item has a fulfilment method and hasn't been marked as fulfilled yet — including items the customer chose to receive as an eTicket |
+| **Not required** | The item isn't set up for fulfilment, so it has no fulfilment method |
 | **Fulfilled** | Item has been fulfilled and delivered to the customer |
 
 ### Fulfilment Methods
 
 | Method | Description |
 |---|---|
-| **E-ticket** | Digital ticket delivered electronically |
+| **eTicket** | Digital ticket delivered electronically |
 | **In person** | Collected at the venue or event |
 | **Digital** | Other digital delivery |
 | **Shipped** | Physically shipped to the customer |
 
+### The Fulfilment Dashboard
+
+<Tip>New in Release 48</Tip>
+
+To work through fulfilment across many orders, use the [fulfilment dashboard](/user-manual/order-management/fulfilment) under **Sales & Reports > Fulfilment**. It lists every order with items awaiting fulfilment, lets you print tickets and record tracking numbers and postage carriers for shipped orders, and groups orders into batches that can be assigned to members of your team.
+
+While an order is in a pending fulfilment batch, the **Fulfilment status** in the order summary shows the batch reference and who it's **Assigned to**.
+
 ### Updating Fulfilment
 
-1. Open the order and click **Set fulfilment** (or the fulfilment link in the order summary).
+1. Open the order and click **Set fulfilment** (or **Change** next to the **Fulfilment status** in the order summary) to open the **Change fulfilment status** panel.
 2. Select one or more items using the checkboxes (or use **Select all**).
 3. Choose the new **Fulfilment status** and **Fulfilment method**.
 4. Save changes.
 
-Each item shows who fulfilled it and when, so you can track fulfilment progress across the order.
+Each fulfilled item shows who fulfilled it (**Fulfilled by**), along with any tracking number and postage carrier recorded on the [fulfilment dashboard](/user-manual/order-management/fulfilment). Tracking details can only be added from the dashboard.
+
+<Warning>
+If the order is in a fulfilment batch, the panel warns: **"Updating fulfilment here bypasses the batch workflow and may leave the batch out of sync."** The warning names the batch and who it's assigned to, so you can check with them first.
+</Warning>
 
 ## Changing the Order Customer
 
@@ -318,6 +348,7 @@ Changing the customer does not affect payment records — the financial history 
 - [Order Modifications](/user-manual/order-management/order-modifications)
 - [Transfers & Sharing](/user-manual/order-management/transfers-and-sharing)
 - [Rebooking](/user-manual/order-management/rebooking)
+- [Fulfilment Dashboard](/user-manual/order-management/fulfilment)
 - [Payment Lifecycle](/user-manual/payments/payment-lifecycle)
 - [Split Payments](/user-manual/payments/split-payments)
 - [Deposit Payments](/user-manual/payments/deposit-payments)

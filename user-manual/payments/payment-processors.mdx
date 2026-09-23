@@ -81,7 +81,7 @@ Not all gateways work the same way. The platform handles four distinct integrati
   <Tab title="Redirect">
     The customer is redirected to the gateway's hosted payment page to enter their card details. After payment, they're redirected back to your site.
 
-    **Gateways using this approach:** QuickPay, PayTabs, Worldpay, DPO Pay, SimplePay, Revolut
+    **Gateways using this approach:** QuickPay, PayTabs, Worldpay, DPO Pay, SimplePay, Revolut, Montonio
 
     The customer briefly leaves your site, but this approach can be simpler for gateways that don't provide an embeddable SDK.
   </Tab>
@@ -208,6 +208,28 @@ These gateways require you to enter API credentials directly. Most provide separ
   **Capabilities:**
   - Webhook-based payment confirmation
   - Webhook management directly from the gateway settings (view, delete, and restore registered webhooks)
+</Accordion>
+
+<Accordion title="Montonio">
+  Montonio redirects customers to a Montonio-hosted payment page to complete their payment. It accepts payments in **EUR** and **PLN** only.
+
+  **Credentials (test and live):**
+
+  | Field | Description |
+  |-------|-------------|
+  | **Access key** | Your Montonio access key |
+  | **Secret key** | Your Montonio secret key |
+
+  **Capabilities:**
+  - Payment confirmation is received automatically — there are no webhooks to configure in Montonio.
+  - The payment page is shown in the shop's current language where Montonio supports it (English, Estonian, Finnish, German, Latvian, Lithuanian, Polish and Russian), and in English otherwise.
+  - Refunds are sent to Montonio and recorded as complete as soon as Montonio accepts them, because Montonio doesn't report back when a refund finishes processing.
+
+  **Shipping**
+
+  <Tip>Shipping added in Release 48</Tip>
+
+  The **Shipping** tab lets Montonio quote and book parcel deliveries to pickup points at checkout, charged to the customer as a fulfilment fee. It needs the fulfilment fees feature and Montonio shipping contracts, which are separate from your payment contract. See [Montonio Shipping](/user-manual/integrations/montonio-shipping).
 </Accordion>
 
 <Accordion title="Worldpay">

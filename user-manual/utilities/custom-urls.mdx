@@ -14,20 +14,19 @@ This is useful when:
 
 ## Configuring Custom URLs
 
-Custom URLs are managed in **General Settings**.
+Custom URLs are managed in the **Custom site URLs** section of **Settings > General settings**. The section only appears when custom URLs are enabled for your account.
 
-1. Navigate to your admin **General Settings**
-2. Enable **Custom URLs** if not already enabled
-3. Click **Add new URL**
-4. Fill in the required fields:
+1. Navigate to **Settings > General settings**
+2. In **Custom site URLs**, click **Add new URL**
+3. Fill in the required fields:
 
 | Field | Description | Example |
 |-------|-------------|---------|
 | **Full URL** | The complete URL including any subdomains. Do not include `http://` or `https://` | `tickets.example.com` |
-| **Domain Segment** | The root domain portion of your URL. If no subdomain is used, this is the same as the full URL | `example.com` |
-| **Default Language** | Optional — assigns a language to this URL for automatic language-based routing | English, French, etc. |
+| **Base domain** | The root domain portion of your URL. If no subdomain is used, this is the same as the full URL | `example.com` |
+| **Default language** | Optional — assigns a language to this URL for automatic language-based routing | English, French, etc. |
 
-5. Click **Save**
+4. Click **Submit**
 
 <Note>
 Custom URLs require DNS configuration to point your domain to the platform. Contact support for the DNS records you need to set up before your custom URL will work.
@@ -37,7 +36,7 @@ Custom URLs require DNS configuration to point your domain to the platform. Cont
 
 One custom URL can be designated as the **primary URL**. The primary URL is used as the canonical address for your shop and can optionally redirect all default domain traffic to it.
 
-To set a primary URL, click the **Make Primary** icon next to the URL you want to make primary. Only one URL can be primary at a time — setting a new primary automatically unsets the previous one.
+To set a primary URL, click the **Make primary** icon next to the URL you want to make primary. Only one URL can be primary at a time — setting a new primary automatically unsets the previous one.
 
 <Note>
 Primary URLs cannot have a language assigned. They serve as the default destination for all languages that don't have a language-specific URL configured.
@@ -45,7 +44,7 @@ Primary URLs cannot have a language assigned. They serve as the default destinat
 
 ## Redirecting Default Domain Traffic
 
-When you have a primary custom URL configured, you can enable **Redirect to primary URL** in General Settings. When enabled, any visitor who arrives via the standard platform domain is automatically redirected to your primary custom URL.
+When you have a primary custom URL configured, you can enable **Redirect to primary URL** in **General settings**. When enabled, any visitor who arrives via the standard platform domain is automatically redirected to your primary custom URL.
 
 This ensures all customers reach your branded domain regardless of which URL they originally used.
 
@@ -76,7 +75,7 @@ When saving custom URLs, the platform validates each URL to prevent conflicts:
 | Check | What Happens |
 |-------|-------------|
 | **Duplicate custom URL** | Rejected if another company already uses the same custom URL |
-| **System domain conflict** | Rejected if the URL matches an existing company alias and reseller domain combination |
+| **System domain conflict** | Rejected if the URL matches an existing company's default site URL (its site alias combined with the platform's domain) |
 
 If a URL fails validation, an error message explains the conflict so you can choose an alternative.
 
@@ -84,7 +83,7 @@ If a URL fails validation, an error message explains the conflict so you can cho
 
 You can configure multiple custom URLs for your shop. Each URL in the list shows:
 - The full URL
-- The domain segment
+- The base domain
 - The assigned language (if any)
 - Whether it's the primary URL
 

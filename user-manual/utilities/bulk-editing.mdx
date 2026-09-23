@@ -1,11 +1,11 @@
 ---
 title: "Bulk Editing"
-description: "Apply changes across many timeslots, events, or orders at once instead of updating records one by one."
+description: "Apply changes across many timeslots, events, sale items, or orders at once instead of updating records one by one."
 ---
 
 ## Overview
 
-Bulk editing lets you update multiple records simultaneously rather than repeating the same change across each one individually. This is available for several entity types — timeslots, events in a schedule, reservation approvals, and refunds — each with its own scope controls and safeguards.
+Bulk editing lets you update multiple records simultaneously rather than repeating the same change across each one individually. This is available for several entity types — timeslots, events in a schedule, related sale items, reservation approvals, and refunds — each with its own scope controls and safeguards.
 
 All bulk operations respect your existing permissions and visibility groups. Fields that could compromise data integrity are excluded from bulk edits.
 
@@ -89,6 +89,55 @@ Use the field selection checkboxes to choose which categories of data to update.
 
 <Note>
 If the update includes price bands that don't exist on some target events, the system can automatically create the missing sale item groups to accommodate them.
+</Note>
+
+## Updating Related Sale Items
+
+The same [inventory item](/user-manual/sale-items/core-concepts) is often sold on several events — for example, a ticket repeated across every event in a [schedule](/user-manual/event-management/schedules). Each of those copies is a related sale item. When you save changes to one of them, the **Save changes** modal lets you apply the same changes to its related items instead of editing each one.
+
+The modal lists the fields you changed under **These fields will be updated**. Only those fields are copied to the related items you choose.
+
+When you create a new sale item on an event in a schedule, the same modal opens as **Assign item** instead, so you can add the item to other events in the schedule at the same time.
+
+### Choosing Which Items to Update
+
+Pick an option from **Which related items would you like to update**. The item you are editing is always saved — these options only decide which other items receive the same changes. Each option shows in brackets how many related items it covers, and options that wouldn't update any items are hidden.
+
+If the event isn't part of a schedule (or its schedule has no upcoming events), the choice is simply **None** or **Custom selection**. For events in a schedule, the full list is available:
+
+| Option | Updates |
+|--------|---------|
+| **None** | Only the item you are editing |
+| **Items from scheduled events in the same sub group** | Related items on upcoming events in the same [schedule group](/user-manual/event-management/schedules#schedule-groups) as this event |
+| **Items from all ungrouped events in this schedule** | Related items on upcoming events that aren't in a schedule group (shown when the schedule has groups but this event isn't in one) |
+| **Items from upcoming events in this schedule** | Related items on every upcoming event in the schedule |
+| **Items from scheduled events weekly on** [day] | Related items on upcoming scheduled events on the same day of the week |
+| **Items from scheduled events monthly on the** [date] | Related items on upcoming scheduled events on the same day of the month |
+| **Items from scheduled events annually on** [date] | Related items on upcoming scheduled events on the same date each year |
+| **Custom selection** | Only the items you pick — see [Picking Items Yourself](#picking-items-yourself) |
+| **All related items** | Every related item, including any on past events or outside this schedule |
+
+For the preset options, a warning confirms how many related items the save will update — for example, *Saving this change will update 12 related items.* Click **View** to list them. Each item in the list shows its event, its [timeslot](/user-manual/event-management/timeslots) if it has one, the item it is **Sold with** if it's an [add-on](/user-manual/sale-items/add-ons), its sold and reserved stock, and whether it is on sale. The link icon beside the item and event names opens each one in a new tab.
+
+### Picking Items Yourself
+
+With **Custom selection**, the related items are listed with a toggle each, so you can switch on exactly the ones to update. A counter shows how many are selected out of those listed, with **Select all** and **Unselect all** to change them in one go.
+
+#### Filtering the List
+
+<Tip>Event and timeslot start time filters added in Release 48</Tip>
+
+Two filters above the list narrow it down, which helps when an item is repeated across many events and timeslots:
+
+| Filter | Shows | Available when |
+|--------|-------|----------------|
+| Event (default **All events in this schedule**) | Only the related items on the event you pick | The item is on a scheduled event and its related items span more than one event |
+| Timeslot start time (default **All time slots**) | Only related items in timeslots that start at the time you pick, on any event | The related items are in timeslots with more than one start time |
+
+**Select all** selects only the items currently listed, so the filters and **Select all** work together — for example, pick the 14:00 start time and click **Select all** to update the 14:00 timeslot's copy of the item on every event in the schedule. Pick an event as well to limit the change to that one event; once an event is picked, the start time filter only offers times from that event.
+
+<Note>
+Changing a filter unselects any items it hides, so only the items shown in the list are updated when you save.
 </Note>
 
 ## Bulk Reviewing Reservations

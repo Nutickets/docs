@@ -86,9 +86,15 @@ All sales reports share the same underlying engine. The difference between them 
 | **Existing customer (%)** | Percentage of purchasers who have bought before |
 | **Total gift vouchers unclaimed** | Gift vouchers issued but not yet redeemed |
 | **Total gift vouchers claimed** | Gift vouchers that have been redeemed |
+| **Total orders (before adjustments)** | Distinct orders in the row, before cancellations and refunds <Tip>Added in Release 47</Tip> |
+| **Total orders (after adjustments)** | Distinct orders in the row, after cancellations and refunds — an order drops out once all of its items in the row are cancelled or refunded |
 
 <Note>
 "Before adjustments" means the count includes items that were later cancelled or refunded. "After adjustments" excludes those items. Use "after adjustments" for a net count of currently valid items.
+</Note>
+
+<Note>
+The **Total orders** fields count each order once per row. An order with items in more than one row — for example, tickets for two events when the report is grouped by event — is counted in each of those rows, so the [totals row](/user-manual/reporting/using-reports#totals-row) can add up to more than the number of orders placed.
 </Note>
 </Accordion>
 
@@ -384,6 +390,7 @@ Attendance reports provide per-item data covering the full lifecycle from purcha
 | **Seating Plan Price Band** / **Price Band ID** | Price band |
 | **Seating Plan Stand** / **Gate** / **Table** / **Stairs** | Structural elements |
 | **Seating Plan Hold** / **Seating Plan Hold (at PoS)** | Hold information |
+| **Seat selection mode** | How the seat was chosen: **Best available** (assigned by [best available seating](/user-manual/event-management/seated-events#best-available-seats)) or **Manual** (picked on the seating plan). Shows **Unknown** for a seated item with no recorded method — for example, one sold before the method was tracked — and **N/A** for items without a seat. Included by default in the **Ticket attendance report** and **Season ticket attendance report**. <Tip>Added in Release 47</Tip> |
 | **Space Display As** | How the space is labelled |
 | **Space Is Accessible** | Whether the space is marked accessible |
 
@@ -653,7 +660,7 @@ Scanning reports provide individual scan event records — each row represents a
 | **Product scanning report** | Scan data for products |
 | **Guest list scanning report** | Scan data for guest list entries |
 | **Item scanning report** | Scan data for all item types |
-| **Failed scans report** | Failed scan attempts with failure details <Tip>New in Release 46</Tip> |
+| **Failed scans report** | Failed scan attempts with failure details |
 
 ### Fields
 
@@ -682,8 +689,6 @@ Scanning reports provide individual scan event records — each row represents a
 Scanning reports also include seating plan fields, timeslot fields, customer detail fields, and data capture response fields.
 
 ### Failed Scans Report
-
-<Tip>New in Release 46</Tip>
 
 The Failed scans report is a pre-filtered view of scanning data limited to rejected scans. Each row represents an individual failed scan attempt — the barcode that was scanned, when and where it happened, and the reason it was rejected. The report is populated from data recorded by [Access Control Pro](/mobile-apps/access-control-pro/scanning-and-admission#failed-scan-logging) — every scan that doesn't result in a successful admission is logged on the device and synced to the platform.
 
@@ -1423,6 +1428,224 @@ Provides an overview of all past and upcoming events with their configuration de
 <Note>
 The event report has no mandatory filters, so it shows all events across all companies by default. Use filters to narrow to specific companies, date ranges, or event statuses.
 </Note>
+
+---
+
+## Event Audit Report
+
+<Tip>Event audit report added in Release 47</Tip>
+
+The **Event audit report** reconciles an event's ticket stock. For each price band, or each ticket, it shows how much capacity there is, how much is set aside in [seating plan holds](/user-manual/seating-plans/holds), how much of that held stock is still unsold, and how many tickets have been sold, issued as complimentary, or are still reserved. Use it to check that held, sold, and available stock add up — for example, to see how many seats remain in each hold during an on-sale, or to confirm a sponsor's allocation before releasing it.
+
+The report is listed under **Miscellaneous reports**. Select at least one event in the **Events** filter before it shows any data.
+
+It covers tickets only — products, guest lists, and other item types are not included.
+
+### Groupings
+
+| Grouping | What it shows |
+|----------|---------------|
+| **Price band** (default) | One row per seating plan price band, combining the tickets in that band. Only tickets assigned to a price band are included. |
+| **Sale item** | One row per ticket, including tickets that aren't assigned to a price band. |
+
+### Fields
+
+<Accordion title="Event audit fields">
+
+| Field | Description |
+|-------|-------------|
+| **Sale item ID** / **Sale item name** | The ticket. Only available when grouped by **Sale item**. |
+| **Event ID** / **Event name** | The event |
+| **Price band ID** / **Price band name** | The ticket's [price band](/user-manual/event-management/seated-events#assigning-tickets-to-price-bands) |
+| **Total stock** | The capacity set directly against the sale item |
+| **Total held** | Seats in the price band that are held in seating plan holds |
+| **Total held remaining** | Held seats in the price band that are still available |
+| **[Category] capacity** / **[Category] remaining** | The same two figures for the holds in each [hold category](/user-manual/seating-plans/holds#hold-categories), with one pair of columns per category — for example **Sponsors capacity** and **Sponsors remaining**. Listed under **Hold categories** in the field list, and only offered when your company has hold categories. |
+| **Comp issued** | Tickets issued with the complimentary payment method, or free tickets that have been sold |
+| **Reservations** | Tickets in orders that aren't complete yet — active baskets, unpaid reservations such as payment links, invoices, deposit balances, and pay-on-site orders, and orders awaiting approval |
+| **Sold** | Tickets sold, excluding complimentary and free tickets. [Instant access orders](/user-manual/payments/instant-access-orders) count as sold before they are paid. |
+| **Gross sales ([currency])** / **Net sales ([currency])** | For the tickets counted as **Sold**, the total charged including fees, and their base price. One pair of columns per currency. |
+
+</Accordion>
+
+The report opens grouped by **Price band**, with **Total stock**, **Total held**, **Comp issued**, **Reservations**, **Sold**, and gross and net sales columns selected. Cancelled, rejected, and refunded tickets are not counted in any of the sales figures.
+
+<Note>
+Held figures are measured for the whole price band. When the report is grouped by **Sale item**, every ticket in the same price band shows the same held figures, so the totals row leaves the held and hold category columns blank. Group by **Price band** to total them.
+</Note>
+
+### Key Filters
+
+Events (mandatory). **Hide currency symbols** and **Hide currency formatting** are available under **Report settings**.
+
+---
+
+## Event Sale Item Report
+
+<Tip>Sale item configuration report added in Release 47</Tip>
+
+The **Event sale item report** lists the sale items on your events with their configuration — one row per sale item. It brings together on-sale and validity dates, stock, prices for each sales channel, purchase restrictions, visibility and fulfilment settings, and [resale](/user-manual/resale/configuration) settings, so you can check setup at scale rather than opening each item. For example, before an on-sale you can confirm that every ticket across a [schedule](/user-manual/event-management/schedules) has the right on-sale date, price, and tax band.
+
+The report is listed under **Miscellaneous reports**. It opens with **Sale item name**, **Item type**, **Event name**, **Timeslot name**, **On sale from**, **On sale until**, **Total stock**, **Price band**, **Tax band**, **Resale enabled**, and the ticket shop base and total price. When you manage more than one company, **Company name** is included too.
+
+<Note>
+This is a configuration report. For sales figures by sale item, use the **Sale item report** under [Sales Reports](#sales-reports).
+</Note>
+
+### Fields
+
+<Accordion title="Sale item fields">
+
+| Field | Description |
+|-------|-------------|
+| **Sale item ID** / **Sale item name** / **Item type** | The sale item |
+| **External ID** | The sale item's external reference |
+| **Sale item group Name** | The [sale item group](/user-manual/event-management/sale-item-groups) the item belongs to |
+| **Is a bundle** | Whether the sale item leads a [bundle](/user-manual/sale-items/bundles) |
+| **Bundled in** | The bundles this sale item is sold as part of |
+| **Company name** | The owning company |
+| **Created At** / **Updated at** | Record timestamps |
+
+</Accordion>
+
+<Accordion title="Event fields">
+
+| Field | Description |
+|-------|-------------|
+| **Event name** | The event |
+| **Timeslot name** / **Timeslot start** / **Timeslot end** | The [timeslot](/user-manual/event-management/timeslots) the item belongs to, if any |
+
+</Accordion>
+
+<Accordion title="On sale & validity">
+
+| Field | Description |
+|-------|-------------|
+| **On sale from** / **On sale until** | The item's sales window |
+| **Valid From** / **Valid Until** / **Check-in time** | When the item is valid for entry |
+| **Show validity in shop** | Whether validity dates are shown to customers |
+| **Total stock** / **Remaining stock** | Stock set on the sale item itself. Limits on the item, timeslot, sale item group, or event may further restrict what can actually be sold. |
+
+</Accordion>
+
+<Accordion title="Pricing information">
+
+| Field | Description |
+|-------|-------------|
+| **Price band** | The item's seating plan price band |
+| **Base price** / **Total price** | The item's price before fees, and the total including fees |
+| **Processing fee** / **Customer processing fee** | The processing fee, and the part of it the customer sees — zero when the fee is absorbed |
+| **[platform name] fee** / **Customer [platform name] fee** | The platform fee, and the part of it the customer sees — zero when the fee is absorbed |
+| **Display total** / **Display fees** | The price and fees shown to the customer. With [all-in pricing](/user-manual/fees/all-in-pricing), these include any additional fees; otherwise they match the total price and customer fees. |
+| **Tax inclusive** | Whether the price includes tax |
+| **Potential yield ([currency])** | **Total stock** multiplied by the ticket shop total price. Only shown when the sale item has its own stock set. It assumes the stock sells out, so treat it as a ceiling rather than a forecast. |
+| **Tax band** / **Tax rate (%)** | The item's [tax band](/user-manual/tax/tax-bands) and its rate |
+| **Dynamically priced** | Whether the item is priced through [dynamic pricing](/user-manual/integrations/dynamic-pricing) |
+
+The price and fee columns appear once for each sales channel and currency — for example **Base price (Ticket Shop, GBP)** and **Base price (Box office, GBP)**, plus **Kiosk** when kiosk mode is enabled for your account. Each shows the price set for that channel, or the item's standard price where no channel price is set.
+
+</Accordion>
+
+<Accordion title="Purchase restrictions">
+
+| Field | Description |
+|-------|-------------|
+| **Minimum per order** / **Maximum per order** / **Force minimum per order** | [Order quantity limits](/user-manual/sale-items/core-concepts#order-limits) |
+| **Sold in multiples of** | The required purchase multiple |
+| **Purchase limit per customer** | The per-customer limit |
+| **Prerequisites** / **Requires all prerequisites** | Items that must be bought alongside this one, and whether all of them are required |
+| **Requires approval** | Whether purchases need [approval](/user-manual/sale-items/item-approvals) |
+| **Customer Groups** | [Customer groups](/user-manual/customer-management/customer-groups) the item is restricted to |
+
+</Accordion>
+
+<Accordion title="Visibility & fulfilment">
+
+| Field | Description |
+|-------|-------------|
+| **Hidden from shop** / **Hidden from box office** / **Hidden from kiosk** | Where the item is hidden |
+| **Hide when off sale** / **Hide when out of stock** | Automatic hiding settings |
+| **Can be fulfilled** / **Fulfilment method** | [Fulfilment](/user-manual/fees/fulfilment-fees) settings |
+| **Can be downloaded** / **Printable** | Whether tickets can be downloaded, and the [custom PDF](/user-manual/event-management/event-media/custom-pdfs) template used |
+| **Enable mobile wallet passes** / **Wallet pass** | [Mobile wallet](/user-manual/event-management/event-media/mobile-wallets) settings and design |
+| **Can access stream** | Whether the item grants access to an [online event](/user-manual/event-management/online-events) stream |
+
+</Accordion>
+
+<Accordion title="Resale settings">
+
+| Field | Description |
+|-------|-------------|
+| **Resale enabled** | Whether resale is enabled for the item |
+| **Resale listing window start (hours)** / **Resale purchase window start (hours)** / **Resale purchase window end (hours)** | Resale timing windows |
+| **Resale sales channel** / **Resale pricing strategy** / **Resale payout mode** | How resold items are sold, priced, and paid out |
+| **Resale fee payer split** / **Resale seller fee contribution** | How [resale fees](/user-manual/resale/resale-fees) are shared |
+| **Resale minimum price margin** / **Resale maximum price margin** | Resale price limits |
+
+Each resale column shows the setting in effect for the item: its own override if it has one, otherwise the event's setting, otherwise your company's.
+
+</Accordion>
+
+<Note>
+Donation parents and other items managed automatically by the platform are not listed.
+</Note>
+
+### Key Filters
+
+Events, sale items, item types.
+
+---
+
+## Event Timeslot Report
+
+<Tip>Timeslot configuration report added in Release 47</Tip>
+
+The **Event timeslot report** lists every [timeslot](/user-manual/event-management/timeslots) on your events — one row per timeslot — with its dates, sales window, stock, and display settings, plus a count of the sale items assigned to it. Use it to audit timeslot setup across many events at once, for example to find timeslots with no sale items available in the shop, or stock that doesn't match your venue's capacity.
+
+The report is listed under **Miscellaneous reports** and is available when timeslots are enabled for your account. It opens with every field except **Timeslot order**.
+
+<Note>
+This is a configuration report. For sales figures by timeslot, use the **Timeslot report** under [Sales Reports](#sales-reports).
+</Note>
+
+### Fields
+
+<Accordion title="Timeslot fields">
+
+| Field | Description |
+|-------|-------------|
+| **Timeslot ID** / **Timeslot name** | The timeslot |
+| **Event name** | The event the timeslot belongs to |
+| **Company name** | The owning company. Included by default when you manage more than one company. |
+| **Timeslot start** / **Timeslot end** | When the timeslot runs |
+| **Timeslot order** | The timeslot's position in the event's list |
+| **Created At** / **Updated at** | Record timestamps |
+
+</Accordion>
+
+<Accordion title="Timeslot settings">
+
+| Field | Description |
+|-------|-------------|
+| **On sale from** / **On sale until** | The timeslot's sales window |
+| **Total stock** / **Remaining stock** | The timeslot's stock and how much is still available |
+| **Hide when off sale** / **Hide when out of stock** | Whether the timeslot is hidden from customers when off sale or sold out |
+
+</Accordion>
+
+<Accordion title="Sale item counts">
+
+| Field | Description |
+|-------|-------------|
+| **Sale items configured** | Sale items assigned to the timeslot |
+| **Sale items in box office** | Of those, the sale items not hidden from box office |
+| **Sale items in shop** | Of those, the sale items not hidden from the shop |
+
+</Accordion>
+
+### Key Filters
+
+Events.
 
 ---
 

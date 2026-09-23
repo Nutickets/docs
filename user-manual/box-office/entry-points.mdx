@@ -26,7 +26,7 @@ The **Sell event** button is only visible when the staff member has the **Sell i
 
 1. Click **Enter box office** in the admin panel
 
-This launches box office at the shop homepage, where the staff member can browse all available events.
+This launches box office on the shop's events page, where the staff member can search and browse all available events (see [Finding Events](#finding-events)).
 
 ### From a Customer Profile
 
@@ -38,6 +38,26 @@ This launches box office with that customer pre-assigned to the session. A confi
 <Note>
 Starting a new box office session clears any existing box office basket. If you need to keep your current basket, use the same session rather than launching a new one.
 </Note>
+
+## Finding Events
+
+In box office mode, the events page lists events as compact rows built for quick selection. Each row shows the event's name, date, and venue, with a capacity bar showing how many tickets (and season tickets, where used) have sold. Use the search and filters at the top of the page to narrow the list, then click an event to open its ticket selection.
+
+When events are grouped into [schedules](/user-manual/event-management/schedules), a schedule appears as a single row with two buttons instead: **View next event** opens the ticket selection for the schedule's next event, and **View schedule** lists the schedule's events so staff can pick a different date. <Tip>**View schedule** button added in Release 47</Tip>
+
+### Availability Badges
+
+<Tip>New in Release 48</Tip>
+
+A badge on an event's row flags events that can't be sold as normal, so staff can spot them before opening the event:
+
+| Badge | Meaning |
+|-------|---------|
+| **Sold Out** | The event has no remaining availability |
+| **On sale soon** | The event's [general sale](/user-manual/event-management/sales-periods#period-types) period hasn't started yet |
+| **Off Sale** | The event isn't currently on sale |
+
+Only one badge is shown per event — **Sold Out** takes priority. Badges are informational: staff can still open the event, but selling beyond its stock or outside its on-sale dates requires the relevant [validation bypass permissions](/user-manual/box-office/discounts-and-overrides#validation-bypass-permissions). Schedule rows don't show availability badges.
 
 ## Deep Link Parameters
 

@@ -36,14 +36,17 @@ Cancelling an event applies the following changes in a single operation:
 
 ### From the Event Dashboard
 
-1. Navigate to the event dashboard for the event you want to cancel.
-2. Click **Change Event Status**.
-3. Under the **Permanent status updates** section, click **Cancel Event**.
-4. Review the help text and the irreversibility warning.
-5. Click **Confirm** to cancel the event.
+Open the event dashboard for the event you want to cancel. Where the cancel option sits depends on whether the event has been published:
+
+- **Published events** — click **Change event status**, then click **Cancel event** under **Permanent status updates**.
+- **Draft events** — click **Cancel event** in the actions at the top of the dashboard. This lets you retire a draft that will never go on sale. <Tip>Cancelling drafts from the dashboard actions added in Release 47</Tip>
+
+A **Cancel event** button is also available at the bottom of the dashboard, next to **Issue refunds**, for any event that hasn't been cancelled.
+
+Each option opens the same confirmation. Review the help text — *"Cancelling the event will take it off sale, hide it from listings and update its status to cancelled. Customers will not be refunded or notified at this stage, this can be managed via the 'Issue refunds' section from the event dashboard."* — and the warning *"This action is irreversible and once cancelled, the event can no longer be put on sale."*, then click **Confirm** to cancel the event.
 
 <Note>
-The cancel option is only visible if the event has not already been cancelled and you have the Cancel permission.
+The cancel options are only available if the event has not already been cancelled and you have the Cancel permission.
 </Note>
 
 ### From the Event Listing
@@ -62,10 +65,16 @@ If your company has the **past events editing limitation** enabled, events that 
 
 Cancelling an event does not process refunds — this is a deliberate separation so you can control how refunds are handled.
 
-After cancelling an event (or before, via the listing workflow), navigate to the **Issue Refunds** section on the event dashboard to manage refunds. See [refunds and cancellations](/user-manual/order-management/refunds-and-cancellations) for details on refund options.
+After cancelling an event (or before, via the listing workflow), click **Issue refunds** on the event dashboard to open the bulk refund page. See [Bulk Refunds](/user-manual/order-management/refunds-and-cancellations#bulk-refunds) for details on refund options.
+
+### Cancelling Tickets Now, Refunding Later
+
+<Tip>Cancel-then-refund support added in Release 48</Tip>
+
+Cancelling the event doesn't cancel its tickets. If you want every ticket voided straight away but need to issue the refunds later, use the bulk refund page twice: first with the **Cancel items** refund type to cancel the tickets without moving any money, then — once you're ready — with a refund type and the **Cancelled orders** filter set to **Show only** to refund the orders you cancelled. Orders whose items were cancelled without a refund stay selectable for a refund until money has been paid back. See [Cancelling Now, Refunding Later](/user-manual/order-management/refunds-and-cancellations#cancelling-now-refunding-later).
 
 <Note>
-On the bulk refunds page, orders where all items for the event have already been individually cancelled appear greyed out and cannot be selected for further refund processing.
+On the bulk refund page, an order is marked **Cancelled** when all of its items for the event have been cancelled but no money has been paid back, and **Refunded** once money has been returned. Refunded orders are struck through and can't be selected again.
 </Note>
 
 ## Effects on Other Features

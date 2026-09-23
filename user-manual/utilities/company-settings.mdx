@@ -9,87 +9,87 @@ Company settings control how your platform behaves for customers and staff. Thes
 
 Settings are managed in the admin area under **Settings**, which is organised into tabs:
 
-- **Company Details** -- business name, contact information, billing details, and shop alias
-- **General Settings** -- basket, checkout, transfer, notification, and listing behaviour
-- **Payment Settings** -- payment gateways and manual/invoice payment configuration
-- **Pricing Settings** -- tax display, tax input, and tax calculation method (requires the advanced tax controls feature)
+- **Company details** -- business name, contact information, and billing details
+- **General settings** -- basket, checkout, transfer, notification, listing, localisation, and site URL settings
+- **Payment settings** -- payment gateways, checkout settings, and manual/invoice payment configuration
+- **Pricing settings** -- tax display, tax input, and tax calculation method (requires the advanced tax controls feature)
 
-Additional settings tabs appear depending on your enabled features and integrations, such as **Feature Settings**, **Order Modification**, and integration-specific configuration.
+Additional settings tabs appear depending on your enabled features and integrations, such as **Shop visibility**, **Feature settings**, **Order modification**, and integration-specific configuration.
 
 <Warning>
-Some settings have dependencies or mutual exclusions. For example, global basket cannot be used with forced checkout or certain integrations, and preserve barcodes requires instant transfers. See [Setting Conflicts](#setting-conflicts-and-guardrails) for the full list.
+Some settings have dependencies or mutual exclusions. For example, global basket cannot be used with forced checkout or certain integrations, and keeping the original barcode on transfer requires instant transfers. See [Setting Conflicts](#setting-conflicts-and-guardrails) for the full list.
 </Warning>
 
 ## Basket and Checkout Behaviour
 
-These settings are found under **Settings > General Settings**. They control how baskets work and how customers move through checkout.
+These settings are found under **Settings > General settings**. They control how baskets work and how customers move through checkout.
 
 ### Basket Timeout and Size
 
 | Setting | Description |
 |---------|-------------|
-| **Basket timeout (in minutes)** | How long items are held in a customer's basket before expiring. Accepts a value between 1 and 60 minutes. |
-| **Basket size limit** | Optionally override the maximum number of items allowed per basket in the shop. This limit is not enforced in box office. |
+| **Basket timeout (minutes)** | How long items are held in a customer's basket before expiring. Accepts a value between 1 and 60 minutes. |
+| **Basket size limit** | The maximum number of items a customer can hold in their basket in the shop. Leave it blank to use the platform default. This limit isn't applied in box office. |
 
 ### Guest Checkout
 
 | Setting | Description |
 |---------|-------------|
-| **Enable shop guest checkout** | When enabled, customers can complete a purchase without creating an account. |
-| **Enable guest user logout** | Appears when shop guest checkout is enabled. When enabled, guest users are logged out when checkout completes or their basket expires. This is useful when guest checkout is used on a shared device. |
-| **Enable box office guest checkout** | Controls guest checkout behaviour in box office. Options are: **Allow guest checkouts** (full guest mode), **Require customer name** (name only, no email required), or **Require customer name & email** (links each order to a full customer record). |
+| **Allow shop guest checkout** | When on, customers can check out in the shop without creating an account. |
+| **Log guest customers out after checkout** | Appears when shop guest checkout is on. Guest customers are signed out automatically once checkout finishes or their basket expires. This is useful when guest checkout is used on a shared device, such as a kiosk. |
+| **Box office guest checkout** | Controls how much customer information box office staff need to capture at checkout. Options are: **Allow guest checkouts** (no details required), **Require customer name** (name only, so tickets stay tied to a person), or **Require customer name & email** (links each order to a full customer record). |
 
 ### Global Basket
 
-The **Enable global basket** setting controls whether customers can purchase items from multiple events in a single order.
+The **Global basket** setting controls whether customers can purchase items from multiple events in a single order.
 
 - **Enabled** -- customers can add items from different events to the same basket and check out once.
 - **Disabled** -- each basket is limited to a single event. The customer must complete their purchase before shopping for another event.
 
 <Note>
-Global basket cannot be enabled when event-level tracking pixels are active. If that feature is enabled, the global basket toggle is locked to disabled, with the message: "Global basket cannot be turned on when tracking pixels are enabled."
+Global basket cannot be turned on when event-level tracking pixels are active. If that feature is enabled, the global basket toggle is locked off, with the message: "Global basket can't be used while event-level tracking pixels are on."
 </Note>
 
 ### Forced Checkout
 
-The **Enable forced checkout** setting prevents customers from navigating away from checkout once they have started.
+The **Force customers to finish checkout** setting prevents customers from navigating away from checkout once they have started.
 
 - **Enabled** -- customers see a confirmation prompt if they attempt to leave checkout. If they confirm, their basket items are removed.
 - **Disabled** -- customers can freely navigate away from checkout and return later (within the basket timeout).
 
 <Warning>
-Forced checkout cannot be enabled when global basket is enabled. The toggle is disabled with the tooltip: "Forced checkout is only available when global basket is disabled."
+Forced checkout cannot be turned on while global basket is on. The toggle is disabled with the tooltip: "Only available when global basket is off."
 </Warning>
 
 ## Transfers and Sharing
 
-These settings control how purchased items can be transferred between customers. They are found under **Settings > General Settings** in the **Advanced settings** section.
+These settings control how purchased items can be transferred between customers. They are found under **Settings > General settings** in the **Advanced settings** section.
 
 | Setting | Effect when enabled | Effect when disabled |
 |---------|-------------------|---------------------|
-| **Allow transfer corrections** | Purchasers can always transfer an item, even if someone else has already claimed ownership. Customers can amend transfers regardless of other sharing settings. | Standard transfer rules apply -- once claimed, an item cannot be re-transferred by the original purchaser. |
-| **Enable instant transfers** | Transferred items are processed and made accessible immediately. The recipient does not need to claim, complete their profile, or fill out data capture. Recipients still receive a notification but do not need to act on it. | Transfers require the recipient to claim and complete any required profile steps before accessing the item. |
-| **Preserve barcodes on instant transfer** | The original barcode is preserved when an item is transferred, so the recipient uses the same barcode. Only available when instant transfers are enabled. | Barcodes are regenerated when an item is transferred, giving the recipient a new barcode. |
-| **Only allow purchaser to transfer / share items** | Only the original purchaser can transfer items. Once transferred to another person, that person cannot transfer it again. | Any current holder of an item can transfer it onward. |
+| **Allow transfer corrections** | The original purchaser can always pull an item back and transfer it to someone else, even if it has already been claimed — useful when a customer needs to fix a mis-typed recipient. | Standard transfer rules apply -- once claimed, an item cannot be re-transferred by the original purchaser. |
+| **Instant transfers** | Transferred items are handed over straight away (top-ups are excluded). The recipient does not need to claim them, fill in their profile, or complete any data capture. Recipients still receive a claim email, but acting on it is optional. | Transfers require the recipient to claim and complete any required profile steps before accessing the item. |
+| **Keep the original barcode on transfer** | The recipient keeps the same barcode that the purchaser originally received. Only available when instant transfers are on. | Barcodes are regenerated when an item is transferred, giving the recipient a new barcode. |
+| **Only the purchaser can transfer items** | Only the original purchaser can transfer items. Once transferred to another person, that person cannot transfer it again. | Any current holder of an item can transfer it onward. |
 
 <Note>
-**Preserve barcodes on instant transfer** is only available when **Enable instant transfers** is enabled. If instant transfers are disabled, the toggle is locked with the tooltip: "This option is only available when 'Enable instant transfers' is enabled."
+**Keep the original barcode on transfer** is only available when **Instant transfers** is on. If instant transfers are off, the toggle is locked with the tooltip: "Only available when instant transfers are on."
 </Note>
 
 <Warning>
-When barcodes are preserved on transfer, the original purchaser could still use the barcode to scan into an entry zone before the new recipient does, making it invalid for the recipient. A warning is displayed in the UI when this setting is enabled.
+When the original barcode is kept, the purchaser and the recipient end up with the same barcode, so the purchaser could scan into an entry zone first, leaving the recipient unable to enter. A warning is displayed in the UI when this setting is turned on.
 </Warning>
 
 ## Pricing and Tax
 
-Pricing settings are found under **Settings > Pricing Settings**. This tab is only visible if your account has the advanced tax controls or display pricing features enabled.
+Pricing settings are found under **Settings > Pricing settings**. This tab is only visible if your account has the advanced tax controls or display pricing features enabled.
 
 ### Price Input and Display
 
 | Setting | Options | Description |
 |---------|---------|-------------|
-| **Price input** | Prices including taxes (default), Prices excluding taxes | Controls whether the prices you enter in admin already include tax or not. |
-| **Price display** | Prices including taxes (default), Prices excluding taxes | Controls whether prices shown to customers in the shop include or exclude tax. |
+| **Price input settings** | Prices including taxes (default), Prices excluding taxes | Controls whether the prices you enter in admin already include tax or not. |
+| **Price display settings** | Prices including taxes (default), Prices excluding taxes | Controls whether prices shown to customers in the shop include or exclude tax. |
 
 <Note>
 You cannot set price display to exclude taxes when the all-in pricing feature is enabled. Attempting to do so results in the validation message: "Cannot display prices excluding tax when the display pricing feature is enabled." See [All-In Pricing](/user-manual/fees/all-in-pricing) for details.
@@ -108,17 +108,18 @@ The setting page includes a visual illustration showing how each method affects 
 
 ## Manual / Invoice Payments
 
-Manual payment settings allow you to offer invoice-based payments where customers receive payment instructions and pay outside the platform. These settings are found under **Settings > Payment Settings**.
+Manual payment settings allow you to offer invoice-based payments where customers receive payment instructions and pay outside the platform. These settings are found under **Settings > Payment settings**, in the **Manual payments** section.
 
-When manual payments are enabled, additional configuration options appear:
+Manual payments are turned on with the **Box Office** and **Shop** toggles. Turning on **Shop** also turns on **Box Office**, and turning off **Box Office** also turns off **Shop**. Turning a toggle on opens the **Manual payment settings** panel, where the remaining options are configured:
 
 | Setting | Description |
 |---------|-------------|
-| **Enable in Box Office** | Allow invoices to be sent from box office, with instructions and account details for manual payment. |
-| **Enable in Shop** | Allow customers to select invoice as a payment method during shop checkout. |
+| **Box Office** | Allow invoices to be sent from box office, with instructions and account details for manual payment. |
+| **Shop** | Allow customers to select invoice as a payment method during shop checkout. Only shown when invoice payments in the shop are enabled for your account. |
 | **Enable instant access** | When enabled, customers receive access to tickets and downloadable items immediately upon completing their reservation, before paying their invoice. See [Instant Access Orders](/user-manual/payments/instant-access-orders). |
 | **Minimum order value** | The minimum order total required to unlock the invoice payment method. Applies to non-box-office checkouts only. This is a flat rate value regardless of order currency -- no conversion is applied. |
 | **How many days is the default payment period?** | The number of days a customer has to pay their invoice. Can be adjusted per order in box office, but is fixed for shop orders. |
+| **Send a payment reminder before the due date** | How long before the invoice due date to email the customer a reminder, in hours, days, or weeks. Set to 0 to turn reminders off. Hidden when instant access is enabled. See [Payment Reminders](/user-manual/notifications/payment-reminders). <Tip>New in Release 48</Tip> |
 | **Unpaid invoice title** | The title displayed on the invoice before payment is received. |
 | **Paid invoice title** | The title displayed on the invoice after payment is completed. |
 | **Payment instructions** | Instructions shown to the customer explaining how to make their payment. This field is required when manual payments are enabled. |
@@ -131,9 +132,11 @@ When manual payments are enabled with global basket active, invoice payments are
 
 ## Email and Notification Settings
 
-Several settings control what confirmation and notification emails are sent. These are split across **General Settings** and **Company Details**.
+Several settings control what confirmation and notification emails are sent. These are split across **General settings** and **Payment settings**.
 
 ### Confirmation Emails
+
+These settings are found under **Settings > Payment settings**, in the **Checkout settings** section.
 
 | Setting | Description |
 |---------|-------------|
@@ -145,12 +148,12 @@ Several settings control what confirmation and notification emails are sent. The
 
 | Setting | Description |
 |---------|-------------|
-| **Enable enriched purchase notifications** | When notifications are enabled for an event, purchase notification emails include all customer addresses and data capture responses associated with the order. |
-| **Enable enriched order confirmation emails** | Order confirmation emails sent to customers include addresses and data capture responses associated with the order. |
+| **Enriched purchase notifications** | When event purchase notifications go out to admins, they include the customer's address and every data capture answer on the order. |
+| **Enriched order confirmation emails** | Order confirmation emails sent to customers include their address and every data capture answer on the order. |
 
 ### Per-Event Confirmation Emails
 
-The **Dispatch confirmation email per inventory source** setting changes how confirmation emails are structured:
+The **Send a separate confirmation email per event** setting changes how confirmation emails are structured:
 
 - **Enabled** -- items on an order are grouped by event, and a separate confirmation email is sent for each event. This allows event-specific custom text to be included in each email. For example, an order spanning 3 events results in 3 separate emails.
 - **Disabled** -- a single confirmation email is sent per order, regardless of how many events are included.
@@ -159,62 +162,64 @@ The **Dispatch confirmation email per inventory source** setting changes how con
 
 | Setting | Location | Description |
 |---------|----------|-------------|
-| **Send event creation notification email** | Company Details | When enabled, recipients receive an email each time a new event is created within the company. |
-| **Event approval email(s)** | Company Details | Comma-separated email addresses that receive notifications when an event approval is requested. See [Event Approvals](/user-manual/event-management/event-approvals). |
+| **Send event creation notification email** | Set up by your account manager | When enabled, recipients receive an email each time a new event is created within the company. |
+| **Event approval emails** | General settings | Who gets notified when someone requests to publish an event. Add multiple addresses by separating them with commas. See [Event Approvals](/user-manual/event-management/event-approvals). |
 
 ### Automatic Event Reminder Emails
 
-When the automatic event reminder emails feature is enabled, you can configure the platform to automatically send reminder emails to all attendees a set time before each event starts. The time can be configured in hours, days, or weeks.
+When the automatic event reminder emails feature is enabled for your account, turn on **Automatic event reminder emails** in **General settings** to send reminder emails to all attendees a set time before each event starts. Set **Send reminders this long before the event** in hours, days, or weeks. The timing can also be overridden on individual events.
 
 <Note>
-When automatic reminder emails are first enabled at the company level, any events that have already passed the configured reminder window are automatically excluded -- they will not receive unexpected reminder emails.
+When you first turn reminders on, you're asked **Turn on reminder emails for all events?** Events already inside the reminder window at that point have reminders switched off at the event level, so they don't receive unexpected reminder emails. You can switch reminders back on for any of those events individually.
 </Note>
 
 ## Listing Page Display
 
-Two settings in **General Settings** control what information appears on event listing blocks in the shop:
+Two settings in **General settings** control what information appears on event listing blocks in the shop:
 
 | Setting | Description |
 |---------|-------------|
-| **Enable stock-based badges on event listing blocks** | Displays out-of-stock and off-sale badges on event cards by performing real-time stock checks. This does not affect badges created by manual actions such as taking an event off-sale. |
-| **Enable listing price ranges** | Displays price ranges on event cards in listing blocks. This does not affect price ranges shown on individual event pages. |
+| **Stock badges on event listing cards** | Shows out-of-stock and off-sale badges on event cards by checking each event's stock in real time. Badges from manual actions, such as taking an event off sale, always show regardless of this setting. |
+| **Price ranges on event listing cards** | Shows a price range on each event card in event listing blocks. Price ranges on the event page itself aren't affected by this setting. |
 
 <Note>
-Both listing page settings involve real-time calculations that may impact performance. A warning is shown in the UI when either is enabled. These settings are hidden when the company is in performance mode.
+Both listing page settings involve real-time calculations that may impact performance. When either is turned on, the UI warns: "Turning this on across the whole site can slow down some event listing pages." These settings are hidden when the company is in performance mode.
 </Note>
 
 ## Upsell Wizard
 
-The **Enable upsell wizard** setting replaces standard add-to-basket buttons with an item selection wizard that encourages customers to purchase non-ticket items such as products and donations alongside their tickets.
+The **Upsell wizard** setting replaces standard add-to-basket buttons with an item selection wizard that encourages customers to purchase non-ticket items such as products and donations alongside their tickets. A separate **Upsell wizard in box office** setting does the same for box office staff.
+
+When nothing is selected on a step, **Next** becomes **Skip & continue** — see [Upsell Wizard](/user-manual/ticket-shop/basket#upsell-wizard).
 
 ## Localization
 
-Localization settings are found under **Settings > General Settings**:
+Localization settings are found under **Settings > General settings**:
 
 | Setting | Description |
 |---------|-------------|
-| **Primary currency** | The default currency used across the platform. Available currencies are determined by your reseller's configuration. |
-| **Fallback language** | The default language used when no other language is detected for the customer. |
-| **Default timezone** | The timezone used for event dates and times. Available timezones are determined by your reseller. |
-| **Date display setting** | Controls how dates are formatted across the platform (e.g. DD/MM/YYYY vs MM/DD/YYYY). |
-| **Time display setting** | Controls how times are formatted (e.g. 24-hour vs 12-hour). |
-| **Show timezone information** | When enabled, timezone information is displayed across the shop on baskets, events, and orders. |
+| **Primary currency** | The currency new customers see before they pick one of their own. The currencies you can choose from are determined by your account's configuration. |
+| **Fallback language** | Used when a translation is missing in the customer's chosen language. Also the default language new customers see before they pick one of their own. |
+| **Default timezone** | The timezone used for event dates and times. The timezones you can choose from are determined by your account's configuration. |
+| **Date format** | How dates are written across the shop and admin (e.g. DD/MM/YYYY vs MM/DD/YYYY). An example of the selected format is shown below the field. See [Date Formatting](/user-manual/utilities/date-formatting). |
+| **Time format** | How times are written across the shop and admin (24-hour or 12-hour). An example of the selected format is shown below the field. |
+| **Show timezone information** | When on, customers see the event timezone next to dates and times across the shop, including baskets, event pages, and orders. |
 
 ## Deferred Ticket Download
 
-When the [deferred ticket download](/user-manual/event-management/deferred-downloads) feature is enabled, the **Enable delayed access of tickets** setting prevents customers from downloading tickets until a configured time before the event starts. The time window is configured in hours, days, or weeks.
+When the [deferred ticket download](/user-manual/event-management/deferred-downloads) feature is enabled, the **Hold ticket downloads until close to the event** setting prevents customers from downloading tickets until a set time before the event starts. Set that time with **Release tickets this long before the event**, in hours, days, or weeks.
 
 ## Shop URL and Custom Domains
 
-Under **General Settings**, you can configure:
+Under **General settings**, you can configure:
 
-- **Company alias** -- the subdomain used for your shop URL (e.g. `your-alias.reseller-domain.com`).
-- **Custom URLs** -- when custom URLs are enabled for your account, you can add custom domains that point to your shop. Each custom URL can be assigned a default language for multi-language shops.
-- **Redirect default URL** -- when custom URLs are in use, this controls whether the default subdomain URL redirects to your primary custom domain.
+- **Site alias** -- combines with the platform's domain to form your default site URL (e.g. `youralias.our-domain.com`).
+- **Custom site URLs** -- when custom URLs are enabled for your account, you can add custom domains as alternative URLs for your shop. Each custom URL can be assigned a default language for multi-language shops. See [Custom URLs](/user-manual/utilities/custom-urls).
+- **Redirect to primary URL** -- when custom URLs are in use, traffic arriving on the default domain is redirected to your primary custom URL. Only works when a primary custom URL is set.
 
 ## Company Details
 
-The **Company Details** tab contains business identity and contact information:
+The **Company details** tab contains business identity and contact information:
 
 - **Business name**, **email**, **phone**, and **website** -- displayed in the shop and on customer-facing communications.
 - **Billing name**, **billing address**, and **sales tax number** -- used on invoices and financial documents. These fields are only editable when the edit billing details feature is enabled.
@@ -227,7 +232,7 @@ Several settings have dependencies or mutual exclusions enforced by the platform
 |----------|-----------|
 | Global basket + forced checkout | Cannot both be enabled. Enabling global basket disables the forced checkout toggle. |
 | Global basket + certain integrations | Global basket cannot be enabled when the Szamlazz or DTCM integration is active. |
-| Preserve barcodes + instant transfers | Preserve barcodes on transfer requires instant transfers to be enabled. |
+| Keep the original barcode + instant transfers | **Keep the original barcode on transfer** requires **Instant transfers** to be on. |
 | Price display excluding tax + all-in pricing | Cannot display prices excluding tax when the display pricing (all-in pricing) feature is enabled. |
 | Global basket + event-level tracking pixels | Global basket is locked to disabled when event-level tracking pixels are active. |
 

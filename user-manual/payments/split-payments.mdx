@@ -25,6 +25,8 @@ When a split payment is used, the order total is divided into two or more portio
 
 The system validates that all portions add up to the exact amount due before processing. Each portion is processed as a separate transaction on the order.
 
+Integrations can read how an order was split through the orders API: request the `transactions` include on [Retrieve Order](/api-reference/orders/retrieve-order) or [Retrieve Orders](/api-reference/orders/retrieve-orders). Transactions that belong to the same split payment share a `splitPaymentId`, and `isPayment` separates the money taken from refunds and bookkeeping entries.
+
 ## Supported Payment Methods
 
 The following payment methods can be used in a split:
@@ -100,7 +102,7 @@ If any rule is not met, the split cannot be confirmed and an error message is di
 
 ## Tax and Fee Allocation
 
-When an order uses split payments, taxes, reseller fees, and processing fees are allocated proportionally across the splits based on each split's share of the total. This ensures that financial records accurately reflect how much of each fee was collected through each payment method.
+When an order uses split payments, taxes, platform fees, and processing fees are allocated proportionally across the splits based on each split's share of the total. This ensures that financial records accurately reflect how much of each fee was collected through each payment method.
 
 ## Refunding Split Payment Orders
 

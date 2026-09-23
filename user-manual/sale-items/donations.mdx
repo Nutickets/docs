@@ -88,8 +88,10 @@ Customers can add donations to their basket directly from this page.
 
 ### Setup
 
-1. Enable **Gift Aid** in the donation settings and set the **Gift Aid percentage** (e.g. 25%).
+1. Turn on **Giftaid available** in the [donation settings](#donation-settings) and set the **Giftaid Company Amount (%)** (e.g. 25%).
 2. Mark individual donation items as **Attracts Gift Aid**.
+
+Enabling Gift Aid sets the **Full name** and **Address** [built-in customer fields](/user-manual/data-capture/introduction#built-in-customer-fields) to **Required**, because both appear on every Gift Aid declaration. While Gift Aid is enabled, these fields can't be made optional or hidden — trying to do so shows: *"This field must be set to mandatory and cannot be hidden as a requirement of Gift Aid"*. The **Title** field isn't required; when a customer has provided a title, it's included with their name on the declaration.
 
 The feature is available in two modes:
 - **Donations only** — donations without Gift Aid collection.
@@ -141,8 +143,8 @@ Global donation settings are managed from the **Donation settings** panel in the
 
 | Setting | Description |
 |---------|-------------|
-| **Gift Aid available** | Enables Gift Aid collection. Forces the collection of the customer's title during checkout. |
-| **Gift Aid percentage** | The Gift Aid rate (0–60%). |
+| **Giftaid available** | Enables Gift Aid collection on donations for a charity. The **Full name** and **Address** customer fields become required (see [Setup](#setup)). |
+| **Giftaid Company Amount (%)** | The Gift Aid rate (0–60%). |
 | **Enable browse page** | Controls whether the `/donations` page is visible in the shop. |
 | **Browse title** | Custom heading for the browse page. |
 | **Browse description** | Custom description text for the browse page. |

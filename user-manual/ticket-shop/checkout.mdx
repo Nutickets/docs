@@ -13,7 +13,7 @@ A customer buying a single free ticket with a complete profile might see just tw
 
 The checkout consists of up to ten steps. Each step is conditionally shown or skipped based on the current order context.
 
-1. **Basket review** -- Always shown. The customer reviews their items, quantities, and pricing. Discount codes and access codes are applied here.
+1. **Basket review** -- Always shown. The customer reviews their items, quantities, and pricing. Discount codes are applied here. [Access codes](/user-manual/basket-codes/access-codes#entering-an-access-code) are entered earlier, while the customer chooses items.
 
 2. **Customer details** -- Shown if your company requires customer profile data (name, phone, date of birth, address, etc.) and the customer's profile is incomplete. The system checks which fields you have marked as required and only shows this step if any are missing.
 
@@ -61,13 +61,13 @@ By default, customers must sign in or create an account before they can check ou
 ### Enabling Guest Checkout
 
 1. Navigate to **Company Settings**
-2. Find **Enable shop guest checkout**
+2. Find **Allow shop guest checkout**
 3. Toggle the setting on
 
 Once enabled, customers see a **Checkout as guest** option alongside the standard sign-in form. They enter their email address and continue directly into the checkout flow.
 
 <Note>
-The setting description reads: "Enabling guest checkouts will allow customers to checkout quickly without creating an account." This is enabled by default.
+The setting description reads: "When on, customers can check out in the shop without creating an account." This is enabled by default.
 </Note>
 
 ### Guest Checkout vs Account Checkout
@@ -94,13 +94,13 @@ In both cases, the customer can click **Change check out method** to switch back
 For shared devices (such as kiosks or public terminals), you can enable automatic logout for guest users:
 
 1. Navigate to **Company Settings**
-2. Find **Enable guest user logout**
+2. Find **Log guest customers out after checkout**
 3. Toggle the setting on
 
 When enabled, guest users are automatically logged out after completing their order or when their basket expires. This prevents the next person using the device from accessing the previous customer's session.
 
 <Note>
-The setting description reads: "When enabled, guest users will be logged out when a guest checkout is completed or when the basket expires. This is useful if guest checkout is being used on a shared device."
+The setting description reads: "Guest customers are signed out automatically once checkout finishes or their basket expires. Useful on shared devices like a kiosk."
 </Note>
 
 ### Upgrading from Guest to Full Account

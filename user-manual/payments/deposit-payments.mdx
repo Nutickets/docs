@@ -33,6 +33,7 @@ Enable deposits separately for each channel:
 | **Deposit percentage** | The percentage of the order total the customer pays up front. Set the initial payment amount relative to the full amount. |
 | **Minimum order amount** | Orders below this value will not have the deposit option available. Configured per currency — when set to 0 for a currency, deposits are not available for orders in that currency. |
 | **Payment deadline before the event** | How long before the event starts the remaining balance must be paid. Can be set in hours, days, or weeks. Changing this deadline does not affect existing deposits. |
+| **Send a payment reminder before the deadline** | How long before the balance deadline to email the customer a reminder to pay the remaining balance, in hours, days, or weeks (up to four weeks). Set to 0 to turn reminders off — they are off by default. See [Payment Reminders](/user-manual/notifications/payment-reminders). <Tip>New in Release 48</Tip> |
 
 ### Deposit Terms and Notifications
 
@@ -140,3 +141,4 @@ You can customise these terms from the deposit settings panel. The terms are dis
 - [Payment Lifecycle](/user-manual/payments/payment-lifecycle)
 - [Split Payments](/user-manual/payments/split-payments)
 - [Invoice Payments](/user-manual/payments/invoice-payments)
+- [Payment Reminders](/user-manual/notifications/payment-reminders)

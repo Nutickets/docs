@@ -37,7 +37,7 @@ Box Office Pro integrates with [Stripe](/user-manual/payments/payment-processors
 | Reader Type | Description |
 |-------------|-------------|
 | **Bluetooth** | An external Stripe reader connected via Bluetooth. |
-| **USB** | An external Stripe reader connected via a USB cable to the device. Useful for stationary point-of-sale setups where wired connectivity is more reliable than Bluetooth. <Tip>New in Release 46</Tip> |
+| **USB** | An external Stripe reader connected via a USB cable to the device. Useful for stationary point-of-sale setups where wired connectivity is more reliable than Bluetooth. |
 | **Tap to pay** | Uses the device's built-in NFC for contactless card acceptance. No external reader required. Available on devices running Android 10+ (API 30). |
 
 On devices that support multiple methods, you can combine Bluetooth or USB with Tap to Pay to allow either type to be used interchangeably.
@@ -65,13 +65,9 @@ If no locations are configured in your Stripe Dashboard, the app displays: *"Ple
 
 ### Automatic Reconnection
 
-<Tip>New in Release 46</Tip>
-
 The **Enable automatic reader reconnection** setting (on by default) keeps the reader connected across app restarts and brief disconnections. When enabled, the app attempts to re-establish the connection to the last-used reader automatically. Disable it if you frequently swap between readers and don't want the app to reconnect to the previous one.
 
 ## Receipt Printer Selection
-
-<Tip>Masung support added in Release 46</Tip>
 
 Box Office Pro can print on two printer brands:
 
@@ -92,11 +88,13 @@ Masung is detected via USB on connect. If the printer isn't recognised, check th
 |---------|---------|-------------|
 | **Check in all the tickets purchased** | Disabled | Controls whether tickets are checked in (admitted) immediately after purchase. Three options: **Disabled**, **Admit button** (manual), or **Auto admit** (automatic). See [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#check-in-after-purchase). |
 
+As the option dialog explains, check-in applies to tickets only — including tickets that are part of bundles. Products and season tickets are not admitted, whichever option you choose. See [What Gets Checked In](/mobile-apps/box-office-pro/orders-and-after-the-sale#what-gets-checked-in).
+
 ## NFC Pairing
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| **NFC pairing** | Off | When enabled, the app enters an NFC pairing flow after each purchase, allowing staff to pair tickets to NFC wristbands or cards. See [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#nfc-ticket-pairing). |
+| **NFC pairing** | Off | When enabled, the app enters an NFC pairing flow after each purchase, allowing staff to pair tickets to NFC wristbands or cards. Applies to tickets for events using the **NFC (online)** [scanning mode](/user-manual/event-management/nfc-pairing#setting-the-scanning-mode). See [Orders and After the Sale](/mobile-apps/box-office-pro/orders-and-after-the-sale#nfc-ticket-pairing). |
 
 ## Receipt Printing
 

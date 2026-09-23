@@ -172,18 +172,43 @@ The **Social media icon colour** setting controls the colour of these icons.
 
 ## Default Images
 
-Set fallback images used when specific events or schedules don't have their own images uploaded. These appear wherever an image is expected but none has been provided.
+Default images fill the gap whenever an event, schedule, or item doesn't have an image of its own, so your shop never shows an empty image space. They're managed in the **Event page options** section of your theme settings (**Website** > **Site settings** > **Theme**).
 
-| Image | Used for |
-|-------|----------|
-| **Default event header** | Header image on event pages |
-| **Default event thumbnail** | Thumbnail image in event listings and blocks |
-| **Default event sharing image** | Image when events are shared on social media |
-| **Default schedule header** | Header image on schedule pages |
-| **Default item image** | Image for sale items without their own image |
+### Setting A Company Default Image
+
+<Tip>Company default image added in Release 48</Tip>
+
+Upload a **Default image** to set a single fallback for your whole site. It's used by default for every image field that doesn't have its own image — event thumbnails and headers, schedule headers, and item images such as tickets, products, donations, and gift vouchers — across the shop and admin. One upload is enough to give every event and item a branded image.
+
+The image must be at least 600 × 300 pixels and no more than 1800 pixels wide, in a 2:1 aspect ratio. As with the other default images, you can use the language switcher to upload a different version for each of your [languages](/user-manual/core/translations).
+
+### Overriding Individual Defaults
+
+Click **Show advanced image settings** to set a different default for a particular type of image. Each one replaces the **Default image** for that image type only:
+
+| Default | Used for |
+|---------|----------|
+| **Thumbnail image** | The image displayed for your event on listing pages and in search results |
+| **Header image** | The banner displayed at the top of your event page |
+| **Event sharing image** | The image displayed when an event page is shared on social media. Each event can have its own sharing image that overrides this setting. |
+| **Schedule heading image** | The image displayed at the top of the schedule listing page |
+| **Item image** | The image displayed for items throughout the shop when no specific item image has been uploaded |
+
+While a **Default image** is set, any of these fields left empty shows the default image with the label **Inherited from default image**. If you don't want a particular image type to use your default image, remove the inherited image from that field — that image type then shows the platform's placeholder image instead. Uploading an image to the field replaces the placeholder again.
+
+The advanced settings also include **Remove image aspect ratio restriction**, which lifts the 2:1 requirement for event and schedule images, including the **Default image**. Allowing any aspect ratio can disrupt the event page layout, especially on mobile, so only enable it if you're certain your images will still display well.
+
+### Which Image Is Shown
+
+For each image, the platform uses the first of these that is available:
+
+1. The image uploaded to the individual [event](/user-manual/event-management/event-page-customisations#images), [schedule](/user-manual/event-management/schedules), or [item](/user-manual/sale-items/core-concepts)
+2. The matching individual default from the advanced image settings
+3. The **Default image** — unless its inherited image has been removed for that image type
+4. The platform's placeholder image
 
 <Note>
-Default images are only used where no specific image has been uploaded for the individual event, schedule, or item.
+Emails and social media link previews don't fall back to the **Default image**. Event images in emails use the **Thumbnail image** default, and [link previews](/user-manual/core/seo#fallback-behaviour) use the **Event sharing image** default, before falling back to the platform placeholder. Upload these individually if you want your own image to appear there.
 </Note>
 
 ## Map Theme

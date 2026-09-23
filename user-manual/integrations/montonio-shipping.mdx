@@ -1,0 +1,131 @@
+---
+title: "Montonio Shipping"
+description: "Let customers pay for parcel delivery to a pickup point of their choice, with carrier prices quoted live by Montonio and shipments booked automatically once the order is paid."
+---
+
+<Tip>New in Release 48</Tip>
+
+## Overview
+
+Montonio shipping lets customers have physical items posted to a parcel locker or pickup point near them. At checkout, they choose a destination country, a carrier and a pickup point. Montonio quotes the delivery price live, and that price is added to the order as its shipping charge. Once the order is paid, the platform books the shipment with Montonio automatically, and the customer can follow the carrier's tracking links from their order.
+
+It's available to companies that take payments through the [Montonio payment gateway](/user-manual/payments/payment-processors#manually-configured-gateways), and it replaces your own [fulfilment fees](/user-manual/fees/fulfilment-fees) at checkout, so you don't have to set and maintain delivery prices yourself.
+
+## Requirements
+
+| Requirement | Details |
+|---|---|
+| **Fulfilment fees** | Montonio shipping is part of the fulfilment fees feature. If the **Shipping** tab doesn't appear in your Montonio settings, contact your account manager. |
+| **Montonio payments** | Montonio must be connected under **Settings > Payment** and enabled for the shop or box office. Shipping uses the same **Access key** and **Secret key** as payments, and follows your [payment mode](/user-manual/payments/payment-processors#payment-mode-live-vs-demo) — in demo mode, rates and shipments use Montonio's test environment. |
+| **Shipping contracts** | Montonio shipping contracts are agreed separately from your Montonio payment contract. At least one carrier must quote for your chosen destinations before shipping can be turned on. |
+| **Currency** | Montonio quotes shipping in **EUR** and **PLN**. Orders in other currencies continue to use your own fulfilment fees. |
+
+## Setting Up Montonio Shipping
+
+1. Navigate to **Settings > Payment** and open **Montonio**.
+2. Select the **Shipping** tab.
+3. Turn on **Let Montonio handle shipping**.
+4. Under **Shipping destinations**, select the countries you ship to.
+5. Optionally choose a **Shipping tax band** and adjust the **Default parcel**.
+6. Click **Submit**.
+
+When you first turn shipping on, the platform asks Montonio to quote for your chosen destinations to confirm your carrier contracts are live. If no carrier responds, the settings aren't saved and you see: **"Montonio isn't offering any shipping carriers for these credentials. Shipping contracts are agreed separately from your payment contract — please arrange them with Montonio before enabling this."** At least one destination is required — without one, you see **"Choose at least one country you ship to before turning the Montonio shipping module on."**
+
+### Shipping Settings
+
+| Setting | What it controls |
+|---|---|
+| **Let Montonio handle shipping** | When on, customers can choose a country, carrier and pickup point at the delivery step in checkout, and the price Montonio quotes is charged as a fulfilment fee on the order. When off, checkout uses your own fulfilment fees. |
+| **Shipping destinations** | The countries customers can have orders shipped to. Montonio only quotes where you hold a carrier contract, so pick the markets you have contracts for. Available destinations are Austria, Belgium, Bulgaria, Croatia, Czech Republic, Denmark, Estonia, Finland, France, Germany, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain and Sweden. |
+| **Shipping tax band** | The [tax band](/user-manual/tax/tax-bands) the shipping charge is sold under. Montonio's rates already include tax, so this decides how the amount is broken down rather than adding anything on top. Leave it as **None** to sell shipping without a tax band. |
+| **Default parcel** | The **Weight (kg)**, **Length (cm)**, **Width (cm)** and **Height (cm)** Montonio prices each order against. Every shippable item counts at this weight and size, and each order ships as a single parcel. Leave a field blank to use the small-package default of 1 kg and 20 × 15 × 10 cm. |
+
+<Note>
+Changing the **Default parcel** changes the price of new quotes. Customers who have already chosen a delivery option are asked to confirm it again at the new price before they can pay.
+</Note>
+
+## What Customers See at Checkout
+
+When Montonio shipping is on and the order is in EUR or PLN, the **Delivery method** step offers **Shipped**, priced by Montonio, in place of your own fulfilment fees. The step only appears when the basket contains items that allow a delivery choice (see [Choosing Which Items Offer Delivery Options](/user-manual/fees/fulfilment-fees#choosing-which-items-offer-delivery-options)), and **eTicket** stays available alongside it when those items can be downloaded.
+
+Until the customer picks a delivery option, the **Shipped** card reads **Priced by destination**. When they select it, they:
+
+1. Choose their **Shipping country** from your shipping destinations.
+2. Choose a carrier under **Delivery method**. Each option shows its price, and the help text confirms that **"Delivery prices shown here include all taxes and fees."** Only pickup point services are offered, cheapest first.
+3. Choose a **Pickup point**. For carriers with more than 500 pickup points, the list shows the first 500 with the message **"Showing 500 of X pickup points. Search by town or postcode to find yours."**
+4. Confirm the **Phone number** the carrier will text when the parcel arrives. It's pre-filled from the customer's account where available.
+
+When they continue, the charge is added to the basket as a **Shipping** line, charged once per order. The delivery step then summarises the chosen pickup point with a **View on Google Maps** link. No delivery address is requested, because the parcel goes to the pickup point.
+
+The customer pays exactly the price Montonio quoted — it's treated as the final price, with taxes and fees already included. If the chosen option or pickup point is no longer available when the customer continues, they're asked to choose another: **"That delivery option is no longer available. Please choose another."** or **"That pickup point is no longer available. Please choose another."**
+
+### When the Basket Changes
+
+A quote is based on the items being shipped. If the customer adds or removes items that allow a delivery choice after choosing a delivery option, checkout sends them back to the delivery step with the message **"Your basket has changed since you chose a delivery option, so we need you to confirm it again at the current price."** Items that don't allow a delivery choice don't affect the quote.
+
+If the customer removes every item that could be shipped, the shipping charge comes off the order. Switching back to **eTicket** also removes it.
+
+### Order Modifications
+
+When a customer [modifies an order](/user-manual/order-management/order-modifications) that used Montonio shipping, their country, carrier, pickup point and phone number are carried over to the new order. They confirm the choice again at the current price before paying.
+
+## After the Order Is Paid
+
+Once the order completes, the platform books the shipment with Montonio in the background — a single parcel for the order, addressed to the chosen pickup point with the customer's name, email address and phone number. Montonio ships from the sender address held on your Montonio account.
+
+### Tracking Shipments in Admin
+
+Orders with a Montonio delivery option show a **Montonio shipping status** row on the order page:
+
+| Status | Meaning |
+|---|---|
+| **Pending** | A delivery option has been chosen, but the shipment hasn't been registered yet — for example, while the booking is still in progress. |
+| **Successful** | Montonio has registered the shipment with the carrier. |
+| **Failed** | The booking failed, or the carrier rejected it. The reason is shown under the badge as **Error**. |
+
+The badge also lists the chosen **Pickup point** and when the status was last updated. Alongside it you'll find:
+
+- **Shipment ID** — Montonio's reference for the shipment, with a copy button.
+- **View on Google Maps** — the pickup point the customer chose.
+- **View shipping label** — the carrier's label from Montonio, once the status is **Successful**. If the carrier hasn't finished preparing it, you see **"We couldn't fetch the shipping label from Montonio. The carrier may not have finished preparing it — please try again shortly."**
+- **Track parcel** — the carrier's tracking page for the parcel.
+
+### Retrying a Failed Booking
+
+A failed booking never stops the order from completing — the order is paid and valid, and only the shipment needs attention.
+
+1. On the order page, click the badge in the **Montonio shipping status** row to open the **Integration API Requests** page for the order.
+2. Find the failed **POST** request to `/shipments` and click **Retry**.
+3. Confirm **"Are you sure you want to retry this failed API Request?"**
+
+The booking is re-attempted in the background: **"The latest failed API request is being retried in the background. It will appear on this page shortly."** Only the shipment booking can be retried — rate and pickup point lookups made during checkout don't show a **Retry** button.
+
+### What Customers See on Their Order
+
+On their order in **My Account**, customers see their **Pickup point**, linked to Google Maps, and **Track your parcel** links once the shipment has been registered.
+
+## Things to Know
+
+- **Pickup points only** — Montonio shipping offers parcel locker and pickup point services, not home delivery.
+- **Your fulfilment fees are withheld for EUR and PLN orders** — While Montonio handles shipping, your own **In person**, **Digital** and **Shipped** fulfilment fees don't appear at checkout for orders in EUR or PLN. Orders in other currencies still see them.
+- **The Shipping fee is managed for you** — The **Shipping** item that carries the charge doesn't appear in your fulfilment fees list, and can't be edited, restored or deleted: **"This item is managed by the platform and cannot be edited, restored or deleted."**
+- **Refunds don't cancel shipments** — Refunding or cancelling an order doesn't cancel a shipment already booked with Montonio. Manage the shipment in your Montonio account.
+- **Deposits** — As with other delivery methods, the delivery option can't be changed once a [deposit](/user-manual/payments/deposit-payments) has been paid.
+- **Fulfilment dashboard** — Montonio orders appear on the [fulfilment dashboard](/user-manual/order-management/fulfilment) with the **Shipped** method, like any other shipped order.
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Fulfilment Fees" icon="truck" href="/user-manual/fees/fulfilment-fees">
+    Delivery methods and fees you set yourself.
+  </Card>
+  <Card title="Fulfilment Dashboard" icon="boxes-stacked" href="/user-manual/order-management/fulfilment">
+    Print, pack and fulfil orders individually or in batches.
+  </Card>
+  <Card title="Payment Processors" icon="credit-card" href="/user-manual/payments/payment-processors">
+    Connect Montonio and your other payment gateways.
+  </Card>
+  <Card title="Tax Bands" icon="percent" href="/user-manual/tax/tax-bands">
+    Set up the tax band used for shipping charges.
+  </Card>
+</CardGroup>

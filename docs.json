@@ -233,6 +233,7 @@
                   "user-manual/notifications/overview",
                   "user-manual/notifications/email-types",
                   "user-manual/notifications/email-settings",
+                  "user-manual/notifications/payment-reminders",
                   "user-manual/notifications/customising-emails",
                   "user-manual/notifications/sending-emails",
                   "user-manual/notifications/email-logs"
@@ -255,6 +256,7 @@
                 "group": "Order Management",
                 "pages": [
                   "user-manual/order-management/core-concepts",
+                  "user-manual/order-management/fulfilment",
                   "user-manual/order-management/refunds-and-cancellations",
                   "user-manual/order-management/order-modifications",
                   "user-manual/order-management/transfers-and-sharing",
@@ -352,7 +354,8 @@
                   "user-manual/integrations/dtcm",
                   "user-manual/integrations/justgiving",
                   "user-manual/integrations/stay22",
-                  "user-manual/integrations/dynamic-pricing"
+                  "user-manual/integrations/dynamic-pricing",
+                  "user-manual/integrations/montonio-shipping"
                 ]
               }
             ]

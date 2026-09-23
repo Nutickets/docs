@@ -81,6 +81,8 @@ The pull side, and the canonical one.
 
 **Filter server-side.** Constrain by date and by event rather than pulling everything and filtering locally, which costs rate limit and grows slower over time.
 
+**Rebuild split payments from transactions.** Add the `transactions` include to [Retrieve Orders](/api-reference/orders/retrieve-orders) or [Retrieve Order](/api-reference/orders/retrieve-order). An order paid by [split payment](/user-manual/payments/split-payments) has one transaction per portion: group the transactions where `isPayment` is true by their `splitPaymentId` to see how it was paid, including two portions on the same method, such as two cash payments. `isPayment` is false for refunds and bookkeeping entries, and `splitPaymentId` is null for transactions that aren't part of a split.
+
 <Warning>
 Data is filtered by the permissions and [visibility groups](/user-manual/system-access/visibility-groups) of the user whose token you are using, so a narrowly scoped token returns a subset — and that subset changes if somebody edits the user's access.
 
@@ -189,7 +191,7 @@ One shape that works for an ingest pipeline:
 </Accordion>
 
 <Accordion title="Forgetting orders change after completion">
-  Refunds, [modifications](/user-manual/order-management/order-modifications), [transfers](/user-manual/order-management/transfers-and-sharing) and cancellations all alter an order after the fact, so an insert-only pipeline drifts. Re-read a rolling window, or subscribe to the refund webhooks as well as the order ones.
+  Refunds, [modifications](/user-manual/order-management/order-modifications), [transfers](/user-manual/order-management/transfers-and-sharing), seat reallocations and cancellations all alter an order after the fact, so an insert-only pipeline drifts. Re-read a rolling window, or subscribe to the refund webhooks as well as the order ones.
 </Accordion>
 
 </AccordionGroup>

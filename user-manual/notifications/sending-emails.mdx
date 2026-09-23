@@ -62,6 +62,10 @@ Resends payment-related emails. Choose the type:
 - **Payment link reminders** — resends payment links to customers with outstanding payments
 - **Deposit received notifications** — resends deposit confirmation emails
 
+<Note>
+These options resend the original payment link and deposit received emails. They are separate from the automatic [payment reminders](/user-manual/notifications/payment-reminders) the platform can send before a payment deadline.
+</Note>
+
 ### Composing the Email
 
 After selecting email types, you can optionally customise the email content:
@@ -114,7 +118,7 @@ For orders in specific states, the platform automatically resolves which email t
 | Awaiting invoice payment | Invoice email |
 | Partially paid (deposit) | Deposit received email |
 
-This means clicking **Resend** on a reservation awaiting payment sends the payment link email rather than a standard confirmation.
+This means resending from a reservation awaiting a payment link sends the payment link email rather than a standard confirmation.
 
 ### Resending Tax Receipts
 
@@ -128,7 +132,13 @@ Admin users can also use the **Send a notification to the customer** action to c
 
 ## Resending Emails from a Reservation
 
-Reservations have similar resend capabilities. From the reservation detail page, you can resend the reservation confirmation email using the email log panel actions.
+Reservations that are waiting on the customer — for example, awaiting a payment link or an invoice payment — have a **Resend payment instructions** action. It is available from the dropdown on the **Complete order** button and from the reservation's email log panel. It opens a form where you can check the **Name**, **Email**, and **Email language**, and add optional **Text**, then sends the email that matches the reservation's status, as listed in [Resending Other Email Types](#resending-other-email-types).
+
+### Resending a Payment Reminder
+
+<Tip>New in Release 48</Tip>
+
+If an automatic [payment reminder](/user-manual/notifications/payment-reminders) has already been sent for the reservation, the email log panel also shows **Resend deadline email**. Click it and confirm with **Yes** to send the reminder to the customer again. See [Resending a Reminder](/user-manual/notifications/payment-reminders#resending-a-reminder) for when this option is available.
 
 ---
 
@@ -141,4 +151,5 @@ When using the bulk email tools, attendees who purchased items through season ti
 - [Email Types](/user-manual/notifications/email-types) — Reference of every email type
 - [Email Settings](/user-manual/notifications/email-settings) — Configure which emails are sent
 - [Customising Emails](/user-manual/notifications/customising-emails) — Change email content
+- [Payment Reminders](/user-manual/notifications/payment-reminders) — Automatic reminders before payment deadlines
 - [Email Logs](/user-manual/notifications/email-logs) — Track delivery status

@@ -3,8 +3,6 @@ title: "Dynamic Pricing"
 description: "Automatically adjust ticket prices in real time based on demand across standard, seated, and timeslot events, with min/max boundaries, per-ticket controls, and customer-facing transparency."
 ---
 
-<Tip>New in Release 46</Tip>
-
 ## Overview
 
 Dynamic pricing lets the platform adjust ticket prices automatically in response to demand. Instead of manually monitoring sales and updating prices yourself, you sync the event with the pricing engine and configure a strategy that controls how prices move over time — pushing prices up when demand is high and easing them when demand softens. Prices are recalculated on a regular schedule rather than on every sale.
@@ -97,6 +95,14 @@ If you've changed an event's configuration and need those changes reflected soon
 <Note>
 Because syncs are queued and processed in the background, a manual **Re-sync** confirms the changes have been *sent* to DynamO. After a sync finishes you may still need to **Configure** in the DynamO dashboard to apply them: *"DynamO has finished syncing your latest changes. Reconfigure using the DynamO dashboard to update these changes."*
 </Note>
+
+### Fixing Missing Price Updates
+
+<Tip>Fix button added in Release 47</Tip>
+
+New prices reach the platform through a price update subscription with DynamO, which is set up automatically the first time an event in your account is synced. If that setup didn't complete, no price updates are received, and the **Dynamic pricing** card shows the warning *"There is currently an issue preventing DynamO price updates from being received."*
+
+Click **Fix** next to the warning to set up the subscription again. When it succeeds, you'll see *"DynamO price updates will now be received."* and the warning disappears. If it doesn't, you'll see *"We could not fix the issue. Please try again later."* **Fix** requires permission to edit events.
 
 ## Seated Events and Holds
 

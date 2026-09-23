@@ -109,7 +109,7 @@ For example, a 2.5% per-item fee on a £100 ticket would charge £2.50, while th
 
 Tiered fees let you charge a different fee amount based on the value of the item or order the fee applies to. Instead of a single price, you define a series of price tiers, and the tier that matches the qualifying value determines the fee charged.
 
-Each tier has a **Tier minimum** and **Tier maximum** that set the value range it covers, plus the fee amount to charge within that range. Use **Add price tier** to add more tiers. The first tier starts at zero and the final tier is left open-ended, so the full value range is always covered.
+Each tier covers a range of values and has its own fee amount. Set where each range ends with **Tier maximum** — the next tier starts just above it. Use **Add price tier** to add more tiers. The final tier is left open-ended, so every value above the last maximum is covered.
 
 For example:
 - Items priced £0–£50: fee of £1.00
@@ -130,6 +130,20 @@ This is useful when you only want the fee to apply within a certain value band. 
 
 <Note>
 At least one tier must have a non-zero price — you cannot set every tier to zero. A warning is shown if you try to save a tiered fee with no priced tiers.
+</Note>
+
+##### Starting the First Tier Above Zero
+
+<Tip>First-tier minimum added in Release 47</Tip>
+
+The first tier has a **Tier minimum**, which sets the lowest value the fee applies to. Leave it at zero to charge the fee on every value, or raise it so that anything priced below it is fee-exempt. The field's help text reads *"Define the minimum value an item must have for this fee tier to apply."* — or *"…an order must have…"* when the fee's **Max order quantity** is 1.
+
+When you save, a zero-priced tier is added automatically to cover the values below your minimum. Items or orders in that range aren't charged the fee, and as with any [zero-priced tier](#excluding-a-tier-with-a-zero-price), no fee line is shown to the customer. For example, a single-tier fee with a **Tier minimum** of £10 and a fee of £2.00 saves as:
+- Items priced £0–£9.99: fee of £0.00 (no fee shown)
+- Items priced £10+: fee of £2.00
+
+<Note>
+When you reopen the fee, the added zero-priced tier is shown as the first tier. To change the threshold later, edit that tier's **Tier maximum** — the next tier's range moves with it.
 </Note>
 
 ### Applies to Item Types

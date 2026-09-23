@@ -24,6 +24,12 @@ The platform distinguishes between **inventory items** and **sale items**:
 
 One inventory item can be assigned to multiple events, creating a separate sale item on each. This is particularly useful for [scheduled events](/user-manual/event-management/schedules) where the same ticket type appears across many dates.
 
+### Assigning an Existing Item to an Event
+
+<Tip>Search by ID added in Release 47</Tip>
+
+To reuse an item on another event, add it from that event's dashboard — for example with **Add tickets** — and choose the **Assign existing item** tab. The **Select existing item** list shows each item with its sale item ID (for example **#1234**), and not every match is listed at once. Search by name, sale item ID, or inventory item ID to find the one you need — an ID can be typed with or without the **#**.
+
 ### What's Shared
 
 The inventory item's name and description are shared across all of its sale items. Changing them on the inventory item updates them everywhere the item is used.
@@ -47,7 +53,7 @@ Inventory items can have a **global stock** that acts as an upper limit across a
 
 ### Bulk Updates
 
-When editing a sale item that is linked to the same inventory item across multiple events, you can choose to apply changes to all related sale items or just the current one. For scheduled events, additional options allow targeting events by schedule group, weekday, or custom selection.
+When editing a sale item that is linked to the same inventory item across multiple events, you can choose to apply changes to all related sale items or just the current one. For scheduled events, additional options allow targeting events by schedule group, weekday, or custom selection. See [Updating Related Sale Items](/user-manual/utilities/bulk-editing#updating-related-sale-items) for every option, including the event and timeslot start time filters for a custom selection.
 
 ## Item Types
 
@@ -136,8 +142,7 @@ Order limits control how many of an item a customer can purchase.
 
 | Setting                           | Description                                                                                                                                                 |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Minimum order quantity**        | The fewest items a customer can add to their basket.                                                                                                        |
-| **Maximum order quantity**        | The most items a customer can add to their basket.                                                                                                          |
+| **Min & Max order quantity**      | The fewest and most of this item a customer can add to their basket. Click the field to enter both values. Leave either blank to use the default: no minimum, and your [basket size limit](/user-manual/ticket-shop/basket#basket-size-limit) as the maximum. Neither value can be higher than the basket size limit, and if the minimum is higher than the maximum, the two values are swapped. <Tip>Redesigned in Release 48</Tip> |
 | **Must purchase in multiples of** | Forces purchases in specific quantities (e.g. multiples of 2 for pairs). The minimum order quantity is automatically adjusted to match.                     |
 | **Forced minimum**                | When enabled, the quantity selector starts at the minimum rather than zero, requiring the customer to actively remove items if they don't want the minimum. |
 | **Per-customer purchase limit**   | Limits how many of this item a single customer can purchase across all orders.                                                                              |

@@ -13,7 +13,7 @@ Event page customisations control how individual event pages appear to customers
 - SEO and social sharing settings
 - Custom button text and capacity messaging
 
-Access page customisation from the event dashboard by selecting **Customise Page** or navigating to the page settings section.
+Access page customisation from the event dashboard by selecting **Customise event page** or navigating to the page settings section.
 
 ## Images
 
@@ -24,7 +24,7 @@ The header image appears as a banner at the top of the event page.
 - Supports multiple locales for multilingual sites
 - Recommended aspect ratio: 2:1
 - Minimum dimensions: 300px height, 600px width
-- If no image is uploaded, a default image is used
+- If no image is uploaded, a [default image](/user-manual/cms/theme-and-branding#default-images) is used
 
 ### Thumbnail Image
 
@@ -32,7 +32,7 @@ The thumbnail image appears in event listings, search results, and when events a
 
 - Same dimension requirements as header images
 - Used on listing pages and event cards
-- Falls back to a default image if not set
+- Falls back to a [default image](/user-manual/cms/theme-and-branding#default-images) if not set
 
 ## Content Blocks
 
@@ -51,6 +51,25 @@ Content blocks are modular sections that make up the body of your event page. Yo
 | **Social**         | Social media sharing links                                                                                                                                                       |
 | **Contact**        | Organiser contact information (email, phone)                                                                                                                                     |
 | **Template**       | Reusable custom templates that can be exported/imported, assigned to [CMS pages](/user-manual/cms/pages), and shared across events and [articles](/user-manual/cms/articles) |
+
+### Editing the Event Description
+
+<Tip>Description editing added in Release 47</Tip>
+
+The **Description** block shows the event's own description, so its text is edited on the event rather than in the block. You can do this without leaving the page: click **Edit events info**, shown above the event information in the page preview and on the **Description** block while you're editing it. The **Edit events info** panel covers the event's core details:
+
+| Field | What it changes |
+| ----- | --------------- |
+| **Event name** | The event's name, per language |
+| **Event description** | The text shown in the **Description** block, per language. Links can be added, but images can't |
+| **Event location** | **In-venue**, **Online**, or **Both** — shown when [live streaming](/user-manual/event-management/online-events) is available for your company. **Online** and **Both** add the stream fields, as in the event dashboard's [location panel](/user-manual/event-management/online-events#editing-the-event-location) |
+| **Venue** | The event's [venue](/user-manual/event-management/venues). Not shown for **Online** events |
+
+Click **Submit** to save. The page preview updates straight away.
+
+<Note>
+For an event in a repeating events [schedule](/user-manual/event-management/schedules), saving the panel applies the same details to the schedule's other upcoming events, so you're asked to confirm first: *"These changes will be applied to all upcoming events in this schedule"*. If the event belongs to a [schedule group](/user-manual/event-management/schedules#schedule-groups), only upcoming events in the same group are updated.
+</Note>
 
 ### Block Settings
 

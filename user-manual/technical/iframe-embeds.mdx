@@ -54,12 +54,14 @@ Control the appearance and behaviour of the modal overlay:
 
 | Setting | Description |
 |---------|-------------|
-| **Modal opacity** | The darkness of the background overlay behind the modal (0–100%) |
-| **Full screen** | Whether the modal fills the entire browser window |
-| **Show site menu** | Display the site navigation menu within the embedded checkout |
-| **Hide logout button** | Remove the logout option from the embedded view |
-| **Hide close button** | Remove the modal close button |
-| **Show items** | Display purchasable items by default when the embed opens |
+| **Display in modal** | Whether the checkout opens in a modal overlay. When turned off, the iframe appears inline on your page without the modal styling |
+| **Full screen modal** | Whether the modal fills the entire browser window. Only shown when **Display in modal** is on |
+| **Modal overlay opacity** | The darkness of the background overlay behind a modal that isn't full screen |
+| **iFrame DOM target** | For inline embeds, the element on your page the iframe is added to (for example `#iframe-parent`). By default it's added at the end of the page |
+| **Display site menu** | Display the site navigation menu within the embedded checkout |
+| **Hide logout links in shop** | Remove the logout option from the embedded view |
+| **Open external links in the top window** | Some links have to leave the iframe and bring the customer back: SSO or social logins, logging back out, changing an email address or password held by an SSO provider, and payment redirects. Off (the default), they open in a new tab. On, they redirect the whole browser window instead, which suits an identity provider that returns customers to your page. Links with nowhere to return to, such as adding an event to a calendar or sharing it, always open in a new tab. See [Leaving the Frame](/integrate/reference/url-parameters#leaving-the-frame) <Tip>New in Release 48</Tip> |
+| **Open sale item modal on event page by default** | Show the purchase options straight away instead of the event page whenever a customer opens the event |
 | **Add cross-site tracking script** | Append a ready-made tracking listener to the generated embed code, so the host site can capture shop activity in its own analytics. On by default when a Google Tag Manager code is configured. See [Embed Messages](/user-manual/technical/embed-messages) |
 
 ### Step 3: Embed Code

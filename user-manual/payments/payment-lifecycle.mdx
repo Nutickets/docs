@@ -55,7 +55,7 @@ If the payment fails at step 3, the order moves to **Failed** and the reserved i
 
 ## Deferred Payment Flows
 
-Deferred flows create the order first and collect payment later. Each method follows a similar pattern but with different customer experiences and expiry behaviour.
+Deferred flows create the order first and collect payment later. Each method follows a similar pattern but with different customer experiences and expiry behaviour. Payment links, invoices with a due date, and [deposit balances](#deposit-payment-flow) can also email the customer an automatic [payment reminder](/user-manual/notifications/payment-reminders) before their deadline.
 
 ### Payment Link
 
@@ -83,9 +83,13 @@ When the customer clicks the payment link, they are automatically signed in and 
 If the customer modifies their basket on an editable payment link, the expiry resets to the default basket timeout. This could cause items to be released sooner than the original payment link expiry.
 </Note>
 
-#### Resending Payment Links
+#### Reminding Customers to Pay
 
-Admins can resend payment link reminder emails individually from the order detail page, or in bulk from the mass emails section for all orders currently awaiting payment link completion.
+<Tip>Automatic reminders added in Release 48</Tip>
+
+To remind customers automatically, set **Send a payment reminder before expiry** in **Settings > Payment > Checkout settings**. The customer is emailed once, a set time before their payment link expires — including customers who opened the link but didn't finish paying. See [Payment Reminders](/user-manual/notifications/payment-reminders) for how the timing works.
+
+To contact a customer yourself, use **Resend payment instructions** on the reservation to send the payment link email again, or resend payment links in bulk from the event dashboard's [bulk email tool](/user-manual/notifications/sending-emails#payment-reminder-emails). Once an automatic reminder has been sent, **Resend deadline email** in the reservation's email log sends the reminder again.
 
 ### Invoice (Manual Payment)
 
@@ -199,3 +203,4 @@ When an order is in **Unknown** status:
 - [Payment Processors](/user-manual/payments/payment-processors)
 - [Deposit Payments](/user-manual/payments/deposit-payments)
 - [Invoice Payments](/user-manual/payments/invoice-payments)
+- [Payment Reminders](/user-manual/notifications/payment-reminders)

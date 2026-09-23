@@ -130,6 +130,10 @@ Sellers can view all their listings from the account section under **Resale list
 
 Listings are ordered so that live listings appear first, then closed listings that made sales, then the rest — newest first within each group. If the seller has no listings, the page shows: **You have no resale listings.**
 
+<Note>
+If resale is [managed on an external platform](/user-manual/resale/configuration#managing-listings-on-an-external-platform), opening a listing sends the seller to your listing URL instead of the **Listing Details** page described below.
+</Note>
+
 ### Listing Detail
 
 <Tip>More detail added in Release 47</Tip>
@@ -276,6 +280,14 @@ Buyers add resale items to their basket and complete checkout like any other pur
 Some resale items must be purchased as part of a bundle if the seller listed them together. If a buyer tries to add only some items from a bundled listing, they see: **Some of the selected resale items must be purchased as part of a bundle.**
 </Note>
 
+#### The Verified Resale Badge
+
+<Tip>Badge added to order confirmation emails in Release 48</Tip>
+
+Resale items are marked with a **Verified resale** badge so buyers can tell them apart from primary inventory — on the seating plan, in the basket, and in the order summary at checkout. After purchase, the same badge appears beneath each resale ticket's name in the buyer's order confirmation email.
+
+The badge text and its tooltip (**Verified resale tickets, securely relisted by the original owner.**) can be changed in the [text manager](/user-manual/cms/website-text) — select the **Resale** category and edit **Verified resale badge** and **Verified resale badge tooltip** under **Shop UI elements**.
+
 ## Admin Listing Management
 
 ### Viewing All Listings
@@ -325,6 +337,14 @@ A listing that has already ended cannot be closed again — opening the close pa
 </Note>
 
 Resale listings can also be managed via the API — [create](/api-reference/resale/create-a-new-resale-listing), [retrieve](/api-reference/resale/retrieve-resale-listings), and [delete](/api-reference/resale/delete-a-resale-listing) listings programmatically.
+
+### Voiding a Sold Resale Ticket
+
+<Tip>New in Release 48</Tip>
+
+Closing a listing never affects items that have already sold. If a ticket bought through resale needs to be voided — for example after a chargeback on the original purchase, or a resale that broke the event's terms — cancel it from the buyer's order using the **Cancel items** refund type. No money moves: the buyer isn't refunded and the seller keeps their payout. If you restock the ticket, its place returns to general sale on the primary market rather than to the resale marketplace, and the seller's listing stays closed.
+
+Resale tickets can only be cancelled once the resale has settled, and they can't be refunded. See [Cancelling Resale Tickets](/user-manual/order-management/refunds-and-cancellations#cancelling-resale-tickets) for the full steps.
 
 ## Related Pages
 

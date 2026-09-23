@@ -69,63 +69,60 @@ The **Print** button on the order details screen reprints the full order — tic
 
 ## Check-In After Purchase
 
-When configured in [settings](/mobile-apps/box-office-pro/settings-and-hardware#check-in-after-purchase), staff can check in all tickets on an order immediately after completing a sale. This is useful at venues where ticket purchase and entry happen at the same point.
+When configured in [settings](/mobile-apps/box-office-pro/settings-and-hardware#check-in-after-purchase), staff can check in the tickets on an order immediately after completing a sale. This is useful at venues where ticket purchase and entry happen at the same point.
 
 The check-in setting has three modes:
 
 | Mode | Behaviour |
 |------|-----------|
 | **Disabled** | No check-in option shown after purchase |
-| **Admit button** | An **Admit** button appears on the confirmation screen. Tapping it shows a confirmation: *"Do you want to proceed checking in all the tickets purchased?"* |
-| **Auto admit** | All tickets are checked in automatically as soon as the order completes — no button press required |
+| **Admit button** | An **Admit** button appears on the confirmation screen. Tapping it shows a confirmation: *"Would you like to admit all of the tickets in this order? (This does not admit season tickets)."* Tap **Admit** to check the tickets in. |
+| **Auto admit** | The order's tickets are checked in automatically as soon as the order completes — no button press required |
 
 On success, the button is disabled and a confirmation appears: *"Tickets checked in."* If check-in fails (e.g., no connection), the app shows: *"Checking in failed, please make sure you have internet connection and try again."*
 
+### What Gets Checked In
+
+<Tip>Validity windows no longer block check-in in Release 48</Tip>
+
+Check-in covers every ticket on the order, including tickets that are part of a [bundle](/user-manual/sale-items/bundles). Products and [season tickets](/user-manual/sale-items/season-tickets) are not admitted. Each ticket is recorded as an admission into its event's default [Entry zone](/user-manual/event-management/access-control#the-default-entry-zone), the same zone attendees are scanned into at the main gate.
+
+Because staff have just sold the tickets in person, the checks that would normally apply at the gate are skipped. Tickets are admitted even when the sale happens outside their [check-in time](/user-manual/event-management/access-control#validity-dates) — for example, when selling on the door before tickets become valid for entry — and the Entry zone's opening and closing dates, age restrictions, and capacity limits are not enforced.
+
 ## NFC Ticket Pairing
 
-When NFC pairing is enabled in settings and the order contains tickets configured for NFC, the app enters a pairing flow after payment. This pairs each ticket to a physical NFC tag (wristband, card, or badge) so the customer can use it for entry and cashless payments.
+<Tip>NFC (offline) pairing removed in Release 48</Tip>
+
+When **NFC pairing** is enabled in [settings](/mobile-apps/box-office-pro/settings-and-hardware#nfc-pairing) and the order contains tickets or season tickets for an event whose [scanning mode](/user-manual/event-management/nfc-pairing#setting-the-scanning-mode) is **NFC (online)**, the app enters a pairing flow after payment. This links each ticket to a physical NFC tag (wristband, card, or badge) so the customer can tap it for entry instead of showing a QR code. See [NFC Pairing](/user-manual/event-management/nfc-pairing) for how paired tags work across the platform.
+
+The app reads the tag's ID and records the pairing on the server — nothing is written to the tag itself, so pairing needs an internet connection.
+
+<Note>
+Events using the legacy **NFC (offline)** scanning mode don't trigger the pairing flow, and the app no longer writes credits or ticket data to tags. Use **NFC (online)** for events where tickets are paired at the box office.
+</Note>
 
 ### How Pairing Works
 
-Tickets are presented one at a time, showing the event name, dates, and ticket type. For each ticket:
+Tickets are presented one at a time under a **Pairing ticket** heading with a counter (for example, *1/3*), showing the event name, dates, and ticket type. For each ticket:
 
 1. The app prompts you to tap the customer's NFC tag against the device
-2. The tag is read, and the ticket is paired via the server
+2. While the ticket is paired on the server, *"Pairing in progress..."* is shown
 3. A success message confirms: *"Pairing ticket succeeded"*
 4. The app advances to the next ticket (or returns to the confirmation screen if all tickets are paired)
 
-You can skip individual tickets by tapping **Next ticket**, or cancel the entire process with **Cancel pairing**. A confirmation dialog asks: *"Are you sure you wish to proceed without pairing tickets to the wristbands?"*
-
-### Pairing with Credits
-
-When tickets are configured for NFC pairing with credits, the process is more involved:
-
-1. The NFC tag is personalised (prepared for data storage)
-2. If the tag is already linked to a **different customer** who has credits, the app asks for confirmation: *"This tag is linked to [name] which have [amount] credits. Please confirm that you want to cash out the credits and link this tag to [name]"*
-3. The ticket is paired on the server
-4. The customer's online wallet balance is downloaded and written to the NFC tag
-5. The tag is updated with the new customer data, credits, and ticket information
-
-<Note>
-During NFC tag writing, a progress message appears: *"Pairing in progress... Please do not remove the TAG until it is completed."* If the tag is removed too early or cannot be read, the app prompts you to tap again.
-</Note>
+To skip a ticket, tap **Next ticket** and confirm *"Are you sure you wish to proceed without pairing this ticket to a wristband?"*. To stop pairing altogether, tap **Cancel pairing** and confirm *"Are you sure you wish to proceed without pairing tickets to the wristbands?"* — the app goes straight to the confirmation screen.
 
 ### Re-Pairing
 
-If a ticket has already been paired to an NFC tag, the app asks for confirmation before overwriting:
+If the ticket is already paired to a different tag, the app asks before replacing it: *"This ticket has been already paired, please confirm that you want to re-pair this ticket with this tag"*. If you tap the tag the ticket is already paired with, the app tells you *"This ticket is already paired with this NFC tag"* and leaves the pairing as it is.
 
-- *"This ticket has been already paired, please confirm that you want to re-pair this ticket with this tag"*
-- For tags already paired to the same ticket: *"This ticket is already paired with this tag. Please confirm that you want to pair again"*
-
-### Tag Conflicts
-
-Several conflict scenarios are handled:
+### Pairing Problems
 
 | Situation | Message |
 |-----------|---------|
 | Tag already paired to another ticket for the same customer and event | *"This NFC tag is already paired with another ticket for this event, that belongs to the same customer"* |
-| Tag already used for this event (with credits mode) | *"Tag already used for this event"* |
-| Tag from a different company | *"Tap again with NFC tag and do not remove it until operation is completed. Make sure that this NFC tag is not used by different company."* |
+| The ticket can't be found on a completed order for the event | *"Ticket is invalid"* |
+| No response from the server | *"Connection failed"* |
 
 ## Receipt Printing
 
