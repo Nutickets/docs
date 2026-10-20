@@ -70,12 +70,11 @@ async function main() {
 
     allUpdates.forEach(update => {
         const updateYear = update.dateObj.getFullYear();
-        if (isNaN(updateYear)) return;
-
         const isCurrent = updateYear >= cutoffYear;
 
-        // Web content (always present)
-        if (update.content) {
+        // Web content (always present). An unparseable release date (e.g. "TBC" on a release still being
+        // drafted) only rules out the release's own notes — its mobile chunks carry dates of their own.
+        if (update.content && !isNaN(updateYear)) {
             if (isCurrent) {
                 webMain.push(update);
             } else {
@@ -468,15 +467,27 @@ function parseExistingMdx(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const blocks = {};
 
-    const updateRegex = /<Update\s+label="([^"]*?)"\s+description="([^"]*?)">\s*([\s\S]*?)\s*<\/Update>/g;
+    // The description is optional: entries for a release that hasn't happened yet are published without one.
+    const updateRegex = /<Update\s+label="([^"]*?)"(?:\s+description="([^"]*?)")?>\s*([\s\S]*?)\s*<\/Update>/g;
     let match;
 
     while ((match = updateRegex.exec(content)) !== null) {
-        const key = `${normalizeLabel(match[1])}|${match[2]}`;
+        const key = `${normalizeLabel(match[1])}|${match[2] ?? ''}`;
         blocks[key] = match[3].trim();
     }
 
     return blocks;
+}
+
+// Finds an update's block in the existing file: by label and description, falling back to the label alone when
+// that's unambiguous. An unreleased version's entries gain their release name once it ships, and keep their links.
+function findExistingBlock(existingBlocks, update) {
+    const label = normalizeLabel(update.label);
+    const exactMatch = existingBlocks[`${label}|${update.description}`];
+    if (exactMatch) return exactMatch;
+
+    const sameLabelKeys = Object.keys(existingBlocks).filter(key => key.startsWith(`${label}|`));
+    return sameLabelKeys.length === 1 ? existingBlocks[sameLabelKeys[0]] : undefined;
 }
 
 // Internal doc-link prefixes worth preserving across regenerations: the platform/mobile
@@ -721,6 +732,11 @@ function parseReleaseDocument(title, markdown) {
         releaseDateObj = parseDateString(releaseDateStr);
     }
 
+    // The next release's page is drafted in the wiki ahead of its release date, collecting the patches and
+    // mobile app versions that ship in the meantime. Until that date passes, its own notes are held back and
+    // its mobile entries are published without a release name, so they don't read as part of a release yet.
+    const isReleased = Boolean(titleMatch) && releaseDateObj <= new Date();
+
     const splitParts = markdown.split(/##\s*.*Patch Notes/i);
     const mainContent = splitParts[0].trim();
     const patchContent = splitParts.length > 1 ? splitParts[1].trim() : '';
@@ -728,12 +744,14 @@ function parseReleaseDocument(title, markdown) {
     if (mainContent) {
         const { webContent, mobileContent } = splitMobileContent(mainContent);
         const cleanedWebContent = stripApiPlaceholderSection(webContent).trim();
-        const mobileChunks = parseMobileChunks(mobileContent, releaseDateStr, releaseDateObj);
+        const mobileChunks = parseMobileChunks(mobileContent, releaseDateStr, releaseDateObj)
+            // Mobile notes without a date of their own fall back to the release date, so they wait for the release too.
+            .filter(chunk => isReleased || chunk.label !== releaseDateStr);
 
         updates.push({
             label: releaseDateStr,
-            description: `Release ${releaseVersion}`,
-            content: cleanedWebContent,
+            description: isReleased ? `Release ${releaseVersion}` : '',
+            content: isReleased ? cleanedWebContent : '',
             mobileChunks,
             dateObj: releaseDateObj
         });
@@ -1113,8 +1131,7 @@ description: "${description}"
         }).join('');
 
         // Check if existing block has manually-added links worth preserving
-        const key = `${normalizeLabel(update.label)}|${update.description}`;
-        const existingContent = existingBlocks[key];
+        const existingContent = findExistingBlock(existingBlocks, update);
 
         if (existingContent) {
             // Transplant any manually-added doc links from the existing content into the new content
@@ -1126,9 +1143,10 @@ description: "${description}"
         }
 
         const updateLabel = formatUpdateLabel(update, markMajorReleases);
+        const descriptionAttribute = update.description ? ` description="${update.description}"` : '';
 
         mdxContent += `
-<Update label="${updateLabel}" description="${update.description}">
+<Update label="${updateLabel}"${descriptionAttribute}>
 
 ${processedContent}
 

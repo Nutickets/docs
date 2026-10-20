@@ -65,7 +65,7 @@ Tap **Resend confirmation email** on the order details screen to send the order 
 
 ## Printing from Order Details
 
-The **Print** button on the order details screen reprints the full order — tickets with QR barcodes and a receipt (if receipt printing is enabled). This uses the same Sunmi printer output as the post-purchase print.
+The **Print** button on the order details screen reprints the full order — tickets with QR barcodes and a receipt (if receipt printing is enabled). This uses the selected printer and the same layout as the post-purchase print — on Sunmi printers, that includes the [payment breakdown](#payment-breakdown) for orders paid in more than one payment.
 
 ## Check-In After Purchase
 
@@ -126,29 +126,42 @@ If the ticket is already paired to a different tag, the app asks before replacin
 
 ## Receipt Printing
 
-Box Office Pro prints tickets and receipts on **Sunmi** devices with a built-in thermal printer, or on a **Masung** USB thermal printer connected to the device. The active printer is chosen in [settings](/mobile-apps/box-office-pro/settings-and-hardware#receipt-printer-selection). Printing happens automatically after a sale (when configured) and can also be triggered from the order details screen.
+Box Office Pro prints tickets and receipts on **Sunmi** devices with a built-in thermal printer, or on a **Masung** USB thermal printer connected to the device. The active printer is chosen in [settings](/mobile-apps/box-office-pro/settings-and-hardware#receipt-printer-selection). After a sale, print from the confirmation screen with **Print** or **Print receipt** — in [kiosk mode](/mobile-apps/box-office-pro/settings-and-hardware#kiosk-mode), tickets print automatically — or reprint later from the order details screen. On Sunmi printers, the layout follows the **Printer paper size** set in [settings](/mobile-apps/box-office-pro/settings-and-hardware#receipt-printing).
 
 ### Ticket Printout
 
 Each ticket prints on its own section of paper:
 
-- Event name (large, bold)
+- Event name (large)
 - Venue name
 - Event date and time
 - Ticket type and price
 - Seat location (for seated events)
 - Customer name (unless guest checkout)
-- QR barcode (scannable for entry)
+- QR barcode (scannable for entry), with the barcode number printed underneath
 
 ### Receipt Printout
 
 The receipt prints after all tickets and includes:
 
 - Order reference and date
-- Itemised list with event names, ticket names, prices, and barcodes
+- Itemised list with event names, ticket names, barcodes, and prices
 - Net, tax, and total amounts
-- Company name, address, and VAT number
-- Payment method(s) used
+- Payment method — or a payment breakdown for orders paid in more than one payment (see below)
+- Company name, address, and VAT number (when your company has a billing address)
+- **Device ID** of the device that printed the receipt (Sunmi printers only)
+
+#### Payment Breakdown
+
+<Tip>Payment breakdown for split payments added in Release 48</Tip>
+
+On Sunmi printers, the payment details sit directly under the totals. An order paid in a single payment shows one **Payment method** line. When an order was paid using [split payments](/mobile-apps/box-office-pro/payments#split-payments), the receipt shows a **Payment breakdown** instead, with one line per payment and the amount taken — so a customer who paid part in cash and part by card can see exactly how the total was settled. If the same method was used more than once, each payment gets its own line rather than being merged.
+
+Payments are labelled **Cash**, **Card Present (online)** (card reader or Tap to pay), **Card Not Present (online)**, or **Card Present (offline)**. Only successful payments are listed, so a declined card attempt doesn't appear. When you reprint an order from the order details screen, the breakdown is rebuilt from the order's recorded payments, so any payment method taken outside the app appears under the platform's name for it.
+
+<Note>
+Masung printers print a single **Payment method** line listing the method(s) used, without the breakdown or device ID.
+</Note>
 
 ### Paper Cutting
 

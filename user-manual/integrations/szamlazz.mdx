@@ -54,15 +54,30 @@ When the integration is enabled, customer **name** and **address** are automatic
 
 ## Generation Modes
 
-Each order can use one of three document generation modes, controlling when (or whether) a tax document is created:
+Each order can use one of three document generation modes, controlling when (or whether) a tax document is created. In the box office, the mode is chosen at the tax information step under **When would you like to issue Szamlazz documents?**
 
 | Mode | Behaviour |
 |------|-----------|
-| **Generate immediately** | The document is created automatically when the order is completed. Tax information must be provided during checkout. |
-| **Generate later** | Tax information is collected during checkout, but the document is not created immediately. It can be triggered later. |
-| **Do not generate** | No tax information is collected and no document is generated for this order. |
+| **Immediately** | The document is created automatically when the order is completed. Tax information must be provided during checkout. |
+| **Later** | Tax information is collected during checkout, but the document is not created immediately. It can be triggered later. |
+| **Never** | No tax information is collected and no document is generated for this order. |
 
-Which modes are available depends on the customer's permissions — not all options may be visible to every customer.
+Which modes are available depends on permissions — **Never** is only offered to users with the **Allow opt out of Szamlazz document generation** permission (see [Permissions](#permissions)).
+
+### Opting API Orders Out
+
+<Tip>API opt-out added in Release 48</Tip>
+
+Orders completed through the API are issued a Számlázz.hu document by default. If someone else issues the tax documents instead — for example, a third-party website that sells your tickets through the API and invoices its own customers — the integration can opt each order out as it's completed. Pass `inhibitSzamlazzDocument` as `true` when:
+
+- completing an order with [Complete Order](/api-reference/orders/complete-order), or
+- creating and completing an order in one request with [Add To Basket](/api-reference/baskets/add-to-basket), with `autocomplete` set to `true`.
+
+The order is set to **Never**, so no invoice or receipt is issued for it. Leave the property out, or pass `false`, to keep the default behaviour.
+
+- The [API token](/user-manual/utilities/api-token-management#how-tokens-work) must belong to a user whose role has the **Allow opt out of Szamlazz document generation** permission. Without it, the request is rejected with **"You are not permitted to opt out of Szamlazz document generation."**
+- If a Számlázz.hu document has already been issued for the order, it stays in place and the order isn't opted out.
+- The property has no effect for companies that don't have the Számlázz.hu integration enabled.
 
 ## Customer Checkout Experience
 
@@ -103,13 +118,25 @@ When requesting an invoice, customers select which of their saved tax profiles t
 
 ### Automatic Generation
 
-For orders set to **Generate immediately**, the system queues document creation after order completion. Documents are processed in the background:
+For orders set to **Immediately**, the system queues document creation after order completion. Documents are processed in the background:
 
 1. The invoice or receipt is created in Számlázz.hu with the order's line items and tax information
 2. **For invoices** — a payment confirmation is sent to Számlázz.hu recording the payment method used (bank card, cash, or SZÉP card)
 3. **For receipts** — an email is sent to the customer via Számlázz.hu using the configured email subject and content
 
 Each line item includes the correct tax rate mapped from the order's tax bands. Discounts are applied as separate negative line items on the document.
+
+### Payment Method on Documents
+
+<Tip>Payment method on receipts updated in Release 48</Tip>
+
+Receipts and invoices both show how the order was paid. The payment method on the document names the sales channel the order came through, followed by the payment method used — for example **Box office - Cash** or **Ticket Shop - Card (online)**. SZÉP card payments are named explicitly as **SZÉP (Online)** or **SZÉP (Offline)**, such as **Box office - SZÉP (Offline)**.
+
+This is separate from the invoice payment confirmation described above, which records the payment in Számlázz.hu as bank card, cash or SZÉP card.
+
+<Note>
+Each document shows a single payment method. If an order was paid using more than one payment method, only one of them appears on the document.
+</Note>
 
 ### Processing Sequence
 
@@ -190,11 +217,13 @@ Each failed request is logged with its error details for troubleshooting.
 
 ## Permissions
 
+These [role](/user-manual/system-access/roles-and-permissions) permissions are in the **System** group, and only appear when the Számlázz.hu integration is available to your account. See also the [permissions reference](/user-manual/system-access/permissions-reference#finance--integrations).
+
 | Permission | What it controls |
 |------------|------------------|
-| **Can issue invoices** | Whether the customer can request an invoice during checkout |
-| **Can issue receipts** | Whether the customer can request a receipt during checkout |
-| **Can opt out** | Whether the customer can choose not to generate any document |
+| **Issue Szamlazz invoices** | Whether the customer can request an invoice during checkout |
+| **Issue Szamlazz receipts** | Whether the customer can request a receipt during checkout |
+| **Allow opt out of Szamlazz document generation** | Whether **Never** can be chosen as the generation mode, and whether API requests can [opt orders out](#opting-api-orders-out) |
 
 These permissions determine which generation modes and document types are available to each customer during checkout.
 

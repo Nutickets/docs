@@ -5,130 +5,153 @@ description: "Select products, build a basket, choose a payment method, and comp
 
 ## Overview
 
-Staff select items from the shop's product catalogue, review the basket, choose a payment method, and complete the transaction.
+<Tip>Redesigned in Release 48</Tip>
+
+A sale in EPOS Pro follows three steps: staff pick products from the shop's catalogue on **Select products**, review them in the **Basket**, and take payment by card, cash, account balance, or as a complimentary order. For stalls that sell one item over and over, [Auto Sale](#auto-sale) skips the basket entirely.
 
 ## Selecting Products
 
-Tap **Sell Products** from the home screen to open the product selection view. Products are displayed in a grid showing each item's image, name, and price.
+Tap **Sell products** on the home screen to open **Select products**. Products appear as a list on phones and as a two-column grid on tablets. Each product shows its name and price, followed by **Remaining** and the number left when the product has limited stock.
 
-### Browsing and Searching
+The list refreshes from the platform every time you open the screen — pull down to refresh it again at any point. Use the **Search products** bar to filter products by name.
 
-- **Search** — type in the search bar to filter products by name in real time
-- **Categories** — if **Product categories** is enabled in settings, products are grouped by category. Tap a category to view its products, or tap **All Types** to return to the category list
+### Browsing by Category
 
-### Adding Products to the Basket
+When **Product categories** is turned on in [settings](/mobile-apps/epos-pro/settings-and-hardware#product-display-settings), the screen first lists your product categories, each with its number of products. Products without a category are grouped under **No Category** at the bottom of the list. Tap a category to see its products; use the back button to return to the category list.
 
-- **Tap a product** to add one unit to the basket
-- **Tap again** to increment the quantity
-- **Long-press** a product (or tap the quantity area) to open a dialog where you can set the exact quantity using +/- buttons
+### Adding Products
 
-The basket summary updates in real time as you add or remove items.
+- **Tap a product** (or its **+** button) to add one to the selection
+- **+** / **−** adjust the quantity once a product is selected
+- **Tap the quantity** to type an exact number in the **Quantity** sheet, then confirm with the keyboard's done key
 
-### Custom Pricing
-
-For products with **custom price** enabled, tap the product's price label to open the price input screen. Enter the custom amount using the numeric keypad, then tap **Add Another** to return to selection or **Basket** to proceed to checkout.
-
-Custom prices apply only to the current transaction and are cleared after checkout.
-
-### Stock and Availability
-
-Products that are **out of stock** show an *"Out of Stock"* label and cannot be added to the basket. Products that are **off sale** (outside their sale dates) display an *"Off Sale"* badge. If **Hide when off sale** or **Hide when out of stock** is configured on the product, it is removed from the grid entirely rather than shown as unavailable.
+As you select products, a footer shows how many items are selected and their total. Tap **Add to basket** to continue.
 
 <Note>
-Stock levels are based on cached data that syncs every 30 minutes. In high-volume environments, a product may show as available in the app but be out of stock on the server. If this happens during checkout, the app removes the product from the basket and displays the item name so staff can inform the customer.
+Quantities can't go above the product's remaining stock — the **+** button greys out at the limit, and typing a higher number in the **Quantity** sheet shows the remaining amount instead of applying it.
 </Note>
+
+### Which Products Can Be Sold
+
+| What you see | What it means |
+|--------------|---------------|
+| **No price available** | The product has no price in the EPOS currency, so it can't be added. With a [custom currency](/user-manual/epos/custom-currencies), products priced only in a real currency (such as £5.00) show this. |
+| **Remaining: 0** | The product is out of stock and can't be added. |
+| Product missing from the list | The product is hidden because **Hide when off sale** or **Hide when out of stock** is enabled on it in the [admin panel](/user-manual/epos/shops-products-users#display-settings). |
+
+Products outside their **On sale from** / **On sale until** dates can't be added either. The full product list, including hidden products, is always available in [Catalog](/mobile-apps/epos-pro/transactions-and-reports#catalog).
+
+<Note>
+Stock shown in the app is a snapshot from the last refresh. If a product sells out on another device before your sale completes, the platform rejects the sale and the app shows the reason, so you can adjust the basket and try again.
+</Note>
+
+### Checking a Customer's Balance While Selecting
+
+In NFC mode, a customer can tap their tag on **Select products** before you build the basket. The app shows their name and the balance left after the products already selected, and greys out any product that would take the selection over their balance. If the current selection already costs more than their balance, it's cleared. Tap the customer banner to remove them.
+
+This is a guide while selecting — to pay from the balance, the customer is added again in the basket (see below).
 
 ## The Basket
 
-Tap **Continue** from the product selection screen to open the basket. The basket displays:
+The basket lists each selected product with its price and quantity controls. Use **+** / **−** or tap the quantity to change it — reducing a product to zero removes it. If the basket becomes empty, the app shows *"No Items in Basket"* and returns to product selection when you tap **OK**.
 
-- Each selected product with its name, quantity, and price
-- Quantity adjustment buttons (+/-) for each item
-- A summary row with the total cost
-- Customer details and balance (if a customer has been identified)
+Below the products, a bar identifies the customer, then the **Basket total**, then the payment buttons.
 
-### Adjusting the Basket
+### Adding a Customer
 
-- **Increment/decrement** — tap the +/- buttons on any item
-- **Remove** — swipe an item to the left to delete it, or decrement below 1 and confirm removal
-- If the basket becomes empty, the app shows an alert and returns to product selection
+A customer isn't needed for most sales, but is required to pay by account balance and whenever [guest orders](/mobile-apps/epos-pro/introduction#guest-orders) are disabled.
+
+- **NFC mode** — the bar reads *"Tap NFC tag to add customer"*. The customer taps their tag against the device.
+- **QR mode** — tap the bar (*"Tap to scan customer QR code"*) to open the camera, then scan the QR code on the customer's ticket. Use **Manual Entry** to type the code if it won't scan.
+
+Once identified, the bar shows the customer's name and account balance.
 
 ## Payment Methods
 
-The basket screen displays payment buttons based on your EPOS configuration and permissions. Each method can be independently enabled or disabled in the admin panel, and individual staff members need the corresponding permission to use each one.
+The payment buttons shown depend on the [payment settings](/mobile-apps/epos-pro/settings-and-hardware#payment-settings) in the app, which are themselves limited by the payment methods enabled in the admin panel's [EPOS settings](/user-manual/epos/overview#configuring-payment-methods).
 
-| Method | Button | How It Works |
-|--------|--------|-------------|
-| **Account Balance** | Visible when balance spending is enabled and a customer is identified | Deducts the total from the customer's preloaded balance. The customer's updated balance is shown on the success screen. |
-| **Cash** | Visible when cash payments are enabled (hidden for custom currencies) | If **Cash input and change** is enabled in settings, a numeric keypad opens for the staff member to enter the amount received. The app calculates and displays the change. |
-| **Card (Terminal)** | Visible when terminal payments are enabled and a Stripe reader is connected | Processes a chip or contactless payment through the connected Stripe card reader. |
-| **Card (Online)** | Visible when card payments are enabled but no terminal is connected | Processes the card payment through the backend payment gateway. |
-| **Complimentary** | Visible when complimentary payments are enabled | Records the transaction at no charge. Typically used for staff meals or promotional items. |
+| Button | Shown when | What it does |
+|--------|-----------|--------------|
+| **Account balance** | Balance spending is enabled for EPOS and a customer has been added | Takes the total from the customer's [account balance](/user-manual/account-balances/top-ups). See [Paying by Account Balance](#paying-by-account-balance). |
+| **Card** | **Terminal card payments** is on, and a Bluetooth or USB Stripe reader is set up and selected in the [reader menu](/mobile-apps/epos-pro/settings-and-hardware#choosing-which-reader-to-use) | Takes a chip or contactless payment on the physical Stripe reader. |
+| **Tap to Pay** | **Terminal card payments** is on, and Tap to Pay is set up and selected in the reader menu | Takes a contactless payment on the device itself. |
+| **Card (offline)** | **Card payments** is on and neither **Card** nor **Tap to Pay** is shown | Records a card payment taken outside the app — for example on a separate card machine. No card is charged by the app; the platform records it as *Card Not Present (offline)*. |
+| **Cash** | **Cash payments** is on | Records a cash payment, optionally calculating change. |
+| **Complimentary** | **Complimentary** is on in the app and complimentary payments are enabled for EPOS | Completes the order without payment, after a confirmation: *"Marking this order as complimentary will complete this order without taking payment."* |
 
 <Note>
-When paying by **Account Balance**, the app checks the customer's balance against the basket total. If the balance is insufficient, the app shows a failure screen displaying the customer's name, current balance, and the required amount. From there, staff can return to the basket or navigate directly to the top-up flow (if they have the `walletTopup` permission).
+When EPOS uses a [custom currency](/user-manual/epos/custom-currencies), only **Account balance** and **Complimentary** are available — prices are in tokens, so cash and card can't be taken against them. If no button can be shown, the basket displays *"No payment method is set up. Check Settings."*
 </Note>
+
+### Paying by Account Balance
+
+Tap **Account balance** to take payment from the customer's balance:
+
+- **NFC mode** — the app shows *"Tap NFC tag to confirm payment"* and the customer taps their tag again. The tag must belong to the customer already in the basket; a different customer's tag stops the payment with *"Payment is not possible, as this NFC tag doesn't belong to [name]."*
+- **QR mode** — the app asks *"Take [amount] from the account balance of [name]?"* — tap to confirm.
+
+If the balance doesn't cover the basket, the platform declines the payment and the app shows the reason. The customer can [top up](/mobile-apps/epos-pro/topups-and-cashout#top-ups) and the sale can be retried.
 
 ### Cash Payments with Change Calculation
 
-When **Cash input and change** is enabled in settings and the staff member selects cash payment:
+When **Cash input and change** is turned on in [settings](/mobile-apps/epos-pro/settings-and-hardware#cash-input-and-change), tapping **Cash** opens a sheet titled **Basket total**:
 
-1. A numeric keypad appears showing the basket total
-2. The staff member enters the amount of cash received
-3. The app calculates and displays the change in real time
-4. The **Confirm** button is disabled until the entered amount covers the total
-5. After confirmation, the change amount is displayed prominently on the success screen
+1. The sheet shows the basket total
+2. Enter the cash received in **Enter cash**
+3. Once the amount covers the total, the sheet shows **Change** followed by the amount to give back
+4. Confirm with the keyboard's done key
 
-### Card Terminal Payments
+Entering less than the total shows *"Cash received must cover the basket total"*. When **Cash input and change** is off, tapping **Cash** completes the sale immediately.
 
-When the staff member selects card payment with a Stripe terminal reader connected:
+### Card Payments with Tap to Pay or a Stripe Reader
 
-1. The app creates a payment intent on the server
-2. The status display shows *"Preparing payment"*
-3. The reader prompts the customer: *"Insert card"*
-4. The status updates to *"Processing"* while the payment is authorised
-5. The app captures the payment and completes the order
+Tapping **Card** or **Tap to Pay** opens the payment screen, which shows the amount and the payment's progress. If the matching reader isn't connected yet, the app connects to it first — when [both are set up](/mobile-apps/epos-pro/settings-and-hardware#choosing-which-reader-to-use), staff can switch between the two from one sale to the next.
 
-If the card reader is disconnected when the staff member taps the card button, the app prompts them to connect a reader first.
+1. *"Connecting reader, please wait"* — shown if the app needs to connect the reader first (or *"Installing reader update. This must not be interrupted."* if the reader needs a software update)
+2. *"Preparing payment"* — the payment is created on the platform
+3. The reader's prompt (such as *"Insert card"*) — the customer presents their card
+4. *"Processing…"* — the payment is authorised and the order completed
 
-## Transaction Success
+Until processing starts, **Cancel** stops the payment (after confirming *"Cancel this payment?"*). Once processing starts, the app shows *"Payment in progress. Please do not leave this screen."* and the payment can no longer be cancelled.
 
-After a successful payment, the success screen displays:
+<Note>
+If something fails, the screen explains what happened with a **Try again** button. When the card may already have been charged — for example *"The card was charged but we did not get a reply from the server. Tap Try again to finish the order."* — tapping **Try again** checks whether the payment and order already went through before doing anything else, so the customer isn't charged twice. Leaving instead requires **Exit without confirming payment**, which warns that the card may already have been charged and to check the Stripe dashboard before taking payment again. If the chosen reader hasn't been set up, the app shows *"No reader is set up for this option. Run the Stripe reader setup first."* with a **Connect** button.
+</Note>
 
-- **Transaction successful** confirmation (with change amount for cash payments)
-- Transaction date, customer name (if identified), order reference, payment method, and total
-- An itemised list of products with quantities and prices
-- Action buttons:
+## Order Complete
+
+After a successful payment, the **Order complete!** screen confirms the sale:
+
+| Section | Contents |
+|---------|----------|
+| **Payment details** | **Payment method**, **Total payment** (for cash, the amount received), and **Change** when change is due. Complimentary orders don't show a total. |
+| **Customer details** | For account balance payments: **Customer Name**, **Customer Email**, and the customer's **Current balance** after the sale |
+| **Order details** | **Order ref**, **Order date**, and each product with its quantity and price |
 
 | Button | Description |
 |--------|-------------|
-| **Confirmation** | Returns to the home screen to start a new sale |
-| **Open Transaction** | Opens the full transaction detail (if you have the `viewOrders` permission) |
-| **Print Product Receipt** | Prints a kitchen/product receipt on the Sunmi printer (hidden for refunds and top-ups) |
-| **Print Customer Receipt** | Prints a customer-facing receipt with balance information |
-| **Cash Drawer** | Opens the cash drawer (if you have the `cashDrawerNoSale` or `cashDrawerCardSale` permission) |
+| **View Order** | Opens the [transaction details](/mobile-apps/epos-pro/transactions-and-reports#transaction-details), where items can be refunded. Requires the **View Orders** permission. |
+| **Open Cash Drawer** | Opens a connected [cash drawer](/mobile-apps/epos-pro/settings-and-hardware#cash-drawer). Requires one of the cash drawer permissions. |
+| **Print Receipt** | Prints a [customer receipt](/mobile-apps/epos-pro/settings-and-hardware#receipt-printing) on a Sunmi printer. Once a receipt has printed — including automatically — the button reads **Print receipt again**. |
+| **Close** | Returns to the home screen. |
 
-## Auto-Sale Mode
+## Auto Sale
 
-Auto-sale is a streamlined mode for high-volume single-product selling — for example, a drinks stall selling one item repeatedly. Instead of selecting a product and going through the basket each time, staff pre-select a product and then scan customers for instant checkout.
+Auto sale is a streamlined mode for high-volume single-product selling — for example, a drinks stall selling one item repeatedly. Instead of building a basket each time, staff pick the product once and then simply scan customers.
 
-### Setting Up Auto-Sale
+### Setting Up Auto Sale
 
-1. Navigate to **Catalog** from the home screen
-2. Tap a product to set it as the auto-sale item
-3. Return to **Sell Products** — the app enters auto-sale mode
+1. Turn on **Auto sale** in [settings](/mobile-apps/epos-pro/settings-and-hardware#product-display-settings)
+2. Tap **Sell products** on the home screen
+3. Tap the product to sell — the **Auto sale** screen opens with that product's name and price
 
-In auto-sale mode, each customer scan or NFC tap immediately creates a one-item transaction for the pre-selected product. The scan method depends on the active authentication mode (QR, NFC Online, or NFC Offline).
+Each time a customer taps their NFC tag (*"Tap NFC tag"*) or has their ticket's QR code scanned, the app immediately sells one of the product, paid from the customer's [account balance](/user-manual/account-balances/top-ups). The **Order complete!** screen shows for two seconds, then the app returns to the **Auto sale** screen ready for the next customer.
 
-To exit auto-sale mode, clear the auto-sale product from the catalogue or settings.
+To sell a different product, go back to **Select products** and tap another one. To stop using auto sale, turn the **Auto sale** setting off. While auto sale is on, products aren't grouped into categories.
 
 <Note>
-Auto-sale is enabled via the **Auto sale** setting and works across all scan modes. The auto-sale product selection persists between sessions until explicitly changed.
+If the customer can't be found, the connection fails, or the platform declines the sale — for example because the balance is too low — the app shows the reason. Close the message to try again or scan the next customer.
 </Note>
-
-## Age Verification
-
-Products can have age restrictions configured in the admin panel. When a customer selects an age-restricted product and their date of birth is not on file, the app prompts staff to verify the customer's age and enter their date of birth. The DOB is saved to the customer's profile for future purchases.
 
 ## Related Pages
 

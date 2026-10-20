@@ -49,26 +49,36 @@ The ticket selection screen shows the event details, a filter pill, and the list
 | **Season ticket** | A [season pass](/user-manual/sale-items/season-tickets) rather than a single-event ticket |
 | **Product** | A physical product rather than a ticket |
 | **Has add-ons** | Optional [add-on](/user-manual/sale-items/add-ons) items are available for this ticket |
-| **Out of stock** | No inventory remaining — quantity controls hidden |
-| **Off sale** | Outside the sale window — quantity controls hidden |
+| **SOLD OUT** | No inventory remaining — shown in place of the quantity control |
+| **OFF SALE** | Outside the sale window — shown in place of the quantity control |
 
 Bundle items show the included items underneath the main row, listed by name and quantity with their individual prices struck through to indicate they're included in the bundle price.
 
-Adjust quantities using the on-screen controls. The app enforces any configured quantity rules:
+### Setting Quantities
+
+<Tip>New quantity selector in Release 48</Tip>
+
+Each item that's on sale has a quantity control on the right of its row. Tap **+** to add the first one — the control then expands to show **−**, the current quantity, and **+**, so you can step the quantity up or down one at a time.
+
+To enter a larger number in one go, tap the quantity itself. A quantity entry sheet opens showing the item's name and price with an **Enter quantity** field — type the number you need, then close the sheet. Clearing the field, or entering 0, removes the item.
+
+The control works the same way on phones, tablets, and larger terminals, and the same control appears on the [add-ons](#add-ons) screen and in the [basket](#adjusting-quantities). Whichever way you set the quantity, the app enforces any configured quantity rules:
 
 - **Minimum order quantity** — you cannot add fewer than the minimum (reducing below it removes the item entirely)
 - **Maximum order quantity** — the quantity caps at the configured maximum
 - **Multiples of** — quantities snap to the required increment (e.g., multiples of 2)
 
-On phones, the quantity control is a single button that opens a quantity entry sheet — tap it and type the number of tickets. Turn on **Quantity UI** in [settings](/mobile-apps/box-office-pro/settings-and-hardware#quantity-selection) to use inline **+** / **−** buttons instead. Tablets and larger terminals always show the **+** / **−** buttons. <Tip>Quantity UI setting added in Release 47</Tip>
-
 <Note>
 A maximum of 50 items can be added to a single order.
 </Note>
 
+<Note>
+The **Quantity UI** setting that switched phones between the quantity entry sheet and **+** / **−** buttons has been removed — every device now gets both from the same control.
+</Note>
+
 ### Add-Ons
 
-When you add a ticket that has optional add-ons, a dialog appears showing the available add-on items. Adjust the quantity of each add-on using **+** and **-** buttons in the dialog. Add-ons appear indented under their parent ticket in the basket and are removed automatically if the parent ticket is removed.
+When a selected ticket has optional add-ons, tapping **Add to basket** first opens an add-ons screen listing the available add-on items. Add-ons are grouped under a numbered heading for each ticket (for example, *#1 Adult* and *#2 Adult*), so each ticket can have its own add-ons — set their quantities with the same [quantity control](#setting-quantities). Add-ons appear indented under their parent ticket in the basket and are removed automatically if the parent ticket is removed.
 
 ## Seating Plans
 
@@ -108,7 +118,7 @@ Once items are selected, two actions appear at the bottom of the ticket selectio
 Use **Checkout** when the order is straightforward and you want to move quickly to payment. Use **Add to basket** when you need to attach customer details, apply a discount code, or review the order first.
 
 <Note>
-If any selected ticket has optional [add-ons](/user-manual/sale-items/add-ons), the **Add to basket** flow shows the add-on selection dialog before the basket opens. The **Checkout** flow skips add-on selection — use **Add to basket** when add-ons need to be chosen.
+If any selected ticket has optional [add-ons](/user-manual/sale-items/add-ons), the **Add to basket** flow shows the [add-ons screen](#add-ons) before the basket opens. The **Checkout** flow skips add-on selection — use **Add to basket** when add-ons need to be chosen.
 </Note>
 
 <Tip>Zero-value orders skip payment from the ticket screen in Release 47</Tip>
@@ -136,7 +146,7 @@ The basket footer shows:
 
 ### Adjusting Quantities
 
-For non-seated tickets, the same **+** / **-** controls from the ticket selection screen appear in the basket. Changes sync with the server to validate stock availability. A progress indicator appears during sync, and buttons are temporarily disabled until the update completes.
+For non-seated items, the same [quantity control](#setting-quantities) from the ticket selection screen appears in the basket — use **−** and **+** to step the quantity, or tap the quantity to type a new number in the quantity entry sheet. Clearing the field in the sheet removes the line from the basket. Changes sync with the server to validate stock availability. A progress indicator appears during sync, and buttons are temporarily disabled until the update completes.
 
 ### Discount Codes
 

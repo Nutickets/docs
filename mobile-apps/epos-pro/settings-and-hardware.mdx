@@ -1,133 +1,146 @@
 ---
 title: "Settings and Hardware"
-description: "Configure payment methods, connect card readers and NFC devices, set up receipt printing, and manage app preferences."
+description: "Configure payment methods, set up Stripe card readers, print receipts, and manage app preferences."
 ---
 
 ## Overview
 
-Settings control how the app processes payments, identifies customers, and integrates with hardware. Access them from the menu on the home screen.
+Settings control which payment methods the app offers, how it prints receipts, and optional selling features. Open them from the menu (**⋮**) on the home screen and tap **Settings**. Stripe card readers are managed from the card reader icon in the home screen toolbar.
 
 ## Payment Settings
 
-Payment methods can be enabled or disabled both in the admin panel (EPOS settings) and in the app. The app-level settings reflect the configuration pushed from the server.
+These settings decide which payment buttons appear in the [basket](/mobile-apps/epos-pro/selling-products#payment-methods) and on the [top-up](/mobile-apps/epos-pro/topups-and-cashout#taking-payment) screen.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| **Cash payments** | On | Allow staff to accept cash. Hidden when EPOS uses a custom currency. |
-| **Card payments** | Off | Allow online card payments (card not present). |
-| **Terminal card payments** | Off | Allow card payments via a connected Stripe reader. |
-| **Complimentary payments** | Off | Allow staff to process orders at no charge. |
+| **Cash payments** | On | Adds the **Cash** button. |
+| **Card payments** | Off | Adds the **Card (offline)** button, for recording card payments taken outside the app — for example on a separate card machine. |
+| **Terminal card payments** | Off | Takes card payments through [Stripe Terminal](#stripe-card-readers), adding the **Card** and/or **Tap to Pay** buttons depending on the readers set up. Turning it on before any reader is set up opens the Stripe Terminal setup instead. |
+| **Complimentary** | Off | Adds the **Complimentary** button to the basket. |
+
+Each setting can only be turned on when the matching payment method is enabled in the admin panel's [EPOS settings](/user-manual/epos/overview#configuring-payment-methods) — otherwise it's greyed out, and a method disabled in the admin panel is switched off in the app when it next refreshes its settings.
 
 <Note>
-Each staff member also needs the corresponding permission in their role to use a payment method. Enabling a method in settings makes it available in the app, but the button only appears for staff who have the right permission.
+**Card payments** and **Terminal card payments** can't both be on — turning one on turns the other off. At least one of **Cash payments**, **Card payments**, and **Terminal card payments** always stays on: turning off the last one switches **Cash payments** back on.
 </Note>
 
 ### Cash Input and Change
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| **Cash input and change** | On | When enabled, a numeric keypad prompts staff to enter the cash received during cash payments. The app calculates and displays the change. When disabled, cash payments complete immediately without change calculation. |
+| **Cash input and change** | On | When enabled, staff enter the cash received during cash payments and the app calculates and displays the change. When disabled, cash payments complete immediately without change calculation. Only available when **Cash payments** is on. |
 
-## Stripe Card Reader
+## Stripe Card Readers
 
-EPOS Pro integrates with Stripe Terminal for contactless and chip card payments. Two reader types are supported:
+EPOS Pro takes in-person card payments through [Stripe](/user-manual/payments/payment-processors) Terminal. Three types of reader are supported, and Tap to Pay can be set up alongside one physical reader:
 
-| Reader Type | Description |
-|-------------|-------------|
-| **Bluetooth** | An external Stripe reader connected via Bluetooth. Requires the reader to be powered on and within range. |
-| **Local** | Tap to Pay on the device itself, using the device's built-in NFC for contactless card acceptance. No external reader required. |
+| Reader | Description |
+|--------|-------------|
+| **Tap to Pay** | Contactless payments on the device itself, using its built-in NFC. No extra hardware is needed — the app checks during setup whether the device supports it. |
+| **Bluetooth reader** | An external Stripe reader paired with the device over Bluetooth. |
+| **USB reader** | An external Stripe reader connected to the device by USB cable. <Tip>USB readers added in Release 48</Tip> |
 
-### Connecting a Reader
+### Setting Up Readers
 
-1. Open **Settings**
-2. Tap **Stripe reader**
-3. Select the reader type (**Bluetooth** or **Local**)
-4. For Bluetooth readers:
-   - Ensure Bluetooth is enabled on the device
-   - Tap **Search for readers** — the app scans for nearby readers
-   - Select the reader from the list
-   - Choose the reader's location (configured in your Stripe Dashboard)
-5. Wait for the connection to complete
+Open **Settings** and tap **Stripe reader** — or tap the card reader icon in the home screen toolbar the first time — to start **Stripe Terminal setup**:
 
-Once connected, the settings screen shows the reader name, battery level, and software version. A **Disconnect** button allows you to unpair.
+1. Choose a location — *"Select the Stripe location for this device"* lists the reader locations in your Stripe account. Locations are created in the Stripe Dashboard under **Payments > Readers > Locations**.
+2. **Tap to Pay** — the app sets up Tap to Pay automatically (*"Setting up Tap to Pay"*). NFC must be switched on: if it's off, the app opens the device's NFC settings, and shows *"NFC is required for Tap to Pay"* if it's left off. If the device can't use Tap to Pay — for example *"Tap to Pay is unavailable on this device"* — tap **Continue to physical reader**.
+3. Add a physical reader (optional) — the app asks *"Tap to Pay is ready. Would you also like to configure a physical reader?"* (or *"Choose a physical reader connection"* if Tap to Pay isn't available). Tap **Bluetooth** or **USB**, or **Skip** to use Tap to Pay only. For Bluetooth, the app asks for Bluetooth permission and opens the device's Bluetooth settings if Bluetooth is off.
+4. Select the reader — the app searches for readers and lists them (for example *"Select a discovered Bluetooth reader"*). Tap the reader to connect it.
+5. **Finish** — a summary confirms what was set up, such as *"Tap to Pay and the physical reader are configured."* Tap **Finish**.
+
+Completing setup with at least one reader turns **Terminal card payments** on. If you cancel setup before any reader is configured, terminal card payments stay off.
 
 <Note>
-Stripe Terminal requires Bluetooth to be enabled on the device. If Bluetooth is off, the app displays: *"Turn on bluetooth on this mobile device (required to use stripe reader)."* Reader locations must be configured in Stripe Dashboard under **Payments > Readers > Locations** before they appear in the app.
+Stripe Terminal needs location permission, which the app requests when it starts. If it was refused, tapping the card reader icon shows *"Allow location access to set up Stripe Terminal"*. If no locations exist in your Stripe account, setup shows *"Reader must be assigned to location, but there are no locations set up in Stripe account."* — add one in the Stripe Dashboard and tap **Try again**.
 </Note>
+
+### Choosing Which Reader to Use
+
+<Tip>Tap to Pay alongside a physical reader added in Release 48</Tip>
+
+Once setup is complete, tap the card reader icon in the home screen toolbar to choose how cards are taken:
+
+| Option | Effect |
+|--------|--------|
+| **Setup** | Reopens Stripe Terminal setup, for example to change location or replace a reader |
+| **Tap to Pay** | Uses Tap to Pay only — the basket shows **Tap to Pay** |
+| **Bluetooth reader** | Uses the Bluetooth reader only — the basket shows **Card** |
+| **USB reader** | Uses the USB reader only — the basket shows **Card** |
+| **Both** | Uses Tap to Pay and the physical reader — the basket shows both **Card** and **Tap to Pay**, and the app connects whichever one staff choose for each payment |
+| **Disable** | Turns terminal card payments off and disconnects the reader |
+
+**Tap to Pay** and **Both** are only available once those readers are set up. Choosing **Bluetooth reader** or **USB reader** when your physical reader uses the other connection — or before any physical reader is set up — starts setup for a reader with that connection.
+
+The icon's colour shows the reader status at a glance:
+
+| Colour | Status |
+|--------|--------|
+| Green | Connected |
+| Orange | Searching for readers |
+| Blue | Connecting, reconnecting, or installing an update |
+| Grey | Not connected |
+
+### Staying Connected
+
+When the app starts, it reconnects the reader you last used. If a reader drops its connection unexpectedly, the app reconnects it automatically — the icon turns blue while it does. **Settings > Stripe reader** shows the connected reader's name (*"Connected reader: [name]"*). Logging out disconnects the reader.
 
 ### Reader Updates
 
-When a firmware update is available for the connected reader, the app shows an **Update** button. Updates require the reader to be fully charged. If the update fails, the app displays: *"Installing update failed, make sure the reader's battery is fully charged."*
+When a reader needs a software update, the update installs automatically as the reader connects. The app shows *"Installing reader update. This must not be interrupted."* with the progress and an estimate of how long it will take (for example *"This usually takes one to two minutes."*). Keep the reader charged and nearby until it finishes — if the update fails, the app shows *"Installing update failed, make sure the reader's battery is fully charged"*.
 
-## NFC Configuration
+## NFC Tags
 
-NFC settings control how the app reads and writes customer NFC media (wristbands, cards, badges).
+In NFC (Secure) mode, the app reads customers' wristbands, cards, and badges with the device's built-in NFC — the device must have NFC, and it must be switched on. Tags must be ISO 14443 Type A (NFC-A), the type used by common MIFARE and NTAG media.
 
-| Setting | Description |
-|---------|-------------|
-| **Additional supported NFC tag type** | Select a secondary NFC tag type to support alongside the default MIFARE Classic. Options: **Non original Mifare Classic** or **Barbados ID**. |
-| **External NFC reader** | Enable and configure an external Bluetooth NFC reader for devices without built-in NFC. Tap to scan for and pair with the reader. |
-
-The app supports four NFC tag types:
-
-| Tag Type | Capabilities |
-|----------|-------------|
-| **MIFARE Classic / Classic EV1** | Full read/write. Used for balance storage with sector-based encryption. |
-| **DESFire EV1** | Full read/write with enhanced security. Encrypted communication using company-specific keys. |
-| **NTag 213** | Read-only (UID only). |
-| **JavaCard (ISO-DEP)** | Read-only. Reads serial and batch number via APDU commands. |
-
-<Note>
-NFC tags are encrypted with your company's key. Tags from a different company cannot be read by the app. If a tag cannot be scanned, the app displays: *"This NFC tag cannot be scanned, because it's not paired with a customer or tag was removed too quickly."*
-</Note>
+The app reads only the tag's ID and looks up the customer it's [paired](/user-manual/event-management/nfc-pairing) with; nothing is read from or written to the tag, and balances are held on the platform. There are no tag settings to configure in the app.
 
 ## Receipt Printing
 
-EPOS Pro supports receipt printing on **Sunmi** devices with a built-in thermal printer. Two receipt types are available:
+EPOS Pro prints receipts on **Sunmi** devices with a built-in thermal printer. When no printer is available, the print buttons don't appear.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| **Print customer receipt** | Off | Automatically prints a customer-facing receipt after each transaction. Can also be triggered manually from the success screen. |
-| **Print product receipt** | Off | Automatically prints a kitchen/product receipt after each transaction. Only available for product sales (not top-ups or cash-outs). |
+| **Customer receipt** | Off | Prints a receipt automatically after every sale, top-up, and cash-out. When off, staff print receipts on demand. |
 
-### Customer Receipt Content
+To print on demand, tap **Print Receipt** on the **Order complete!** screen after a sale, top-up, or cash-out, or on a transaction's [details](/mobile-apps/epos-pro/transactions-and-reports#transaction-details). After a receipt has printed, the button changes to **Print receipt again** so reprints are deliberate.
 
-- Customer name and NFC/QR media identifier
-- Payment method
-- Transaction ID and device ID
-- Staff member name
-- Date and time
-- Itemised list of products with quantities and prices
-- Total payment amount
-- Current balance (for top-ups and cash-outs)
+### Receipt Content
 
-### Product Receipt Content
+<Tip>Receipt redesigned in Release 48</Tip>
 
-- Itemised list of products with quantities and prices
-- Printed in a larger format suitable for kitchen display
+Receipts for sales and top-ups include:
 
-After printing, the Sunmi printer automatically cuts the paper.
+- The **Order ref**, shop name, and date and time
+- Each item with its quantity and price
+- **Net**, **Tax**, and **Total**
+- **Balance** — the customer's new balance, on top-up receipts
+- **Payment method**
+- **Company name**, **Address**, and **VAT Number**, taken from the billing details in [company settings](/user-manual/utilities/company-settings#company-details) — printed only when a billing address is set
+- The **Device ID** of the device that printed it
+
+Cash-out receipts show the shop name, date and time, the **Cash out** amount, the customer's remaining **Balance**, and the company details and device ID.
+
+The app detects whether the printer uses 58 mm or 80 mm paper and adjusts the layout automatically, wrapping long product names and addresses. The paper is cut once the receipt has printed.
 
 ## Cash Drawer
 
-Sunmi devices with a connected cash drawer can be opened from the app. The **Cash Drawer** button appears in two places:
+Sunmi devices with a connected cash drawer can open it from the app:
 
-- On the **cash input** screen during cash payments
-- On the **transaction success** screen after completing a sale
-
-Opening the cash drawer requires the `cashDrawerNoSale` or `cashDrawerCardSale` permission.
+- **Settings > Cash drawer** opens the drawer at any time. It requires the **Mobile box office: Open cash drawer (no sale)** permission and is greyed out without it.
+- **Open Cash Drawer** on the **Order complete!** screen after a sale or top-up. It appears if you have either the **Mobile box office: Open cash drawer (no sale)** or **Mobile box office: Open cash drawer (card sale)** permission.
 
 ## Product Display Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| **Auto sale** | Off | Enables auto-sale mode, where a pre-selected product is sold automatically each time a customer is scanned. See [auto-sale](/mobile-apps/epos-pro/selling-products#auto-sale-mode). |
-| **Product categories** | Off | Groups products by category in the product selection grid. When disabled, all products are shown in a single flat list. |
-| **Cash out clears NFC tag** | Off | When enabled, a cash-out operation also wipes all data from the NFC tag. |
+| **Auto sale** | Off | *"Enable recurring sales of the same product to multiple customers"*. When on, tapping a product on **Select products** opens the [Auto Sale](/mobile-apps/epos-pro/selling-products#auto-sale) screen for that product. |
+| **Product categories** | Off | *"Group products by categories when making a sale"*. When on, **Select products** opens on a list of categories. When off, all products are shown in a single list. |
 
 ## Screen Orientation
 
-The app supports both portrait and landscape modes on compatible devices. A toggle button on the login screen (and in settings) allows switching between orientations. Landscape mode is only available on devices with screens of at least 600dp on the shortest side.
+The app supports both portrait and landscape modes on compatible devices. Tap **Change screen orientation** on the login screen to switch between them. The button only appears on devices that support both orientations — landscape needs a screen of at least 600dp on its shortest side.
 
 ## Related Pages
 

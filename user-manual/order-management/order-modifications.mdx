@@ -180,6 +180,22 @@ For replacement orders paid with a combination of previous order balance and an 
 
 Refunds are blocked on the original order while it is frozen (under modification). If you need to refund before the modification completes, the customer or staff member must first cancel the modification — click **Cancel modifying order** in the basket — which unfreezes the original order and makes it eligible for refund again.
 
+## Modified Orders in Reports
+
+<Tip>Modified orders counted once in sales reports in Release 48</Tip>
+
+[Sales reports](/user-manual/reporting/default-reports#sales-reports) count a modified purchase once. The replacement order's items are reported as normal sales, while the original order's items count only for the value the original order kept — refund protection fees, fees forfeited under **Forfeit fees**, and any remainder the customer accepted losing at checkout. The rest of the original order's value was carried into the replacement order, so it isn't counted again.
+
+Three sales report fields cover modified orders, each dated by when the original order was completed:
+
+| Field | What it shows |
+|---|---|
+| **Modified orders** | The number of orders later replaced by a modification |
+| **Total kept from modified orders** | The value those orders kept. It is already included in gross, net, and retained cancellation revenue. |
+| **Total carried forward from modified orders** | The value carried from those orders into the replacement orders, or credited to the customer's account balance when the replacement cost less. It is not included in gross. |
+
+See [Modified and Resold Orders](/user-manual/reporting/default-reports#modified-and-resold-orders) in the report reference for how these fields relate to the rest of the report.
+
 ## Related
 
 - [Payment Lifecycle](/user-manual/payments/payment-lifecycle)

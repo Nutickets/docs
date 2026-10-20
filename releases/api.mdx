@@ -6,6 +6,18 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="9th Oct 2026" description="">
+
+- Added an optional `inhibitSzamlazzDocument` boolean to [POST /orders/complete](/api-reference/orders/complete-order) and [POST /basket-items](/api-reference/baskets/add-to-basket) (when `autocomplete` is true). Passing `true` prevents a Szamlazz invoice or receipt being issued for the order, for companies with the Szamlazz integration enabled. Requires the "Opt out of Szamlazz generation" permission, otherwise a 422 is returned.
+
+</Update>
+
+<Update label="5th Oct 2026" description="">
+
+- [GET /seating-plan-areas](/api-reference/seating-plans/retrieve-areas) with `hasAvailability=true` now takes resale listings into account for resale-enabled events.
+
+</Update>
+
 <Update label="23rd Sep 2026" description="">
 
 - [POST /orders/admit-tickets](/api-reference/orders/admit-order-tickets) now bypasses scanning validation (ticket validity dates, zone opening/closing dates, age restrictions & capacity) by default, treating the operator completing the order as the authority on admission. Pass `ignoreValidation: false` to enforce those checks as before.
@@ -148,11 +160,11 @@ Changes to the API will be documented below in reverse chronological order. Refe
 - Added new [GET /wallets](/api-reference/wallets/retrieve-wallets) and [GET /wallet](/api-reference/wallets/retrieve-a-wallet) endpoints to retrieve wallets registered within a company (NB: wallets power our account balance functionality).
 - Added a new [GET /v1/wallets/transactions](/api-reference/wallets/retrieve-wallet-transactions) endpoint to list all recent transactions across wallets (or for a specific wallet)
 - Added [POST /v1/wallets/transactions/confirm](/api-reference/wallets/confirm-a-wallet-transaction) to allow confirmation of pending transactions. Pending transactions are typically used for resale, order modifications, and other internal processes that deposit money into wallets.
-- Added [POST /v1/wallets/payouts/initiate](/api-reference/wallets/initiate-a-payout) to allow initiation of an external payout from a wallet. Unlike cashouts, payouts are not capped at the mount of topups purchased. This endpoint allows for a full payout of the account balance, regardless of source of funds.
+- Added [POST /v1/wallets/payouts/initiate](/api-reference/wallets/initiate-a-payout) to allow initiation of an external payout from a wallet. Unlike cashouts, payouts are not capped at the amount of top-ups purchased. This endpoint allows for a full payout of the account balance, regardless of source of funds.
 - Added [POST /v1/wallets/payouts/confirm](/api-reference/wallets/confirm-a-payout) to confirm when an initiated payout has been completed. This is an important step where external parties need to also verify that the payout was handled correctly.
 - Removed deprecated endpoints `POST /v1/wallets/nfc-download` and `POST /v1/wallets/nfc-download/confirm` as these are no longer in use or supported.
 - Add [GET /v1/resale/listings](/api-reference/resale/retrieve-resale-listings) index endpoint to return all available resale listings
-- Payload updats to [POST /v1/resale/listings](/api-reference/resale/create-a-new-resale-listing) to support creation of multiple item listings
+- Payload updates to [POST /v1/resale/listings](/api-reference/resale/create-a-new-resale-listing) to support creation of multiple item listings
 - Added a new `authenticationProviders` relationship that can be included on both [GET /customers](/api-reference/customers/retrieve-customers) and [GET /customer](/api-reference/customers/retrieve-customer) to determine the related customer SSO IDs.
 
 </Update>
@@ -212,7 +224,7 @@ Changes to the API will be documented below in reverse chronological order. Refe
 
 <Update label="14th Aug 2025" description="">
 
-- [POST /v1/basket-items](/api-reference/baskets/add-to-basket) now accepts order item ID as well as sale item ID to add a resale item to basket. The `resaleFeeSellerContribution` has also been added and can be pasesed in `pointOfSaleData`
+- [POST /v1/basket-items](/api-reference/baskets/add-to-basket) now accepts order item ID as well as sale item ID to add a resale item to basket. The `resaleFeeSellerContribution` has also been added and can be passed in `pointOfSaleData`
 
 </Update>
 
@@ -255,7 +267,7 @@ Changes to the API will be documented below in reverse chronological order. Refe
 
 <Update label="14th Apr 2025" description="">
 
-- Updated [POST /zones/check](/api-reference/zones/check-zone-item-eligibility) and [POST /zones/scan](/api-reference/zones/scan-zone) to return a `statusDetail` field to embelish a `denied` response. Currently this only returns `historicBarcode` in the event a barcode has been scanned that has since been superceded by a new barcode following a transfer.
+- Updated [POST /zones/check](/api-reference/zones/check-zone-item-eligibility) and [POST /zones/scan](/api-reference/zones/scan-zone) to return a `statusDetail` field to embellish a `denied` response. Currently this only returns `historicBarcode` in the event a barcode has been scanned that has since been superseded by a new barcode following a transfer.
 - Updated [GET /entry/tickets](/api-reference/access-control/retrieve-entry-tickets) to return a `historicBarcodes` list within the `variable` portion of a ticket, which lists all previous barcodes of the ticket, in order to determine whether the customer is attempting to scan an old (possibly resold) ticket.
 
 </Update>

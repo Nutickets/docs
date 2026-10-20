@@ -43,7 +43,11 @@ An **Open cash drawer** button appears during cash payments if you have the requ
 4. The customer presents their card (insert, tap, or swipe depending on the reader)
 5. On success, the screen shows *"Payment Successful!"* and the order completes automatically
 
-If the reader is not connected, the screen displays *"Terminal is not connected"* with an **Open terminal settings** button to configure the reader.
+If the reader is not connected, the screen displays *"Terminal is not connected"* with a **Connect to Stripe reader** button to connect one. For **Tap to pay**, NFC must be switched on — otherwise the screen shows *"NFC is turned off. Turn it on to use Tap to Pay."* Turn NFC on in the device settings and tap **Retry**.
+
+<Note>
+If the Tap to pay connection drops between sales — for example, after a period of inactivity — the app reconnects it automatically in the background. See [Tap to Pay Recovery](/mobile-apps/box-office-pro/settings-and-hardware#tap-to-pay-recovery).
+</Note>
 
 ### Interac Support
 
@@ -72,6 +76,8 @@ When split payments are enabled, staff can collect payment across multiple metho
 
 The **Previous payments** section tracks each split. When fewer than three splits have been recorded, each one is listed individually showing the method and amount. With three or more, they collapse into a summary row showing the combined total — tap it to expand the full list.
 
+On Sunmi printers, the printed receipt lists each split with its amount under a **Payment breakdown** heading — see [Payment Breakdown](/mobile-apps/box-office-pro/orders-and-after-the-sale#payment-breakdown).
+
 <Note>
 If a payment fails during a split (e.g., a card is declined), the failed split is automatically removed so you can retry with the same or different method.
 </Note>
@@ -92,8 +98,8 @@ The confirmation screen offers these actions:
 |--------|-------------|
 | **Cash drawer** | Opens the cash drawer (requires permission and connected hardware) |
 | **Admit** | Checks in the order's tickets immediately (if check-in is configured — see [settings](/mobile-apps/box-office-pro/settings-and-hardware#check-in-after-purchase) and [what gets checked in](/mobile-apps/box-office-pro/orders-and-after-the-sale#what-gets-checked-in)) |
-| **Print** | Prints tickets with QR barcodes on a connected Sunmi printer |
-| **Print receipt** | Prints a financial receipt |
+| **Print** | Prints tickets with QR barcodes on the [selected printer](/mobile-apps/box-office-pro/settings-and-hardware#receipt-printer-selection) |
+| **Print receipt** | Prints a financial receipt — on Sunmi printers, with a [payment breakdown](/mobile-apps/box-office-pro/orders-and-after-the-sale#payment-breakdown) when the order was paid with split payments |
 | **Buy more** | Starts a new order for the same customer (keeps name and email) |
 | **New customer** | Clears the basket and customer data to start a fresh order |
 
@@ -109,16 +115,22 @@ For details on how NFC pairing works, including re-pairing and the messages you 
 
 ## Payment Errors
 
-| Error | Meaning |
+<Tip>New and clarified payment messages in Release 48</Tip>
+
+| Message | Meaning |
 |-------|---------|
-| *"Terminal is not connected"* | No Stripe reader paired — open terminal settings to connect |
-| *"Payment failed"* | Card declined or reader error — retry or use a different method |
-| *"Processing payment failed"* | Payment confirmation failed after card was read |
-| *"Capturing payment failed"* | Server could not capture the authorised payment |
-| *"Creating payment failed. Please make sure you have internet connection."* | No network connectivity for online payment |
+| *"Terminal is not connected"* | No Stripe reader is connected — tap **Connect to Stripe reader** to connect one |
+| *"Card reader unavailable: the app needs location, Bluetooth and camera permissions, and location services switched on. Check them in Settings, then return to the app."* | The app couldn't start its card reader service — grant the permissions and switch on location services in the device settings, then tap **Retry** |
+| *"NFC is turned off. Turn it on to use Tap to Pay."* | Tap to pay needs the device's NFC — switch it on, then tap **Retry** |
+| *"Payment failed."* | Card declined or reader error — retry or use a different method |
+| *"Payment cancelled. Customer cancelled the transaction."* | The transaction was cancelled on the reader before it completed — tap **Retry** to start again |
+| *"Processing payment failed"* | The payment couldn't be confirmed after the card was read. The reason reported by the reader appears below the message. |
+| *"Payment could not be started. No payment has been taken."* | The app couldn't set up the payment with the server, so nothing was charged — the reason appears below the message, and it's safe to retry |
+| *"Capturing payment failed."* | The payment went through but the order couldn't be completed. **Retry** checks the order before completing it again — for card payments, the message confirms the card won't be charged again |
+| *"This sale is no longer available..."* | The basket expired or was replaced before the order could be completed — tap **Start new sale**. For card payments, the message adds that the customer may see a pending authorisation, which clears automatically. |
 | *"Do you want to cancel payment?"* | Shown when pressing back during an active payment |
 
-All error states include a **Retry** button to attempt the payment again.
+Apart from the expired sale message, each error includes a **Retry** button to attempt the payment again.
 
 ## Related Pages
 

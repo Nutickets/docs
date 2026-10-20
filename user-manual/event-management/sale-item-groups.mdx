@@ -123,6 +123,20 @@ On the event page, groups appear as collapsible sections containing their ticket
 
 Groups that are off sale or out of stock can be automatically hidden from the event page based on the group's [display settings](#sale-periods).
 
+### Targeting a Group with Your Own Code
+
+<Tip>Group section IDs added in Release 48</Tip>
+
+Each group's section in ticket selection has a fixed HTML ID, so scripts or styles you add to your shop — for example through [Google Tag Manager](/user-manual/integrations/google-tag-manager) — can find a specific group without depending on the page's layout:
+
+| Section | ID |
+|---------|----|
+| A sale item group | `sale-item-group-{id}`, where `{id}` is the group's **Sale item group ID** |
+| Items that aren't in a group | `sale-item-group-default-group` |
+| Groups of [event passes](/user-manual/event-management/timeslots#event-passes) listed under **Also available** | The same IDs prefixed with `also-available-` — for example `also-available-sale-item-group-{id}` |
+
+The **Sale item group ID** is available in the [sale item group report](/user-manual/reporting/default-reports#sales-reports).
+
 ## Schedule Synchronisation
 
 When an event belongs to a [schedule](/user-manual/event-management/schedules), groups can be synchronised across events in that schedule:

@@ -14,7 +14,7 @@ Interacting with the API is as simple as 3 easy steps:
 
 ## Asynchronous Requests
 
-The API supports the ability to process requests asychronously. This may be suitable where you wish to ingest larger volumes of data per request, or anticipate a high throughput of API activity. The steps of making an async request are as follows:
+The API supports the ability to process requests asynchronously. This may be suitable where you wish to ingest larger volumes of data per request, or anticipate a high throughput of API activity. The steps of making an async request are as follows:
  - Make the request to the endpoint that you wish to process asynchronously as you normally would, but with the addition of a GET param `async=true`.
  - You will receive back a JSON 202 response with an `asyncUuid` unique to your request.
  - To see whether the request has finished processing, a request can be made to the same endpoint again, but this time with `asyncUuid=YOUR_UUID_HERE` as a GET param

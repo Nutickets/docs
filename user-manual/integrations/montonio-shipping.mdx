@@ -51,9 +51,13 @@ When Montonio shipping is on and the order is in EUR or PLN, the **Delivery meth
 Until the customer picks a delivery option, the **Shipped** card reads **Priced by destination**. When they select it, they:
 
 1. Choose their **Shipping country** from your shipping destinations.
-2. Choose a carrier under **Delivery method**. Each option shows its price, and the help text confirms that **"Delivery prices shown here include all taxes and fees."** Only pickup point services are offered, cheapest first.
+2. Choose a carrier under **Shipping carrier**. Each option shows its price, and the help text confirms that **"Delivery prices shown here include all taxes and fees."** Only pickup point services are offered, cheapest first.
 3. Choose a **Pickup point**. For carriers with more than 500 pickup points, the list shows the first 500 with the message **"Showing 500 of X pickup points. Search by town or postcode to find yours."**
 4. Confirm the **Phone number** the carrier will text when the parcel arrives. It's pre-filled from the customer's account where available.
+
+<Note>
+If **Shipped** is the only delivery option for the basket — for example, because none of the items offering a delivery choice can be sent as an **eTicket** — the delivery method cards aren't shown. **Shipped** is selected automatically and the customer goes straight to choosing a country, carrier and pickup point. If you ship to a single country, it's already selected for them.
+</Note>
 
 When they continue, the charge is added to the basket as a **Shipping** line, charged once per order. The delivery step then summarises the chosen pickup point with a **View on Google Maps** link. No delivery address is requested, because the parcel goes to the pickup point.
 
@@ -73,28 +77,42 @@ When a customer [modifies an order](/user-manual/order-management/order-modifica
 
 Once the order completes, the platform books the shipment with Montonio in the background — a single parcel for the order, addressed to the chosen pickup point with the customer's name, email address and phone number. Montonio ships from the sender address held on your Montonio account.
 
+### Tracking Details on Shipped Items
+
+<Tip>Automatic tracking details added in Release 48</Tip>
+
+When Montonio registers the shipment with the carrier, the platform fills in the tracking details for you. Every item in the order with the **Shipped** delivery method gets the carrier's parcel number as its **Tracking number**, and **Montonio Shipping** followed by the carrier as its **Postage carrier** — for example **Montonio Shipping (dpd)**. Each update is recorded in the [audit logs](/user-manual/core/audit-logs).
+
+These are the same tracking fields your team fills in on the [fulfilment dashboard](/user-manual/order-management/fulfilment), so the details show on the order item page and against the order's items when you fulfil it. Because Montonio supplies them, the dashboard doesn't ask for them — see [Tracking Details in the Fulfilment Dashboard](#tracking-details-in-the-fulfilment-dashboard).
+
 ### Tracking Shipments in Admin
 
-Orders with a Montonio delivery option show a **Montonio shipping status** row on the order page:
+Orders with a Montonio delivery option show a **Montonio shipping** row on the order page, with a status badge and when the status was last updated:
 
 | Status | Meaning |
 |---|---|
 | **Pending** | A delivery option has been chosen, but the shipment hasn't been registered yet — for example, while the booking is still in progress. |
 | **Successful** | Montonio has registered the shipment with the carrier. |
-| **Failed** | The booking failed, or the carrier rejected it. The reason is shown under the badge as **Error**. |
+| **Failed** | The booking failed, or the carrier rejected it. |
 
-The badge also lists the chosen **Pickup point** and when the status was last updated. Alongside it you'll find:
+Click the badge to open the **Integration API Requests** page for the order, which lists each request sent to Montonio with its response — including the reason a booking failed. Alongside the badge you'll find:
 
+- **Download shipping label** — the carrier's label from Montonio, opened ready to print. It's available once the status is **Successful**. If the carrier hasn't finished preparing it, you see **"We couldn't fetch the shipping label from Montonio. The carrier may not have finished preparing it — please try again shortly."**
+- **More info** — opens the **Montonio shipping** panel.
+
+The **Montonio shipping** panel brings the shipment's details together:
+
+- **Status** — the same badge as the order page.
 - **Shipment ID** — Montonio's reference for the shipment, with a copy button.
-- **View on Google Maps** — the pickup point the customer chose.
-- **View shipping label** — the carrier's label from Montonio, once the status is **Successful**. If the carrier hasn't finished preparing it, you see **"We couldn't fetch the shipping label from Montonio. The carrier may not have finished preparing it — please try again shortly."**
-- **Track parcel** — the carrier's tracking page for the parcel.
+- **Pickup point** — the pickup point the customer chose, with a map and a **View on Google Maps** link.
+- **Tracking link** — the carrier's tracking page for each parcel, with buttons to copy the link or open it.
+- **Download shipping label** — the same label as the order page.
 
 ### Retrying a Failed Booking
 
 A failed booking never stops the order from completing — the order is paid and valid, and only the shipment needs attention.
 
-1. On the order page, click the badge in the **Montonio shipping status** row to open the **Integration API Requests** page for the order.
+1. On the order page, click the badge in the **Montonio shipping** row to open the **Integration API Requests** page for the order.
 2. Find the failed **POST** request to `/shipments` and click **Retry**.
 3. Confirm **"Are you sure you want to retry this failed API Request?"**
 
@@ -104,6 +122,69 @@ The booking is re-attempted in the background: **"The latest failed API request 
 
 On their order in **My Account**, customers see their **Pickup point**, linked to Google Maps, and **Track your parcel** links once the shipment has been registered.
 
+## Printing Shipping Labels
+
+<Tip>Shipping labels in the fulfilment dashboard added in Release 48</Tip>
+
+Once Montonio has registered a shipment, its carrier label can be printed straight from admin — one order at a time, or for a whole [fulfilment batch](/user-manual/order-management/fulfilment#fulfilling-orders-in-batches) as a single PDF. Labels are only available for shipments with the **Successful** status.
+
+### Printing a Single Label
+
+**Download shipping label** is available in three places:
+
+| Where | What's there |
+|---|---|
+| **The order page** | The **Montonio shipping** row and panel — see [Tracking Shipments in Admin](#tracking-shipments-in-admin). |
+| **The fulfilment dashboard** | A **Montonio shipping** row in the **Fulfil order** panel, with a **More info** link that opens the order's **Montonio shipping** panel in a new tab. |
+| **A fulfilment batch** | A download button on each order's row. |
+
+<Note>
+Downloading an individual order's label also needs permission to view orders. Users who only hold **Manage fulfilment** can still download a batch's combined labels.
+</Note>
+
+### Printing Labels for a Batch
+
+When a batch contains orders with registered Montonio shipments, a Montonio card appears at the top of the batch page. Before any labels are created, it shows **Ready to create shipping labels** and how many of the batch's orders can be labelled — for example **8 of 10 orders in this batch can be labelled.**
+
+1. Click **Create Montonio Shipping labels**. Montonio prepares a single PDF with a label for every order that can be labelled, and the card shows **Requesting labels from Montonio...** while it works. The card updates by itself, so you don't need to refresh the page.
+2. When the labels are ready, the card shows **Shipping labels created** and how many orders were labelled — for example **8 of 10 orders in this batch have been labelled.**
+3. Click **Download shipping labels** to open the PDF in a new tab, ready to print.
+
+The badge on the card shows where the labels have got to:
+
+| Badge | Meaning |
+|---|---|
+| **Shipping labels pending** | Montonio is preparing the labels. |
+| **Shipping labels created** | The labels are ready to download. |
+| **Shipping labels failed** | Montonio couldn't create the labels, or the platform stopped waiting for them. The reason is shown on the card. |
+
+Click the badge to open the **Integration API Requests** page for the batch, which lists each label request sent to Montonio. Once labels have been requested, the same badge appears against the batch under **View batches** until the batch is completed. While any batch's labels are being prepared, the fulfilment dashboard also shows a badge such as **2 batches preparing**, which changes to **2 batches ready** once they're done.
+
+#### Which Orders Get a Label
+
+An order is labelled when its Montonio shipment has been registered with the carrier — its status is **Successful** — and the order is still **Complete** or **Partially refunded**. Orders that are fully refunded, cancelled or frozen after joining the batch are left out, as are orders whose booking failed or is still pending. To include a failed booking, [retry it](#retrying-a-failed-booking) first, then create the labels.
+
+#### Re-creating Labels
+
+A batch's labels cover the orders that could be labelled when they were created. If that changes afterwards — for example, because orders were added to or removed from the batch, or an order was refunded — the card warns: **"Your shipping labels were created for a different set of orders. You may wish to re-create them."** Click the re-create button next to **Download shipping labels** (its tooltip reads **Re-create Montonio Shipping labels**) to replace them with a fresh PDF.
+
+#### If Label Creation Fails
+
+If Montonio can't create the labels, the card shows **Shipping labels failed** with **"Montonio couldn't create your shipping labels."** If the labels still aren't ready after about two minutes, the platform stops waiting: **"We stopped waiting for your shipping labels. Please try again."** In either case, click **Create Montonio Shipping labels** to try again.
+
+You might also see:
+
+- **"No orders in this batch have a shipment Montonio can label."** — none of the batch's orders can be labelled any more, for example because they've since been refunded.
+- **"We couldn't fetch your shipping labels from Montonio. Please try again shortly."** — the PDF couldn't be retrieved when you clicked **Download shipping labels**.
+
+<Note>
+Creating labels doesn't fulfil anything. Once the parcels are packed, [fulfil the orders](/user-manual/order-management/fulfilment#working-through-a-batch) from the batch as usual.
+</Note>
+
+### Tracking Details in the Fulfilment Dashboard
+
+Because Montonio supplies the [tracking details](#tracking-details-on-shipped-items), orders with a registered Montonio shipment don't show the **Tracking number** and **Postage carrier** fields in the **Fulfil order** panel or on a batch page. The recorded tracking number and carrier are listed against each item instead, and fulfilling the order leaves them as they are.
+
 ## Things to Know
 
 - **Pickup points only** — Montonio shipping offers parcel locker and pickup point services, not home delivery.
@@ -111,7 +192,7 @@ On their order in **My Account**, customers see their **Pickup point**, linked t
 - **The Shipping fee is managed for you** — The **Shipping** item that carries the charge doesn't appear in your fulfilment fees list, and can't be edited, restored or deleted: **"This item is managed by the platform and cannot be edited, restored or deleted."**
 - **Refunds don't cancel shipments** — Refunding or cancelling an order doesn't cancel a shipment already booked with Montonio. Manage the shipment in your Montonio account.
 - **Deposits** — As with other delivery methods, the delivery option can't be changed once a [deposit](/user-manual/payments/deposit-payments) has been paid.
-- **Fulfilment dashboard** — Montonio orders appear on the [fulfilment dashboard](/user-manual/order-management/fulfilment) with the **Shipped** method, like any other shipped order.
+- **Fulfilment dashboard** — Montonio orders appear on the [fulfilment dashboard](/user-manual/order-management/fulfilment) with the **Shipped** method, like any other shipped order, and still need to be marked as fulfilled once they're sent. Their tracking details are filled in for you, and their labels can be [printed from the dashboard](#printing-shipping-labels).
 
 ## Related Pages
 

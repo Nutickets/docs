@@ -5,9 +5,11 @@ description: "Sell products, process payments, manage top-ups, and handle cash-o
 
 ## Overview
 
-EPOS Pro is the platform's mobile point-of-sale app, used by staff at events and venues to sell physical products — food, drinks, merchandise — and process payments directly from a phone or tablet. The app connects to shops and products configured in the admin panel and supports card, cash, account balance, and complimentary payments.
+<Tip>Redesigned in Release 48</Tip>
 
-Staff sign in with their credentials, select a shop, and begin selling. Transactions sync to the platform in real time when connected, and are stored locally for upload when working offline.
+EPOS Pro is the platform's mobile point-of-sale app, used by staff at events and venues to sell physical products — food, drinks, merchandise — from an Android phone, tablet, or Sunmi terminal. The app sells the products of the [shop](/user-manual/epos/shops-products-users) you choose, takes card, cash, [account balance](/user-manual/account-balances/top-ups), and complimentary payments, and lets staff top up and cash out customers' balances.
+
+Staff sign in with their admin credentials, pick a shop, and start selling. Every sale, top-up, cash-out, and refund is sent to the platform the moment it's made, so the device needs an internet connection to complete them.
 
 ## Getting Started
 
@@ -16,86 +18,91 @@ Staff sign in with their credentials, select a shop, and begin selling. Transact
 1. Open the app and enter your email and password
 2. Tap **Log in**
 
-The app authenticates against the platform and loads your user configuration, including permissions, shops, and EPOS settings.
+Signing in needs an internet connection. Once you're signed in, the app keeps you signed in — including after the app restarts — until you tap **Log out** in the menu (the app asks *"Are you sure you want to log out?"* first). Each time the app starts, it refreshes your permissions and the [EPOS settings](/user-manual/epos/overview) from the platform.
 
 <Note>
-If your login fails, the app displays one of three messages depending on the situation: incorrect credentials (online), incorrect credentials (offline — try again with a connection if your details have changed recently), or no internet connection (required for first-time login). After your first successful login, the app can authenticate offline using cached credentials.
+If your email or password is wrong, the app shows *"Your login details seem to be incorrect. If you've forgotten your password, try resetting it."* along with a reminder to check that you're set up as a shop user. Without an internet connection, sign-in fails with *"Your login details seem to be incorrect. If your login details have changed recently, try logging in again when you have Internet Connection."* — connect the device and try again. Tap **Forgot password?** on the login screen to receive a password reset email.
 </Note>
-
-### First-Time Setup
-
-On first launch, the app shows a short onboarding walkthrough. You can swipe through the slides or tap **Skip** to go straight to the login screen. The walkthrough only appears once.
 
 ### Selecting a Shop
 
-After signing in, the app loads your assigned shops. If you are assigned to a single shop, it is selected automatically. If you have access to multiple shops, a dialog prompts you to choose one.
+After signing in, the app loads the shops you're assigned to. If you're assigned to a single shop, it's selected automatically. If you have access to several, a **Select shop** dialog lists them by name and ID so you can choose one.
 
-The selected shop name appears in the toolbar throughout the app. All sales, reports, and product catalogues are scoped to the active shop.
+All sales, reports, and product lists are scoped to the active shop. To switch shop later, open the menu (**⋮**) on the home screen — the current shop's name is the first item — and tap it to reopen the shop list.
 
 <Note>
-Only shops you are assigned to appear in the selection list. Super users can access all shops regardless of assignment. If no shops are available, the app displays an error — check that EPOS is enabled and at least one shop has been created in the admin panel.
+Only shops you are assigned to appear in the list. Super users can access all shops regardless of assignment. If no shops can be loaded, the app shows *"Loading ePos configuration failed"* with the message *"Please make sure ePos is enabled in admin panel and at least one shop is created."* (or *"Please make sure you have internet and try again."* when the device is offline) and a **Try again** button — check that [EPOS is enabled](/user-manual/epos/overview#enabling-epos) and at least one [shop](/user-manual/epos/shops-products-users#creating-a-shop) exists.
 </Note>
 
 ## Home Screen
 
-The home screen displays a grid of operations available to you. Which tiles appear depends on your permissions and the EPOS configuration:
+The home screen greets you by name (**Hi** followed by your name) and lists the operations available to you. Phones show a single column; tablets and larger terminals show a two-column grid. Which tiles appear depends on your role's [permissions](/user-manual/system-access/permissions-reference#mobile-apps) and the app's payment settings:
 
-| Tile | Description | Requires |
-|------|-------------|----------|
-| **Sell Products** | Start a new product sale | At least one payment method enabled |
-| **Top Up** | Add credit to a customer's account balance | `walletTopup` permission |
-| **Cash Out** | Withdraw a customer's remaining balance to cash | `walletCashout` permission |
-| **Capture Data** | Scan a customer to capture information | — |
-| **Collect Purchases** | Mark purchased products as collected | — |
-| **Sales Report** | View sales statistics for the shop | `report` permission |
-| **Catalog** | Browse the full product catalogue with stock levels | — |
-| **Transactions** | View transaction history and process refunds | `viewListOfOrders` permission |
+| Tile | Subtitle | Appears when |
+|------|----------|--------------|
+| **Sell products** | Process a sale for a customer | At least one of **Cash payments**, **Card payments**, or **Terminal card payments** is turned on in the app's [settings](/mobile-apps/epos-pro/settings-and-hardware#payment-settings), or balance spending is enabled for EPOS |
+| **Top up** | Add funds to a customer account | You have the **Mobile Epos: Issue Top-up** permission |
+| **Cash out** | Pay out funds from a customer account | You have the **Mobile Epos: Cash-out** permission |
+| **Sales** | Track sales performance on this device | You have the **Mobile box office: view reports** permission |
+| **Catalog** | View available products and pricing | Always |
+| **Transactions** | Review payments, refunds and account activity | You have the **View list of Orders** permission |
 
-<Note>
-The **Sell Products** tile only appears if at least one payment method (card, cash, terminal, or complimentary) is enabled in the EPOS settings, or if balance spending is enabled.
-</Note>
+The toolbar also holds:
+
+- **The NFC icon** — shown in NFC mode on screens where you can tap a customer's NFC tag (see [Customer Identification](#customer-identification)).
+- **The card reader icon** — shown when card terminal payments are enabled for EPOS. Its colour shows the [Stripe reader](/mobile-apps/epos-pro/settings-and-hardware#stripe-card-readers) status, and tapping it opens the reader menu.
+- **The menu (⋮)** — the current shop (tap to switch), **Settings**, **Help** (when a support site is configured), and **Log out**.
 
 ## Customer Identification
 
-Many operations require identifying a customer before proceeding. The app supports three methods, determined by the **authentication mode** configured in your EPOS settings:
+Top-ups, cash-outs, account balance payments, and auto sales all start by identifying the customer. How you do that is set by the **authentication mode** in the admin panel's [EPOS settings](/user-manual/epos/overview#authentication-modes):
 
 | Mode | How It Works |
 |------|-------------|
-| **QR** | Staff scan the customer's QR code using the device camera or enter a barcode manually |
-| **NFC Online** | Staff tap the customer's NFC media (wristband, card, badge) against the device. The app looks up the customer via the server. |
-| **NFC Offline** | Staff tap the customer's NFC media. Customer data and balance are read directly from the tag without a server call. |
+| **NFC (Secure)** | Staff tap the customer's NFC wristband, card, or badge against the device. The app reads the tag's ID and looks up the customer it's [paired](/user-manual/event-management/nfc-pairing) with. |
+| **QR (Unsecure)** | Staff scan the QR code on the customer's ticket with the device camera. **Manual Entry** lets staff type the code instead, and a torch button lights the code in dark conditions. |
 
-The active mode is shown in the toolbar as **QR**, **NFC Online**, or **NFC Offline**.
+In NFC mode, an NFC icon in the toolbar marks the screens where you can tap a tag. A banner on the home screen explains this — *"Wherever you see this icon you can tap a customer's NFC tag to interact with it."* — until you dismiss it. Tapping a customer's tag on the home screen shows their name and balance, which is a quick way to check a balance without starting a sale.
+
+<Note>
+The app only reads the tag's ID — nothing is read from or written to the tag itself, and balances are held on the platform, so every lookup needs a connection. If a tag isn't paired with a customer, the app shows *"This NFC tag cannot be scanned, because it's not paired with a customer."* In NFC mode, the app also asks you to switch NFC on (*"Please enable NFC"*) if it's turned off in the device settings.
+</Note>
 
 ### Guest Orders
 
-When **Allow guest orders** is enabled in the EPOS settings, staff can process sales without identifying a customer first. This is the default and is typical for food and drink stalls where speed matters more than tracking individual purchases.
+When **Allow guest orders** is enabled in the [EPOS settings](/user-manual/epos/overview#guest-orders), staff can complete sales without identifying a customer. This is the default and is typical for food and drink stalls where speed matters more than tracking individual purchases.
 
-When guest orders are disabled, every sale requires a customer to be identified first. The app displays *"Guest orders are disabled"* if staff attempt to check out without a customer.
+When guest orders are disabled, every sale needs a customer. Paying without one shows *"Guest orders are disabled"* — *"Guest orders are disabled in ePos. Either change configuration in admin panel or scan customer"*.
 
-## Connectivity and Offline Mode
+## Connectivity and Data Sync
 
-The app works with intermittent connectivity. The toolbar displays a connectivity icon showing the current connection status.
+Sales, top-ups, cash-outs, and refunds are completed on the platform in real time, so EPOS Pro needs an internet connection to take payment. Nothing is queued on the device: if the connection drops while a sale is being submitted, the app shows *"Transaction failed"* — *"Make sure you have Internet Connection"* with a **Try again** button. Retrying resends the same sale, so one that already reached the platform isn't recorded twice.
 
-**When online**, transactions are submitted to the server immediately after payment. Products, top-up items, and transaction history sync periodically in the background.
+The app keeps a local copy of the shop's products, top-up items, and transaction history, refreshed in the background:
 
-**When offline**, transactions are stored in the local database and queued for upload. The app continues to function using cached product data and locally stored customer information. When connectivity returns, queued transactions are uploaded automatically in batches.
-
-Data sync intervals:
-
-| Data | Sync Frequency |
-|------|---------------|
-| Products and top-ups | Every 30 minutes |
-| Transaction uploads | Every 20 seconds (batches of 32) |
-| Transaction downloads | Adaptive: 5 seconds to 10 minutes depending on volume |
-
-<Note>
-In NFC Offline mode, the app reads customer balances directly from the NFC tag rather than the server. This allows sales to continue even without any connectivity, but means the balance on the tag may not reflect recent server-side changes until the next sync.
-</Note>
+| Data | Refreshed |
+|------|-----------|
+| Products and top-up items | Every 30 minutes, and each time you open **Sell products** or **Catalog** (pull down to refresh immediately) |
+| Transaction history | Adaptively, from every 5 seconds up to every 10 minutes depending on activity, and each time you open **Transactions** |
+| Permissions and EPOS settings | Each time the app starts |
 
 ## Second Screen Support
 
-On devices with an external display (such as Sunmi dual-screen terminals), the app shows customer-facing content on the second screen. This includes the shop name, basket contents during a sale, payment status, and a thank-you message after completion.
+<Tip>Customer display updated in Release 48</Tip>
+
+On devices with a customer-facing display — such as Sunmi dual-screen terminals — the app mirrors each step of the transaction on the second screen:
+
+| While staff are… | The customer sees |
+|------------------|-------------------|
+| On the home, **Sales**, **Catalog**, or **Transactions** screens | The shop name |
+| Selecting products | The shop name and the items selected so far |
+| In the basket | The items, the basket total, and either the customer's name and balance or a prompt to identify themselves |
+| Taking payment | *"Please pay"* followed by the amount, with a contactless or cash icon |
+| Topping up | The shop name and the top-up amount, plus an identification prompt while the payment is processed |
+| Cashing out | The shop name, the cash-out amount once the customer is identified, and an identification prompt |
+| On the order confirmation | *"Thank you!"* |
+
+The identification prompt matches the authentication mode: *"Tap NFC tag to select customer"* in NFC mode, or *"Present your QR code"* in QR mode.
 
 ## Related Pages
 

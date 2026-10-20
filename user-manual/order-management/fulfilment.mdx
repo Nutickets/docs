@@ -63,6 +63,7 @@ Click an order to open the **Fulfil order** panel. It brings together everything
 - A **Pending** or **Fulfilled** badge, and progress such as **2 of 4 items fulfilled**.
 - The order's items, grouped by event, each with its barcode and status. Items that don't belong to an event are listed under **Other items**.
 - The **Fulfilment method** the customer chose.
+- For orders shipped with [Montonio](/user-manual/integrations/montonio-shipping), a **Montonio shipping** row with **Download shipping label** once the shipment has been registered, and a **More info** link to the order's shipment details. <Tip>Montonio shipping labels added in Release 48</Tip>
 - The **Delivery address**, if one was captured. Copy individual lines, or click **Copy full address** to copy the whole address at once.
 - **Tracking number** and **Postage carrier** fields.
 
@@ -76,6 +77,10 @@ The selected items are marked **Fulfilled** and you're recorded as the person wh
 
 <Note>
 Tracking details can only be recorded for orders with a **Shipped** fulfilment method. For any other method, the fields are disabled with the message **"This order does not have a Shipped fulfilment method, so tracking and carrier details are not applicable."**
+</Note>
+
+<Note>
+Orders with a registered Montonio shipment already have their [tracking number and postage carrier filled in](/user-manual/integrations/montonio-shipping#tracking-details-on-shipped-items), so the tracking fields aren't shown for them. The recorded details are listed against each item instead, and fulfilling the order leaves them unchanged.
 </Note>
 
 <Note>
@@ -120,9 +125,12 @@ The batch page — titled **Fulfilment batch** followed by the batch's reference
 Orders are listed oldest first, 25 per page, and every pending item on the page is selected when it opens. Click an order to expand its items. For each order you can:
 
 - Print the whole order, one event's items, or a single item.
+- Download its shipping label, for orders shipped with [Montonio](/user-manual/integrations/montonio-shipping#printing-a-single-label).
 - Enter a **Tracking number** and **Postage carrier** (orders with a **Shipped** fulfilment method only).
 - Fulfil just that order with its own **Fulfil order** button.
 - Take it out of the batch with **Remove order from batch**.
+
+<Tip>Montonio shipping labels for batches added in Release 48</Tip> If the batch includes orders with registered Montonio shipments, a Montonio card at the top of the batch page lets you create every order's shipping label as a single PDF and download it in one go — see [Printing Labels for a Batch](/user-manual/integrations/montonio-shipping#printing-labels-for-a-batch).
 
 To fulfil everything that's selected on the page in one go, click **Fulfil X items** in the bar at the bottom of the page. The confirmation reads **"This will fulfil X selected items across Y selected orders. This cannot be undone."** Each order's tracking details are saved against its own items.
 
@@ -157,6 +165,8 @@ Any admin user in your company can be chosen. If you use [visibility groups](/us
 
 Click **View batches** on the dashboard to open **Fulfilment batches**. It lists every batch — including completed and cancelled ones — with the most recently updated first, showing each batch's reference, status, assignee and progress. Click a batch to open it.
 
+Batches with [Montonio shipping labels](/user-manual/integrations/montonio-shipping#printing-labels-for-a-batch) also show the labels' status — **Shipping labels pending**, **Shipping labels created** or **Shipping labels failed** — until the batch is completed. While labels are being prepared, a badge on the dashboard such as **2 batches preparing** tracks their progress.
+
 ## Where Fulfilment Details Appear
 
 Once items are fulfilled from the dashboard, their details show up across admin:
@@ -170,7 +180,7 @@ You can still change an item's fulfilment status from the order page while the o
 </Warning>
 
 <Note>
-Tracking numbers and postage carriers recorded here aren't shown to customers. Parcels booked through [Montonio shipping](/user-manual/integrations/montonio-shipping) are different — customers get the carrier's tracking links on their order. Montonio orders appear on the dashboard with the **Shipped** method, like any other shipped order.
+Tracking numbers and postage carriers recorded here aren't shown to customers. Parcels booked through [Montonio shipping](/user-manual/integrations/montonio-shipping) are different — customers get the carrier's tracking links on their order. Montonio orders appear on the dashboard with the **Shipped** method, like any other shipped order, with their tracking number and postage carrier [filled in automatically](/user-manual/integrations/montonio-shipping#tracking-details-on-shipped-items).
 </Note>
 
 ## Related Pages
@@ -183,7 +193,7 @@ Tracking numbers and postage carriers recorded here aren't shown to customers. P
     Fulfilment statuses and methods on individual orders.
   </Card>
   <Card title="Montonio Shipping" icon="box" href="/user-manual/integrations/montonio-shipping">
-    Carrier-quoted delivery to pickup points, booked automatically.
+    Carrier-quoted delivery to pickup points, booked automatically, with printable shipping labels.
   </Card>
   <Card title="Roles and Permissions" icon="user-shield" href="/user-manual/system-access/roles-and-permissions">
     Grant the **Manage fulfilment** permission.

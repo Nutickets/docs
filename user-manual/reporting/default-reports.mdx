@@ -88,6 +88,8 @@ All sales reports share the same underlying engine. The difference between them 
 | **Total gift vouchers claimed** | Gift vouchers that have been redeemed |
 | **Total orders (before adjustments)** | Distinct orders in the row, before cancellations and refunds <Tip>Added in Release 47</Tip> |
 | **Total orders (after adjustments)** | Distinct orders in the row, after cancellations and refunds — an order drops out once all of its items in the row are cancelled or refunded |
+| **Modified orders** | Orders later replaced by an [order modification](/user-manual/order-management/order-modifications), dated by the original order — see [Modified and Resold Orders](#modified-and-resold-orders) <Tip>Added in Release 48</Tip> |
+| **Primary items sold (inc. resold)** | Items sold on the primary market that are still valid, including those cancelled only because they were [resold](/user-manual/resale/introduction). Resale purchases themselves are not counted. <Tip>Added in Release 48</Tip> |
 
 <Note>
 "Before adjustments" means the count includes items that were later cancelled or refunded. "After adjustments" excludes those items. Use "after adjustments" for a net count of currently valid items.
@@ -127,7 +129,10 @@ These fields appear once per active currency. For example, if you sell in GBP an
 | **Total net (after all fees)** | Revenue after discounts, refunds, processing fees, and reseller fees |
 | **Total net (after reseller and gateway fees)** | Revenue after discounts, refunds, gateway fees, and reseller fees. Gateway fees are not supported by all gateways. |
 | **Total base** | Revenue after discounts, processing fees, and reseller fees |
-| **Total retained cancellation revenue** | Revenue kept when orders are cancelled with a cancellation fee |
+| **Total retained cancellation revenue** | Value kept from cancelled items after any refunds — for example, a cancellation fee withheld from a refund — including value kept from modified orders <Tip>Partly refunded items and modified orders counted in Release 48</Tip> |
+| **Total kept from modified orders** | Value kept from orders replaced by an order modification: refund protection fees, forfeited fees, and any remainder that wasn't refunded. Dated by the original order, and already included in gross, net, and retained cancellation revenue. <Tip>Added in Release 48</Tip> |
+| **Total carried forward from modified orders** | Value of modified orders carried into the new order, or credited to the customer's account balance where the new order cost less. Dated by the original order, and not included in gross. <Tip>Added in Release 48</Tip> |
+| **Primary face value (inc. resold)** | The base price paid, after discounts, for the items counted in **Primary items sold (inc. resold)**. Complimentary items add nothing. <Tip>Added in Release 48</Tip> |
 | **Total base before dynamic pricing** | What the base total would have been without dynamic pricing <Tip>New in Release 47</Tip> |
 | **Total gross before dynamic pricing** | What the gross total would have been without dynamic pricing |
 | **Total base after dynamic pricing** | What the base total came to with dynamic pricing |
@@ -220,6 +225,16 @@ The **Pricing type** grouping is only available when [dynamic pricing](/user-man
 Events, event schedules, venues, companies, item types, sale items, payment methods, payment gateways, card networks, sales channels, currencies, visibility groups, event status, admin users. Date filters for order completion and event start dates. Toggle filters for box office items, addons, timeslot/sale item group/price band presence.
 
 When [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for your account, a **Pricing type** filter is also available. <Tip>New in Release 47</Tip> Set it to **Static** or **Dynamic** to limit the report to items sold at a static price or items that were dynamically priced. Combine it with the **Pricing type** grouping to break the same report down by both methods at once.
+
+### Modified and Resold Orders
+
+<Tip>Modified order and primary sale fields added in Release 48</Tip>
+
+[Order modifications](/user-manual/order-management/order-modifications) and [resale](/user-manual/resale/introduction) both replace a customer's original items with new ones. Sales reports handle each so that the same sale isn't counted twice.
+
+**Modified orders.** Once a modification completes, the new order's items are reported as normal sales. The original order's items aren't counted again — they contribute only the value the original order kept: [refund protection](/user-manual/refund-protection/protect-group) fees, fees forfeited under the **Forfeit fees** setting, and any remainder the customer agreed to lose. That kept value is included in gross, net, and **Total retained cancellation revenue**, and shown on its own in **Total kept from modified orders**. **Modified orders** counts the replaced orders, and **Total carried forward from modified orders** shows how much of their value moved into the new orders or was credited to the customer's account balance. All three are dated by when the original order was completed.
+
+**Resold tickets.** When a ticket is resold, the seller's item is cancelled and the buyer receives a new one, so the original sale no longer counts as a valid item. **Primary items sold (inc. resold)** and **Primary face value (inc. resold)** count every ticket still valid from its primary sale — including those that have since changed hands — and the base price originally paid for them, for example to reconcile an event's valid tickets against their face value. They never count the resale purchase itself, even when **Include combined resale sales** is turned on in the report settings.
 
 ---
 
@@ -1448,6 +1463,22 @@ It covers tickets only — products, guest lists, and other item types are not i
 | **Price band** (default) | One row per seating plan price band, combining the tickets in that band. Only tickets assigned to a price band are included. |
 | **Sale item** | One row per ticket, including tickets that aren't assigned to a price band. |
 
+### Sales at Other Prices
+
+<Tip>Separate rows for discounted and repriced sales added in Release 48</Tip>
+
+Each price band or ticket starts with a **face value** row. It holds the stock, hold, complimentary, and reservation figures, and counts the tickets sold at the ticket's current price without a discount. Tickets sold at any other price are reported on their own rows beneath it — one for each [discount code](/user-manual/basket-codes/discount-codes) and price combination, and one for each other price the ticket sold at, for example before a [price change](/user-manual/sale-items/pricing-history). These rows show **Sold**, the gross and net sales at that price, the **Item base price** each ticket sold for, and the **Discount code(s)** used. Their stock, hold, complimentary, and reservation columns are left blank.
+
+For example, a ticket now priced at £12.00 that sold one ticket at £12.00, three at £10.00 before its price went up, and two with the code **SAVE10** at £9.00 is reported on three rows:
+
+| Discount code(s) | Item base price (GBP) | Sold | Net sales (GBP) |
+|---|---|---|---|
+| | £12.00 | 1 | £12.00 |
+| | £10.00 | 3 | £30.00 |
+| SAVE10 | £9.00 | 2 | £18.00 |
+
+The [totals row](/user-manual/reporting/using-reports#totals-row) adds the rows together, so its **Sold** and sales figures cover every price. When the report is grouped by **Price band**, each row beneath the face value row combines the band's tickets sold at the same price with the same codes.
+
 ### Fields
 
 <Accordion title="Event audit fields">
@@ -1457,18 +1488,20 @@ It covers tickets only — products, guest lists, and other item types are not i
 | **Sale item ID** / **Sale item name** | The ticket. Only available when grouped by **Sale item**. |
 | **Event ID** / **Event name** | The event |
 | **Price band ID** / **Price band name** | The ticket's [price band](/user-manual/event-management/seated-events#assigning-tickets-to-price-bands) |
+| **Discount code(s)** | The discount code(s) used on the order, on rows for discounted sales. [Child codes](/user-manual/basket-codes/discount-codes#generating-child-codes) are shown as their parent code. <Tip>Added in Release 48</Tip> |
+| **Item base price ([currency])** | The price each ticket sold for, before fees and after any discount. On the face value row it is the ticket's current price — left blank when grouped by **Price band** and the band's tickets are priced differently. Not totalled. One column per currency. <Tip>Added in Release 48</Tip> |
 | **Total stock** | The capacity set directly against the sale item |
 | **Total held** | Seats in the price band that are held in seating plan holds |
 | **Total held remaining** | Held seats in the price band that are still available |
 | **[Category] capacity** / **[Category] remaining** | The same two figures for the holds in each [hold category](/user-manual/seating-plans/holds#hold-categories), with one pair of columns per category — for example **Sponsors capacity** and **Sponsors remaining**. Listed under **Hold categories** in the field list, and only offered when your company has hold categories. |
 | **Comp issued** | Tickets issued with the complimentary payment method, or free tickets that have been sold |
 | **Reservations** | Tickets in orders that aren't complete yet — active baskets, unpaid reservations such as payment links, invoices, deposit balances, and pay-on-site orders, and orders awaiting approval |
-| **Sold** | Tickets sold, excluding complimentary and free tickets. [Instant access orders](/user-manual/payments/instant-access-orders) count as sold before they are paid. |
+| **Sold** | Tickets sold, excluding complimentary and free tickets. [Instant access orders](/user-manual/payments/instant-access-orders) count as sold before they are paid. The face value row counts only tickets sold at the current price without a discount — see [Sales at Other Prices](#sales-at-other-prices). |
 | **Gross sales ([currency])** / **Net sales ([currency])** | For the tickets counted as **Sold**, the total charged including fees, and their base price. One pair of columns per currency. |
 
 </Accordion>
 
-The report opens grouped by **Price band**, with **Total stock**, **Total held**, **Comp issued**, **Reservations**, **Sold**, and gross and net sales columns selected. Cancelled, rejected, and refunded tickets are not counted in any of the sales figures.
+The report opens grouped by **Price band**, with **Discount code(s)**, **Total stock**, **Total held**, **Comp issued**, **Reservations**, **Sold**, and the item base price, gross sales, and net sales columns selected. Cancelled, rejected, and refunded tickets are not counted in any of the sales figures.
 
 <Note>
 Held figures are measured for the whole price band. When the report is grouped by **Sale item**, every ticket in the same price band shows the same held figures, so the totals row leaves the held and hold category columns blank. Group by **Price band** to total them.

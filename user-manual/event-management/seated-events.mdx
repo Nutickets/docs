@@ -190,6 +190,21 @@ In this platform, that is handled through seat status changes:
 
 If you need to remove spaces from the seating plan structure itself (rather than applying an event status), use the [Editor](/user-manual/seating-plans/editor#hidden-vs-delete-seats) tooling and then apply sync/revision updates to events.
 
+### Holding General Admission Stock
+
+<Tip>Hold removal and access rules updated in Release 48</Tip>
+
+When seating plan holds are enabled with general admissions (the **Seats + general admissions** hold context), part of a general admission area's stock can be set aside for one or more [holds](/user-manual/seating-plans/holds). General admission areas are edited one at a time in the right-hand panel: select the area, click **Edit**, tick each hold under **Split the total stock between the following holds**, enter how much stock it should hold, and click **Save**. Click **Add new hold** to create a hold from the panel.
+
+Each hold shows how many of its tickets are booked — sold, or reserved in orders that aren't complete yet. The panel enforces these rules:
+
+- Every ticked hold needs at least one ticket of stock — *"Total stock has to be at least one for every selected role."*
+- The holds together can't take more than the area's total stock — *"Total stock cannot be exceeded. Please reduce hold quantities."*
+- A hold's stock can't be reduced below the number already booked from it.
+- A hold can't be removed while any of its stock is booked. Its tick box is disabled, with the tooltip *"Cannot remove holds with associated order items."* Once the booked tickets are released — for example, when baskets or unpaid reservations expire and their stock is returned — the hold can be removed.
+
+You can only add, change, or remove holds you have access to: holds you're assigned to as a hold user, or any hold if you have the **Sell from any seating plan hold** permission. Holds you don't have access to are left as they are when you save. Trying to change one shows *"You do not have access to one or more of the selected holds."*
+
 ### Legend And Colours
 
 <Tip>Redesigned in Release 47</Tip>

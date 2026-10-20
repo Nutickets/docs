@@ -4,6 +4,99 @@ description: "Latest product updates from 2025/2026"
 ---
 
 
+<Update label="16th Oct 2026" description="Patch R48G">
+
+#### 🚀 New features
+
+* Added *Primary items sold (inc. resold)* and *Primary face value (inc. resold)* headers to the [event sales report](/user-manual/reporting/default-reports#modified-and-resold-orders). [[NG-13077](https://linear.app/nuweb-group/issue/NG-13077)]
+
+#### 🧹 Fixes
+
+* [Resold tickets](/user-manual/resale/introduction#what-happens-behind-the-scenes) no longer consume event capacity twice or incorrectly mark remaining primary tickets as sold out. [[NG-12974](https://linear.app/nuweb-group/issue/NG-12974)]
+
+</Update>
+
+<Update label="14th Oct 2026" description="Patch R48F">
+
+#### 🚀 New features
+
+* Item base price fields in [event audit reports](/user-manual/reporting/default-reports#event-audit-report). [[NG-13017](https://linear.app/nuweb-group/issue/NG-13017)]
+* Separate [audit report lines for discounted ticket sales](/user-manual/reporting/default-reports#sales-at-other-prices). [[NG-13047](https://linear.app/nuweb-group/issue/NG-13047)]
+* Hungarian [translations](/user-manual/core/translations) updated. [[NG-12639](https://linear.app/nuweb-group/issue/NG-12639)]
+
+#### ✨ Improvements
+
+* Performance improvements when viewing large schedule dates in box office. [[NG-13045](https://linear.app/nuweb-group/issue/NG-13045)]
+
+#### 🧹 Fixes
+
+* Sales totals and reports no longer double-count cancelled orders that were replaced by [order modification](/user-manual/order-management/order-modifications#modified-orders-in-reports). [[NG-12613](https://linear.app/nuweb-group/issue/NG-12613)]
+* Guest fast checkout no longer redirects to a 404 page. [[NG-13055](https://linear.app/nuweb-group/issue/NG-13055)]
+
+</Update>
+
+<Update label="9th Oct 2026" description="Patch R48E">
+
+#### 🚀 New features
+
+* [Montonio shipping label support](/user-manual/integrations/montonio-shipping#printing-shipping-labels) in the [fulfilment portal](/user-manual/order-management/fulfilment). [[NG-12653](https://linear.app/nuweb-group/issue/NG-12653)]
+* [GATED] Laying the foundations of the new Loyalty programme feature, including feature flags, settings and enrolment options. [[NG-12878](https://linear.app/nuweb-group/issue/NG-12878)]
+
+#### ✨ Improvements
+
+* [Számlázz receipts](/user-manual/integrations/szamlazz#payment-method-on-documents) now show the actual payment method used. [[NG-12751](https://linear.app/nuweb-group/issue/NG-12751)]
+
+#### 🧹 Fixes
+
+* Correct event start times displayed in [Samsung Wallet](/user-manual/event-management/event-media/mobile-wallets) when user is in different timezone to event. [[NG-12617](https://linear.app/nuweb-group/issue/NG-12617)]
+* [Bulk refund pages](/user-manual/order-management/refunds-and-cancellations#bulk-refunds) loading successfully without gateway timeouts. [[NG-12919](https://linear.app/nuweb-group/issue/NG-12919)]
+* [Seating plan hold changes](/user-manual/event-management/seated-events#holding-general-admission-stock) no longer silently remove holds hidden from the editing user. [[NG-12923](https://linear.app/nuweb-group/issue/NG-12923)]
+
+#### 🧑‍💻 API
+
+* Corrected a number of spelling errors throughout the API documentation. [[NG-12623](https://linear.app/nuweb-group/issue/NG-12623)]
+* The [`GET /v1/order-items`](/api-reference/orders/retrieve-order-items) endpoint with `lastUpdated` no longer returns deleted order items unless `withTrashed=true`. [[NG-13012](https://linear.app/nuweb-group/issue/NG-13012)]
+* Option to [disable Számlázz invoice generation](/user-manual/integrations/szamlazz#opting-api-orders-out) for individual API orders. [[NG-12928](https://linear.app/nuweb-group/issue/NG-12928)]
+* Various API performance improvements to help reduce the time it takes to complete an order via MBO. [[NG-12945](https://linear.app/nuweb-group/issue/NG-12945)]
+
+</Update>
+
+<Update label="2nd Oct 2026" description="Patch R48D">
+
+#### 🧹 Fixes
+
+* Seating plan areas now accurately reflect item availability when primary sale item has unlimited stock and resale stock has fully sold. [[NG-12969](https://linear.app/nuweb-group/issue/NG-12969)]
+
+</Update>
+
+<Update label="1st Oct 2026" description="Patch R48C">
+
+#### ✨ Improvements
+
+* [[NG-12836](https://linear.app/nuweb-group/issue/NG-12836/r47-estonian-and-russian-translations) &[ NG-12837](https://linear.app/nuweb-group/issue/NG-12837/r48-estonian-and-russian-translations)] Estonian and Russian [translations](/user-manual/core/translations) for new language keys added in R47 & R48.
+* [Reserved / sold ticket counts](/user-manual/event-management/introduction#tracking-sales-from-the-events-list) now show across event and event schedule pages. [[NG-8080](https://linear.app/nuweb-group/issue/NG-8080)]
+* Added [ID selectors for sale item group containers](/user-manual/event-management/sale-item-groups#targeting-a-group-with-your-own-code) within the shop. [[NG-12412](https://linear.app/nuweb-group/issue/NG-12412)]
+* [Named purchaser](/user-manual/order-management/core-concepts#admin-order-list) details are now surfaced in the dashboards recent orders widget. [[NG-12599](https://linear.app/nuweb-group/issue/NG-12599)]
+
+#### 🧹 Fixes
+
+* Quick checkout no longer opens an empty add-on page when no add-ons are available. [[NG-12144](https://linear.app/nuweb-group/issue/NG-12144)]
+* Non-event inventory items now link to the correct admin index pages from order item details. [[NG-11134](https://linear.app/nuweb-group/issue/NG-11134)]
+* Schedule links no longer lead to unauthorized pages for users without schedule permissions. [[NG-12643](https://linear.app/nuweb-group/issue/NG-12643)]
+* Resolved an error when loading reseller feature data via the partner API. [[NG-12843](https://linear.app/nuweb-group/issue/NG-12843)]
+* UI improvements to spacing, icon sizing, and screen overflow issues of top nav menu items in shop. [[NG-12835](https://linear.app/nuweb-group/issue/NG-12835)]
+* [GA holds](/user-manual/event-management/seated-events#holding-general-admission-stock) can now be removed after reserved tickets are restocked. [[NG-9588](https://linear.app/nuweb-group/issue/NG-9588)]
+* [Resale](/user-manual/resale/selling-and-buying#buying-resale-items) GA tickets can now be purchased when primary inventory is held still fully held. [[NG-12767](https://linear.app/nuweb-group/issue/NG-12767)]
+
+</Update>
+
+<Update label="24th Sep 2026" description="Patch R48B">
+
+* Seating plan availability loads faster when sale items are [access code](/user-manual/basket-codes/access-codes) restricted. [[NG-12847](https://linear.app/nuweb-group/issue/NG-12847)]
+* Fixed missing add to basket button in the Box Office [upsell wizard](/user-manual/ticket-shop/basket#upsell-wizard) for seated events with products. [[NG-12877](https://linear.app/nuweb-group/issue/NG-12877)]
+
+</Update>
+
 <Update label="◆ 21st Sep 2026" description="Release R48">
 
 Here are the summary notes for the 48th release of the Nuweb core platform.
