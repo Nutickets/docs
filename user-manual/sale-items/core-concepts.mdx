@@ -179,6 +179,18 @@ Items can be restricted to specific [customer groups](/user-manual/customer-mana
 
 Items can be hidden behind [access codes](/user-manual/basket-codes/access-codes), making them invisible until the customer enters a valid code.
 
+### Payment Method Restrictions
+
+<Tip>SZÉP payment restriction added in Patch R48I</Tip>
+
+With [SimplePay](/user-manual/payments/payment-processors) set up for SZÉP cards, customers paying in HUF can choose to pay with a SZÉP card. Where an item shouldn't be paid for that way, turn on **Prohibits SZÉP payments** in the item's **Purchase settings** — its help text reads *"SZÉP cards will not be offered as a payment method when this item is in the basket."*
+
+While any item in the basket has the setting turned on, the SZÉP card option isn't offered at checkout for the whole order. If a SZÉP payment is attempted anyway, it's stopped with *"SZÉP cards cannot be used to pay for one or more items in your basket, please choose another payment method."*
+
+- **Where it appears** — The setting is shown once SimplePay is added to your account, before it's switched on, so items can be prepared ahead of time. It's available on tickets, products, bundles, season tickets, guest lists, and [donations](/user-manual/sale-items/donations), and on [resale fees](/user-manual/resale/resale-fees) and [refund protection fees](/user-manual/refund-protection/alternative-providers#creating-refund-protection-fee-items).
+- **Applying it to many items** — Like other purchase settings, it can be applied to related sale items when you save (see [Bulk Updates](#bulk-updates)). Copying an event, or assigning an existing item to another event, keeps the setting.
+- **Checking your setup** — The [Event sale item report](/user-manual/reporting/default-reports#event-sale-item-report) has a **Prohibits SZÉP payments** column and filter.
+
 ## Add-Ons
 
 An add-on is a sale item that can only be purchased alongside a parent item. When a customer adds the parent item to their basket, its add-ons become available for selection.

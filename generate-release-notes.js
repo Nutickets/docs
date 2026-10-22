@@ -669,7 +669,9 @@ function stripApiPlaceholderSection(content) {
 
 // Matches a trailing " - <date>" suffix on a mobile subsection header,
 // e.g. "Box Office Pro 3.4.2 → 3.5.0 - 16th March 2026"
-const MOBILE_HEADER_DATE_SUFFIX = /\s+-\s+(\d+(?:st|nd|rd|th)?\s+\w+\s+\d{4})\s*$/;
+// A stray trailing full stop ("... - 7th October 2026.") is tolerated; otherwise the chunk loses its own date
+// and falls back to the release date.
+const MOBILE_HEADER_DATE_SUFFIX = /\s+-\s+(\d+(?:st|nd|rd|th)?\s+\w+\s+\d{4})\.?\s*$/;
 
 function parseMobileChunks(mobileContent, fallbackLabel, fallbackDateObj) {
     if (!mobileContent || !mobileContent.trim()) return [];
@@ -798,16 +800,23 @@ function stripImageLayoutMeta(text) {
     if (!text) return '';
     return text
         .replace(/\b(?:left|right|cent(?:er|re))-\d+\b/gi, '') // column position-width: "left-50" (needs -N)
-        .replace(/=\s*\d+x\d*|=\s*x\d+/gi, '')                 // dimensions: "=428x330", "=250x", "=x300" (needs x)
+        .replace(/=\s*\d[\d.]*x[\d.]*|=\s*x\d[\d.]*/gi, '')    // dimensions, fractional too: "=428x330", "=1201.5x1580", "=250x", "=x300" (needs x)
         .replace(/\s{2,}/g, ' ')
         .trim();
 }
 
 // --- TICKET REFERENCE RELOCATION ---
 
+// Authors separate the tickets in a multi-ticket reference with "&", "," or "+"
+// ("[NG-1 & NG-2]", "[NG-1, NG-2]", "[NG-1 + NG-2]"); every form is republished with " & ".
+const TICKET_SEPARATOR = String.raw`\s*[&,+]\s*`;
+
+// The ticket id(s) inside a reference: "NG-11927" or "NG-11927 & NG-11929".
+const TICKET_IDS = String.raw`[A-Z]{2,}-\d+(?:${TICKET_SEPARATOR}[A-Z]{2,}-\d+)*`;
+
 // A ticket reference such as "[NG-11927]" or a multi-ticket "[NG-11927 & NG-11929]".
 // Brackets may arrive escaped ("\[NG-1\]") from the wiki, mirroring the linkify step.
-const TICKET_REFERENCE = String.raw`\\?\[\s*[A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*\s*\\?\]`;
+const TICKET_REFERENCE = String.raw`\\?\[\s*${TICKET_IDS}\s*\\?\]`;
 
 // One or more consecutive ticket references. Authors occasionally write two separate
 // brackets ("[NG-1] [NG-2] Added ...") as well as the combined "[NG-1 & NG-2]" form.
@@ -815,8 +824,9 @@ const TICKET_RUN = `${TICKET_REFERENCE}(?:\\s+${TICKET_REFERENCE})*`;
 
 // A bracketed run of tickets the author already linked to Linear, e.g.
 // "[[NG-11923](https://linear.app/…/NG-11923/slug)]" or "[[NG-1](…) & [NG-2](…)]".
-const LINKED_TICKET = String.raw`\[[A-Z]{2,}-\d+\]\(https?:\/\/linear\.app\/[^)\s]*\)`;
-const LINKED_TICKET_RUN = new RegExp(String.raw`\\?\[\s*(${LINKED_TICKET}(?:\s*&\s*${LINKED_TICKET})*)\s*\\?\]`, 'g');
+// Link text may carry stray padding from the wiki ("[ NG-2](…)").
+const LINKED_TICKET = String.raw`\[\s*[A-Z]{2,}-\d+\s*\]\(https?:\/\/linear\.app\/[^)\s]*\)`;
+const LINKED_TICKET_RUN = new RegExp(String.raw`\\?\[\s*(${LINKED_TICKET}(?:${TICKET_SEPARATOR}${LINKED_TICKET})*)\s*\\?\]`, 'g');
 
 // A change's text that opens with a ticket reference run, followed by its description.
 const LEADING_TICKETS = new RegExp(`^(${TICKET_RUN})\\s+(\\S.*)$`);
@@ -836,7 +846,7 @@ const LINE_PREFIX = /^\s*(?:(?:[*+-]|\d+[.)]|#{1,6})\s+)?/;
 const BLOCK_BOUNDARY = /^\s*(?:(?:[*+-]|\d+[.)])\s+|#{1,6}\s+|<|!\[|>|\||:::)/;
 
 // A single ticket bracket group within a leading run, capturing its ticket ids.
-const TICKET_GROUP = /\\?\[\s*([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\s*\\?\]/g;
+const TICKET_GROUP = new RegExp(String.raw`\\?\[\s*(${TICKET_IDS})\s*\\?\]`, 'g');
 
 /**
  * Canonicalise a leading run of ticket brackets: strip any escaping/padding and use a
@@ -851,7 +861,7 @@ function normalizeTicketRun(run) {
     const groups = [];
     let match;
     while ((match = TICKET_GROUP.exec(run)) !== null) {
-        const ids = match[1].split('&').map(id => id.trim());
+        const ids = match[1].split(new RegExp(TICKET_SEPARATOR));
         groups.push(`[${ids.join(' & ')}]`);
     }
     return groups.join(' ');
@@ -866,7 +876,7 @@ function normalizeTicketRun(run) {
 function unlinkTicketReferences(text) {
     return text.replace(LINKED_TICKET_RUN, (match, run) => {
         // Read ids from the link text only — the URL repeats the id in its path.
-        const ids = [...run.matchAll(/\[([A-Z]{2,}-\d+)\]\(/g)].map(id => id[1]);
+        const ids = [...run.matchAll(/\[\s*([A-Z]{2,}-\d+)\s*\]\(/g)].map(id => id[1]);
         return `[${ids.join(' & ')}]`;
     });
 }
@@ -1091,8 +1101,8 @@ description: "${description}"
             // author already linked are unwrapped first so they get the same treatment.
             text = relocateTicketReferences(unlinkTicketReferences(text));
             // (?!\() leaves any ticket that is still a link alone, rather than nesting a second link inside it.
-            text = text.replace(/\\?\[([A-Z]{2,}-\d+(?:\s*&\s*[A-Z]{2,}-\d+)*)\\?\](?!\()/g, (match, inner) => {
-                const tickets = inner.split('&').map(t => t.trim());
+            text = text.replace(new RegExp(String.raw`\\?\[(${TICKET_IDS})\\?\](?!\()`, 'g'), (match, inner) => {
+                const tickets = inner.split(new RegExp(TICKET_SEPARATOR));
                 const links = tickets.map(ticket => `[${ticket}](https://linear.app/nuweb-group/issue/${ticket})`);
                 return `[${links.join(' & ')}]`;
             });

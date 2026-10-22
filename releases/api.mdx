@@ -6,6 +6,13 @@ description: "Latest updates and changes to the API"
 Changes to the API will be documented below in reverse chronological order. Refer to the official release notes for the wider system updates (and API changes pre-2022).
 
 
+<Update label="13th Oct 2026" description="">
+
+- Webhooks: Added endpoints for managing a company's webhooks. [GET /webhook](/api-reference/webhooks/retrieve-webhook) can include the 10 most recent calls via `include=outgoingWebhookCalls`.
+- Webhooks: Added [PATCH /webhook](/api-reference/webhooks/update-webhook) to update a webhook's name, URL, type, secret or HTTP verb. A company cannot have two webhooks of the same type with the same URL.
+
+</Update>
+
 <Update label="9th Oct 2026" description="">
 
 - Added an optional `inhibitSzamlazzDocument` boolean to [POST /orders/complete](/api-reference/orders/complete-order) and [POST /basket-items](/api-reference/baskets/add-to-basket) (when `autocomplete` is true). Passing `true` prevents a Szamlazz invoice or receipt being issued for the order, for companies with the Szamlazz integration enabled. Requires the "Opt out of Szamlazz generation" permission, otherwise a 422 is returned.

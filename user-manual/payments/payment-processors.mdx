@@ -323,7 +323,7 @@ These gateways require you to enter API credentials directly. Most provide separ
   | **Secret key** | Your SimplePay secret key for this currency |
 
   **Capabilities:**
-  - SZEP card support (Hungarian employee benefit cards) — only available for HUF currency transactions
+  - SZEP card support (Hungarian employee benefit cards) — only available for HUF currency transactions. Individual sale items can [prohibit SZÉP payments](/user-manual/sale-items/core-concepts#payment-method-restrictions), which removes the option from checkout whenever they're in the basket.
 
   <Note>
   Each currency requires its own merchant ID and secret key pair. If you only accept payments in one currency, you only need to configure credentials for that currency.

@@ -30,9 +30,10 @@ The **eTicket** method is built in and does not need to be created as a fulfilme
 2. Click **Create fulfilment fee**
 3. Select the **Fulfilment method** — choose from **In person**, **Digital**, or **Shipped**
 4. Enter a **Name** for the fee (this is what customers see at checkout)
-5. Set the **Pricing** for each currency
-6. Configure **Active dates** if the fee should only be available during specific periods
-7. Click **Save**
+5. Optionally add a **Description** — for example, when collection opens or how long delivery takes. Customers see it at checkout (see [The Delivery Method Step](#the-delivery-method-step))
+6. Set the **Pricing** for each currency
+7. Configure **Active dates** if the fee should only be available during specific periods
+8. Click **Save**
 
 ### Pricing
 
@@ -67,13 +68,15 @@ The step presents all available delivery methods as selectable cards, each showi
 - The fee amount (or free for eTicket)
 - Whether the fee is charged **/ item** or **/ order**
 
+<Tip>Delivery method descriptions added in Patch R48I</Tip> If any of the available methods has a **Description**, the methods are shown as a list instead of cards: each option shows the method name, its fee and whether it's charged **/ item** or **/ order**, with the description underneath. In this layout eTicket gets a description of its own: *"Your tickets will be emailed to you and available to download from your account."*
+
 The customer selects their preferred method and clicks **Continue** to proceed.
 
 <Note>
 If the only available option is eTicket (no fulfilment fees are configured or active), the delivery method step is skipped entirely and the order defaults to electronic delivery.
 </Note>
 
-<Tip>Single-method selection added in Release 48</Tip> If the basket has exactly one delivery method available — for example, a single **Shipped** fee when none of the items can be delivered as an eTicket — the **Delivery method** heading and cards aren't shown. That method is selected automatically, and the step only asks for anything the method needs, such as a delivery address.
+<Tip>Single-method selection added in Patch R48E</Tip> If the basket has exactly one delivery method available — for example, a single **Shipped** fee when none of the items can be delivered as an eTicket — the **Delivery method** heading and cards aren't shown. That method is selected automatically, and the step only asks for anything the method needs, such as a delivery address.
 
 ### After Selection
 
@@ -81,6 +84,7 @@ Once a delivery method is selected:
 
 - The fulfilment fee is added to the order total
 - The selected method is shown in the order summary
+- The delivery step collapses to show the chosen method's name, with its description underneath if it has one
 - For **Shipped** methods, the customer may be prompted to provide a delivery address (if delivery address capture is enabled in company settings)
 
 ### Changing the Delivery Method
@@ -95,17 +99,20 @@ If a deposit has already been paid on an order, the delivery method cannot be ch
 
 ### Finding Fulfilment Fees
 
-The **Fulfilment fees** page lists all fulfilment fees with filters for:
+<Tip>Fulfilment method shown and filterable in Patch R48I</Tip>
+
+The **Fulfilment fees** page lists all fulfilment fees. Each fee shows its fulfilment method and icon under its name, so you can tell your **Shipped** and **In person** fees apart at a glance. Open the filter panel above the list to narrow it down:
 
 | Filter | Options |
 |--------|---------|
 | **Name** | Search by fee name |
+| **Fulfilment method** | **All**, or a single method — **In person**, **Digital**, or **Shipped** |
 | **Deleted** | Show all, show deleted, or show only deleted fees |
 | **Off sale** | Hide off-sale fees, show all, or show only off-sale fees |
 
 ### Editing a Fulfilment Fee
 
-Click on any fulfilment fee to open it for editing. You can update the name, pricing, fulfilment method, and active dates. Changes take effect on future orders.
+Click on any fulfilment fee to open it for editing. You can update the name, description, pricing, fulfilment method, and active dates. Changes take effect on future orders.
 
 ### Deleting a Fulfilment Fee
 

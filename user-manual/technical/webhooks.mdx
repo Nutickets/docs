@@ -66,7 +66,7 @@ Each webhook has the following settings:
 | Setting | Description |
 |---------|-------------|
 | **Name** | A descriptive name to identify this webhook in the list |
-| **URL** | The endpoint that will receive the webhook requests |
+| **URL** | The endpoint that will receive the webhook requests — an `http://` or `https://` address. Only one webhook of each **Type** can use a given URL, disabled ones included: saving a second shows *"A webhook of this type already exists for this URL."* <Tip>Duplicate check added in Patch R48I</Tip> |
 | **HTTP Request Method** | The HTTP method used for the request (typically POST) |
 | **Type** | The event type that triggers this webhook |
 
@@ -146,6 +146,8 @@ Before relying on a webhook in production, you can send a test request:
 
 The test sends a sample payload to your configured URL, allowing you to verify that your endpoint receives and processes the data correctly.
 
+Webhooks can also be tested with the [Test Webhook](/api-reference/webhooks/test-webhook) API, which always sends the example payload for the webhook's type — it can't be customised — and works on disabled webhooks too.
+
 ## Monitoring Webhook Activity
 
 Each webhook's detail page shows a call history graph displaying successful and failed deliveries over time. This gives you a visual overview of webhook reliability.
@@ -163,6 +165,8 @@ Each call record shows:
 - Whether the delivery was successful
 - The number of attempts made
 - Any error messages if the delivery failed
+
+The [Retrieve Webhook](/api-reference/webhooks/retrieve-webhook) API returns a webhook's 10 most recent calls when you add `include=outgoingWebhookCalls`.
 
 ## Retry Behaviour
 
@@ -187,16 +191,20 @@ Events that occur while a webhook is disabled are not sent retroactively. This i
 
 ## Managing Webhooks
 
+<Tip>Webhook management API added in Patch R48I</Tip>
+
 From the webhooks list, you can:
 
-| Action | Description |
-|--------|-------------|
-| **Edit** | Modify webhook settings, URL, or type |
-| **Delete** | Remove a webhook. Deleted webhooks can be restored. |
-| **Restore** | Recover a previously deleted webhook |
-| **Enable / Disable** | Toggle webhook delivery on or off |
+| Action | Description | API |
+|--------|-------------|-----|
+| **Edit** | Modify webhook settings, URL, or type | [Update Webhook](/api-reference/webhooks/update-webhook) |
+| **Delete** | Remove a webhook. Deleted webhooks can be restored. | [Delete Webhook](/api-reference/webhooks/delete-webhook) |
+| **Restore** | Recover a previously deleted webhook. A webhook can't be restored while another webhook of the same type uses its URL. | — |
+| **Enable / Disable** | Toggle webhook delivery on or off | [Enable Webhook](/api-reference/webhooks/enable-webhook) / [Disable Webhook](/api-reference/webhooks/disable-webhook) |
 
 The webhooks list supports filtering by name, URL, HTTP method, type, and creation date.
+
+Integrations can also set up their own webhooks with the [Create Webhook](/api-reference/webhooks/create-webhook) API, and look them up with [Retrieve Webhooks](/api-reference/webhooks/retrieve-webhooks) and [Retrieve Webhook](/api-reference/webhooks/retrieve-webhook). These endpoints need webhooks enabled for your account and webhook permissions for the account behind the API token — see [which endpoints you have access to](/api-reference/introduction#which-endpoints-do-i-have-access-to). Webhooks saved through the API follow the same rules as in the admin panel, and a [secret](#secret) sent through the API must be at least 16 characters. The secret can be set or replaced, but is never returned.
 
 ## Webhook Payloads
 

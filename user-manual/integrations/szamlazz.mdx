@@ -66,7 +66,7 @@ Which modes are available depends on permissions — **Never** is only offered t
 
 ### Opting API Orders Out
 
-<Tip>API opt-out added in Release 48</Tip>
+<Tip>API opt-out added in Patch R48E</Tip>
 
 Orders completed through the API are issued a Számlázz.hu document by default. If someone else issues the tax documents instead — for example, a third-party website that sells your tickets through the API and invoices its own customers — the integration can opt each order out as it's completed. Pass `inhibitSzamlazzDocument` as `true` when:
 
@@ -128,7 +128,7 @@ Each line item includes the correct tax rate mapped from the order's tax bands. 
 
 ### Payment Method on Documents
 
-<Tip>Payment method on receipts updated in Release 48</Tip>
+<Tip>Payment method on receipts updated in Patch R48E</Tip>
 
 Receipts and invoices both show how the order was paid. The payment method on the document names the sales channel the order came through, followed by the payment method used — for example **Box office - Cash** or **Ticket Shop - Card (online)**. SZÉP card payments are named explicitly as **SZÉP (Online)** or **SZÉP (Offline)**, such as **Box office - SZÉP (Offline)**.
 

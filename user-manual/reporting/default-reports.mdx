@@ -88,8 +88,8 @@ All sales reports share the same underlying engine. The difference between them 
 | **Total gift vouchers claimed** | Gift vouchers that have been redeemed |
 | **Total orders (before adjustments)** | Distinct orders in the row, before cancellations and refunds <Tip>Added in Release 47</Tip> |
 | **Total orders (after adjustments)** | Distinct orders in the row, after cancellations and refunds — an order drops out once all of its items in the row are cancelled or refunded |
-| **Modified orders** | Orders later replaced by an [order modification](/user-manual/order-management/order-modifications), dated by the original order — see [Modified and Resold Orders](#modified-and-resold-orders) <Tip>Added in Release 48</Tip> |
-| **Primary items sold (inc. resold)** | Items sold on the primary market that are still valid, including those cancelled only because they were [resold](/user-manual/resale/introduction). Resale purchases themselves are not counted. <Tip>Added in Release 48</Tip> |
+| **Modified orders** | Orders later replaced by an [order modification](/user-manual/order-management/order-modifications), dated by the original order — see [Modified and Resold Orders](#modified-and-resold-orders) <Tip>Added in Patch R48F</Tip> |
+| **Primary items sold (inc. resold)** | Items sold on the primary market that are still valid, including those cancelled only because they were [resold](/user-manual/resale/introduction). Resale purchases themselves are not counted. <Tip>Added in Patch R48G</Tip> |
 
 <Note>
 "Before adjustments" means the count includes items that were later cancelled or refunded. "After adjustments" excludes those items. Use "after adjustments" for a net count of currently valid items.
@@ -129,10 +129,10 @@ These fields appear once per active currency. For example, if you sell in GBP an
 | **Total net (after all fees)** | Revenue after discounts, refunds, processing fees, and reseller fees |
 | **Total net (after reseller and gateway fees)** | Revenue after discounts, refunds, gateway fees, and reseller fees. Gateway fees are not supported by all gateways. |
 | **Total base** | Revenue after discounts, processing fees, and reseller fees |
-| **Total retained cancellation revenue** | Value kept from cancelled items after any refunds — for example, a cancellation fee withheld from a refund — including value kept from modified orders <Tip>Partly refunded items and modified orders counted in Release 48</Tip> |
-| **Total kept from modified orders** | Value kept from orders replaced by an order modification: refund protection fees, forfeited fees, and any remainder that wasn't refunded. Dated by the original order, and already included in gross, net, and retained cancellation revenue. <Tip>Added in Release 48</Tip> |
-| **Total carried forward from modified orders** | Value of modified orders carried into the new order, or credited to the customer's account balance where the new order cost less. Dated by the original order, and not included in gross. <Tip>Added in Release 48</Tip> |
-| **Primary face value (inc. resold)** | The base price paid, after discounts, for the items counted in **Primary items sold (inc. resold)**. Complimentary items add nothing. <Tip>Added in Release 48</Tip> |
+| **Total retained cancellation revenue** | Value kept from cancelled items after any refunds — for example, a cancellation fee withheld from a refund — including value kept from modified orders <Tip>Partly refunded items and modified orders counted in Patch R48F</Tip> |
+| **Total kept from modified orders** | Value kept from orders replaced by an order modification: refund protection fees, forfeited fees, and any remainder that wasn't refunded. Dated by the original order, and already included in gross, net, and retained cancellation revenue. <Tip>Added in Patch R48F</Tip> |
+| **Total carried forward from modified orders** | Value of modified orders carried into the new order, or credited to the customer's account balance where the new order cost less. Dated by the original order, and not included in gross. <Tip>Added in Patch R48F</Tip> |
+| **Primary face value (inc. resold)** | The base price paid, after discounts, for the items counted in **Primary items sold (inc. resold)**. Complimentary items add nothing. <Tip>Added in Patch R48G</Tip> |
 | **Total base before dynamic pricing** | What the base total would have been without dynamic pricing <Tip>New in Release 47</Tip> |
 | **Total gross before dynamic pricing** | What the gross total would have been without dynamic pricing |
 | **Total base after dynamic pricing** | What the base total came to with dynamic pricing |
@@ -228,7 +228,7 @@ When [dynamic pricing](/user-manual/integrations/dynamic-pricing) is enabled for
 
 ### Modified and Resold Orders
 
-<Tip>Modified order and primary sale fields added in Release 48</Tip>
+<Tip>Modified order fields added in Patch R48F, primary sale fields in Patch R48G</Tip>
 
 [Order modifications](/user-manual/order-management/order-modifications) and [resale](/user-manual/resale/introduction) both replace a customer's original items with new ones. Sales reports handle each so that the same sale isn't counted twice.
 
@@ -773,6 +773,15 @@ Customer reports list customer records with their profile data, registration his
 | Report | Description |
 |--------|-------------|
 | **Newest customers** | Customers ordered by registration date |
+
+### Which Customers Are Included
+
+<Tip>Shared-login and merged customer handling updated in Patch R48I</Tip>
+
+The report lists customers who registered with the company being reported on, or who completed an order containing its items. Anyone with an admin account is left out, even if they've also bought as a customer.
+
+- **Companies that share customer logins** — When customer logins are shared across a parent company and its child companies (global login), a customer has one account for the whole group. The parent company's report includes customers who registered with any company in the group. A child company's report includes customers who registered with it or bought from it — including those who registered with the parent or another child company. Customer records held by companies outside the group aren't included.
+- **Merged customers** — Once two customer records are [merged](/user-manual/customer-management/merging-customers), only the record that was kept is listed, so the customer appears once.
 
 ### Fields
 
@@ -1465,7 +1474,7 @@ It covers tickets only — products, guest lists, and other item types are not i
 
 ### Sales at Other Prices
 
-<Tip>Separate rows for discounted and repriced sales added in Release 48</Tip>
+<Tip>Separate rows for discounted and repriced sales added in Patch R48F</Tip>
 
 Each price band or ticket starts with a **face value** row. It holds the stock, hold, complimentary, and reservation figures, and counts the tickets sold at the ticket's current price without a discount. Tickets sold at any other price are reported on their own rows beneath it — one for each [discount code](/user-manual/basket-codes/discount-codes) and price combination, and one for each other price the ticket sold at, for example before a [price change](/user-manual/sale-items/pricing-history). These rows show **Sold**, the gross and net sales at that price, the **Item base price** each ticket sold for, and the **Discount code(s)** used. Their stock, hold, complimentary, and reservation columns are left blank.
 
@@ -1488,8 +1497,8 @@ The [totals row](/user-manual/reporting/using-reports#totals-row) adds the rows 
 | **Sale item ID** / **Sale item name** | The ticket. Only available when grouped by **Sale item**. |
 | **Event ID** / **Event name** | The event |
 | **Price band ID** / **Price band name** | The ticket's [price band](/user-manual/event-management/seated-events#assigning-tickets-to-price-bands) |
-| **Discount code(s)** | The discount code(s) used on the order, on rows for discounted sales. [Child codes](/user-manual/basket-codes/discount-codes#generating-child-codes) are shown as their parent code. <Tip>Added in Release 48</Tip> |
-| **Item base price ([currency])** | The price each ticket sold for, before fees and after any discount. On the face value row it is the ticket's current price — left blank when grouped by **Price band** and the band's tickets are priced differently. Not totalled. One column per currency. <Tip>Added in Release 48</Tip> |
+| **Discount code(s)** | The discount code(s) used on the order, on rows for discounted sales. [Child codes](/user-manual/basket-codes/discount-codes#generating-child-codes) are shown as their parent code. <Tip>Added in Patch R48F</Tip> |
+| **Item base price ([currency])** | The price each ticket sold for, before fees and after any discount. On the face value row it is the ticket's current price — left blank when grouped by **Price band** and the band's tickets are priced differently. Not totalled. One column per currency. <Tip>Added in Patch R48F</Tip> |
 | **Total stock** | The capacity set directly against the sale item |
 | **Total held** | Seats in the price band that are held in seating plan holds |
 | **Total held remaining** | Held seats in the price band that are still available |
@@ -1588,6 +1597,7 @@ The price and fee columns appear once for each sales channel and currency — fo
 | **Purchase limit per customer** | The per-customer limit |
 | **Prerequisites** / **Requires all prerequisites** | Items that must be bought alongside this one, and whether all of them are required |
 | **Requires approval** | Whether purchases need [approval](/user-manual/sale-items/item-approvals) |
+| **Prohibits SZÉP payments** | Whether the item stops SZÉP cards being offered at checkout — see [Payment Method Restrictions](/user-manual/sale-items/core-concepts#payment-method-restrictions) <Tip>Added in Patch R48I</Tip> |
 | **Customer Groups** | [Customer groups](/user-manual/customer-management/customer-groups) the item is restricted to |
 
 </Accordion>
@@ -1625,7 +1635,7 @@ Donation parents and other items managed automatically by the platform are not l
 
 ### Key Filters
 
-Events, sale items, item types.
+Events, sale items, item types, and **Prohibits SZÉP payments** (**Yes** or **No**).
 
 ---
 

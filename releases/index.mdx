@@ -4,6 +4,41 @@ description: "Latest product updates from 2025/2026"
 ---
 
 
+<Update label="22nd Oct 2026" description="Patch R48I">
+
+#### 🚀 New features
+
+* [Imports](/user-manual/data-imports/import-types#importing-into-holds) can now place order items into [held seats](/user-manual/seating-plans/holds). [[NG-12927](https://linear.app/nuweb-group/issue/NG-12927)]
+* Sale items can now [prohibit SZÉP payments](/user-manual/sale-items/core-concepts#payment-method-restrictions) when using [SimplePay](/user-manual/payments/payment-processors). [[NG-12926](https://linear.app/nuweb-group/issue/NG-12926) & [NG-13006](https://linear.app/nuweb-group/issue/NG-13006)]
+* [Webhooks](/user-manual/technical/webhooks#managing-webhooks) can now be [activated through the API](/api-reference/webhooks/enable-webhook). [[NG-12359](https://linear.app/nuweb-group/issue/NG-12359)]
+
+#### ✨ Improvements
+
+* [Fulfilment fee](/user-manual/fees/fulfilment-fees#finding-fulfilment-fees) types are now displayed and filterable in the index. [[NG-12524](https://linear.app/nuweb-group/issue/NG-12524)]
+* [Fulfilment fee descriptions](/user-manual/fees/fulfilment-fees#the-delivery-method-step) and terms are now visible to customers during checkout. [[NG-12526](https://linear.app/nuweb-group/issue/NG-12526)]
+* [Customer reports](/user-manual/reporting/default-reports#which-customers-are-included) now correctly handle global-login customers and [merged accounts](/user-manual/customer-management/merging-customers). [[NG-12921](https://linear.app/nuweb-group/issue/NG-12921) & [NG-12765](https://linear.app/nuweb-group/issue/NG-12765)]
+* Kosovo is now available in the country selector. [[NG-12939](https://linear.app/nuweb-group/issue/NG-12939)]
+
+#### 🧹 Fixes
+
+* Reducing an order to one ticket via [order modification](/user-manual/order-management/order-modifications) no longer removes the remaining ticket. [[NG-12749](https://linear.app/nuweb-group/issue/NG-12749)]
+* Page settings padding and lengthy HTML content no longer overflow their containers. [[NG-12346](https://linear.app/nuweb-group/issue/NG-12346) & [NG-12963](https://linear.app/nuweb-group/issue/NG-12963)]
+* [Customer reports](/user-manual/reporting/default-reports#customer-reports) now generate successfully. [[NG-11797](https://linear.app/nuweb-group/issue/NG-11797)]
+
+#### 🧑‍💻 API
+
+* API documentation now correctly identifies `uuid` as a string or null. [[NG-13024](https://linear.app/nuweb-group/issue/NG-13024)]
+
+</Update>
+
+<Update label="21st Oct 2026" description="Patch R48H">
+
+#### 🧹 Fixes
+
+* Essential security maintenance & upgrades. [[NG-12731](https://linear.app/nuweb-group/issue/NG-12731) & [NG-11986](https://linear.app/nuweb-group/issue/NG-11986) & [NG-13111](https://linear.app/nuweb-group/issue/NG-13111)]
+
+</Update>
+
 <Update label="16th Oct 2026" description="Patch R48G">
 
 #### 🚀 New features
@@ -73,7 +108,7 @@ description: "Latest product updates from 2025/2026"
 
 #### ✨ Improvements
 
-* [[NG-12836](https://linear.app/nuweb-group/issue/NG-12836/r47-estonian-and-russian-translations) &[ NG-12837](https://linear.app/nuweb-group/issue/NG-12837/r48-estonian-and-russian-translations)] Estonian and Russian [translations](/user-manual/core/translations) for new language keys added in R47 & R48.
+* Estonian and Russian [translations](/user-manual/core/translations) for new language keys added in R47 & R48. [[NG-12836](https://linear.app/nuweb-group/issue/NG-12836) & [NG-12837](https://linear.app/nuweb-group/issue/NG-12837)]
 * [Reserved / sold ticket counts](/user-manual/event-management/introduction#tracking-sales-from-the-events-list) now show across event and event schedule pages. [[NG-8080](https://linear.app/nuweb-group/issue/NG-8080)]
 * Added [ID selectors for sale item group containers](/user-manual/event-management/sale-item-groups#targeting-a-group-with-your-own-code) within the shop. [[NG-12412](https://linear.app/nuweb-group/issue/NG-12412)]
 * [Named purchaser](/user-manual/order-management/core-concepts#admin-order-list) details are now surfaced in the dashboards recent orders widget. [[NG-12599](https://linear.app/nuweb-group/issue/NG-12599)]
@@ -1533,7 +1568,7 @@ All email wording can be managed via the [text manager](/user-manual/cms/website
 
 * Added new resale sales reporting. [[NG-9496](https://linear.app/nuweb-group/issue/NG-9496)]
 * Time selector now focuses on todays date when backing out of the timeslot selector. [[NG-10568](https://linear.app/nuweb-group/issue/NG-10568)]
-* [NG-11236, NG-11708, NG-11709] Various new text manager additions for resale and account balance labels in shop.
+* Various new text manager additions for resale and account balance labels in shop. [[NG-11236](https://linear.app/nuweb-group/issue/NG-11236) & [NG-11708](https://linear.app/nuweb-group/issue/NG-11708) & [NG-11709](https://linear.app/nuweb-group/issue/NG-11709)]
 * Custom report API endpoint now allows `filter` and `headers` parameters to be applied in addition to report defaults. [[NG-11516](https://linear.app/nuweb-group/issue/NG-11516)]
 * Ensure address fields are shown correctly during child company checkout parent integrations mandate them. [[NG-11572](https://linear.app/nuweb-group/issue/NG-11572)]
 * Improved format of error response returned when attempting to modify an expired order’s items via the API. [[NG-11584](https://linear.app/nuweb-group/issue/NG-11584)]
@@ -2866,7 +2901,7 @@ Below you will find the summary notes for the 42nd release of the Nuweb core pla
 
 <Update label="28th Jul 2025" description="Patch R41K">
 
-* [NG-7719 + NG-9983] Fixed a permission check that prevented child companies from pairing NFC tickets with any orders placed in the parent company. Fixed a query issue that sometimes returned the wrong ticket to pair with NFC, when duplicate barcodes were in use (via data imports)
+* Fixed a permission check that prevented child companies from pairing NFC tickets with any orders placed in the parent company. Fixed a query issue that sometimes returned the wrong ticket to pair with NFC, when duplicate barcodes were in use (via data imports) [[NG-7719](https://linear.app/nuweb-group/issue/NG-7719) & [NG-9983](https://linear.app/nuweb-group/issue/NG-9983)]
 * Removed action buttons form the schedule dashboard where relevant permissions are not given to the user [[NG-9133](https://linear.app/nuweb-group/issue/NG-9133)]
 * Removed non-functional crop action from image uploader [[NG-9720](https://linear.app/nuweb-group/issue/NG-9720)]
 * Removed timeslot selection when closing the items modal in Shop [[NG-9744](https://linear.app/nuweb-group/issue/NG-9744)]
@@ -3195,7 +3230,7 @@ Release 41 included a large number of performance improvements for the ticket sh
 <Update label="30th May 2025" description="Patch R40V">
 
 * Fixed incorrect listing of events to which a ticket is assigned across a schedule [[NG-9268](https://linear.app/nuweb-group/issue/NG-9268)]
-* [NG-9343, NG-9344, NG-9345] Added the ability for partners to forcefully reset terms and conditions acceptance for company users. Resets can be isolated to a single company **or** for all companies within the partner account.
+* Added the ability for partners to forcefully reset terms and conditions acceptance for company users. Resets can be isolated to a single company **or** for all companies within the partner account. [[NG-9343](https://linear.app/nuweb-group/issue/NG-9343) & [NG-9344](https://linear.app/nuweb-group/issue/NG-9344) & [NG-9345](https://linear.app/nuweb-group/issue/NG-9345)]
 * Added a new company setting, that allows you to redirect all traffic to the primary vanity domain [[NG-9549](https://linear.app/nuweb-group/issue/NG-9549)]
 * Fix for live search on events to ensure empty state is displayed [[NG-9600](https://linear.app/nuweb-group/issue/NG-9600)]
 * Added additional decimal point precision to sales dashboard widgets [[NG-9603](https://linear.app/nuweb-group/issue/NG-9603)]

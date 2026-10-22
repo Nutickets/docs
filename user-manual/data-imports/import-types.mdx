@@ -384,6 +384,30 @@ For seated events, provide the seating plan location:
 | **Row** | No | Row name |
 | **Table** | No | Table name |
 | **Seat** | No | Seat name |
+| **Hold** | No | The name of the [hold](/user-manual/seating-plans/holds) to import into. Required to take stock from a hold in a general admission area — see [Importing Into Holds](#importing-into-holds) |
+
+#### Importing Into Holds
+
+<Tip>Importing into holds added in Patch R48I</Tip>
+
+Rows can place order items into seats and general admission stock set aside for a [hold](/user-manual/seating-plans/holds). Naming the seat or hold in the row is treated as the intent, so hold access doesn't apply: the admin running the import doesn't need to be one of the hold's users or have the [**Sell from any seating plan hold**](/user-manual/system-access/permissions-reference#other-event-related-groups) permission, even with the **Run basket validation against the order** setting turned on.
+
+- **Held seats** — Identify the seat with the seating fields, as you would any other seat. **Hold** is optional here. If you fill it in, it must be the name of the hold the seat is restricted to, which guards against importing into a seat that has since moved to a different hold.
+- **General admission areas** — Identify the area with the seating fields and put the hold's name in **Hold**. The item takes its stock from that hold. Without **Hold**, the item isn't taken from any hold's stock.
+
+Each imported item records the hold it was taken from, which shows as a **Hold** badge on the order item's page in admin.
+
+A row fails validation if its hold can't be used:
+
+| Message | Cause |
+|---------|-------|
+| *"A seat must be given when a hold is given"* | **Hold** is filled in, but the seating fields don't identify a seat or general admission area |
+| *"The given hold does not match the hold on the given seat"* | The seat isn't restricted to the named hold |
+| *"The given hold could not be found for the given seat"* | The general admission area has no stock set aside for a hold with that name |
+| *"More than one hold matches the given hold name for the given seat"* | More than one of the area's holds has that name |
+| *"The given hold does not have enough availability"* | The hold has fewer tickets left than the row's **Quantity** |
+
+#### Data Capture Fields
 
 In addition to the standard fields, you can include data capture responses using `DC:field_id` or `ExternalDC:external_question_id` column headers.
 
